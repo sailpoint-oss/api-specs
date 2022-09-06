@@ -1,7 +1,7 @@
 type : object
 properties:
   requestedFor:
-    description: A list test of Identity IDs for whom the Access is requested. If it's a Revoke request, there can only be one Identity ID.
+    description: A list of Identity IDs for whom the Access is requested. If it's a Revoke request, there can only be one Identity ID.
     type: array
     items:
       type: string
