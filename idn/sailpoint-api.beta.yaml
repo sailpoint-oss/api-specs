@@ -1,11 +1,14 @@
 openapi: 3.0.1
 info:
+  title: IdentityNow Beta API
+  description: "Use these APIs to interact with the IdentityNow platform to achieve repeatable, automated processes with greater scalability. These APIs are in beta and are subject to change. We encourage you to join the SailPoint Developer Community forum at https://developer.sailpoint.com/discuss to connect with other developers using our APIs."
+  termsOfService: https://developer.sailpoint.com/discuss/tos
   contact:
-    email: developers@sailpoint.com
     name: Developer Relations
-    url: https://developer.sailpoint.com/discuss
-  description: "These are the public, beta APIs for SailPoint's SaaS services and are subject to change."
-  title: SailPoint - Beta SaaS API
+    url: https://developer.sailpoint.com/discuss/api-help
+  license: 
+    name: MIT
+    url: https://opensource.org/licenses/MIT 
   version: 3.1.0-beta
 servers:
   - url: https://{tenant}.api.identitynow.com/beta
@@ -205,7 +208,21 @@ tags:
       description: Learn more about connectors
       url: https://documentation.sailpoint.com/saas/help/sources/managing_sources.html
   - name: Custom Password Instructions
-    description: Operations for managing custom password instructions
+    description: |
+      Use this API to implement custom password instruction functionality.
+      With this functionality in place, administrators can create custom password instructions to help users reset their passwords, change them, unlock their accounts, or recover their usernames. 
+      This allows administrators to emphasize password policies or provide organization-specific instructions.
+
+      Administrators must first use [Update Password Org Config](https://developer.sailpoint.com/apis/beta/#operation/updatePasswordOrgConfig) to set `customInstructionsEnabled` to `true`. 
+
+      Once they have enabled custom instructions, they can use [Create Custom Password Instructions](https://developer.sailpoint.com/apis/beta/#operation/createCustomPasswordInstructions) to create custom page content for the specific pageId they select. 
+
+      For example, an administrator can use the pageId forget-username:user-email to set the custom text for the case when users forget their usernames and must enter their emails. 
+
+      Refer to the following link for more information about creating custom password instructions: 
+    externalDocs:
+      description: Learn more about custom password instructions
+      url: https://documentation.sailpoint.com/saas/help/pwd/pwd_reset.html
   - name: Entitlements
     description: |
       Use this API to implement and customize entitlement functionality. 
@@ -256,7 +273,7 @@ tags:
       
       Refer to https://documentation.sailpoint.com/saas/help/access/entitlements.html#deleting-entitlements more information about deleting entitlements.
       
-      Refer to the following link for more information about entitlements.
+      Refer to the following link for more information about entitlements:
     externalDocs:
       description: Learn more about entitlements
       url: https://documentation.sailpoint.com/saas/help/access/index.html
@@ -316,7 +333,68 @@ tags:
   - name: Org Config
     description: Operations for managing org configuration settings (eg. time zone)
   - name: Password Configuration
+    description: |
+      Use this API to implement organization password configuration functionality. 
+      With this functionality in place, organization administrators can create organization-specific password configurations. 
+
+      These configurations include details like custom password instructions, as well as digit token length and duration. 
+
+      Refer to the following link for more information about organization password configuration functionality: 
+    externalDocs:
+      description: Learn more about organization password configurations
+      url: https://documentation.sailpoint.com/saas/help/pwd/pwd_reset.html
   - name: Password Dictionary
+    description: |
+      Use this API to implement password dictionary functionality.  
+      With this functionality in place, administrators can create password dictionaries to prevent users from using certain words or characters in their passwords. 
+
+      A password dictionary is a list of words or characters that users are prevented from including in their passwords. 
+      This can help protect users from themselves and force them to create passwords that are not easy to break. 
+
+      A password dictionary must meet the following requirements to for the API to handle them correctly: 
+
+      - It must be in .txt format.
+
+      - All characters must be UTF-8 characters. 
+
+      - Each line must contain a single word or character with no spaces or whitespace characters.
+
+      - It must contain at least one line other than the locale string.
+
+      - Each line must not exceed 128 characters.
+
+      - The file must not exceed 2500 lines. 
+
+      Administrators should also consider the following when they create their dictionaries: 
+
+      - Lines starting with a # represent comments.
+
+      - All words in the password dictionary are case-insensitive. 
+      For example, adding the word "password" to the dictionary also disallows the following: PASSWORD, Password, and PassWord.
+
+      - The dictionary uses substring matching. 
+      For example, adding the word "spring" to the dictionary also disallows the following: Spring124, 345SprinG, and 8spring.
+      Users can then select 'Change Password' to update their passwords. 
+
+      Administrators must do the following to create a password dictionary: 
+
+      - Create the text file that will contain the prohibited password values.
+
+      - If the dictionary is not in English, they must add a locale string to the top line: locale:<languageCode>_<countryCode>
+
+      The languageCode value refers to the language's 2-letter ISO 639-1 code.
+      The countryCode value refers to the country's 2-letter ISO 3166-1 code.
+      
+      Refer to this list https://docs.oracle.com/cd/E13214_01/wli/docs92/xref/xqisocodes.html to see all the available ISO 639-1 language codes and ISO 3166-1 country codes.
+
+      - Upload the .txt file to IdentityNow with [Update Password Dictionary](https://developer.sailpoint.com/apis/beta/#operation/updatePasswordDictionary). Uploading a new file always overwrites the previous dictionary file.
+
+      Administrators can then specify which password policies check new passwords against the password dictionary by doing the following: In the Admin panel, they can use the Password Mgmt dropdown menu to select Policies, select the policy, and select the 'Prevent use of words in this site's password dictionary' checkbox beside it.
+
+      Refer to the following link for more information about password dictionaries: 
+    externalDocs:
+      description: Learn more about password dictionaries
+      url: https://documentation.sailpoint.com/saas/help/pwd/adv_config.html
   - name: Password Management
     description: |
       Use this API to implement password management functionality.  
@@ -347,8 +425,70 @@ tags:
       description: Learn more about password management
       url: https://documentation.sailpoint.com/saas/user-help/accounts/passwords.html
   - name: Password Sync Groups
-  - name: Personal Access Tokens
-  - name: Public Identity Config
+    description: |
+      Use this API to implement password sync group functionality. 
+      With this functionality in place, administrators can group sources into password sync groups so that all their applications share the same password. 
+      This allows users to update the password for all the applications in a sync group if they want, rather than updating each password individually. 
+
+      A password sync group is a group of applications that shares a password. 
+      Administrators create these groups by grouping the applications' sources. 
+      For example, an administrator can group the ActiveDirectory, GitHub, and G Suite sources together so that all those sources' applications can also be grouped to share a password. 
+      A user can then update his or her password for ActiveDirectory, GitHub, Gmail, Google Drive, and Google Calendar all at once, rather then updating each one individually.
+
+      The following are required for administrators to create a password sync group in IdentityNow: 
+
+      - At least two direct connect sources connected to IdentityNow and configured for Password Management.
+
+      - Each authentication source in a sync group must have at least one application. Refer to https://documentation.sailpoint.com/saas/help/pwd/adv_config.html for more information about adding applications to sources.
+
+      - At least one password policy. Refer to https://documentation.sailpoint.com/saas/help/pwd/policies.html for more information about password policies. 
+
+      In the Admin panel in IdentityNow, administrators can use the Password Mgmt dropdown menu to select Sync Groups. 
+      To create a sync group, administrators must provide a name, choose a password policy to be enforced across the sources in the sync group, and select the sources to include in the sync group. 
+
+      Administrators can also delete sync groups in IdentityNow, but they should know the following before they do: 
+
+      - Passwords related to the associated sources will become independent, so changing one will not change the others anymore. 
+
+      - Passwords for the sources' connected applications will also become independent. 
+
+      - Password policies assigned to the sync group are then assigned directly to the associated sources. 
+      To change the password policy for a source, administrators must edit it directly. 
+
+      Once the password sync group has been created, users can update the password for the group in Password Manager.
+
+      Refer to the following link for more information about password sync groups: 
+    externalDocs:
+      description: Learn more about password sync groups
+      url: https://documentation.sailpoint.com/saas/help/pwd/sync_grps.html
+  - name: Personal Access Tokens  
+    description: |
+      Use this API to implement personal access token (PAT) functionality. 
+      With this functionality in place, users can use PATs as an alternative to passwords for authentication in IdentityNow. 
+
+      PATs embed user information into the client ID and secret. 
+      This replaces the API clients' need to store and provide a username and password to establish a connection, improving IdentityNow organizations' integration security. 
+
+      In IdentityNow, users can do the following to create and manage their PATs: Select the dropdown menu under their names, select Preferences, and then select Personal Access Tokens. 
+      They must then provide a description about the token's purpose. 
+      They can then select 'Create Token' at the bottom of the page to generate and view the Secret and Client ID. 
+
+      Refer to the following link for more information about PATs: 
+    externalDocs:
+      description: Learn more about PATs
+      url: https://documentation.sailpoint.com/saas/help/common/generate_tokens.html.
+  - name: Public Identities Config
+    description: |
+      Use this API to implement public identity configuration functionality. 
+      With this functionality in place, administrators can make up to 5 identity attributes publicly visible so other non-administrator users can see the relevant information they need to make decisions. 
+      This can be helpful for access approvers, certification reviewers, managers viewing their direct reports' access, and source owners viewing their tasks.
+
+      By default, non-administrators can select an identity and view the following attributes: email, lifecycle state, and manager. 
+      However, it may be helpful for a non-administrator reviewer to see other identity attributes like department, region, title, etc.
+      Administrators can use this API to make those necessary identity attributes public to non-administrators. 
+
+      For example, a non-administrator deciding whether to approve another identity's request for access to the Workday application, whose access may be restricted to members of the HR department, would want to know whether the identity is a member of the HR department. 
+      If an administrator has used [Update Public Identity Config](https://developer.sailpoint.com/apis/beta/#operation/updatePublicIdentityConfig) to make the "department" attribute public, the approver can see the department and make a decision without requesting any more information. 
   - name: Requestable Objects
   - name: Role Insights
   - name: Roles
@@ -1128,7 +1268,7 @@ paths:
     $ref: './beta/paths/source-connector-ping-cluster.yaml'
   /sources/{sourceId}/connector/test-configuration:
     $ref: './beta/paths/source-connector-test-configuration.yaml'
-  /sources/{sourceId}/connectors/source-config:
+  /sources/{id}/connectors/source-config:
     $ref: './beta/paths/source-connectors-source-config.yaml'
   /sources/{sourceId}/provisioning-policies:
     $ref: './v3/paths/provisioning-policies.yaml'

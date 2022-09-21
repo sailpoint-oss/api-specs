@@ -1,11 +1,14 @@
 openapi: 3.0.1
 info:
+  title: IdentityNow V3 API
+  description: "Use these APIs to interact with the IdentityNow platform to achieve repeatable, automated processes with greater scalability. We encourage you to join the SailPoint Developer Community forum at https://developer.sailpoint.com/discuss to connect with other developers using our APIs."
+  termsOfService: https://developer.sailpoint.com/discuss/tos
   contact:
-    email: developers@sailpoint.com
     name: Developer Relations
-    url: https://developer.sailpoint.com/discuss
-  description: "These are the public APIs for SailPoint's SaaS services. We encourage you to join the SailPoint Developer Community forum at https://developer.sailpoint.com/discuss to connect with other developers using our APIs."
-  title: SailPoint - SaaS API
+    url: https://developer.sailpoint.com/discuss/api-help  
+  license: 
+    name: MIT
+    url: https://opensource.org/licenses/MIT
   version: 3.0.0
 servers:
   - url: https://{tenant}.api.identitynow.com/v3
@@ -177,13 +180,39 @@ tags:
     externalDocs:
       description: Learn more about password management
       url: https://documentation.sailpoint.com/saas/user-help/accounts/passwords.html
-  - name: Personal Access Tokens
+  - name: Personal Access Tokens  
+    description: |
+      Use this API to implement personal access token (PAT) functionality. 
+      With this functionality in place, users can use PATs as an alternative to passwords for authentication in IdentityNow. 
+
+      PATs embed user information into the client ID and secret. 
+      This replaces the API clients' need to store and provide a username and password to establish a connection, improving IdentityNow organizations' integration security. 
+
+      In IdentityNow, users can do the following to create and manage their PATs: Select the dropdown menu under their names, select Preferences, and then select Personal Access Tokens. 
+      They must then provide a description about the token's purpose. 
+      They can then select 'Create Token' at the bottom of the page to generate and view the Secret and Client ID. 
+
+      Refer to the following link for more information about PATs: 
+    externalDocs:
+      description: Learn more about PATs
+      url: https://documentation.sailpoint.com/saas/help/common/generate_tokens.html.
   - name: Public Identities
+    description: |
+      Use this API in conjunction with [Public Identites Config](https://developer.sailpoint.com/apis/v3/#tag/Public-Identities-Config) to enable non-administrators to view identities' publicly visible attributes. 
+      With this functionality in place, non-administrators can view identity attributes other than the default attributes (email, lifecycle state, and manager), depending on which identity attributes their organization administrators have made public. 
+      This can be helpful for access approvers, certification reviewers, managers viewing their direct reports' access, and source owners viewing their tasks.
   - name: Public Identities Config
     description: |
-      The purpose of this API is to set publicly visible attributes from your Identity Profile for your organization.
-      These attributes will be visible for request approvers within an Access Request or a Certification Campaign.
-      By default, first name, last name and manager will be shown.
+      Use this API to implement public identity configuration functionality. 
+      With this functionality in place, administrators can make up to 5 identity attributes publicly visible so other non-administrator users can see the relevant information they need to make decisions. 
+      This can be helpful for approvers making approvals, certification reviewers, managers viewing their direct reports' access, and source owners viewing their tasks.
+
+      By default, non-administrators can select an identity and view the following attributes: email, lifecycle state, and manager. 
+      However, it may be helpful for a non-administrator reviewer to see other identity attributes like department, region, title, etc.
+      Administrators can use this API to make those necessary identity attributes public to non-administrators. 
+
+      For example, a non-administrator deciding whether to approve another identity's request for access to the Workday application, whose access may be restricted to members of the HR department, would want to know whether the identity is a member of the HR department. 
+      If an administrator has used [Update Public Identity Config](https://developer.sailpoint.com/apis/v3/#operation/updatePublicIdentityConfig) to make the "department" attribute public, the approver can see the department and make a decision without requesting any more information. 
   - name: Requestable Objects
   - name: Saved Search
   - name: Scheduled Search
