@@ -50,3 +50,5 @@ jobs:
           git remote set-url origin https://${{secrets.API_SPEC_PAT}}@github.com/sailpoint-oss/developer.sailpoint.com.git
 
           git remote -v
+
+          git push
