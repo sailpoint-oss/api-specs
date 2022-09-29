@@ -1,0 +1,44 @@
+name: "Build Postman Collection"
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_v3_postman_collection:
+    name: Build V3 Postman Collection
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Spec
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+
+      - name: Install tools
+        run: |
+          npm install -g swagger-cli openapi-to-postmanv2
+          apt-get install jq
+
+      - name: Dereference Spec
+        run: |
+          swagger-cli bundle --dereference ./idn/sailpoint-api.v3.yaml -o spec.json
+
+      - name: "validate_spec"
+        run: |
+          swagger-cli validate spec.json
+
+      - name: "insert_brackets"
+        run: |
+          echo `jq '.components.securitySchemes.oauth2.flows.clientCredentials.tokenUrl |= "https://{{tenant}}.api.identitynow.com/oauth/token" | \
+           .components.securitySchemes.oauth2.flows.authorizationCode.authorizationUrl |= "https://{{tenant}}.api.identitynow.com/oauth/authorize" | \
+           .components.securitySchemes.oauth2.flows.authorizationCode.tokenUrl |= "https://{{tenant}}.api.identitynow.com/oauth/token"' spec.json` > spec.json
+
+      - name: "build_postman_collection"
+      - name: "insert_pre_request_script"
+      - name: "publish_spec_to_postman"
