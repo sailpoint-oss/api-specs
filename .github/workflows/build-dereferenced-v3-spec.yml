@@ -21,7 +21,7 @@ jobs:
           node-version: "16"
       - name: Install swagger-cli
         run: |
-          npm install -g swagger-cli
+          npm install -g swagger-cli
       - name: Dereference API Specification
         run: |
           swagger-cli bundle --dereference idn/sailpoint-api.v3.yaml -t yaml -o dereferenced/idn-v3-spec.yaml
