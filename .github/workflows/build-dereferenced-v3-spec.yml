@@ -7,6 +7,7 @@ on:
     paths:
       - idn/sailpoint-api.v3.yaml
       - idn/v3/**
+  workflow_dispatch:
 
 jobs:
   dereference_spec:
