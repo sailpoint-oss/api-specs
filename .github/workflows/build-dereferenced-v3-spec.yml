@@ -26,7 +26,7 @@ jobs:
 
       - name: Install swagger-cli
         run: |
-          npm install -g @apidevtools/swagger-cli
+          npm install -g swagger-cli
 
       - name: Dereference API Specification
         run: |
