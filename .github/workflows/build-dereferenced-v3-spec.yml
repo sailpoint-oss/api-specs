@@ -23,6 +23,8 @@ jobs:
       # Node is required for npm
       - name: Set up Node
         uses: actions/setup-node@v3
+        with:
+          node-version: "16"
 
       - name: Install swagger-cli
         run: |
