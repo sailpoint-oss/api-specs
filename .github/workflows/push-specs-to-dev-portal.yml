@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - idn/**
 
 jobs:
   push_spec_workflow:
