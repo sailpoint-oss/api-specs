@@ -1,0 +1,17 @@
+id = 89dd47bb-be8c-4809-9845-5982d51e2891
+
+[relations]
+
+[relations.collections]
+rootDirectory = postman/collections
+files[] = {"id":"23226990-f23c91a3-f33b-4d7d-bb9a-926daab64969","path":"IdentityNow Beta API.json","metaData":{}}
+
+[relations.collections.metaData]
+
+[relations.apiDefinition]
+rootDirectory = postman/schemas
+files[] = {"path":"sailpoint-api.beta.yaml","metaData":{}}
+
+[relations.apiDefinition.metaData]
+type = openapi:3
+rootFiles[] = sailpoint-api.beta.yaml

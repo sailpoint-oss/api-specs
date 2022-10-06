@@ -1,0 +1,45 @@
+{
+	"info": {
+		"_postman_id": "f23c91a3-f33b-4d7d-bb9a-926daab64969",
+		"name": "IdentityNow Beta API",
+		"description": "Use these APIs to interact with the IdentityNow platform to achieve repeatable, automated processes with greater scalability. These APIs are in beta and are subject to change. We encourage you to join the SailPoint Developer Community forum at https://developer.sailpoint.com/discuss to connect with other developers using our APIs.\n\nContact Support:\n Name: Developer Relations",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "23226990-f23c91a3-f33b-4d7d-bb9a-926daab64969"
+	},
+	"item": [],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": [
+			{
+				"key": "scope",
+				"value": "sp:scopes:default sp:scopes:all",
+				"type": "string"
+			},
+			{
+				"key": "accessTokenUrl",
+				"value": "https://tenant.api.identitynow.com/oauth/token",
+				"type": "string"
+			},
+			{
+				"key": "grant_type",
+				"value": "client_credentials",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"id": "137eb5d0-a85b-49f2-8c74-f7153e746a34",
+			"key": "tenant",
+			"value": "sailpoint",
+			"type": "any",
+			"description": "This is the name of your tenant, typically your company's name."
+		},
+		{
+			"id": "b806d98a-57b1-42ac-9479-41c00367f833",
+			"key": "baseUrl",
+			"value": "https://{{tenant}}.api.identitynow.com/beta",
+			"type": "string"
+		}
+	]
+}
