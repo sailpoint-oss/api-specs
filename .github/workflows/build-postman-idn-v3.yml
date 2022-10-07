@@ -1,0 +1,45 @@
+name: "Build Dereferenced IDN V3"
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - idn/sailpoint-api.v3.yaml
+      - idn/v3/**
+  workflow_dispatch:
+
+jobs:
+  dereference_spec:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v3
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+      - name: Install swagger-cli and openapi-to-postmanv2
+        run: |
+          npm install -g swagger-cli
+          npm install -g openapi-to-postmanv2
+      - name: Dereference API Specification
+        run: |
+          swagger-cli bundle --dereference idn/sailpoint-api.v3.yaml -t yaml -o dereferenced/deref-sailpoint-api.v3.yaml
+      - name: Build postman collection from dereferenced spec
+        run: |
+          openapi2postmanv2 -s dereferenced/deref-sailpoint-api.v3.yaml -o collection.json -p -O folderStrategy=Tags,requestParametersResolution=Schema,exampleParametersResolution=Schema,disableOptionalParameters=true,optimizeConversion=false,stackLimit=50
+      
+          echo `jq '.components.securitySchemes.oauth2.flows.clientCredentials.tokenUrl |= "https://{{tenant}}.api.identitynow.com/oauth/token" | \
+           .components.securitySchemes.oauth2.flows.authorizationCode.authorizationUrl |= "https://{{tenant}}.api.identitynow.com/oauth/authorize" | \
+           .components.securitySchemes.oauth2.flows.authorizationCode.tokenUrl |= "https://{{tenant}}.api.identitynow.com/oauth/token"' collection.json` > collection.json
+      - name: Wrap collection for postman
+        run: |
+          jq '{collection: . }' collection.json > final.json
+          cat final.json
+      # - name: Upload to postman
+      #   run: |
+      #     curl --location --request PUT 'https://api.getpostman.com/collections/5f6a4855-8012-406f-9456-c8fa6311b080' \
+      #     --header 'Content-Type: application/json' \
+      #     --header 'X-API-Key: ${{secrets.POSTMAN_API_KEY}}' \
+      #     --data-binary '@final.json'
