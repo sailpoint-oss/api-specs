@@ -36,10 +36,9 @@ jobs:
       - name: Wrap collection for postman
         run: |
           jq '{collection: . }' collection.json > final.json
-          cat final.json
-      # - name: Upload to postman
-      #   run: |
-      #     curl --location --request PUT 'https://api.getpostman.com/collections/5f6a4855-8012-406f-9456-c8fa6311b080' \
-      #     --header 'Content-Type: application/json' \
-      #     --header 'X-API-Key: ${{secrets.POSTMAN_API_KEY}}' \
-      #     --data-binary '@final.json'
+      - name: Upload to postman
+        run: |
+          curl --location --request PUT 'https://api.getpostman.com/collections/5f6a4855-8012-406f-9456-c8fa6311b080' \
+          --header 'Content-Type: application/json' \
+          --header 'X-API-Key: ${{secrets.POSTMAN_API_KEY}}' \
+          --data-binary '@final.json'
