@@ -28,17 +28,21 @@ jobs:
           swagger-cli bundle --dereference idn/sailpoint-api.v3.yaml -t yaml -o dereferenced/deref-sailpoint-api.v3.yaml
       - name: Build postman collection from dereferenced spec
         run: |
-          openapi2postmanv2 -s dereferenced/deref-sailpoint-api.v3.yaml -o collection.json -p -O folderStrategy=Tags,requestParametersResolution=Schema,exampleParametersResolution=Schema,disableOptionalParameters=true,optimizeConversion=false,stackLimit=50
+          openapi2postmanv2 -s dereferenced/deref-sailpoint-api.v3.yaml -o postman/new_collection.json -p -O folderStrategy=Tags,requestParametersResolution=Schema,exampleParametersResolution=Schema,disableOptionalParameters=true,optimizeConversion=false,stackLimit=50
       
           echo `jq '.components.securitySchemes.oauth2.flows.clientCredentials.tokenUrl |= "https://{{tenant}}.api.identitynow.com/oauth/token" | \
            .components.securitySchemes.oauth2.flows.authorizationCode.authorizationUrl |= "https://{{tenant}}.api.identitynow.com/oauth/authorize" | \
-           .components.securitySchemes.oauth2.flows.authorizationCode.tokenUrl |= "https://{{tenant}}.api.identitynow.com/oauth/token"' collection.json` > collection.json
+           .components.securitySchemes.oauth2.flows.authorizationCode.tokenUrl |= "https://{{tenant}}.api.identitynow.com/oauth/token"' postman/new_collection.json` > postman/new_collection.json
       - name: Wrap collection for postman
         run: |
-          jq '{collection: . }' collection.json > final.json
+          jq '{collection: . }' postman/new_collection.json > postman/new_collection.json
+      - name: Merge postman ids
+        run: |
+          cd postman
+          node postman/mergePostmanIds.js collection.json new_collection.json
       - name: Upload to postman
         run: |
           curl --location --request PUT 'https://api.getpostman.com/collections/5f6a4855-8012-406f-9456-c8fa6311b080' \
           --header 'Content-Type: application/json' \
           --header 'X-API-Key: ${{secrets.POSTMAN_API_KEY}}' \
-          --data-binary '@final.json'
+          --data-binary '@collection.json'
