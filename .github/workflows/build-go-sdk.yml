@@ -1,0 +1,51 @@
+name: "Build and push go sdk"
+
+on: workflow_dispatch
+  # push:
+  #   branches:
+  #     - main
+  #   paths:
+  #     - idn/**
+
+jobs:
+  push_spec_workflow:
+    name: Push API spec changes
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the master branch request to run rsync
+      - name: Checkout PR branch
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+
+      # Checkout the main branch of api-specs
+      - name: Checkout API Specs Repo
+        uses: actions/checkout@v2
+        with:
+          repository: sailpoint-oss/golang-sdk
+          path: golang-sdk
+          ref: main
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+      
+      - name: Change Directory to SDK
+        run: |
+          cd golang-sdk
+
+      - name: Build V3 SDK
+        run: |
+          java -jar openapi-generator-cli.jar generate -i ~/idn/sailpoint-api.v3.yaml -g go -o sdk-output/v3 --global-property skipFormModel=false --config sdk-resources/v3-config.yaml -p enumClassPrefix=true
+          
+      - name: Build Beta SDK
+        run: |
+          java -jar openapi-generator-cli.jar generate -i ~/idn/sailpoint-api.beta.yaml -g go -o sdk-output/beta --global-property skipFormModel=false --config sdk-resources/beta-config.yaml -p enumClassPrefix=true
+
+      - name: After SDK Build
+        run: |
+          cd sdk-resources
+          node postscript.js
+          cd ..
+          git status
