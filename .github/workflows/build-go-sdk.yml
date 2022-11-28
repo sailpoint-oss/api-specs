@@ -9,7 +9,7 @@ on: workflow_dispatch
 
 jobs:
   push_spec_workflow:
-    name: Build Go SDK and push
+    name: Build and push Go SDK
     runs-on: ubuntu-latest
     steps:
       # Checkout the master branch request to run rsync
@@ -30,11 +30,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "16"
-      
-      - name: Change Directory to SDK
-        run: |
-          cd golang-sdk
-          ls -al
 
       - name: Build V3 SDK
         run: |
@@ -44,11 +39,12 @@ jobs:
           
       - name: Build Beta SDK
         run: |
-          java -jar openapi-generator-cli.jar generate -i ~/idn/sailpoint-api.beta.yaml -g go -o sdk-output/beta --global-property skipFormModel=false --config sdk-resources/beta-config.yaml -p enumClassPrefix=true
+          cd golang-sdk
+          java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.beta.yaml -g go -o sdk-output/beta --global-property skipFormModel=false --config sdk-resources/beta-config.yaml -p enumClassPrefix=true
 
       - name: After SDK Build
         run: |
-          cd sdk-resources
+          cd golang-sdk/sdk-resources
           node postscript.js
           cd ..
           git status
