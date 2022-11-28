@@ -9,7 +9,7 @@ on: workflow_dispatch
 
 jobs:
   push_spec_workflow:
-    name: Push API spec changes
+    name: Build Go SDK and push
     runs-on: ubuntu-latest
     steps:
       # Checkout the master branch request to run rsync
@@ -38,7 +38,7 @@ jobs:
 
       - name: Build V3 SDK
         run: |
-          java -jar ~/golang-sdk/openapi-generator-cli.jar generate -i ~/idn/sailpoint-api.v3.yaml -g go -o sdk-output/v3 --global-property skipFormModel=false --config sdk-resources/v3-config.yaml -p enumClassPrefix=true
+          java -jar ~/work/api-specs/api-specs/golang-sdk/openapi-generator-cli.jar generate -i ~/idn/sailpoint-api.v3.yaml -g go -o sdk-output/v3 --global-property skipFormModel=false --config sdk-resources/v3-config.yaml -p enumClassPrefix=true
           
       - name: Build Beta SDK
         run: |
