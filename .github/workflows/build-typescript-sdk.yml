@@ -14,13 +14,13 @@ jobs:
     steps:
       # Checkout the master branch request to run rsync
       - name: Checkout PR branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: ${{ github.ref }}
 
       # Checkout the main branch of api-specs
       - name: Checkout API Specs Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: sailpoint-oss/sdk-ts
           path: sdk-ts
@@ -32,17 +32,40 @@ jobs:
           node-version: "16"
       
       - name: Build V3 SDK
+        id: buildV3
         run: |
           cd sdk-ts
-          pwd
-          java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.v3.yaml -g typescript-axios -o sdk-output/v3 --global-property skipFormModel=false --config sdk-resources/v3-config.yaml --api-name-suffix V3 --model-name-suffix V3
+          java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.v3.yaml -g typescript-axios -o sdk-output/v3 --global-property skipFormModel=false --config sdk-resources/v3-config.yaml
 
       - name: Build Beta SDK
+        id: buildBeta
+        if: steps.buildV3.outcome == 'success'
         run: |
           cd sdk-ts
-          java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.beta.yaml -g typescript-axios -o sdk-output/beta --global-property skipFormModel=false --config sdk-resources/beta-config.yaml --api-name-suffix Beta --model-name-suffix Beta
+          java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.beta.yaml -g typescript-axios -o sdk-output/beta --global-property skipFormModel=false --config sdk-resources/beta-config.yaml --api-name-suffix BetaApi --model-name-suffix Beta
 
+      - name: Run npm install and build Typescript SDK
+        id: buildSDK
+        if: steps.buildBeta.outcome == 'success'
+        run: |
+          cd sdk-ts/sdk-output
+          npm install
+          npm run build
+      
       - name: After SDK Build
+        if: steps.buildSDK.outcome == 'success'
         run: |
           cd sdk-ts
+
+          git config --unset-all http.https://github.com/.extraheader
+          git config --local user.email "tyler.mairose@sailpoint.com"
+          git config --local user.name "GitHub Action Bot"
+
+          git add .
+          git commit -m "Automated build of typescript-axios sdk: ${{ github.run_id }}"
+
           git status
+
+          git remote set-url origin https://${{secrets.API_SPEC_PAT}}@github.com/sailpoint-oss/sdk-ts.git
+
+          git remote -v
