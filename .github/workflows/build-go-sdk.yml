@@ -32,17 +32,21 @@ jobs:
           node-version: "16"
 
       - name: Build V3 SDK
+        id: buildV3
         run: |
           cd golang-sdk
           pwd
-          java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.v3.yaml -g go -o sdk-output/v3 --global-property skipFormModel=false --config sdk-resources/v3-config.yaml -p enumClassPrefix=true
+          java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.v3.yaml -g goes -o sdk-output/v3 --global-property skipFormModel=false --config sdk-resources/v3-config.yaml -p enumClassPrefix=true
           
       - name: Build Beta SDK
+        id: buildBeta
+        if: steps.buildV3.outcome == 'success'
         run: |
           cd golang-sdk
           java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.beta.yaml -g go -o sdk-output/beta --global-property skipFormModel=false --config sdk-resources/beta-config.yaml -p enumClassPrefix=true
 
       - name: After SDK Build
+        if: steps.buildBeta.outcome == 'success'
         run: |
           cd golang-sdk/sdk-resources
           node postscript.js
