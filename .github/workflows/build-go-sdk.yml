@@ -36,7 +36,7 @@ jobs:
         run: |
           cd golang-sdk
           pwd
-          java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.v3.yaml -g goes -o sdk-output/v3 --global-property skipFormModel=false --config sdk-resources/v3-config.yaml -p enumClassPrefix=true
+          java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.v3.yaml -g go -o sdk-output/v3 --global-property skipFormModel=false --config sdk-resources/v3-config.yaml -p enumClassPrefix=true
           
       - name: Build Beta SDK
         id: buildBeta
