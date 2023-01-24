@@ -31,27 +31,36 @@ jobs:
         with:
           node-version: "16"
 
-      - name: Build V3 SDK
-        id: buildV3
+
+      - name: Run Prescript
+        id: prescript
         run: |
           cd golang-sdk
-          pwd
+          node sdk-resources/prescript.js ../idn/
+
+      - name: Build V3 SDK
+        id: buildV3
+        if: steps.prescript.outcome == 'success'
+        run: |
+          cd golang-sdk
           java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.v3.yaml -g go -o sdk-output/v3 --global-property skipFormModel=false --config sdk-resources/v3-config.yaml -p enumClassPrefix=true
-          
+          node sdk-resources/postscript.js ./sdk-output/v3
+          cd sdk-output/v3
+          go install
+
       - name: Build Beta SDK
         id: buildBeta
         if: steps.buildV3.outcome == 'success'
         run: |
           cd golang-sdk
           java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.beta.yaml -g go -o sdk-output/beta --global-property skipFormModel=false --config sdk-resources/beta-config.yaml -p enumClassPrefix=true
+          cd sdk-output/beta
+          go install
 
       - name: After SDK Build
         if: steps.buildBeta.outcome == 'success'
         run: |
-          cd golang-sdk/sdk-resources
-          node postscript.js
-          cd ..
-
+        
           git config --unset-all http.https://github.com/.extraheader
           git config --local user.email "tyler.mairose@sailpoint.com"
           git config --local user.name "GitHub Action Bot"
