@@ -1,11 +1,12 @@
 name: "Build and push typescript sdk"
 
-on: workflow_dispatch
-  # push:
-  #   branches:
-  #     - main
-  #   paths:
-  #     - idn/**
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - idn/**
+  workflow_dispatch:
 
 jobs:
   push_spec_workflow:
@@ -83,3 +84,5 @@ jobs:
           git remote set-url origin https://${{secrets.API_SPEC_PAT}}@github.com/sailpoint-oss/sdk-ts.git
 
           git remote -v
+
+          git push
