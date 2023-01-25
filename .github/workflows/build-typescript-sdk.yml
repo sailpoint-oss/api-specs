@@ -36,6 +36,7 @@ jobs:
         id: buildV3
         run: |
           cd sdk-ts
+          rm -rf sdk-output/v3
           java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.v3.yaml -g typescript-axios -o sdk-output/v3 --global-property skipFormModel=false --config sdk-resources/v3-config.yaml
 
       - name: Build Beta SDK
@@ -43,6 +44,7 @@ jobs:
         if: steps.buildV3.outcome == 'success'
         run: |
           cd sdk-ts
+          rm -rf sdk-output/beta
           java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.beta.yaml -g typescript-axios -o sdk-output/beta --global-property skipFormModel=false --config sdk-resources/beta-config.yaml --api-name-suffix BetaApi --model-name-suffix Beta
 
       - name: Build V2 SDK
@@ -50,6 +52,7 @@ jobs:
         if: steps.buildBeta.outcome == 'success'
         run: |
           cd sdk-ts
+          rm -rf sdk-output/v2
           java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.v2.yaml -g typescript-axios -o sdk-output/v2 --global-property skipFormModel=false --config sdk-resources/v2-config.yaml --api-name-suffix V2Api --model-name-suffix V2
 
       - name: Build CC SDK
@@ -57,6 +60,7 @@ jobs:
         if: steps.buildV2.outcome == 'success'
         run: |
           cd sdk-ts
+          rm -rf sdk-output/cc
           java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.cc.yaml -g typescript-axios -o sdk-output/cc --global-property skipFormModel=false --config sdk-resources/cc-config.yaml --api-name-suffix CCApi --model-name-suffix CC
 
       - name: Run npm install and build Typescript SDK

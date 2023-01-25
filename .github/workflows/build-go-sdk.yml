@@ -1,11 +1,12 @@
 name: "Build and push go sdk"
 
-on: workflow_dispatch
-  # push:
-  #   branches:
-  #     - main
-  #   paths:
-  #     - idn/**
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - idn/**
+  workflow_dispatch:
 
 jobs:
   push_spec_workflow:
@@ -43,24 +44,44 @@ jobs:
         if: steps.prescript.outcome == 'success'
         run: |
           cd golang-sdk
+          rm -rf ./sdk-output/v3
           java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.v3.yaml -g go -o sdk-output/v3 --global-property skipFormModel=false --config sdk-resources/v3-config.yaml -p enumClassPrefix=true
           node sdk-resources/postscript.js ./sdk-output/v3
-          cd sdk-output/v3
-          go install
 
       - name: Build Beta SDK
         id: buildBeta
         if: steps.buildV3.outcome == 'success'
         run: |
           cd golang-sdk
+          rm -rf ./sdk-output/beta
           java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.beta.yaml -g go -o sdk-output/beta --global-property skipFormModel=false --config sdk-resources/beta-config.yaml -p enumClassPrefix=true
-          cd sdk-output/beta
-          go install
+          node sdk-resources/postscript.js ./sdk-output/beta
 
-      - name: After SDK Build
+      - name: Build V2 SDK
+        id: buildV2
         if: steps.buildBeta.outcome == 'success'
         run: |
-        
+          cd golang-sdk
+          rm -rf ./sdk-output/v2
+          java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.v2.yaml -g go -o sdk-output/v2 --global-property skipFormModel=false --config sdk-resources/v2-config.yaml -p enumClassPrefix=true
+          node sdk-resources/postscript.js ./sdk-output/v2
+
+      - name: Build CC SDK
+        id: buildCC
+        if: steps.buildV2.outcome == 'success'
+        run: |
+          cd golang-sdk
+          rm -rf ./sdk-output/cc
+          java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.cc.yaml -g go -o sdk-output/cc --global-property skipFormModel=false --config sdk-resources/cc-config.yaml -p enumClassPrefix=true
+          node sdk-resources/postscript.js ./sdk-output/cc
+
+      - name: After SDK Build
+        if: steps.buildCC.outcome == 'success'
+        run: |
+          cd golang-sdk/sdk-output
+          go get -d ./...
+          go install
+
           git config --unset-all http.https://github.com/.extraheader
           git config --local user.email "tyler.mairose@sailpoint.com"
           git config --local user.name "GitHub Action Bot"
