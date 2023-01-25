@@ -87,10 +87,12 @@ jobs:
           git config --local user.name "GitHub Action Bot"
 
           git add .
-          git commit -m "Automated build of go sdk: ${{ github.run_id }}"
+          git commit -m "Automated build '${{ github.event.head_commit.message }}' go sdk: ${{ github.run_id }}"
 
           git status
 
           git remote set-url origin https://${{secrets.API_SPEC_PAT}}@github.com/sailpoint-oss/golang-sdk.git
 
           git remote -v
+
+          git push
