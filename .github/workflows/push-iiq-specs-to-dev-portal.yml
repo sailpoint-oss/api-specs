@@ -32,7 +32,7 @@ jobs:
 
       - name: Sync files between folders
         run: |
-          CURRENT_SPEC_PATH="/dereferenced/deref-sailpoint-api.iiq.yaml"
+          CURRENT_SPEC_PATH="iiq/"
           NEW_API_SPEC_PATH="developer-community/static/api-specs/iiq/"
 
           rsync -cav --delete $CURRENT_SPEC_PATH $NEW_API_SPEC_PATH 
