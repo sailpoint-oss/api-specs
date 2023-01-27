@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - /dereferenced/deref-sailpoint-api.iiq.yaml
+      - dereferenced/deref-sailpoint-api.iiq.yaml
 
 jobs:
   push_spec_workflow:
