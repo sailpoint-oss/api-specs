@@ -1,0 +1,27 @@
+name: "Build Dereferenced IIQ Spec"
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - iiq/sailpoint-api.iiq.json
+  workflow_dispatch:
+
+jobs:
+  dereference_spec:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v3
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+      - name: Install swagger-cli
+        run: |
+          npm install -g swagger-cli
+      - name: Dereference API Specification
+        run: |
+          swagger-cli bundle --dereference iiq/sailpoint-api.iiq.json -t yaml -o dereferenced/deref-sailpoint-api.iiq.yaml
+      - uses: stefanzweifel/git-auto-commit-action@v4
