@@ -69,6 +69,7 @@ jobs:
         if: steps.buildCC.outcome == 'success'
         shell: pwsh
         run: |
+          cd powershell-sdk
           $DebugPreference="Continue"
           Import-Module -Name '.\sdk-output' -Verbose
       
