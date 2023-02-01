@@ -1,11 +1,11 @@
-name: "Push API Specs to Developer Portal"
+name: "Push IIQ API Specs to Developer Portal"
 
 on:
   push:
     branches:
       - main
     paths:
-      - idn/**
+      - iiq/**
 
 jobs:
   push_spec_workflow:
@@ -32,8 +32,8 @@ jobs:
 
       - name: Sync files between folders
         run: |
-          CURRENT_SPEC_PATH="idn/"
-          NEW_API_SPEC_PATH="developer-community/static/api-specs/idn/"
+          CURRENT_SPEC_PATH="iiq/"
+          NEW_API_SPEC_PATH="developer-community/static/api-specs/iiq/"
 
           rsync -cav --delete $CURRENT_SPEC_PATH $NEW_API_SPEC_PATH 
 
@@ -41,7 +41,7 @@ jobs:
           git status
 
           git config --unset-all http.https://github.com/.extraheader
-          git config --local user.email "tyler.mairose@sailpoint.com"
+          git config --local user.email "luke.hagar@sailpoint.com"
           git config --local user.name "GitHub Action Bot"
 
           git add .
