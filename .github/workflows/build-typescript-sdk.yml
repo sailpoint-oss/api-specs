@@ -23,7 +23,7 @@ jobs:
       - name: Checkout API Specs Repo
         uses: actions/checkout@v3
         with:
-          repository: sailpoint-oss/sdk-ts
+          repository: sailpoint-oss/typescript-sdk
           path: sdk-ts
           ref: main
 
@@ -85,7 +85,7 @@ jobs:
 
           git status
 
-          git remote set-url origin https://${{secrets.API_SPEC_PAT}}@github.com/sailpoint-oss/sdk-ts.git
+          git remote set-url origin https://${{secrets.API_SPEC_PAT}}@github.com/sailpoint-oss/typescript-sdk.git
 
           git remote -v
 
