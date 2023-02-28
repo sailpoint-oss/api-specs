@@ -70,6 +70,7 @@ jobs:
         shell: pwsh
         run: |
           cd powershell-sdk
+          ./sdk-output/PSSailpoint/Build.ps1
           $DebugPreference="Continue"
           Import-Module -Name '.\sdk-output\PSSailpoint' -Verbose
       
