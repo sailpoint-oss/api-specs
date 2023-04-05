@@ -9,10 +9,14 @@ id = 0812f761-dcc4-400a-b5c9-77ccf38e27ed
 
 [config.relations.collections]
 rootDirectory = postman/collections
+files[] = {"id":"26657441-d42e791a-1991-4c00-9a8b-1a565e57b05e","path":"IdentityNow V3 APIs.json","metaData":{"generateCollectionPreferences":"{\"requestNameSource\":\"Fallback\",\"indentCharacter\":\"Space\",\"parametersResolution\":\"Example\",\"folderStrategy\":\"Tags\",\"includeAuthInfoInExample\":true,\"keepImplicitHeaders\":false,\"includeDeprecated\":true,\"updateCollectionSync\":true,\"requestParametersResolution\":\"Example\",\"exampleParametersResolution\":\"Example\"}"}}
 
 [config.relations.collections.metaData]
 
 [config.relations.apiDefinition]
 rootDirectory = postman/schemas
+files[] = {"path":"deref-sailpoint-api.v3.yaml","metaData":{}}
 
 [config.relations.apiDefinition.metaData]
+type = openapi:3
+rootFiles[] = deref-sailpoint-api.v3.yaml
