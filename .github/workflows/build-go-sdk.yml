@@ -1,5 +1,10 @@
 name: "Build and push go sdk"
 
+env:
+  SAIL_CLIENT_ID: ${{ secrets.SDK_TEST_TENANT_CLIENT_ID }}
+  SAIL_CLIENT_SECRET: ${{ secrets.SDK_TEST_TENANT_CLIENT_SECRET }}
+  SAIL_BASE_URL: ${{ secrets.SDK_TEST_TENANT_BASE_URL }}
+
 on:
   push:
     branches:
@@ -81,6 +86,7 @@ jobs:
           cd golang-sdk/
           go get -d ./...
           go install
+          go test
 
           git config --unset-all http.https://github.com/.extraheader
           git config --local user.email "tyler.mairose@sailpoint.com"
