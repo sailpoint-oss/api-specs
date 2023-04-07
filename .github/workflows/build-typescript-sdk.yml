@@ -1,5 +1,10 @@
 name: "Build and push typescript sdk"
 
+env:
+  SAIL_CLIENT_ID: ${{ secrets.SDK_TEST_TENANT_CLIENT_ID }}
+  SAIL_CLIENT_SECRET: ${{ secrets.SDK_TEST_TENANT_CLIENT_SECRET }}
+  SAIL_BASE_URL: ${{ secrets.SDK_TEST_TENANT_BASE_URL }}
+
 on:
   push:
     branches:
@@ -70,6 +75,7 @@ jobs:
           cd sdk-ts/sdk-output
           npm install
           npm run build
+          npm run test
       
       - name: After SDK Build
         if: steps.buildSDK.outcome == 'success'
