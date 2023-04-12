@@ -25,7 +25,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/access-profiles",
+							"raw": "{{baseUrl}}/access-profiles?for-subadmin=8c190e6787aa4ed9a90bd9d5344523fb&limit=50&offset=0&count=true&filters=name eq \"SailPoint Support\"&sorters=name,-modified&for-segment-ids=0b5c9f25-83c6-4762-9073-e38f7bb2ae26,2e8d8180-24bc-4d21-91c6-7affdb473b0d&include-unsegmented=false",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -34,52 +34,44 @@
 							],
 							"query": [
 								{
-									"key": "for-subadmin",
-									"value": "8c190e6787aa4ed9a90bd9d5344523fb",
 									"description": "If provided, filters the returned list according to what is visible to the indicated ROLE_SUBADMIN or SOURCE_SUBADMIN Identity. The value of the parameter is either an Identity ID, or the special value **me**, which is shorthand for the calling Identity's ID.\n\nA 400 Bad Request error is returned if the **for-subadmin** parameter is specified for an Identity that is not a subadmin.",
-									"disabled": true
+									"key": "for-subadmin",
+									"value": "8c190e6787aa4ed9a90bd9d5344523fb"
 								},
 								{
-									"key": "limit",
-									"value": "50",
 									"description": "Note that for this API the maximum value for limit is 50.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
-									"disabled": true
+									"key": "limit",
+									"value": "50"
 								},
 								{
-									"key": "offset",
-									"value": "0",
 									"description": "Offset into the full result set. Usually specified with *limit* to paginate through the results.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
-									"disabled": true
+									"key": "offset",
+									"value": "0"
 								},
 								{
-									"key": "count",
-									"value": "true",
 									"description": "If *true* it will populate the *X-Total-Count* response header with the number of results that would be returned if *limit* and *offset* were ignored.\n\nSince requesting a total count can have a performance impact, it is recommended not to send **count=true** if that value will not be used.\n\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
-									"disabled": true
+									"key": "count",
+									"value": "true"
 								},
 								{
-									"key": "filters",
-									"value": "name eq \"SailPoint Support\"",
 									"description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in*\n\n**name**: *eq, sw*\n\n**created, modified**: *gt, lt, ge, le*\n\n**owner.id**: *eq, in*\n\n**requestable**: *eq*\n\n**source.id**: *eq, in*",
-									"disabled": true
+									"key": "filters",
+									"value": "name eq \"SailPoint Support\""
 								},
 								{
-									"key": "sorters",
-									"value": "name,-modified",
 									"description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **name, created, modified**",
-									"disabled": true
+									"key": "sorters",
+									"value": "name,-modified"
 								},
 								{
-									"key": "for-segment-ids",
-									"value": "0b5c9f25-83c6-4762-9073-e38f7bb2ae26,2e8d8180-24bc-4d21-91c6-7affdb473b0d",
 									"description": "If present and not empty, additionally filters Access Profiles to those which are assigned to the Segment(s) with the specified IDs.\n\nIf segmentation is currently unavailable, specifying this parameter results in an error.",
-									"disabled": true
+									"key": "for-segment-ids",
+									"value": "0b5c9f25-83c6-4762-9073-e38f7bb2ae26,2e8d8180-24bc-4d21-91c6-7affdb473b0d"
 								},
 								{
-									"key": "include-unsegmented",
-									"value": "false",
 									"description": "Whether or not the response list should contain unsegmented Access Profiles. If *for-segment-ids* is absent or empty, specifying *include-unsegmented* as false results in an error.",
-									"disabled": true
+									"key": "include-unsegmented",
+									"value": "false"
 								}
 							]
 						},
@@ -1995,26 +1987,6 @@
 						"disableBodyPruning": true
 					},
 					"request": {
-						"auth": {
-							"type": "oauth2",
-							"oauth2": [
-								{
-									"key": "scope",
-									"value": "sp:scopes:default sp:scopes:all",
-									"type": "string"
-								},
-								{
-									"key": "accessTokenUrl",
-									"value": "https://tenant.api.identitynow.com/oauth/token",
-									"type": "string"
-								},
-								{
-									"key": "grant_type",
-									"value": "client_credentials",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [
 							{
