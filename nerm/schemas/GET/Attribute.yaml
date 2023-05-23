@@ -3,6 +3,7 @@ properties:
   id:
     type: string
     format: uuid
+    example: 1234
     readOnly: true
   uid:
     type: string
