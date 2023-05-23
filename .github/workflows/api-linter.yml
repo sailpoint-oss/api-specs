@@ -1,0 +1,54 @@
+name: "Run Spectral API Linter"
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "nerm/**"
+
+jobs:
+  spectral_workflow:
+    name: Lint OpenAPI
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the pull request to run Spectral on
+      - name: Checkout PR branch
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+
+      # Checkout custom spectral action to comment issues to the PR
+      - name: Checkout Spectral Action
+        uses: actions/checkout@v2
+        with:
+          repository: sailpoint-oss/github-spectral-action
+          path: spectral-comment-action
+          ref: main
+
+      # Install node and run npm install on spectral action to install required packages
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+      - run: |
+          ls -al
+          cd spectral-comment-action
+          npm ci
+
+      # Run get-changed-files step to get all files changed in the PR as a comma seperated list for the spectral linter action to process with our rulesets
+      - id: files
+        with:
+          format: "csv"
+        uses: masesgroup/retrieve-changed-files@v2
+        continue-on-error: true
+
+      # Run the spectral linter action and recieve a comment on the PR for any issues the linter found
+      - name: Spectral comment
+        uses: ./spectral-comment-action/
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          file-glob: ${{ steps.files.outputs.all }}
+          spectral-root-ruleset: http://raw.githubusercontent.com/sailpoint-oss/api-linter/main/root-ruleset.yaml
+          spectral-path-ruleset: https://raw.githubusercontent.com/sailpoint-oss/api-linter/main/nerm-path-ruleset.yaml
+          spectral-schema-ruleset: https://raw.githubusercontent.com/sailpoint-oss/api-linter/main/nerm-schema-ruleset.yaml
