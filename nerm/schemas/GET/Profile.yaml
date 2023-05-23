@@ -2,6 +2,7 @@ type: object
 properties:
   id:
     type: string
+    example: 1234
     format: uuid
     readOnly: true
   uid:
