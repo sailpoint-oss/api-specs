@@ -1,8 +1,3 @@
 type: array
 items:
-  desription: The items
   $ref: './ErrorMessageDto.yaml'
-  example: 
-    - locale: en-US
-      localeOrigin: DEFAULT
-      text: The request was syntactically correct but its content is semantically invalid.
