@@ -7,12 +7,15 @@ schema:
   properties:
     limit:
       type: integer
+      format: int32
       example: 100
     offset:
       type: integer
+      format: int32
       example: 50
     order:
       type: string
       example: created_at
 style: deepObject
 explode: true
+example: query[limit]=100&query[offset]=50&query[order]=created_at
