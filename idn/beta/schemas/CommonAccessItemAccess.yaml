@@ -1,26 +1,21 @@
 type : object
 properties:
   id:
-    description: The IOd
     type: string
     description: Common access ID
-    example: db6f8e8b-65c2-47d5-a0db-90bcc4e9df9e
   type:
     $ref: 'CommonAccessType.yaml'
     description: Common access type (ROLE or ACCESS_PROFILE)
   name:
+    type: string
     description: Common access name
-    type: string
-    example: accessname
   description:
+    type: string
     description: Common access description
-    type: string
-    example: description here
   ownerName:
+    type: string
     description: Common access owner name
-    type: string
-    example: ownername
   ownerId:
-    description: Common access owner ID
     type: string
-    example: db6f8e8b-65c2-47d5-a0db-90bcc4e9df9e
+    description: Common access owner ID
+

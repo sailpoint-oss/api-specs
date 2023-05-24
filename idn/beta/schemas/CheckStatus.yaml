@@ -13,9 +13,6 @@ properties:
     description: A map of query parameters to include on the REST request. This is optional since query parameters can also be included in the resource URL value.
     type: object
     additionalProperties: true
-    example: 
-      test: test
-      foo: bar
   statusMap:
     description: A map that relates Ticket System status to IdentityNow status, in the form of key-value (i.e. ServiceNow-IdentityNow) pairs.
     type: object
@@ -31,9 +28,6 @@ properties:
     description: A map that relates Ticket System’s close code status to IdentityNow status.
     type: object
     additionalProperties: true
-    example:
-      closed: TicketClosed
-      open: TicketOpened
   closureCodeResponseElement:
     description: JSON path expression specifying where to obtain close code information of a ticket from the REST response.
     type: string
@@ -41,5 +35,4 @@ properties:
   appendTicketNumber:
     description: Boolean flag indicating whether or not to append the ticket number to the URL to get status.
     type: boolean
-    example: true
 
