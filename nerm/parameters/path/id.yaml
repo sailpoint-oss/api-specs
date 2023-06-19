@@ -1,6 +1,6 @@
 name: id
 in: path
-description: ID of the object to retrieve or update
+description: ID of the object to retrieve, update, or delete
 required: true
 schema:
   type: string
