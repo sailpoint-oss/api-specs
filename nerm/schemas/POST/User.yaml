@@ -22,10 +22,7 @@ properties:
     required: true
   login:
     type: string
-    required: true
-  admin:
-    type: boolean
-    default: false
+    required: true  
   group_strings:
     type: string
     example: "Administrator_group,Developer_group"

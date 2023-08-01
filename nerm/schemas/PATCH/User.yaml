@@ -23,9 +23,7 @@ properties:
     type: string
     enum: [Active, Disabled]
   login:
-    type: string
-  admin:
-    type: boolean
+    type: string  
   group_strings:
     type: string
     example: "Administrator_group,Developer_group"
