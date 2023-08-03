@@ -20,7 +20,7 @@ get:
       $ref: "../responses/500.yaml"
 post:
   summary: Create multiple user-profile contributor relationships
-  operationId: postUserProfiles
+  operationId: createUserProfiles
   description: Create multiple user-profile contributor relationships
   tags:
     - user profiles
@@ -41,6 +41,21 @@ patch:
     - user profiles
   requestBody:
     $ref: "../requestBodies/PATCH/UserProfiles.yaml"
+  responses:
+    '200':
+      $ref: "../responses/UserProfilesJob.yaml"
+    '400':
+      $ref: "../responses/400.yaml"
+    '500':
+      $ref: "../responses/500.yaml"
+delete:
+  summary: Delete multiple user-profile contributor relationships
+  operationId: deleteUserProfiles
+  description: Delete multiple user-profile contributor relationships
+  tags:
+    - user profiles
+  requestBody:
+    $ref: "../requestBodies/DELETE/UserProfiles.yaml"
   responses:
     '200':
       $ref: "../responses/UserProfilesJob.yaml"

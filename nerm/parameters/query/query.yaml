@@ -14,5 +14,9 @@ schema:
     order:
       type: string
       example: created_at
+  example:
+    limit: 100
+    offset: 50
+    order: created_at
 style: deepObject
 explode: true
