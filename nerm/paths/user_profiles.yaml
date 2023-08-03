@@ -20,7 +20,7 @@ get:
       $ref: "../responses/500.yaml"
 post:
   summary: Create multiple user-profile contributor relationships
-  operationId: postUserProfiles
+  operationId: createUserProfiles
   description: Create multiple user-profile contributor relationships
   tags:
     - user profiles
