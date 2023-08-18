@@ -142,7 +142,7 @@ paths:
     $ref: "./paths/job_status.yaml"
 
 security:
-  - bearerAuth : []
+  - bearerAuth: []
 
 components:
   securitySchemes:
