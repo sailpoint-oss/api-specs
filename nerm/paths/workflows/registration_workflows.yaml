@@ -1,11 +1,9 @@
 post:
   summary: Create a registration workflow
-  operationId: postRegistrationWorkflow
+  operationId: createRegistrationWorkflow
   description: Create a registration workflow
   tags:
     - workflows
-  parameters:
-    - $ref: "../../parameters/query/run.yaml"
   requestBody:
     $ref: "../../requestBodies/POST/Workflows/CreateWorkflow.yaml"
   responses:
