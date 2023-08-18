@@ -55,11 +55,13 @@ properties:
         example: true
       expiration_time:
         type: integer
+        format: int32
         minimum: 1
         description: Used for login/password reset for when the password will expire.
         example: 1
   position:
     type: integer
+    format: int32
     minimum: 1
     description: The position of the workflow.
     example: 3
