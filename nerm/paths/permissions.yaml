@@ -1,6 +1,7 @@
 post:
   summary: Create a permission
   description: This endpoint can create permissions for Lifecycle, Consolidation, and Collaboration
+  operationId: postPermission
   tags:
     - permissions
   requestBody:
