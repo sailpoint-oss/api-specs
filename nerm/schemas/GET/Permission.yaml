@@ -13,10 +13,12 @@ properties:
     example: ef5d413f-ba18-49e6-9a72-bb115aa133ff
   value:
     type: integer
+    format: int32
     example: 1
     description: The permissions level of access
   subject:
     type: integer
+    format: int32
     example: 1
     description: The type of permission
   subject_id:

@@ -12,11 +12,13 @@ properties:
     description: The ID of the object that the permission is giving access to
   value:
     type: integer
+    format: int32
     enum: [1, 2, 3, 4, 5, 6, 7]
     example: 1
     description: The permissions level of access
   subject:
     type: integer
+    format: int32
     enum: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
     example: 0
     description: The type of permission
