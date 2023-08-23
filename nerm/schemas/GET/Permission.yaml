@@ -1,0 +1,17 @@
+type: object
+properties:
+  id:
+    type: string
+    format: uuid
+    readOnly: true
+  role_id:
+    type: string
+    format: uuid
+  value:
+    type: integer
+    example: 1
+  subject:
+    type: integer
+  subject_id:
+    type: string
+    format: uuid
