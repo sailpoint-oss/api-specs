@@ -1,0 +1,69 @@
+type: object
+properties:
+  workflow_id:
+    type: string
+    format: uuid
+    required: true
+    description: The workflow the workflow action belongs to.
+    example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
+  description:
+    type: string
+    required: true
+    description: The description of the workflow action.
+    example: Create a Collaboration user account for this profile.
+  archived:
+    type: boolean
+    default: false
+    description: If the workflow action is archived or not.
+  store_type:
+    type: string
+    required: true
+    example: Local, Directory
+  ldap_action_user_roles_attributes:
+    type: array
+    items: 
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        role_id:
+          type: string
+          format: uuid
+  workflow_action_value_builders_attributes:
+    type: array
+    items: 
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        workflow_action_id:
+          type: string
+          format: uuid
+        value_builder_id:
+          type: string
+          format: uuid
+        position:
+          type: integer
+          example: 1
+  workflow_action_directory_groups_attributes:
+    type: array
+    items: 
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        directory_id:
+          type: string
+          format: uuid
+        group_label:
+          type: string
+          format: text
+        group_dn:
+          type: string
+          format: text
+
+#coordinate with workflow_action_performers to set up performers
+#coordinate with workflow_action_roles to set up performers by role

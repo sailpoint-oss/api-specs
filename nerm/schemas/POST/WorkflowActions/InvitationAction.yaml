@@ -1,0 +1,70 @@
+type: object
+properties:
+  workflow_id:
+    type: string
+    format: uuid
+    required: true
+    description: The workflow the workflow action belongs to.
+    example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
+  description:
+    type: string
+    required: true
+    description: The description of the workflow action.
+    example: Creates a registration session associated with an email address
+  archived:
+    type: boolean
+    default: false
+    description: If the workflow action is archived or not.
+  configuration_attributes:
+    type: array
+    items: 
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        workflow_id:
+          type: string
+          format: uuid
+        wait_for_completion:
+          type: boolean
+          example: false
+        return_profile:
+          type: boolean
+          example: false
+        portal_id:
+          type: string
+          format: uuid
+        registration_workflow_id:
+          type: string
+          format: uuid
+        email_attribute_id:
+          type: string
+          format: uuid
+        profile_type_id:
+          type: string
+          format: uuid
+        validate_completed_registration:
+          type: boolean
+          example: false
+        validate_open_registration:
+          type: boolean
+          example: false
+  workflow_action_email_attributes:
+    type: array
+    items: 
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        workflow_action_id:
+          type: string
+          format: uuid
+        email_id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum: [StandardEmail, PerformerNotificationEmail, ApprovalEmail, RejectionEmail]
+          example: StandardEmail
