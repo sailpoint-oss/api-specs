@@ -1,7 +1,7 @@
 post:
   summary: Create a ldap action
   operationId: createLdapAction
-  description: Create a ldap action
+  description: Create a ldap action. Coordinate with workflow_action_performers to set up performers. Coordinate with workflow_action_roles to set up performers by role.
   tags:
     - workflow actions
   requestBody:

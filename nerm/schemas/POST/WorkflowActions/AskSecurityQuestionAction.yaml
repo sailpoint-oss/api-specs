@@ -13,11 +13,13 @@ properties:
     example: Prompt the user to answer some personal security questions.
   number_of_questions:
     type: integer
+    format: int32
     required: true
     description: The number of questions the user should answer upon login.
     example: 1
   token_expiration:
     type: integer
+    format: int32
     required: true
     description: The token expiration time, coordinates with token_expiration_type.
     example: 1
@@ -31,3 +33,4 @@ properties:
     type: boolean
     default: false
     description: If the workflow action is archived or not.
+    example: false

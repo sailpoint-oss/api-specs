@@ -21,7 +21,9 @@ properties:
     type: boolean
     default: false
     description: If the workflow action is archived or not.
+    example: false
   requires_comment:
     type: boolean
     default: false
     description: If the workflow action requires a comment or not.
+    example: false

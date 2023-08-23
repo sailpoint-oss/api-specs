@@ -15,8 +15,10 @@ properties:
     type: boolean
     default: false
     description: If the workflow action is archived or not.
+    example: false
   number_of_questions:
     type: integer
+    format: int32
     required: true
     description: The number of questions the user should answer upon login.
     example: 1

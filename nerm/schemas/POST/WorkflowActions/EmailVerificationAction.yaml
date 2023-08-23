@@ -13,11 +13,13 @@ properties:
     example: Have the user verify their email address.
   email_expiration:
     type: integer
+    format: int32
     required: true
     description: The email expiration time, in minutes.
     example: 20
   token_expiration:
     type: integer
+    format: int32
     required: true
     description: The token expiration time, coordinates with token_expiration_type.
     example: 1
@@ -31,3 +33,4 @@ properties:
     type: boolean
     default: false
     description: If the workflow action is archived or not.
+    example: false

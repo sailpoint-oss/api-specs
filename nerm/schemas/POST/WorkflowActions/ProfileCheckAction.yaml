@@ -15,6 +15,7 @@ properties:
     type: boolean
     default: false
     description: If the workflow action is archived or not.
+    example: false
   ne_attribute_ids:
     type: array
     required: false
