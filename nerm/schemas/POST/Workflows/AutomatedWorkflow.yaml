@@ -70,11 +70,6 @@ properties:
           required: false
           description: If there are multiple rules against one workflow, this is the order that they are ran in.
           example: 1
-        secondary_attribute_id:
-          type: string
-          required: false
-          description: 
-          example: "cc844e99-9895-43d0-9d17-8f606b2158ba"
         type:
           type: string
           enum: [
@@ -98,5 +93,4 @@ properties:
       "comparison_operator": "==",
       "logical_operator": "AND",
       "value": "true",
-      "condition_type": "Workflow"
     }]
