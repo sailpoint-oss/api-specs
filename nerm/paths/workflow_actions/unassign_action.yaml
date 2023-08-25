@@ -1,7 +1,7 @@
 post:
   summary: Create an unassign action
   operationId: createUnassignAction
-  description: Create an unassign action. Coordinate with workflow_action_roles to assign roles.
+  description: Create an unassign action. Coordinate with workflow_action_roles to assign roles. These configurations must be created for this action to be successfully setup.
   tags:
     - workflow actions
   requestBody:

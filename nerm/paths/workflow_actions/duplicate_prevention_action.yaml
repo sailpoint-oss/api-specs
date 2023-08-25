@@ -1,7 +1,7 @@
 post:
   summary: Create a duplicate prevention action
   operationId: createDuplicatePreventionAction
-  description: Create a duplicate prevention action. Coordinate with duplicatation_prevention_attributes to set up duplicate matching. Coordinate with workflow_action_performers to set up performers. Coordinate with workflow_action_roles to set up performers by role. Coordinate with workflow_action_performer_notification_email for performer email config.
+  description: Create a duplicate prevention action. Coordinate with duplicatation_prevention_attributes to set up duplicate matching. Coordinate with workflow_action_performers to set up performers. Coordinate with workflow_action_roles to set up performers by role. Coordinate with workflow_action_performer_notification_email for performer email config. These configurations must be created for this action to be successfully setup.
   tags:
     - workflow actions
   requestBody:

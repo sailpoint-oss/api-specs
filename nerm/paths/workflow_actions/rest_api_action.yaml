@@ -1,7 +1,7 @@
 post:
   summary: Create a REST API action
   operationId: createRestApiAction
-  description: Create a REST API action. Coordinate with rest_api_action_configuration for configuration. Coordinate with api_configuration_attributes for status mapping attributes.
+  description: Create a REST API action. Coordinate with rest_api_action_configuration for configuration. Coordinate with api_configuration_attributes for status mapping attributes. These configurations must be created for this action to be successfully setup.
   tags:
     - workflow actions
   requestBody:

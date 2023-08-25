@@ -1,7 +1,7 @@
 post:
   summary: Create an invitation action
   operationId: createInvitationAction
-  description: Create an invitation action. Coordinate with workflow_action_pause_action if action is to wait for completion.
+  description: Create an invitation action. Coordinate with workflow_action_pause_action if action is to wait for completion. These configurations must be created for this action to be successfully setup.
   tags:
     - workflow actions
   requestBody:

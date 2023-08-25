@@ -1,7 +1,7 @@
 post:
   summary: Create a SOAP API action
   operationId: createSoapApiAction
-  description: Create a SOAP API action. Coordinates with soap_api_action_configuration for configuration. Coordinates with api_configuration_attributes.
+  description: Create a SOAP API action. Coordinates with soap_api_action_configuration for configuration. Coordinates with api_configuration_attributes. These configurations must be created for this action to be successfully setup.
   tags:
     - workflow actions
   requestBody:

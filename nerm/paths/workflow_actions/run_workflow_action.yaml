@@ -1,7 +1,7 @@
 post:
   summary: Create a run workflow action
   operationId: createRunWorkflowAction
-  description: Create a run workflow action. Coordinate with configuration_profile_attribute.
+  description: Create a run workflow action. Coordinate with configuration_profile_attribute. These configurations must be created for this action to be successfully setup.
   tags:
     - workflow actions
   requestBody:
