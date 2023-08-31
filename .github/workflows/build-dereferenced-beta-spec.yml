@@ -18,11 +18,14 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
-          node-version: "16"
-      - name: Install swagger-cli
+          node-version: "18"
+      - name: Install swagger-cli and postman
         run: |
           npm install -g swagger-cli
-      - name: Dereference Beta API Specification
+          npm install -g openapi-to-postmanv2
+      - name: Dereference Beta API Specification and build Postman collection
         run: |
           swagger-cli bundle --dereference idn/sailpoint-api.beta.yaml -t yaml -o dereferenced/deref-sailpoint-api.beta.yaml
+          openapi2postmanv2 -s dereferenced/deref-sailpoint-api.beta.yaml -o postman/collections/sailpoint-api-beta.json -p -O folderStrategy=Tags,requestParametersResolution=Schema,exampleParametersResolution=Schema,disableOptionalParameters=true,optimizeConversion=false,stackLimit=50,alwaysInheritAuthentication=true
+          node postman-script/modify-collection.js postman/collections/sailpoint-api-beta.json
       - uses: stefanzweifel/git-auto-commit-action@v4

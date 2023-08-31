@@ -1,0 +1,65 @@
+[
+    {
+        "listen": "prerequest",
+        "script": {
+            "type": "text/javascript",
+            "exec": [
+                "const domain = pm.environment.get('domain') ? pm.environment.get('domain') : pm.collectionVariables.get('domain')",
+                "const tokenUrl = 'https://' + pm.environment.get('tenant') + '.api.' + domain + '.com/oauth/token';",
+                "const clientId = pm.environment.get('clientId');",
+                "const clientSecret = pm.environment.get('clientSecret');",
+                "",
+                "const getTokenRequest = {",
+                "    method: 'POST',",
+                "    url: tokenUrl,",
+                "    body: {",
+                "        mode: 'formdata',",
+                "        formdata: [{",
+                "                key: 'grant_type',",
+                "                value: 'client_credentials'",
+                "            },",
+                "            {",
+                "                key: 'client_id',",
+                "                value: clientId",
+                "            },",
+                "            {",
+                "                key: 'client_secret',",
+                "                value: clientSecret",
+                "            }",
+                "        ]",
+                "    }",
+                "};",
+                "",
+                "",
+                "var moment = require('moment');",
+                "if (!pm.environment.has('tokenExpTime')) {",
+                "    pm.environment.set('tokenExpTime', moment());",
+                "}",
+                "",
+                "if (moment(pm.environment.get('tokenExpTime')) <= moment() || !pm.environment.get('tokenExpTime') || !pm.environment.get('accessToken')) {",
+                "    var time = moment();",
+                "    time.add(12, 'hours');",
+                "    pm.environment.set('tokenExpTime', time);",
+                "    pm.sendRequest(getTokenRequest, (err, response) => {",
+                "        const jsonResponse = response.json();",
+                "        if (response.code != 200) {",
+                "            throw new Error(`Unable to authenticate: ${JSON.stringify(jsonResponse)}`);",
+                "        }",
+                "        const newAccessToken = jsonResponse.access_token;",
+                "        pm.environment.set('accessToken', newAccessToken);",
+                "    });",
+                "",
+                "}"
+            ]
+        }
+    },
+    {
+        "listen": "test",
+        "script": {
+            "type": "text/javascript",
+            "exec": [
+                ""
+            ]
+        }
+    }
+]
