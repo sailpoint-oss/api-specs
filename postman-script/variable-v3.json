@@ -1,0 +1,12 @@
+[
+    {
+        "key": "domain",
+        "value": "identitynow",
+        "type": "string"
+    },
+    {
+        "key": "baseUrl",
+        "value": "https://{{tenant}}.api.{{domain}}.com/v3",
+        "type": "string"
+    }
+]
