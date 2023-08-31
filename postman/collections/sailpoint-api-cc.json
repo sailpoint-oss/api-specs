@@ -1,0 +1,2176 @@
+{
+  "item": [
+    {
+      "name": "cc",
+      "description": "",
+      "item": [
+        {
+          "name": "api",
+          "description": "",
+          "item": [
+            {
+              "name": "account",
+              "description": "",
+              "item": [
+                {
+                  "name": "list",
+                  "description": "",
+                  "item": [
+                    {
+                      "id": "2be84caa-474a-4a80-91d4-9377536efed4",
+                      "name": "List Accounts",
+                      "request": {
+                        "name": "List Accounts",
+                        "description": {},
+                        "url": {
+                          "path": [
+                            "cc",
+                            "api",
+                            "account",
+                            "list"
+                          ],
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "query": [],
+                          "variable": []
+                        },
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "method": "GET",
+                        "body": {}
+                      },
+                      "response": [
+                        {
+                          "id": "74db08c1-5ac8-46b9-88c9-fdc9e5168616",
+                          "name": "Successful response",
+                          "originalRequest": {
+                            "url": {
+                              "path": [
+                                "cc",
+                                "api",
+                                "account",
+                                "list"
+                              ],
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "query": [],
+                              "variable": []
+                            },
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": {
+                                  "content": "Added as a part of security scheme: oauth2",
+                                  "type": "text/plain"
+                                },
+                                "key": "Authorization",
+                                "value": "<token>"
+                              }
+                            ],
+                            "method": "GET",
+                            "body": {}
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "body": "",
+                          "cookie": [],
+                          "_postman_previewlanguage": "json"
+                        }
+                      ],
+                      "event": [],
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "remove",
+                  "description": "",
+                  "item": [
+                    {
+                      "name": "{id}",
+                      "description": "",
+                      "item": [
+                        {
+                          "id": "350ad9c1-2df5-4898-b4e9-9e2902cf8075",
+                          "name": "Remove Account",
+                          "request": {
+                            "name": "Remove Account",
+                            "description": {},
+                            "url": {
+                              "path": [
+                                "cc",
+                                "api",
+                                "account",
+                                "remove",
+                                ":id"
+                              ],
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "query": [],
+                              "variable": [
+                                {
+                                  "type": "any",
+                                  "value": "<string>",
+                                  "key": "id",
+                                  "disabled": false
+                                }
+                              ]
+                            },
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "method": "POST",
+                            "body": {}
+                          },
+                          "response": [
+                            {
+                              "id": "5927f6ba-99a8-4d9b-b419-a92d9167e254",
+                              "name": "Successful response",
+                              "originalRequest": {
+                                "url": {
+                                  "path": [
+                                    "cc",
+                                    "api",
+                                    "account",
+                                    "remove",
+                                    ":id"
+                                  ],
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "query": [],
+                                  "variable": []
+                                },
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": {
+                                      "content": "Added as a part of security scheme: oauth2",
+                                      "type": "text/plain"
+                                    },
+                                    "key": "Authorization",
+                                    "value": "<token>"
+                                  }
+                                ],
+                                "method": "POST",
+                                "body": {}
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "body": "",
+                              "cookie": [],
+                              "_postman_previewlanguage": "json"
+                            }
+                          ],
+                          "event": [],
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "app",
+              "description": "",
+              "item": [
+                {
+                  "name": "list",
+                  "description": "",
+                  "item": [
+                    {
+                      "id": "87a46cf7-7671-49d7-994e-41752d1b4db5",
+                      "name": "List Applications",
+                      "request": {
+                        "name": "List Applications",
+                        "description": {},
+                        "url": {
+                          "path": [
+                            "cc",
+                            "api",
+                            "app",
+                            "list"
+                          ],
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "query": [],
+                          "variable": []
+                        },
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "method": "GET",
+                        "body": {}
+                      },
+                      "response": [
+                        {
+                          "id": "3e7c1c02-a0d5-49bd-8e0c-ca27362ededb",
+                          "name": "Successful response",
+                          "originalRequest": {
+                            "url": {
+                              "path": [
+                                "cc",
+                                "api",
+                                "app",
+                                "list"
+                              ],
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "query": [],
+                              "variable": []
+                            },
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": {
+                                  "content": "Added as a part of security scheme: oauth2",
+                                  "type": "text/plain"
+                                },
+                                "key": "Authorization",
+                                "value": "<token>"
+                              }
+                            ],
+                            "method": "GET",
+                            "body": {}
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "body": "[\n  {\n    \"id\": \"<string>\",\n    \"appId\": \"<string>\",\n    \"serviceId\": \"<string>\",\n    \"serviceAppId\": \"<string>\",\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"appCenterEnabled\": \"<boolean>\",\n    \"provisionRequestEnabled\": \"<boolean>\",\n    \"controlType\": \"<string>\",\n    \"mobile\": \"<boolean>\",\n    \"privateApp\": \"<boolean>\",\n    \"scriptName\": \"<string>\",\n    \"status\": \"<string>\",\n    \"icon\": \"<string>\",\n    \"health\": {\n      \"status\": \"<string>\",\n      \"lastChanged\": \"<string>\",\n      \"since\": \"<number>\",\n      \"healthy\": \"<boolean>\"\n    },\n    \"enableSso\": \"<boolean>\",\n    \"ssoMethod\": \"<string>\",\n    \"hasLinks\": \"<boolean>\",\n    \"hasAutomations\": \"<boolean>\",\n    \"stepUpAuthData\": {},\n    \"stepUpAuthType\": \"<string>\",\n    \"usageAnalytics\": \"<boolean>\",\n    \"usageCertRequired\": \"<boolean>\",\n    \"usageCertText\": {},\n    \"launchpadEnabled\": \"<boolean>\",\n    \"passwordManaged\": \"<boolean>\",\n    \"owner\": {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\"\n    },\n    \"dateCreated\": \"<number>\",\n    \"lastUpdated\": \"<number>\",\n    \"defaultAccessProfile\": {},\n    \"service\": \"<string>\",\n    \"selectedSsoMethod\": \"<string>\",\n    \"supportedSsoMethods\": \"<number>\",\n    \"offNetworkBlockedRoles\": {},\n    \"supportedOffNetwork\": \"<string>\",\n    \"accountServiceId\": \"<number>\",\n    \"launcherCount\": \"<number>\",\n    \"accountServiceName\": \"<string>\",\n    \"accountServiceExternalId\": \"<string>\",\n    \"accountServiceMatchAllAccounts\": \"<boolean>\",\n    \"externalId\": \"<string>\",\n    \"accountServiceUseForPasswordManagement\": \"<boolean>\",\n    \"accountServicePolicyId\": \"<string>\",\n    \"accountServicePolicyName\": \"<string>\",\n    \"requireStrongAuthn\": \"<boolean>\",\n    \"accountServicePolicies\": [\n      {\n        \"policyId\": \"<string>\",\n        \"policyName\": \"<string>\",\n        \"selectors\": {}\n      },\n      {\n        \"policyId\": \"<string>\",\n        \"policyName\": \"<string>\",\n        \"selectors\": {}\n      }\n    ],\n    \"xsdVersion\": \"<string>\",\n    \"appProfiles\": [\n      {\n        \"id\": \"<number>\",\n        \"filename\": \"<string>\",\n        \"createdBy\": \"<string>\",\n        \"dateCreated\": \"<string>\",\n        \"xsdVersion\": \"<string>\"\n      },\n      {\n        \"id\": \"<number>\",\n        \"filename\": \"<string>\",\n        \"createdBy\": \"<string>\",\n        \"dateCreated\": \"<string>\",\n        \"xsdVersion\": \"<string>\"\n      }\n    ],\n    \"passwordServiceId\": \"<number>\",\n    \"accessProfileIds\": {}\n  },\n  {\n    \"id\": \"<string>\",\n    \"appId\": \"<string>\",\n    \"serviceId\": \"<string>\",\n    \"serviceAppId\": \"<string>\",\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"appCenterEnabled\": \"<boolean>\",\n    \"provisionRequestEnabled\": \"<boolean>\",\n    \"controlType\": \"<string>\",\n    \"mobile\": \"<boolean>\",\n    \"privateApp\": \"<boolean>\",\n    \"scriptName\": \"<string>\",\n    \"status\": \"<string>\",\n    \"icon\": \"<string>\",\n    \"health\": {\n      \"status\": \"<string>\",\n      \"lastChanged\": \"<string>\",\n      \"since\": \"<number>\",\n      \"healthy\": \"<boolean>\"\n    },\n    \"enableSso\": \"<boolean>\",\n    \"ssoMethod\": \"<string>\",\n    \"hasLinks\": \"<boolean>\",\n    \"hasAutomations\": \"<boolean>\",\n    \"stepUpAuthData\": {},\n    \"stepUpAuthType\": \"<string>\",\n    \"usageAnalytics\": \"<boolean>\",\n    \"usageCertRequired\": \"<boolean>\",\n    \"usageCertText\": {},\n    \"launchpadEnabled\": \"<boolean>\",\n    \"passwordManaged\": \"<boolean>\",\n    \"owner\": {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\"\n    },\n    \"dateCreated\": \"<number>\",\n    \"lastUpdated\": \"<number>\",\n    \"defaultAccessProfile\": {},\n    \"service\": \"<string>\",\n    \"selectedSsoMethod\": \"<string>\",\n    \"supportedSsoMethods\": \"<number>\",\n    \"offNetworkBlockedRoles\": {},\n    \"supportedOffNetwork\": \"<string>\",\n    \"accountServiceId\": \"<number>\",\n    \"launcherCount\": \"<number>\",\n    \"accountServiceName\": \"<string>\",\n    \"accountServiceExternalId\": \"<string>\",\n    \"accountServiceMatchAllAccounts\": \"<boolean>\",\n    \"externalId\": \"<string>\",\n    \"accountServiceUseForPasswordManagement\": \"<boolean>\",\n    \"accountServicePolicyId\": \"<string>\",\n    \"accountServicePolicyName\": \"<string>\",\n    \"requireStrongAuthn\": \"<boolean>\",\n    \"accountServicePolicies\": [\n      {\n        \"policyId\": \"<string>\",\n        \"policyName\": \"<string>\",\n        \"selectors\": {}\n      },\n      {\n        \"policyId\": \"<string>\",\n        \"policyName\": \"<string>\",\n        \"selectors\": {}\n      }\n    ],\n    \"xsdVersion\": \"<string>\",\n    \"appProfiles\": [\n      {\n        \"id\": \"<number>\",\n        \"filename\": \"<string>\",\n        \"createdBy\": \"<string>\",\n        \"dateCreated\": \"<string>\",\n        \"xsdVersion\": \"<string>\"\n      },\n      {\n        \"id\": \"<number>\",\n        \"filename\": \"<string>\",\n        \"createdBy\": \"<string>\",\n        \"dateCreated\": \"<string>\",\n        \"xsdVersion\": \"<string>\"\n      }\n    ],\n    \"passwordServiceId\": \"<number>\",\n    \"accessProfileIds\": {}\n  }\n]",
+                          "cookie": [],
+                          "_postman_previewlanguage": "json"
+                        }
+                      ],
+                      "event": [],
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "get",
+                  "description": "",
+                  "item": [
+                    {
+                      "name": "{id}",
+                      "description": "",
+                      "item": [
+                        {
+                          "id": "ce2ec7dd-f4bd-4013-a073-d3ec199b7b19",
+                          "name": "Get Single Application",
+                          "request": {
+                            "name": "Get Single Application",
+                            "description": {},
+                            "url": {
+                              "path": [
+                                "cc",
+                                "api",
+                                "app",
+                                "get",
+                                ":id"
+                              ],
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "query": [],
+                              "variable": [
+                                {
+                                  "type": "any",
+                                  "value": "<string>",
+                                  "key": "id",
+                                  "disabled": false
+                                }
+                              ]
+                            },
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "method": "GET",
+                            "body": {}
+                          },
+                          "response": [
+                            {
+                              "id": "44e32055-8597-4475-aaec-b4d8c9adff1b",
+                              "name": "Successful response",
+                              "originalRequest": {
+                                "url": {
+                                  "path": [
+                                    "cc",
+                                    "api",
+                                    "app",
+                                    "get",
+                                    ":id"
+                                  ],
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "query": [],
+                                  "variable": []
+                                },
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": {
+                                      "content": "Added as a part of security scheme: oauth2",
+                                      "type": "text/plain"
+                                    },
+                                    "key": "Authorization",
+                                    "value": "<token>"
+                                  }
+                                ],
+                                "method": "GET",
+                                "body": {}
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "body": "{\n  \"id\": \"<string>\",\n  \"appId\": \"<string>\",\n  \"serviceId\": \"<string>\",\n  \"serviceAppId\": \"<string>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"appCenterEnabled\": \"<boolean>\",\n  \"provisionRequestEnabled\": \"<boolean>\",\n  \"controlType\": \"<string>\",\n  \"mobile\": \"<boolean>\",\n  \"privateApp\": \"<boolean>\",\n  \"scriptName\": \"<string>\",\n  \"status\": \"<string>\",\n  \"icon\": \"<string>\",\n  \"health\": {\n    \"status\": \"<string>\",\n    \"lastChanged\": \"<string>\",\n    \"since\": \"<number>\",\n    \"healthy\": \"<boolean>\"\n  },\n  \"enableSso\": \"<boolean>\",\n  \"ssoMethod\": \"<string>\",\n  \"hasLinks\": \"<boolean>\",\n  \"hasAutomations\": \"<boolean>\",\n  \"stepUpAuthData\": {},\n  \"stepUpAuthType\": \"<string>\",\n  \"usageAnalytics\": \"<boolean>\",\n  \"usageCertRequired\": \"<boolean>\",\n  \"usageCertText\": {},\n  \"launchpadEnabled\": \"<boolean>\",\n  \"passwordManaged\": \"<boolean>\",\n  \"owner\": {\n    \"id\": \"<string>\",\n    \"name\": \"<string>\"\n  },\n  \"dateCreated\": \"<number>\",\n  \"lastUpdated\": \"<number>\",\n  \"defaultAccessProfile\": {},\n  \"service\": \"<string>\",\n  \"selectedSsoMethod\": \"<string>\",\n  \"supportedSsoMethods\": \"<number>\",\n  \"offNetworkBlockedRoles\": {},\n  \"supportedOffNetwork\": \"<string>\",\n  \"accountServiceId\": \"<number>\",\n  \"launcherCount\": \"<number>\",\n  \"accountServiceName\": \"<string>\",\n  \"accountServiceExternalId\": \"<string>\",\n  \"accountServiceMatchAllAccounts\": \"<boolean>\",\n  \"externalId\": \"<string>\",\n  \"accountServiceUseForPasswordManagement\": \"<boolean>\",\n  \"accountServicePolicyId\": \"<string>\",\n  \"accountServicePolicyName\": \"<string>\",\n  \"requireStrongAuthn\": \"<boolean>\",\n  \"accountServicePolicies\": [\n    {\n      \"policyId\": \"<string>\",\n      \"policyName\": \"<string>\",\n      \"selectors\": {}\n    },\n    {\n      \"policyId\": \"<string>\",\n      \"policyName\": \"<string>\",\n      \"selectors\": {}\n    }\n  ],\n  \"xsdVersion\": \"<string>\",\n  \"appProfiles\": [\n    {\n      \"id\": \"<number>\",\n      \"filename\": \"<string>\",\n      \"createdBy\": \"<string>\",\n      \"dateCreated\": \"<string>\",\n      \"xsdVersion\": \"<string>\"\n    },\n    {\n      \"id\": \"<number>\",\n      \"filename\": \"<string>\",\n      \"createdBy\": \"<string>\",\n      \"dateCreated\": \"<string>\",\n      \"xsdVersion\": \"<string>\"\n    }\n  ],\n  \"passwordServiceId\": \"<number>\",\n  \"accessProfileIds\": {}\n}",
+                              "cookie": [],
+                              "_postman_previewlanguage": "json"
+                            }
+                          ],
+                          "event": [],
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "getAccessProfiles",
+                  "description": "",
+                  "item": [
+                    {
+                      "name": "{id}",
+                      "description": "",
+                      "item": [
+                        {
+                          "id": "0954c76c-8013-4cc4-8da8-cc15483f47e1",
+                          "name": "Get Access Profiles for Application",
+                          "request": {
+                            "name": "Get Access Profiles for Application",
+                            "description": {},
+                            "url": {
+                              "path": [
+                                "cc",
+                                "api",
+                                "app",
+                                "getAccessProfiles",
+                                ":id"
+                              ],
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "query": [],
+                              "variable": [
+                                {
+                                  "type": "any",
+                                  "value": "<string>",
+                                  "key": "id",
+                                  "disabled": false
+                                }
+                              ]
+                            },
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "method": "GET",
+                            "body": {}
+                          },
+                          "response": [
+                            {
+                              "id": "fffa74dc-356f-46f1-a19e-3a0174d55738",
+                              "name": "Successful response",
+                              "originalRequest": {
+                                "url": {
+                                  "path": [
+                                    "cc",
+                                    "api",
+                                    "app",
+                                    "getAccessProfiles",
+                                    ":id"
+                                  ],
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "query": [],
+                                  "variable": []
+                                },
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "method": "GET",
+                                "body": {}
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "body": "",
+                              "cookie": [],
+                              "_postman_previewlanguage": "json"
+                            }
+                          ],
+                          "event": [],
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "create",
+                  "description": "",
+                  "item": [
+                    {
+                      "id": "a011ffd4-a480-4b1d-9de4-a9d056216aae",
+                      "name": "Create Application",
+                      "request": {
+                        "name": "Create Application",
+                        "description": {},
+                        "url": {
+                          "path": [
+                            "cc",
+                            "api",
+                            "app",
+                            "create"
+                          ],
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "query": [],
+                          "variable": []
+                        },
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "method": "POST",
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        }
+                      },
+                      "response": [
+                        {
+                          "id": "37fe87b1-a1b7-48b7-950f-e4af86135db3",
+                          "name": "Successful response",
+                          "originalRequest": {
+                            "url": {
+                              "path": [
+                                "cc",
+                                "api",
+                                "app",
+                                "create"
+                              ],
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "query": [],
+                              "variable": []
+                            },
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": {
+                                  "content": "Added as a part of security scheme: oauth2",
+                                  "type": "text/plain"
+                                },
+                                "key": "Authorization",
+                                "value": "<token>"
+                              }
+                            ],
+                            "method": "POST",
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "body": "",
+                          "cookie": [],
+                          "_postman_previewlanguage": "json"
+                        }
+                      ],
+                      "event": [],
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "update",
+                  "description": "",
+                  "item": [
+                    {
+                      "name": "{id}",
+                      "description": "",
+                      "item": [
+                        {
+                          "id": "4978f65b-14ea-416b-8cbe-7732139afd14",
+                          "name": "Update Application",
+                          "request": {
+                            "name": "Update Application",
+                            "description": {},
+                            "url": {
+                              "path": [
+                                "cc",
+                                "api",
+                                "app",
+                                "update",
+                                ":id"
+                              ],
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "query": [],
+                              "variable": [
+                                {
+                                  "type": "any",
+                                  "value": "<string>",
+                                  "key": "id",
+                                  "disabled": false
+                                }
+                              ]
+                            },
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "method": "POST",
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"description\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            }
+                          },
+                          "response": [
+                            {
+                              "id": "582d5c0d-9420-40a4-b6df-88b766cf5b83",
+                              "name": "Successful response",
+                              "originalRequest": {
+                                "url": {
+                                  "path": [
+                                    "cc",
+                                    "api",
+                                    "app",
+                                    "update",
+                                    ":id"
+                                  ],
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "query": [],
+                                  "variable": []
+                                },
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": {
+                                      "content": "Added as a part of security scheme: oauth2",
+                                      "type": "text/plain"
+                                    },
+                                    "key": "Authorization",
+                                    "value": "<token>"
+                                  }
+                                ],
+                                "method": "POST",
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"description\": \"<string>\"\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "body": "",
+                              "cookie": [],
+                              "_postman_previewlanguage": "json"
+                            }
+                          ],
+                          "event": [],
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "delete",
+                  "description": "",
+                  "item": [
+                    {
+                      "name": "{id}",
+                      "description": "",
+                      "item": [
+                        {
+                          "id": "81472860-9224-49b8-83f2-df1b9622b9be",
+                          "name": "Delete Application",
+                          "request": {
+                            "name": "Delete Application",
+                            "description": {},
+                            "url": {
+                              "path": [
+                                "cc",
+                                "api",
+                                "app",
+                                "delete",
+                                ":id"
+                              ],
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "query": [],
+                              "variable": [
+                                {
+                                  "type": "any",
+                                  "value": "<string>",
+                                  "key": "id",
+                                  "disabled": false
+                                }
+                              ]
+                            },
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "method": "POST",
+                            "body": {}
+                          },
+                          "response": [
+                            {
+                              "id": "fb7084ba-a09a-406a-8bf1-6e918a2d98d7",
+                              "name": "Successful response",
+                              "originalRequest": {
+                                "url": {
+                                  "path": [
+                                    "cc",
+                                    "api",
+                                    "app",
+                                    "delete",
+                                    ":id"
+                                  ],
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "query": [],
+                                  "variable": []
+                                },
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": {
+                                      "content": "Added as a part of security scheme: oauth2",
+                                      "type": "text/plain"
+                                    },
+                                    "key": "Authorization",
+                                    "value": "<token>"
+                                  }
+                                ],
+                                "method": "POST",
+                                "body": {}
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "body": "",
+                              "cookie": [],
+                              "_postman_previewlanguage": "json"
+                            }
+                          ],
+                          "event": [],
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "connector",
+              "description": "",
+              "item": [
+                {
+                  "name": "list",
+                  "description": "",
+                  "item": [
+                    {
+                      "id": "a3ef0fc9-f9fd-4f1b-9df2-a1110c15b54a",
+                      "name": "List Connectors",
+                      "request": {
+                        "name": "List Connectors",
+                        "description": {},
+                        "url": {
+                          "path": [
+                            "cc",
+                            "api",
+                            "connector",
+                            "list"
+                          ],
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "query": [],
+                          "variable": []
+                        },
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "method": "GET",
+                        "body": {}
+                      },
+                      "response": [
+                        {
+                          "id": "da24226a-fe54-4e60-a7e1-71145670c4f8",
+                          "name": "Successful response",
+                          "originalRequest": {
+                            "url": {
+                              "path": [
+                                "cc",
+                                "api",
+                                "connector",
+                                "list"
+                              ],
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "query": [],
+                              "variable": []
+                            },
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": {
+                                  "content": "Added as a part of security scheme: oauth2",
+                                  "type": "text/plain"
+                                },
+                                "key": "Authorization",
+                                "value": "<token>"
+                              }
+                            ],
+                            "method": "GET",
+                            "body": {}
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "body": "",
+                          "cookie": [],
+                          "_postman_previewlanguage": "json"
+                        }
+                      ],
+                      "event": [],
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "create",
+                  "description": "",
+                  "item": [
+                    {
+                      "id": "9dc71642-acdd-4900-9757-c271b5535be8",
+                      "name": "Create Connector",
+                      "request": {
+                        "name": "Create Connector",
+                        "description": {},
+                        "url": {
+                          "path": [
+                            "cc",
+                            "api",
+                            "connector",
+                            "create"
+                          ],
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "query": [],
+                          "variable": []
+                        },
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/x-www-form-urlencoded"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "method": "POST",
+                        "body": {
+                          "mode": "urlencoded",
+                          "urlencoded": [
+                            {
+                              "disabled": false,
+                              "description": {
+                                "content": "",
+                                "type": "text/plain"
+                              },
+                              "key": "name",
+                              "value": "<string>"
+                            },
+                            {
+                              "disabled": false,
+                              "description": {
+                                "content": "",
+                                "type": "text/plain"
+                              },
+                              "key": "description",
+                              "value": "<string>"
+                            },
+                            {
+                              "disabled": false,
+                              "description": {
+                                "content": "",
+                                "type": "text/plain"
+                              },
+                              "key": "className",
+                              "value": "<string>"
+                            },
+                            {
+                              "disabled": false,
+                              "description": {
+                                "content": "",
+                                "type": "text/plain"
+                              },
+                              "key": "directConnect",
+                              "value": "<boolean>"
+                            },
+                            {
+                              "disabled": false,
+                              "description": {
+                                "content": "",
+                                "type": "text/plain"
+                              },
+                              "key": "status",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "response": [
+                        {
+                          "id": "fb2aa711-0d09-4be5-856b-bff485dd3f9a",
+                          "name": "Successful response",
+                          "originalRequest": {
+                            "url": {
+                              "path": [
+                                "cc",
+                                "api",
+                                "connector",
+                                "create"
+                              ],
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "query": [],
+                              "variable": []
+                            },
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/x-www-form-urlencoded"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": {
+                                  "content": "Added as a part of security scheme: oauth2",
+                                  "type": "text/plain"
+                                },
+                                "key": "Authorization",
+                                "value": "<token>"
+                              }
+                            ],
+                            "method": "POST",
+                            "body": {
+                              "mode": "urlencoded",
+                              "urlencoded": [
+                                {
+                                  "disabled": false,
+                                  "description": {
+                                    "content": "",
+                                    "type": "text/plain"
+                                  },
+                                  "key": "name",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "disabled": false,
+                                  "description": {
+                                    "content": "",
+                                    "type": "text/plain"
+                                  },
+                                  "key": "description",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "disabled": false,
+                                  "description": {
+                                    "content": "",
+                                    "type": "text/plain"
+                                  },
+                                  "key": "className",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "disabled": false,
+                                  "description": {
+                                    "content": "",
+                                    "type": "text/plain"
+                                  },
+                                  "key": "directConnect",
+                                  "value": "<boolean>"
+                                },
+                                {
+                                  "disabled": false,
+                                  "description": {
+                                    "content": "",
+                                    "type": "text/plain"
+                                  },
+                                  "key": "status",
+                                  "value": "<string>"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "body": "",
+                          "cookie": [],
+                          "_postman_previewlanguage": "json"
+                        }
+                      ],
+                      "event": [],
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "delete",
+                  "description": "",
+                  "item": [
+                    {
+                      "name": "{id}",
+                      "description": "",
+                      "item": [
+                        {
+                          "id": "35dcf201-2b51-427f-be25-d2da8514f18d",
+                          "name": "Delete Connector",
+                          "request": {
+                            "name": "Delete Connector",
+                            "description": {},
+                            "url": {
+                              "path": [
+                                "cc",
+                                "api",
+                                "connector",
+                                "delete",
+                                ":id"
+                              ],
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "query": [],
+                              "variable": [
+                                {
+                                  "type": "any",
+                                  "value": "<string>",
+                                  "key": "id",
+                                  "disabled": false
+                                }
+                              ]
+                            },
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "method": "POST",
+                            "body": {}
+                          },
+                          "response": [
+                            {
+                              "id": "2978eff8-60ea-4009-8a84-5ce88f1e434e",
+                              "name": "Successful response",
+                              "originalRequest": {
+                                "url": {
+                                  "path": [
+                                    "cc",
+                                    "api",
+                                    "connector",
+                                    "delete",
+                                    ":id"
+                                  ],
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "query": [],
+                                  "variable": []
+                                },
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": {
+                                      "content": "Added as a part of security scheme: oauth2",
+                                      "type": "text/plain"
+                                    },
+                                    "key": "Authorization",
+                                    "value": "<token>"
+                                  }
+                                ],
+                                "method": "POST",
+                                "body": {}
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "body": "",
+                              "cookie": [],
+                              "_postman_previewlanguage": "json"
+                            }
+                          ],
+                          "event": [],
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "export",
+                  "description": "",
+                  "item": [
+                    {
+                      "name": "{id}",
+                      "description": "",
+                      "item": [
+                        {
+                          "id": "e72ba254-376b-4f69-b341-6f69b5744ef3",
+                          "name": "Export Connector Config",
+                          "request": {
+                            "name": "Export Connector Config",
+                            "description": {},
+                            "url": {
+                              "path": [
+                                "cc",
+                                "api",
+                                "connector",
+                                "export",
+                                ":id"
+                              ],
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "query": [],
+                              "variable": [
+                                {
+                                  "type": "any",
+                                  "value": "<string>",
+                                  "key": "id",
+                                  "disabled": false
+                                }
+                              ]
+                            },
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "method": "GET",
+                            "body": {}
+                          },
+                          "response": [
+                            {
+                              "id": "0954660f-be0d-4b4d-ad85-1f863cfc629d",
+                              "name": "Successful response",
+                              "originalRequest": {
+                                "url": {
+                                  "path": [
+                                    "cc",
+                                    "api",
+                                    "connector",
+                                    "export",
+                                    ":id"
+                                  ],
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "query": [],
+                                  "variable": []
+                                },
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": {
+                                      "content": "Added as a part of security scheme: oauth2",
+                                      "type": "text/plain"
+                                    },
+                                    "key": "Authorization",
+                                    "value": "<token>"
+                                  }
+                                ],
+                                "method": "GET",
+                                "body": {}
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "body": "",
+                              "cookie": [],
+                              "_postman_previewlanguage": "json"
+                            }
+                          ],
+                          "event": [],
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "import",
+                  "description": "",
+                  "item": [
+                    {
+                      "name": "{id}",
+                      "description": "",
+                      "item": [
+                        {
+                          "id": "1d8ee045-3995-44f4-b89d-52d0ff8bb52a",
+                          "name": "Import Connector Config",
+                          "request": {
+                            "name": "Import Connector Config",
+                            "description": {},
+                            "url": {
+                              "path": [
+                                "cc",
+                                "api",
+                                "connector",
+                                "import",
+                                ":id"
+                              ],
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "query": [],
+                              "variable": [
+                                {
+                                  "type": "any",
+                                  "value": "<string>",
+                                  "key": "id",
+                                  "disabled": false
+                                }
+                              ]
+                            },
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "multipart/form-data"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "method": "POST",
+                            "body": {
+                              "mode": "formdata",
+                              "formdata": [
+                                {
+                                  "description": {
+                                    "content": "This is the connector config zip bundle which gets uploaded.",
+                                    "type": "text/plain"
+                                  },
+                                  "key": "file",
+                                  "value": "<string>",
+                                  "type": "text"
+                                }
+                              ]
+                            }
+                          },
+                          "response": [
+                            {
+                              "id": "98661576-c053-4b0d-84ac-d0b74e6d2723",
+                              "name": "Successful response",
+                              "originalRequest": {
+                                "url": {
+                                  "path": [
+                                    "cc",
+                                    "api",
+                                    "connector",
+                                    "import",
+                                    ":id"
+                                  ],
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "query": [],
+                                  "variable": []
+                                },
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "multipart/form-data"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": {
+                                      "content": "Added as a part of security scheme: oauth2",
+                                      "type": "text/plain"
+                                    },
+                                    "key": "Authorization",
+                                    "value": "<token>"
+                                  }
+                                ],
+                                "method": "POST",
+                                "body": {
+                                  "mode": "formdata",
+                                  "formdata": [
+                                    {
+                                      "description": {
+                                        "content": "This is the connector config zip bundle which gets uploaded.",
+                                        "type": "text/plain"
+                                      },
+                                      "key": "file",
+                                      "value": "<string>",
+                                      "type": "text"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "body": "",
+                              "cookie": [],
+                              "_postman_previewlanguage": "json"
+                            }
+                          ],
+                          "event": [],
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "user",
+              "description": "",
+              "item": [
+                {
+                  "name": "updatePermissions",
+                  "description": "",
+                  "item": [
+                    {
+                      "id": "8e9edbfe-db9e-45f5-b88c-6706171996c0",
+                      "name": "Update User Permissions",
+                      "request": {
+                        "name": "Update User Permissions",
+                        "description": {},
+                        "url": {
+                          "path": [
+                            "cc",
+                            "api",
+                            "user",
+                            "updatePermissions"
+                          ],
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "query": [],
+                          "variable": []
+                        },
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "method": "POST",
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"ids\": \"<string>\",\n  \"isAdmin\": \"<string>\",\n  \"adminType\": \"ROLE_SUBADMIN\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        }
+                      },
+                      "response": [
+                        {
+                          "id": "c1c89ab0-78ae-4b40-bfcb-5cd1d5553286",
+                          "name": "Successful response",
+                          "originalRequest": {
+                            "url": {
+                              "path": [
+                                "cc",
+                                "api",
+                                "user",
+                                "updatePermissions"
+                              ],
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "query": [],
+                              "variable": []
+                            },
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": {
+                                  "content": "Added as a part of security scheme: oauth2",
+                                  "type": "text/plain"
+                                },
+                                "key": "Authorization",
+                                "value": "<token>"
+                              }
+                            ],
+                            "method": "POST",
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"ids\": \"<string>\",\n  \"isAdmin\": \"<string>\",\n  \"adminType\": \"ROLE_SUBADMIN\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "body": "",
+                          "cookie": [],
+                          "_postman_previewlanguage": "json"
+                        }
+                      ],
+                      "event": [],
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "get",
+                  "description": "",
+                  "item": [
+                    {
+                      "name": "{id}",
+                      "description": "",
+                      "item": [
+                        {
+                          "id": "8f261b94-9875-416e-ab23-d07850651f92",
+                          "name": "Get Single Identity",
+                          "request": {
+                            "name": "Get Single Identity",
+                            "description": {},
+                            "url": {
+                              "path": [
+                                "cc",
+                                "api",
+                                "user",
+                                "get",
+                                ":id"
+                              ],
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "query": [],
+                              "variable": [
+                                {
+                                  "type": "any",
+                                  "value": "<string>",
+                                  "key": "id",
+                                  "disabled": false
+                                }
+                              ]
+                            },
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "method": "GET",
+                            "body": {}
+                          },
+                          "response": [
+                            {
+                              "id": "6bc06437-4b7f-46b8-a057-a4575c36e766",
+                              "name": "Successful response",
+                              "originalRequest": {
+                                "url": {
+                                  "path": [
+                                    "cc",
+                                    "api",
+                                    "user",
+                                    "get",
+                                    ":id"
+                                  ],
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "query": [],
+                                  "variable": []
+                                },
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": {
+                                      "content": "Added as a part of security scheme: oauth2",
+                                      "type": "text/plain"
+                                    },
+                                    "key": "Authorization",
+                                    "value": "<token>"
+                                  }
+                                ],
+                                "method": "GET",
+                                "body": {}
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "body": "{\n  \"id\": \"<string>\",\n  \"alias\": \"<string>\",\n  \"uid\": \"<string>\",\n  \"name\": \"<string>\",\n  \"displayName\": \"<string>\",\n  \"uuid\": \"<string>\",\n  \"encryptionKey\": {},\n  \"encryptionCheck\": {},\n  \"status\": \"<string>\",\n  \"pending\": \"<boolean>\",\n  \"passwordResetSinceLastLogin\": \"<boolean>\",\n  \"usageCertAttested\": {},\n  \"userFlags\": {},\n  \"enabled\": \"<boolean>\",\n  \"altAuthVia\": \"<string>\",\n  \"altAuthViaIntegrationData\": {},\n  \"kbaAnswers\": \"<number>\",\n  \"disablePasswordReset\": \"<boolean>\",\n  \"ptaSourceId\": {},\n  \"supportsPasswordPush\": \"<boolean>\",\n  \"attributes\": {},\n  \"externalId\": \"<string>\",\n  \"phone\": {},\n  \"email\": \"<string>\",\n  \"personalEmail\": {},\n  \"employeeNumber\": {},\n  \"riskScore\": \"<number>\",\n  \"featureFlags\": {},\n  \"feature\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"orgEncryptionKey\": \"<string>\",\n  \"orgEncryptionKeyId\": \"<string>\",\n  \"meta\": {},\n  \"org\": {\n    \"name\": \"<string>\",\n    \"scriptName\": \"<string>\",\n    \"mode\": \"<string>\",\n    \"numQuestions\": \"<number>\",\n    \"status\": \"<string>\",\n    \"maxRegisteredUsers\": \"<number>\",\n    \"pod\": \"<string>\",\n    \"pwdResetPersonalPhone\": \"<boolean>\",\n    \"pwdResetPersonalEmail\": \"<boolean>\",\n    \"pwdResetKba\": \"<boolean>\",\n    \"pwdResetEmail\": \"<boolean>\",\n    \"pwdResetDuo\": \"<boolean>\",\n    \"pwdResetPhoneMask\": \"<boolean>\",\n    \"authErrorText\": {},\n    \"strongAuthKba\": \"<boolean>\",\n    \"strongAuthPersonalPhone\": \"<boolean>\",\n    \"strongAuthPersonalEmail\": \"<boolean>\",\n    \"productName\": \"<string>\",\n    \"kbaReqForAuthn\": \"<number>\",\n    \"kbaReqAnswers\": \"<number>\",\n    \"lockoutAttemptThreshold\": \"<number>\",\n    \"lockoutTimeMinutes\": \"<number>\",\n    \"usageCertRequired\": \"<boolean>\",\n    \"adminStrongAuthRequired\": \"<boolean>\",\n    \"enableExternalPasswordChange\": \"<boolean>\",\n    \"enablePasswordReplay\": \"<boolean>\",\n    \"enableAutomaticPasswordReplay\": \"<boolean>\",\n    \"notifyAuthenticationSettingChange\": \"<boolean>\",\n    \"netmasks\": {},\n    \"countryCodes\": {},\n    \"whiteList\": \"<boolean>\",\n    \"usernameEmptyText\": {},\n    \"usernameLabel\": {},\n    \"enableAutomationGeneration\": \"<boolean>\",\n    \"emailTestMode\": \"<boolean>\",\n    \"emailTestAddress\": \"<string>\",\n    \"orgType\": \"<string>\",\n    \"passwordReplayState\": \"<string>\",\n    \"systemNotificationConfig\": \"<string>\",\n    \"redirectPatterns\": \"<string>\",\n    \"maxClusterDebugHours\": \"<string>\",\n    \"brandName\": \"<string>\",\n    \"logo\": {},\n    \"emailFromAddress\": {},\n    \"standardLogoUrl\": {},\n    \"narrowLogoUrl\": {},\n    \"actionButtonColor\": \"<string>\",\n    \"activeLinkColor\": \"<string>\",\n    \"navigationColor\": \"<string>\"\n  },\n  \"stepUpAuth\": \"<boolean>\",\n  \"bxInstallPrompted\": \"<boolean>\",\n  \"federatedLogin\": \"<boolean>\",\n  \"auth\": {\n    \"service\": \"<string>\",\n    \"encryption\": \"<string>\"\n  },\n  \"onNetwork\": \"<boolean>\",\n  \"onTrustedGeo\": \"<boolean>\",\n  \"loginUrl\": \"<string>\"\n}",
+                              "cookie": [],
+                              "_postman_previewlanguage": "json"
+                            }
+                          ],
+                          "event": [],
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "source",
+              "description": "",
+              "item": [
+                {
+                  "name": "loadAccounts",
+                  "description": "",
+                  "item": [
+                    {
+                      "name": "{id}",
+                      "description": "",
+                      "item": [
+                        {
+                          "id": "4b06c1ce-e887-4dea-ad10-5f524be7c410",
+                          "name": "Account Aggregation (File)",
+                          "request": {
+                            "name": "Account Aggregation (File)",
+                            "description": {
+                              "content": "Aggregates a delimited file for the given source.  This only works for file-based sources.",
+                              "type": "text/plain"
+                            },
+                            "url": {
+                              "path": [
+                                "cc",
+                                "api",
+                                "source",
+                                "loadAccounts",
+                                ":id"
+                              ],
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "query": [],
+                              "variable": [
+                                {
+                                  "type": "any",
+                                  "value": "<string>",
+                                  "key": "id",
+                                  "disabled": false
+                                }
+                              ]
+                            },
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "multipart/form-data"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "method": "POST",
+                            "body": {
+                              "mode": "formdata",
+                              "formdata": [
+                                {
+                                  "description": {
+                                    "content": "",
+                                    "type": "text/plain"
+                                  },
+                                  "key": "disableOptimization",
+                                  "value": "<boolean>",
+                                  "type": "text"
+                                },
+                                {
+                                  "description": {
+                                    "content": "",
+                                    "type": "text/plain"
+                                  },
+                                  "key": "file",
+                                  "value": "<string>",
+                                  "type": "text"
+                                }
+                              ]
+                            }
+                          },
+                          "response": [
+                            {
+                              "id": "e46188fa-2e71-4b23-b082-0ffb59e027cc",
+                              "name": "Successful response",
+                              "originalRequest": {
+                                "url": {
+                                  "path": [
+                                    "cc",
+                                    "api",
+                                    "source",
+                                    "loadAccounts",
+                                    ":id"
+                                  ],
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "query": [],
+                                  "variable": []
+                                },
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "multipart/form-data"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": {
+                                      "content": "Added as a part of security scheme: oauth2",
+                                      "type": "text/plain"
+                                    },
+                                    "key": "Authorization",
+                                    "value": "<token>"
+                                  }
+                                ],
+                                "method": "POST",
+                                "body": {
+                                  "mode": "formdata",
+                                  "formdata": [
+                                    {
+                                      "description": {
+                                        "content": "",
+                                        "type": "text/plain"
+                                      },
+                                      "key": "disableOptimization",
+                                      "value": "<boolean>",
+                                      "type": "text"
+                                    },
+                                    {
+                                      "description": {
+                                        "content": "",
+                                        "type": "text/plain"
+                                      },
+                                      "key": "file",
+                                      "value": "<string>",
+                                      "type": "text"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "body": "",
+                              "cookie": [],
+                              "_postman_previewlanguage": "json"
+                            }
+                          ],
+                          "event": [],
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "exportAccountFeed",
+                  "description": "",
+                  "item": [
+                    {
+                      "name": "{id}",
+                      "description": "",
+                      "item": [
+                        {
+                          "id": "3a302cdc-4c5e-4adb-9ad7-1c438c2d3071",
+                          "name": "Export Account Feed",
+                          "request": {
+                            "name": "Export Account Feed",
+                            "description": {
+                              "content": "Exports a CSV of the accounts for a particular source.",
+                              "type": "text/plain"
+                            },
+                            "url": {
+                              "path": [
+                                "cc",
+                                "api",
+                                "source",
+                                "exportAccountFeed",
+                                ":id"
+                              ],
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "query": [],
+                              "variable": [
+                                {
+                                  "type": "any",
+                                  "value": "<string>",
+                                  "key": "id",
+                                  "disabled": false
+                                }
+                              ]
+                            },
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "method": "GET",
+                            "body": {}
+                          },
+                          "response": [
+                            {
+                              "id": "9785581c-2db2-4521-9fbc-70f71713ed83",
+                              "name": "Successful response",
+                              "originalRequest": {
+                                "url": {
+                                  "path": [
+                                    "cc",
+                                    "api",
+                                    "source",
+                                    "exportAccountFeed",
+                                    ":id"
+                                  ],
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "query": [],
+                                  "variable": []
+                                },
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": {
+                                      "content": "Added as a part of security scheme: oauth2",
+                                      "type": "text/plain"
+                                    },
+                                    "key": "Authorization",
+                                    "value": "<token>"
+                                  }
+                                ],
+                                "method": "GET",
+                                "body": {}
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "body": "",
+                              "cookie": [],
+                              "_postman_previewlanguage": "json"
+                            }
+                          ],
+                          "event": [],
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "system",
+              "description": "",
+              "item": [
+                {
+                  "name": "refreshIdentities",
+                  "description": "",
+                  "item": [
+                    {
+                      "id": "49b36b5d-0e2b-4724-b60b-8f16dd233114",
+                      "name": "Refresh Identities",
+                      "request": {
+                        "name": "Refresh Identities",
+                        "description": {
+                          "content": "This kicks off an identity refresh for a specified set of identity attributes.  This can be a long running process.  IdentityNow has pre-scheduled versions of this task at set intervals and events already, so only run this when directed by SailPoint.\n\n_Note: If the identities specified by the filter do not exist, a full identity refresh will be run.  Use with caution._\n\nRefresh Arguments:\n\n| Key                   | Description                                        |\n|-----------------------|----------------------------------------------------|\n| correlateEntitlements | Analyzes entitlements, access profiles, and roles. |\n| promoteAttributes     | Calculates identity attributes.                    |\n| refreshManagerStatus  | Calculates manager correlation and manager status. |\n| synchronizeAttributes | Performs attribute sync provisioning.              |\n| pruneIdentities       | Removes any identities which don't have accounts.  |\n| provision             | Provisions any assigned roles or access profiles.  |",
+                          "type": "text/plain"
+                        },
+                        "url": {
+                          "path": [
+                            "cc",
+                            "api",
+                            "system",
+                            "refreshIdentities"
+                          ],
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "query": [],
+                          "variable": []
+                        },
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "method": "POST",
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"filter\": \"<string>\",\n  \"refreshArgs\": {\n    \"correlateEntitlements\": \"<boolean>\",\n    \"promoteAttributes\": \"<boolean>\",\n    \"refreshManagerStatus\": \"<boolean>\",\n    \"synchronizeAttributes\": \"<boolean>\",\n    \"pruneIdentities\": \"<boolean>\",\n    \"provision\": \"<boolean>\"\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        }
+                      },
+                      "response": [
+                        {
+                          "id": "676255a7-e17d-46fa-9618-804dd967a515",
+                          "name": "Successful response",
+                          "originalRequest": {
+                            "url": {
+                              "path": [
+                                "cc",
+                                "api",
+                                "system",
+                                "refreshIdentities"
+                              ],
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "query": [],
+                              "variable": []
+                            },
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": {
+                                  "content": "Added as a part of security scheme: oauth2",
+                                  "type": "text/plain"
+                                },
+                                "key": "Authorization",
+                                "value": "<token>"
+                              }
+                            ],
+                            "method": "POST",
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"filter\": \"<string>\",\n  \"refreshArgs\": {\n    \"correlateEntitlements\": \"<boolean>\",\n    \"promoteAttributes\": \"<boolean>\",\n    \"refreshManagerStatus\": \"<boolean>\",\n    \"synchronizeAttributes\": \"<boolean>\",\n    \"pruneIdentities\": \"<boolean>\",\n    \"provision\": \"<boolean>\"\n  }\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "body": "",
+                          "cookie": [],
+                          "_postman_previewlanguage": "json"
+                        }
+                      ],
+                      "event": [],
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "const domain = pm.environment.get('domain') ? pm.environment.get('domain') : pm.collectionVariables.get('domain')",
+          "const tokenUrl = 'https://' + pm.environment.get('tenant') + '.api.' + domain + '.com/oauth/token';",
+          "const clientId = pm.environment.get('clientId');",
+          "const clientSecret = pm.environment.get('clientSecret');",
+          "",
+          "const getTokenRequest = {",
+          "    method: 'POST',",
+          "    url: tokenUrl,",
+          "    body: {",
+          "        mode: 'formdata',",
+          "        formdata: [{",
+          "                key: 'grant_type',",
+          "                value: 'client_credentials'",
+          "            },",
+          "            {",
+          "                key: 'client_id',",
+          "                value: clientId",
+          "            },",
+          "            {",
+          "                key: 'client_secret',",
+          "                value: clientSecret",
+          "            }",
+          "        ]",
+          "    }",
+          "};",
+          "",
+          "",
+          "var moment = require('moment');",
+          "if (!pm.environment.has('tokenExpTime')) {",
+          "    pm.environment.set('tokenExpTime', moment());",
+          "}",
+          "",
+          "if (moment(pm.environment.get('tokenExpTime')) <= moment() || !pm.environment.get('tokenExpTime') || !pm.environment.get('accessToken')) {",
+          "    var time = moment();",
+          "    time.add(12, 'hours');",
+          "    pm.environment.set('tokenExpTime', time);",
+          "    pm.sendRequest(getTokenRequest, (err, response) => {",
+          "        const jsonResponse = response.json();",
+          "        if (response.code != 200) {",
+          "            throw new Error(`Unable to authenticate: ${JSON.stringify(jsonResponse)}`);",
+          "        }",
+          "        const newAccessToken = jsonResponse.access_token;",
+          "        pm.environment.set('accessToken', newAccessToken);",
+          "    });",
+          "",
+          "}"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "domain",
+      "value": "identitynow",
+      "type": "string"
+    },
+    {
+      "key": "baseUrl",
+      "value": "https://{{tenant}}.api.{{domain}}.com",
+      "type": "string"
+    }
+  ],
+  "info": {
+    "_postman_id": "fce8ac31-cb89-4b05-8834-a485ae694712",
+    "name": "IdentityNow cc (private) APIs",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{accessToken}}",
+        "type": "string"
+      }
+    ]
+  }
+}

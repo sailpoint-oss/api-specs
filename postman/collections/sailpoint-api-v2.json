@@ -1,0 +1,1336 @@
+{
+  "item": [
+    {
+      "name": "org",
+      "description": "",
+      "item": [
+        {
+          "id": "0e0aebeb-73a6-456e-9096-39494c8ef36d",
+          "name": "Retrieves your org settings.",
+          "request": {
+            "name": "Retrieves your org settings.",
+            "description": {
+              "content": "Retrieves information and operational settings for your org (as determined by the URL domain).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "org"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "response": [
+            {
+              "id": "086aebc2-b0d6-4932-a38d-f0b55f9e3097",
+              "name": "OK.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "org"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "Entity tag.",
+                    "type": "text/plain"
+                  },
+                  "key": "ETag",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "Last modified date.",
+                    "type": "text/plain"
+                  },
+                  "key": "Last-Modified",
+                  "value": "<dateTime>"
+                },
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "Links to alternate or related resources.",
+                    "type": "text/plain"
+                  },
+                  "key": "Link",
+                  "value": "<string>"
+                }
+              ],
+              "body": "{\n  \"id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"dateCreated\": \"<dateTime>\",\n  \"lastUpdated\": \"<dateTime>\",\n  \"scriptName\": \"<string>\",\n  \"ssoDomain\": \"<string>\",\n  \"status\": \"test\",\n  \"maxRegisteredIdentities\": \"<integer>\",\n  \"identityCount\": \"<integer>\",\n  \"kbaReqForAuthn\": \"<integer>\",\n  \"kbaReqAnswers\": \"<integer>\",\n  \"lockoutAttemptThreshold\": \"<integer>\",\n  \"lockoutTimeMinutes\": \"<integer>\",\n  \"usageCertRequired\": \"<boolean>\",\n  \"adminStrongAuthRequired\": \"<boolean>\",\n  \"enableExternalPasswordChange\": \"<boolean>\",\n  \"enablePasswordReplay\": \"<boolean>\",\n  \"enableAutomaticPasswordReplay\": \"<boolean>\",\n  \"netmasks\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"countryCodes\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"whiteList\": \"<boolean>\",\n  \"emailTestMode\": \"<boolean>\",\n  \"emailTestAddress\": \"<email>\",\n  \"usernameEmptyText\": \"<string>\",\n  \"usernameLabel\": \"<string>\",\n  \"enableAutomationGeneration\": \"<boolean>\",\n  \"passwordReplayState\": \"passive\",\n  \"systemNotificationConfig\": {\n    \"notifications\": [\n      {\n        \"type\": \"<string>\",\n        \"byEmail\": \"<boolean>\",\n        \"thresholds\": {\n          \"healthy\": \"<string>\",\n          \"unhealthy\": \"<string>\"\n        }\n      },\n      {\n        \"type\": \"<string>\",\n        \"byEmail\": \"<boolean>\",\n        \"thresholds\": {\n          \"healthy\": \"<string>\",\n          \"unhealthy\": \"<string>\"\n        }\n      }\n    ],\n    \"recipientType\": \"specificIdentities\"\n  },\n  \"systemNotificationEmails\": [\n    \"<email>\",\n    \"<email>\"\n  ],\n  \"loginUrl\": \"<string>\",\n  \"redirectPatterns\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"styleHash\": \"<string>\",\n  \"approvalConfig\": {\n    \"daysTillEscalation\": \"<integer>\",\n    \"daysBetweenReminders\": \"<integer>\",\n    \"maxReminders\": \"<integer>\",\n    \"fallbackApprover\": \"<string>\"\n  },\n  \"ssoPartnerSource\": \"<string>\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "431cbe95-7e84-4d9f-954b-071ce6486b62",
+          "name": "Updates one or more org attributes.",
+          "request": {
+            "name": "Updates one or more org attributes.",
+            "description": {
+              "content": "Updates one or more attributes for your org.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "org"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"countryCodes\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"enableExternalPasswordChange\": \"<boolean>\",\n  \"enableAutomaticPasswordReplay\": \"<boolean>\",\n  \"enableAutomationGeneration\": \"<boolean>\",\n  \"kbaReqAnswers\": \"<integer>\",\n  \"kbaReqForAuthn\": \"<integer>\",\n  \"lockoutAttemptThreshold\": \"<integer>\",\n  \"lockoutTimeMinutes\": \"<integer>\",\n  \"loginUrl\": \"<string>\",\n  \"netmasks\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"notifyAuthenticationSettingChange\": \"<boolean>\",\n  \"passwordReplayState\": \"passive\",\n  \"preferredIdentityInviteTemplate\": \"<string>\",\n  \"redirectPatterns\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"ssoPartnerSource\": \"<string>\",\n  \"systemNotificationEmails\": [\n    \"<email>\",\n    \"<email>\"\n  ],\n  \"trackAnalytics\": \"<boolean>\",\n  \"usageCertRequired\": \"<boolean>\",\n  \"usageCertText\": \"<string>\",\n  \"usernameEmptyText\": \"<string>\",\n  \"usernameLabel\": \"<string>\",\n  \"whiteList\": \"<boolean>\",\n  \"approvalConfig\": {\n    \"daysTillEscalation\": \"<integer>\",\n    \"daysBetweenReminders\": \"<integer>\",\n    \"maxReminders\": \"<integer>\",\n    \"fallbackApprover\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0209541e-c2b1-4ddf-bed6-8292e786e116",
+              "name": "OK.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "org"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"countryCodes\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"enableExternalPasswordChange\": \"<boolean>\",\n  \"enableAutomaticPasswordReplay\": \"<boolean>\",\n  \"enableAutomationGeneration\": \"<boolean>\",\n  \"kbaReqAnswers\": \"<integer>\",\n  \"kbaReqForAuthn\": \"<integer>\",\n  \"lockoutAttemptThreshold\": \"<integer>\",\n  \"lockoutTimeMinutes\": \"<integer>\",\n  \"loginUrl\": \"<string>\",\n  \"netmasks\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"notifyAuthenticationSettingChange\": \"<boolean>\",\n  \"passwordReplayState\": \"passive\",\n  \"preferredIdentityInviteTemplate\": \"<string>\",\n  \"redirectPatterns\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"ssoPartnerSource\": \"<string>\",\n  \"systemNotificationEmails\": [\n    \"<email>\",\n    \"<email>\"\n  ],\n  \"trackAnalytics\": \"<boolean>\",\n  \"usageCertRequired\": \"<boolean>\",\n  \"usageCertText\": \"<string>\",\n  \"usernameEmptyText\": \"<string>\",\n  \"usernameLabel\": \"<string>\",\n  \"whiteList\": \"<boolean>\",\n  \"approvalConfig\": {\n    \"daysTillEscalation\": \"<integer>\",\n    \"daysBetweenReminders\": \"<integer>\",\n    \"maxReminders\": \"<integer>\",\n    \"fallbackApprover\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "Entity tag.",
+                    "type": "text/plain"
+                  },
+                  "key": "ETag",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "Last modified date.",
+                    "type": "text/plain"
+                  },
+                  "key": "Last-Modified",
+                  "value": "<dateTime>"
+                },
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "Links to alternate or related resources.",
+                    "type": "text/plain"
+                  },
+                  "key": "Link",
+                  "value": "<string>"
+                }
+              ],
+              "body": "{\n  \"id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"dateCreated\": \"<dateTime>\",\n  \"lastUpdated\": \"<dateTime>\",\n  \"scriptName\": \"<string>\",\n  \"ssoDomain\": \"<string>\",\n  \"status\": \"test\",\n  \"maxRegisteredIdentities\": \"<integer>\",\n  \"identityCount\": \"<integer>\",\n  \"kbaReqForAuthn\": \"<integer>\",\n  \"kbaReqAnswers\": \"<integer>\",\n  \"lockoutAttemptThreshold\": \"<integer>\",\n  \"lockoutTimeMinutes\": \"<integer>\",\n  \"usageCertRequired\": \"<boolean>\",\n  \"adminStrongAuthRequired\": \"<boolean>\",\n  \"enableExternalPasswordChange\": \"<boolean>\",\n  \"enablePasswordReplay\": \"<boolean>\",\n  \"enableAutomaticPasswordReplay\": \"<boolean>\",\n  \"netmasks\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"countryCodes\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"whiteList\": \"<boolean>\",\n  \"emailTestMode\": \"<boolean>\",\n  \"emailTestAddress\": \"<email>\",\n  \"usernameEmptyText\": \"<string>\",\n  \"usernameLabel\": \"<string>\",\n  \"enableAutomationGeneration\": \"<boolean>\",\n  \"passwordReplayState\": \"passive\",\n  \"systemNotificationConfig\": {\n    \"notifications\": [\n      {\n        \"type\": \"<string>\",\n        \"byEmail\": \"<boolean>\",\n        \"thresholds\": {\n          \"healthy\": \"<string>\",\n          \"unhealthy\": \"<string>\"\n        }\n      },\n      {\n        \"type\": \"<string>\",\n        \"byEmail\": \"<boolean>\",\n        \"thresholds\": {\n          \"healthy\": \"<string>\",\n          \"unhealthy\": \"<string>\"\n        }\n      }\n    ],\n    \"recipientType\": \"specificIdentities\"\n  },\n  \"systemNotificationEmails\": [\n    \"<email>\",\n    \"<email>\"\n  ],\n  \"loginUrl\": \"<string>\",\n  \"redirectPatterns\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"styleHash\": \"<string>\",\n  \"approvalConfig\": {\n    \"daysTillEscalation\": \"<integer>\",\n    \"daysBetweenReminders\": \"<integer>\",\n    \"maxReminders\": \"<integer>\",\n    \"fallbackApprover\": \"<string>\"\n  },\n  \"ssoPartnerSource\": \"<string>\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "workgroups",
+      "description": "",
+      "item": [
+        {
+          "id": "9aa7ab0a-23f1-4edd-bc62-a6f504763ce5",
+          "name": "List Work Groups",
+          "request": {
+            "name": "List Work Groups",
+            "description": {
+              "content": "This API returns a list of work groups",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "workgroups"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "Max number of results to return",
+                    "type": "text/plain"
+                  },
+                  "key": "limit",
+                  "value": "250"
+                },
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "Offset into the full result set. Usually specified with *limit* to paginate through the results.",
+                    "type": "text/plain"
+                  },
+                  "key": "offset",
+                  "value": "0"
+                },
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "Filter results using the following syntax.\n[{property:name, value: \"Tyler\", operation: EQ}]",
+                    "type": "text/plain"
+                  },
+                  "key": "filters",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "response": [
+            {
+              "id": "9ee13479-e78d-4503-a28e-20ef722da9cb",
+              "name": "List of work group objects",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "workgroups"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Max number of results to return",
+                        "type": "text/plain"
+                      },
+                      "key": "limit",
+                      "value": "250"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Offset into the full result set. Usually specified with *limit* to paginate through the results.",
+                        "type": "text/plain"
+                      },
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Filter results using the following syntax.\n[{property:name, value: \"Tyler\", operation: EQ}]",
+                        "type": "text/plain"
+                      },
+                      "key": "filters",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"connectionCount\": \"<integer>\",\n    \"created\": \"<long>\",\n    \"description\": \"<string>\",\n    \"id\": \"<string>\",\n    \"memberCount\": \"<integer>\",\n    \"modified\": \"<long>\",\n    \"name\": \"<string>\",\n    \"owner\": {\n      \"displayName\": \"<string>\",\n      \"emailAddress\": \"<string>\",\n      \"id\": \"<string>\",\n      \"name\": \"<string>\"\n    }\n  },\n  {\n    \"connectionCount\": \"<integer>\",\n    \"created\": \"<long>\",\n    \"description\": \"<string>\",\n    \"id\": \"<string>\",\n    \"memberCount\": \"<integer>\",\n    \"modified\": \"<long>\",\n    \"name\": \"<string>\",\n    \"owner\": {\n      \"displayName\": \"<string>\",\n      \"emailAddress\": \"<string>\",\n      \"id\": \"<string>\",\n      \"name\": \"<string>\"\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1eb000b4-1dd0-4f58-925b-81c0c6e15843",
+          "name": "Create Work Group",
+          "request": {
+            "name": "Create Work Group",
+            "description": {
+              "content": "This API allows you to create a work group",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "workgroups"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"owner\": {\n    \"id\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b22a1a86-ecd4-4969-9514-78bd4cb9520d",
+              "name": "List of work group objects",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "workgroups"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"owner\": {\n    \"id\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"connectionCount\": \"<integer>\",\n    \"created\": \"<long>\",\n    \"description\": \"<string>\",\n    \"id\": \"<string>\",\n    \"memberCount\": \"<integer>\",\n    \"modified\": \"<long>\",\n    \"name\": \"<string>\",\n    \"owner\": {\n      \"displayName\": \"<string>\",\n      \"emailAddress\": \"<string>\",\n      \"id\": \"<string>\",\n      \"name\": \"<string>\"\n    }\n  },\n  {\n    \"connectionCount\": \"<integer>\",\n    \"created\": \"<long>\",\n    \"description\": \"<string>\",\n    \"id\": \"<string>\",\n    \"memberCount\": \"<integer>\",\n    \"modified\": \"<long>\",\n    \"name\": \"<string>\",\n    \"owner\": {\n      \"displayName\": \"<string>\",\n      \"emailAddress\": \"<string>\",\n      \"id\": \"<string>\",\n      \"name\": \"<string>\"\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "name": "{workgroupId}",
+          "description": "",
+          "item": [
+            {
+              "id": "5506ab56-6970-42b0-ba50-90df4b47aa8c",
+              "name": "Get Work Group By Id",
+              "request": {
+                "name": "Get Work Group By Id",
+                "description": {
+                  "content": "This API returns the details for a single workgroup based on the ID",
+                  "type": "text/plain"
+                },
+                "url": {
+                  "path": [
+                    "workgroups",
+                    ":workgroupId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workgroupId",
+                      "disabled": false
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "response": [
+                {
+                  "id": "1fa37f55-b9a9-4249-bf55-69048de5f032",
+                  "name": "Workgroup object",
+                  "originalRequest": {
+                    "url": {
+                      "path": [
+                        "workgroups",
+                        ":workgroupId"
+                      ],
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "query": [],
+                      "variable": []
+                    },
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": {
+                          "content": "Added as a part of security scheme: oauth2",
+                          "type": "text/plain"
+                        },
+                        "key": "Authorization",
+                        "value": "<token>"
+                      }
+                    ],
+                    "method": "GET",
+                    "body": {}
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "body": "{\n  \"connectionCount\": \"<integer>\",\n  \"created\": \"<long>\",\n  \"description\": \"<string>\",\n  \"id\": \"<string>\",\n  \"memberCount\": \"<integer>\",\n  \"modified\": \"<long>\",\n  \"name\": \"<string>\",\n  \"owner\": {\n    \"displayName\": \"<string>\",\n    \"emailAddress\": \"<string>\",\n    \"id\": \"<string>\",\n    \"name\": \"<string>\"\n  }\n}",
+                  "cookie": [],
+                  "_postman_previewlanguage": "json"
+                }
+              ],
+              "event": [],
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              }
+            },
+            {
+              "id": "464746ef-63fa-4955-9c0a-7bac6dfa2bad",
+              "name": "Update Work Group By Id",
+              "request": {
+                "name": "Update Work Group By Id",
+                "description": {
+                  "content": "This API updates and returns the details for a single workgroup based on the ID",
+                  "type": "text/plain"
+                },
+                "url": {
+                  "path": [
+                    "workgroups",
+                    ":workgroupId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workgroupId",
+                      "disabled": false
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"owner\": {\n    \"id\": \"<string>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [
+                {
+                  "id": "f925e560-99b2-4586-a5cc-3965f25572a7",
+                  "name": "Workgroup object",
+                  "originalRequest": {
+                    "url": {
+                      "path": [
+                        "workgroups",
+                        ":workgroupId"
+                      ],
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "query": [],
+                      "variable": []
+                    },
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": {
+                          "content": "Added as a part of security scheme: oauth2",
+                          "type": "text/plain"
+                        },
+                        "key": "Authorization",
+                        "value": "<token>"
+                      }
+                    ],
+                    "method": "PATCH",
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"owner\": {\n    \"id\": \"<string>\"\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "body": "{\n  \"connectionCount\": \"<integer>\",\n  \"created\": \"<long>\",\n  \"description\": \"<string>\",\n  \"id\": \"<string>\",\n  \"memberCount\": \"<integer>\",\n  \"modified\": \"<long>\",\n  \"name\": \"<string>\",\n  \"owner\": {\n    \"displayName\": \"<string>\",\n    \"emailAddress\": \"<string>\",\n    \"id\": \"<string>\",\n    \"name\": \"<string>\"\n  }\n}",
+                  "cookie": [],
+                  "_postman_previewlanguage": "json"
+                }
+              ],
+              "event": [],
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              }
+            },
+            {
+              "id": "f30191af-26da-4a7b-84de-5c4a47c1985a",
+              "name": "Delete Work Group By Id",
+              "request": {
+                "name": "Delete Work Group By Id",
+                "description": {
+                  "content": "This API deletes a single workgroup based on the ID",
+                  "type": "text/plain"
+                },
+                "url": {
+                  "path": [
+                    "workgroups",
+                    ":workgroupId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "workgroupId",
+                      "disabled": false
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "response": [
+                {
+                  "id": "760da5c6-ad93-42a1-aed2-56c0cf7474b9",
+                  "name": "Empty response on successful deletion",
+                  "originalRequest": {
+                    "url": {
+                      "path": [
+                        "workgroups",
+                        ":workgroupId"
+                      ],
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "query": [],
+                      "variable": []
+                    },
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": {
+                          "content": "Added as a part of security scheme: oauth2",
+                          "type": "text/plain"
+                        },
+                        "key": "Authorization",
+                        "value": "<token>"
+                      }
+                    ],
+                    "method": "DELETE",
+                    "body": {}
+                  },
+                  "status": "No Content",
+                  "code": 204,
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "body": "",
+                  "cookie": [],
+                  "_postman_previewlanguage": "json"
+                }
+              ],
+              "event": [],
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              }
+            },
+            {
+              "name": "members",
+              "description": "",
+              "item": [
+                {
+                  "id": "71d1ad39-f66c-4938-aa79-71e5897f450b",
+                  "name": "List Work Group Members",
+                  "request": {
+                    "name": "List Work Group Members",
+                    "description": {
+                      "content": "This API returns the members of a work group",
+                      "type": "text/plain"
+                    },
+                    "url": {
+                      "path": [
+                        "workgroups",
+                        ":workgroupId",
+                        "members"
+                      ],
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "query": [
+                        {
+                          "disabled": false,
+                          "description": {
+                            "content": "Max number of results to return",
+                            "type": "text/plain"
+                          },
+                          "key": "limit",
+                          "value": "250"
+                        },
+                        {
+                          "disabled": false,
+                          "description": {
+                            "content": "Offset into the full result set. Usually specified with *limit* to paginate through the results.",
+                            "type": "text/plain"
+                          },
+                          "key": "offset",
+                          "value": "0"
+                        },
+                        {
+                          "disabled": false,
+                          "description": {
+                            "content": "Filter results using the following syntax.\n[{property:name, value: \"Tyler\", operation: EQ}]",
+                            "type": "text/plain"
+                          },
+                          "key": "filters",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "type": "any",
+                          "value": "<string>",
+                          "key": "workgroupId",
+                          "disabled": false
+                        }
+                      ]
+                    },
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "method": "GET",
+                    "body": {}
+                  },
+                  "response": [
+                    {
+                      "id": "3d2a6b6b-b621-4437-a689-0f024949dc34",
+                      "name": "List of work group member objects",
+                      "originalRequest": {
+                        "url": {
+                          "path": [
+                            "workgroups",
+                            ":workgroupId",
+                            "members"
+                          ],
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "query": [
+                            {
+                              "disabled": false,
+                              "description": {
+                                "content": "Max number of results to return",
+                                "type": "text/plain"
+                              },
+                              "key": "limit",
+                              "value": "250"
+                            },
+                            {
+                              "disabled": false,
+                              "description": {
+                                "content": "Offset into the full result set. Usually specified with *limit* to paginate through the results.",
+                                "type": "text/plain"
+                              },
+                              "key": "offset",
+                              "value": "0"
+                            },
+                            {
+                              "disabled": false,
+                              "description": {
+                                "content": "Filter results using the following syntax.\n[{property:name, value: \"Tyler\", operation: EQ}]",
+                                "type": "text/plain"
+                              },
+                              "key": "filters",
+                              "value": "<string>"
+                            }
+                          ],
+                          "variable": []
+                        },
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": {
+                              "content": "Added as a part of security scheme: oauth2",
+                              "type": "text/plain"
+                            },
+                            "key": "Authorization",
+                            "value": "<token>"
+                          }
+                        ],
+                        "method": "GET",
+                        "body": {}
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "body": "[\n  {\n    \"alias\": \"<string>\",\n    \"email\": \"<string>\",\n    \"externalId\": \"<string>\",\n    \"id\": \"<integer>\",\n    \"name\": \"<string>\"\n  },\n  {\n    \"alias\": \"<string>\",\n    \"email\": \"<string>\",\n    \"externalId\": \"<string>\",\n    \"id\": \"<integer>\",\n    \"name\": \"<string>\"\n  }\n]",
+                      "cookie": [],
+                      "_postman_previewlanguage": "json"
+                    }
+                  ],
+                  "event": [],
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  }
+                },
+                {
+                  "id": "2a58b308-e7ee-4bd1-a4dc-eea78016e830",
+                  "name": "Modify Work Group Members",
+                  "request": {
+                    "name": "Modify Work Group Members",
+                    "description": {
+                      "content": "This API allows you to modify the members of a work group",
+                      "type": "text/plain"
+                    },
+                    "url": {
+                      "path": [
+                        "workgroups",
+                        ":workgroupId",
+                        "members"
+                      ],
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "query": [],
+                      "variable": [
+                        {
+                          "type": "any",
+                          "value": "<string>",
+                          "key": "workgroupId",
+                          "disabled": false
+                        }
+                      ]
+                    },
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "method": "POST",
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"add\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"remove\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    }
+                  },
+                  "response": [
+                    {
+                      "id": "069df703-74f7-4e17-a70b-3a2b97f671ae",
+                      "name": "Empty response on successful deletion",
+                      "originalRequest": {
+                        "url": {
+                          "path": [
+                            "workgroups",
+                            ":workgroupId",
+                            "members"
+                          ],
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "query": [],
+                          "variable": []
+                        },
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": {
+                              "content": "Added as a part of security scheme: oauth2",
+                              "type": "text/plain"
+                            },
+                            "key": "Authorization",
+                            "value": "<token>"
+                          }
+                        ],
+                        "method": "POST",
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"add\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"remove\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        }
+                      },
+                      "status": "No Content",
+                      "code": 204,
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "body": "",
+                      "cookie": [],
+                      "_postman_previewlanguage": "json"
+                    }
+                  ],
+                  "event": [],
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  }
+                }
+              ]
+            },
+            {
+              "name": "connections",
+              "description": "",
+              "item": [
+                {
+                  "id": "ece0ac5f-0229-4c7f-b0a1-d5157e1d3958",
+                  "name": "List Work Group Connections",
+                  "request": {
+                    "name": "List Work Group Connections",
+                    "description": {
+                      "content": "This API returns the connections of a work group",
+                      "type": "text/plain"
+                    },
+                    "url": {
+                      "path": [
+                        "workgroups",
+                        ":workgroupId",
+                        "connections"
+                      ],
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "query": [],
+                      "variable": [
+                        {
+                          "type": "any",
+                          "value": "<string>",
+                          "key": "workgroupId",
+                          "disabled": false
+                        }
+                      ]
+                    },
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "method": "GET",
+                    "body": {}
+                  },
+                  "response": [
+                    {
+                      "id": "bf75679d-9046-4c8e-b1ed-084e65aec0a0",
+                      "name": "List of work group connection objects",
+                      "originalRequest": {
+                        "url": {
+                          "path": [
+                            "workgroups",
+                            ":workgroupId",
+                            "connections"
+                          ],
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "query": [],
+                          "variable": []
+                        },
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": {
+                              "content": "Added as a part of security scheme: oauth2",
+                              "type": "text/plain"
+                            },
+                            "key": "Authorization",
+                            "value": "<token>"
+                          }
+                        ],
+                        "method": "GET",
+                        "body": {}
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "body": "[\n  {\n    \"connectionType\": \"<string>\",\n    \"description\": \"<string>\",\n    \"name\": \"<string>\",\n    \"objectId\": \"<string>\",\n    \"objectType\": \"<string>\",\n    \"workgroupId\": \"<string>\"\n  },\n  {\n    \"connectionType\": \"<string>\",\n    \"description\": \"<string>\",\n    \"name\": \"<string>\",\n    \"objectId\": \"<string>\",\n    \"objectType\": \"<string>\",\n    \"workgroupId\": \"<string>\"\n  }\n]",
+                      "cookie": [],
+                      "_postman_previewlanguage": "json"
+                    }
+                  ],
+                  "event": [],
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "bulk-delete",
+          "description": "",
+          "item": [
+            {
+              "id": "6ae052fe-79dd-4925-a613-ae7f8ead696e",
+              "name": "Bulk delete work groups",
+              "request": {
+                "name": "Bulk delete work groups",
+                "description": {
+                  "content": "This API allows you to bulk-delete work groups",
+                  "type": "text/plain"
+                },
+                "url": {
+                  "path": [
+                    "workgroups",
+                    "bulk-delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ids\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": [
+                {
+                  "id": "411fb7e2-8c00-443c-bc0b-4588825e1cdb",
+                  "name": "List of work group objects",
+                  "originalRequest": {
+                    "url": {
+                      "path": [
+                        "workgroups",
+                        "bulk-delete"
+                      ],
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "query": [],
+                      "variable": []
+                    },
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": {
+                          "content": "Added as a part of security scheme: oauth2",
+                          "type": "text/plain"
+                        },
+                        "key": "Authorization",
+                        "value": "<token>"
+                      }
+                    ],
+                    "method": "POST",
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"ids\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "body": "{\n  \"deleted\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"inUse\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"notFound\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "cookie": [],
+                  "_postman_previewlanguage": "json"
+                }
+              ],
+              "event": [],
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "const domain = pm.environment.get('domain') ? pm.environment.get('domain') : pm.collectionVariables.get('domain')",
+          "const tokenUrl = 'https://' + pm.environment.get('tenant') + '.api.' + domain + '.com/oauth/token';",
+          "const clientId = pm.environment.get('clientId');",
+          "const clientSecret = pm.environment.get('clientSecret');",
+          "",
+          "const getTokenRequest = {",
+          "    method: 'POST',",
+          "    url: tokenUrl,",
+          "    body: {",
+          "        mode: 'formdata',",
+          "        formdata: [{",
+          "                key: 'grant_type',",
+          "                value: 'client_credentials'",
+          "            },",
+          "            {",
+          "                key: 'client_id',",
+          "                value: clientId",
+          "            },",
+          "            {",
+          "                key: 'client_secret',",
+          "                value: clientSecret",
+          "            }",
+          "        ]",
+          "    }",
+          "};",
+          "",
+          "",
+          "var moment = require('moment');",
+          "if (!pm.environment.has('tokenExpTime')) {",
+          "    pm.environment.set('tokenExpTime', moment());",
+          "}",
+          "",
+          "if (moment(pm.environment.get('tokenExpTime')) <= moment() || !pm.environment.get('tokenExpTime') || !pm.environment.get('accessToken')) {",
+          "    var time = moment();",
+          "    time.add(12, 'hours');",
+          "    pm.environment.set('tokenExpTime', time);",
+          "    pm.sendRequest(getTokenRequest, (err, response) => {",
+          "        const jsonResponse = response.json();",
+          "        if (response.code != 200) {",
+          "            throw new Error(`Unable to authenticate: ${JSON.stringify(jsonResponse)}`);",
+          "        }",
+          "        const newAccessToken = jsonResponse.access_token;",
+          "        pm.environment.set('accessToken', newAccessToken);",
+          "    });",
+          "",
+          "}"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "domain",
+      "value": "identitynow",
+      "type": "string"
+    },
+    {
+      "key": "baseUrl",
+      "value": "https://{{tenant}}.api.{{domain}}.com",
+      "type": "string"
+    }
+  ],
+  "info": {
+    "_postman_id": "79bdf996-5604-48d6-b0c1-d81aaf41e610",
+    "name": "SailPoint SaaS API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{accessToken}}",
+        "type": "string"
+      }
+    ]
+  }
+}
