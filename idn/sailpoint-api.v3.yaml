@@ -676,9 +676,9 @@ tags:
 
       - [Zendesk Service Desk](https://documentation.sailpoint.com/connectors/zendesk/help/integrating_zendesk_sd/introduction.html)
   - name: SOD Policy
-    description: Operations for Creating & Executing SOD (Seperation of Duties) policies
+    description: Operations for Creating & Executing SOD (Separation of Duties) policies
   - name: SOD Violations
-    description: Operations for Predicting SOD (Seperation of Duties) violations
+    description: Operations for Predicting SOD (Separation of Duties) violations
   - name: Sources
     description: |
       Use this API to implement and customize source functionality. 
@@ -736,7 +736,7 @@ tags:
       Admins can also delete sources, but they must first ensure that the sources no longer have any active connections: the source must not be associated with any identity profile or any app, and it must not be referenced by any transform.
       Refer to [Deleting Sources](https://documentation.sailpoint.com/saas/help/sources/managing_sources.html#deleting-sources) for more information about deleting sources. 
 
-      Well organized, mappped out connections between sources and IdentityNow are essential to achieving comprehensive identity access governance across all the source systems organizations need. 
+      Well organized, mapped out connections between sources and IdentityNow are essential to achieving comprehensive identity access governance across all the source systems organizations need. 
       Refer to [Managing Sources](https://documentation.sailpoint.com/saas/help/sources/managing_sources.html) for more information about all the different things admins can do with sources once they are connected. 
   - name: Tagged Objects
   - name: Transforms
