@@ -13,7 +13,8 @@ properties:
     example: ne_attribute
     description: The attribute type-valid options are ne_attribute and break
   order:
-    type: integer    
+    type: integer
+    format: int32    
     example: 1
     description: The position of the attribute on the form
   id:
