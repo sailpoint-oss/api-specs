@@ -115,7 +115,7 @@ async function main() {
   try {
     const response = await getCollections();
     for (let collection of response.collections) {
-        if (collection.name.includes(args[3]) && collection.id == "b108a9b1-e5ec-4a83-b4f5-02fd7126bbfc") {
+        if (collection.name.includes(args[3])) {
             console.log(collection);
             const response = await deleteCollection(collection.id);
             console.log(response);
