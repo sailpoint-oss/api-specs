@@ -115,7 +115,7 @@ async function main() {
   try {
     const response = await getCollections();
     for (let collection of response.collections) {
-        if (collection.name.includes(args[3])) {
+        if (collection.name.includes(args[3]) && collection.id == "b108a9b1-e5ec-4a83-b4f5-02fd7126bbfc") {
             console.log(collection);
             const response = await deleteCollection(collection.id);
             console.log(response);
@@ -123,6 +123,7 @@ async function main() {
     }
     const upload = await uploadCollection();
     console.log(upload);
+    fs.writeFileSync('postman/links/' + args[3].toLowerCase() + '-link.txt','https://god.gw.postman.com/run-collection/' + upload.collection.uid + '?action=collection%2Ffork&collection-url=entityId%3D' + upload.collection.uid + '%26entityType%3Dcollection%26workspaceId%3D80af54be-a333-4712-af5e-41aa9eccbdd0')
   } catch (error) {
     console.error(error);
   }
