@@ -28,4 +28,5 @@ jobs:
           swagger-cli bundle --dereference idn/sailpoint-api.beta.yaml -t yaml -o dereferenced/deref-sailpoint-api.beta.yaml
           openapi2postmanv2 -s dereferenced/deref-sailpoint-api.beta.yaml -o postman/collections/sailpoint-api-beta.json -p -O folderStrategy=Tags,requestParametersResolution=Schema,exampleParametersResolution=Schema,disableOptionalParameters=true,optimizeConversion=false,stackLimit=50,alwaysInheritAuthentication=true
           node postman-script/modify-collection.js postman/collections/sailpoint-api-beta.json
+          node postman-script/upload-script.js ${{secrets.POSTMAN_API_KEY}} Beta
       - uses: stefanzweifel/git-auto-commit-action@v4

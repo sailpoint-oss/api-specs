@@ -2,22 +2,22 @@ const fs = require('fs');
 
 // Function to recursively delete "auth" key from an object
 const deleteAuthKey = (obj) => {
-    for (const key in obj) {
-        if (typeof obj[key] === 'object') {
-        deleteAuthKey(obj[key]); // Recursive call for nested objects
-        }
-        if (key === 'auth') {
-        delete obj[key];
-        }
-        if (key === 'disabled') {
-          if (obj[key] === false) {
-            obj[key] = true
-          }
-        }
+  for (const key in obj) {
+    if (typeof obj[key] === 'object') {
+      deleteAuthKey(obj[key]); // Recursive call for nested objects
     }
-    };
+    if (key === 'auth') {
+      delete obj[key];
+    }
+    if (key === 'disabled') {
+      if (obj[key] === false) {
+        obj[key] = true
+      }
+    }
+  }
+};
 
-  const args = process.argv;
+const args = process.argv;
 
 // Read the JSON file
 fs.readFile(args[2], 'utf8', (err, data) => {
@@ -45,8 +45,8 @@ fs.readFile(args[2], 'utf8', (err, data) => {
     } else if (args[2].includes("cc")) {
       jsonObject.variable = JSON.parse(fs.readFileSync('postman-script/variable-cc.json', 'utf8'));
     }
-    
-    
+
+
 
     // Write the modified JSON content back to the file
     fs.writeFile(args[2], JSON.stringify(jsonObject, null, 2), (writeErr) => {
