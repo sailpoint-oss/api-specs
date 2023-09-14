@@ -1,16 +1,18 @@
-name: "Build Dereferenced IDN Beta"
+name: "Build Dereferenced IDN specs"
 
 on:
   push:
     branches:
       - main
     paths:
+      - idn/sailpoint-api.v3.yaml
+      - idn/v3/**
       - idn/sailpoint-api.beta.yaml
       - idn/beta/**
   workflow_dispatch:
 
 jobs:
-  dereference_beta:
+  dereference_spec:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout PR branch
@@ -23,8 +25,12 @@ jobs:
         run: |
           npm install -g swagger-cli
           npm install -g openapi-to-postmanv2
-      - name: Dereference Beta API Specification and build Postman collection
+      - name: Dereference API Specification and build Postman collection
         run: |
+          swagger-cli bundle --dereference idn/sailpoint-api.v3.yaml -t yaml -o dereferenced/deref-sailpoint-api.v3.yaml
+          openapi2postmanv2 -s dereferenced/deref-sailpoint-api.v3.yaml -o postman/collections/sailpoint-api-v3.json -p -O folderStrategy=Tags,requestParametersResolution=Schema,exampleParametersResolution=Schema,disableOptionalParameters=true,optimizeConversion=false,stackLimit=50,alwaysInheritAuthentication=true
+          node postman-script/modify-collection.js postman/collections/sailpoint-api-v3.json
+          node postman-script/upload-script.js ${{secrets.POSTMAN_API_KEY}} V3
           swagger-cli bundle --dereference idn/sailpoint-api.beta.yaml -t yaml -o dereferenced/deref-sailpoint-api.beta.yaml
           openapi2postmanv2 -s dereferenced/deref-sailpoint-api.beta.yaml -o postman/collections/sailpoint-api-beta.json -p -O folderStrategy=Tags,requestParametersResolution=Schema,exampleParametersResolution=Schema,disableOptionalParameters=true,optimizeConversion=false,stackLimit=50,alwaysInheritAuthentication=true
           node postman-script/modify-collection.js postman/collections/sailpoint-api-beta.json
