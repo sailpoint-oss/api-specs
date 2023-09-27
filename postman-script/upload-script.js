@@ -114,16 +114,24 @@ async function uploadCollection() {
 async function main() {
   try {
     const response = await getCollections();
-    for (let collection of response.collections) {
-        if (collection.name.includes(args[3])) {
-            console.log(collection);
-            const response = await deleteCollection(collection.id);
-            console.log(response);
-        }
+    if (!response.collections) {
+      console.log(response)
+      throw new Error("Postman API threw an error");
     }
     const upload = await uploadCollection();
+    if (!upload.collection) {
+      console.log(upload)
+      throw new Error("Postman API threw an error");
+    }
     console.log(upload);
     fs.writeFileSync('postman/links/' + args[3].toLowerCase() + '-link.txt','https://god.gw.postman.com/run-collection/' + upload.collection.uid + '?action=collection%2Ffork&collection-url=entityId%3D' + upload.collection.uid + '%26entityType%3Dcollection%26workspaceId%3D80af54be-a333-4712-af5e-41aa9eccbdd0')
+    for (let collection of response.collections) {
+      if (collection.name.includes(args[3])) {
+          console.log(collection);
+          const response = await deleteCollection(collection.id);
+          console.log(response);
+      }
+  }
   } catch (error) {
     console.error(error);
   }
