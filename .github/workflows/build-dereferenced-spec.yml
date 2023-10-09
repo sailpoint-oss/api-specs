@@ -9,6 +9,7 @@ on:
       - idn/v3/**
       - idn/sailpoint-api.beta.yaml
       - idn/beta/**
+      - nerm/**
   workflow_dispatch:
 
 jobs:
@@ -35,4 +36,8 @@ jobs:
           openapi2postmanv2 -s dereferenced/deref-sailpoint-api.beta.yaml -o postman/collections/sailpoint-api-beta.json -p -O folderStrategy=Tags,requestParametersResolution=Schema,exampleParametersResolution=Schema,disableOptionalParameters=true,optimizeConversion=false,stackLimit=50,alwaysInheritAuthentication=true
           node postman-script/modify-collection.js postman/collections/sailpoint-api-beta.json
           node postman-script/upload-script.js ${{secrets.POSTMAN_API_KEY}} Beta
+          swagger-cli bundle --dereference nerm/openapi.yaml -t yaml -o dereferenced/deref-nerm-api.yaml
+          openapi2postmanv2 -s dereferenced/deref-nerm-api.yaml -o postman/collections/nerm-api.json -p -O folderStrategy=Tags,requestParametersResolution=Schema,exampleParametersResolution=Schema,disableOptionalParameters=true,optimizeConversion=false,stackLimit=50,alwaysInheritAuthentication=true
+          node postman-script/modify-collection.js postman/collections/sailpoint-api-beta.json
+          node postman-script/upload-script.js ${{secrets.POSTMAN_API_KEY}} Nerm
       - uses: stefanzweifel/git-auto-commit-action@v4
