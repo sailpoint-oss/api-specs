@@ -192,7 +192,7 @@ paths:
                           description: Metadata of the SCIM resource.
                           properties:
                             created:
-                              description: Date-time this resource was created.
+                              description: Datetime this resource was created.
                               type: string
                               format: date-time
                               example: '2022-02-11T01:34:04.074-05:00'
