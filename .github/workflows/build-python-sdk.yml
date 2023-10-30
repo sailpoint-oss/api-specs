@@ -63,7 +63,7 @@ jobs:
           cd python-sdk
           rm -rf ./sailpoint/beta
           java -jar openapi-generator-cli-7.0.1.jar generate -i ../idn/sailpoint-api.beta.yaml -g python -o sailpoint --global-property skipFormModel=false --config sdk-resources/beta-config.yaml --enable-post-process-file
-          node sdk-resources/postscript.js ./beta
+          node sdk-resources/postscript.js ./sailpoint/beta
 
       - name: Build V2 SDK
         id: buildV2
