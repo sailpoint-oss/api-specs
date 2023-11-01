@@ -32,6 +32,12 @@ jobs:
         with:
           node-version: "16"
 
+      - name: Run Prescript
+        id: prescript
+        run: |
+          cd powershell-sdk
+          node sdk-resources/prescript.js ../idn/
+
       - name: Build V3 SDK
         id: buildV3
         run: |
