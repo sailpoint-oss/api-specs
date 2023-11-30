@@ -38,7 +38,7 @@ jobs:
           node postman-script/upload-script.js ${{secrets.POSTMAN_API_KEY}} Beta
           swagger-cli bundle --dereference nerm/openapi.yaml -t yaml -o dereferenced/deref-sailpoint-api.nerm.yaml
           openapi2postmanv2 -s dereferenced/deref-sailpoint-api.nerm.yaml -o postman/collections/sailpoint-api-nerm.json -p -O folderStrategy=Tags,requestParametersResolution=Schema,exampleParametersResolution=Schema,disableOptionalParameters=true,optimizeConversion=false,stackLimit=50,alwaysInheritAuthentication=true
-          node postman-script/upload-script.js ${{secrets.POSTMAN_API_KEY}} Nerm
+          node postman-script/upload-script.js ${{secrets.POSTMAN_API_KEY}} NERM
           swagger-cli bundle --dereference idn/sailpoint-api.v3.yaml -t json -o dereferenced/deref-sailpoint-api.v3.json
           swagger-cli bundle --dereference idn/sailpoint-api.beta.yaml -t json -o dereferenced/deref-sailpoint-api.beta.json
       - uses: stefanzweifel/git-auto-commit-action@v4
