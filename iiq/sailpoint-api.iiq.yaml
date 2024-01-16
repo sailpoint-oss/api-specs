@@ -11437,6 +11437,8 @@ components:
         descriptions:
           description: A list of localized descriptions of the Application.
           type: array
+          items:
+            type: object
           example:
             - locale: en_US
               value: The main Active_Directory domain data for the corporate network.
@@ -11447,6 +11449,8 @@ components:
         features:
           description: A list of features of the Application.
           type: array
+          items:
+            type: object
           example:
             - - DIRECT_PERMISSIONS
               - NO_RANDOM_ACCESS
@@ -11705,6 +11709,8 @@ components:
           description: A list of localized descriptions of the Entitlement.
           items:
             type: array
+            items:
+              type: object
             properties:
               locale:
                 description: The locale associated with this Entitlement description.
@@ -12016,6 +12022,8 @@ components:
               example: Entitlement
         schemas:
           type: array
+          items:
+            type: object
           example:
             - 'urn:ietf:params:scim:schemas:sailpoint:1.0:Entitlement'
         entitleAuth:
@@ -12206,6 +12214,8 @@ components:
               example: Entitlement
         schemas:
           type: array
+          items:
+            type: object
           example:
             - 'urn:ietf:params:scim:schemas:sailpoint:1.0:Entitlement'
         entitleAuth:
@@ -13473,6 +13483,8 @@ components:
         descriptions:
           description: A list of localized descriptions of the Role.
           type: array
+          items:
+            type: object
           example:
             - locale: en_US
               value: 'Directs production operations and processes for a plant, division, or company. Plans and maintains production schedules. Manages facilities and equipment maintenance.'
@@ -13525,6 +13537,8 @@ components:
         inheritance:
           description: Parent Roles this role inherits from.
           type: array
+          items:
+            type: object
           properties:
             displayName:
               description: Display name of the parent Role.
@@ -13541,6 +13555,8 @@ components:
         requirements:
           description: Roles this role requires. This is normally used with business roles to reference IT roles as a way of indicating which IT roles are required to support a business role.
           type: array
+          items:
+            type: object
           properties:
             displayName:
               description: Display name of the required Role.
@@ -13557,6 +13573,8 @@ components:
         permits:
           description: Roles this role permits. This is normally used with business roles to reference IT roles as a way of indicating which IT roles are allowed to support a business role.
           type: array
+          items:
+            type: object
           properties:
             displayName:
               description: Display name of the permitted Role.
@@ -13573,6 +13591,8 @@ components:
         classifications:
           description: Classifications of this Role.
           type: array
+          items:
+            type: object
           example:
             - effective: false
               source: UI
@@ -14276,6 +14296,8 @@ components:
               example: TaskResult
         schemas:
           type: array
+          items:
+            type: object
           example:
             - 'urn:ietf:params:scim:schemas:sailpoint:1.0:TaskResult'
     taskResultByIdGetBody:
@@ -14412,6 +14434,8 @@ components:
               example: TaskResult
         schemas:
           type: array
+          items:
+            type: object
           example:
             - 'urn:ietf:params:scim:schemas:sailpoint:1.0:TaskResult'
     userPostRequest:
