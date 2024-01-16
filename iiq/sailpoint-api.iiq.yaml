@@ -2209,6 +2209,8 @@ paths:
                         descriptions:
                           description: A list of localized descriptions of the Application.
                           type: array
+                          items:
+                            type: object
                           example:
                             - locale: en_US
                               value: The main Active_Directory domain data for the corporate network.
@@ -2219,6 +2221,8 @@ paths:
                         features:
                           description: A list of features of the Application.
                           type: array
+                          items:
+                            type: object
                           example:
                             - - DIRECT_PERMISSIONS
                               - NO_RANDOM_ACCESS
@@ -2321,6 +2325,8 @@ paths:
                         descriptions:
                           description: A list of localized descriptions of the Application.
                           type: array
+                          items:
+                            type: object
                           example:
                             - locale: en_US
                               value: The main Active_Directory domain data for the corporate network.
@@ -2331,6 +2337,8 @@ paths:
                         features:
                           description: A list of features of the Application.
                           type: array
+                          items:
+                            type: object
                           example:
                             - - DIRECT_PERMISSIONS
                               - NO_RANDOM_ACCESS
@@ -2448,6 +2456,8 @@ paths:
                   descriptions:
                     description: A list of localized descriptions of the Application.
                     type: array
+                    items:
+                      type: object
                     example:
                       - locale: en_US
                         value: The main Active_Directory domain data for the corporate network.
@@ -2458,6 +2468,8 @@ paths:
                   features:
                     description: A list of features of the Application.
                     type: array
+                    items:
+                      type: object
                     example:
                       - - DIRECT_PERMISSIONS
                         - NO_RANDOM_ACCESS
@@ -2993,6 +3005,8 @@ paths:
                               example: Entitlement
                         schemas:
                           type: array
+                          items:
+                            type: object
                           example:
                             - 'urn:ietf:params:scim:schemas:sailpoint:1.0:Entitlement'
                         entitleAuth:
@@ -3204,6 +3218,8 @@ paths:
                               example: Entitlement
                         schemas:
                           type: array
+                          items:
+                            type: object
                           example:
                             - 'urn:ietf:params:scim:schemas:sailpoint:1.0:Entitlement'
                         entitleAuth:
@@ -3429,6 +3445,8 @@ paths:
                         example: Entitlement
                   schemas:
                     type: array
+                    items:
+                      type: object
                     example:
                       - 'urn:ietf:params:scim:schemas:sailpoint:1.0:Entitlement'
                   entitleAuth:
@@ -5822,6 +5840,8 @@ paths:
                         descriptions:
                           description: A list of localized descriptions of the Role.
                           type: array
+                          items:
+                            type: object
                           example:
                             - locale: en_US
                               value: 'Directs production operations and processes for a plant, division, or company. Plans and maintains production schedules. Manages facilities and equipment maintenance.'
@@ -5874,6 +5894,8 @@ paths:
                         inheritance:
                           description: Parent Roles this role inherits from.
                           type: array
+                          items:
+                            type: object
                           properties:
                             displayName:
                               description: Display name of the parent Role.
@@ -5890,6 +5912,8 @@ paths:
                         requirements:
                           description: Roles this role requires. This is normally used with business roles to reference IT roles as a way of indicating which IT roles are required to support a business role.
                           type: array
+                          items:
+                            type: object
                           properties:
                             displayName:
                               description: Display name of the required Role.
@@ -5906,6 +5930,8 @@ paths:
                         permits:
                           description: Roles this role permits. This is normally used with business roles to reference IT roles as a way of indicating which IT roles are allowed to support a business role.
                           type: array
+                          items:
+                            type: object
                           properties:
                             displayName:
                               description: Display name of the permitted Role.
@@ -5922,6 +5948,8 @@ paths:
                         classifications:
                           description: Classifications of this Role.
                           type: array
+                          items:
+                            type: object
                           example:
                             - effective: false
                               source: UI
@@ -6024,6 +6052,8 @@ paths:
                         descriptions:
                           description: A list of localized descriptions of the Role.
                           type: array
+                          items:
+                            type: object
                           example:
                             - locale: en_US
                               value: 'Directs production operations and processes for a plant, division, or company. Plans and maintains production schedules. Manages facilities and equipment maintenance.'
@@ -6076,6 +6106,8 @@ paths:
                         inheritance:
                           description: Parent Roles this role inherits from.
                           type: array
+                          items:
+                            type: object
                           properties:
                             displayName:
                               description: Display name of the parent Role.
@@ -6092,6 +6124,8 @@ paths:
                         requirements:
                           description: Roles this role requires. This is normally used with business roles to reference IT roles as a way of indicating which IT roles are required to support a business role.
                           type: array
+                          items:
+                            type: object
                           properties:
                             displayName:
                               description: Display name of the required Role.
@@ -6108,6 +6142,8 @@ paths:
                         permits:
                           description: Roles this role permits. This is normally used with business roles to reference IT roles as a way of indicating which IT roles are allowed to support a business role.
                           type: array
+                          items:
+                            type: object
                           properties:
                             displayName:
                               description: Display name of the permitted Role.
@@ -6124,6 +6160,8 @@ paths:
                         classifications:
                           description: Classifications of this Role.
                           type: array
+                          items:
+                            type: object
                           example:
                             - effective: false
                               source: UI
@@ -6239,6 +6277,8 @@ paths:
                   descriptions:
                     description: A list of localized descriptions of the Role.
                     type: array
+                    items:
+                      type: object
                     example:
                       - locale: en_US
                         value: 'Directs production operations and processes for a plant, division, or company. Plans and maintains production schedules. Manages facilities and equipment maintenance.'
@@ -6291,6 +6331,8 @@ paths:
                   inheritance:
                     description: Parent Roles this role inherits from.
                     type: array
+                    items:
+                      type: object
                     properties:
                       displayName:
                         description: Display name of the parent Role.
@@ -6307,6 +6349,8 @@ paths:
                   requirements:
                     description: Roles this role requires. This is normally used with business roles to reference IT roles as a way of indicating which IT roles are required to support a business role.
                     type: array
+                    items:
+                      type: object
                     properties:
                       displayName:
                         description: Display name of the required Role.
@@ -6323,6 +6367,8 @@ paths:
                   permits:
                     description: Roles this role permits. This is normally used with business roles to reference IT roles as a way of indicating which IT roles are allowed to support a business role.
                     type: array
+                    items:
+                      type: object
                     properties:
                       displayName:
                         description: Display name of the permitted Role.
@@ -6339,6 +6385,8 @@ paths:
                   classifications:
                     description: Classifications of this Role.
                     type: array
+                    items:
+                      type: object
                     example:
                       - effective: false
                         source: UI
@@ -7300,6 +7348,8 @@ paths:
                               example: TaskResult
                         schemas:
                           type: array
+                          items:
+                            type: object
                           example:
                             - 'urn:ietf:params:scim:schemas:sailpoint:1.0:TaskResult'
             application/scim+json:
@@ -7457,6 +7507,8 @@ paths:
                               example: TaskResult
                         schemas:
                           type: array
+                          items:
+                            type: object
                           example:
                             - 'urn:ietf:params:scim:schemas:sailpoint:1.0:TaskResult'
   '/TaskResults/{taskResultId}':
@@ -7601,8 +7653,9 @@ paths:
                     description: List of messages of the TaskResult.
                     type: array
                     items:
-                      example:
-                        - Partition 2 is pending.
+                      type: object
+                    example:
+                      - Partition 2 is pending.
                   meta:
                     type: object
                     properties:
@@ -7630,6 +7683,8 @@ paths:
                         example: TaskResult
                   schemas:
                     type: array
+                    items:
+                      type: object
                     example:
                       - 'urn:ietf:params:scim:schemas:sailpoint:1.0:TaskResult'
   /Users:
