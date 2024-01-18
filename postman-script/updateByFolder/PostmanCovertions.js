@@ -10,7 +10,7 @@
 // ------------------------------------------------------------
 
 
-const requestFromLocal = (localRequest) => {
+const requestFromLocal = (localRequest, responses) => {
     //   console.log('localRequest', localRequest)
       let url = localRequest.request.url.host + '/' + localRequest.request.url.path
     
@@ -46,6 +46,10 @@ const requestFromLocal = (localRequest) => {
       if (localRequest.request.header) {
         headerData = dataFromLocalURLEncode(localRequest.request.header)
           .map((header) => ({ key: header.key, value: header.value, enabled: header.enabled, description: header.description }))
+      }
+
+      if (JSON.stringify(localRequest.request.description) === '{}') {
+        localRequest.request.description = ''
       }
     
       const request = {
@@ -87,7 +91,8 @@ const requestFromLocal = (localRequest) => {
     
         protocolProfileBehavior: localRequest.protocolProfileBehavior,
         dataDisabled: localRequest.dataDisabled,
-        responses_order: localRequest.responses_order
+        responses_order: localRequest.responses_order,
+        responses: responses,
     
         // createdAt: '2023-09-12T16:25:20.000Z',
         // updatedAt: '2023-09-12T16:25:23.000Z',

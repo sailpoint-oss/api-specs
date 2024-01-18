@@ -2,6 +2,25 @@ require('dotenv').config()
 const axiosRetry = require('axios-retry').default
 const axios = require('axios')
 
+const handleError = (error) => {
+      // Log only essential error details
+      if (error.code === 'ECONNABORTED') {
+        console.error(`A timeout occurred: ${error.message}`);
+      } else if (error.response) {
+        // Server responded with a status other than 200 range
+        console.error(`Request failed with status: ${error.response.status}`);
+      } else if (error.request) {
+        // Request was made but no response was received
+        console.error('No response received');
+      } else {
+        // Something else happened in setting up the request
+        console.error('Error:', error.message);
+      }
+  
+      // Return a rejected promise to maintain promise chain
+      return Promise.reject(error);
+}
+
 class Collection {
   constructor (collectionId) {
     this.collectionId = collectionId
@@ -10,8 +29,18 @@ class Collection {
       timeout: 1000 * 5, // 60 seconds
       headers: { 'Content-Type': 'application/json', 'X-Api-Key': this.apiKey }
     })
-    axiosRetry(this.axios, {retries: 3})
+    axiosRetry(this.axios, {
+      retries: 10,
+      retryDelay: axiosRetry.exponentialDelay,
+      retryCondition: (error) => {
+        console.log('error, retrying')
+        return error.code === 'ECONNRESET' || error.code === 'ECONNABORTED' || axiosRetry.isNetworkOrIdempotentRequestError(error) || error.response.status === 429
+      }
+    })
+
+    this.axios.interceptors.response.use(response => response, handleError);
   }
+
 
   async get () {
     return await this.axios.get(
@@ -63,7 +92,15 @@ class Folder {
       timeout: 1000 * 5, // 60 seconds
       headers: { 'Content-Type': 'application/json', 'X-Api-Key': this.apiKey }
     })
-    axiosRetry(this.axios, {retries: 3})
+    axiosRetry(this.axios, {
+      retries: 10,
+      retryDelay: axiosRetry.exponentialDelay,
+      retryCondition: (error) => {
+        console.log('error, retrying')
+        return error.code === 'ECONNRESET' || error.code === 'ECONNABORTED' || axiosRetry.isNetworkOrIdempotentRequestError(error) || error.response.status === 429
+      }
+    })
+    this.axios.interceptors.response.use(response => response, handleError);
   }
 
   async get (folderId) {
@@ -126,7 +163,15 @@ class Request {
       timeout: 1000 * 5, // 60 seconds
       headers: { 'Content-Type': 'application/json', 'X-Api-Key': this.apiKey }
     })
-    axiosRetry(this.axios, {retries: 3})
+    axiosRetry(this.axios, {
+      retries: 10,
+      retryDelay: axiosRetry.exponentialDelay,
+      retryCondition: (error) => {
+        console.log('error, retrying')
+        return error.code === 'ECONNRESET' || error.code === 'ECONNABORTED' || axiosRetry.isNetworkOrIdempotentRequestError(error) || error.response.status === 429
+      }
+    })
+    this.axios.interceptors.response.use(response => response, handleError);
   }
 
   async get (requestId) {
@@ -190,7 +235,15 @@ class Response {
       timeout: 1000 * 5, // 60 seconds
       headers: { 'Content-Type': 'application/json', 'X-Api-Key': this.apiKey }
     })
-    axiosRetry(this.axios, {retries: 3})
+    axiosRetry(this.axios, {
+      retries: 10,
+      retryDelay: axiosRetry.exponentialDelay,
+      retryCondition: (error) => {
+        console.log('error, retrying')
+        return error.code === 'ECONNRESET' || error.code === 'ECONNABORTED' || axiosRetry.isNetworkOrIdempotentRequestError(error) || error.response.status === 429
+      }
+    })
+    this.axios.interceptors.response.use(response => response, handleError);
   }
 
   async get (responseId) {
