@@ -12,7 +12,7 @@
 
 const requestFromLocal = (localRequest, responses) => {
     //   console.log('localRequest', localRequest)
-      let url = localRequest.request.url.host + '/' + localRequest.request.url.path
+      let url = localRequest.request.url.host + '/' + localRequest.request.url.path.join('/')
     
       let data = []
       let dataMode = null
@@ -48,6 +48,12 @@ const requestFromLocal = (localRequest, responses) => {
           .map((header) => ({ key: header.key, value: header.value, enabled: header.enabled, description: header.description }))
       }
 
+      let headers = []
+      if (localRequest.request.header) {
+        headers = dataFromLocalURLEncode(localRequest.request.header)
+          .map((header) => ({ key: header.key, value: header.value, description: header.description }))
+      }
+
       if (JSON.stringify(localRequest.request.description) === '{}') {
         localRequest.request.description = ''
       }
@@ -70,9 +76,9 @@ const requestFromLocal = (localRequest, responses) => {
         rawModeData, // body os request
         //
         descriptionFormat: localRequest.descriptionFormat, // it can be in either ``html`` or ``markdown`` formats.
-        description: localRequest.request.description.content ?  localRequest.request.description.content : localRequest.request.description, //
+        description: localRequest.request.description && localRequest.request.description.content ?  localRequest.request.description.content : localRequest.request.description, //
         // Headers
-        headers: localRequest.request.header,
+        headers: headers,
         headerData,
         //
         variables: localRequest.variables,
@@ -102,7 +108,17 @@ const requestFromLocal = (localRequest, responses) => {
     }
     
     const responseFromLocal = (localResponse, requestObject) => {
-      const headers = localResponse.header.map((item) => ({ key: item.key, value: item.value }))
+      const headers = localResponse.header
+      .map((item) => ({ key: item.key, value: item.value }))
+      .sort((a, b) => {
+          if (a.key < b.key) {
+              return -1;
+          }
+          if (a.key > b.key) {
+              return 1;
+          }
+          return 0;
+      });
       const response = {
         // owner: '8119550',
         // lastUpdatedBy: '8119550',
@@ -121,7 +137,7 @@ const requestFromLocal = (localRequest, responses) => {
         headers, //
         cookies: [],
         mime: null,
-        text: localResponse.body, //
+        text: localResponse.body ? localResponse.body : '', //
         language: 'json', //
         rawDataType: 'text',//
         requestObject: requestObject,
@@ -135,11 +151,18 @@ const requestFromLocal = (localRequest, responses) => {
     const dataFromLocalURLEncode = (localFormData) => {
       const data = []
       for (const param of localFormData) {
+        // check if param.key is a number
+        if (!param.key || !isNaN(param.key)) {
+          continue
+        }
+        if (JSON.stringify(param.description) === '{}') {
+          param.description = ''
+        }
         const item = {
           key: param.key,
-          description: param.description,
+          description: param.description && param.description.content ?  param.description.content : param.description,
           value: param.value,
-          enabled: !param.disabled
+          enabled: false
         }
         data.push(item)
       }

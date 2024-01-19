@@ -14,7 +14,7 @@ const release = async () => {
 
 
 
-    // This function just cleans up the variables so they match what is returned in postman
+    // This step just cleans up the variables so they match what is returned in postman
     for (let variable of localCollection.variable) {
         if (variable.type) {
             delete variable.type
@@ -41,8 +41,32 @@ const release = async () => {
     // add any missing folders
     for (let item of localCollection.item) {
         let folder = getMatchingFolder(item, remoteCollection.collection.item)
+        if (checkIfDifferent(folder.description, item.description)) {
+            console.log(`updating folder ${folder.name}`)
+            await new pmAPI.Folder(publicRemoteCollectionId).update(folder.id, { description: item.description })
+            console.log(`updated folder ${folder.name}`)
+        }
         if (folder == null) {
             await updateEntireFolder(item)
+        }
+    }
+
+    // delete any folders that are no longer in the collection
+    for (let folder of remoteCollection.collection.item) {
+        let localFolder = getMatchingFolder(folder, localCollection.item)
+        if (localFolder == null) {
+            await new pmAPI.Folder(publicRemoteCollectionId).delete(folder.id)
+        }
+    }
+
+    // delete any requests that are no longer in the collection
+    for (let folder of remoteCollection.collection.item) {
+        let localFolder = getMatchingFolder(folder, localCollection.item)
+        for (let items of folder.item) {
+            let remoteRequest = getMatchingRequest(items, localFolder.item)
+            if (remoteRequest == null) {
+                await new pmAPI.Request(publicRemoteCollectionId).delete(items.id)
+            }
         }
     }
 
@@ -54,7 +78,6 @@ const release = async () => {
         }
     }
 
-    console.log(remoteCollection)
 
 }
 
@@ -69,7 +92,7 @@ function getMatchingFolder(localFolder, remoteFolders) {
 
 function getMatchingRequest(localRequest, remoteRequests) {
     for (let request of remoteRequests) {
-        if (request.name === localRequest.name) {
+        if (request.name === localRequest.name && request.request.method === localRequest.request.method && localRequest.request.url.host + '/' + localRequest.request.url.path.join('/') === request.request.url.host + '/' + request.request.url.path.join('/')) {
             return request
         }
     }
@@ -77,6 +100,9 @@ function getMatchingRequest(localRequest, remoteRequests) {
 }
 
 function buildRequestBody(items) {
+    if (items === null) {
+        return null
+    }
 
     let responses = []
     for (let response of items.response) {
@@ -87,10 +113,85 @@ function buildRequestBody(items) {
 }
 
 function checkIfDifferent(source, dest) {
-    if (JSON.stringify(source) === JSON.stringify(dest)) {
+    removeIdFields(source)
+    removeIdFields(dest)
+    if (isDeepEqual(source, dest)) {
         return false
     }
     return true
+}
+
+function removeIdFields(obj) {
+    if (typeof obj !== 'object') {
+        return
+    }
+    if (obj === null) {
+        return
+    }
+    // Check if the current object has the 'id' property
+    if (obj.hasOwnProperty('id')) {
+        delete obj.id;
+    }
+
+    // Recursively call removeIdFields on each property if it's an object
+    for (let key in obj) {
+        if (typeof obj[key] === 'object' && obj[key] !== null) {
+            removeIdFields(obj[key]);
+        }
+    }
+}
+
+function isNullorEmpty(obj) {
+    if (obj === null || obj === '' || obj === undefined) {
+        return true
+    }
+    return false
+
+}
+
+function isDeepEqual(obj1, obj2) {
+    if (areValuesEqual(obj1, obj2)) {
+        return true
+    }
+
+    if (typeof obj1 !== 'object' || typeof obj2 !== 'object' || obj1 == null || obj2 == null) {
+        return false;
+    }
+
+    const keys1 = Object.keys(obj1);
+    const keys2 = Object.keys(obj2);
+
+    if (keys1.length !== keys2.length) {
+        return false;
+    }
+
+    for (let key of keys1) {
+        const val1 = obj1[key];
+        const val2 = obj2[key];
+        const areObjects = isObject(val1) && isObject(val2);
+        if (
+            areObjects && !isDeepEqual(val1, val2) ||
+            (!areObjects && !areValuesEqual(val1, val2))
+        ) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+function areValuesEqual(val1, val2) {
+    if (isNullorEmpty(val1) && isNullorEmpty(val2)) {
+        return true;
+    }
+    if (val1 === val2) {
+        return true
+    }
+    return false
+}
+
+function isObject(object) {
+    return object != null && typeof object === 'object';
 }
 
 
@@ -118,8 +219,12 @@ async function updateRequestsInFolder(item, folderId, remoteItem) {
         let postmanRequestBody = buildRequestBody(items)
         let remotePostmanBody = buildRequestBody(remoteRequest)
         if (checkIfDifferent(postmanRequestBody, remotePostmanBody)) {
-            let newRequestDelete = await new pmAPI.Request(publicRemoteCollectionId).delete(remoteRequest.id)
-            console.log(`deleting request ${newRequestDelete.data.id}`)
+            if (remoteRequest) {
+                console.log(`deleting request ${remoteRequest.name}`)
+                let newRequestDelete = await new pmAPI.Request(publicRemoteCollectionId).delete(remoteRequest.id)
+                console.log(`deleted request ${newRequestDelete.data.id}`)
+            }
+            postmanRequestBody = buildRequestBody(items)
             let newRequest = await new pmAPI.Request(publicRemoteCollectionId).create(postmanRequestBody, folderId)
             console.log(`creating request ${newRequest.data.name}`)
         } else {
