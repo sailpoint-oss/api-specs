@@ -22,11 +22,11 @@ const release = async () => {
     }
 
     // check if the top level collection has changed, If so, update it... This will delete all folders unfortunately.
-    if (checkIfDifferent(remoteCollection.collection.event, localCollection.event)
-        || checkIfDifferent(remoteCollection.collection.info.description, localCollection.info.description.content)
-        || checkIfDifferent(remoteCollection.collection.info.name, localCollection.info.name)
-        || checkIfDifferent(remoteCollection.collection.variable, localCollection.variable)
-        || checkIfDifferent(remoteCollection.collection.auth, localCollection.auth)) {
+    if (checkIfDifferent(localCollection.event, remoteCollection.collection.event)
+        || checkIfDifferent( localCollection.info.description.content, remoteCollection.collection.info.description)
+        || checkIfDifferent( localCollection.info.name, remoteCollection.collection.info.name)
+        || checkIfDifferent(localCollection.variable, remoteCollection.collection.variable)
+        || checkIfDifferent( localCollection.auth, remoteCollection.collection.auth)) {
             const localEmptyCollection = { ...localCollection }
             localEmptyCollection.item = []
             //delete all folders. Do this one at a time so it doesn't timeout
@@ -113,8 +113,7 @@ function buildRequestBody(items) {
 }
 
 function checkIfDifferent(source, dest) {
-    removeIdFields(source)
-    removeIdFields(dest)
+    syncKeys(source, dest)
     if (isDeepEqual(source, dest)) {
         return false
     }
@@ -148,6 +147,34 @@ function isNullorEmpty(obj) {
     return false
 
 }
+
+
+function syncKeys(obj1, obj2) {
+    if (typeof obj1 !== 'object' || typeof obj2 !== 'object' || obj1 == null || obj2 == null) {
+        return;
+    }
+
+    const keys1 = Object.keys(obj1);
+    const keys2 = Object.keys(obj2);
+
+    for (let key of keys1) {
+        const val1 = obj1[key];
+        const val2 = obj2[key];
+        if (val2 === undefined) {
+            continue;
+        } else if (key === 'id') {
+            obj1[key] = val2;
+        }
+        const areObjects = isObject(val1) && isObject(val2);
+        if (areObjects) {
+            syncKeys(val1, val2)
+        }
+        
+    }
+
+    return true;
+}
+
 
 function isDeepEqual(obj1, obj2) {
     if (areValuesEqual(obj1, obj2)) {

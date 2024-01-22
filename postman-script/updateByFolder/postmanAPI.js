@@ -33,7 +33,7 @@ class Collection {
       retries: 10,
       retryCondition: (error) => {
         console.log('error, retrying')
-        return error.code === 'ECONNRESET' || error.code === 'ECONNABORTED' || axiosRetry.isNetworkOrIdempotentRequestError(error) || error.response.status === 429
+        return error.code === 'ECONNRESET' || error.code === 'ECONNABORTED' || axiosRetry.isNetworkOrIdempotentRequestError(error)
       }
     })
 
@@ -96,7 +96,7 @@ class Folder {
       //retryDelay: axiosRetry.exponentialDelay,
       retryCondition: (error) => {
         console.log('error, retrying')
-        return error.code === 'ECONNRESET' || error.code === 'ECONNABORTED' || axiosRetry.isNetworkOrIdempotentRequestError(error) || error.response.status === 429
+        return error.code === 'ECONNRESET' || error.code === 'ECONNABORTED' || axiosRetry.isNetworkOrIdempotentRequestError(error)
       }
     })
     //this.axios.interceptors.response.use(response => response, handleError);
@@ -164,11 +164,16 @@ class Request {
     })
     axiosRetry(this.axios, {
       retries: 10,
-      //retryDelay: axiosRetry.exponentialDelay,
+      retryDelay: axiosRetry.exponentialDelay,
       retryCondition: (error) => {
         console.log('error, retrying')
-        return error.code === 'ECONNRESET' || error.code === 'ECONNABORTED' || axiosRetry.isNetworkOrIdempotentRequestError(error) || error.response.status === 429
+        return error.code === 'ECONNRESET' || error.code === 'ECONNABORTED' || axiosRetry.isNetworkOrIdempotentRequestError(error)
+      },
+      onRetryAttempt: (err) => {
+        const cfg = axiosRetry.getConfig(err);
+        console.log(`Retry attempt #${cfg.currentRetryAttempt}`);
       }
+
     })
     //this.axios.interceptors.response.use(response => response, handleError);
   }
@@ -239,7 +244,7 @@ class Response {
       //retryDelay: axiosRetry.exponentialDelay,
       retryCondition: (error) => {
         console.log('error, retrying')
-        return error.code === 'ECONNRESET' || error.code === 'ECONNABORTED' || axiosRetry.isNetworkOrIdempotentRequestError(error) || error.response.status === 429
+        return error.code === 'ECONNRESET' || error.code === 'ECONNABORTED' || axiosRetry.isNetworkOrIdempotentRequestError(error)
       }
     })
     //this.axios.interceptors.response.use(response => response, handleError);
