@@ -2,6 +2,7 @@ const fs = require('fs')
 const pmConvert = require('./PostmanCovertions')
 const pmAPI = require('./postmanAPI')
 let publicRemoteCollectionId = '23836355-6224d51a-d924-4c39-a58f-6970735aac8e'
+let publicRemoteCollectionNonUId = '6224d51a-d924-4c39-a58f-6970735aac8e'
 let localCollection = JSON.parse(fs.readFileSync(`C:\\git\\api-specs\\postman\\collections\\sailpoint-api-v3.json`).toString())
 
 
@@ -246,14 +247,18 @@ async function updateRequestsInFolder(item, folderId, remoteItem) {
         let postmanRequestBody = buildRequestBody(items)
         let remotePostmanBody = buildRequestBody(remoteRequest)
         if (checkIfDifferent(postmanRequestBody, remotePostmanBody)) {
-            if (remoteRequest) {
-                console.log(`deleting request ${remoteRequest.name}`)
-                let newRequestDelete = await new pmAPI.Request(publicRemoteCollectionId).delete(remoteRequest.id)
-                console.log(`deleted request ${newRequestDelete.data.id}`)
-            }
             postmanRequestBody = buildRequestBody(items)
-            let newRequest = await new pmAPI.Request(publicRemoteCollectionId).create(postmanRequestBody, folderId)
-            console.log(`creating request ${newRequest.data.name}`)
+            if (remoteRequest) {
+                console.log(`updating request ${remoteRequest.name}`)
+                postmanRequestBody.folder = folderId
+                postmanRequestBody.collection = publicRemoteCollectionNonUId
+                let newRequestDelete = await new pmAPI.Request(publicRemoteCollectionId).update(remoteRequest.id, postmanRequestBody)
+                console.log(`updated request ${newRequestDelete.data.id}`)
+            } else {
+                let newRequest = await new pmAPI.Request(publicRemoteCollectionId).create(postmanRequestBody, folderId)
+                console.log(`creating request ${newRequest.data.name}`)
+            }
+
         } else {
             console.log(`no changes to request ${remoteRequest.name}`)
         }

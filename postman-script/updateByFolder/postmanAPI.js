@@ -26,11 +26,13 @@ class Collection {
     this.collectionId = collectionId
     this.apiKey = process.env.POSTMAN_API_KEY
     this.axios = axios.create({
-      timeout: 1000 * 5, // 60 seconds
+      timeout: 1000 * 10, // 60 seconds
       headers: { 'Content-Type': 'application/json', 'X-Api-Key': this.apiKey }
     })
     axiosRetry(this.axios, {
       retries: 10,
+      retryDelay: axiosRetry.exponentialDelay,
+      shouldResetTimeout: true,
       retryCondition: (error) => {
         console.log('error, retrying')
         return error.code === 'ECONNRESET' || error.code === 'ECONNABORTED' || axiosRetry.isNetworkOrIdempotentRequestError(error)
@@ -93,7 +95,8 @@ class Folder {
     })
     axiosRetry(this.axios, {
       retries: 10,
-      //retryDelay: axiosRetry.exponentialDelay,
+      retryDelay: axiosRetry.exponentialDelay,
+      shouldResetTimeout: true,
       retryCondition: (error) => {
         console.log('error, retrying')
         return error.code === 'ECONNRESET' || error.code === 'ECONNABORTED' || axiosRetry.isNetworkOrIdempotentRequestError(error)
@@ -165,6 +168,7 @@ class Request {
     axiosRetry(this.axios, {
       retries: 10,
       retryDelay: axiosRetry.exponentialDelay,
+      shouldResetTimeout: true,
       retryCondition: (error) => {
         console.log('error, retrying')
         return error.code === 'ECONNRESET' || error.code === 'ECONNABORTED' || axiosRetry.isNetworkOrIdempotentRequestError(error)
@@ -241,7 +245,8 @@ class Response {
     })
     axiosRetry(this.axios, {
       retries: 10,
-      //retryDelay: axiosRetry.exponentialDelay,
+      retryDelay: axiosRetry.exponentialDelay,
+      shouldResetTimeout: true,
       retryCondition: (error) => {
         console.log('error, retrying')
         return error.code === 'ECONNRESET' || error.code === 'ECONNABORTED' || axiosRetry.isNetworkOrIdempotentRequestError(error)
