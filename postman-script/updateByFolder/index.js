@@ -3,6 +3,7 @@ const pmConvert = require('./PostmanCovertions')
 const pmAPI = require('./postmanAPI')
 let publicRemoteCollectionId = '23836355-6224d51a-d924-4c39-a58f-6970735aac8e'
 let publicRemoteCollectionNonUId = '6224d51a-d924-4c39-a58f-6970735aac8e'
+let mainPublicCollectionId = '23836355-220ca56f-ba1b-4ff2-ad1e-7e0a6bfb6cb4'
 let localCollection = JSON.parse(fs.readFileSync(`C:\\git\\api-specs\\postman\\collections\\sailpoint-api-v3.json`).toString())
 
 
@@ -34,7 +35,7 @@ const release = async () => {
             for (let item of remoteCollection.collection.item) {
                 await new pmAPI.Folder(publicRemoteCollectionId).delete(item.id)
             }
-            // now update the collection with the changes. All folders will be later in code
+            // now update the collection with the changes. All folders will be added later in code
             let updatedCollection = await new pmAPI.Collection(publicRemoteCollectionId).update({collection : localEmptyCollection})
             remoteCollection = await refreshRemoteCollection(publicRemoteCollectionId)
         }
@@ -79,6 +80,13 @@ const release = async () => {
         }
     }
 
+    // push changes to the forked collection
+    await new pmAPI.Collection(publicRemoteCollectionId).merge(mainPublicCollectionId)
+    .then(() => { console.log(msg, '-> OK\n') })
+    .catch((error) => {
+      console.log(msg, '-> FAIL')
+      handlePostmanAPIError(error)
+    })
 
 }
 
@@ -95,6 +103,15 @@ function getMatchingRequest(localRequest, remoteRequests) {
     for (let request of remoteRequests) {
         if (request.name === localRequest.name && request.request.method === localRequest.request.method && localRequest.request.url.host + '/' + localRequest.request.url.path.join('/') === request.request.url.host + '/' + request.request.url.path.join('/')) {
             return request
+        }
+    }
+    return null
+}
+
+function getMatchingResponse(localResponse, remoteResponses) {
+    for (let response of remoteResponses) {
+        if (response.name === localResponse.name && response.responseCode.code === localResponse.responseCode.code) {
+            return response
         }
     }
     return null
@@ -246,6 +263,38 @@ async function updateRequestsInFolder(item, folderId, remoteItem) {
         let remoteRequest = getMatchingRequest(items, remoteItem.item)
         let postmanRequestBody = buildRequestBody(items)
         let remotePostmanBody = buildRequestBody(remoteRequest)
+
+        // remove responses from request that are no longer there
+        for (let response of remotePostmanBody.responses) {
+            let localResponse = getMatchingResponse(response, postmanRequestBody.responses)
+            if (localResponse == null) {
+                console.log(`deleting response ${response.name}`)
+                let newRequestDelete = await new pmAPI.Response(publicRemoteCollectionId).delete(response.id)
+                console.log(`deleted response ${newRequestDelete.data.id}`)
+            }
+        }
+
+
+        // check all responses in request
+        for (let response of postmanRequestBody.responses) {
+            let remoteResponse = getMatchingResponse(response, remotePostmanBody.responses)
+            if (checkIfDifferent(response, remoteResponse)) {
+                if (remoteResponse) {
+                    console.log(`updating response ${remoteResponse.name}`)
+                    let newRequestDelete = await new pmAPI.Response(publicRemoteCollectionId).update(response, remoteResponse.id)
+                    console.log(`updated response ${newRequestDelete.data.id}`)
+                } else {
+                    let newRequest = await new pmAPI.Response(publicRemoteCollectionId).create(response, remoteRequest.id)
+                    console.log(`creating request ${newRequest.data.name}`)
+                }
+            } else {
+                console.log(`no changes to request ${remoteRequest.name}`)
+            }
+        }
+
+        delete postmanRequestBody.responses
+        delete remotePostmanBody.responses
+        // now check if the request has any changes in it
         if (checkIfDifferent(postmanRequestBody, remotePostmanBody)) {
             postmanRequestBody = buildRequestBody(items)
             if (remoteRequest) {
@@ -258,7 +307,6 @@ async function updateRequestsInFolder(item, folderId, remoteItem) {
                 let newRequest = await new pmAPI.Request(publicRemoteCollectionId).create(postmanRequestBody, folderId)
                 console.log(`creating request ${newRequest.data.name}`)
             }
-
         } else {
             console.log(`no changes to request ${remoteRequest.name}`)
         }

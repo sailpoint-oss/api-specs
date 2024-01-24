@@ -278,6 +278,21 @@ class Response {
       } else {
         return axiosResp.data
       }
+    }).catch(function (error) {
+      console.log(error)
+    })
+  }
+
+  async update (response, responseId) {
+    return await this.axios.put(
+        `https://api.getpostman.com/collections/${this.collectionId}/responses/${responseId}`,
+        response
+    ).then(function (axiosResp) {
+      if (axiosResp.status !== 200) {
+        throw new Error(`Error creating response ${response.id}: ${axiosResp.status} ${axiosResp.statusText}`)
+      } else {
+        return axiosResp.data
+      }
     })
   }
 
