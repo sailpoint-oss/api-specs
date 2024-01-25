@@ -29,6 +29,9 @@ jobs:
       - name: Dereference API Specification and build Postman collection
         run: |
           echo "${{ secrets.POSTMAN_API_KEY }}" > .env
+          cd postman-script/updateByFolder
+          npm ci
+          cd ../../
           swagger-cli bundle --dereference idn/sailpoint-api.v3.yaml -t yaml -o dereferenced/deref-sailpoint-api.v3.yaml
           openapi2postmanv2 -s dereferenced/deref-sailpoint-api.v3.yaml -o postman/collections/sailpoint-api-v3.json -p -O folderStrategy=Tags,requestParametersResolution=Schema,exampleParametersResolution=Schema,disableOptionalParameters=true,optimizeConversion=false,stackLimit=50,alwaysInheritAuthentication=true
           node postman-script/modify-collection.js postman/collections/sailpoint-api-v3.json
