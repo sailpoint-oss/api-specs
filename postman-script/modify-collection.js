@@ -47,8 +47,10 @@ fs.readFile(args[2], 'utf8', (err, data) => {
     }
 
 
-
+    
     // Write the modified JSON content back to the file
+    // Use the line below if you need it to be in a format that can be uploaded to postman
+    //fs.writeFile(args[2], JSON.stringify({"collection": jsonObject}, null, 2), (writeErr) => {
     fs.writeFile(args[2], JSON.stringify(jsonObject, null, 2), (writeErr) => {
       if (writeErr) {
         console.error('Error writing the file:', writeErr);
