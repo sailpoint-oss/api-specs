@@ -28,7 +28,7 @@ jobs:
           npm install -g openapi-to-postmanv2
       - name: Dereference API Specification and build Postman collection
         run: |
-          echo "${{ secrets.POSTMAN_API_KEY }}" > .env
+          echo POSTMAN_API_KEY="${{ secrets.POSTMAN_API_KEY }}" > .env
           cd postman-script/updateByFolder
           npm ci
           cd ../../
