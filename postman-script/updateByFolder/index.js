@@ -1,17 +1,37 @@
 const fs = require('fs')
+const args = process.argv;
 const pmConvert = require('./PostmanCovertions')
 const pmAPI = require('./postmanAPI')
-let publicRemoteCollectionId = '23836355-6224d51a-d924-4c39-a58f-6970735aac8e'
-let publicRemoteCollectionNonUId = '6224d51a-d924-4c39-a58f-6970735aac8e'
-let mainPublicCollectionId = '23836355-220ca56f-ba1b-4ff2-ad1e-7e0a6bfb6cb4'
-let localCollection = JSON.parse(fs.readFileSync(`C:\\git\\api-specs\\postman\\collections\\sailpoint-api-v3.json`).toString())
+let privateRemoteCollectionId = '23226990-e27d8a83-24d7-4de8-9c33-419fe65aaa9c'  //must be in normal ID format
+let mainPublicCollectionId = '23836355-220ca56f-ba1b-4ff2-ad1e-7e0a6bfb6cb4' //must be in UUID format
+let localCollection = {}//JSON.parse(fs.readFileSync(`C:\\git\\api-specs\\postman\\collections\\sailpoint-api-v3.json`).toString())
+let changesMade = false;
 
-
-
+const postmanCollections = {
+    v3: '67f2ed91-57dc-470b-b2fb-bc2ed1dfd655',
+    v3Uid: '23226990-67f2ed91-57dc-470b-b2fb-bc2ed1dfd655',
+    v3Public: '23226990-3721beea-5615-44b4-9459-e858a0ca7aed',
+    v3Location: 'postman/collections/sailpoint-api-v3.json',
+    beta: '6617193f-0b30-4f11-b42d-6aa7e60759ca',
+    betaUid: '23226990-6617193f-0b30-4f11-b42d-6aa7e60759ca',
+    betaPublic: '23226990-3b87172a-cd55-40a2-9ace-1560a1158a4e',
+    betaLocation: 'postman/collections/sailpoint-api-beta.json',
+    nerm: '91b47f89-5fc4-4111-b9c6-382cf29d1475',
+    nermUid: '23226990-91b47f89-5fc4-4111-b9c6-382cf29d1475',
+    nermPublic: '23226990-20d718e3-b9b3-43ad-850c-637b00864ae2',
+    nermLocation: 'postman/collections/sailpoint-api-nerm.json'
+}
 
 const release = async () => {
 
-    let remoteCollection = await refreshRemoteCollection(publicRemoteCollectionId)
+
+    privateRemoteCollectionId = postmanCollections[args[2].toLowerCase()]
+    privateRemoteCollectionIdUid = postmanCollections[args[2].toLowerCase() + 'Uid']
+    mainPublicCollectionId = postmanCollections[args[2].toLowerCase() + 'Public']
+    localCollection = JSON.parse(fs.readFileSync(postmanCollections[args[2].toLowerCase() + 'Location'], 'utf8'))
+
+
+    let remoteCollection = await refreshRemoteCollection(privateRemoteCollectionId)
 
 
 
@@ -24,40 +44,52 @@ const release = async () => {
     }
 
     // check if the top level collection has changed, If so, update it... This will delete all folders unfortunately.
-    if (checkIfDifferent(localCollection.event, remoteCollection.collection.event)
-        || checkIfDifferent( localCollection.info.description.content, remoteCollection.collection.info.description)
-        || checkIfDifferent( localCollection.info.name, remoteCollection.collection.info.name)
-        || checkIfDifferent(localCollection.variable, remoteCollection.collection.variable)
-        || checkIfDifferent( localCollection.auth, remoteCollection.collection.auth)) {
+    // skipping this for now as it's just too dangerous and we can manually update in these cases
+
+    if (1===2) {
+
+        if (checkIfDifferent(removeIdFields(localCollection.event), removeIdFields(remoteCollection.collection.event))
+        || checkIfDifferent( removeIdFields(localCollection.info.description.content), removeIdFields(remoteCollection.collection.info.description))
+        || checkIfDifferent( removeIdFields(localCollection.info.name), removeIdFields(remoteCollection.collection.info.name))
+        || checkIfDifferent(removeIdFields(localCollection.variable), removeIdFields(remoteCollection.collection.variable))
+        || checkIfDifferent( removeIdFields(localCollection.auth), removeIdFields(remoteCollection.collection.auth))) {
             const localEmptyCollection = { ...localCollection }
             localEmptyCollection.item = []
             //delete all folders. Do this one at a time so it doesn't timeout
             for (let item of remoteCollection.collection.item) {
-                await new pmAPI.Folder(publicRemoteCollectionId).delete(item.id)
+                await new pmAPI.Folder(privateRemoteCollectionId).delete(item.id)
+                changesMade = true
             }
             // now update the collection with the changes. All folders will be added later in code
-            let updatedCollection = await new pmAPI.Collection(publicRemoteCollectionId).update({collection : localEmptyCollection})
-            remoteCollection = await refreshRemoteCollection(publicRemoteCollectionId)
+            let updatedCollection = await new pmAPI.Collection(privateRemoteCollectionId).update({collection : localEmptyCollection})
+            remoteCollection = await refreshRemoteCollection(privateRemoteCollectionId)
         }
+    }
+
 
     // add any missing folders
     for (let item of localCollection.item) {
         let folder = getMatchingFolder(item, remoteCollection.collection.item)
-        if (checkIfDifferent(folder.description, item.description)) {
-            console.log(`updating folder ${folder.name}`)
-            await new pmAPI.Folder(publicRemoteCollectionId).update(folder.id, { description: item.description })
-            console.log(`updated folder ${folder.name}`)
-        }
         if (folder == null) {
             await updateEntireFolder(item)
+        } else {
+            if (checkIfDifferent(folder.description, item.description)) {
+                console.log(`updating folder ${folder.name}`)
+                await new pmAPI.Folder(privateRemoteCollectionId).update(folder.id, { description: item.description })
+                changesMade = true
+                console.log(`updated folder ${folder.name}`)
+            }
         }
+
+
     }
 
     // delete any folders that are no longer in the collection
     for (let folder of remoteCollection.collection.item) {
         let localFolder = getMatchingFolder(folder, localCollection.item)
         if (localFolder == null) {
-            await new pmAPI.Folder(publicRemoteCollectionId).delete(folder.id)
+            await new pmAPI.Folder(privateRemoteCollectionId).delete(folder.id)
+            changesMade = true
         }
     }
 
@@ -67,7 +99,8 @@ const release = async () => {
         for (let items of folder.item) {
             let remoteRequest = getMatchingRequest(items, localFolder.item)
             if (remoteRequest == null) {
-                await new pmAPI.Request(publicRemoteCollectionId).delete(items.id)
+                await new pmAPI.Request(privateRemoteCollectionId).delete(items.id)
+                changesMade = true
             }
         }
     }
@@ -80,12 +113,15 @@ const release = async () => {
         }
     }
 
-    // push changes to the forked collection
-    await new pmAPI.Collection(publicRemoteCollectionId).merge(mainPublicCollectionId)
-    .then(() => { console.log(msg, '-> OK\n') })
+    // push changes to the forked collections
+    const msg = 'Merging to public collection'
+    console.log('\n' + msg + '...')
+    await new pmAPI.Collection(privateRemoteCollectionIdUid).merge(mainPublicCollectionId)
+    .then(() => { 
+        console.log(msg, '-> OK\n') }
+        )
     .catch((error) => {
       console.log(msg, '-> FAIL')
-      handlePostmanAPIError(error)
     })
 
 }
@@ -242,7 +278,7 @@ function isObject(object) {
 
 async function updateEntireFolder(item, folderId) {
     if (item.item && !folderId) {
-        let newFolder = await new pmAPI.Folder(publicRemoteCollectionId).create(item)
+        let newFolder = await new pmAPI.Folder(privateRemoteCollectionId).create(item)
         await updateEntireFolder(item.item, newFolder.data.id)
     } else {
         for (let items of item) {
@@ -251,7 +287,8 @@ async function updateEntireFolder(item, folderId) {
                 responses.push(pmConvert.responseFromLocal(response, {}))
             }
             let postmanRequestBody = pmConvert.requestFromLocal(items, responses)
-            let newRequest = await new pmAPI.Request(publicRemoteCollectionId).create(postmanRequestBody, folderId)
+            let newRequest = await new pmAPI.Request(privateRemoteCollectionId).create(postmanRequestBody, folderId)
+            changesMade = true
             console.log(newRequest.data.name)
         }
     }
@@ -269,7 +306,8 @@ async function updateRequestsInFolder(item, folderId, remoteItem) {
             let localResponse = getMatchingResponse(response, postmanRequestBody.responses)
             if (localResponse == null) {
                 console.log(`deleting response ${response.name}`)
-                let newRequestDelete = await new pmAPI.Response(publicRemoteCollectionId).delete(response.id)
+                let newRequestDelete = await new pmAPI.Response(privateRemoteCollectionId).delete(response.id)
+                changesMade = true
                 console.log(`deleted response ${newRequestDelete.data.id}`)
             }
         }
@@ -281,10 +319,12 @@ async function updateRequestsInFolder(item, folderId, remoteItem) {
             if (checkIfDifferent(response, remoteResponse)) {
                 if (remoteResponse) {
                     console.log(`updating response ${remoteResponse.name}`)
-                    let newRequestDelete = await new pmAPI.Response(publicRemoteCollectionId).update(response, remoteResponse.id)
+                    let newRequestDelete = await new pmAPI.Response(privateRemoteCollectionId).update(response, remoteResponse.id)
+                    changesMade = true
                     console.log(`updated response ${newRequestDelete.data.id}`)
                 } else {
-                    let newRequest = await new pmAPI.Response(publicRemoteCollectionId).create(response, remoteRequest.id)
+                    let newRequest = await new pmAPI.Response(privateRemoteCollectionId).create(response, remoteRequest.id)
+                    changesMade = true
                     console.log(`creating request ${newRequest.data.name}`)
                 }
             } else {
@@ -300,11 +340,13 @@ async function updateRequestsInFolder(item, folderId, remoteItem) {
             if (remoteRequest) {
                 console.log(`updating request ${remoteRequest.name}`)
                 postmanRequestBody.folder = folderId
-                postmanRequestBody.collection = publicRemoteCollectionNonUId
-                let newRequestDelete = await new pmAPI.Request(publicRemoteCollectionId).update(remoteRequest.id, postmanRequestBody)
+                postmanRequestBody.collection = privateRemoteCollectionId
+                let newRequestDelete = await new pmAPI.Request(privateRemoteCollectionId).update(remoteRequest.id, postmanRequestBody)
+                changesMade = true
                 console.log(`updated request ${newRequestDelete.data.id}`)
             } else {
-                let newRequest = await new pmAPI.Request(publicRemoteCollectionId).create(postmanRequestBody, folderId)
+                let newRequest = await new pmAPI.Request(privateRemoteCollectionId).create(postmanRequestBody, folderId)
+                changesMade = true
                 console.log(`creating request ${newRequest.data.name}`)
             }
         } else {
@@ -324,5 +366,7 @@ async function refreshRemoteCollection (remoteCollectionID) {
       })
     return remoteCollection
   }
+
+
 
 release()
