@@ -18,6 +18,12 @@ properties:
       - SLACK
       - TEAMS
     example: EMAIL
+  slackTemplate:
+    type: string
+    description: Slack template
+  teamsTemplate:
+    type: string
+    description: Teams template
   locale:
     type: string
     description: The locale for the message text, a BCP 47 language tag.
