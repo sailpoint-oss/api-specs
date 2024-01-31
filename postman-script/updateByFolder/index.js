@@ -300,40 +300,46 @@ async function updateRequestsInFolder(item, folderId, remoteItem) {
         let remoteRequest = getMatchingRequest(items, remoteItem.item)
         let postmanRequestBody = buildRequestBody(items)
         let remotePostmanBody = buildRequestBody(remoteRequest)
-
-        // remove responses from request that are no longer there
-        for (let response of remotePostmanBody.responses) {
-            let localResponse = getMatchingResponse(response, postmanRequestBody.responses)
-            if (localResponse == null) {
-                console.log(`deleting response ${response.name}`)
-                let newRequestDelete = await new pmAPI.Response(privateRemoteCollectionId).delete(response.id)
-                changesMade = true
-                console.log(`deleted response ${newRequestDelete.data.id}`)
-            }
-        }
-
-
-        // check all responses in request
-        for (let response of postmanRequestBody.responses) {
-            let remoteResponse = getMatchingResponse(response, remotePostmanBody.responses)
-            if (checkIfDifferent(response, remoteResponse)) {
-                if (remoteResponse) {
-                    console.log(`updating response ${remoteResponse.name}`)
-                    let newRequestDelete = await new pmAPI.Response(privateRemoteCollectionId).update(response, remoteResponse.id)
+        if (remoteRequest !== null) {
+            // remove responses from request that are no longer there
+            for (let response of remotePostmanBody.responses) {
+                let localResponse = getMatchingResponse(response, postmanRequestBody.responses)
+                if (localResponse == null) {
+                    console.log(`deleting response ${response.name}`)
+                    let newRequestDelete = await new pmAPI.Response(privateRemoteCollectionId).delete(response.id)
                     changesMade = true
-                    console.log(`updated response ${newRequestDelete.data.id}`)
-                } else {
-                    let newRequest = await new pmAPI.Response(privateRemoteCollectionId).create(response, remoteRequest.id)
-                    changesMade = true
-                    console.log(`creating request ${newRequest.data.name}`)
+                    console.log(`deleted response ${newRequestDelete.data.id}`)
                 }
-            } else {
-                console.log(`no changes to request ${remoteRequest.name}`)
             }
+
+
+            // check all responses in request
+            for (let response of postmanRequestBody.responses) {
+                let remoteResponse = getMatchingResponse(response, remotePostmanBody.responses)
+                if (checkIfDifferent(response, remoteResponse)) {
+                    if (remoteResponse) {
+                        console.log(`updating response ${remoteResponse.name}`)
+                        let newRequestDelete = await new pmAPI.Response(privateRemoteCollectionId).update(response, remoteResponse.id)
+                        changesMade = true
+                        console.log(`updated response ${newRequestDelete.data.id}`)
+                    } else {
+                        let newRequest = await new pmAPI.Response(privateRemoteCollectionId).create(response, remoteRequest.id)
+                        changesMade = true
+                        console.log(`creating request ${newRequest.data.name}`)
+                    }
+                } else {
+                    console.log(`no changes to request ${remoteRequest.name}`)
+                }
+            }
+            delete remotePostmanBody.responses
+            delete postmanRequestBody.responses
+        } else {
+            console.log(`request is null`)
         }
 
-        delete postmanRequestBody.responses
-        delete remotePostmanBody.responses
+
+        
+        
         // now check if the request has any changes in it
         if (checkIfDifferent(postmanRequestBody, remotePostmanBody)) {
             postmanRequestBody = buildRequestBody(items)

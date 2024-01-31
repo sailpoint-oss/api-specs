@@ -4065,6 +4065,11 @@ paths:
                       description: The role ids that are permitted for this profile type.
                       example:
                         - 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
+                    isc_synced:
+                      type: boolean
+                      default: false
+                      description: Is this profile type synced with ics
+                      example: false
                     profile_type_dup_attributes:
                       type: array
                       items:
@@ -4176,6 +4181,10 @@ paths:
                         description: The role ids that are permitted for this profile type.
                         example:
                           - 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
+                      isc_synced:
+                        type: boolean
+                        description: Is this profile type synced with ics
+                        example: false
                       profile_type_dup_attributes:
                         type: array
                         items:
@@ -4367,6 +4376,10 @@ paths:
                           description: The role ids that are permitted for this profile type.
                           example:
                             - 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
+                        isc_synced:
+                          type: boolean
+                          description: Is this profile type synced with ics
+                          example: false
                         profile_type_dup_attributes:
                           type: array
                           items:
@@ -4536,6 +4549,10 @@ paths:
                         description: The role ids that are permitted for this profile type.
                         example:
                           - 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
+                      isc_synced:
+                        type: boolean
+                        description: Is this profile type synced with ics
+                        example: false
                       profile_type_dup_attributes:
                         type: array
                         items:
@@ -4675,6 +4692,11 @@ paths:
                       description: The role ids that are permitted for this profile type.
                       example:
                         - 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
+                    isc_synced:
+                      type: boolean
+                      default: false
+                      description: Is this profile type synced with ics
+                      example: false
                     profile_type_dup_attributes:
                       type: array
                       items:
@@ -4786,6 +4808,10 @@ paths:
                         description: The role ids that are permitted for this profile type.
                         example:
                           - 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
+                      isc_synced:
+                        type: boolean
+                        description: Is this profile type synced with ics
+                        example: false
                       profile_type_dup_attributes:
                         type: array
                         items:
@@ -4880,6 +4906,286 @@ paths:
         - name: id
           in: path
           description: 'ID of the object to retrieve, update, or delete'
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 1246d8b3-ac29-4015-8154-dea4434a73fa
+      responses:
+        '200':
+          description: Info about the operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    description: A message confirming the operation
+                    example: object deleted
+        '400':
+          description: Bad Request - unable to complete.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      error:
+                        example: Invalid JSON syntax. Please check your syntax and try again.
+                  - type: object
+                    properties:
+                      error:
+                        example: The <object> failed to create/update
+                      errors:
+                        example:
+                          attribute: can't be blank
+        '500':
+          description: Internal Server Error - returned on unhandled exceptions.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    description: A message describing the error
+                    example: Sorry something went wrong
+  '/profile_types/{profile_type_id}/ne_attributes':
+    get:
+      summary: profile_types/ne_attributes synced status
+      operationId: getProfileTypeAttributes
+      description: Get ne attributes and synced attribute relationship to profile type.
+      tags:
+        - synced attributes
+      parameters:
+        - name: profile_type_id
+          in: path
+          description: Profile type ID of the object
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 1246d8b3-ac29-4015-8154-dea4434a73fa
+        - name: active_filter
+          in: query
+          description: Filter for profile type synced attributes
+          required: false
+          schema:
+            type: string
+            enum:
+              - synced
+              - unsynced
+              - all
+            example: all
+        - name: search
+          in: query
+          description: Filter by string
+          required: false
+          schema:
+            type: string
+            example: search
+        - name: page
+          in: query
+          description: Pagination page number
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            example: 5
+        - name: page
+          in: query
+          description: Pagination items per page
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            example: 5
+        - name: sort
+          in: query
+          description: How records should be sorted
+          required: false
+          schema:
+            type: object
+            example:
+              attr: sync
+              order: asc
+            properties:
+              attr:
+                type: string
+                example: sync
+              order:
+                type: string
+                enum:
+                  - asc
+                  - desc
+                example: asc
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  form:
+                    type: object
+                    properties:
+                      count:
+                        type: integer
+                        format: int32
+                        description: How many ne attribute records exist
+                        example: 5
+                      records:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              description: ID of ne attribute
+                              type: string
+                              format: uuid
+                              readOnly: true
+                              example: 1246d8b3-ac29-4015-8154-dea4434a73fa
+                            uid:
+                              description: Ne attribute's uid
+                              type: string
+                              minLength: 32
+                              maxLength: 32
+                              readOnly: true
+                              example: 1246d8b3-ac29-4015-8154-dea4434a73fa
+                            label:
+                              description: Ne attribute's label
+                              type: string
+                              required: true
+                              readOnly: true
+                              example: object
+                            synced:
+                              description: synced_attribute ID if there is one
+                              type: uuid
+                              required: false
+                              example: 1246d8b3-ac29-4015-8154-dea4434a73fa
+        '400':
+          description: Bad Request - unable to complete.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      error:
+                        example: Invalid JSON syntax. Please check your syntax and try again.
+                  - type: object
+                    properties:
+                      error:
+                        example: The <object> failed to create/update
+                      errors:
+                        example:
+                          attribute: can't be blank
+        '500':
+          description: Internal Server Error - returned on unhandled exceptions.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    description: A message describing the error
+                    example: Sorry something went wrong
+  '/profile_types/{profile_type_id}/synced_attributes':
+    post:
+      summary: Create a synced attribute
+      operationId: createSyncedAttribute
+      description: Create synced attribute
+      tags:
+        - synced attributes
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ne_attribute_id:
+                  type: string
+                  format: uuid
+                  example: 1246d8b3-ac29-4015-8154-dea4434a73fa
+                  description: synced attribute's ID
+      responses:
+        '201':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  synced_attribute:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                        readOnly: true
+                        example: 1246d8b3-ac29-4015-8154-dea4434a73fa
+                        description: synced attribute's ID
+                      profile_type_id:
+                        type: string
+                        format: uuid
+                        readOnly: true
+                        example: 1246d8b3-ac29-4015-8154-dea4434a73fa
+                        description: Profile type ID of synced attribute
+                      ne_attribute_id:
+                        type: string
+                        format: uuid
+                        readOnly: true
+                        example: 1246d8b3-ac29-4015-8154-dea4434a73fa
+                        description: Ne attribute ID of synced attribute
+        '400':
+          description: Bad Request - unable to complete.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      error:
+                        example: Invalid JSON syntax. Please check your syntax and try again.
+                  - type: object
+                    properties:
+                      error:
+                        example: The <object> failed to create/update
+                      errors:
+                        example:
+                          attribute: can't be blank
+        '500':
+          description: Internal Server Error - returned on unhandled exceptions.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    description: A message describing the error
+                    example: Sorry something went wrong
+  '/profile_types/{profile_type_id}/synced_attributes/{ne_attribute_id}':
+    delete:
+      summary: Delete synced attribute
+      operationId: deleteSyncedAttribute
+      description: Delete a synced attribute.
+      tags:
+        - synced attributes
+      parameters:
+        - name: profile_type_id
+          in: path
+          description: Profile type ID of the object
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 1246d8b3-ac29-4015-8154-dea4434a73fa
+        - name: ne_attribute_id
+          in: path
+          description: Ne attribute ID of the object
           required: true
           schema:
             type: string
@@ -6148,6 +6454,7 @@ paths:
           schema:
             type: string
             format: uuid
+            example: 1246d8b3-ac29-4015-8154-dea4434a73fa
       responses:
         '200':
           description: Expected response to a valid request
@@ -6209,6 +6516,7 @@ paths:
           schema:
             type: string
             format: uuid
+            example: 1246d8b3-ac29-4015-8154-dea4434a73fa
       requestBody:
         required: true
         content:
@@ -14701,6 +15009,7 @@ paths:
           schema:
             type: string
             format: uuid
+            example: 1246d8b3-ac29-4015-8154-dea4434a73fa
       responses:
         '200':
           description: Expected response to a valid request
@@ -14762,6 +15071,7 @@ paths:
           schema:
             type: string
             format: uuid
+            example: 1246d8b3-ac29-4015-8154-dea4434a73fa
       requestBody:
         required: true
         content:
