@@ -33,15 +33,15 @@ jobs:
           npm ci
           cd ../../
           swagger-cli bundle --dereference idn/sailpoint-api.v3.yaml -t yaml -o dereferenced/deref-sailpoint-api.v3.yaml
-          openapi2postmanv2 -s dereferenced/deref-sailpoint-api.v3.yaml -o postman/collections/sailpoint-api-v3.json -p -O folderStrategy=Tags,requestParametersResolution=Schema,exampleParametersResolution=Schema,disableOptionalParameters=true,optimizeConversion=false,stackLimit=50,alwaysInheritAuthentication=true
+          openapi2postmanv2 -s dereferenced/deref-sailpoint-api.v3.yaml -o postman/collections/sailpoint-api-v3.json -p -c postman-script/openapi2postman-config.json
           node postman-script/modify-collection.js postman/collections/sailpoint-api-v3.json
           node postman-script/updateByFolder/index.js v3
           swagger-cli bundle --dereference idn/sailpoint-api.beta.yaml -t yaml -o dereferenced/deref-sailpoint-api.beta.yaml
-          openapi2postmanv2 -s dereferenced/deref-sailpoint-api.beta.yaml -o postman/collections/sailpoint-api-beta.json -p -O folderStrategy=Tags,requestParametersResolution=Schema,exampleParametersResolution=Schema,disableOptionalParameters=true,optimizeConversion=false,stackLimit=50,alwaysInheritAuthentication=true
+          openapi2postmanv2 -s dereferenced/deref-sailpoint-api.beta.yaml -o postman/collections/sailpoint-api-beta.json -p -c postman-script/openapi2postman-config.json
           node postman-script/modify-collection.js postman/collections/sailpoint-api-beta.json
           node postman-script/updateByFolder/index.js beta
           swagger-cli bundle --dereference nerm/openapi.yaml -t yaml -o dereferenced/deref-sailpoint-api.nerm.yaml
-          openapi2postmanv2 -s dereferenced/deref-sailpoint-api.nerm.yaml -o postman/collections/sailpoint-api-nerm.json -p -O folderStrategy=Tags,requestParametersResolution=Schema,exampleParametersResolution=Schema,disableOptionalParameters=true,optimizeConversion=false,stackLimit=50,alwaysInheritAuthentication=true
+          openapi2postmanv2 -s dereferenced/deref-sailpoint-api.nerm.yaml -o postman/collections/sailpoint-api-nerm.json -p -c postman-script/openapi2postman-config.json
           node postman-script/updateByFolder/index.js nerm
           swagger-cli bundle --dereference idn/sailpoint-api.v3.yaml -t json -o dereferenced/deref-sailpoint-api.v3.json
           swagger-cli bundle --dereference idn/sailpoint-api.beta.yaml -t json -o dereferenced/deref-sailpoint-api.beta.json
