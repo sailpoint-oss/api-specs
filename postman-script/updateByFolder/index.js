@@ -8,13 +8,13 @@ let localCollection = {}//JSON.parse(fs.readFileSync(`C:\\git\\api-specs\\postma
 let changesMade = false;
 
 const postmanCollections = {
-    v3: '67f2ed91-57dc-470b-b2fb-bc2ed1dfd655',
-    v3Uid: '23226990-67f2ed91-57dc-470b-b2fb-bc2ed1dfd655',
+    v3: 'daf693e6-7856-4c62-8c11-4102e6729766',
+    v3Uid: '23226990-daf693e6-7856-4c62-8c11-4102e6729766',
     v3Public: '23226990-3721beea-5615-44b4-9459-e858a0ca7aed',
     v3Location: 'postman/collections/sailpoint-api-v3.json',
     v3SpecLocation: 'dereferenced/deref-sailpoint-api.v3.json',
-    beta: '6617193f-0b30-4f11-b42d-6aa7e60759ca',
-    betaUid: '23226990-6617193f-0b30-4f11-b42d-6aa7e60759ca',
+    beta: 'a5545e8a-7941-4518-8763-4b09adcee185',
+    betaUid: '23226990-a5545e8a-7941-4518-8763-4b09adcee185',
     betaPublic: '23226990-3b87172a-cd55-40a2-9ace-1560a1158a4e',
     betaLocation: 'postman/collections/sailpoint-api-beta.json',
     betaSpecLocation: 'dereferenced/deref-sailpoint-api.beta.json',
@@ -127,6 +127,7 @@ const release = async () => {
         )
     .catch((error) => {
       console.log(msg, '-> FAIL')
+      throw error("Failed to merge to public collection")
     })
 
 }
@@ -236,9 +237,7 @@ function syncKeys(obj1, obj2) {
 
 
 function isDeepEqual(obj1, obj2) {
-    if (obj1['name'] && obj1['name'] === 'List of Access Profiles') {
-        console.log('here')
-    }
+
     if (areValuesEqual(obj1, obj2)) {
         return true
     }
@@ -323,6 +322,7 @@ async function updateEntireFolder(item, folderId) {
                 responses.push(pmConvert.responseFromLocal(response, {}))
             }
             let postmanRequestBody = pmConvert.requestFromLocal(items, responses)
+            console.log(`creating request ${postmanRequestBody.name} with id: ${postmanRequestBody.id}`)
             let newRequest = await new pmAPI.Request(privateRemoteCollectionId).create(postmanRequestBody, folderId)
             changesMade = true
             console.log(newRequest.data.name)
