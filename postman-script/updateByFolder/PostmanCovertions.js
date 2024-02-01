@@ -108,17 +108,23 @@ const requestFromLocal = (localRequest, responses) => {
     }
     
     const responseFromLocal = (localResponse, requestObject) => {
-      const headers = localResponse.header
-      .map((item) => ({ key: item.key, value: item.value }))
-      .sort((a, b) => {
-          if (a.key < b.key) {
-              return -1;
-          }
-          if (a.key > b.key) {
-              return 1;
-          }
-          return 0;
-      });
+      let headers = []
+      if (localResponse.header) {
+        headers = localResponse.header
+        .map((item) => ({ key: item.key, value: item.value }))
+        .sort((a, b) => {
+            if (a.key < b.key) {
+                return -1;
+            }
+            if (a.key > b.key) {
+                return 1;
+            }
+            return 0;
+        });
+      } else {
+        console.log(`missing headers for response ${localResponse.name}`)
+      }
+      
       const response = {
         // owner: '8119550',
         // lastUpdatedBy: '8119550',

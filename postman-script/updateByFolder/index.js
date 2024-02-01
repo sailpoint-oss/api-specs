@@ -8,19 +8,23 @@ let localCollection = {}//JSON.parse(fs.readFileSync(`C:\\git\\api-specs\\postma
 let changesMade = false;
 
 const postmanCollections = {
-    v3: '67f2ed91-57dc-470b-b2fb-bc2ed1dfd655',
-    v3Uid: '23226990-67f2ed91-57dc-470b-b2fb-bc2ed1dfd655',
+    v3: 'daf693e6-7856-4c62-8c11-4102e6729766',
+    v3Uid: '23226990-daf693e6-7856-4c62-8c11-4102e6729766',
     v3Public: '23226990-3721beea-5615-44b4-9459-e858a0ca7aed',
     v3Location: 'postman/collections/sailpoint-api-v3.json',
-    beta: '6617193f-0b30-4f11-b42d-6aa7e60759ca',
-    betaUid: '23226990-6617193f-0b30-4f11-b42d-6aa7e60759ca',
+    v3SpecLocation: 'dereferenced/deref-sailpoint-api.v3.json',
+    beta: 'a5545e8a-7941-4518-8763-4b09adcee185',
+    betaUid: '23226990-a5545e8a-7941-4518-8763-4b09adcee185',
     betaPublic: '23226990-3b87172a-cd55-40a2-9ace-1560a1158a4e',
     betaLocation: 'postman/collections/sailpoint-api-beta.json',
+    betaSpecLocation: 'dereferenced/deref-sailpoint-api.beta.json',
     nerm: '91b47f89-5fc4-4111-b9c6-382cf29d1475',
     nermUid: '23226990-91b47f89-5fc4-4111-b9c6-382cf29d1475',
     nermPublic: '23226990-20d718e3-b9b3-43ad-850c-637b00864ae2',
     nermLocation: 'postman/collections/sailpoint-api-nerm.json'
+
 }
+
 
 const release = async () => {
 
@@ -29,6 +33,7 @@ const release = async () => {
     privateRemoteCollectionIdUid = postmanCollections[args[2].toLowerCase() + 'Uid']
     mainPublicCollectionId = postmanCollections[args[2].toLowerCase() + 'Public']
     localCollection = JSON.parse(fs.readFileSync(postmanCollections[args[2].toLowerCase() + 'Location'], 'utf8'))
+    //SpecCollection = JSON.parse(fs.readFileSync(postmanCollections[args[2].toLowerCase() + 'SpecLocation'], 'utf8'))
 
 
     let remoteCollection = await refreshRemoteCollection(privateRemoteCollectionId)
@@ -122,6 +127,7 @@ const release = async () => {
         )
     .catch((error) => {
       console.log(msg, '-> FAIL')
+      throw error("Failed to merge to public collection")
     })
 
 }
@@ -231,6 +237,7 @@ function syncKeys(obj1, obj2) {
 
 
 function isDeepEqual(obj1, obj2) {
+
     if (areValuesEqual(obj1, obj2)) {
         return true
     }
@@ -247,18 +254,46 @@ function isDeepEqual(obj1, obj2) {
     }
 
     for (let key of keys1) {
-        const val1 = obj1[key];
-        const val2 = obj2[key];
+        let val1 = findJSONObjects(obj1[key]);
+        let val2 = findJSONObjects(obj2[key]);
+        if (shouldIgnore(key)) {
+            continue;
+        }
         const areObjects = isObject(val1) && isObject(val2);
         if (
             areObjects && !isDeepEqual(val1, val2) ||
             (!areObjects && !areValuesEqual(val1, val2))
         ) {
+            console.log(`found difference in ${key} value1: ${val1} value2: ${val2}`)
             return false;
         }
     }
 
     return true;
+}
+
+function shouldIgnore(key) {
+    return false
+}
+
+function findJSONObjects(obj) {
+    const jsonObjects = {};
+
+    if (typeof obj === 'string') {
+        try {
+            // Attempt to parse the string as JSON
+            const parsed = JSON.parse(obj);
+
+            // Check if the parsed result is an object (and not a number, string, etc.)
+            if (parsed !== null && typeof parsed === 'object') {
+                return parsed;
+            }
+        } catch (e) {
+            return obj;
+        }
+    }
+
+    return obj;
 }
 
 function areValuesEqual(val1, val2) {
@@ -287,6 +322,7 @@ async function updateEntireFolder(item, folderId) {
                 responses.push(pmConvert.responseFromLocal(response, {}))
             }
             let postmanRequestBody = pmConvert.requestFromLocal(items, responses)
+            console.log(`creating request ${postmanRequestBody.name} with id: ${postmanRequestBody.id}`)
             let newRequest = await new pmAPI.Request(privateRemoteCollectionId).create(postmanRequestBody, folderId)
             changesMade = true
             console.log(newRequest.data.name)

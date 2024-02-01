@@ -1,7 +1,8 @@
 {
     "folderStrategy": "Tags",
-    "requestParametersResolution": "Schema",
-    "exampleParametersResolution": "Schema",
+    "requestParametersResolution": "Example",
+    "exampleParametersResolution": "Example",
+    "parametersResolution": "Example",
     "disableOptionalParameters": true,
     "optimizeConversion": false,
     "stackLimit": 50,
