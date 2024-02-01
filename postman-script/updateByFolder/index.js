@@ -33,7 +33,7 @@ const release = async () => {
     privateRemoteCollectionIdUid = postmanCollections[args[2].toLowerCase() + 'Uid']
     mainPublicCollectionId = postmanCollections[args[2].toLowerCase() + 'Public']
     localCollection = JSON.parse(fs.readFileSync(postmanCollections[args[2].toLowerCase() + 'Location'], 'utf8'))
-    SpecCollection = JSON.parse(fs.readFileSync(postmanCollections[args[2].toLowerCase() + 'SpecLocation'], 'utf8'))
+    //SpecCollection = JSON.parse(fs.readFileSync(postmanCollections[args[2].toLowerCase() + 'SpecLocation'], 'utf8'))
 
 
     let remoteCollection = await refreshRemoteCollection(privateRemoteCollectionId)
