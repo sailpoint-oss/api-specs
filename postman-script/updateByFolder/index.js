@@ -25,54 +25,6 @@ const postmanCollections = {
 
 }
 
-const enumRecordsToIgnore = [
-    'type',
-    'approverType',
-    'operation',
-    'localeOrigin',
-    'reassignmentType',
-    'state',
-    'scheme',
-    'status',
-    'attributes', //objects
-    'completionStatus',
-    'approvalStatus',
-    'provisioningStatus',
-    'clientMetadata', //objects
-    'executionStatus',
-    'requestedObjectType',
-    'capabilities', //objects
-    'level',
-    'correlatedStatus',
-    'operator',
-    'targetType',
-    'reportType',
-    'mandatoryCommentRequirement',
-    'campaignType',
-    'phase',
-    'usageDaysState',
-    'decision',
-    'mode',
-    'action',
-    'details', //objects
-    'data', //objects
-    'grantTypes', //objects
-    'accessType',
-    'availableFormats',
-    'requestStatus',
-    'actionInProcess',
-    'requestType',
-    'result',
-    'legacyMembershipInfo',
-    'roleAssignmentSource',
-    'indices',
-    'columns',
-    '_type',
-    'assignmentRule',
-    'features',
-    'usageType'
-
-]
 
 const release = async () => {
 
@@ -322,7 +274,7 @@ function isDeepEqual(obj1, obj2) {
 }
 
 function shouldIgnore(key) {
-    return enumRecordsToIgnore.includes(key)
+    return false
 }
 
 function findJSONObjects(obj) {
