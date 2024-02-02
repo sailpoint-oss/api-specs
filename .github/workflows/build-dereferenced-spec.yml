@@ -42,10 +42,6 @@ jobs:
 
   push_v3_specs_to_postman:
     runs-on: ubuntu-latest
-    if: |
-      github.event.head_commit.modified.* == 'idn/sailpoint-api.v3.yaml' ||
-      github.event.head_commit.modified.* == 'idn/v3/**' ||
-      github.event.head_commit.added.* == 'idn/v3/**'
     needs: [dereference_spec]
     steps:
       - name: Checkout PR branch
@@ -64,10 +60,6 @@ jobs:
 
   push_beta_specs_to_postman:
     runs-on: ubuntu-latest
-    if: |
-      github.event.head_commit.modified.* == 'idn/sailpoint-api.beta.yaml' ||
-      github.event.head_commit.modified.* == 'idn/beta/**' ||
-      github.event.head_commit.added.* == 'idn/beta/**'
     needs: [dereference_spec]
     steps:
       - name: Checkout PR branch
@@ -87,9 +79,6 @@ jobs:
 
   push_nerm_specs_to_postman:
     runs-on: ubuntu-latest
-    if: |
-      github.event.head_commit.modified.* == 'nerm/**' ||
-      github.event.head_commit.added.* == 'nerm/**'
     needs: [dereference_spec]
     steps:
       - name: Checkout PR branch

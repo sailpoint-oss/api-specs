@@ -119,16 +119,21 @@ const release = async () => {
     }
 
     // push changes to the forked collections
-    const msg = 'Merging to public collection'
-    console.log('\n' + msg + '...')
-    await new pmAPI.Collection(privateRemoteCollectionIdUid).merge(mainPublicCollectionId)
-    .then(() => { 
-        console.log(msg, '-> OK\n') }
-        )
-    .catch((error) => {
-      console.log(msg, '-> FAIL')
-      throw error("Failed to merge to public collection")
-    })
+    if (changesMade) {
+        const msg = 'Merging to public collection'
+        console.log('\n' + msg + '...')
+        await new pmAPI.Collection(privateRemoteCollectionIdUid).merge(mainPublicCollectionId)
+        .then(() => { 
+            console.log(msg, '-> OK\n') }
+            )
+        .catch((error) => {
+          console.log(msg, '-> FAIL')
+          throw error("Failed to merge to public collection")
+        })
+    } else {
+        console.log('No changes made')
+    }
+
 
 }
 
