@@ -346,10 +346,10 @@ async function updateRequestsInFolder(item, folderId, remoteItem) {
             for (let response of remotePostmanBody.responses) {
                 let localResponse = getMatchingResponse(response, postmanRequestBody.responses)
                 if (localResponse == null) {
-                    console.log(`deleting response ${response.name}`)
+                    console.log(`response no longer exists, deleting response ${response.name}`)
                     let newRequestDelete = await new pmAPI.Response(privateRemoteCollectionId).delete(response.id)
                     changesMade = true
-                    console.log(`deleted response ${newRequestDelete.data.id}`)
+                    //console.log(`deleted response ${newRequestDelete.data.id}`)
                 }
             }
 
@@ -359,17 +359,16 @@ async function updateRequestsInFolder(item, folderId, remoteItem) {
                 let remoteResponse = getMatchingResponse(response, remotePostmanBody.responses)
                 if (checkIfDifferent(response, remoteResponse)) {
                     if (remoteResponse) {
-                        console.log(`updating response ${remoteResponse.name}`)
+                        console.log(`change found, updating response ${newRequestDelete.data.id} in request ${response.name}`)
                         let newRequestDelete = await new pmAPI.Response(privateRemoteCollectionId).update(response, remoteResponse.id)
                         changesMade = true
-                        console.log(`updated response ${newRequestDelete.data.id}`)
                     } else {
+                        console.log(`response doesn't exist in ${response.name}, creating response ${newRequest.data.name}`)
                         let newRequest = await new pmAPI.Response(privateRemoteCollectionId).create(response, remoteRequest.id)
                         changesMade = true
-                        console.log(`creating request ${newRequest.data.name}`)
                     }
                 } else {
-                    console.log(`no changes to request ${remoteRequest.name}`)
+                    //console.log(`no changes to request ${remoteRequest.name} response ${response.name}`)
                 }
             }
             delete remotePostmanBody.responses
