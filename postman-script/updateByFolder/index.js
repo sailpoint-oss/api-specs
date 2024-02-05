@@ -359,12 +359,12 @@ async function updateRequestsInFolder(item, folderId, remoteItem) {
                 let remoteResponse = getMatchingResponse(response, remotePostmanBody.responses)
                 if (checkIfDifferent(response, remoteResponse)) {
                     if (remoteResponse) {
-                        console.log(`change found, updating response ${newRequestDelete.data.id} in request ${response.name}`)
                         let newRequestDelete = await new pmAPI.Response(privateRemoteCollectionId).update(response, remoteResponse.id)
+                        console.log(`change found, updated response ${newRequestDelete.data.id} in request ${response.name}`)
                         changesMade = true
                     } else {
-                        console.log(`response doesn't exist in ${response.name}, creating response ${newRequest.data.name}`)
                         let newRequest = await new pmAPI.Response(privateRemoteCollectionId).create(response, remoteRequest.id)
+                        console.log(`response doesn't exist in ${response.name}, created response ${newRequest.data.name}`)
                         changesMade = true
                     }
                 } else {
