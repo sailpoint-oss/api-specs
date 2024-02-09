@@ -40,8 +40,8 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
-      
+          python-version: "3.x"
+
       - name: Run Prescript
         id: prescript
         run: |
@@ -65,24 +65,8 @@ jobs:
           java -jar openapi-generator-cli-7.0.1.jar generate -i ../idn/sailpoint-api.beta.yaml -g python -o sailpoint --global-property skipFormModel=false --config sdk-resources/beta-config.yaml --enable-post-process-file
           node sdk-resources/postscript.js ./sailpoint/beta
 
-      - name: Build V2 SDK
-        id: buildV2
-        if: steps.buildBeta.outcome == 'success'
-        run: |
-          cd python-sdk
-          rm -rf ./sailpoint/v2
-          java -jar openapi-generator-cli-7.0.1.jar generate -i ../idn/sailpoint-api.v2.yaml -g python -o sailpoint --global-property skipFormModel=false --config sdk-resources/v2-config.yaml --enable-post-process-file
-
-      - name: Build CC SDK
-        id: buildCC
-        if: steps.buildV2.outcome == 'success'
-        run: |
-          cd python-sdk
-          rm -rf ./sailpoint/cc
-          java -jar openapi-generator-cli-7.0.1.jar generate -i ../idn/sailpoint-api.cc.yaml -g python -o sailpoint/ --global-property skipFormModel=false --config sdk-resources/cc-config.yaml --enable-post-process-file
-
       - name: After SDK Build
-        if: steps.buildCC.outcome == 'success'
+        if: steps.buildBeta.outcome == 'success'
         run: |
           cd python-sdk/
           pip install -r requirements.txt

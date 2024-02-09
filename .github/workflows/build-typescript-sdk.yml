@@ -36,7 +36,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "16"
-      
+
       - name: Build V3 SDK
         id: buildV3
         run: |
@@ -52,31 +52,15 @@ jobs:
           rm -rf sdk-output/beta
           java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.beta.yaml -g typescript-axios -o sdk-output/beta --global-property skipFormModel=false --config sdk-resources/beta-config.yaml --api-name-suffix BetaApi --model-name-suffix Beta
 
-      - name: Build V2 SDK
-        id: buildV2
-        if: steps.buildBeta.outcome == 'success'
-        run: |
-          cd sdk-ts
-          rm -rf sdk-output/v2
-          java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.v2.yaml -g typescript-axios -o sdk-output/v2 --global-property skipFormModel=false --config sdk-resources/v2-config.yaml --api-name-suffix V2Api --model-name-suffix V2
-
-      - name: Build CC SDK
-        id: buildCC
-        if: steps.buildV2.outcome == 'success'
-        run: |
-          cd sdk-ts
-          rm -rf sdk-output/cc
-          java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.cc.yaml -g typescript-axios -o sdk-output/cc --global-property skipFormModel=false --config sdk-resources/cc-config.yaml --api-name-suffix CCApi --model-name-suffix CC
-
       - name: Run npm install and build Typescript SDK
         id: buildSDK
-        if: steps.buildCC.outcome == 'success'
+        if: steps.buildBeta.outcome == 'success'
         run: |
           cd sdk-ts/sdk-output
           npm install
           npm run build
           npm run test
-      
+
       - name: After SDK Build
         if: steps.buildSDK.outcome == 'success'
         run: |
