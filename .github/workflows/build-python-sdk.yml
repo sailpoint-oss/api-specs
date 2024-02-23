@@ -54,7 +54,7 @@ jobs:
         run: |
           cd python-sdk
           rm -rf ./sailpoint/v3
-          java -jar openapi-generator-cli-7.0.1.jar generate -i ../idn/sailpoint-api.v3.yaml -g python -o sailpoint --global-property skipFormModel=false --config sdk-resources/v3-config.yaml --enable-post-process-file
+          java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.v3.yaml  -g python -o . --global-property skipFormModel=false --config sdk-resources/v3-config.yaml --enable-post-process-file
 
       - name: Build Beta SDK
         id: buildBeta
@@ -62,7 +62,7 @@ jobs:
         run: |
           cd python-sdk
           rm -rf ./sailpoint/beta
-          java -jar openapi-generator-cli-7.0.1.jar generate -i ../idn/sailpoint-api.beta.yaml -g python -o sailpoint --global-property skipFormModel=false --config sdk-resources/beta-config.yaml --enable-post-process-file
+          java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.beta.yaml -g python -o . --global-property skipFormModel=false --config sdk-resources/beta-config.yaml --enable-post-process-file
           node sdk-resources/postscript.js ./sailpoint/beta
 
       - name: After SDK Build
