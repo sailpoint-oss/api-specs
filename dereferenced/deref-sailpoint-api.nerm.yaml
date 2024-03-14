@@ -3047,10 +3047,29 @@ paths:
                           type: string
                           description: The helper text that accompanies the attribute
                           example: Put your birthday here mm-dd-yyyy
+                        crypt:
+                          type: boolean
+                          description: Whether the attribute is encrypted
+                          example: false
                         archived:
                           type: boolean
                           description: Whether the attribute is archived
                           example: false
+                        archived_on:
+                          type: string
+                          format: date-time
+                          description: When the attribute was archived
+                          example: 'Wed, 07 Feb 2024 12:55:20.456682000 EST -05:00'
+                        created_at:
+                          type: string
+                          format: date-time
+                          description: When the attribute was created
+                          example: 'Wed, 07 Feb 2024 12:55:20.456682000 EST -05:00'
+                        updated_at:
+                          type: string
+                          format: date-time
+                          description: When the attribute was updated
+                          example: 'Wed, 07 Feb 2024 12:55:20.456682000 EST -05:00'
                         date_format:
                           type: string
                           enum:
@@ -3620,10 +3639,29 @@ paths:
                         type: string
                         description: The helper text that accompanies the attribute
                         example: Put your birthday here mm-dd-yyyy
+                      crypt:
+                        type: boolean
+                        description: Whether the attribute is encrypted
+                        example: false
                       archived:
                         type: boolean
                         description: Whether the attribute is archived
                         example: false
+                      archived_on:
+                        type: string
+                        format: date-time
+                        description: When the attribute was archived
+                        example: 'Wed, 07 Feb 2024 12:55:20.456682000 EST -05:00'
+                      created_at:
+                        type: string
+                        format: date-time
+                        description: When the attribute was created
+                        example: 'Wed, 07 Feb 2024 12:55:20.456682000 EST -05:00'
+                      updated_at:
+                        type: string
+                        format: date-time
+                        description: When the attribute was updated
+                        example: 'Wed, 07 Feb 2024 12:55:20.456682000 EST -05:00'
                       date_format:
                         type: string
                         enum:
@@ -3913,10 +3951,29 @@ paths:
                         type: string
                         description: The helper text that accompanies the attribute
                         example: Put your birthday here mm-dd-yyyy
+                      crypt:
+                        type: boolean
+                        description: Whether the attribute is encrypted
+                        example: false
                       archived:
                         type: boolean
                         description: Whether the attribute is archived
                         example: false
+                      archived_on:
+                        type: string
+                        format: date-time
+                        description: When the attribute was archived
+                        example: 'Wed, 07 Feb 2024 12:55:20.456682000 EST -05:00'
+                      created_at:
+                        type: string
+                        format: date-time
+                        description: When the attribute was created
+                        example: 'Wed, 07 Feb 2024 12:55:20.456682000 EST -05:00'
+                      updated_at:
+                        type: string
+                        format: date-time
+                        description: When the attribute was updated
+                        example: 'Wed, 07 Feb 2024 12:55:20.456682000 EST -05:00'
                       date_format:
                         type: string
                         enum:
@@ -4480,10 +4537,29 @@ paths:
                         type: string
                         description: The helper text that accompanies the attribute
                         example: Put your birthday here mm-dd-yyyy
+                      crypt:
+                        type: boolean
+                        description: Whether the attribute is encrypted
+                        example: false
                       archived:
                         type: boolean
                         description: Whether the attribute is archived
                         example: false
+                      archived_on:
+                        type: string
+                        format: date-time
+                        description: When the attribute was archived
+                        example: 'Wed, 07 Feb 2024 12:55:20.456682000 EST -05:00'
+                      created_at:
+                        type: string
+                        format: date-time
+                        description: When the attribute was created
+                        example: 'Wed, 07 Feb 2024 12:55:20.456682000 EST -05:00'
+                      updated_at:
+                        type: string
+                        format: date-time
+                        description: When the attribute was updated
+                        example: 'Wed, 07 Feb 2024 12:55:20.456682000 EST -05:00'
                       date_format:
                         type: string
                         enum:
