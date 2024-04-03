@@ -3335,7 +3335,7 @@ paths:
             schema:
               type: object
               properties:
-                ne_attribute_option:
+                ne_attribute:
                   type: object
                   properties:
                     id:
@@ -4233,7 +4233,7 @@ paths:
             schema:
               type: object
               properties:
-                ne_attribute_option:
+                ne_attribute:
                   type: object
                   properties:
                     id:
