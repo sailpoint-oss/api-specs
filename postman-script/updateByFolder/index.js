@@ -128,7 +128,7 @@ const release = async () => {
             )
         .catch((error) => {
           console.log(msg, '-> FAIL')
-          throw error("Failed to merge to public collection")
+          throw new Error(`Failed to merge to public collection: ${error}`)
         })
     } else {
         console.log('No changes made')
