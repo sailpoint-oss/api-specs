@@ -1,6 +1,7 @@
 require('dotenv').config()
 const axiosRetry = require('axios-retry').default
 const axios = require('axios')
+const {v1: uuidv1} = require('uuid')
 
 const handleError = (error) => {
       // Log only essential error details
@@ -195,6 +196,14 @@ class Request {
   }
 
   async create (request, folderId) {
+    if (request.id) {
+      request.id = uuidv1()
+      for (let response of request.responses) {
+        if (response.id) {
+          response.id = uuidv1()
+        }
+      }
+    }
     return await this.axios.post(
         `https://api.getpostman.com/collections/${this.collectionId}/requests`,
         request,
