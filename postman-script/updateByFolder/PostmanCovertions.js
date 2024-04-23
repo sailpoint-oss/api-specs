@@ -21,6 +21,9 @@ const requestFromLocal = (localRequest, responses) => {
         data = dataFromLocalURLEncode(localRequest.request.body.urlencoded)
         dataMode = localRequest.request.body.mode
         rawModeData = localRequest.request.body.raw
+      } else if (localRequest.request.body && !localRequest.request.body.urlencoded) {
+        dataMode = localRequest.request.body.mode
+        rawModeData = localRequest.request.body.raw
       }
     
       let queryParams = []

@@ -7,7 +7,12 @@ let mainPublicCollectionId = '23836355-220ca56f-ba1b-4ff2-ad1e-7e0a6bfb6cb4' //m
 let localCollection = {}//JSON.parse(fs.readFileSync(`C:\\git\\api-specs\\postman\\collections\\sailpoint-api-v3.json`).toString())
 let changesMade = false;
 
+// You can use the following collection to test changes on the v3 collections -- it is in the same working workspace under a copy of the original.
+//v3: '9557f27b-5b8c-4de7-90e2-073c1f79c484',
+//v3Uid: '23226990-9557f27b-5b8c-4de7-90e2-073c1f79c484',
+
 const postmanCollections = {
+
     v3: 'daf693e6-7856-4c62-8c11-4102e6729766',
     v3Uid: '23226990-daf693e6-7856-4c62-8c11-4102e6729766',
     v3Public: '23226990-3721beea-5615-44b4-9459-e858a0ca7aed',
