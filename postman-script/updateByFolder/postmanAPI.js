@@ -35,7 +35,7 @@ class Collection {
       shouldResetTimeout: true,
       retryCondition: (error) => {
         console.log('error, retrying')
-        return error.code === 'ECONNRESET' || error.code === 'ECONNABORTED' || axiosRetry.isNetworkOrIdempotentRequestError(error)
+        return error.code === 'ECONNRESET' || error.code === 'ECONNABORTED' || axiosRetry.isNetworkOrIdempotentRequestError(error) || error.status == 429
       }
     })
 
@@ -99,7 +99,7 @@ class Folder {
       shouldResetTimeout: true,
       retryCondition: (error) => {
         console.log('error, retrying')
-        return error.code === 'ECONNRESET' || error.code === 'ECONNABORTED' || axiosRetry.isNetworkOrIdempotentRequestError(error)
+        return error.code === 'ECONNRESET' || error.code === 'ECONNABORTED' || axiosRetry.isNetworkOrIdempotentRequestError(error) || error.status == 429
       }
     })
     //this.axios.interceptors.response.use(response => response, handleError);
@@ -171,7 +171,7 @@ class Request {
       shouldResetTimeout: true,
       retryCondition: (error) => {
         console.log('error, retrying')
-        return error.code === 'ECONNRESET' || error.code === 'ECONNABORTED' || axiosRetry.isNetworkOrIdempotentRequestError(error)
+        return error.code === 'ECONNRESET' || error.code === 'ECONNABORTED' || axiosRetry.isNetworkOrIdempotentRequestError(error) || error.status == 429
       },
       onRetryAttempt: (err) => {
         const cfg = axiosRetry.getConfig(err);
@@ -249,7 +249,7 @@ class Response {
       shouldResetTimeout: true,
       retryCondition: (error) => {
         console.log('error, retrying')
-        return error.code === 'ECONNRESET' || error.code === 'ECONNABORTED' || axiosRetry.isNetworkOrIdempotentRequestError(error)
+        return error.code === 'ECONNRESET' || error.code === 'ECONNABORTED' || axiosRetry.isNetworkOrIdempotentRequestError(error) || error.status == 429
       }
     })
     //this.axios.interceptors.response.use(response => response, handleError);
