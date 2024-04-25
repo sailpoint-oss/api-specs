@@ -1,0 +1,24 @@
+{
+  "name": "update-by-folder-ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "tsc && node dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "@types/uuid": "^9.0.8",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "axios": "^1.6.8",
+    "axios-retry": "^4.1.0",
+    "dotenv": "^16.4.5",
+    "uuid": "^9.0.1"
+  }
+}
