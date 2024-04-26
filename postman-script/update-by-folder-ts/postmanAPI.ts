@@ -2,6 +2,8 @@ require('dotenv').config()
 import { v1 as uuidv1 } from 'uuid'
 import { AxiosWrapper } from './axios-wrapper'
 import { PostmanCollectionResponse, PostmanFolder } from './models/postman-collection'
+import { ForkResponse } from './models/postman-fork-response'
+import { PostmanCollectionAPIResponse } from './models/postman-collections-response'
 
 export class Collection {
   axios: AxiosWrapper
@@ -21,6 +23,34 @@ export class Collection {
         return response.data
     } catch (error) {
         throw new Error(`Error getting collection ${this.collectionId} error: ${error}`)
+    }
+  }
+
+  async getAllCollections (): Promise<PostmanCollectionAPIResponse> {
+    try {
+        let response = await this.axios.get(``)
+        return response.data
+    } catch (error) {
+        throw new Error(`Error getting collection ${this.collectionId} error: ${error}`)
+    }
+  }
+
+  async delete (): Promise<PostmanCollectionResponse> {
+    try {
+        let response = await this.axios.delete( `/${this.collectionId}`)
+        return response.data
+    } catch (error) {
+        throw new Error(`Error getting collection ${this.collectionId} error: ${error}`)
+    }
+  }
+
+  
+  async fork ( publicWorkspaceId: string, forkLabel: string): Promise<ForkResponse> {
+    try {
+        const response = await this.axios.post(`/fork/${this.collectionId}?workspace=${publicWorkspaceId}`,{ label: forkLabel})
+        return response.data
+    } catch (error) {
+        throw new Error(`Error forking collection ${this.collectionId} error: ${error}`)
     }
   }
 

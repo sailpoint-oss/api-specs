@@ -31,7 +31,7 @@ const postmanCollections = {
 }
 
 privateRemoteCollectionId = postmanCollections[args[2].toLowerCase()]
-const privateRemoteCollectionIdUid = postmanCollections[args[2].toLowerCase() + 'Uid']
+let privateRemoteCollectionIdUid = postmanCollections[args[2].toLowerCase() + 'Uid']
 mainPublicCollectionId = postmanCollections[args[2].toLowerCase() + 'Public']
 const localCollection: PostmanCollection = JSON.parse(fs.readFileSync(postmanCollections[args[2].toLowerCase() + 'Location'], 'utf8'))
 
@@ -41,8 +41,23 @@ const requestAPI = new Request(privateRemoteCollectionId)
 
 const release = async () => {
 
+    console.log(`searching for any collections with fork label = ${args[2].toLowerCase() + ' automation fork'}`)
+    const allCollections = await new Collection(mainPublicCollectionId).getAllCollections()
+    for (const collection of allCollections.collections) {
+        if (collection.fork) {
+            if (collection.fork.label == args[2].toLowerCase() + ' automation fork') {
+                const deletedCollection = await new Collection(collection.id).delete()
+                console.log(`deleted collection ${collection.id}`)
+            }
+        }
+    }
 
-    const remoteCollection = await new Collection(privateRemoteCollectionId).get()
+    const forkedCollection = await new Collection(mainPublicCollectionId).fork('2bc7f521-83cd-48c7-8abc-a40537c6d392', args[2].toLowerCase() + ' automation fork')
+    privateRemoteCollectionId = forkedCollection.collection.id
+    privateRemoteCollectionIdUid = forkedCollection.collection.uid
+
+    try {
+        const remoteCollection = await new Collection(privateRemoteCollectionId).get()
 
 
     // This step just cleans up the variables so they match what is returned in postman
@@ -132,6 +147,13 @@ const release = async () => {
     } else {
         console.log('No changes made')
     }
+    const deletedCollection = await new Collection(privateRemoteCollectionId).delete()
+    console.log('deleted temporary collection')
+    } catch (error) {
+        console.log('deleted temporary collection')
+        throw new Error(error)
+    }
+    
 }
 
 
