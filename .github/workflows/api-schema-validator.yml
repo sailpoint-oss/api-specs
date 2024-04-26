@@ -6,11 +6,8 @@ env:
   TENANT: devrel
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - idn/**
+  schedule:
+    - cron: "0 0 * * MON"
   workflow_dispatch:
 
 jobs:
