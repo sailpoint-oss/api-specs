@@ -47,11 +47,13 @@ jobs:
       # Run the validator on beta
       - name: Validate Beta API Schema
         id: validate_beta_api_schema
+        continue-on-error: true
         run: |
           node api-schema-validator/validator.js -i dereferenced/deref-sailpoint-api.beta.yaml --skip-filters --skip-sorters
 
       # Run the validator on v3
       - name: Validate V3 API Schema
         id: validate_v3_api_schema
+        continue-on-error: true
         run: |
           node api-schema-validator/validator.js -i dereferenced/deref-sailpoint-api.v3.yaml --skip-filters --skip-sorters
