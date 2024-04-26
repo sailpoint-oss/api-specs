@@ -128,7 +128,7 @@ const release = async () => {
     // push changes to the forked collections
     if (changesMade) {
         console.log('Merging to public collection')
-        //const response = await new Collection(privateRemoteCollectionIdUid).merge(mainPublicCollectionId)
+        const response = await new Collection(privateRemoteCollectionIdUid).merge(mainPublicCollectionId)
     } else {
         console.log('No changes made')
     }
