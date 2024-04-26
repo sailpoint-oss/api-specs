@@ -1,6 +1,4 @@
 require('dotenv').config()
-const axiosRetry = require('axios-retry').default
-import axios, { AxiosInstance } from 'axios'
 import { v1 as uuidv1 } from 'uuid'
 import { AxiosWrapper } from './axios-wrapper'
 
