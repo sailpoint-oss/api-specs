@@ -1,36 +1,62 @@
+export interface PostmanCollectionResponse {
+    collection: PostmanCollection
+}
+
 export interface PostmanCollection {
-    item: Folder[]
-    event: Event[]
-    variable: Variable[]
-    info: Info
-    auth: Auth
+    item: PostmanFolder[]
+    event: PostmanEvent[]
+    variable: PostmanVariable[]
+    info: PostmanInfo
+    auth: PostmanAuth
   }
   
-  export interface Folder {
+  export interface PostmanFolder {
+    id?: string
     name: string
     description: string
-    item: RequestItem[]
+    item: PostmanRequestItem[] | PostmanFolder
+  }
+
+  export function isPostmanFolder(item: any): item is PostmanFolder {
+    return item && typeof item === "object"
+  }
+
+  export function isPostmanRequestItem(item: any): item is PostmanRequestItem[] {
+    return Array.isArray(item)
   }
   
-  export interface RequestItem {
+  export interface PostmanRequestItem {
     id: string
     name: string
-    request: Request
-    response: Response[]
+    request: PostmanRequest
+    response: PostmanResponse[]
     event: any[]
     protocolProfileBehavior: ProtocolProfileBehavior
+    descriptionFormat?: any
+    variables?: any
+    preRequestScript?: any
+    tests?: any
+    currentHelper?: any
+    helperAttributes?: any
+    dataDisabled?: any
+    responses_order?: any
   }
   
-  export interface Request {
+  export interface PostmanRequest {
     name: string
-    description: Description
+    description: PostmanDescription | string
     url: Url
-    header: Header[]
+    header: PostmanHeader[]
     method: string
     body: Body
+    auth?: any
+  }
+
+  export function isPostmanDescription(description: any): description is PostmanDescription {
+    return typeof description === 'object'
   }
   
-  export interface Description {
+  export interface PostmanDescription {
     content?: string
     type?: string
   }
@@ -39,23 +65,23 @@ export interface PostmanCollection {
     path: string[]
     host: string[]
     query: Query[]
-    variable: Variable[]
+    variable: PostmanVariable[]
   }
   
   export interface Query {
     disabled: boolean
-    description: Description
+    description: PostmanDescription
     key: string
     value: string
   }
 
   
-  export interface Variable {
+  export interface PostmanVariable {
     type: string
     value?: string
     key: string
     disabled?: boolean
-    description?: Description
+    description?: PostmanDescription
   }
   
   
@@ -64,6 +90,7 @@ export interface PostmanCollection {
     raw?: string
     options?: Options
     formdata?: Formdaum[]
+    urlencoded?: any
   }
   
   export interface Options {
@@ -76,62 +103,67 @@ export interface PostmanCollection {
   }
   
   export interface Formdaum {
-    description: Description
+    description: PostmanDescription
     key: string
     value: string
     type: string
   }
   
-  export interface Response {
+  export interface PostmanResponse {
     id: string
     name: string
     originalRequest: OriginalRequest
     status: string
     code: number
-    header: Header[]
+    header: PostmanHeader[]
     body?: string
     cookie: any[]
     _postman_previewlanguage: string
+    responseCode: ResponseCode
+  }
+
+  export interface ResponseCode {
+    code: string
   }
   
   export interface OriginalRequest {
     url: Url
-    header: Header[]
+    header: PostmanHeader[]
     method: string
     body: Body
   }
   
   
-  export interface Header {
+  export interface PostmanHeader {
     key: string
     value: string
     disabled?: boolean
-    description?: Description
+    description?: PostmanDescription
   }
   
   export interface ProtocolProfileBehavior {
     disableBodyPruning: boolean
   }
   
-  export interface Event {
+  export interface PostmanEvent {
     listen: string
-    script: Script
+    script: PostmanScript
   }
   
-  export interface Script {
+  export interface PostmanScript {
     type: string
     exec: string[]
   }
   
-  export interface Info {
+  export interface PostmanInfo {
     _postman_id: string
     name: string
     schema: string
-    description: Description
+    description: PostmanDescription
   }
   
   
-  export interface Auth {
+  export interface PostmanAuth {
     type: string
     bearer: Bearer[]
   }

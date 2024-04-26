@@ -1,6 +1,7 @@
 require('dotenv').config()
 import { v1 as uuidv1 } from 'uuid'
 import { AxiosWrapper } from './axios-wrapper'
+import { PostmanCollectionResponse, PostmanFolder } from './models/postman-collection'
 
 export class Collection {
   axios: AxiosWrapper
@@ -10,11 +11,11 @@ export class Collection {
   constructor (collectionId: string) {
     this.collectionId = collectionId
     this.apiKey = process.env.POSTMAN_API_KEY
-    this.axios = new AxiosWrapper('https://api.getpostman.com/collections')
+    this.axios = new AxiosWrapper('https://api.getpostman.com/collections', this.apiKey)
   }
 
 
-  async get (): Promise<any> {
+  async get (): Promise<PostmanCollectionResponse> {
     try {
         let response = await this.axios.get( `/${this.collectionId}`)
         return response.data
@@ -50,7 +51,7 @@ export class Folder {
   constructor (collectionId: string) {
     this.collectionId = collectionId
     this.apiKey = process.env.POSTMAN_API_KEY
-    this.axios = new AxiosWrapper(`https://api.getpostman.com/collections/${this.collectionId}/folders`)
+    this.axios = new AxiosWrapper(`https://api.getpostman.com/collections/${this.collectionId}/folders`, this.apiKey)
   }
 
   async get (folderId: string): Promise<any> {
@@ -62,12 +63,12 @@ export class Folder {
     }
   }
 
-  async create (folder: any): Promise<any> {
+  async create (folder: PostmanFolder): Promise<any> {
     try {
         const response = await this.axios.post(``, folder)
         return response.data
     } catch (error) {
-        throw new Error(`Error creating folder ${folder.Id} error: ${error}`)
+        throw new Error(`Error creating folder ${folder.id} error: ${error}`)
     }
   }
 
@@ -99,7 +100,7 @@ export class Request {
   constructor (collectionId: string) {
     this.collectionId = collectionId
     this.apiKey = process.env.POSTMAN_API_KEY
-    this.axios = new AxiosWrapper(`https://api.getpostman.com/collections/${this.collectionId}/requests`)
+    this.axios = new AxiosWrapper(`https://api.getpostman.com/collections/${this.collectionId}/requests`, this.apiKey)
   }
 
 
@@ -156,7 +157,7 @@ export class Response {
   constructor (collectionId: string) {
     this.collectionId = collectionId
     this.apiKey = process.env.POSTMAN_API_KEY
-    this.axios = new AxiosWrapper(`https://api.getpostman.com/collections/${this.collectionId}/responses`)
+    this.axios = new AxiosWrapper(`https://api.getpostman.com/collections/${this.collectionId}/responses`, this.apiKey)
   }
 
   async get (responseId: string) {

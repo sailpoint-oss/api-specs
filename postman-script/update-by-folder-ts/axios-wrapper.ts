@@ -7,9 +7,12 @@ export interface Params {
 
 export class AxiosWrapper {
     httpClient: AxiosInstance;
-    constructor(baseUrl: string) {
+    constructor(baseUrl: string, apiKey: string) {
         this.httpClient = axios.create({
             baseURL: baseUrl, 
+            headers: 
+                { 'Content-Type': 'application/json', 'X-Api-Key': apiKey }
+            ,
             timeout: 1000 * 60 * 5
         })
 

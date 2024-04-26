@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "start": "tsc && node dist/index.js"
+    "start": "tsc && node dist/index.js",
+    "v3": "tsc && node dist/index.js v3"
   },
   "keywords": [],
   "author": "",

@@ -9,11 +9,12 @@
 // when compared to what you get from the collection json file.
 // ------------------------------------------------------------
 
+import { PostmanRequestItem, PostmanResponse, isPostmanDescription } from "../models/postman-collection"
 import { convertedRequest } from "./converted-request-model"
 import { convertedResponse } from "./converted-response-model"
 
 
-export const requestFromLocal = (localRequest: any, responses: any): convertedRequest => {
+export const requestFromLocal = (localRequest: PostmanRequestItem, responses: convertedResponse[]): convertedRequest => {
   //   console.log('localRequest', localRequest)
   let url = localRequest.request.url.host + '/' + localRequest.request.url.path.join('/')
 
@@ -71,10 +72,10 @@ export const requestFromLocal = (localRequest: any, responses: any): convertedRe
     dataMode,
     data,
     auth: localRequest.request.auth,
-    events: localRequest.events,
+    events: localRequest.event,
     rawModeData,
     descriptionFormat: localRequest.descriptionFormat,
-    description: localRequest.request.description && localRequest.request.description.content ? localRequest.request.description.content : localRequest.request.description, //
+    description: localRequest.request.description && isPostmanDescription(localRequest.request.description) ? localRequest.request.description.content : localRequest.request.description, //
     headers: headers,
     headerData,
     variables: localRequest.variables,
@@ -97,7 +98,7 @@ export const requestFromLocal = (localRequest: any, responses: any): convertedRe
   return request
 }
 
-export const responseFromLocal = (localResponse: any, requestObject: any): convertedResponse => {
+export const responseFromLocal = (localResponse: PostmanResponse, requestObject: any): convertedResponse => {
   let headers = []
   if (localResponse.header) {
     headers = localResponse.header
