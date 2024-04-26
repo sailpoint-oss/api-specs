@@ -55,8 +55,7 @@ jobs:
           echo POSTMAN_API_KEY="${{ secrets.POSTMAN_API_KEY }}" > .env
           cd postman-script/updateByFolder
           npm ci
-          cd ../../
-          node postman-script/updateByFolder/index.js v3
+          npm run v3
 
   push_beta_specs_to_postman:
     runs-on: ubuntu-latest
@@ -73,8 +72,7 @@ jobs:
           echo POSTMAN_API_KEY="${{ secrets.POSTMAN_API_KEY }}" > .env
           cd postman-script/updateByFolder
           npm ci
-          cd ../../
-          node postman-script/updateByFolder/index.js beta
+          npm run beta
 
 
   push_nerm_specs_to_postman:
@@ -92,5 +90,4 @@ jobs:
           echo POSTMAN_API_KEY="${{ secrets.POSTMAN_API_KEY }}" > .env
           cd postman-script/updateByFolder
           npm ci
-          cd ../../
-          node postman-script/updateByFolder/index.js nerm
+          npm run nerm

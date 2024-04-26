@@ -31,6 +31,7 @@ export interface PostmanCollection {
     request: PostmanRequest
     response: PostmanResponse[]
     event: any[]
+    events: any
     protocolProfileBehavior: ProtocolProfileBehavior
     descriptionFormat?: any
     variables?: any

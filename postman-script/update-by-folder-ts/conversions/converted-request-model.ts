@@ -29,4 +29,5 @@ export interface convertedRequest {
     responses?: convertedResponse[];
     folder?: any;
     collection?: any;
+    dataOptions?: any;
 }

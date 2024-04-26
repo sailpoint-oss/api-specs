@@ -20,7 +20,13 @@ export const requestFromLocal = (localRequest: PostmanRequestItem, responses: co
 
   let data = []
   let dataMode = null
+  for (let header of localRequest.request.header) {
+    if (header.key == 'Content-Type' && header.value == 'multipart/form-data') {
+      dataMode = 'formdata'
+    }
+  }
   let rawModeData = null
+  let dataOptions = null
   if (localRequest.request.body && localRequest.request.body.urlencoded) {
     data = dataFromLocalURLEncode(localRequest.request.body.urlencoded)
     dataMode = localRequest.request.body.mode
@@ -28,7 +34,12 @@ export const requestFromLocal = (localRequest: PostmanRequestItem, responses: co
   } else if (localRequest.request.body && !localRequest.request.body.urlencoded) {
     dataMode = localRequest.request.body.mode
     rawModeData = localRequest.request.body.raw
+    if (localRequest.request.body.options) {
+      dataOptions = localRequest.request.body.options
+    }
   }
+
+
 
   let queryParams = []
   if (localRequest.request.url.query) {
@@ -72,7 +83,7 @@ export const requestFromLocal = (localRequest: PostmanRequestItem, responses: co
     dataMode,
     data,
     auth: localRequest.request.auth,
-    events: localRequest.event,
+    events: localRequest.events,
     rawModeData,
     descriptionFormat: localRequest.descriptionFormat,
     description: localRequest.request.description && isPostmanDescription(localRequest.request.description) ? localRequest.request.description.content : localRequest.request.description, //
@@ -80,6 +91,7 @@ export const requestFromLocal = (localRequest: PostmanRequestItem, responses: co
     headerData,
     variables: localRequest.variables,
     method: localRequest.request.method,
+    dataOptions: dataOptions,
 
     pathVariables: pathVariableData,
     pathVariableData,

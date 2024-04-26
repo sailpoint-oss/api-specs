@@ -204,6 +204,9 @@ async function updateEntireFolder(item: PostmanRequestItem[] | PostmanFolder, fo
 async function updateRequestsInFolder(item: PostmanRequestItem[], folderId: string, remoteItem: PostmanFolder) {
     for (let request of item) {
             let remoteRequest = getMatchingRequest(request, remoteItem.item)
+            // if (remoteRequest.name == 'Create a branding item') {
+            //     console.log('found it')
+            // }
             let postmanRequestBody = buildRequestBody(request)
             let remotePostmanBody = buildRequestBody(remoteRequest)
             if (remoteRequest !== null) {
