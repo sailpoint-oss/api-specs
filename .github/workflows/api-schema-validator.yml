@@ -1,8 +1,8 @@
 name: "Run API Schema Validator"
 
 env:
-  CLIENT_ID: ${{ secrets.SCHEMA_VALIDATOR_CLIENT_ID }}
-  CLIENT_SECRET: ${{ secrets.SCHEMA_VALIDATOR_CLIENT_SECRET }}
+  CLIENT_ID: ${{ secrets.SDK_TEST_TENANT_CLIENT_ID }}
+  CLIENT_SECRET: ${{ secrets.SDK_TEST_TENANT_CLIENT_SECRET }}
   TENANT: devrel
 
 on:
