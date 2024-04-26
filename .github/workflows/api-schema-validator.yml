@@ -1,0 +1,56 @@
+name: "Run API Schema Validator"
+
+env:
+  CLIENT_ID: ${{ secrets.SDK_TEST_TENANT_CLIENT_ID }}
+  CLIENT_SECRET: ${{ secrets.SDK_TEST_TENANT_CLIENT_SECRET }}
+  TENANT: devrel
+
+on:
+  schedule:
+    - cron: "0 0 * * MON"
+  workflow_dispatch:
+
+jobs:
+  api_schema_validator_workflow:
+    name: Validate API Schema
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout API specs to run the validator on
+      - name: Checkout PR branch
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+
+      # Checkout API validator code
+      - name: Checkout API Schema Validator
+        uses: actions/checkout@v2
+        with:
+          repository: sailpoint-oss/api-schema-validator
+          path: api-schema-validator
+          ref: main
+
+      # Install node and run npm install on API schema validator to install required packages
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: "16.x"
+      
+      - name: Install Dependencies
+        run: |
+          ls -al
+          cd api-schema-validator
+          npm ci
+
+      # Run the validator on beta
+      - name: Validate Beta API Schema
+        id: validate_beta_api_schema
+        continue-on-error: true
+        run: |
+          node api-schema-validator/validator.js -i dereferenced/deref-sailpoint-api.beta.yaml --skip-filters --skip-sorters
+
+      # Run the validator on v3
+      - name: Validate V3 API Schema
+        id: validate_v3_api_schema
+        continue-on-error: true
+        run: |
+          node api-schema-validator/validator.js -i dereferenced/deref-sailpoint-api.v3.yaml --skip-filters --skip-sorters
