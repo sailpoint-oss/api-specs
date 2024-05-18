@@ -1,20 +1,22 @@
 type: object
 properties:
   type:
-    description: The type of event
+    type: string
     enum:
-    - WorkflowExecutionScheduled
-    - WorkflowExecutionStarted
-    - WorkflowExecutionCompleted
-    - WorkflowExecutionFailed
-    - WorkflowTaskScheduled
-    - WorkflowTaskStarted
-    - WorkflowTaskCompleted
-    - WorkflowTaskFailed
-    - ActivityTaskScheduled
-    - ActivityTaskStarted
-    - ActivityTaskCompleted
-    - ActivityTaskFailed
+      - WorkflowExecutionScheduled
+      - WorkflowExecutionStarted
+      - WorkflowExecutionCompleted
+      - WorkflowExecutionFailed
+      - WorkflowTaskScheduled
+      - WorkflowTaskStarted
+      - WorkflowTaskCompleted
+      - WorkflowTaskFailed
+      - WorkflowTaskTimedOut
+      - ActivityTaskScheduled
+      - ActivityTaskStarted
+      - ActivityTaskCompleted
+      - ActivityTaskFailed
+    description: The type of event
     example: WorkflowTaskScheduled
   timestamp:
     type: string
