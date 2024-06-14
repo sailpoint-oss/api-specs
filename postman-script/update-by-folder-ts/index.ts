@@ -93,6 +93,9 @@ const release = async () => {
 
     // add any missing folders
     for (let item of localCollection.item) {
+        if (item.name = 'Password Policies') {
+            console.log('found it')
+        }
         let folder = getMatchingFolder(item, remoteCollection.collection.item)
         if (folder == null) {
             await updateEntireFolder(item, undefined)
@@ -119,8 +122,12 @@ const release = async () => {
 
     // delete any requests that are no longer in the collection
     for (let folder of remoteCollection.collection.item) {
+        //console.log(`checking folder ${folder.name}`)
+        // if (folder.name == 'SOD Policy') {
+        //     console.log('found it')
+        // }
         let localFolder = getMatchingFolder(folder, localCollection.item)
-        if (isPostmanRequestItem(folder.item)) {
+        if (localFolder && folder.item && isPostmanRequestItem(folder.item)) {
             for (let items of folder.item) {
                 let remoteRequest = getMatchingRequest(items, localFolder.item)
                 if (remoteRequest == null) {
@@ -150,7 +157,7 @@ const release = async () => {
     const deletedCollection = await new Collection(privateRemoteCollectionId).delete()
     console.log('deleted temporary collection')
     } catch (error) {
-        console.log('deleted temporary collection')
+        console.log('error running script')
         throw new Error(error)
     }
     
