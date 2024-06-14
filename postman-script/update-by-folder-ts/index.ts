@@ -2,6 +2,7 @@ import fs from 'fs';
 const args = process.argv;
 let privateRemoteCollectionId = '23226990-e27d8a83-24d7-4de8-9c33-419fe65aaa9c'  //must be in normal ID format
 let mainPublicCollectionId = '23836355-220ca56f-ba1b-4ff2-ad1e-7e0a6bfb6cb4' //must be in UUID format
+let privateRemoteCollectionIdUid = ''
 let changesMade = false;
 import { requestFromLocal, responseFromLocal } from './conversions/postmanConversions';
 import { Collection, Folder, Request, Response } from './postmanAPI';
@@ -13,31 +14,21 @@ import { checkIfDifferent } from './conversions/util';
 //v3Uid: '23226990-9557f27b-5b8c-4de7-90e2-073c1f79c484',
 const postmanCollections = {
 
-    v3: 'daf693e6-7856-4c62-8c11-4102e6729766',
-    v3Uid: '23226990-daf693e6-7856-4c62-8c11-4102e6729766',
     v3Public: '23226990-3721beea-5615-44b4-9459-e858a0ca7aed',
     v3Location: '../../postman/collections/sailpoint-api-v3.json',
-    v3SpecLocation: '../../dereferenced/deref-sailpoint-api.v3.json',
-    beta: 'e0c499ee-a0ea-4d02-a8a5-d8dce475c79f',
-    betaUid: '23226990-e0c499ee-a0ea-4d02-a8a5-d8dce475c79f',
     betaPublic: '23226990-3b87172a-cd55-40a2-9ace-1560a1158a4e',
     betaLocation: '../../postman/collections/sailpoint-api-beta.json',
-    betaSpecLocation: '../../dereferenced/deref-sailpoint-api.beta.json',
-    nerm: '91b47f89-5fc4-4111-b9c6-382cf29d1475',
-    nermUid: '23226990-91b47f89-5fc4-4111-b9c6-382cf29d1475',
     nermPublic: '23226990-20d718e3-b9b3-43ad-850c-637b00864ae2',
     nermLocation: '../../postman/collections/sailpoint-api-nerm.json'
 
 }
 
-privateRemoteCollectionId = postmanCollections[args[2].toLowerCase()]
-let privateRemoteCollectionIdUid = postmanCollections[args[2].toLowerCase() + 'Uid']
 mainPublicCollectionId = postmanCollections[args[2].toLowerCase() + 'Public']
 const localCollection: PostmanCollection = JSON.parse(fs.readFileSync(postmanCollections[args[2].toLowerCase() + 'Location'], 'utf8'))
 
-const folderAPI = new Folder(privateRemoteCollectionId)
-const responseAPI = new Response(privateRemoteCollectionId)
-const requestAPI = new Request(privateRemoteCollectionId)
+let folderAPI: Folder
+let responseAPI: Response
+let requestAPI: Request
 
 const release = async () => {
 
@@ -55,6 +46,10 @@ const release = async () => {
     const forkedCollection = await new Collection(mainPublicCollectionId).fork('2bc7f521-83cd-48c7-8abc-a40537c6d392', args[2].toLowerCase() + ' automation fork')
     privateRemoteCollectionId = forkedCollection.collection.id
     privateRemoteCollectionIdUid = forkedCollection.collection.uid
+
+    folderAPI = new Folder(privateRemoteCollectionId)
+    responseAPI = new Response(privateRemoteCollectionId)
+    requestAPI = new Request(privateRemoteCollectionId)
 
     try {
         const remoteCollection = await new Collection(privateRemoteCollectionId).get()
@@ -120,7 +115,7 @@ const release = async () => {
     // delete any requests that are no longer in the collection
     for (let folder of remoteCollection.collection.item) {
         let localFolder = getMatchingFolder(folder, localCollection.item)
-        if (isPostmanRequestItem(folder.item)) {
+        if (localFolder && folder.item && isPostmanRequestItem(folder.item)) {
             for (let items of folder.item) {
                 let remoteRequest = getMatchingRequest(items, localFolder.item)
                 if (remoteRequest == null) {
@@ -150,7 +145,7 @@ const release = async () => {
     const deletedCollection = await new Collection(privateRemoteCollectionId).delete()
     console.log('deleted temporary collection')
     } catch (error) {
-        console.log('deleted temporary collection')
+        console.log('error running script')
         throw new Error(error)
     }
     
