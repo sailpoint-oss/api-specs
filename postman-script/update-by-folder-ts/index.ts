@@ -114,10 +114,6 @@ const release = async () => {
 
     // delete any requests that are no longer in the collection
     for (let folder of remoteCollection.collection.item) {
-        //console.log(`checking folder ${folder.name}`)
-        // if (folder.name == 'SOD Policy') {
-        //     console.log('found it')
-        // }
         let localFolder = getMatchingFolder(folder, localCollection.item)
         if (localFolder && folder.item && isPostmanRequestItem(folder.item)) {
             for (let items of folder.item) {
