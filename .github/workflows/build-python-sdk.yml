@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  push_spec_workflow:
+  push_python_sdk_workflow:
     name: Build and push python SDK
     runs-on: ubuntu-latest
     steps:
@@ -87,3 +87,19 @@ jobs:
           git remote -v
 
           git push
+  push_python_sdk_workflow-failure:
+            runs-on: ubuntu-latest
+            if: ${{ always() && (needs.push_python_sdk_workflow.result == 'failure' || needs.push_python_sdk_workflow.result == 'timed_out') }}
+            needs:
+              - push_python_sdk_workflow
+            steps:
+              - name: Invoke GithubNotificationsFunction Lambda
+                run: |
+                  curl -X POST \
+                    -H "Content-Type: application/json" \
+                    -d '{
+                      "workflowName": "${{ github.job }}",
+                      "repositoryName": "${{ github.event.repository.name }}",
+                      "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                    }' \
+                    "${{ secrets.NOTIFICATIONS_FUNCTION_URL }}"
