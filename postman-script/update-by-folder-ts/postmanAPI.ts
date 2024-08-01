@@ -14,6 +14,7 @@ export class Collection {
     this.collectionId = collectionId
     this.apiKey = process.env.POSTMAN_API_KEY
     this.axios = new AxiosWrapper('https://api.getpostman.com/collections', this.apiKey)
+    console.log(`postman API key: ${process.env.POSTMAN_API_KEY.substring(0, 6)}`)
   }
 
 
