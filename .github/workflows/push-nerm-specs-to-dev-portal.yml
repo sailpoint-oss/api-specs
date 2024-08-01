@@ -8,7 +8,7 @@ on:
       - nerm/**
 
 jobs:
-  push_spec_workflow:
+  push_nerm_spec_workflow:
     name: Push API spec changes
     runs-on: ubuntu-latest
     steps:
@@ -54,3 +54,19 @@ jobs:
           git remote -v
 
           git push
+  push_nerm_spec_workflow-failure:
+            runs-on: ubuntu-latest
+            if: ${{ always() && (needs.push_nerm_spec_workflow.result == 'failure' || needs.push_nerm_spec_workflow.result == 'timed_out') }}
+            needs:
+              - push_nerm_spec_workflow
+            steps:
+              - name: Invoke GithubNotificationsFunction Lambda
+                run: |
+                  curl -X POST \
+                    -H "Content-Type: application/json" \
+                    -d '{
+                      "workflowName": "${{ github.job }}",
+                      "repositoryName": "${{ github.event.repository.name }}",
+                      "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                    }' \
+                    "${{ secrets.NOTIFICATIONS_FUNCTION_URL }}"
