@@ -52,8 +52,8 @@ jobs:
           node-version: "18"
       - name: Dereference API Specification and build Postman collection
         run: |
-          echo "POSTMAN_API_KEY=${{ secrets.POSTMAN_API_KEY }}" > .env
           cd postman-script/update-by-folder-ts
+          echo "POSTMAN_API_KEY=${{ secrets.POSTMAN_API_KEY }}" > .env
           npm ci
           npm run v3
 
@@ -69,8 +69,8 @@ jobs:
           node-version: "18"
       - name: Dereference API Specification and build Postman collection
         run: |
-          echo "POSTMAN_API_KEY=${{ secrets.POSTMAN_API_KEY }}" > .env
           cd postman-script/update-by-folder-ts
+          echo "POSTMAN_API_KEY=${{ secrets.POSTMAN_API_KEY }}" > .env
           npm ci
           npm run beta
 
@@ -87,7 +87,7 @@ jobs:
           node-version: "18"
       - name: Dereference API Specification and build Postman collection
         run: |
-          echo "POSTMAN_API_KEY=${{ secrets.POSTMAN_API_KEY }}" > .env
           cd postman-script/update-by-folder-ts
+          echo "POSTMAN_API_KEY=${{ secrets.POSTMAN_API_KEY }}" > .env
           npm ci
           npm run nerm
