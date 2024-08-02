@@ -75,7 +75,7 @@ jobs:
 
           # Check if there are any changes
     
-          if git status --porcelain | grep -q -E '^(M| A| D|R| C|U) '; then
+          if git status --porcelain | grep -q .; then
            # Changes are present
            git add .
            git commit -m "Automated build '${{ github.event.head_commit.message }}' go sdk: ${{ github.run_id }}"
