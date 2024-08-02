@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  push_spec_workflow:
+  push_python_sdk_workflow:
     name: Build and push python SDK
     runs-on: ubuntu-latest
     steps:
@@ -77,13 +77,30 @@ jobs:
           git config --local user.email "devrel-service@sailpoint.com"
           git config --local user.name "GitHub Action Bot"
 
-          git add .
-          git commit -m "Automated build '${{ github.event.head_commit.message }}' python sdk: ${{ github.run_id }}"
-
-          git status
-
-          git remote set-url origin https://${{secrets.DEVREL_SERVICE_TOKEN}}@github.com/sailpoint-oss/python-sdk.git
-
-          git remote -v
-
-          git push
+          if git status --porcelain | grep -q .; then
+            # Changes are present
+            git add .
+            git commit -m "Automated build '${{ github.event.head_commit.message }}' python sdk: ${{ github.run_id }}"
+            git remote set-url origin https://${{secrets.DEVREL_SERVICE_TOKEN}}@github.com/sailpoint-oss/python-sdk.git
+            git remote -v
+            git push
+          else
+            # No changes are present
+            echo "No changes to commit"
+          fi
+  push_python_sdk_workflow-failure:
+            runs-on: ubuntu-latest
+            if: ${{ always() && (needs.push_python_sdk_workflow.result == 'failure' || needs.push_python_sdk_workflow.result == 'timed_out') }}
+            needs:
+              - push_python_sdk_workflow
+            steps:
+              - name: Invoke GithubNotificationsFunction Lambda
+                run: |
+                  curl -X POST \
+                    -H "Content-Type: application/json" \
+                    -d '{
+                      "workflowName": "${{ github.job }}",
+                      "repositoryName": "${{ github.event.repository.name }}",
+                      "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                    }' \
+                    "${{ secrets.NOTIFICATIONS_FUNCTION_URL }}"
