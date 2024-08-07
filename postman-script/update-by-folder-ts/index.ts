@@ -34,20 +34,34 @@ let requestAPI: Request
 
 const release = async () => {
 
-    console.log(`searching for any collections with fork label = ${args[2].toLowerCase() + ' automation fork'}`)
-    const allCollections = await new Collection(mainPublicCollectionId).getAllCollections()
-    for (const collection of allCollections.collections) {
-        if (collection.fork) {
-            if (collection.fork.label == args[2].toLowerCase() + ' automation fork') {
-                const deletedCollection = await new Collection(collection.id).delete()
-                console.log(`deleted collection ${collection.id}`)
+    if (!(process.env.REUSE_COLLECTION) || process.env.REUSE_COLLECTION === 'false') {
+        console.log(`searching for any collections with fork label = ${args[2].toLowerCase() + ' automation fork'}`)
+        const allCollections = await new Collection(mainPublicCollectionId).getAllCollections()
+        for (const collection of allCollections.collections) {
+            if (collection.fork) {
+                if (collection.fork.label == args[2].toLowerCase() + ' automation fork') {
+                    const deletedCollection = await new Collection(collection.id).delete()
+                    console.log(`deleted collection ${collection.id}`)
+                }
+            }
+        }
+        const forkedCollection = await new Collection(mainPublicCollectionId).fork('2bc7f521-83cd-48c7-8abc-a40537c6d392', args[2].toLowerCase() + ' automation fork')
+        privateRemoteCollectionId = forkedCollection.collection.id
+        privateRemoteCollectionIdUid = forkedCollection.collection.uid
+    } else {
+        console.log(`searching for any collections with fork label = ${args[2].toLowerCase() + ' automation fork'}`)
+        const allCollections = await new Collection(mainPublicCollectionId).getAllCollections()
+        for (const collection of allCollections.collections) {
+            if (collection.fork) {
+                if (collection.fork.label == args[2].toLowerCase() + ' automation fork') {
+                    privateRemoteCollectionId = collection.id
+                    privateRemoteCollectionIdUid = collection.uid
+                }
             }
         }
     }
 
-    const forkedCollection = await new Collection(mainPublicCollectionId).fork('2bc7f521-83cd-48c7-8abc-a40537c6d392', args[2].toLowerCase() + ' automation fork')
-    privateRemoteCollectionId = forkedCollection.collection.id
-    privateRemoteCollectionIdUid = forkedCollection.collection.uid
+
 
     folderAPI = new Folder(privateRemoteCollectionId)
     responseAPI = new Response(privateRemoteCollectionId)
@@ -63,7 +77,12 @@ const release = async () => {
             delete variable.type
         }
     }
-
+    // if (process.env.DELETE_ALL_FOLDERS && process.env.DELETE_ALL_FOLDERS === 'true') {
+    //     for (let item of remoteCollection.collection.item) {
+    //         await folderAPI.delete(item.id)
+    //         changesMade = true
+    //     }
+    // }
     // check if the top level collection has changed, If so, update it... This will delete all folders unfortunately.
     // skipping this for now as it's just too dangerous and we can manually update in these cases
 
@@ -130,11 +149,38 @@ const release = async () => {
     }
 
     // update any requests that have changed
+    let counter = 0
     for (let item of localCollection.item) {
+        if (item.name == 'Notifications' || item.name == 'Sources' || item.name == 'Approvals') {
+            continue
+        }
         let folder = getMatchingFolder(item, remoteCollection.collection.item)
         if (folder !== null && isPostmanRequestItem(item.item)) {
             await updateRequestsInFolder(item.item, folder.id, folder)
         }
+
+        // push changes to the forked collections
+        if (changesMade && counter >= 10 && process.env.INCREMENTAL_CHANGES == 'true') {
+            changesMade = false
+            counter = 0
+            console.log('Merging to public collection')
+            let retryCounter = 0
+            while (retryCounter < 5) {
+                    try {
+                        const response = await new Collection(privateRemoteCollectionIdUid).merge(mainPublicCollectionId)
+                        break
+                    } catch (error) {
+                        retryCounter++
+                        if (retryCounter >= 5) {
+                            throw new Error(error)
+                        }
+                }
+            }
+            
+        } else {
+            console.log('No changes made')
+        }
+        counter++
     }
 
     // push changes to the forked collections
