@@ -7,6 +7,7 @@
     "build": "tsc",
     "start": "tsc && node dist/index.js",
     "v3": "tsc && node dist/index.js v3",
+    "v2024": "tsc && node dist/index.js v2024",
     "beta": "tsc && node dist/index.js beta",
     "nerm": "tsc && node dist/index.js nerm"
   },

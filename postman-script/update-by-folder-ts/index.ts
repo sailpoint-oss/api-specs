@@ -19,7 +19,9 @@ const postmanCollections = {
     betaPublic: '23226990-3b87172a-cd55-40a2-9ace-1560a1158a4e',
     betaLocation: '../../postman/collections/sailpoint-api-beta.json',
     nermPublic: '23226990-20d718e3-b9b3-43ad-850c-637b00864ae2',
-    nermLocation: '../../postman/collections/sailpoint-api-nerm.json'
+    nermLocation: '../../postman/collections/sailpoint-api-nerm.json',
+    v2024Public: '23226990-ed8adb96-7931-4c78-970d-d87da8aa05bd',
+    v2024Location: '../../postman/collections/sailpoint-api-v2024.json',
 
 }
 
