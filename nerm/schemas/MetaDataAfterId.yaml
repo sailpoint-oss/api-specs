@@ -3,14 +3,17 @@ description: Metadata with after_id
 properties:
   limit:
     type: integer
+    format: int32
     description: Number of items to return
     example: 10
   offset:
     type: integer
+    format: int32
     description: offset
     example: 50
   total:
     type: integer
+    format: int32
     description: Total number of items
     example: 100
   next:
