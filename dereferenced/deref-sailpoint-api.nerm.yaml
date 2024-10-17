@@ -12,6 +12,351 @@ servers:
         default: acmeco
         description: Tenant name assigned to customer
 paths:
+  /audit_events/query:
+    post:
+      summary: Query for Audit events
+      description: 'This endpoint provides a search engine for Audit Events by optionally combining subject_type, type, and subject_id to narrow down the audit events. A Subject Type of Profile links up to the AuditableProfile types. An Subject Type of WorkflowSession links up to the AuditableWorkflow types. An Subject Type of Get/Post/Patch/Delete links up to the AuditableApi types. The remaining Subject Types link up to the ActiveRecord types (configuration changes). Any workflow audit event created as of 10/11/2024 will be able to be queried by workflow name, workflow uid, or workflow profile type. Any profile audit event created as of 10/11/2024 will be able to be queried by profile type. The entity_type parameter has been updated to subject_type, which now matches what is in the response object. With the additional query filters added, there is a max of 5 filter parameters at one time (aside from pagination parameters). To accommodate these changes, an API contract change was required.  Please read the updated API documentation for the new request syntax.'
+      operationId: search
+      tags:
+        - audits
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                audit_events:
+                  type: object
+                  properties:
+                    offset:
+                      description: The page of pagination for these events.
+                      type: integer
+                      format: int32
+                      example: 1
+                    sort_by:
+                      description: A column that we are sorting these records from.
+                      type: string
+                      example: created_at
+                    limit:
+                      description: The limiting count for the amount of records returned.
+                      type: integer
+                      example: 1
+                      format: int32
+                    order:
+                      description: Which direction the list should be sorted by
+                      type: string
+                      enum:
+                        - asc
+                        - desc
+                      example: asc
+                    filters:
+                      type: object
+                      properties:
+                        subject_type:
+                          description: Categorization of audit event.
+                          type: string
+                          enum:
+                            - Profile
+                            - WorkflowSession
+                            - Email
+                            - FormAttributeForm
+                            - FormAttribute
+                            - Form
+                            - IdproxyPermission
+                            - NeAttributeOption
+                            - NeAttribute
+                            - Notification
+                            - Page
+                            - Permission
+                            - PortalRegistrationWorkflow
+                            - Portal
+                            - ProfileTypeRole
+                            - ProfileType
+                            - RoleProfile
+                            - NeprofileRole
+                            - NeaccessRole
+                            - IdproxyRole
+                            - SecurityQuestion
+                            - UserManager
+                            - UserProfile
+                            - UserRole
+                            - User
+                            - Validation
+                            - VerificationEmail
+                            - WorkflowAction
+                            - CreateWorkflow
+                            - UpdateWorkflow
+                            - AutomatedWorkflow
+                            - BatchWorkflow
+                            - ExpirationWorkflow
+                            - InvitationWorkflow
+                            - LoginWorkflow
+                            - PasswordResetWorkflow
+                            - RegistrationWorkflow
+                            - Get
+                            - Post
+                            - Patch
+                            - Delete
+                          example: Profile
+                        type:
+                          description: The type of audit event
+                          type: string
+                          enum:
+                            - AuditableProfileCreate
+                            - AuditableProfileUpdate
+                            - AuditableProfileDestroy
+                            - AuditableBulkProfileUpdate
+                            - AuditableProfileContributorAdd
+                            - AuditableProfileContributorRemove
+                            - AuditableProfileContributorRoleAdd
+                            - AuditableProfileContributorRoleRemove
+                            - AuditableProfileOwnerUpdate
+                            - AuditableProfileWorkflowEvent
+                            - AuditableWorkflowActionSkippedEvent
+                            - AuditableWorkflowApprovedEvent
+                            - AuditableWorkflowApprovedEvent
+                            - AuditableWorkflowAssignedEvent
+                            - AuditableWorkflowAutoAssignedEvent
+                            - AuditableWorkflowBatchCompleteEvent
+                            - AuditableWorkflowClosedEvent
+                            - AuditableWorkflowDuplicateCheckStartEvent
+                            - AuditableWorkflowDuplicateResolutionEvent
+                            - AuditableWorkflowFailedEvent
+                            - AuditableWorkflowIdentityProofedEvent
+                            - AuditableWorkflowInvitationSentEvent
+                            - AuditableWorkflowLdapProvidedEvent
+                            - AuditableWorkflowNotificationSentEvent
+                            - AuditableWorkflowPendingApprovalEvent
+                            - AuditableWorkflowPendingAssignmentEvent
+                            - AuditableWorkflowPendingFulfillmentEvent
+                            - AuditableWorkflowFulfilledEvent
+                            - AuditableWorkflowPendingIdentityProofEvent
+                            - AuditableWorkflowPendingLdapEvent
+                            - AuditableWorkflowPendingRequestEvent
+                            - AuditableWorkflowPendingReviewEvent
+                            - AuditableWorkflowProfileCreatedEvent
+                            - AuditableWorkflowProfileSelectEvent
+                            - AuditableWorkflowProfileUpdatedEvent
+                            - AuditableWorkflowRejectedEvent
+                            - AuditableWorkflowRequestMadeEvent
+                            - AuditableWorkflowRestApiEvent
+                            - AuditableWorkflowReviewedEvent
+                            - AuditableWorkflowRunningWorkflowEvent
+                            - AuditableWorkflowSoapApiEvent
+                            - AuditableWorkflowStatusChangedEvent
+                            - AuditableWorkflowStoredProcedureEvent
+                            - AuditableWorkflowUnassignEvent
+                            - AuditableWorkflowWaitingForWorkflowEvent
+                            - AuditableWorkflowWorkflowChangedEvent
+                            - ActiveRecordCreate
+                            - ActiveRecordUpdate
+                            - ActiveRecordDestroy
+                            - AuditableApiEvent
+                          example: AuditableProfileCreate
+                        subject_id:
+                          description: Identifier of the subject
+                          type: string
+                          format: uuid
+                          example: 7d8c53ca-e99d-485c-9524-ea3849e82c79
+                        data:
+                          type: object
+                          properties:
+                            profile_id:
+                              description: The profile id associated with the event
+                              type: string
+                              example: 7d8c53ca-e99d-485c-9524-ea3849e82c79
+                              format: uuid
+                            workflow_id:
+                              description: The workflow id associated with the event
+                              type: string
+                              example: 7d8c53ca-e99d-485c-9524-ea3849e82c79
+                              format: uuid
+                            workflow_name:
+                              description: The workflow name associated with the event
+                              type: string
+                              example: My Workflow
+                            workflow_uid:
+                              description: The workflow uid associated with the event
+                              type: string
+                              example: my_workflow
+                            profile_type_id:
+                              description: The profile type associated with the event
+                              type: string
+                              example: 7d8c53ca-e99d-485c-9524-ea3849e82c79
+                              format: uuid
+      responses:
+        '200':
+          description: AuditEvents
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  audit_events:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        subject_type:
+                          description: Categorization of audit event.
+                          type: string
+                          enum:
+                            - Profile
+                            - WorkflowSession
+                            - Email
+                            - FormAttributeForm
+                            - FormAttribute
+                            - Form
+                            - IdproxyPermission
+                            - NeAttributeOption
+                            - NeAttribute
+                            - Notification
+                            - Page
+                            - Permission
+                            - PortalRegistrationWorkflow
+                            - Portal
+                            - ProfileTypeRole
+                            - ProfileType
+                            - RoleProfile
+                            - NeprofileRole
+                            - NeaccessRole
+                            - IdproxyRole
+                            - SecurityQuestion
+                            - UserManager
+                            - UserProfile
+                            - UserRole
+                            - User
+                            - Validation
+                            - VerificationEmail
+                            - WorkflowAction
+                            - CreateWorkflow
+                            - UpdateWorkflow
+                            - AutomatedWorkflow
+                            - BatchWorkflow
+                            - ExpirationWorkflow
+                            - InvitationWorkflow
+                            - LoginWorkflow
+                            - PasswordResetWorkflow
+                            - RegistrationWorkflow
+                            - Get
+                            - Post
+                            - Patch
+                            - Delete
+                          example: Profile
+                        type:
+                          description: The type of audit event
+                          type: string
+                          enum:
+                            - AuditableProfileCreate
+                            - AuditableProfileUpdate
+                            - AuditableProfileDestroy
+                            - AuditableBulkProfileUpdate
+                            - AuditableProfileContributorAdd
+                            - AuditableProfileContributorRemove
+                            - AuditableProfileContributorRoleAdd
+                            - AuditableProfileContributorRoleRemove
+                            - AuditableProfileOwnerUpdate
+                            - AuditableProfileWorkflowEvent
+                            - AuditableWorkflowActionSkippedEvent
+                            - AuditableWorkflowApprovedEvent
+                            - AuditableWorkflowApprovedEvent
+                            - AuditableWorkflowAssignedEvent
+                            - AuditableWorkflowAutoAssignedEvent
+                            - AuditableWorkflowBatchCompleteEvent
+                            - AuditableWorkflowClosedEvent
+                            - AuditableWorkflowDuplicateCheckStartEvent
+                            - AuditableWorkflowDuplicateResolutionEvent
+                            - AuditableWorkflowFailedEvent
+                            - AuditableWorkflowIdentityProofedEvent
+                            - AuditableWorkflowInvitationSentEvent
+                            - AuditableWorkflowLdapProvidedEvent
+                            - AuditableWorkflowNotificationSentEvent
+                            - AuditableWorkflowPendingApprovalEvent
+                            - AuditableWorkflowPendingAssignmentEvent
+                            - AuditableWorkflowPendingFulfillmentEvent
+                            - AuditableWorkflowFulfilledEvent
+                            - AuditableWorkflowPendingIdentityProofEvent
+                            - AuditableWorkflowPendingLdapEvent
+                            - AuditableWorkflowPendingRequestEvent
+                            - AuditableWorkflowPendingReviewEvent
+                            - AuditableWorkflowProfileCreatedEvent
+                            - AuditableWorkflowProfileSelectEvent
+                            - AuditableWorkflowProfileUpdatedEvent
+                            - AuditableWorkflowRejectedEvent
+                            - AuditableWorkflowRequestMadeEvent
+                            - AuditableWorkflowRestApiEvent
+                            - AuditableWorkflowReviewedEvent
+                            - AuditableWorkflowRunningWorkflowEvent
+                            - AuditableWorkflowSoapApiEvent
+                            - AuditableWorkflowStatusChangedEvent
+                            - AuditableWorkflowStoredProcedureEvent
+                            - AuditableWorkflowUnassignEvent
+                            - AuditableWorkflowWaitingForWorkflowEvent
+                            - AuditableWorkflowWorkflowChangedEvent
+                            - ActiveRecordCreate
+                            - ActiveRecordUpdate
+                            - ActiveRecordDestroy
+                            - AuditableApiEvent
+                          example: AuditableProfileCreate
+                        subject_id:
+                          description: Identifier of the subject
+                          type: string
+                          format: uuid
+                          example: 7d8c53ca-e99d-485c-9524-ea3849e82c79
+                        data:
+                          type: object
+                          properties:
+                            profile_id:
+                              description: The profile id associated with the event
+                              type: string
+                              example: 7d8c53ca-e99d-485c-9524-ea3849e82c79
+                              format: uuid
+                            workflow_id:
+                              description: The workflow id associated with the event
+                              type: string
+                              example: 7d8c53ca-e99d-485c-9524-ea3849e82c79
+                              format: uuid
+                            workflow_name:
+                              description: The workflow name associated with the event
+                              type: string
+                              example: My Workflow
+                            workflow_uid:
+                              description: The workflow uid associated with the event
+                              type: string
+                              example: my_workflow
+                            profile_type_id:
+                              description: The profile type associated with the event
+                              type: string
+                              example: 7d8c53ca-e99d-485c-9524-ea3849e82c79
+                              format: uuid
+        '400':
+          description: Bad Request - unable to complete.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      error:
+                        example: Invalid JSON syntax. Please check your syntax and try again.
+                  - type: object
+                    properties:
+                      error:
+                        example: The <object> failed to create/update
+                      errors:
+                        example:
+                          attribute: can't be blank
+        '500':
+          description: Internal Server Error - returned on unhandled exceptions.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    description: A message describing the error
+                    example: Sorry something went wrong
   /user:
     post:
       summary: Create a new user
@@ -78,6 +423,11 @@ paths:
                       type: string
                       description: The locale the user prefers to use
                       example: fr-CA
+                    password:
+                      type: string
+                      description: The user password
+                      required: false
+                      example: U*bF7hy9fW
       responses:
         '200':
           description: Expected response to a valid request
@@ -154,6 +504,10 @@ paths:
                         type: string
                         description: The locale the user prefers to use
                         example: fr-CA
+                      group_strings:
+                        type: string
+                        description: 'Group strings configured on the customer''s Active Directory configuration, provided by the IDP at the moment on authentication.'
+                        example: 'Admin_group, Developer_group'
         '400':
           description: Bad Request - unable to complete.
           content:
@@ -335,6 +689,10 @@ paths:
                           type: string
                           description: The locale the user prefers to use
                           example: fr-CA
+                        group_strings:
+                          type: string
+                          description: 'Group strings configured on the customer''s Active Directory configuration, provided by the IDP at the moment on authentication.'
+                          example: 'Admin_group, Developer_group'
                   _metadata:
                     type: object
                     properties:
@@ -444,6 +802,11 @@ paths:
                         type: string
                         description: The locale the user prefers to use
                         example: fr-CA
+                      password:
+                        type: string
+                        description: The user password
+                        required: false
+                        example: U*bF7hy9fW
       responses:
         '200':
           description: Expected response to a valid request
@@ -523,6 +886,10 @@ paths:
                               type: string
                               description: The locale the user prefers to use
                               example: fr-CA
+                            group_strings:
+                              type: string
+                              description: 'Group strings configured on the customer''s Active Directory configuration, provided by the IDP at the moment on authentication.'
+                              example: 'Admin_group, Developer_group'
                   - type: object
                     properties:
                       info:
@@ -716,6 +1083,10 @@ paths:
                               type: string
                               description: The locale the user prefers to use
                               example: fr-CA
+                            group_strings:
+                              type: string
+                              description: 'Group strings configured on the customer''s Active Directory configuration, provided by the IDP at the moment on authentication.'
+                              example: 'Admin_group, Developer_group'
                   - type: object
                     properties:
                       info:
@@ -852,6 +1223,10 @@ paths:
                         type: string
                         description: The locale the user prefers to use
                         example: fr-CA
+                      group_strings:
+                        type: string
+                        description: 'Group strings configured on the customer''s Active Directory configuration, provided by the IDP at the moment on authentication.'
+                        example: 'Admin_group, Developer_group'
         '400':
           description: Bad Request - unable to complete.
           content:
@@ -1032,6 +1407,10 @@ paths:
                         type: string
                         description: The locale the user prefers to use
                         example: fr-CA
+                      group_strings:
+                        type: string
+                        description: 'Group strings configured on the customer''s Active Directory configuration, provided by the IDP at the moment on authentication.'
+                        example: 'Admin_group, Developer_group'
         '400':
           description: Bad Request - unable to complete.
           content:
@@ -2444,6 +2823,235 @@ paths:
                         items:
                           type: string
                           example: ad_group_name
+        '400':
+          description: Bad Request - unable to complete.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      error:
+                        example: Invalid JSON syntax. Please check your syntax and try again.
+                  - type: object
+                    properties:
+                      error:
+                        example: The <object> failed to create/update
+                      errors:
+                        example:
+                          attribute: can't be blank
+        '500':
+          description: Internal Server Error - returned on unhandled exceptions.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    description: A message describing the error
+                    example: Sorry something went wrong
+  /system_roles:
+    get:
+      summary: Get system roles
+      operationId: getSystemRoles
+      description: This endpoint can retrieve system roles from NERM. Optionally you can provide parameters to filter results.
+      tags:
+        - system roles
+      parameters:
+        - name: query
+          in: query
+          description: Allows for pagination and sorting.
+          required: false
+          schema:
+            type: object
+            properties:
+              limit:
+                type: integer
+                example: 100
+              offset:
+                type: integer
+                example: 50
+              order:
+                type: string
+                example: created_at
+            example:
+              limit: 100
+              offset: 50
+              order: created_at
+          style: deepObject
+          explode: true
+        - name: metadata
+          in: query
+          description: Returns batching metadata in the response
+          required: false
+          schema:
+            type: boolean
+            default: false
+            example: true
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  system_roles:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                          description: The unique identifier for the object
+                          example: 2e06b876-f456-473d-bd65-b6435e0b6b2d
+                          readOnly: true
+                        uid:
+                          type: string
+                          description: The user identifier for the object
+                          minLength: 32
+                          maxLength: 32
+                          readOnly: true
+                          enum:
+                            - profile_contributor
+                            - profile_owner
+                          example: profile_contributor
+                        name:
+                          description: The name of the role
+                          type: string
+                          enum:
+                            - Profile Contributor
+                            - Profile Owner
+                          example: Profile Contributor
+                  _metadata:
+                    type: object
+                    properties:
+                      limit:
+                        type: integer
+                      offset:
+                        type: integer
+                      total:
+                        type: integer
+                      next:
+                        type: string
+                        example: /endpoint?limit=10&offset=60
+                      previous:
+                        type: string
+                        example: /endpoint?limit=10&offset=40
+        '400':
+          description: Bad Request - unable to complete.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      error:
+                        example: Invalid JSON syntax. Please check your syntax and try again.
+                  - type: object
+                    properties:
+                      error:
+                        example: The <object> failed to create/update
+                      errors:
+                        example:
+                          attribute: can't be blank
+        '500':
+          description: Internal Server Error - returned on unhandled exceptions.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    description: A message describing the error
+                    example: Sorry something went wrong
+  /system_role_permissions:
+    post:
+      summary: Create a system role permission
+      description: This endpoint can create system role permissions for Lifecycle System Roles
+      operationId: createSystemRolePermission
+      tags:
+        - system role permissions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                system_role_permission:
+                  type: object
+                  properties:
+                    system_role_id:
+                      type: string
+                      format: uuid
+                      description: The id of the system role
+                      example: ef5d413f-ba18-49e6-9a72-bb115aa133ff
+                    subject_id:
+                      type: string
+                      format: uuid
+                      example: db3d85ef-c324-458b-b206-58debaa96419
+                      description: The ID of the object that the permission is giving access to
+                    value:
+                      type: integer
+                      format: int32
+                      enum:
+                        - 1
+                        - 2
+                        - 3
+                        - 4
+                        - 5
+                        - 6
+                        - 7
+                      example: 1
+                      description: The permissions level of access
+                    subject:
+                      type: integer
+                      format: int32
+                      enum:
+                        - 0
+                        - 2
+                        - 14
+                      example: 0
+                      description: The type of permission
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  system_role_permission:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                        readOnly: true
+                        description: The id of the system role permission
+                        example: 2e06b876-f456-473d-bd65-b6435e0b6b2d
+                      system_role_id:
+                        type: string
+                        format: uuid
+                        description: The id of the system role
+                        example: ef5d413f-ba18-49e6-9a72-bb115aa133ff
+                      value:
+                        type: integer
+                        format: int32
+                        example: 1
+                        description: The permissions level of access
+                      subject:
+                        type: integer
+                        format: int32
+                        example: 1
+                        description: The type of permission
+                      subject_id:
+                        type: string
+                        format: uuid
+                        example: db3d85ef-c324-458b-b206-58debaa96419
+                        description: The ID of the object that the permission is giving access to
         '400':
           description: Bad Request - unable to complete.
           content:
@@ -7290,6 +7898,14 @@ paths:
             type: boolean
             default: false
             example: true
+        - name: after_id
+          in: query
+          description: 'Represents the ID where the query should begin from. If blank, it represents the first ID. When used, forces sorting by ID ascending and does not allow use of `offset`. When after_id is specified it changes the mode of the API such that any filter parameters other than profile_type_id, limit, and offset are not supported and will be either silently ignored or result in an HTTP 400 error. For example you can not include and after_id along with an archived=false in the same request.'
+          required: false
+          schema:
+            type: string
+            format: uuid
+            example: 4eaa719f-4312-4c5b-9264-d0eb04d4a02a
       responses:
         '200':
           description: Expected response to a valid request
@@ -7379,16 +7995,32 @@ paths:
                     properties:
                       limit:
                         type: integer
+                        description: The maximum number of records to return in the search
+                        example: /endpoint?limit=10
+                        format: int32
                       offset:
                         type: integer
+                        description: The number of records to skip before starting to return results.
+                        example: /endpoint?offset=60
+                        format: int32
                       total:
                         type: integer
+                        description: The total number of records available matching the search criteria.
+                        example: /endpoint?total=10
+                        format: int32
                       next:
                         type: string
+                        description: The ID of the first record in the next set of results
                         example: /endpoint?limit=10&offset=60
                       previous:
                         type: string
+                        description: The ID of the last record in the previous set of results
                         example: /endpoint?limit=10&offset=40
+                      after_id:
+                        type: string
+                        format: uuid
+                        example: 4eaa719f-4312-4c5b-9264-d0eb04d4a02a
+                        description: 'The ID from which the search will start, ignoring all records before it.'
         '400':
           description: Bad Request - unable to complete.
           content:
@@ -10807,14 +11439,14 @@ paths:
                             - 'true'
                             - 'false'
                           description: Used for batch workflows.
-                          example: true
+                          example: 'true'
                         multiple_requests:
                           type: string
                           enum:
                             - 'true'
                             - 'false'
                           description: Used for batch workflows for if multiple requests.
-                          example: true
+                          example: 'false'
       responses:
         '200':
           description: Expected response to a valid request
