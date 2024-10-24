@@ -40,7 +40,7 @@ jobs:
           cd developer-community
 
           git config --unset-all http.https://github.com/.extraheader
-          git config --local user.email "luke.hagar@sailpoint.com"
+          git config --local user.email "devrel-service@sailpoint.com"
           git config --local user.name "GitHub Action Bot"
 
           if git status --porcelain | grep -q .; then
