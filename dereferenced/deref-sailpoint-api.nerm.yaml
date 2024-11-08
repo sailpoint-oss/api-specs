@@ -15,7 +15,15 @@ paths:
   /audit_events/query:
     post:
       summary: Query for Audit events
-      description: 'This endpoint provides a search engine for Audit Events by optionally combining subject_type, type, and subject_id to narrow down the audit events. A Subject Type of Profile links up to the AuditableProfile types. An Subject Type of WorkflowSession links up to the AuditableWorkflow types. An Subject Type of Get/Post/Patch/Delete links up to the AuditableApi types. The remaining Subject Types link up to the ActiveRecord types (configuration changes). Any workflow audit event created as of 10/11/2024 will be able to be queried by workflow name, workflow uid, or workflow profile type. Any profile audit event created as of 10/11/2024 will be able to be queried by profile type. The entity_type parameter has been updated to subject_type, which now matches what is in the response object. With the additional query filters added, there is a max of 5 filter parameters at one time (aside from pagination parameters). To accommodate these changes, an API contract change was required.  Please read the updated API documentation for the new request syntax.'
+      description: |-
+        This endpoint provides a search engine for Audit Events by optionally combining subject_type, type, and subject_id to narrow down the audit events. A Subject Type of Profile links up to the AuditableProfile types. An Subject Type of WorkflowSession links up to the AuditableWorkflow types. An Subject Type of Get/Post/Patch/Delete links up to the AuditableApi types. The remaining Subject Types link up to the ActiveRecord types (configuration changes).
+
+        - Any workflow audit event created as of 10/11/2024 will be able to be queried by workflow name, workflow uid, or workflow profile type.
+        - Any profile audit event created as of 10/11/2024 will be able to be queried by profile type.
+        - The entity_type parameter has been updated to subject_type, which now matches what is in the response object.
+        - With the additional query filters added, there is a max of 5 filter parameters at one time (aside from pagination parameters)
+
+        To accommodate these changes, an API contract change was required.  Please read the updated API documentation for the new request syntax.
       operationId: search
       tags:
         - audits
@@ -30,10 +38,10 @@ paths:
                   type: object
                   properties:
                     offset:
-                      description: The page of pagination for these events.
+                      description: How many records to skip before pulling records to return.
                       type: integer
                       format: int32
-                      example: 1
+                      example: 100
                     sort_by:
                       description: A column that we are sorting these records from.
                       type: string
@@ -41,8 +49,9 @@ paths:
                     limit:
                       description: The limiting count for the amount of records returned.
                       type: integer
-                      example: 1
+                      example: 10
                       format: int32
+                      maximum: 100
                     order:
                       description: Which direction the list should be sorted by
                       type: string
@@ -53,6 +62,25 @@ paths:
                     filters:
                       type: object
                       properties:
+                        created_at:
+                          description: Search for record based on the created_at date
+                          type: object
+                          properties:
+                            gt:
+                              description: Greater Than - search for events with a date greater than the value
+                              type: string
+                              format: date
+                              example: '2024-10-18T16:41:23.232+00:00 | 10/18/2024'
+                            lt:
+                              description: Less Than - search for events with a date less than the value
+                              type: string
+                              format: date
+                              example: '2024-10-18T16:41:23.232+00:00 | 10/18/2024'
+                            eq:
+                              description: Equal - search for events with a date equal to the value
+                              type: string
+                              format: date
+                              example: '2024-10-18T16:41:23.232+00:00 | 10/18/2024'
                         subject_type:
                           description: Categorization of audit event.
                           type: string
@@ -199,6 +227,25 @@ paths:
                     items:
                       type: object
                       properties:
+                        created_at:
+                          description: Search for record based on the created_at date
+                          type: object
+                          properties:
+                            gt:
+                              description: Greater Than - search for events with a date greater than the value
+                              type: string
+                              format: date
+                              example: '2024-10-18T16:41:23.232+00:00 | 10/18/2024'
+                            lt:
+                              description: Less Than - search for events with a date less than the value
+                              type: string
+                              format: date
+                              example: '2024-10-18T16:41:23.232+00:00 | 10/18/2024'
+                            eq:
+                              description: Equal - search for events with a date equal to the value
+                              type: string
+                              format: date
+                              example: '2024-10-18T16:41:23.232+00:00 | 10/18/2024'
                         subject_type:
                           description: Categorization of audit event.
                           type: string
