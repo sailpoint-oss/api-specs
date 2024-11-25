@@ -19999,6 +19999,102 @@ paths:
                   error:
                     description: A message describing the error
                     example: Sorry something went wrong
+  '/idproxy/data_records/{id}/reassign':
+    patch:
+      summary: Reassign data record
+      operationId: patchDataRecord
+      description: 'Consolidation is a deprecated feature, this endpoint provides a mechanism to reassign a data record to a new master record to assist customers.'
+      tags:
+        - consolidation
+      parameters:
+        - name: id
+          in: path
+          description: 'ID of the object to retrieve, update, or delete'
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 1246d8b3-ac29-4015-8154-dea4434a73fa
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                master_record_id:
+                  type: string
+                  description: The id of the master record
+                  example: 456738c9ba999a0076cf8a9b
+      responses:
+        '200':
+          description: The data record has been reassigned.
+        '400':
+          description: Bad Request - unable to complete.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      error:
+                        example: Invalid JSON syntax. Please check your syntax and try again.
+                  - type: object
+                    properties:
+                      error:
+                        example: The <object> failed to create/update
+                      errors:
+                        example:
+                          attribute: can't be blank
+        '500':
+          description: Internal Server Error - returned on unhandled exceptions.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    description: A message describing the error
+                    example: Sorry something went wrong
+  '/idproxy/identities/{id}':
+    delete:
+      summary: Delete a master record
+      operationId: deleteMasterRecord
+      description: 'Consolidation is a deprecated feature, this endpoint provides a mechanism to delete a master record to assist customers.'
+      tags:
+        - consolidation
+      parameters:
+        - name: id
+          in: path
+          description: 'ID of the object to retrieve, update, or delete'
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 1246d8b3-ac29-4015-8154-dea4434a73fa
+      responses:
+        '200':
+          description: Master record deleted.
+        '400':
+          description: Error deleting master record
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    description: A message describing the error that occurred
+                    type: string
+        '500':
+          description: Internal Server Error - returned on unhandled exceptions.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    description: A message describing the error
+                    example: Sorry something went wrong
   /form_attributes:
     post:
       summary: Create a form attribute
