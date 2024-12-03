@@ -18,6 +18,12 @@ jobs:
   dereference_spec:
     runs-on: ubuntu-latest
     steps:
+      - name: Configure AWS credentials from Test account
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: arn:aws:iam::176038645705:role/github-action-role
+          role-session-name: deploy-developer-site-infra-to-aws
+          aws-region: us-east-1
       - name: Checkout PR branch
         uses: actions/checkout@v3
       - name: Set up Node
@@ -43,74 +49,12 @@ jobs:
           swagger-cli bundle --dereference idn/sailpoint-api.v2024.yaml -t yaml -o dereferenced/deref-sailpoint-api.v2024.yaml
           openapi2postmanv2 -s dereferenced/deref-sailpoint-api.v2024.yaml -o postman/collections/sailpoint-api-v2024.json -p -c postman-script/openapi2postman-config.json
           node postman-script/modify-collection.js postman/collections/sailpoint-api-v2024.json
-          swagger-cli bundle --dereference idn/sailpoint-api.v2024.yaml -t json -o dereferenced/deref-sailpoint-api.v2024.json
-      - uses: stefanzweifel/git-auto-commit-action@v4
-
-  push_v3_specs_to_postman:
-    runs-on: ubuntu-latest
-    needs: [dereference_spec]
-    steps:
-      - name: Checkout PR branch
-        uses: actions/checkout@v3
-      - name: Set up Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: "18"
-      - name: Dereference API Specification and build Postman collection
-        run: |
-          cd postman-script/update-by-folder-ts
-          echo "POSTMAN_API_KEY=${{ secrets.POSTMAN_API_KEY }}" > .env
-          npm ci
-          npm run v3
-
-  push_v2024_specs_to_postman:
-    runs-on: ubuntu-latest
-    needs: [dereference_spec]
-    steps:
-      - name: Checkout PR branch
-        uses: actions/checkout@v3
-      - name: Set up Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: "18"
-      - name: Dereference API Specification and build Postman collection
-        run: |
+          swagger-cli bundle --dereference idn/sailpoint-api.v2024.yaml -t json -o dereferenced/deref-sailpoint-api.v2024.
           cd postman-script/update-by-folder-ts
           echo "POSTMAN_API_KEY=${{ secrets.POSTMAN_API_KEY }}" > .env
           npm ci
           npm run v2024
-
-  push_beta_specs_to_postman:
-    runs-on: ubuntu-latest
-    needs: [dereference_spec]
-    steps:
-      - name: Checkout PR branch
-        uses: actions/checkout@v3
-      - name: Set up Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: "18"
-      - name: Dereference API Specification and build Postman collection
-        run: |
-          cd postman-script/update-by-folder-ts
-          echo "POSTMAN_API_KEY=${{ secrets.POSTMAN_API_KEY }}" > .env
-          npm ci
+          npm run v3
           npm run beta
-
-
-  push_nerm_specs_to_postman:
-    runs-on: ubuntu-latest
-    needs: [dereference_spec]
-    steps:
-      - name: Checkout PR branch
-        uses: actions/checkout@v3
-      - name: Set up Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: "18"
-      - name: Dereference API Specification and build Postman collection
-        run: |
-          cd postman-script/update-by-folder-ts
-          echo "POSTMAN_API_KEY=${{ secrets.POSTMAN_API_KEY }}" > .env
-          npm ci
           npm run nerm
+      - uses: stefanzweifel/git-auto-commit-action@v4
