@@ -63,7 +63,6 @@ async function getCollections() {
       path: '/collections/' + id,
       headers: {
         'X-API-Key': process.env.POSTMAN_API_KEY,
-        'Content-Type': 'text/plain'
       },
       maxRedirects: 20
     };
@@ -147,7 +146,7 @@ async function getCollections() {
       for (let collection of response.collections) {
         if (collection.name.toLowerCase().includes(args[2].toLowerCase())) {
           console.log(collection);
-          const response = await deleteCollection(collection.id);
+          const response = await deleteCollection(collection.uid);
           console.log(response);
         }
       }
