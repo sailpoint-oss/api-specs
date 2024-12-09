@@ -142,7 +142,11 @@ async function getCollections() {
         throw new Error("Postman API threw an error");
       }
       console.log(upload);
+      
       let newLink = 'https://god.gw.postman.com/run-collection/' + upload.collection.uid + '?action=collection%2Ffork&collection-url=entityId%3D' + upload.collection.uid + '%26entityType%3Dcollection%26workspaceId%3D80af54be-a333-4712-af5e-41aa9eccbdd0'
+    
+      await insertOrUpdateItem({ id: args[2] + 'CollectionUrl', Item: newLink })
+      
       for (let collection of response.collections) {
         if (collection.name.toLowerCase().includes(args[2].toLowerCase())) {
           console.log(collection);
@@ -150,7 +154,7 @@ async function getCollections() {
           console.log(response);
         }
       }
-      await insertOrUpdateItem({ id: args[2] + 'CollectionUrl', Item: newLink })
+      
 
       console.log(newLink)
     } catch (error) {
