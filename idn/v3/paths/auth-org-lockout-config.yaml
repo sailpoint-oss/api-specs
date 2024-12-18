@@ -31,7 +31,7 @@ patch:
   tags:
     - Global Tenant Security Settings
   summary: Update Auth Org Lockout Configuration
-  description: >-
+  description: |
     This API updates an existing lockout configuration for an org using PATCH
      Requires security scope of:  'sp:auth-org:update'
   requestBody:
@@ -42,9 +42,9 @@ patch:
 
       Ensures that the patched Lockout Config conforms to certain logical
       guidelines, which are:
-        1. maximumAttempts >= 1 && maximumAttempts <= 15
+        `1. maximumAttempts >= 1 && maximumAttempts <= 15
         2. lockoutDuration >= 5 && lockoutDuration <= 60
-        3. lockoutWindow >= 5 && lockoutDuration <= 60
+        3. lockoutWindow >= 5 && lockoutDuration <= 60`
     content:
       application/json-patch+json:
         schema:
