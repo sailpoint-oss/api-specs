@@ -7819,12 +7819,12 @@ paths:
                         type: string
                         format: date-time
                         description: The date and time the profile was created
-                        example: 2023-11-21T19:23:54.256Z
+                        example: '2023-11-21T14:23:54.256-05:00'
                       updated_at:
                         type: string
                         format: date-time
                         description: The date and time the profile was updated
-                        example: 2023-11-21T19:23:54.256Z
+                        example: '2023-11-21T14:23:54.256-05:00'
                       attributes:
                         type: object
                         additionalProperties:
@@ -8011,12 +8011,12 @@ paths:
                           type: string
                           format: date-time
                           description: The date and time the profile was created
-                          example: 2023-11-21T19:23:54.256Z
+                          example: '2023-11-21T14:23:54.256-05:00'
                         updated_at:
                           type: string
                           format: date-time
                           description: The date and time the profile was updated
-                          example: 2023-11-21T19:23:54.256Z
+                          example: '2023-11-21T14:23:54.256-05:00'
                         attributes:
                           type: object
                           additionalProperties:
@@ -8226,12 +8226,12 @@ paths:
                           type: string
                           format: date-time
                           description: The date and time the profile was created
-                          example: 2023-11-21T19:23:54.256Z
+                          example: '2023-11-21T14:23:54.256-05:00'
                         updated_at:
                           type: string
                           format: date-time
                           description: The date and time the profile was updated
-                          example: 2023-11-21T19:23:54.256Z
+                          example: '2023-11-21T14:23:54.256-05:00'
                         attributes:
                           type: object
                           additionalProperties:
@@ -8413,12 +8413,12 @@ paths:
                           type: string
                           format: date-time
                           description: The date and time the profile was created
-                          example: 2023-11-21T19:23:54.256Z
+                          example: '2023-11-21T14:23:54.256-05:00'
                         updated_at:
                           type: string
                           format: date-time
                           description: The date and time the profile was updated
-                          example: 2023-11-21T19:23:54.256Z
+                          example: '2023-11-21T14:23:54.256-05:00'
                         attributes:
                           type: object
                           additionalProperties:
@@ -8546,12 +8546,12 @@ paths:
                               type: string
                               format: date-time
                               description: The date and time the profile was created
-                              example: 2023-11-21T19:23:54.256Z
+                              example: '2023-11-21T14:23:54.256-05:00'
                             updated_at:
                               type: string
                               format: date-time
                               description: The date and time the profile was updated
-                              example: 2023-11-21T19:23:54.256Z
+                              example: '2023-11-21T14:23:54.256-05:00'
                             attributes:
                               type: object
                               additionalProperties:
@@ -8688,12 +8688,12 @@ paths:
                         type: string
                         format: date-time
                         description: The date and time the profile was created
-                        example: 2023-11-21T19:23:54.256Z
+                        example: '2023-11-21T14:23:54.256-05:00'
                       updated_at:
                         type: string
                         format: date-time
                         description: The date and time the profile was updated
-                        example: 2023-11-21T19:23:54.256Z
+                        example: '2023-11-21T14:23:54.256-05:00'
                       attributes:
                         type: object
                         additionalProperties:
@@ -8875,12 +8875,12 @@ paths:
                         type: string
                         format: date-time
                         description: The date and time the profile was created
-                        example: 2023-11-21T19:23:54.256Z
+                        example: '2023-11-21T14:23:54.256-05:00'
                       updated_at:
                         type: string
                         format: date-time
                         description: The date and time the profile was updated
-                        example: 2023-11-21T19:23:54.256Z
+                        example: '2023-11-21T14:23:54.256-05:00'
                       attributes:
                         type: object
                         additionalProperties:
@@ -19179,12 +19179,12 @@ paths:
                           type: string
                           format: date-time
                           description: The date and time the profile was created
-                          example: 2023-11-21T19:23:54.256Z
+                          example: '2023-11-21T14:23:54.256-05:00'
                         updated_at:
                           type: string
                           format: date-time
                           description: The date and time the profile was updated
-                          example: 2023-11-21T19:23:54.256Z
+                          example: '2023-11-21T14:23:54.256-05:00'
                         attributes:
                           type: object
                           additionalProperties:
@@ -19804,12 +19804,12 @@ paths:
                           type: string
                           format: date-time
                           description: The date and time the profile was created
-                          example: 2023-11-21T19:23:54.256Z
+                          example: '2023-11-21T14:23:54.256-05:00'
                         updated_at:
                           type: string
                           format: date-time
                           description: The date and time the profile was updated
-                          example: 2023-11-21T19:23:54.256Z
+                          example: '2023-11-21T14:23:54.256-05:00'
                         attributes:
                           type: object
                           additionalProperties:
