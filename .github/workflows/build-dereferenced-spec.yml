@@ -54,7 +54,7 @@ jobs:
           swagger-cli bundle --dereference idn/sailpoint-api.v2024.yaml -t yaml -o dereferenced/deref-sailpoint-api.v2024.yaml
           openapi2postmanv2 -s dereferenced/deref-sailpoint-api.v2024.yaml -o postman/collections/sailpoint-api-v2024.json -p -c postman-script/openapi2postman-config.json
           node postman-script/modify-collection.js postman/collections/sailpoint-api-v2024.json
-          swagger-cli bundle --dereference idn/sailpoint-api.v2024.yaml -t json -o dereferenced/deref-sailpoint-api.v2024.
+          swagger-cli bundle --dereference idn/sailpoint-api.v2024.yaml -t json -o dereferenced/deref-sailpoint-api.v2024.json
           cd postman-script/update-by-folder-ts
           echo "POSTMAN_API_KEY=${{ secrets.POSTMAN_API_KEY }}" > .env
           npm ci
