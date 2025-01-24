@@ -34,7 +34,7 @@ jobs:
           vacuum html-report ./dereferenced/deref-sailpoint-api.v3.yaml ./reports/v3.html
 
       - name: Upload Reports
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: reports
           path: reports
