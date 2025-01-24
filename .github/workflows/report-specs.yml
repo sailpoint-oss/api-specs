@@ -12,9 +12,12 @@ on:
       - dereferenced/deref-sailpoint-api.v3.yaml
 
 jobs:
-  setup-vacuum:
-    name: Setup Vacuum
+  generate-reports:
+    name: Generate Vacuum Reports
     runs-on: macos-latest
+    strategy:
+      matrix:
+        spec-name: [v2024, beta, nerm, v3]
     steps:
       - name: Checkout PR branch
         uses: actions/checkout@v2
@@ -25,14 +28,6 @@ jobs:
         run: |
           brew install daveshanley/vacuum/vacuum
 
-  generate-reports:
-    name: Generate Vacuum Reports
-    needs: setup-vacuum
-    runs-on: macos-latest
-    strategy:
-      matrix:
-        spec-name: [v2024, beta, nerm, v3]
-    steps:
       - name: Generate Vacuum Reports
         run: |
           mkdir -p reports
