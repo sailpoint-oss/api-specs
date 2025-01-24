@@ -1,0 +1,40 @@
+name: Generate Vacuum Reports
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - dereferenced/deref-sailpoint-api.v2024.yaml
+      - dereferenced/deref-sailpoint-api.beta.yaml
+      - dereferenced/deref-sailpoint-api.nerm.yaml
+      - dereferenced/deref-sailpoint-api.v3.yaml
+
+jobs:
+  vacuum_reports:
+    name: Generate Vacuum Reports
+    runs-on: macos-latest
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Install Vacuum
+        run: |
+          brew install daveshanley/vacuum/vacuum
+
+      - name: Generate Vacuum Reports
+        run: |
+          mkdir -p reports
+          vacuum html-report ./dereferenced/deref-sailpoint-api.v2024.yaml ./reports/v2024.html
+          vacuum html-report ./dereferenced/deref-sailpoint-api.beta.yaml ./reports/beta.html
+          vacuum html-report ./dereferenced/deref-sailpoint-api.nerm.yaml ./reports/nerm.html
+          vacuum html-report ./dereferenced/deref-sailpoint-api.v3.yaml ./reports/v3.html
+
+      - name: Upload Reports
+        uses: actions/upload-artifact@v2
+        with:
+          name: reports
+          path: reports
