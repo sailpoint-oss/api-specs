@@ -12,8 +12,8 @@ on:
       - dereferenced/deref-sailpoint-api.v3.yaml
 
 jobs:
-  vacuum_reports:
-    name: Generate Vacuum Reports
+  setup-vacuum:
+    name: Setup Vacuum
     runs-on: macos-latest
     steps:
       - name: Checkout PR branch
@@ -25,20 +25,22 @@ jobs:
         run: |
           brew install daveshanley/vacuum/vacuum
 
+  generate-reports:
+    name: Generate Vacuum Reports
+    needs: setup-vacuum
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        spec-name: [v2024, beta, nerm, v3]
+    steps:
       - name: Generate Vacuum Reports
         run: |
           mkdir -p reports
-          vacuum html-report ./dereferenced/deref-sailpoint-api.v2024.yaml ./reports/v2024.html
-          vacuum html-report ./dereferenced/deref-sailpoint-api.beta.yaml ./reports/beta.html
-          vacuum html-report ./dereferenced/deref-sailpoint-api.nerm.yaml ./reports/nerm.html
-          vacuum html-report ./dereferenced/deref-sailpoint-api.v3.yaml ./reports/v3.html
+          vacuum html-report ./dereferenced/deref-sailpoint-api.${{ matrix.spec-name }}.yaml ./reports/${{ matrix.spec-name }}.html
 
       - name: Upload Reports
         uses: actions/upload-artifact@v4
         with:
           name: reports
           path: |
-            ./reports/v2024.html
-            ./reports/beta.html
-            ./reports/nerm.html
-            ./reports/v3.html
+            ./reports/${{ matrix.spec-name }}.html
