@@ -15,9 +15,6 @@ jobs:
   generate-reports:
     name: Generate Vacuum Reports
     runs-on: macos-latest
-    strategy:
-      matrix:
-        spec-name: [v2024, beta, nerm, v3]
     steps:
       - name: Checkout PR branch
         uses: actions/checkout@v2
@@ -31,11 +28,17 @@ jobs:
       - name: Generate Vacuum Reports
         run: |
           mkdir -p reports
-          vacuum html-report ./dereferenced/deref-sailpoint-api.${{ matrix.spec-name }}.yaml ./reports/${{ matrix.spec-name }}.html
+          vacuum html-report ./dereferenced/deref-sailpoint-api.v2024.yaml ./reports/v2024.html
+          vacuum html-report ./dereferenced/deref-sailpoint-api.beta.yaml ./reports/beta.html
+          vacuum html-report ./dereferenced/deref-sailpoint-api.nerm.yaml ./reports/nerm.html
+          vacuum html-report ./dereferenced/deref-sailpoint-api.v3.yaml ./reports/v3.html
 
       - name: Commit Reports
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: "Update ${matrix.spec-name} report"
+          commit_message: "Update v2024 report"
           file_pattern: |
-            reports/${{ matrix.spec-name }}.html
+            reports/v2024.html
+            reports/beta.html
+            reports/nerm.html
+            reports/v3.html
