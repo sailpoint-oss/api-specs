@@ -33,9 +33,9 @@ jobs:
           mkdir -p reports
           vacuum html-report ./dereferenced/deref-sailpoint-api.${{ matrix.spec-name }}.yaml ./reports/${{ matrix.spec-name }}.html
 
-      - name: Upload Reports
-        uses: actions/upload-artifact@v4
+      - name: Commit Reports
+        uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          name: ${{ matrix.spec-name }} report
-          path: |
-            ./reports/${{ matrix.spec-name }}.html
+          commit_message: "Update ${matrix.spec-name} report"
+          file_pattern: |
+            reports/${{ matrix.spec-name }}.html
