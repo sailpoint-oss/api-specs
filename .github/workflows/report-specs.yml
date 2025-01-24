@@ -37,4 +37,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: reports
-          path: reports/*
+          path: |
+            ./reports/v2024.html
+            ./reports/beta.html
+            ./reports/nerm.html
+            ./reports/v3.html
