@@ -3952,7 +3952,7 @@ paths:
                           minLength: 32
                           maxLength: 32
                           readOnly: true
-                          description: The uid of the attribute
+                          description: The user-specified identifier of the attribute
                           example: myattribute
                         label:
                           type: string
@@ -4044,7 +4044,7 @@ paths:
                               minLength: 32
                               maxLength: 32
                               readOnly: true
-                              description: The uid of the attribute
+                              description: The user-specified identifier of the attribute
                               example: myattribute
                             label:
                               type: string
@@ -4268,7 +4268,7 @@ paths:
                       minLength: 32
                       maxLength: 32
                       readOnly: true
-                      description: The uid of the attribute
+                      description: The user-specified identifier of the attribute
                       example: myattribute
                     label:
                       type: string
@@ -4341,7 +4341,7 @@ paths:
                           minLength: 32
                           maxLength: 32
                           readOnly: true
-                          description: The uid of the attribute
+                          description: The user-specified identifier of the attribute
                           example: myattribute
                         label:
                           type: string
@@ -4544,7 +4544,7 @@ paths:
                         minLength: 32
                         maxLength: 32
                         readOnly: true
-                        description: The uid of the attribute
+                        description: The user-specified identifier of the attribute
                         example: myattribute
                       label:
                         type: string
@@ -4636,7 +4636,7 @@ paths:
                             minLength: 32
                             maxLength: 32
                             readOnly: true
-                            description: The uid of the attribute
+                            description: The user-specified identifier of the attribute
                             example: myattribute
                           label:
                             type: string
@@ -4856,7 +4856,7 @@ paths:
                         minLength: 32
                         maxLength: 32
                         readOnly: true
-                        description: The uid of the attribute
+                        description: The user-specified identifier of the attribute
                         example: myattribute
                       label:
                         type: string
@@ -4948,7 +4948,7 @@ paths:
                             minLength: 32
                             maxLength: 32
                             readOnly: true
-                            description: The uid of the attribute
+                            description: The user-specified identifier of the attribute
                             example: myattribute
                           label:
                             type: string
@@ -5166,7 +5166,7 @@ paths:
                       minLength: 32
                       maxLength: 32
                       readOnly: true
-                      description: The uid of the attribute
+                      description: The user-specified identifier of the attribute
                       example: myattribute
                     label:
                       type: string
@@ -5239,7 +5239,7 @@ paths:
                           minLength: 32
                           maxLength: 32
                           readOnly: true
-                          description: The uid of the attribute
+                          description: The user-specified identifier of the attribute
                           example: myattribute
                         label:
                           type: string
@@ -5442,7 +5442,7 @@ paths:
                         minLength: 32
                         maxLength: 32
                         readOnly: true
-                        description: The uid of the attribute
+                        description: The user-specified identifier of the attribute
                         example: myattribute
                       label:
                         type: string
@@ -5534,7 +5534,7 @@ paths:
                             minLength: 32
                             maxLength: 32
                             readOnly: true
-                            description: The uid of the attribute
+                            description: The user-specified identifier of the attribute
                             example: myattribute
                           label:
                             type: string
@@ -5753,7 +5753,7 @@ paths:
                         minLength: 32
                         maxLength: 32
                         readOnly: true
-                        description: The uid of the attribute
+                        description: The user-specified identifier of the attribute
                         example: myattribute
                       label:
                         type: string
@@ -5845,7 +5845,7 @@ paths:
                             minLength: 32
                             maxLength: 32
                             readOnly: true
-                            description: The uid of the attribute
+                            description: The user-specified identifier of the attribute
                             example: myattribute
                           label:
                             type: string
@@ -6606,7 +6606,7 @@ paths:
                   properties:
                     uid:
                       type: string
-                      description: The uid of the page
+                      description: The user-specified identifier of the page
                       example: page_uid
                     description:
                       type: text
@@ -6633,7 +6633,7 @@ paths:
                     properties:
                       uid:
                         type: string
-                        description: The uid of the page
+                        description: The user-specified identifier of the page
                         example: page_uid
                       description:
                         type: text
@@ -6699,7 +6699,7 @@ paths:
                   properties:
                     uid:
                       type: string
-                      description: The uid of the page
+                      description: The user-specified identifier of the page
                       example: page_uid
                     description:
                       type: text
@@ -6732,7 +6732,7 @@ paths:
                     properties:
                       uid:
                         type: string
-                        description: The uid of the page
+                        description: The user-specified identifier of the page
                         example: page_uid
                       description:
                         type: text
@@ -6930,7 +6930,7 @@ paths:
                               type: string
                               minLength: 32
                               maxLength: 32
-                              description: The uid of the properties that are used for duplication protection.
+                              description: The user-specified identifier of the properties that are used for duplication protection.
                               example: attribute-uid
                             profile_type_id:
                               type: string
@@ -6956,7 +6956,7 @@ paths:
                               type: string
                               minLength: 32
                               maxLength: 32
-                              description: The UID of the profile type naming.
+                              description: The user-specified identifier of the profile type naming.
                               example: profile-type-name
                             profile_type_id:
                               type: string
@@ -7126,7 +7126,7 @@ paths:
                                 type: string
                                 minLength: 32
                                 maxLength: 32
-                                description: The uid of the properties that are used for duplication protection.
+                                description: The user-specified identifier of the properties that are used for duplication protection.
                                 example: attribute-uid
                               profile_type_id:
                                 type: string
@@ -7152,7 +7152,7 @@ paths:
                                 type: string
                                 minLength: 32
                                 maxLength: 32
-                                description: The UID of the profile type naming.
+                                description: The user-specified identifier of the profile type naming.
                                 example: profile-type-name
                               profile_type_id:
                                 type: string
@@ -7299,7 +7299,7 @@ paths:
                               type: string
                               minLength: 32
                               maxLength: 32
-                              description: The uid of the properties that are used for duplication protection.
+                              description: The user-specified identifier of the properties that are used for duplication protection.
                               example: attribute-uid
                             profile_type_id:
                               type: string
@@ -7325,7 +7325,7 @@ paths:
                               type: string
                               minLength: 32
                               maxLength: 32
-                              description: The UID of the profile type naming.
+                              description: The user-specified identifier of the profile type naming.
                               example: profile-type-name
                             profile_type_id:
                               type: string
@@ -7526,7 +7526,7 @@ paths:
                               type: string
                               minLength: 32
                               maxLength: 32
-                              description: The uid of the properties that are used for duplication protection.
+                              description: The user-specified identifier of the properties that are used for duplication protection.
                               example: attribute-uid
                             profile_type_id:
                               type: string
@@ -7552,7 +7552,7 @@ paths:
                               type: string
                               minLength: 32
                               maxLength: 32
-                              description: The UID of the profile type naming.
+                              description: The user-specified identifier of the profile type naming.
                               example: profile-type-name
                             profile_type_id:
                               type: string
@@ -11358,7 +11358,7 @@ paths:
                     uid:
                       type: string
                       required: true
-                      description: The uid of the workflow.
+                      description: The user-specified identifier of the workflow.
                       example: my_uid
                     name:
                       type: string
@@ -11568,7 +11568,7 @@ paths:
                     uid:
                       type: string
                       required: true
-                      description: The uid of the workflow.
+                      description: The user-specified identifier of the workflow.
                       example: my_uid
                     name:
                       type: string
@@ -11783,7 +11783,7 @@ paths:
                     uid:
                       type: string
                       required: true
-                      description: The uid of the workflow.
+                      description: The user-specified identifier of the workflow.
                       example: my_uid
                     name:
                       type: string
@@ -12010,7 +12010,7 @@ paths:
                     uid:
                       type: string
                       required: true
-                      description: The uid of the workflow.
+                      description: The user-specified identifier of the workflow.
                       example: my_uid
                     name:
                       type: string
@@ -12299,7 +12299,7 @@ paths:
                     uid:
                       type: string
                       required: true
-                      description: The uid of the workflow.
+                      description: The user-specified identifier of the workflow.
                       example: my_uid
                     name:
                       type: string
@@ -12509,7 +12509,7 @@ paths:
                     uid:
                       type: string
                       required: true
-                      description: The uid of the workflow.
+                      description: The user-specified identifier of the workflow.
                       example: my_uid
                     name:
                       type: string
@@ -12728,7 +12728,7 @@ paths:
                     uid:
                       type: string
                       required: true
-                      description: The uid of the workflow.
+                      description: The user-specified identifier of the workflow.
                       example: my_uid
                     name:
                       type: string
@@ -20236,7 +20236,7 @@ paths:
                   properties:
                     uid:
                       type: string
-                      description: The uid of the form
+                      description: The user-specified identifier of the form
                       example: form_uid
                     description:
                       type: text
@@ -20263,7 +20263,7 @@ paths:
                     properties:
                       uid:
                         type: string
-                        description: The uid of the form
+                        description: The user-specified identifier of the form
                         example: form_uid
                       description:
                         type: text
@@ -20442,7 +20442,7 @@ paths:
                       type: integer
                       format: int32
                       example: 1
-                      description: The position of the attribute on the form
+                      description: 'The ordinal position of the attribute on the Form.  The order value determines the order or sequence the Form values are presented in the user interface. Each FormAttribute on a Form must have a unique order value. Order valuess can start at zero (0), but often start at one (1). The FormAttribute with order 1 is presented before the FormAttribute with order 2, and so on. Gaps in the order can exist and the system ignores them.'
       responses:
         '200':
           description: Expected response to a valid request
@@ -20454,30 +20454,47 @@ paths:
                   form_attribute:
                     type: object
                     properties:
-                      form_id:
-                        type: string
-                        description: The id of the form
-                        example: ac4aae0b-4140-49a4-a84c-126762fd0c8f
-                      ne_attribute_id:
-                        type: string
-                        example: ac4aae0b-4140-49a4-a84c-126762fd0c8f
-                        description: The id of the attribute
-                      attr_type:
-                        type: string
-                        example: ne_attribute
-                        description: The attribute type
-                        enum:
-                          - ne_attribute
-                          - break
-                      order:
-                        type: integer
-                        format: int32
-                        example: 1
-                        description: The position of the attribute on the form
-                      id:
-                        type: string
-                        example: ac4aae0b-4140-49a4-a84c-126762fd0c8f
-                        description: The id of the form attribute
+                      form_attributes:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            form_id:
+                              type: string
+                              description: The id of the form
+                              example: ac4aae0b-4140-49a4-a84c-126762fd0c8f
+                            ne_attribute_id:
+                              type: string
+                              example: ac4aae0b-4140-49a4-a84c-126762fd0c8f
+                              description: The id of the attribute
+                            attr_type:
+                              type: string
+                              example: ne_attribute
+                              description: The attribute type
+                              enum:
+                                - ne_attribute
+                                - break
+                            order:
+                              type: integer
+                              format: int32
+                              example: 1
+                              description: 'The ordinal position of the attribute on the Form.  The order value determines the order or sequence the Form values are presented in the user interface. Each FormAttribute on a Form must have a unique order value. Order valuess can start at zero (0), but often start at one (1). The FormAttribute with order 1 is presented before the FormAttribute with order 2, and so on. Gaps in the order can exist and the system ignores them.'
+                            id:
+                              type: string
+                              example: ac4aae0b-4140-49a4-a84c-126762fd0c8f
+                              description: The id of the form attribute
+                            created_at:
+                              type: string
+                              format: date-time
+                              readOnly: true
+                              description: The date-time the record created.
+                              example: '2022-12-27 08:26:49.219717'
+                            updated_at:
+                              type: string
+                              format: date-time
+                              readOnly: true
+                              description: The date-time the record was last updated.
+                              example: '2022-12-27 08:26:49.219717'
         '400':
           description: Bad Request - unable to complete.
           content:
