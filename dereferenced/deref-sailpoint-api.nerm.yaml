@@ -8142,6 +8142,7 @@ paths:
                           type: string
                         description: Attributes that belong to this profile.
                         example:
+                          Non-Employee Profile ID: 'The Non-Employee Profile ID (will be returned for assignments, to be used during correlation configuration)'
                           text_attribute_uid: static text
                           date_attribute_uid: 01/15/2020
                           profile_select_attribute_uid: Profile Name
@@ -8158,7 +8159,6 @@ paths:
                           checkbox_attribute_uid: 'yes, no'
                           text_area_uid: static text
                           radio_attribute_uid: 'yes, no'
-                          non_employee_profile_id: The Non-Employee Profile ID
         '400':
           description: Bad Request - unable to complete.
           content:
@@ -8335,6 +8335,7 @@ paths:
                             type: string
                           description: Attributes that belong to this profile.
                           example:
+                            Non-Employee Profile ID: 'The Non-Employee Profile ID (will be returned for assignments, to be used during correlation configuration)'
                             text_attribute_uid: static text
                             date_attribute_uid: 01/15/2020
                             profile_select_attribute_uid: Profile Name
@@ -8351,7 +8352,6 @@ paths:
                             checkbox_attribute_uid: 'yes, no'
                             text_area_uid: static text
                             radio_attribute_uid: 'yes, no'
-                            non_employee_profile_id: The Non-Employee Profile ID
                   _metadata:
                     type: object
                     properties:
@@ -8551,6 +8551,7 @@ paths:
                             type: string
                           description: Attributes that belong to this profile.
                           example:
+                            Non-Employee Profile ID: 'The Non-Employee Profile ID (will be returned for assignments, to be used during correlation configuration)'
                             text_attribute_uid: static text
                             date_attribute_uid: 01/15/2020
                             profile_select_attribute_uid: Profile Name
@@ -8567,7 +8568,6 @@ paths:
                             checkbox_attribute_uid: 'yes, no'
                             text_area_uid: static text
                             radio_attribute_uid: 'yes, no'
-                            non_employee_profile_id: The Non-Employee Profile ID
         '400':
           description: Bad Request - unable to complete.
           content:
@@ -8739,6 +8739,7 @@ paths:
                             type: string
                           description: Attributes that belong to this profile.
                           example:
+                            Non-Employee Profile ID: 'The Non-Employee Profile ID (will be returned for assignments, to be used during correlation configuration)'
                             text_attribute_uid: static text
                             date_attribute_uid: 01/15/2020
                             profile_select_attribute_uid: Profile Name
@@ -8755,7 +8756,6 @@ paths:
                             checkbox_attribute_uid: 'yes, no'
                             text_area_uid: static text
                             radio_attribute_uid: 'yes, no'
-                            non_employee_profile_id: The Non-Employee Profile ID
         '400':
           description: Bad Request - unable to complete.
           content:
@@ -8873,6 +8873,7 @@ paths:
                                 type: string
                               description: Attributes that belong to this profile.
                               example:
+                                Non-Employee Profile ID: 'The Non-Employee Profile ID (will be returned for assignments, to be used during correlation configuration)'
                                 text_attribute_uid: static text
                                 date_attribute_uid: 01/15/2020
                                 profile_select_attribute_uid: Profile Name
@@ -8889,7 +8890,6 @@ paths:
                                 checkbox_attribute_uid: 'yes, no'
                                 text_area_uid: static text
                                 radio_attribute_uid: 'yes, no'
-                                non_employee_profile_id: The Non-Employee Profile ID
                   - type: object
                     properties:
                       info:
@@ -9016,6 +9016,7 @@ paths:
                           type: string
                         description: Attributes that belong to this profile.
                         example:
+                          Non-Employee Profile ID: 'The Non-Employee Profile ID (will be returned for assignments, to be used during correlation configuration)'
                           text_attribute_uid: static text
                           date_attribute_uid: 01/15/2020
                           profile_select_attribute_uid: Profile Name
@@ -9032,7 +9033,6 @@ paths:
                           checkbox_attribute_uid: 'yes, no'
                           text_area_uid: static text
                           radio_attribute_uid: 'yes, no'
-                          non_employee_profile_id: The Non-Employee Profile ID
         '400':
           description: Bad Request - unable to complete.
           content:
@@ -9204,6 +9204,7 @@ paths:
                           type: string
                         description: Attributes that belong to this profile.
                         example:
+                          Non-Employee Profile ID: 'The Non-Employee Profile ID (will be returned for assignments, to be used during correlation configuration)'
                           text_attribute_uid: static text
                           date_attribute_uid: 01/15/2020
                           profile_select_attribute_uid: Profile Name
@@ -9220,7 +9221,6 @@ paths:
                           checkbox_attribute_uid: 'yes, no'
                           text_area_uid: static text
                           radio_attribute_uid: 'yes, no'
-                          non_employee_profile_id: The Non-Employee Profile ID
         '400':
           description: Bad Request - unable to complete.
           content:
@@ -19509,6 +19509,7 @@ paths:
                             type: string
                           description: Attributes that belong to this profile.
                           example:
+                            Non-Employee Profile ID: 'The Non-Employee Profile ID (will be returned for assignments, to be used during correlation configuration)'
                             text_attribute_uid: static text
                             date_attribute_uid: 01/15/2020
                             profile_select_attribute_uid: Profile Name
@@ -19525,7 +19526,6 @@ paths:
                             checkbox_attribute_uid: 'yes, no'
                             text_area_uid: static text
                             radio_attribute_uid: 'yes, no'
-                            non_employee_profile_id: The Non-Employee Profile ID
   '/advanced_search/{id}':
     patch:
       summary: Update a saved advanced search query
@@ -20135,6 +20135,7 @@ paths:
                             type: string
                           description: Attributes that belong to this profile.
                           example:
+                            Non-Employee Profile ID: 'The Non-Employee Profile ID (will be returned for assignments, to be used during correlation configuration)'
                             text_attribute_uid: static text
                             date_attribute_uid: 01/15/2020
                             profile_select_attribute_uid: Profile Name
@@ -20151,7 +20152,6 @@ paths:
                             checkbox_attribute_uid: 'yes, no'
                             text_area_uid: static text
                             radio_attribute_uid: 'yes, no'
-                            non_employee_profile_id: The Non-Employee Profile ID
   /job_status:
     get:
       summary: Get the status of a bulk job
@@ -20548,7 +20548,7 @@ paths:
             format: int32
             minimum: 1
             example: 5
-        - name: Limit
+        - name: limit
           in: query
           description: The maximum number of items to return.
           required: false
@@ -20557,7 +20557,7 @@ paths:
             format: int32
             minimum: 1
             example: 5
-        - name: Offset
+        - name: offset
           in: query
           description: The number of items to skip before starting to collect the result set.
           required: false
@@ -20642,6 +20642,7 @@ paths:
                             type: string
                           description: Attributes that belong to this profile.
                           example:
+                            Non-Employee Profile ID: 'The Non-Employee Profile ID (will be returned for assignments, to be used during correlation configuration)'
                             text_attribute_uid: static text
                             date_attribute_uid: 01/15/2020
                             profile_select_attribute_uid: Profile Name
@@ -20658,7 +20659,6 @@ paths:
                             checkbox_attribute_uid: 'yes, no'
                             text_area_uid: static text
                             radio_attribute_uid: 'yes, no'
-                            non_employee_profile_id: The Non-Employee Profile ID
                   _metadata:
                     type: object
                     properties:
@@ -20799,6 +20799,7 @@ paths:
                           type: string
                         description: Attributes that belong to this profile.
                         example:
+                          Non-Employee Profile ID: 'The Non-Employee Profile ID (will be returned for assignments, to be used during correlation configuration)'
                           text_attribute_uid: static text
                           date_attribute_uid: 01/15/2020
                           profile_select_attribute_uid: Profile Name
@@ -20815,7 +20816,6 @@ paths:
                           checkbox_attribute_uid: 'yes, no'
                           text_area_uid: static text
                           radio_attribute_uid: 'yes, no'
-                          non_employee_profile_id: The Non-Employee Profile ID
         '400':
           description: Bad Request - unable to complete.
           content:
@@ -20945,6 +20945,7 @@ paths:
                           type: string
                         description: Attributes that belong to this profile.
                         example:
+                          Non-Employee Profile ID: 'The Non-Employee Profile ID (will be returned for assignments, to be used during correlation configuration)'
                           text_attribute_uid: static text
                           date_attribute_uid: 01/15/2020
                           profile_select_attribute_uid: Profile Name
@@ -20961,7 +20962,6 @@ paths:
                           checkbox_attribute_uid: 'yes, no'
                           text_area_uid: static text
                           radio_attribute_uid: 'yes, no'
-                          non_employee_profile_id: The Non-Employee Profile ID
         '400':
           description: Bad Request - unable to complete.
           content:
