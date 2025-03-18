@@ -20539,15 +20539,6 @@ paths:
       tags:
         - isc accounts
       parameters:
-        - name: page
-          in: query
-          description: Pagination page number
-          required: false
-          schema:
-            type: integer
-            format: int32
-            minimum: 1
-            example: 5
         - name: limit
           in: query
           description: The maximum number of items to return.
@@ -20569,6 +20560,14 @@ paths:
         - name: use_schema
           in: query
           description: The use_schema parameter returns schema-mapped field names in the Profiles API response when set to true.
+          required: false
+          schema:
+            type: boolean
+            default: false
+            example: true
+        - name: override_sync_toggle
+          in: query
+          description: The override_sync_toggle parameter returns all non-employee and assignment profiles regardless of the sync status when set to true.
           required: false
           schema:
             type: boolean
