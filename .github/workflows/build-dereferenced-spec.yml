@@ -59,7 +59,7 @@ jobs:
           swagger-cli bundle --dereference idn/sailpoint-api.v2024.yaml -t yaml -o dereferenced/deref-sailpoint-api.v2024.yaml
           openapi2postmanv2 -s dereferenced/deref-sailpoint-api.v2024.yaml -o postman/collections/sailpoint-api-v2024.json -p -c postman-script/openapi2postman-config.json
           node postman-script/modify-collection.js postman/collections/sailpoint-api-v2024.json
-          swagger-cli bundle --dereference idn/sailpoint-api.2024.yaml -t json -o dereferenced/deref-sailpoint-api.v2024.json
+          swagger-cli bundle --dereference idn/sailpoint-api.v2024.yaml -t json -o dereferenced/deref-sailpoint-api.v2024.json
 
           swagger-cli bundle --dereference idn/sailpoint-api.v2025.yaml -t yaml -o dereferenced/deref-sailpoint-api.v2025.yaml
           openapi2postmanv2 -s dereferenced/deref-sailpoint-api.v2025.yaml -o postman/collections/sailpoint-api-v2025.json -p -c postman-script/openapi2postman-config.json
