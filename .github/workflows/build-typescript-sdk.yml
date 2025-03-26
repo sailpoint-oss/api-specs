@@ -66,10 +66,19 @@ jobs:
           rm -rf sdk-output/v2024
           node sdk-resources/prescript.js ../idn/v2024/paths
           java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.v2024.yaml -g typescript-axios -o sdk-output/v2024 --global-property skipFormModel=false --config sdk-resources/v2024-config.yaml --api-name-suffix V2024Api --model-name-suffix V2024
-  
+      
+      - name: Build V2025 SDK
+        id: buildV2025
+        if: steps.buildV2024.outcome == 'success'
+        run: |
+          cd sdk-ts
+          rm -rf sdk-output/v2025
+          node sdk-resources/prescript.js ../idn/v2025/paths
+          java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.v2025.yaml -g typescript-axios -o sdk-output/v2025 --global-property skipFormModel=false --config sdk-resources/v2025-config.yaml --api-name-suffix V2025Api --model-name-suffix V2025
+    
       - name: Run npm install and build Typescript SDK
         id: buildSDK
-        if: steps.buildBeta.outcome == 'success'
+        if: steps.buildV2025.outcome == 'success'
         run: |
           cd sdk-ts/sdk-output
           npm install
