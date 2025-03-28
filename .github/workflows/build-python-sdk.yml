@@ -80,9 +80,18 @@ jobs:
           rm -rf ./sailpoint/v2024
           java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.v2024.yaml -g python -o . --global-property skipFormModel=false,apiDocs=true,modelDocs=true --config sdk-resources/v2024-config.yaml --enable-post-process-file
           node sdk-resources/postscript.js ./sailpoint/v2024
+      
+      - name: Build V2025 SDK
+        id: buildV2025
+        if: steps.buildV2024.outcome == 'success'
+        run: |
+          cd python-sdk
+          rm -rf ./sailpoint/v2025
+          java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.v2025.yaml -g python -o . --global-property skipFormModel=false,apiDocs=true,modelDocs=true --config sdk-resources/v2025-config.yaml --enable-post-process-file
+          node sdk-resources/postscript.js ./sailpoint/v2025
 
       - name: After SDK Build
-        if: steps.buildV2024.outcome == 'success'
+        if: steps.buildV2025.outcome == 'success'
         run: |
           cd python-sdk/
           pip install -r requirements.txt
