@@ -75,8 +75,17 @@ jobs:
           java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.v2024.yaml -g go -o api_v2024 --global-property skipFormModel=false --config sdk-resources/v2024-config.yaml -p enumClassPrefix=true --git-repo-id golang-sdk/v2 --git-user-id sailpoint-oss
           node sdk-resources/postscript.js ./api_v2024
 
+      - name: Build V2025 SDK
+        id: buildV2025
+        if: steps.buildBeta.outcome == 'success'
+        run: |
+          cd golang-sdk
+          rm -rf ./api_v2025
+          java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.v2025.yaml -g go -o api_v2025 --global-property skipFormModel=false --config sdk-resources/v2025-config.yaml -p enumClassPrefix=true --git-repo-id golang-sdk/v2 --git-user-id sailpoint-oss
+          node sdk-resources/postscript.js ./api_v2025
+      
       - name: After SDK Build
-        if: steps.buildV2024.outcome == 'success'
+        if: steps.buildV2025.outcome == 'success'
         run: |
           cd golang-sdk/
           go get -d ./...
