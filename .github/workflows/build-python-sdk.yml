@@ -91,7 +91,7 @@ jobs:
           node sdk-resources/postscript.js ./sailpoint/v2025
 
       - name: After SDK Build
-        if: steps.buildV2024.outcome == 'success'
+        if: steps.buildV2025.outcome == 'success'
         run: |
           cd python-sdk/
           pip install -r requirements.txt
