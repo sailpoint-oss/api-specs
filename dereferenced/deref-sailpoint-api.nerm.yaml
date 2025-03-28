@@ -8920,9 +8920,9 @@ paths:
                         example: /endpoint?limit=10&offset=40
   /isc/accounts:
     get:
-      summary: Retrieve schema-mapped profiles collection
+      summary: Get Profiles
       operationId: getSchemaMappedProfilesCollection
-      description: 'It returns a collection of stored profiles, optionally using schema-mapped field names if requested.'
+      description: 'Retrieve schema-mapped profiles collection. It returns a collection of stored profiles, optionally using schema-mapped field names if requested.'
       tags:
         - isc accounts
       parameters:
@@ -8960,6 +8960,18 @@ paths:
             type: boolean
             default: false
             example: true
+        - name: status
+          in: query
+          description: The status of the profile. It can be multiple values with comma separated.
+          required: false
+          schema:
+            type: string
+            enum:
+              - active
+              - inactive
+              - on leave
+              - terminated
+            example: 'active,on leave'
       responses:
         '200':
           description: Expected response to a valid request
@@ -9105,7 +9117,7 @@ paths:
                     example: Sorry something went wrong
   '/isc/accounts/{id}':
     get:
-      summary: Retrieve single schema-mapped profile
+      summary: Get Profile
       operationId: getSingleSchemaMappedProfile
       description: 'It returns a single stored profile, optionally with schema-mapped field names.'
       tags:
@@ -9230,7 +9242,7 @@ paths:
                     description: A message describing the error
                     example: Sorry something went wrong
     patch:
-      summary: Updates a profile via reverse mapping of schema-mapped fields
+      summary: Update Profile
       operationId: updateProfile
       description: 'Updates a profile only through ISC schema-mapped attributes, performs a reverse mapping to match the NERM attributes to update.'
       tags:
