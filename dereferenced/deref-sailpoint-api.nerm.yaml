@@ -9247,20 +9247,21 @@ paths:
       description: 'Updates a profile only through ISC schema-mapped attributes, performs a reverse mapping to match the NERM attributes to update.'
       tags:
         - isc accounts
+      parameters:
+        - name: id
+          in: path
+          description: 'ID of the object to retrieve, update, or delete'
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 1246d8b3-ac29-4015-8154-dea4434a73fa
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
-                id:
-                  name: id
-                  in: query
-                  required: true
-                  type: string
-                  format: uuid
-                  description: The profile account id.
-                  example: 79ed1cb6-9977-4965-9bfe-f2bcc2424444
                 profile:
                   name: profile
                   in: body
