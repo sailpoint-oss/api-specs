@@ -26,6 +26,7 @@ properties:
     description: Workflow execution status.
     type: string
     enum:
+    - "Executing"
     - "Completed"
     - "Failed"
     - "Canceled"
