@@ -8,5 +8,10 @@
         "key": "baseUrl",
         "value": "https://{{tenant}}.api.{{domain}}.com/v2024",
         "type": "string"
+    },
+    {
+        "key": "experimentalEnabled",
+        "value": "false",
+        "type": "boolean"
     }
 ]

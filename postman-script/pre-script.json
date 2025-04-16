@@ -49,7 +49,17 @@
                 "        pm.environment.set('accessToken', newAccessToken);",
                 "    });",
                 "",
-                "}"
+                "}",
+                "",
+                "const flag = pm.collectionVariables.get('experimentalEnabled');",
+                "",
+                "if (flag) {",
+                "    pm.request.headers.add({",
+                "        key: 'X-SailPoint-Experimental',",
+                "        value: 'true'",
+                "    });",
+                "}",
+                ""
             ]
         }
     },
