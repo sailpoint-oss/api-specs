@@ -42,6 +42,8 @@ fs.readFile(args[2], 'utf8', (err, data) => {
       jsonObject.variable = JSON.parse(fs.readFileSync('postman-script/variable-v3.json', 'utf8'));
     } else if (args[2].includes("v2024")) {
       jsonObject.variable = JSON.parse(fs.readFileSync('postman-script/variable-v2024.json', 'utf8'));
+    } else if (args[2].includes("v2025")) {
+      jsonObject.variable = JSON.parse(fs.readFileSync('postman-script/variable-v2025.json', 'utf8'));
     } 
 
 
