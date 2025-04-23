@@ -73,7 +73,7 @@ paths:
             example: text field
         - name: metadata
           in: query
-          description: Returns batching metadata in the response
+          description: 'Returns batching metadata in the response. This includes `total` as the total quantity, `next` as the path of the following query url, `limit` and `after_id` (if requested) with the next following id (null if it is the last "page").'
           required: false
           schema:
             type: boolean
@@ -3476,7 +3476,7 @@ paths:
             example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         - name: metadata
           in: query
-          description: Returns batching metadata in the response
+          description: 'Returns batching metadata in the response. This includes `total` as the total quantity, `next` as the path of the following query url, `limit` and `after_id` (if requested) with the next following id (null if it is the last "page").'
           required: false
           schema:
             type: boolean
@@ -8850,7 +8850,7 @@ paths:
             example: pass
         - name: metadata
           in: query
-          description: Returns batching metadata in the response
+          description: 'Returns batching metadata in the response. This includes `total` as the total quantity, `next` as the path of the following query url, `limit` and `after_id` (if requested) with the next following id (null if it is the last "page").'
           required: false
           schema:
             type: boolean
@@ -12751,7 +12751,7 @@ paths:
             example: Active
         - name: metadata
           in: query
-          description: Returns batching metadata in the response
+          description: 'Returns batching metadata in the response. This includes `total` as the total quantity, `next` as the path of the following query url, `limit` and `after_id` (if requested) with the next following id (null if it is the last "page").'
           required: false
           schema:
             type: boolean
@@ -12759,7 +12759,7 @@ paths:
             example: true
         - name: after_id
           in: query
-          description: 'Represents the ID where the query should begin from. If blank, it represents the first ID. When used, forces sorting by ID ascending and does not allow use of `offset`. When after_id is specified it changes the mode of the API such that any filter parameters other than profile_type_id, limit, and offset are not supported and will be either silently ignored or result in an HTTP 400 error. For example you can not include and after_id along with an archived=false in the same request.'
+          description: 'Represents the ID where the query should begin from. If blank, it represents the first ID. When used, forces sorting by ID ascending and does not allow use of `offset`. When `after_id` is specified it changes the mode of the API such that any filter parameters other than `profile_type_id`, `limit`, and `offset` are not supported and will be either silently ignored or result in an HTTP 400 error. For example you can not include an `after_id` along with an `archived=false` in the same request. Can be used alongside `metadata` parameter.'
           required: false
           schema:
             type: string
@@ -14307,7 +14307,7 @@ paths:
             example: false
         - name: metadata
           in: query
-          description: Returns batching metadata in the response
+          description: 'Returns batching metadata in the response. This includes `total` as the total quantity, `next` as the path of the following query url, `limit` and `after_id` (if requested) with the next following id (null if it is the last "page").'
           required: false
           schema:
             type: boolean
@@ -15742,7 +15742,7 @@ paths:
             example: birthday
         - name: metadata
           in: query
-          description: Returns batching metadata in the response
+          description: 'Returns batching metadata in the response. This includes `total` as the total quantity, `next` as the path of the following query url, `limit` and `after_id` (if requested) with the next following id (null if it is the last "page").'
           required: false
           schema:
             type: boolean
@@ -15965,7 +15965,7 @@ paths:
             example: c5e1dd38-7e29-464f-a0da-0c0d886d022a
         - name: metadata
           in: query
-          description: Returns batching metadata in the response
+          description: 'Returns batching metadata in the response. This includes `total` as the total quantity, `next` as the path of the following query url, `limit` and `after_id` (if requested) with the next following id (null if it is the last "page").'
           required: false
           schema:
             type: boolean
@@ -16182,7 +16182,7 @@ paths:
           explode: true
         - name: metadata
           in: query
-          description: Returns batching metadata in the response
+          description: 'Returns batching metadata in the response. This includes `total` as the total quantity, `next` as the path of the following query url, `limit` and `after_id` (if requested) with the next following id (null if it is the last "page").'
           required: false
           schema:
             type: boolean
@@ -16852,7 +16852,7 @@ paths:
             example: 4e480441-451d-47d9-87c2-9a0f0fe135eb
         - name: metadata
           in: query
-          description: Returns batching metadata in the response
+          description: 'Returns batching metadata in the response. This includes `total` as the total quantity, `next` as the path of the following query url, `limit` and `after_id` (if requested) with the next following id (null if it is the last "page").'
           required: false
           schema:
             type: boolean
@@ -17360,7 +17360,7 @@ paths:
           explode: true
         - name: metadata
           in: query
-          description: Returns batching metadata in the response
+          description: 'Returns batching metadata in the response. This includes `total` as the total quantity, `next` as the path of the following query url, `limit` and `after_id` (if requested) with the next following id (null if it is the last "page").'
           required: false
           schema:
             type: boolean
@@ -17808,7 +17808,7 @@ paths:
             example: support@sailpoint.com
         - name: metadata
           in: query
-          description: Returns batching metadata in the response
+          description: 'Returns batching metadata in the response. This includes `total` as the total quantity, `next` as the path of the following query url, `limit` and `after_id` (if requested) with the next following id (null if it is the last "page").'
           required: false
           schema:
             type: boolean
@@ -18937,7 +18937,7 @@ paths:
             example: c5e1dd38-7e29-464f-a0da-0c0d886d022a
         - name: metadata
           in: query
-          description: Returns batching metadata in the response
+          description: 'Returns batching metadata in the response. This includes `total` as the total quantity, `next` as the path of the following query url, `limit` and `after_id` (if requested) with the next following id (null if it is the last "page").'
           required: false
           schema:
             type: boolean
@@ -19496,7 +19496,7 @@ paths:
             example: contributor
         - name: metadata
           in: query
-          description: Returns batching metadata in the response
+          description: 'Returns batching metadata in the response. This includes `total` as the total quantity, `next` as the path of the following query url, `limit` and `after_id` (if requested) with the next following id (null if it is the last "page").'
           required: false
           schema:
             type: boolean
@@ -20262,7 +20262,7 @@ paths:
             example: c5e1dd38-7e29-464f-a0da-0c0d886d022a
         - name: metadata
           in: query
-          description: Returns batching metadata in the response
+          description: 'Returns batching metadata in the response. This includes `total` as the total quantity, `next` as the path of the following query url, `limit` and `after_id` (if requested) with the next following id (null if it is the last "page").'
           required: false
           schema:
             type: boolean
@@ -26751,7 +26751,7 @@ paths:
             example: pending approval
         - name: metadata
           in: query
-          description: Returns batching metadata in the response
+          description: 'Returns batching metadata in the response. This includes `total` as the total quantity, `next` as the path of the following query url, `limit` and `after_id` (if requested) with the next following id (null if it is the last "page").'
           required: false
           schema:
             type: boolean
