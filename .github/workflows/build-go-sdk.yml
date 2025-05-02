@@ -54,7 +54,7 @@ jobs:
         run: |
           cd golang-sdk
           rm -rf ./api_v3
-          java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.v3.yaml -g go -o api_v3 --global-property skipFormModel=false --config sdk-resources/v3-config.yaml -p enumClassPrefix=true --git-repo-id golang-sdk/v2 --git-user-id sailpoint-oss
+          java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.v3.yaml -g go -o api_v3 --global-property skipFormModel=false,apiDocs=true,modelDocs=true --config sdk-resources/v3-config.yaml -p enumClassPrefix=true --git-repo-id golang-sdk/v2 --git-user-id sailpoint-oss
           node sdk-resources/postscript.js ./api_v3
 
       - name: Build Beta SDK
@@ -63,7 +63,7 @@ jobs:
         run: |
           cd golang-sdk
           rm -rf ./api_beta
-          java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.beta.yaml -g go -o api_beta --global-property skipFormModel=false --config sdk-resources/beta-config.yaml -p enumClassPrefix=true --git-repo-id golang-sdk/v2 --git-user-id sailpoint-oss
+          java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.beta.yaml -g go -o api_beta --global-property skipFormModel=false,apiDocs=true,modelDocs=true --config sdk-resources/beta-config.yaml -p enumClassPrefix=true --git-repo-id golang-sdk/v2 --git-user-id sailpoint-oss
           node sdk-resources/postscript.js ./api_beta
 
       - name: Build V2024 SDK
@@ -72,20 +72,28 @@ jobs:
         run: |
           cd golang-sdk
           rm -rf ./api_v2024
-          java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.v2024.yaml -g go -o api_v2024 --global-property skipFormModel=false --config sdk-resources/v2024-config.yaml -p enumClassPrefix=true --git-repo-id golang-sdk/v2 --git-user-id sailpoint-oss
+          java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.v2024.yaml -g go -o api_v2024 --global-property skipFormModel=false,apiDocs=true,modelDocs=true --config sdk-resources/v2024-config.yaml -p enumClassPrefix=true --git-repo-id golang-sdk/v2 --git-user-id sailpoint-oss
           node sdk-resources/postscript.js ./api_v2024
 
       - name: Build V2025 SDK
         id: buildV2025
-        if: steps.buildBeta.outcome == 'success'
+        if: steps.buildV2024.outcome == 'success'
         run: |
           cd golang-sdk
           rm -rf ./api_v2025
-          java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.v2025.yaml -g go -o api_v2025 --global-property skipFormModel=false --config sdk-resources/v2025-config.yaml -p enumClassPrefix=true --git-repo-id golang-sdk/v2 --git-user-id sailpoint-oss
+          java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.v2025.yaml -g go -o api_v2025 --global-property skipFormModel=false,apiDocs=true,modelDocs=true --config sdk-resources/v2025-config.yaml -p enumClassPrefix=true --git-repo-id golang-sdk/v2 --git-user-id sailpoint-oss
           node sdk-resources/postscript.js ./api_v2025
+
+      - name: Build Generic SDK
+        id: buildGeneric
+        if: steps.buildV2025.outcome == 'success'
+        run: |
+          rm -rf ./api_generic
+          java -jar openapi-generator-cli.jar generate -i sdk-resources/generic-api.yaml -g go -o api_generic --global-property skipFormModel=false,apiDocs=true,modelDocs=true --config sdk-resources/generic-config.yaml
+          node sdk-resources/postscript.js ./api_generic
       
       - name: After SDK Build
-        if: steps.buildV2025.outcome == 'success'
+        if: steps.buildGeneric.outcome == 'success'
         run: |
           cd golang-sdk/
           go get -d ./...
