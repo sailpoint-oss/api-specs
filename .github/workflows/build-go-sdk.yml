@@ -88,6 +88,7 @@ jobs:
         id: buildGeneric
         if: steps.buildV2025.outcome == 'success'
         run: |
+          cd golang-sdk
           rm -rf ./api_generic
           java -jar openapi-generator-cli.jar generate -i sdk-resources/generic-api.yaml -g go -o api_generic --global-property skipFormModel=false,apiDocs=true,modelDocs=true --config sdk-resources/generic-config.yaml
           node sdk-resources/postscript.js ./api_generic
