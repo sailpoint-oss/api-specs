@@ -12765,6 +12765,14 @@ paths:
             type: string
             format: uuid
             example: 4eaa719f-4312-4c5b-9264-d0eb04d4a02a
+        - name: updated_after
+          in: query
+          description: 'Adds support for filtering profiles by updated_at using the updated_after parameter, which requires the be_profiles_enableUpdatedAfterParam feature flag to be enabled. Can be combined with after_id.'
+          required: false
+          schema:
+            type: string
+            format: date
+            example: '2025-05-05'
       responses:
         '200':
           description: Expected response to a valid request
