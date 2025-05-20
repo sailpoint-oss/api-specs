@@ -1,11 +1,12 @@
 name: "Push IDN API Specs to Developer Portal"
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - idn/**
+  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - "Build and push typescript sdk"    
+    types:
+      - completed
 
 jobs:
   push_idn_spec_workflow:
