@@ -1,11 +1,12 @@
 name: "Push IIQ API Specs to Developer Portal"
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - iiq/**
+  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - "Push IDN API Specs to Developer Portal"    
+    types:
+      - completed
 
 jobs:
   push_iiq_spec_workflow:
