@@ -1,10 +1,17 @@
 const fs = require('fs');
 
-// Function to recursively delete "auth" key from an object
+// Function to recursively delete "auth" key from an object and filter out non-2xx responses
 const deleteAuthKey = (obj) => {
   for (const key in obj) {
     if (typeof obj[key] === 'object') {
       deleteAuthKey(obj[key]); // Recursive call for nested objects
+    
+      // Keep only responses with status codes in the 200-299 range
+      if (key === 'response' && Array.isArray(obj[key])) {
+        obj[key] = obj[key].filter(response => {
+          return response.code >= 200 && response.code < 300;
+        });
+      }
     }
     if (key === 'auth') {
       delete obj[key];
@@ -55,7 +62,7 @@ fs.readFile(args[2], 'utf8', (err, data) => {
       if (writeErr) {
         console.error('Error writing the file:', writeErr);
       } else {
-        console.log('Auth keys deleted and file updated successfully.');
+        console.log('Auth keys deleted, non-2xx responses removed, and file updated successfully.');
       }
     });
   } catch (parseError) {
