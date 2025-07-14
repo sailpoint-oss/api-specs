@@ -6248,6 +6248,435 @@ paths:
                   error:
                     description: A message describing the error
                     example: Sorry something went wrong
+  /delegations:
+    get:
+      summary: List delegations
+      description: 'Returns a list of delegation records, optionally filtered by delegate, delegator, or expiration status.'
+      tags:
+        - delegations
+      parameters:
+        - name: delegate_id
+          in: query
+          description: Filter by delegate ID
+          required: false
+          schema:
+            type: string
+            default: false
+            example: ac4aae0b-4140-49a4-a84c-126762fd0c8f
+        - name: delegator_id
+          in: query
+          description: Filter by delegator ID
+          required: false
+          schema:
+            type: string
+            default: false
+            example: ac4aae0b-4140-49a4-a84c-126762fd0c8f
+        - name: expired
+          in: query
+          description: 'Filter by expiration status (true for expired, false for not expired)'
+          required: false
+          schema:
+            type: boolean
+            default: false
+            example: true
+        - name: metadata
+          in: query
+          description: 'Returns batching metadata in the response. This includes `total` as the total quantity, `next` as the path of the following query url, `limit` and `after_id` (if requested) with the next following id (null if it is the last "page").'
+          required: false
+          schema:
+            type: boolean
+            default: false
+            example: true
+        - name: limit
+          in: query
+          description: The maximum number of items to return.
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            example: 5
+        - name: offset
+          in: query
+          description: The number of items to skip before starting to collect the result set.
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            example: 5
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  delegations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: The id of the delegation
+                          example: ac4aae0b-4140-49a4-a84c-126762fd0c8f
+                        delegator_id:
+                          description: The id of the delegator user
+                          example: 12345678-1234-5678-1234-123456789012
+                        delegate_id:
+                          description: The id of the delegate user
+                          example: 87654321-4321-6789-4321-210987654321
+                        expiration:
+                          type: string
+                          format: date-time
+                          description: The expiration date of the delegation
+                          example: '2023-10-01T12:00:00Z'
+                        expired:
+                          type: boolean
+                          description: Indicates if the delegation is expired
+                          example: false
+                        created_at:
+                          type: string
+                          format: date-time
+                          readOnly: true
+                          description: The date-time the record created.
+                          example: '2022-12-27 08:26:49.219717'
+                        updated_at:
+                          type: string
+                          format: date-time
+                          readOnly: true
+                          description: The date-time the record was last updated.
+                          example: '2022-12-27 08:26:49.219717'
+                  _metadata:
+                    type: object
+                    properties:
+                      limit:
+                        type: integer
+                      offset:
+                        type: integer
+                      total:
+                        type: integer
+                      next:
+                        type: string
+                        example: /endpoint?limit=10&offset=60
+                      previous:
+                        type: string
+                        example: /endpoint?limit=10&offset=40
+        '500':
+          description: Internal Server Error - returned on unhandled exceptions.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    description: A message describing the error
+                    example: Sorry something went wrong
+    post:
+      summary: Create a delegation
+      description: Create a new delegation record.
+      tags:
+        - delegations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                delegation:
+                  type: object
+                  properties:
+                    delegator_id:
+                      type: string
+                      description: The id of the delegator
+                      example: ac4aae0b-4140-49a4-a84c-126762fd0c8f
+                    delegate_id:
+                      type: string
+                      description: The id of the delegate
+                      example: ac4aae0b-4140-49a4-a84c-126762fd0c8f
+                    expiration:
+                      type: string
+                      format: date-time
+                      description: The expiration date of the delegation
+                      example: '2023-10-01T12:00:00Z'
+      responses:
+        '201':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  delegation:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: The id of the delegation
+                        example: ac4aae0b-4140-49a4-a84c-126762fd0c8f
+                      delegator_id:
+                        description: The id of the delegator user
+                        example: 12345678-1234-5678-1234-123456789012
+                      delegate_id:
+                        description: The id of the delegate user
+                        example: 87654321-4321-6789-4321-210987654321
+                      expiration:
+                        type: string
+                        format: date-time
+                        description: The expiration date of the delegation
+                        example: '2023-10-01T12:00:00Z'
+                      expired:
+                        type: boolean
+                        description: Indicates if the delegation is expired
+                        example: false
+                      created_at:
+                        type: string
+                        format: date-time
+                        readOnly: true
+                        description: The date-time the record created.
+                        example: '2022-12-27 08:26:49.219717'
+                      updated_at:
+                        type: string
+                        format: date-time
+                        readOnly: true
+                        description: The date-time the record was last updated.
+                        example: '2022-12-27 08:26:49.219717'
+        '404':
+          description: Record Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    description: 'The requested record, either ID or UID, was not found'
+                    example: The requested Profile was not found
+        '500':
+          description: Internal Server Error - returned on unhandled exceptions.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    description: A message describing the error
+                    example: Sorry something went wrong
+  '/delegations/{id}':
+    get:
+      summary: Get a single delegation
+      description: Returns a single delegation record by its ID.
+      tags:
+        - delegations
+      parameters:
+        - name: id
+          in: path
+          description: 'ID of the object to retrieve, update, or delete'
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 1246d8b3-ac29-4015-8154-dea4434a73fa
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  delegation:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: The id of the delegation
+                        example: ac4aae0b-4140-49a4-a84c-126762fd0c8f
+                      delegator_id:
+                        description: The id of the delegator user
+                        example: 12345678-1234-5678-1234-123456789012
+                      delegate_id:
+                        description: The id of the delegate user
+                        example: 87654321-4321-6789-4321-210987654321
+                      expiration:
+                        type: string
+                        format: date-time
+                        description: The expiration date of the delegation
+                        example: '2023-10-01T12:00:00Z'
+                      expired:
+                        type: boolean
+                        description: Indicates if the delegation is expired
+                        example: false
+                      created_at:
+                        type: string
+                        format: date-time
+                        readOnly: true
+                        description: The date-time the record created.
+                        example: '2022-12-27 08:26:49.219717'
+                      updated_at:
+                        type: string
+                        format: date-time
+                        readOnly: true
+                        description: The date-time the record was last updated.
+                        example: '2022-12-27 08:26:49.219717'
+        '404':
+          description: Record Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    description: 'The requested record, either ID or UID, was not found'
+                    example: The requested Profile was not found
+        '500':
+          description: Internal Server Error - returned on unhandled exceptions.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    description: A message describing the error
+                    example: Sorry something went wrong
+    patch:
+      summary: Update a delegation
+      description: Update an existing delegation record.
+      tags:
+        - delegations
+      parameters:
+        - name: id
+          in: path
+          description: 'ID of the object to retrieve, update, or delete'
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 1246d8b3-ac29-4015-8154-dea4434a73fa
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                delegation:
+                  type: object
+                  properties:
+                    delegator_id:
+                      type: string
+                      description: The ID of the delegator
+                      example: ac4aae0b-4140-49a4-a84c-126762fd0c8f
+                    delegatee_id:
+                      type: string
+                      description: The ID of the delegatee
+                      example: 12345678-1234-5678-1234-567812345678
+                    expiration_date:
+                      type: string
+                      format: date-time
+                      description: The date and time when the delegation expires
+                      example: '2023-12-31T23:59:59Z'
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  delegation:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: The id of the delegation
+                        example: ac4aae0b-4140-49a4-a84c-126762fd0c8f
+                      delegator_id:
+                        description: The id of the delegator user
+                        example: 12345678-1234-5678-1234-123456789012
+                      delegate_id:
+                        description: The id of the delegate user
+                        example: 87654321-4321-6789-4321-210987654321
+                      expiration:
+                        type: string
+                        format: date-time
+                        description: The expiration date of the delegation
+                        example: '2023-10-01T12:00:00Z'
+                      expired:
+                        type: boolean
+                        description: Indicates if the delegation is expired
+                        example: false
+                      created_at:
+                        type: string
+                        format: date-time
+                        readOnly: true
+                        description: The date-time the record created.
+                        example: '2022-12-27 08:26:49.219717'
+                      updated_at:
+                        type: string
+                        format: date-time
+                        readOnly: true
+                        description: The date-time the record was last updated.
+                        example: '2022-12-27 08:26:49.219717'
+        '404':
+          description: Record Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    description: 'The requested record, either ID or UID, was not found'
+                    example: The requested Profile was not found
+        '500':
+          description: Internal Server Error - returned on unhandled exceptions.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    description: A message describing the error
+                    example: Sorry something went wrong
+    delete:
+      summary: Delete a delegation
+      description: Delete an existing delegation record.
+      tags:
+        - delegations
+      parameters:
+        - name: id
+          in: path
+          description: 'ID of the object to retrieve, update, or delete'
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 1246d8b3-ac29-4015-8154-dea4434a73fa
+      responses:
+        '200':
+          description: The delegation record '<delegation_id>' has been destroyed.
+        '404':
+          description: Record Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    description: 'The requested record, either ID or UID, was not found'
+                    example: The requested Profile was not found
+        '500':
+          description: Internal Server Error - returned on unhandled exceptions.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    description: A message describing the error
+                    example: Sorry something went wrong
   /forms:
     get:
       summary: Get forms
