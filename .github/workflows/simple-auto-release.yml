@@ -1,0 +1,40 @@
+name: "Auto Release on Dereferenced Spec Changes"
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - dereferenced/**
+  workflow_dispatch:
+  schedule:
+    # Run daily at 2 AM UTC to check for any missed changes
+    - cron: '0 2 * * *'
+
+permissions:
+  id-token: write
+  contents: write
+  pull-requests: write
+
+jobs:
+  check-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Configure Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Run simple release automation
+        run: |
+          node scripts/simple-release-automation.js
