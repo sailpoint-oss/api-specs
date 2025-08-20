@@ -7,12 +7,14 @@ on:
     paths:
       - idn/sailpoint-api.v3.yaml
       - idn/v3/**
+      - idn/sailpoint-api.beta.yaml
+      - idn/beta/**
       - idn/sailpoint-api.v2024.yaml
       - idn/v2024/**
       - idn/sailpoint-api.v2025.yaml
       - idn/v2025/**
-      - idn/sailpoint-api.beta.yaml
-      - idn/beta/**
+      - idn/sailpoint-api.v2026.yaml
+      - idn/v2026/**
       - nerm/**
   workflow_dispatch:
 
@@ -43,38 +45,77 @@ jobs:
           npm install -g openapi-to-postmanv2
       - name: Dereference API Specification and build Postman collection
         run: |
-          swagger-cli bundle --dereference idn/sailpoint-api.v3.yaml -t yaml -o dereferenced/deref-sailpoint-api.v3.yaml
-          openapi2postmanv2 -s dereferenced/deref-sailpoint-api.v3.yaml -o postman/collections/sailpoint-api-v3.json -p -c postman-script/openapi2postman-config.json
-          node postman-script/modify-collection.js postman/collections/sailpoint-api-v3.json
+
+          # v3
           swagger-cli bundle --dereference idn/sailpoint-api.v3.yaml -t json -o dereferenced/deref-sailpoint-api.v3.json
-          
-          swagger-cli bundle --dereference idn/sailpoint-api.beta.yaml -t yaml -o dereferenced/deref-sailpoint-api.beta.yaml
-          openapi2postmanv2 -s dereferenced/deref-sailpoint-api.beta.yaml -o postman/collections/sailpoint-api-beta.json -p -c postman-script/openapi2postman-config.json
-          node postman-script/modify-collection.js postman/collections/sailpoint-api-beta.json
+          swagger-cli bundle --dereference idn/sailpoint-api.v3.yaml -t yaml -o dereferenced/deref-sailpoint-api.v3.yaml
+
+          # beta
           swagger-cli bundle --dereference idn/sailpoint-api.beta.yaml -t json -o dereferenced/deref-sailpoint-api.beta.json
+          swagger-cli bundle --dereference idn/sailpoint-api.beta.yaml -t yaml -o dereferenced/deref-sailpoint-api.beta.yaml
 
-          swagger-cli bundle --dereference nerm/openapi.yaml -t yaml -o dereferenced/deref-sailpoint-api.nerm.yaml
-          openapi2postmanv2 -s dereferenced/deref-sailpoint-api.nerm.yaml -o postman/collections/sailpoint-api-nerm.json -p -c postman-script/openapi2postman-config.json
-
-          swagger-cli bundle --dereference nerm/v2025/v2025.yaml -t yaml -o dereferenced/deref-sailpoint-api.nerm.v2025.yaml
-          openapi2postmanv2 -s dereferenced/deref-sailpoint-api.nerm.v2025.yaml -o postman/collections/sailpoint-api-nerm-v2025.json -p -c postman-script/openapi2postman-config.json
-      
+          # v2024
           swagger-cli bundle --dereference idn/sailpoint-api.v2024.yaml -t yaml -o dereferenced/deref-sailpoint-api.v2024.yaml
-          openapi2postmanv2 -s dereferenced/deref-sailpoint-api.v2024.yaml -o postman/collections/sailpoint-api-v2024.json -p -c postman-script/openapi2postman-config.json
-          node postman-script/modify-collection.js postman/collections/sailpoint-api-v2024.json
           swagger-cli bundle --dereference idn/sailpoint-api.v2024.yaml -t json -o dereferenced/deref-sailpoint-api.v2024.json
 
+          # v2025
           swagger-cli bundle --dereference idn/sailpoint-api.v2025.yaml -t yaml -o dereferenced/deref-sailpoint-api.v2025.yaml
-          openapi2postmanv2 -s dereferenced/deref-sailpoint-api.v2025.yaml -o postman/collections/sailpoint-api-v2025.json -p -c postman-script/openapi2postman-config.json
-          node postman-script/modify-collection.js postman/collections/sailpoint-api-v2025.json
           swagger-cli bundle --dereference idn/sailpoint-api.v2025.yaml -t json -o dereferenced/deref-sailpoint-api.v2025.json
+
+          # v2026
+          # swagger-cli bundle --dereference idn/sailpoint-api.v2026.yaml -t yaml -o dereferenced/deref-sailpoint-api.v2026.yaml
+          # swagger-cli bundle --dereference idn/sailpoint-api.v2026.yaml -t json -o dereferenced/deref-sailpoint-api.v2026.json
+
+          # nerm
+          swagger-cli bundle --dereference nerm/openapi.yaml -t yaml -o dereferenced/deref-sailpoint-api.nerm.yaml
+          swagger-cli bundle --dereference nerm/openapi.yaml -t json -o dereferenced/deref-sailpoint-api.nerm.json
+          swagger-cli bundle --dereference nerm/v2025/v2025.yaml -t yaml -o dereferenced/deref-sailpoint-api.nerm.v2025.yaml
+          swagger-cli bundle --dereference nerm/v2025/v2025.yaml -t json -o dereferenced/deref-sailpoint-api.nerm.v2025.json
+
+          # build postman collections
+          openapi2postmanv2 -s dereferenced/deref-sailpoint-api.v3.yaml -o postman/collections/sailpoint-api-v3.json -p -c postman-script/openapi2postman-config.json
+          openapi2postmanv2 -s dereferenced/deref-sailpoint-api.beta.yaml -o postman/collections/sailpoint-api-beta.json -p -c postman-script/openapi2postman-config.json
+          openapi2postmanv2 -s dereferenced/deref-sailpoint-api.nerm.yaml -o postman/collections/sailpoint-api-nerm.json -p -c postman-script/openapi2postman-config.json
+          openapi2postmanv2 -s dereferenced/deref-sailpoint-api.nerm.v2025.yaml -o postman/collections/sailpoint-api-nerm-v2025.json -p -c postman-script/openapi2postman-config.json
+          openapi2postmanv2 -s dereferenced/deref-sailpoint-api.v2024.yaml -o postman/collections/sailpoint-api-v2024.json -p -c postman-script/openapi2postman-config.json
+          openapi2postmanv2 -s dereferenced/deref-sailpoint-api.v2025.yaml -o postman/collections/sailpoint-api-v2025.json -p -c postman-script/openapi2postman-config.json
+
+          # modify collections
+          node postman-script/modify-collection.js postman/collections/sailpoint-api-v3.json
+          node postman-script/modify-collection.js postman/collections/sailpoint-api-beta.json
+          node postman-script/modify-collection.js postman/collections/sailpoint-api-v2024.json
+          node postman-script/modify-collection.js postman/collections/sailpoint-api-v2025.json
+          # node postman-script/modify-collection.js postman/collections/sailpoint-api-v2026.json
+
 
           cd postman-script/update-by-folder-ts
           echo "POSTMAN_API_KEY=${{ secrets.POSTMAN_API_KEY }}" > .env
           npm ci
-          npm run v2025
-          npm run v2024
           npm run v3
           npm run beta
+          npm run v2024
+          npm run v2025
+          # npm run v2026
           npm run nerm
+      - name: Check for dereferenced spec changes
+        id: check-changes
+        run: |
+          if [ -d "dereferenced" ]; then
+            echo "dereferenced-exists=true" >> $GITHUB_OUTPUT
+            # Check if there are any changes in the dereferenced directory
+            if git diff --name-only HEAD~1 | grep -q "dereferenced/"; then
+              echo "has-changes=true" >> $GITHUB_OUTPUT
+            else
+              echo "has-changes=false" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "dereferenced-exists=false" >> $GITHUB_OUTPUT
+            echo "has-changes=false" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Create release if changes detected
+        if: steps.check-changes.outputs.has-changes == 'true'
+        run: |
+          node scripts/simple-release-automation.js
+          
       - uses: stefanzweifel/git-auto-commit-action@v4

@@ -1,0 +1,18 @@
+{
+  "name": "api-specs-scripts",
+  "version": "1.0.0",
+  "description": "Scripts for automatically creating releases when dereferenced API specifications are updated",
+  "main": "index.js",
+  "scripts": {
+    "simple-release": "node simple-release-automation.js",
+    "release": "node simple-release-automation.js"
+  },
+  "keywords": [
+    "api",
+    "openapi",
+    "release",
+    "automation"
+  ],
+  "author": "SailPoint",
+  "license": "MIT"
+}
