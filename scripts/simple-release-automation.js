@@ -121,8 +121,7 @@ class SimpleReleaseAutomation {
     const stats = this.getFileStats();
     const releaseVersion = this.getReleaseVersion();
     
-    let notes = `# API Specifications Release ${releaseVersion}\n\n`;
-    notes += `Release Date: ${new Date().toISOString()}\n\n`;
+    let notes = `Release Date: ${new Date().toISOString()}\n\n`;
     notes += `This release includes updated dereferenced API specifications.\n\n`;
     
     if (files.length > 0) {
