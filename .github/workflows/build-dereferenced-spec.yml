@@ -113,7 +113,6 @@ jobs:
           
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          github_token: ${{ env.GH_TOKEN }}
           commit_message: "Update dereferenced specifications"
           commit_author: developer-relations-sp <devrel-service@sailpoint.com>
 
