@@ -29,8 +29,8 @@ jobs:
           
       - name: Configure Git
         run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git config --global user.name 'developer-relations-sp'
+          git config --global user.email 'devrel-service@sailpoint.com'
           
       - name: Set up Node.js
         uses: actions/setup-node@v4

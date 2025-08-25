@@ -164,13 +164,11 @@ class SimpleReleaseAutomation {
       notes += `#### YAML Files\n\n`;
       files.filter(f => f.endsWith('.yaml')).forEach(file => {
         const filename = path.basename(file);
-        const fileExtension = path.extname(file).toUpperCase().substring(1);
         notes += `- [${filename}](https://github.com/sailpoint-oss/api-specs/releases/download/v${releaseVersion}/${filename})\n`;
       });
       notes += `#### JSON Files\n\n`;
       files.filter(f => f.endsWith('.json')).forEach(file => {
         const filename = path.basename(file);
-        const fileExtension = path.extname(file).toUpperCase().substring(1);
         notes += `- [${filename}](https://github.com/sailpoint-oss/api-specs/releases/download/v${releaseVersion}/${filename})\n`;
       });
       

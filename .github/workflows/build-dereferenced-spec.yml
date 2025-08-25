@@ -101,6 +101,12 @@ jobs:
           npm run v2025
           # npm run v2026
           npm run nerm
+
+      - name: Configure Git
+        run: |
+          git config --global user.name 'developer-relations-sp'
+          git config --global user.email 'devrel-service@sailpoint.com'
+
       - name: Create release for updated specifications
         run: |
           node scripts/simple-release-automation.js
