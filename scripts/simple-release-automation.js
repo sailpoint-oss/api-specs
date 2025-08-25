@@ -122,7 +122,7 @@ class SimpleReleaseAutomation {
       'v3': 0,
       'beta': 1,
       'v2024': 2,
-      'v2025': 3,
+      'api.v2025': 3,
       'nerm': 4,
       'nerm.v2025': 5
     };
