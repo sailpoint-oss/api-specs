@@ -116,6 +116,28 @@ class SimpleReleaseAutomation {
     return `${year}.${month}.${day}-${hour}${minute}`;
   }
 
+  // Sorts files in release order: v3, beta, v2024, v2025, nerm, nerm-v2025
+  sortFiles(files) {
+    const orderMap = {
+      'v3': 0,
+      'beta': 1,
+      'v2024': 2,
+      'v2025': 3,
+      'nerm': 4,
+      'nerm.v2025': 5
+    };
+
+    return files.sort((a, b) => {
+      const aName = path.basename(a);
+      const bName = path.basename(b);
+      
+      const aOrder = Object.entries(orderMap).find(([key]) => aName.includes(key))?.[1] ?? -1;
+      const bOrder = Object.entries(orderMap).find(([key]) => bName.includes(key))?.[1] ?? -1;
+      
+      return aOrder - bOrder;
+    });
+  }
+
   generateReleaseNotes() {
     const files = this.getDereferencedFiles();
     const stats = this.getFileStats();
@@ -123,19 +145,26 @@ class SimpleReleaseAutomation {
     
     let notes = `Release Date: ${new Date().toISOString()}\n\n`;
     notes += `This release includes updated dereferenced API specifications.\n\n`;
+
+    notes += `**File Statistics**\n\n`;
+    notes += `- **Total files**: ${stats.total}\n`;
+    notes += `- **YAML files**: ${stats.yaml}\n`;
+    notes += `- **JSON files**: ${stats.json}\n`;
+    notes += `- **Other files**: ${stats.other}\n`;
+    notes += `- **Total size**: ${(stats.totalSize / 1024 / 1024).toFixed(2)} MB\n\n`;
     
     if (files.length > 0) {
       notes += `## Updated Specifications\n\n`;
       
       // Group files by type
-      const yamlFiles = files.filter(f => f.endsWith('.yaml')).sort();
-      const jsonFiles = files.filter(f => f.endsWith('.json')).sort();
+      const yamlFiles = this.sortFiles(files.filter(f => f.endsWith('.yaml')));
+      const jsonFiles = this.sortFiles(files.filter(f => f.endsWith('.json')));
       
       if (yamlFiles.length > 0) {
         notes += `### YAML Specifications\n\n`;
         yamlFiles.forEach(file => {
           const filename = path.basename(file);
-          notes += `- \`${filename}\`\n`;
+          notes += `- [${filename}](https://github.com/sailpoint-oss/api-specs/releases/download/v${releaseVersion}/${filename})\n`;
         });
         notes += `\n`;
       }
@@ -144,32 +173,10 @@ class SimpleReleaseAutomation {
         notes += `### JSON Specifications\n\n`;
         jsonFiles.forEach(file => {
           const filename = path.basename(file);
-          notes += `- \`${filename}\`\n`;
+          notes += `- [${filename}](https://github.com/sailpoint-oss/api-specs/releases/download/v${releaseVersion}/${filename})\n`;
         });
         notes += `\n`;
       }
-      
-      notes += `## File Statistics\n\n`;
-      notes += `- **Total files**: ${stats.total}\n`;
-      notes += `- **YAML files**: ${stats.yaml}\n`;
-      notes += `- **JSON files**: ${stats.json}\n`;
-      notes += `- **Other files**: ${stats.other}\n`;
-      notes += `- **Total size**: ${(stats.totalSize / 1024 / 1024).toFixed(2)} MB\n\n`;
-      
-      notes += `## Download\n\n`;
-      notes += `All dereferenced specifications are available as individual files in this release.\n\n`;
-      
-      notes += `### Individual Files\n\n`;
-      notes += `#### YAML Files\n\n`;
-      files.filter(f => f.endsWith('.yaml')).forEach(file => {
-        const filename = path.basename(file);
-        notes += `- [${filename}](https://github.com/sailpoint-oss/api-specs/releases/download/v${releaseVersion}/${filename})\n`;
-      });
-      notes += `#### JSON Files\n\n`;
-      files.filter(f => f.endsWith('.json')).forEach(file => {
-        const filename = path.basename(file);
-        notes += `- [${filename}](https://github.com/sailpoint-oss/api-specs/releases/download/v${releaseVersion}/${filename})\n`;
-      });
       
     } else {
       notes += `No dereferenced specifications found.\n`;
