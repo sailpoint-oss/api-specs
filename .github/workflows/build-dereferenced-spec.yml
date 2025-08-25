@@ -39,38 +39,38 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "18"
-      - name: Install swagger-cli and postman
+      - name: Install redocly and postman
         run: |
-          npm install -g swagger-cli
+          npm install -g @redocly/cli
           npm install -g openapi-to-postmanv2
       - name: Dereference API Specification and build Postman collection
         run: |
 
           # v3
-          swagger-cli bundle --dereference idn/sailpoint-api.v3.yaml -t json -o dereferenced/deref-sailpoint-api.v3.json
-          swagger-cli bundle --dereference idn/sailpoint-api.v3.yaml -t yaml -o dereferenced/deref-sailpoint-api.v3.yaml
+          redocly bundle -d idn/sailpoint-api.v3.yaml --ext json -o dereferenced/deref-sailpoint-api.v3.json
+          redocly bundle -d idn/sailpoint-api.v3.yaml --ext yaml -o dereferenced/deref-sailpoint-api.v3.yaml
 
           # beta
-          swagger-cli bundle --dereference idn/sailpoint-api.beta.yaml -t json -o dereferenced/deref-sailpoint-api.beta.json
-          swagger-cli bundle --dereference idn/sailpoint-api.beta.yaml -t yaml -o dereferenced/deref-sailpoint-api.beta.yaml
+          redocly bundle -d idn/sailpoint-api.beta.yaml --ext json -o dereferenced/deref-sailpoint-api.beta.json
+          redocly bundle -d idn/sailpoint-api.beta.yaml --ext yaml -o dereferenced/deref-sailpoint-api.beta.yaml
 
           # v2024
-          swagger-cli bundle --dereference idn/sailpoint-api.v2024.yaml -t yaml -o dereferenced/deref-sailpoint-api.v2024.yaml
-          swagger-cli bundle --dereference idn/sailpoint-api.v2024.yaml -t json -o dereferenced/deref-sailpoint-api.v2024.json
+          redocly bundle -d idn/sailpoint-api.v2024.yaml --ext yaml -o dereferenced/deref-sailpoint-api.v2024.yaml
+          redocly bundle -d idn/sailpoint-api.v2024.yaml --ext json -o dereferenced/deref-sailpoint-api.v2024.json
 
           # v2025
-          swagger-cli bundle --dereference idn/sailpoint-api.v2025.yaml -t yaml -o dereferenced/deref-sailpoint-api.v2025.yaml
-          swagger-cli bundle --dereference idn/sailpoint-api.v2025.yaml -t json -o dereferenced/deref-sailpoint-api.v2025.json
+          redocly bundle -d idn/sailpoint-api.v2025.yaml --ext yaml -o dereferenced/deref-sailpoint-api.v2025.yaml
+          redocly bundle -d idn/sailpoint-api.v2025.yaml --ext json -o dereferenced/deref-sailpoint-api.v2025.json
 
           # v2026
           # swagger-cli bundle --dereference idn/sailpoint-api.v2026.yaml -t yaml -o dereferenced/deref-sailpoint-api.v2026.yaml
           # swagger-cli bundle --dereference idn/sailpoint-api.v2026.yaml -t json -o dereferenced/deref-sailpoint-api.v2026.json
 
           # nerm
-          swagger-cli bundle --dereference nerm/openapi.yaml -t yaml -o dereferenced/deref-sailpoint-api.nerm.yaml
-          swagger-cli bundle --dereference nerm/openapi.yaml -t json -o dereferenced/deref-sailpoint-api.nerm.json
-          swagger-cli bundle --dereference nerm/v2025/v2025.yaml -t yaml -o dereferenced/deref-sailpoint-api.nerm.v2025.yaml
-          swagger-cli bundle --dereference nerm/v2025/v2025.yaml -t json -o dereferenced/deref-sailpoint-api.nerm.v2025.json
+          redocly bundle -d nerm/openapi.yaml --ext yaml -o dereferenced/deref-sailpoint-api.nerm.yaml
+          redocly bundle -d nerm/openapi.yaml --ext json -o dereferenced/deref-sailpoint-api.nerm.json
+          redocly bundle -d nerm/v2025/v2025.yaml --ext yaml -o dereferenced/deref-sailpoint-api.nerm.v2025.yaml
+          redocly bundle -d nerm/v2025/v2025.yaml --ext json -o dereferenced/deref-sailpoint-api.nerm.v2025.json
 
           # build postman collections
           openapi2postmanv2 -s dereferenced/deref-sailpoint-api.v3.yaml -o postman/collections/sailpoint-api-v3.json -p -c postman-script/openapi2postman-config.json
