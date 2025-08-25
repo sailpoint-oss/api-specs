@@ -89,6 +89,12 @@ class SimpleReleaseAutomation {
       lastHash = fs.readFileSync(this.lastReleaseFile, 'utf8').trim();
     }
     
+    // If no previous hash exists, assume there are changes (first run)
+    if (!lastHash) {
+      console.log('📝 No previous hash found, assuming changes exist');
+      return true;
+    }
+    
     return currentHash !== lastHash;
   }
 
@@ -155,16 +161,19 @@ class SimpleReleaseAutomation {
       notes += `All dereferenced specifications are available as individual files in this release.\n\n`;
       
       notes += `### Individual Files\n\n`;
-      files.forEach(file => {
+      notes += `#### YAML Files\n\n`;
+      files.filter(f => f.endsWith('.yaml')).forEach(file => {
         const filename = path.basename(file);
         const fileExtension = path.extname(file).toUpperCase().substring(1);
-        notes += `- **${filename}** (${fileExtension})\n`;
+        notes += `- [${filename}](https://github.com/sailpoint-oss/api-specs/releases/download/v${releaseVersion}/${filename})\n`;
+      });
+      notes += `#### JSON Files\n\n`;
+      files.filter(f => f.endsWith('.json')).forEach(file => {
+        const filename = path.basename(file);
+        const fileExtension = path.extname(file).toUpperCase().substring(1);
+        notes += `- [${filename}](https://github.com/sailpoint-oss/api-specs/releases/download/v${releaseVersion}/${filename})\n`;
       });
       
-      notes += `\n### Download Instructions\n\n`;
-      notes += `1. Click on any file above to download it directly\n`;
-      notes += `2. Or use the "Assets" section below to download all files\n`;
-      notes += `3. Each file is individually tracked for download analytics\n`;
     } else {
       notes += `No dereferenced specifications found.\n`;
     }
@@ -249,6 +258,18 @@ class SimpleReleaseAutomation {
     if (!fs.existsSync(this.dereferencedDir)) {
       console.log('⚠️  Dereferenced directory not found. No release needed.');
       return;
+    }
+    
+    // Log current state
+    const files = this.getDereferencedFiles();
+    console.log(`📁 Found ${files.length} files in dereferenced directory`);
+    
+    if (files.length > 0) {
+      console.log('📄 Files found:');
+      for (const file of files) {
+        const filename = path.basename(file);
+        console.log(`   - ${filename}`);
+      }
     }
     
     // Check for changes
