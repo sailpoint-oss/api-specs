@@ -115,6 +115,5 @@ jobs:
         with:
           github_token: ${{ env.GH_TOKEN }}
           commit_message: "Update dereferenced specifications"
-          commit_author: developer-relations-sp
-          commit_author_email: devrel-service@sailpoint.com
+          commit_author: developer-relations-sp <devrel-service@sailpoint.com>
 
