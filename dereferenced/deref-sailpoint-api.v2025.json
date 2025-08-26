@@ -43975,6 +43975,82 @@
         }
       }
     },
+    "/sources/{sourceId}/aggregate-agents": {
+      "post": {
+        "operationId": "startMachineIdentityAggregation",
+        "tags": [
+          "Machine Identities"
+        ],
+        "summary": "Start Machine Identity (AI Agent) Aggregation",
+        "security": [
+          {
+            "userAuth": [
+              "idn:mis-agents:aggregate"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN",
+          "HELPDESK"
+        ],
+        "description": "Use this API to aggregate machine identities (AI Agents).",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MachineIdentityAggregationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Machine Identity Aggregation was started successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineIdentityAggregationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ]
+      }
+    },
     "/sources/{sourceId}/subtypes": {
       "get": {
         "summary": "Retrieve all subtypes by source",
@@ -44674,7 +44750,7 @@
               "type": "string"
             },
             "example": "identityId eq \"2c9180858082150f0180893dbaf44201\"",
-            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in, sw*\n\n**displayName**: *eq, in, sw*\n\n**cisIdentityId**: *eq, in, sw*\n\n**description**: *eq, in, sw*\n\n**businessApplication**: *eq, in, sw*\n\n**attributes**: *eq*\n\n**manuallyEdited**: *eq*\n\n**subtype**: *eq, in*\n\n**owners.primaryIdentity.id**: *eq, in, sw*\n\n**owners.primaryIdentity.name**: *eq, in, isnull, pr*\n\n**owners.secondaryIdentity.id**: *eq, in, sw*\n\n**owners.secondaryIdentity.name**: *eq, in, isnull, pr*\n\n**source.name**: *eq, in, sw*\n\n**source.id**: *eq, in*\n\n**entitlement.id**: *eq, in*\n\n**entitlement.name**: *eq, in, sw*"
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in, sw*\n\n**displayName**: *eq, in, sw*\n\n**cisIdentityId**: *eq, in, sw*\n\n**businessApplication**: *eq, in, sw*\n\n**attributes**: *eq*\n\n**manuallyEdited**: *eq*\n\n**subtype**: *eq, in*\n\n**owners.primaryIdentity.id**: *eq, in, sw*\n\n**owners.primaryIdentity.name**: *eq, in, isnull, pr*\n\n**owners.secondaryIdentity.id**: *eq, in, sw*\n\n**owners.secondaryIdentity.name**: *eq, in, isnull, pr*\n\n**source.name**: *eq, in, sw*\n\n**source.id**: *eq, in*\n\n**entitlement.id**: *eq, in*\n\n**entitlement.name**: *eq, in, sw*"
           },
           {
             "in": "query",
@@ -45048,6 +45124,104 @@
         "responses": {
           "204": {
             "$ref": "#/components/responses/204"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/machine-identity-user-entitlements": {
+      "get": {
+        "operationId": "listMachineIdentityUserEntitlements",
+        "tags": [
+          "Machine Identities"
+        ],
+        "summary": "List machine identity's user entitlements",
+        "description": "This API returns a list of user entitlements associated with machine identities.",
+        "security": [
+          {
+            "userAuth": [
+              "idn:mis-user-entitlements:read"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN",
+          "HELPDESK"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "filters",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "machineIdentityId eq \"2c9180858082150f0180893dbaf44201\"",
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**machineIdentityId**: *eq, in*\n\n**machineIdentityName**: *eq, in, sw*\n\n**entitlement.id**: *eq, in*\n\n**entitlement.name**: *eq, in, sw*\n\n**source.id**: *eq, in*\n\n**source.name**: *eq, in, sw*"
+          },
+          {
+            "in": "query",
+            "name": "sorters",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **machineIdentityName, entitlement.name, source.name**",
+            "example": "machineIdentityName"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          },
+          {
+            "$ref": "#/components/parameters/count"
+          },
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of machine identity user entitlements.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MachineIdentityUserEntitlementResponse"
+                  }
+                }
+              }
+            }
           },
           "400": {
             "$ref": "#/components/responses/400"
@@ -94783,6 +94957,159 @@
           }
         ]
       },
+      "MachineIdentityAggregationRequest": {
+        "type": "object",
+        "title": "Machine Identity Aggregation Request",
+        "required": [
+          "datasetIds"
+        ],
+        "properties": {
+          "datasetIds": {
+            "type": "array",
+            "description": "List of dataset Ids to aggregate machine identities",
+            "items": {
+              "type": "string",
+              "description": "The dataset Id of the source",
+              "example": "source:datasetId12345"
+            }
+          }
+        }
+      },
+      "MachineIdentityAggregationResponse": {
+        "type": "object",
+        "title": "Machine Identity Aggregation Response",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "System-generated unique ID of the Object",
+            "example": "8886e5e3-63d0-462f-a195-d98da885b8dc"
+          },
+          "type": {
+            "description": "Type of task for aggregation",
+            "type": "string",
+            "enum": [
+              "QUARTZ",
+              "QPOC",
+              "QUEUED_TASK"
+            ],
+            "example": "QUARTZ"
+          },
+          "uniqueName": {
+            "description": "Name of the task for aggregation",
+            "type": "string",
+            "example": "AI Agent Aggregation - ID123"
+          },
+          "description": {
+            "description": "Description of the aggregation",
+            "type": "string",
+            "example": "AI Agent Aggregation - From given dataset IDs"
+          },
+          "parentName": {
+            "description": "Name of the parent of the task for aggregation",
+            "nullable": true,
+            "type": "string",
+            "example": "Parent Task"
+          },
+          "launcher": {
+            "description": "Service to execute the aggregation",
+            "type": "string",
+            "example": "System"
+          },
+          "target": {
+            "description": "The target(source) of the aggregation",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/BaseReferenceDto"
+              },
+              {
+                "type": "object",
+                "example": {
+                  "id": "6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa",
+                  "name": "Source name",
+                  "type": "APPLICATION"
+                }
+              }
+            ]
+          },
+          "created": {
+            "description": "Creation date of the aggregation",
+            "type": "string",
+            "format": "date-time",
+            "example": "2020-07-11T21:23:15.000Z"
+          },
+          "modified": {
+            "description": "Last modification date of the aggregation",
+            "type": "string",
+            "format": "date-time",
+            "example": "2020-07-11T21:23:15.000Z"
+          },
+          "launched": {
+            "description": "Launch date of the aggregation",
+            "nullable": true,
+            "type": "string",
+            "format": "date-time",
+            "example": "2020-07-11T21:23:15.000Z"
+          },
+          "completed": {
+            "description": "Completion date of the aggregation",
+            "nullable": true,
+            "type": "string",
+            "format": "date-time",
+            "example": "2020-07-11T21:23:15.000Z"
+          },
+          "taskDefinitionSummary": {
+            "$ref": "#/components/schemas/TaskDefinitionSummary"
+          },
+          "completionStatus": {
+            "description": "Completion status of the aggregation",
+            "type": "string",
+            "nullable": true,
+            "enum": [
+              "SUCCESS",
+              "WARNING",
+              "ERROR",
+              "TERMINATED",
+              "TEMPERROR",
+              null
+            ],
+            "example": "SUCCESS"
+          },
+          "messages": {
+            "description": "Messages associated with the aggregation",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TaskStatusMessage"
+            }
+          },
+          "returns": {
+            "description": "Return values associated with the aggregation",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TaskReturnDetails"
+            }
+          },
+          "attributes": {
+            "description": "Attributes of the aggregation",
+            "type": "object",
+            "additionalProperties": true,
+            "example": {
+              "creatorRequestId": "ed5a371bbaba411fb8f1f6970b842334"
+            }
+          },
+          "progress": {
+            "description": "Current progress of aggregation",
+            "nullable": true,
+            "type": "string",
+            "example": "Started"
+          },
+          "percentComplete": {
+            "description": "Current percentage completion of aggregation",
+            "type": "integer",
+            "format": "int32",
+            "example": 100
+          }
+        }
+      },
       "SourceSubtype": {
         "type": "object",
         "required": [
@@ -95032,6 +95359,63 @@
             }
           }
         ]
+      },
+      "MachineIdentityUserEntitlementResponse": {
+        "type": "object",
+        "title": "Machine Identity User Entitlement Response",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "System-generated unique ID of the Object",
+            "example": "8886e5e3-63d0-462f-a195-d98da885b8dc"
+          },
+          "machineIdentityId": {
+            "type": "string",
+            "description": "System-generated unique ID of the Machine Identity",
+            "example": "8886e5e3-63d0-462f-a195-d98da885b8dc"
+          },
+          "source": {
+            "type": "object",
+            "description": "The source of the user entitlement",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/BaseReferenceDto"
+              },
+              {
+                "type": "object",
+                "example": {
+                  "id": "6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa",
+                  "name": "Active Directory",
+                  "type": "SOURCE"
+                }
+              }
+            ]
+          },
+          "entitlement": {
+            "type": "object",
+            "description": "The user entitlement",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/BaseReferenceDto"
+              },
+              {
+                "type": "object",
+                "example": {
+                  "id": "4b0c7106-a6c7-4380-86f3-024993664fc3",
+                  "name": "Entitlement DISPLAY NAME",
+                  "type": "ENTITLEMENT"
+                }
+              }
+            ]
+          },
+          "created": {
+            "description": "Creation date of the Object",
+            "type": "string",
+            "format": "date-time",
+            "example": "2015-05-28T14:07:17Z",
+            "readOnly": true
+          }
+        }
       },
       "TemplateSlack": {
         "type": "object",

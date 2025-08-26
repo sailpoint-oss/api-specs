@@ -42163,7 +42163,7 @@
               "type": "string"
             },
             "example": "identityId eq \"2c9180858082150f0180893dbaf44201\"",
-            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in, sw*\n\n**displayName**: *eq, in, sw*\n\n**cisIdentityId**: *eq, in, sw*\n\n**description**: *eq, in, sw*\n\n**businessApplication**: *eq, in, sw*\n\n**attributes**: *eq*\n\n**manuallyEdited**: *eq*"
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in, sw*\n\n**displayName**: *eq, in, sw*\n\n**cisIdentityId**: *eq, in, sw*\n\n**businessApplication**: *eq, in, sw*\n\n**attributes**: *eq*\n\n**manuallyEdited**: *eq*"
           },
           {
             "in": "query",
