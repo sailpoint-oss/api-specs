@@ -30173,6 +30173,7 @@
           "owner": {
             "description": "Reference to identity object who owns the source.",
             "type": "object",
+            "nullable": true,
             "properties": {
               "type": {
                 "description": "Type of object being referenced.",

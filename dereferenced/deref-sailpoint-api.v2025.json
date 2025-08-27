@@ -66850,6 +66850,7 @@
           "owner": {
             "description": "Reference to identity object who owns the source.",
             "type": "object",
+            "nullable": true,
             "properties": {
               "type": {
                 "description": "Type of object being referenced.",
@@ -94664,7 +94665,7 @@
             "type": "string",
             "description": "The data type of the attribute being evaluated",
             "nullable": true,
-            "example": "This is the first level of classification criteria"
+            "example": null
           },
           "attribute": {
             "type": "string",
