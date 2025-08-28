@@ -1,12 +1,12 @@
 name: "Build and push powershell sdk"
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - idn/**
   workflow_dispatch:
+  workflow_run:
+    workflows:
+      - "Build and push go sdk"    
+    types:
+      - completed
 
 jobs:
   push_powershell_sdk_workflow:
