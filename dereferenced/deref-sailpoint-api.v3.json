@@ -25982,24 +25982,25 @@
         ],
         "parameters": [
           {
-            "name": "triggerId",
             "in": "query",
-            "description": "Trigger ID",
-            "required": false,
+            "name": "filters",
             "schema": {
-              "type": "string",
-              "example": "idn:identity-created"
-            }
+              "type": "string"
+            },
+            "example": "enabled eq true and triggerId eq \"abc123\"",
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**enabled**: *eq*      \n\n**connectorInstanceId**: *eq*\n\n**triggerId**: *eq*",
+            "required": false
           },
           {
-            "name": "connectorInstanceId",
             "in": "query",
-            "description": "Connector Instance ID",
-            "required": false,
+            "name": "sorters",
             "schema": {
               "type": "string",
-              "example": "28541fec-bb81-4ad4-88ef-0f7d213adcad"
-            }
+              "format": "comma-separated"
+            },
+            "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **modified, name**",
+            "example": "modified",
+            "required": false
           },
           {
             "name": "limit",
