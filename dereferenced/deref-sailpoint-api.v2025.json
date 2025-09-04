@@ -17513,6 +17513,76 @@
         ]
       }
     },
+    "/multihosts/{multiHostId}/sources/bulk-delete": {
+      "post": {
+        "tags": [
+          "Multi-Host Integration"
+        ],
+        "operationId": "deleteMultiHostSources",
+        "summary": "Delete sources within multi-host integration",
+        "description": "This endpoint performs bulk sources delete within Multi-Host Integration via a list of supplied IDs.\n\nThe following rights are required to access this endpoint: idn:multihosts:delete, idn:sources:delete",
+        "parameters": [
+          {
+            "name": "multiHostId",
+            "in": "path",
+            "description": "ID of the Multi-Host Integration",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "getMultiHostIntegrations",
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "example": "004091cb79b04636b88662afa50a4440"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The delete bulk sources within multi-host integration request body",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MultiHostIntegrationBulkSourcesDelete"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK. Returned if the request was successfully accepted into the system."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:multihosts-admin:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "MULTIHOSTS_ADMIN"
+        ]
+      }
+    },
     "/multihosts/{multihostId}/acctAggregationGroups": {
       "get": {
         "tags": [
@@ -44760,7 +44830,7 @@
               "format": "comma-separated"
             },
             "required": false,
-            "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **businessApplication, name, source.name**",
+            "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **businessApplication, name, owners.primaryIdentity.name, source.name, created, modified**",
             "example": "businessApplication"
           },
           {
@@ -80187,6 +80257,17 @@
             "example": "DELETE"
           }
         }
+      },
+      "MultiHostIntegrationBulkSourcesDelete": {
+        "description": "List of source IDs to delete within multi-host integration.",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "example": [
+          "2c9180867b2a34e0017b3078d60b0699",
+          "2c9180867b2a34e0017b3078d60b0698"
+        ]
       },
       "MultiHostIntegrationsAggScheduleUpdate": {
         "allOf": [

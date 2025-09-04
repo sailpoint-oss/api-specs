@@ -42173,7 +42173,7 @@
               "format": "comma-separated"
             },
             "required": false,
-            "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **businessApplication, name**",
+            "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **businessApplication, name, owners.primaryIdentity.name, source.name, created, modified**",
             "example": "businessApplication"
           },
           {
