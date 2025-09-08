@@ -82665,6 +82665,44 @@
           }
         }
       },
+      "DimensionAttribute": {
+        "type": "object",
+        "description": "A dimension attribute",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "description": "Name of the attribute",
+            "example": "city"
+          },
+          "displayName": {
+            "type": "string",
+            "nullable": false,
+            "description": "Display name of the attribute",
+            "example": "City"
+          },
+          "derived": {
+            "type": "boolean",
+            "nullable": false,
+            "description": "If an attribute is derived, its value comes from the identity. Otherwise, it can be provided with access request",
+            "example": true,
+            "default": true
+          }
+        }
+      },
+      "DimensionSchema": {
+        "type": "object",
+        "description": "Contains a list of dimension attributes. Required only for Dynamic Roles",
+        "properties": {
+          "dimensionAttributes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DimensionAttribute"
+            },
+            "nullable": false
+          }
+        }
+      },
       "RequestabilityForRole": {
         "type": "object",
         "properties": {
@@ -82695,6 +82733,9 @@
             "items": {
               "$ref": "#/components/schemas/ApprovalSchemeForRole"
             }
+          },
+          "dimensionSchema": {
+            "$ref": "#/components/schemas/DimensionSchema"
           }
         }
       },
