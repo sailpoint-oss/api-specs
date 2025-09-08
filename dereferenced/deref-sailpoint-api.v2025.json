@@ -39363,7 +39363,7 @@
         "x-sailpoint-userLevels": [
           "ORG_ADMIN"
         ],
-        "description": "This API applies an update to every entitlement of the list.\n\n\nThe number of entitlements to update is limited to 50 items maximum.\n\n\nThe JsonPatch update follows the [JSON Patch](https://tools.ietf.org/html/rfc6902) standard.\nexamples of allowed operations :\n`**{ \"op\": \"replace\", \"path\": \"/privileged\", \"value\": boolean }**`\n`**{ \"op\": \"replace\", \"path\": \"/requestable\",\"value\": boolean }**`\n`**{ \"op\": \"replace\", \"path\": \"/privilegeOverride/overrideLevel\",\"value\": string }**`\n\nA token with ORG_ADMIN or API authority is required to call this API.\n",
+        "description": "This API applies an update to every entitlement of the list.\n\n\nThe number of entitlements to update is limited to 50 items maximum.\n\n\nThe JsonPatch update follows the [JSON Patch](https://tools.ietf.org/html/rfc6902) standard.\nexamples of allowed operations :\n`**{ \"op\": \"replace\", \"path\": \"/privileged\", \"value\": boolean }**`\n`**{ \"op\": \"replace\", \"path\": \"/requestable\",\"value\": boolean }**`\n\nA token with ORG_ADMIN or API authority is required to call this API.\n",
         "requestBody": {
           "required": true,
           "content": {
@@ -91702,11 +91702,6 @@
                 "op": "replace",
                 "path": "/requestable",
                 "value": false
-              },
-              {
-                "op": "replace",
-                "path": "/privilegeOverride/overrideLevel",
-                "value": "HIGH"
               }
             ]
           }

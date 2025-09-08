@@ -7931,7 +7931,7 @@
           "Entitlements"
         ],
         "summary": "Patch an entitlement",
-        "description": "This API updates an existing entitlement using [JSON Patch](https://tools.ietf.org/html/rfc6902) syntax.\n\nThe following fields are patchable: **requestable**, **privileged**, **segments**, **owner**, **name**, **description**, **privilegeOverride/overrideLevel** and **manuallyUpdatedFields**\n\nWhen you're patching owner, only owner type and owner id must be provided. Owner name is optional, and it won't be modified. If the owner name is provided, it should correspond to the real name. The only owner type currently supported is IDENTITY.\n\nA token with ORG_ADMIN or SOURCE_ADMIN authority is required to call this API.",
+        "description": "This API updates an existing entitlement using [JSON Patch](https://tools.ietf.org/html/rfc6902) syntax.\n\nThe following fields are patchable: **requestable**, **privileged**, **segments**, **owner**, **name**, **description** and **manuallyUpdatedFields**\n\nWhen you're patching owner, only owner type and owner id must be provided. Owner name is optional, and it won't be modified. If the owner name is provided, it should correspond to the real name. The only owner type currently supported is IDENTITY.\n\nA token with ORG_ADMIN or SOURCE_ADMIN authority is required to call this API.",
         "security": [
           {
             "userAuth": [
@@ -8054,16 +8054,6 @@
                       "op": "replace",
                       "path": "/name",
                       "value": "entitlement new name"
-                    }
-                  ]
-                },
-                "Update the privilegeOverride overrideLevel for an entitlement": {
-                  "description": "This example shows how to use patch to update an entitlement's name.",
-                  "value": [
-                    {
-                      "op": "replace",
-                      "path": "/privilegeOverride/overrideLevel",
-                      "value": "HIGH"
                     }
                   ]
                 }
@@ -8401,7 +8391,7 @@
         "x-sailpoint-userLevels": [
           "ORG_ADMIN"
         ],
-        "description": "This API applies an update to every entitlement of the list.\n\n\nThe number of entitlements to update is limited to 50 items maximum.\n\n\nThe JsonPatch update follows the [JSON Patch](https://tools.ietf.org/html/rfc6902) standard.\nexamples of allowed operations :\n`**{ \"op\": \"replace\", \"path\": \"/privileged\", \"value\": boolean }**`\n`**{ \"op\": \"replace\", \"path\": \"/requestable\",\"value\": boolean }**`\n`**{ \"op\": \"replace\", \"path\": \"/privilegeOverride/overrideLevel\",\"value\": string }**`\n\nA token with ORG_ADMIN or API authority is required to call this API.\n",
+        "description": "This API applies an update to every entitlement of the list.\n\n\nThe number of entitlements to update is limited to 50 items maximum.\n\n\nThe JsonPatch update follows the [JSON Patch](https://tools.ietf.org/html/rfc6902) standard.\nexamples of allowed operations :\n`**{ \"op\": \"replace\", \"path\": \"/privileged\", \"value\": boolean }**`\n`**{ \"op\": \"replace\", \"path\": \"/requestable\",\"value\": boolean }**`\n\nA token with ORG_ADMIN or API authority is required to call this API.\n",
         "requestBody": {
           "required": true,
           "content": {
@@ -54134,11 +54124,6 @@
                 "op": "replace",
                 "path": "/requestable",
                 "value": false
-              },
-              {
-                "op": "replace",
-                "path": "/privilegeOverride/overrideLevel",
-                "value": "HIGH"
               }
             ]
           }

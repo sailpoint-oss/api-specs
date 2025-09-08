@@ -6660,7 +6660,7 @@ paths:
       description: |-
         This API updates an existing entitlement using [JSON Patch](https://tools.ietf.org/html/rfc6902) syntax.
 
-        The following fields are patchable: **requestable**, **privileged**, **segments**, **owner**, **name**, **description**, **privilegeOverride/overrideLevel** and **manuallyUpdatedFields**
+        The following fields are patchable: **requestable**, **privileged**, **segments**, **owner**, **name**, **description** and **manuallyUpdatedFields**
 
         When you're patching owner, only owner type and owner id must be provided. Owner name is optional, and it won't be modified. If the owner name is provided, it should correspond to the real name. The only owner type currently supported is IDENTITY.
 
@@ -6743,12 +6743,6 @@ paths:
                   - op: replace
                     path: /name
                     value: entitlement new name
-              Update the privilegeOverride overrideLevel for an entitlement:
-                description: This example shows how to use patch to update an entitlement's name.
-                value:
-                  - op: replace
-                    path: /privilegeOverride/overrideLevel
-                    value: HIGH
       responses:
         '200':
           description: Responds with the entitlement as updated.
@@ -7031,7 +7025,6 @@ paths:
         examples of allowed operations :
         `**{ "op": "replace", "path": "/privileged", "value": boolean }**`
         `**{ "op": "replace", "path": "/requestable","value": boolean }**`
-        `**{ "op": "replace", "path": "/privilegeOverride/overrideLevel","value": string }**`
 
         A token with ORG_ADMIN or API authority is required to call this API.
       requestBody:
@@ -39467,9 +39460,6 @@ components:
             - op: replace
               path: /requestable
               value: false
-            - op: replace
-              path: /privilegeOverride/overrideLevel
-              value: HIGH
       required:
         - entitlementIds
         - jsonPatch
