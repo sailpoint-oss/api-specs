@@ -28091,7 +28091,7 @@ paths:
       description: This API returns list of Governance Groups
       parameters:
         - $ref: '#/components/parameters/offset'
-        - $ref: '#/components/parameters/limit50'
+        - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/count'
         - in: query
           name: filters
