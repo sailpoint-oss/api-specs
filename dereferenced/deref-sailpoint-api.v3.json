@@ -33272,6 +33272,12 @@
               "$ref": "#/components/schemas/RequestedAccountRef"
             },
             "description": "The accounts selected by the user for the access to be provisioned on, in case they have multiple accounts on one or more sources."
+          },
+          "privilegeLevel": {
+            "nullable": true,
+            "type": "string",
+            "description": "The privilege level of the requested access item, if applicable.",
+            "example": "High"
           }
         }
       },
@@ -33485,6 +33491,12 @@
               "$ref": "#/components/schemas/RequestedAccountRef"
             },
             "description": "The accounts selected by the user for the access to be provisioned on, in case they have multiple accounts on one or more sources."
+          },
+          "privilegeLevel": {
+            "nullable": true,
+            "type": "string",
+            "description": "The privilege level of the requested access item, if applicable.",
+            "example": "High"
           }
         }
       },
@@ -33684,6 +33696,12 @@
               "$ref": "#/components/schemas/RequestedAccountRef"
             },
             "description": "The accounts selected by the user for the access to be provisioned on, in case they have multiple accounts on one or more sources."
+          },
+          "privilegeLevel": {
+            "nullable": true,
+            "type": "string",
+            "description": "The privilege level of the requested access item, if applicable.",
+            "example": "High"
           }
         }
       },

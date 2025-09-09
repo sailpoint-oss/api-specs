@@ -48844,6 +48844,11 @@ components:
           items:
             $ref: '#/components/schemas/RequestedAccountRef'
           description: The accounts selected by the user for the access to be provisioned on, in case they have multiple accounts on one or more sources.
+        privilegeLevel:
+          nullable: true
+          type: string
+          description: The privilege level of the requested access item, if applicable.
+          example: High
     AccessRequestAdminItemStatus:
       type: object
       title: Access Request Admin Item Status
@@ -49150,6 +49155,11 @@ components:
           items:
             $ref: '#/components/schemas/RequestedAccountRef'
           description: The accounts selected by the user for the access to be provisioned on, in case they have multiple accounts on one or more sources.
+        privilegeLevel:
+          nullable: true
+          type: string
+          description: The privilege level of the requested access item, if applicable.
+          example: High
     CompletedApprovalState:
       type: string
       enum:
@@ -49296,6 +49306,11 @@ components:
           items:
             $ref: '#/components/schemas/RequestedAccountRef'
           description: The accounts selected by the user for the access to be provisioned on, in case they have multiple accounts on one or more sources.
+        privilegeLevel:
+          nullable: true
+          type: string
+          description: The privilege level of the requested access item, if applicable.
+          example: High
     ForwardApprovalDto:
       type: object
       title: Forward Approval Dto

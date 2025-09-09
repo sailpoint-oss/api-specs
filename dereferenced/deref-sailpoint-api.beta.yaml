@@ -36819,6 +36819,11 @@ components:
           items:
             $ref: '#/components/schemas/RequestedAccountRef'
           description: The accounts selected by the user for the access to be provisioned on, in case they have multiple accounts on one or more sources.
+        privilegeLevel:
+          nullable: true
+          type: string
+          description: The privilege level of the requested access item, if applicable.
+          example: High
     AccessItemRequesterDto:
       type: object
       title: Access Item Requester Dto
@@ -37074,6 +37079,11 @@ components:
           items:
             $ref: '#/components/schemas/RequestedAccountRef'
           description: The accounts selected by the user for the access to be provisioned on, in case they have multiple accounts on one or more sources.
+        privilegeLevel:
+          nullable: true
+          type: string
+          description: The privilege level of the requested access item, if applicable.
+          example: High
     CommentDto-2:
       type: object
       title: Comment Dto
@@ -37267,6 +37277,11 @@ components:
           items:
             $ref: '#/components/schemas/RequestedAccountRef'
           description: The accounts selected by the user for the access to be provisioned on, in case they have multiple accounts on one or more sources.
+        privilegeLevel:
+          nullable: true
+          type: string
+          description: The privilege level of the requested access item, if applicable.
+          example: High
     ForwardApprovalDto:
       type: object
       title: Forward Approval Dto
