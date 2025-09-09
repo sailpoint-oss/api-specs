@@ -2096,6 +2096,7 @@ paths:
         - $ref: '#/components/parameters/user_type'
         - $ref: '#/components/parameters/email'
         - $ref: '#/components/parameters/metadata'
+        - $ref: '#/components/parameters/sailpoint_identity_id'
       responses:
         '200':
           $ref: '#/components/responses/Users_Meta'
@@ -3740,6 +3741,14 @@ components:
         type: string
         format: email
         example: support@sailpoint.com
+    sailpoint_identity_id:
+      name: sailpoint_identity_id
+      in: query
+      description: SailPoint identity ID
+      required: false
+      schema:
+        type: string
+        example: 9496f8d6ddab49c0bef1e9ee6f1b835a
     user_id:
       name: user_id
       in: query

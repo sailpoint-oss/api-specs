@@ -3368,6 +3368,9 @@
           },
           {
             "$ref": "#/components/parameters/metadata"
+          },
+          {
+            "$ref": "#/components/parameters/sailpoint_identity_id"
           }
         ],
         "responses": {
@@ -5779,6 +5782,16 @@
           "type": "string",
           "format": "email",
           "example": "support@sailpoint.com"
+        }
+      },
+      "sailpoint_identity_id": {
+        "name": "sailpoint_identity_id",
+        "in": "query",
+        "description": "SailPoint identity ID",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "example": "9496f8d6ddab49c0bef1e9ee6f1b835a"
         }
       },
       "user_id": {
