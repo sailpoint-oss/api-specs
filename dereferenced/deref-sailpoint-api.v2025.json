@@ -69682,15 +69682,16 @@
               "ENTITLEMENT_OWNER",
               "SOURCE_OWNER",
               "MANAGER",
-              "GOVERNANCE_GROUP"
+              "GOVERNANCE_GROUP",
+              "WORKFLOW"
             ],
-            "description": "Describes the individual or group that is responsible for an approval step. Values are as follows.\n\n**ENTITLEMENT_OWNER**: Owner of the associated Entitlement\n\n**SOURCE_OWNER**: Owner of the associated Source\n\n**MANAGER**: Manager of the Identity for whom the request is being made\n\n**GOVERNANCE_GROUP**: A Governance Group, the ID of which is specified by the **approverId** field",
+            "description": "Describes the individual or group that is responsible for an approval step. Values are as follows.\n\n**ENTITLEMENT_OWNER**: Owner of the associated Entitlement\n\n**SOURCE_OWNER**: Owner of the associated Source\n\n**MANAGER**: Manager of the Identity for whom the request is being made\n\n**GOVERNANCE_GROUP**: A Governance Group, the ID of which is specified by the **approverId** field\n\n**WORKFLOW**: A Workflow, the ID of which is specified by the **approverId** field, Workflows are exclusive to other types of approvals and License required.     ",
             "example": "GOVERNANCE_GROUP"
           },
           "approverId": {
             "type": "string",
             "nullable": true,
-            "description": "Id of the specific approver, used only when approverType is GOVERNANCE_GROUP",
+            "description": "Id of the specific approver, used only when approverType is GOVERNANCE_GROUP or WORKFLOW",
             "example": "e3eab852-8315-467f-9de7-70eda97f63c8"
           }
         }
