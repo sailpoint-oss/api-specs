@@ -857,7 +857,7 @@
         }
       }
     },
-    "/form/{id}": {
+    "/forms/{id}": {
       "get": {
         "summary": "Get form data by Id",
         "operationId": "getFormById",
@@ -943,7 +943,7 @@
         }
       }
     },
-    "/form/{uid}": {
+    "/forms/{uid}": {
       "get": {
         "summary": "Get form data by UID",
         "operationId": "getFormByUid",

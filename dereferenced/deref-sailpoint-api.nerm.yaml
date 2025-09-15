@@ -538,7 +538,7 @@ paths:
           $ref: '#/components/responses/400'
         '500':
           $ref: '#/components/responses/500'
-  /form/{id}:
+  /forms/{id}:
     get:
       summary: Get form data by Id
       operationId: getFormById
@@ -592,7 +592,7 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /form/{uid}:
+  /forms/{uid}:
     get:
       summary: Get form data by UID
       operationId: getFormByUid
