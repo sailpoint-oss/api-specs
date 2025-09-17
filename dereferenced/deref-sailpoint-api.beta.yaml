@@ -35037,6 +35037,7 @@ components:
             - SOURCE_OWNER
             - MANAGER
             - GOVERNANCE_GROUP
+            - WORKFLOW
           description: |-
             Describes the individual or group that is responsible for an approval step. These are the possible values:
             **APP_OWNER**: The owner of the Application
@@ -35048,11 +35049,13 @@ components:
             **MANAGER**: Manager of the Identity making the request
 
             **GOVERNANCE_GROUP**: A Governance Group, the ID of which is specified by the **approverId** field
+
+            **WORKFLOW**: A Workflow, the ID of which is specified by the **approverId** field. Workflow is exclusive to other types of approvals and License required.   
           example: GOVERNANCE_GROUP
         approverId:
           type: string
           nullable: true
-          description: Specific approver ID. Only use this when the `approverType` is `GOVERNANCE_GROUP`.
+          description: Id of the specific approver, used when approverType is GOVERNANCE_GROUP or WORKFLOW.
           example: 46c79819-a69f-49a2-becb-12c971ae66c6
     Requestability:
       type: object
@@ -41146,6 +41149,27 @@ components:
             id: e7697a1e96d04db1ac7b0f4544915d2c
             type: ROLE
             name: Engineer
+        addedDate:
+          type: string
+          format: date-time
+          description: Date that the assignment was added
+          example: '2025-07-11T18:45:37.098Z'
+    BaseRoleReferenceDto:
+      type: object
+      title: Base Reference Dto
+      properties:
+        type:
+          type: string
+          description: DTO type
+          example: ROLE
+        id:
+          type: string
+          description: ID of the object to which this reference applies
+          example: 2c91808568c529c60168cca6f90c1313
+        name:
+          type: string
+          description: Human-readable display name of the object to which this reference applies
+          example: William Wilson
     ContextAttributeDto:
       type: object
       title: Context Attribute Dto
@@ -41251,7 +41275,7 @@ components:
           description: Assignment Id
           example: 1cbb0705b38c4226b1334eadd8874086
         role:
-          $ref: '#/components/schemas/BaseReferenceDto-2'
+          $ref: '#/components/schemas/BaseRoleReferenceDto'
           description: Role Id and Name related to this assignment
           example:
             id: e7697a1e96d04db1ac7b0f4544915d2c
@@ -41259,6 +41283,7 @@ components:
             name: Engineer
         comments:
           type: string
+          nullable: true
           description: Comments added by the user when the assignment was made
           example: I'm a new Engineer and need this role to do my work
         assignmentSource:
@@ -41266,12 +41291,25 @@ components:
           description: Source describing how this assignment was made
           example: UI
         assigner:
-          $ref: '#/components/schemas/BaseReferenceDto-2'
+          type: object
           description: The identity that performed the assignment. This could be blank or system
-          example:
-            id: 2c9180867c184ff6017c2a2fbf031666
-            type: IDENTITY
-            name: Jeff Richardson
+          properties:
+            type:
+              type: string
+              enum:
+                - IDENTITY
+                - UNKNOWN
+              description: Object type
+              example: IDENTITY
+            id:
+              type: string
+              description: ID of the object to which this reference applies
+              example: 2c91808568c529c60168cca6f90c1313
+            name:
+              type: string
+              nullable: true
+              description: Human-readable display name of the object to which this reference applies
+              example: William Wilson
         assignedDimensions:
           type: array
           description: Dimensions assigned related to this role
@@ -41282,8 +41320,10 @@ components:
           items:
             $ref: '#/components/schemas/BaseReferenceDto-2'
         assignmentContext:
-          $ref: '#/components/schemas/AssignmentContextDto'
-          description: The context around the role assignment
+          allOf:
+            - $ref: '#/components/schemas/AssignmentContextDto'
+            - nullable: true
+              description: The context around the role assignment
           example:
             requested:
               contextAttributes:
@@ -41301,8 +41341,15 @@ components:
             $ref: '#/components/schemas/RoleTargetDto'
         removeDate:
           type: string
+          format: date-time
+          nullable: true
           description: Date that the assignment will be removed
-          example: Wed Feb 14 10:58:42
+          example: '2026-07-11T18:45:37.098Z'
+        addedDate:
+          type: string
+          format: date-time
+          description: Date that the assignment was added
+          example: '2025-07-11T18:45:37.098Z'
     Source:
       type: object
       properties:
@@ -47520,6 +47567,7 @@ components:
             - OWNER
             - MANAGER
             - GOVERNANCE_GROUP
+            - WORKFLOW
           description: |-
             Describes the individual or group that is responsible for an approval step. Values are as follows.
 
@@ -47528,11 +47576,13 @@ components:
             **MANAGER**: Manager of the Identity making the request
 
             **GOVERNANCE_GROUP**: A Governance Group, the ID of which is specified by the **approverId** field
+
+            **WORKFLOW**: A Workflow, the ID of which is specified by the **approverId** field. Workflow is exclusive to other types of approvals and License required. 
           example: GOVERNANCE_GROUP
         approverId:
           type: string
           nullable: true
-          description: Id of the specific approver, used only when approverType is GOVERNANCE_GROUP
+          description: Id of the specific approver, used when approverType is GOVERNANCE_GROUP or WORKFLOW.
           example: 46c79819-a69f-49a2-becb-12c971ae66c6
     RequestabilityForRole:
       type: object

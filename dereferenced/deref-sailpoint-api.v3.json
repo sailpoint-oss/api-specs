@@ -31183,15 +31183,16 @@
               "OWNER",
               "SOURCE_OWNER",
               "MANAGER",
-              "GOVERNANCE_GROUP"
+              "GOVERNANCE_GROUP",
+              "WORKFLOW"
             ],
-            "description": "Describes the individual or group that is responsible for an approval step. These are the possible values:\n**APP_OWNER**: The owner of the Application\n\n**OWNER**: Owner of the associated Access Profile or Role\n\n**SOURCE_OWNER**: Owner of the Source associated with an Access Profile\n\n**MANAGER**: Manager of the Identity making the request\n\n**GOVERNANCE_GROUP**: A Governance Group, the ID of which is specified by the **approverId** field",
+            "description": "Describes the individual or group that is responsible for an approval step. These are the possible values:\n**APP_OWNER**: The owner of the Application\n\n**OWNER**: Owner of the associated Access Profile or Role\n\n**SOURCE_OWNER**: Owner of the Source associated with an Access Profile\n\n**MANAGER**: Manager of the Identity making the request\n\n**GOVERNANCE_GROUP**: A Governance Group, the ID of which is specified by the **approverId** field\n\n**WORKFLOW**: A Workflow, the ID of which is specified by the **approverId** field. Workflow is exclusive to other types of approvals and License required.   ",
             "example": "GOVERNANCE_GROUP"
           },
           "approverId": {
             "type": "string",
             "nullable": true,
-            "description": "Specific approver ID. Only use this when the `approverType` is `GOVERNANCE_GROUP`.",
+            "description": "Id of the specific approver, used when approverType is GOVERNANCE_GROUP or WORKFLOW.",
             "example": "46c79819-a69f-49a2-becb-12c971ae66c6"
           }
         }
@@ -41151,15 +41152,16 @@
             "enum": [
               "OWNER",
               "MANAGER",
-              "GOVERNANCE_GROUP"
+              "GOVERNANCE_GROUP",
+              "WORKFLOW"
             ],
-            "description": "Describes the individual or group that is responsible for an approval step. Values are as follows.\n\n**OWNER**: Owner of the associated Role\n\n**MANAGER**: Manager of the Identity making the request\n\n**GOVERNANCE_GROUP**: A Governance Group, the ID of which is specified by the **approverId** field",
+            "description": "Describes the individual or group that is responsible for an approval step. Values are as follows.\n\n**OWNER**: Owner of the associated Role\n\n**MANAGER**: Manager of the Identity making the request\n\n**GOVERNANCE_GROUP**: A Governance Group, the ID of which is specified by the **approverId** field\n\n**WORKFLOW**: A Workflow, the ID of which is specified by the **approverId** field. Workflow is exclusive to other types of approvals and License required. ",
             "example": "GOVERNANCE_GROUP"
           },
           "approverId": {
             "type": "string",
             "nullable": true,
-            "description": "Id of the specific approver, used only when approverType is GOVERNANCE_GROUP",
+            "description": "Id of the specific approver, used when approverType is GOVERNANCE_GROUP or WORKFLOW.",
             "example": "46c79819-a69f-49a2-becb-12c971ae66c6"
           }
         }
