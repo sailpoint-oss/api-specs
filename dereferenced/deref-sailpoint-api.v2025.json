@@ -37510,8 +37510,8 @@
             "schema": {
               "type": "string"
             },
-            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**name**: *co*  \n\n**owner**: *co*  \n\n**status**: *eq*",
-            "example": "name co \"identity\", owner co \"john\", status eq \"active\"",
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**name**: *co*  \n\n**owner**: *co*  \n\n**status**: *eq*\n\n**description**: *co*",
+            "example": "name co \"identity\", owner co \"john\", status eq \"active\", description co \"some description\"",
             "required": false
           },
           {
@@ -37520,8 +37520,8 @@
             "schema": {
               "type": "string"
             },
-            "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **name, created**",
-            "example": "name, -created",
+            "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **name, created, description, status, owner**",
+            "example": "name, -created, description, status, owner",
             "required": false
           },
           {
