@@ -1,11 +1,12 @@
-name: "Push NERM API Specs to Developer Portal"
+name: "Push IIQ API Specs to Developer Portal"
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - nerm/**
+  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - "Push IDN API Specs to Developer Portal"    
+    types:
+      - completed
 
 jobs:
   push_nerm_spec_workflow:

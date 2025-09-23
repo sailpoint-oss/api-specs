@@ -6,12 +6,12 @@ env:
   SAIL_BASE_URL: ${{ secrets.SDK_TEST_TENANT_BASE_URL }}
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - idn/**
   workflow_dispatch:
+  workflow_run:
+    workflows:
+      - "Build and push powershell sdk"    
+    types:
+      - completed
 
 jobs:
   push_python_sdk_workflow:
