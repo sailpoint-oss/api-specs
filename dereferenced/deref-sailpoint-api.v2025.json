@@ -13551,6 +13551,15 @@
                         "3b551ccf5566478b9b77f37de25303aa"
                       ],
                       "allSources": true
+                    },
+                    {
+                      "action": "DELETE",
+                      "sourceIds": [
+                        "3c9180846a2f82fb016a481c1b1560c5",
+                        "8n9180846a2f82fb016a481c1b1560cc"
+                      ],
+                      "excludeSourceIds": null,
+                      "allSources": false
                     }
                   ]
                 },
@@ -76838,10 +76847,11 @@
           "action": {
             "example": "ENABLE",
             "type": "string",
-            "description": "Describes if action will be enabled or disabled",
+            "description": "Describes if action will be enable, disable or delete.",
             "enum": [
               "ENABLE",
-              "DISABLE"
+              "DISABLE",
+              "DELETE"
             ]
           },
           "sourceIds": {
