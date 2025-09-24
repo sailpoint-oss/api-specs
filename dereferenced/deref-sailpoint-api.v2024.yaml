@@ -116,7 +116,7 @@ tags:
       In My Team on the Identity Security Cloud Home, managers can submit requests to revoke their team members' access. 
       They can use the My Requests tab under Request Center to track and/or cancel the requests.
 
-      Refer to [Requesting Access](https://documentation.sailpoint.com/saas/user-help/requests/requesting_access.html) for more information about access requests.
+      Refer to [Requesting Access](https://documentation.sailpoint.com/saas/user-help/requests/request_center.html) for more information about access requests.
   - name: Account Activities
     description: |
       Use this API to implement account activity tracking functionality.
@@ -197,7 +197,7 @@ tags:
 
       Administrators can select the source account to view its attributes, entitlements, and the last time the account's password was changed.
 
-      Refer to [Managing User Accounts](https://documentation.sailpoint.com/saas/help/common/users/user_access.html#managing-user-accounts) for more information about accounts.
+      Refer to [Managing User Accounts](https://documentation.sailpoint.com/saas/help/accounts/identities.html?h=disabling+identities#managing-access) for more information about accounts.
   - name: Application Discovery
     description: |
       Use this API to implement application discovery functionality. 
@@ -232,7 +232,7 @@ tags:
       With this functionality in place, administrators can get and manage existing branding items, and they can also create new branding items and configure them for use throughout Identity Security Cloud. 
       The Branding APIs provide administrators with a way to customize branding items. 
       This customization includes details like their colors, logos, and other information. 
-      Refer to [Certifications](https://documentation.sailpoint.com/saas/user-help/certifications.html) for more information about certifications.
+      Refer to [Certifications](https://documentation.sailpoint.com/saas/user-help/certs/reviewing/index.html) for more information about certifications.
   - name: Certification Campaign Filters
     description: |
       Use this API to implement the certification campaign filter functionality. These filters can be used to create a certification campaign that includes a subset of your entitlements or users to certify.
@@ -328,12 +328,12 @@ tags:
 
       The end of a certification campaign is determined by its deadline, its completion status, or by an administrator's decision. 
 
-      For more information about certifications and certification campaigns, refer to [Certifications](https://documentation.sailpoint.com/saas/user-help/certifications.html).
+      For more information about certifications and certification campaigns, refer to [Certifications](https://documentation.sailpoint.com/saas/user-help/certs/reviewing/index.html).
   - name: Certification Summaries
     description: |
       Use this API to implement certification summary functionality. 
       With this functionality in place, administrators and designated certification reviewers can review summaries of identity certification campaigns and draw conclusions about the campaigns' scope, security, and effectiveness. 
-      Implementing certification summary functionality improves organizations' ability to review their [certifications](https://documentation.sailpoint.com/saas/user-help/certifications.html) and helps them satisfy audit and regulatory requirements by enabling them to trace access changes and the decisions made in their review processes. 
+      Implementing certification summary functionality improves organizations' ability to review their [certifications](https://documentation.sailpoint.com/saas/user-help/certs/reviewing/index.html) and helps them satisfy audit and regulatory requirements by enabling them to trace access changes and the decisions made in their review processes. 
 
       A certification refers to Identity Security Cloud's mechanism for reviewing a user's access to entitlements (sets of permissions) and approving or removing that access. 
       These certifications serve as a way of showing that a user's access has been reviewed and approved. 
@@ -412,7 +412,7 @@ tags:
 
       Refer to [SaaS Connectivity](https://developer.sailpoint.com/docs/connectivity/saas-connectivity/) for more information about the SaaS custom connectors that do not need VAs (virtual appliances) to communicate with their sources.
 
-      Refer to [Managing Sources](https://documentation.sailpoint.com/saas/help/sources/managing_sources.html) for more information about using connectors in Identity Security Cloud.
+      Refer to [Managing Sources](https://documentation.sailpoint.com/saas/help/sources/index.html) for more information about using connectors in Identity Security Cloud.
   - name: Custom Forms
     description: |
       Use this API to build and manage custom forms.
@@ -778,7 +778,7 @@ tags:
 
       - Each authentication source in a sync group must have at least one application. Refer to [Adding and Resetting Application Passwords](https://documentation.sailpoint.com/saas/help/pwd/adv_config.html#adding-and-resetting-application-passwords) for more information about adding applications to sources.
 
-      - At least one password policy. Refer to [Managing Password Policies](https://documentation.sailpoint.com/saas/help/pwd/policies.html) for more information about password policies. 
+      - At least one password policy. Refer to [Managing Password Policies](https://documentation.sailpoint.com/saas/help/pwd/pwd_policies/index.html) for more information about password policies. 
 
       In the Admin panel in Identity Security Cloud, administrators can use the Password Mgmt dropdown menu to select Sync Groups. 
       To create a sync group, administrators must provide a name, choose a password policy to be enforced across the sources in the sync group, and select the sources to include in the sync group. 
@@ -807,7 +807,7 @@ tags:
       They must then provide a description about the token's purpose. 
       They can then select 'Create Token' at the bottom of the page to generate and view the Secret and Client ID. 
 
-      Refer to [Managing Personal Access Tokens](https://documentation.sailpoint.com/saas/help/common/generate_tokens.html) for more information about PATs.
+      Refer to [Managing Personal Access Tokens](https://documentation.sailpoint.com/saas/help/common/api_keys.html?h=token#generating-a-personal-access-token) for more information about PATs.
   - name: Public Identities
     description: |
       Use this API in conjunction with [Public Identites Config](https://developer.sailpoint.com/docs/api/v2024/public-identities-config/) to enable non-administrators to view identities' publicly visible attributes. 
@@ -1072,7 +1072,7 @@ tags:
       Use this API to implement and customize source functionality. 
       With source functionality in place, organizations can use Identity Security Cloud to connect their various sources and user data sets and manage access across all those different sources in a secure, scalable way. 
 
-      [Sources](https://documentation.sailpoint.com/saas/help/sources/managing_sources.html) refer to the Identity Security Cloud representations for external applications, databases, and directory management systems that maintain their own sets of users, like Dropbox, GitHub, and Workday, for example.
+      [Sources](https://documentation.sailpoint.com/saas/help/sources/index.html) refer to the Identity Security Cloud representations for external applications, databases, and directory management systems that maintain their own sets of users, like Dropbox, GitHub, and Workday, for example.
       Organizations may use hundreds, if not thousands, of different source systems, and any one employee within an organization likely has a different user record on each source, often with different permissions on many of those records. 
       Connecting these sources to Identity Security Cloud makes it possible to manage user access across them all.
       Then, if a new hire starts at an organization, Identity Security Cloud can grant the new hire access to all the sources they need.
@@ -1122,10 +1122,10 @@ tags:
       Refer to [Assigning Source Accounts to Identities](https://documentation.sailpoint.com/saas/help/accounts/correlation.html) for more information about this correlation process between source accounts and identities.
 
       Admins can also delete sources, but they must first ensure that the sources no longer have any active connections: the source must not be associated with any identity profile or any app, and it must not be referenced by any transform.
-      Refer to [Deleting Sources](https://documentation.sailpoint.com/saas/help/sources/managing_sources.html#deleting-sources) for more information about deleting sources. 
+      Refer to [Deleting Sources](https://documentation.sailpoint.com/saas/help/sources/index.html#deleting-sources) for more information about deleting sources. 
 
       Well organized, mapped out connections between sources and Identity Security Cloud are essential to achieving comprehensive identity access governance across all the source systems organizations need. 
-      Refer to [Managing Sources](https://documentation.sailpoint.com/saas/help/sources/managing_sources.html) for more information about all the different things admins can do with sources once they are connected.
+      Refer to [Managing Sources](https://documentation.sailpoint.com/saas/help/sources/index.html) for more information about all the different things admins can do with sources once they are connected.
   - name: SP-Config
     description: Import and export configuration for some objects between tenants.
   - name: Suggested Entitlement Description
@@ -1235,16 +1235,6 @@ tags:
       | [Source Deleted](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/source-deleted/) | idn:source-deleted | FIRE_AND_FORGET | After a source is deleted. |
       | [Source Updated](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/source-updated/) | idn:source-updated | FIRE_AND_FORGET | After configuration changes have been made to a source. |
       | [VA Cluster Status Change](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/va-cluster-status-change/) | idn:va-cluster-status-change | FIRE_AND_FORGET | After the status of a VA cluster has changed. |
-
-      ## Early Access Event Triggers
-      Triggers that are in-development and not ready for production use.  Please contact support to enable these triggers in your tenant.
-
-      | Name | ID | Type | Trigger condition |
-      |-|-|-|-|
-      | [Identity Deleted](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/identity-deleted/) | idn:identity-deleted | FIRE_AND_FORGET | After an identity is deleted. |
-      | [Source Account Created](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/source-account-created/) | idn:source-account-created | FIRE_AND_FORGET | After a source account is created. |
-      | [Source Account Deleted](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/source-account-deleted/) | idn:source-account-deleted | FIRE_AND_FORGET | After a source account is deleted. |
-      | [Source Account Updated](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/source-account-updated/) | idn:source-account-updated | FIRE_AND_FORGET | After a source account is changed. |
   - name: UI Metadata
     description: |-
       API for managing UI Metadata. Use this API to manage metadata about your User Interface.
@@ -1982,7 +1972,7 @@ paths:
 
         To track the status of endpoint requests, navigate to Search and use this query: name:"Close Identity Requests". Search will include "Close Identity Requests Started" audits when requests are initiated and "Close Identity Requests Completed" audits when requests are completed. The completion audit will list the identity request IDs that finished in error.
 
-        This API triggers the [Provisioning Completed event trigger](https://developer.sailpoint.com/idn/docs/event-triggers/triggers/provisioning-completed/) for each access request that is closed.
+        This API triggers the [Provisioning Completed event trigger](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/provisioning-completed/) for each access request that is closed.
       requestBody:
         required: true
         content:
@@ -7784,7 +7774,7 @@ paths:
 
         Configuration files can be managed and deployed via Configuration Hub by uploading a json file which contains configuration data. The JSON file should be the same as the one used by our import endpoints. The object types supported by upload configuration file functionality are the same as the ones supported by our regular backup functionality.
 
-        Refer to [SaaS Configuration](https://developer.sailpoint.com/idn/docs/saas-configuration/#supported-objects) for more information about supported objects.
+        Refer to [SaaS Configuration](https://developer.sailpoint.com/docs/extensibility/configuration-management/saas-configuration#supported-objects) for more information about supported objects.
       requestBody:
         description: |
           The body will consist of "data" which should contain the json file and name wish should be the name you want to assign to the uploaded file"
@@ -10000,7 +9990,7 @@ paths:
       description: This API submits a task to enable IDN account for a single identity.
       externalDocs:
         description: Learn more about enabling identities here
-        url: https://documentation.sailpoint.com/saas/help/common/users/user_access.html#enabling-user-identities
+        url: https://documentation.sailpoint.com/saas/help/accounts/identities.html?h=disabling+identities#enabling-identities
       security:
         - userAuth:
             - idn:accounts-state:manage
@@ -10039,7 +10029,7 @@ paths:
       description: This API submits a task to disable IDN account for a single identity.
       externalDocs:
         description: Learn more about disabling identities here
-        url: https://documentation.sailpoint.com/saas/help/common/users/user_access.html#disabling-user-identities
+        url: https://documentation.sailpoint.com/saas/help/accounts/identities.html?h=disabling+identities#disabling-identities
       security:
         - userAuth:
             - idn:accounts-state:manage
@@ -10078,7 +10068,7 @@ paths:
       description: This API submits tasks to enable IDN account for each identity provided in the request body.
       externalDocs:
         description: Learn more about enabling identities here
-        url: https://documentation.sailpoint.com/saas/help/common/users/user_access.html#enabling-user-identities
+        url: https://documentation.sailpoint.com/saas/help/accounts/identities.html?h=disabling+identities#enabling-identities
       security:
         - userAuth:
             - idn:accounts-state:manage
@@ -10125,7 +10115,7 @@ paths:
       description: This API submits tasks to disable IDN account for each identity provided in the request body.
       externalDocs:
         description: Learn more about disabling identities here
-        url: https://documentation.sailpoint.com/saas/help/common/users/user_access.html#disabling-user-identities
+        url: https://documentation.sailpoint.com/saas/help/accounts/identities.html?h=disabling+identities#disabling-identities
       security:
         - userAuth:
             - idn:accounts-state:manage
@@ -20890,7 +20880,7 @@ paths:
       description: |-
         This API generates a create policy/template based on field value transforms. This API is intended for use when setting up JDBC Provisioning type sources, but it will also work on other source types.
         Transforms can be used in the provisioning policy to create a new attribute that you only need during provisioning.
-        Refer to [Transforms in Provisioning Policies](https://developer.sailpoint.com/idn/docs/transforms/guides/transforms-in-provisioning-policies) for more information.
+        Refer to [Transforms in Provisioning Policies](https://developer.sailpoint.com/docs/extensibility/transforms/guides/transforms-in-provisioning-policies) for more information.
       security:
         - userAuth:
             - idn:provisioning-policy:manage
@@ -21071,7 +21061,7 @@ paths:
       description: |-
         This end-point updates the provisioning policy with the specified usage on the specified source in IdentityNow.
         Transforms can be used in the provisioning policy to create a new attribute that you only need during provisioning.
-        Refer to [Transforms in Provisioning Policies](https://developer.sailpoint.com/idn/docs/transforms/guides/transforms-in-provisioning-policies) for more information.
+        Refer to [Transforms in Provisioning Policies](https://developer.sailpoint.com/docs/extensibility/transforms/guides/transforms-in-provisioning-policies) for more information.
       security:
         - userAuth:
             - idn:provisioning-policy:manage
@@ -21140,7 +21130,7 @@ paths:
       description: |-
         This API selectively updates an existing Provisioning Policy using a JSONPatch payload.
         Transforms can be used in the provisioning policy to create a new attribute that you only need during provisioning.
-        Refer to [Transforms in Provisioning Policies](https://developer.sailpoint.com/idn/docs/transforms/guides/transforms-in-provisioning-policies) for more information.
+        Refer to [Transforms in Provisioning Policies](https://developer.sailpoint.com/docs/extensibility/transforms/guides/transforms-in-provisioning-policies) for more information.
       security:
         - userAuth:
             - idn:provisioning-policy:update
@@ -24586,7 +24576,7 @@ paths:
 
         :::
 
-        Test a workflow with the provided input data.  The input data should resemble the input that the trigger will send the workflow.  See the [event trigger documentation](https://developer.sailpoint.com/idn/docs/event-triggers/available) for an example input for the trigger that initiates this workflow.
+        Test a workflow with the provided input data.  The input data should resemble the input that the trigger will send the workflow.  See the [event trigger documentation](https://developer.sailpoint.com/docs/extensibility/event-triggers/available) for an example input for the trigger that initiates this workflow.
 
         This endpoint will return an execution ID, which can be used to lookup more information about the execution using the `Get a Workflow Execution` endpoint.
 
@@ -24864,7 +24854,7 @@ paths:
       description: This lists all triggers, actions, and operators in the library
       externalDocs:
         description: Additional documentation for workflows
-        url: https://documentation.sailpoint.com/saas/help/workflows/workflow-steps.html
+        url: https://documentation.sailpoint.com/saas/help/workflows/index.html
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
@@ -24902,7 +24892,7 @@ paths:
       description: This lists the workflow actions available to you.
       externalDocs:
         description: Additional documentation for each action
-        url: https://documentation.sailpoint.com/saas/help/workflows/workflow-steps.html#actions
+        url: https://documentation.sailpoint.com/saas/help/workflows/index.html#actions
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
@@ -24949,7 +24939,7 @@ paths:
       description: This lists the workflow triggers available to you
       externalDocs:
         description: Additional documentation for each trigger
-        url: https://documentation.sailpoint.com/saas/help/workflows/workflow-steps.html#triggers
+        url: https://documentation.sailpoint.com/saas/help/workflows/index.html#triggers
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
@@ -34978,7 +34968,7 @@ paths:
       summary: Initiates configuration objects export job
       description: |-
         This post will export objects from the tenant to a JSON configuration file.
-        For more information about the object types that currently support export functionality, refer to [SaaS Configuration](https://developer.sailpoint.com/idn/docs/saas-configuration/#supported-objects).
+        For more information about the object types that currently support export functionality, refer to [SaaS Configuration](https://developer.sailpoint.com/docs/extensibility/configuration-management/saas-configuration#supported-objects).
       requestBody:
         description: Export options control what will be included in the export.
         required: true
@@ -35209,7 +35199,7 @@ paths:
 
         You cannot currently import from the Non-Employee Lifecycle Management (NELM) source. You cannot use this endpoint to back up or store NELM data. 
 
-        For more information about the object types that currently support import functionality, refer to [SaaS Configuration](https://developer.sailpoint.com/idn/docs/saas-configuration/#supported-objects).
+        For more information about the object types that currently support import functionality, refer to [SaaS Configuration](https://developer.sailpoint.com/docs/extensibility/configuration-management/saas-configuration#supported-objects).
       parameters:
         - in: query
           name: preview
@@ -35298,7 +35288,7 @@ paths:
         'This gets the status of the import job identified by the `id` parameter.
 
          For more information about the object types that currently support import functionality,
-         refer to [SaaS Configuration](https://developer.sailpoint.com/idn/docs/saas-configuration/#supported-objects).'
+         refer to [SaaS Configuration](https://developer.sailpoint.com/docs/extensibility/configuration-management/saas-configuration#supported-objects).'
       parameters:
         - in: path
           name: id
@@ -44297,75 +44287,6 @@ x-webhooks:
           application/json:
             schema:
               $ref: '#/components/schemas/IdentityDeleted'
-  SourceAccountCreated:
-    post:
-      summary: Source account created
-      operationId: sourceAccountCreatedEvent
-      description: |-
-        This event trigger fires after Identity Security Cloud (ISC) detects a new account during an account aggregation and refresh from a source.  This trigger cannot determine whether the account creation happened on the source or in ISC. It omits events related to ISC accounts, such as the ISC Admin. 
-        A typical use for this trigger is to watch for new accounts with highly privileged access, such as an account created in Active Directory Domain Admins.
-        This is a `FIRE_AND_FORGET` event trigger.  You can have a maximum of 50 subscriptions for this trigger. For more information about this event trigger, refer to [Source Account Created](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/source-account-created).
-        >**Note: This is an early access event trigger. Contact support to enable it on your tenant.**
-      tags:
-        - Triggers
-      security:
-        - userAuth:
-            - sp:trigger-service-subscriptions:manage
-      deprecated: true
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SourceAccountCreated'
-  SourceAccountDeleted:
-    post:
-      summary: Source account deleted
-      operationId: sourceAccountDeletedEvent
-      description: |-
-        This event trigger fires when Identity Security Cloud (ISC), during an account aggregation operation, detects that an account has been deleted.  This trigger cannot determine whether the account deletion happened on the source or in ISC. It omits events related to ISC accounts, such as the ISC Admin.
-        A typical use for this trigger is to watch for deletions of authoritative accounts, such as an account deleted from Workday.
-        This is a `FIRE_AND_FORGET` event trigger.  You can have a maximum of 50 subscriptions for this trigger. For more information about this event trigger, refer to [Source Account Created](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/source-account-deleted).
-        >**Note: This is an early access event trigger. Contact support to enable it on your tenant.**
-      tags:
-        - Triggers
-      security:
-        - userAuth:
-            - sp:trigger-service-subscriptions:manage
-      deprecated: true
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SourceAccountDeleted'
-  SourceAccountUpdated:
-    post:
-      summary: Source account updated
-      operationId: sourceAccountUpdatedEvent
-      description: |-
-        This event trigger fires when Identity Security Cloud (ISC), during an account aggregation operation, detects a change to one or more account attributes on a single account.  This trigger cannot determine whether the account update happened on the source or in ISC. It omits events related to ISC accounts, such as the ISC Admin.
-        These actions are considered updated:
-          * An update to account attributes
-          * Enabling or disabling an account
-          * Locking or unlocking an account
-          * A change to a source account password
-
-        A typical use for this trigger is to watch for updates to accounts that add highly privileged access, such as an account that is granted privileged access on a sensitive source. 
-        This is a `FIRE_AND_FORGET` event trigger.  You can have a maximum of 50 subscriptions for this trigger. For more information about this event trigger, refer to [Source Account Created](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/source-account-updated).
-        >**Note: This is an early access event trigger. Contact support to enable it on your tenant.**
-      tags:
-        - Triggers
-      security:
-        - userAuth:
-            - sp:trigger-service-subscriptions:manage
-      deprecated: true
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SourceAccountUpdated'
 components:
   securitySchemes:
     userAuth:
@@ -44379,13 +44300,13 @@ components:
         See [Identity Security Cloud REST API Authentication](https://developer.sailpoint.com/docs/api/authentication/) for more information.
       flows:
         clientCredentials:
-          tokenUrl: https://tenant.api.identitynow.com/oauth/token
+          tokenUrl: https://example-tenant.api.identitynow.com/oauth/token
           scopes:
             sp:scopes:default: default scope
             sp:scopes:all: access to all scopes
         authorizationCode:
-          authorizationUrl: https://tenant.login.sailpoint.com/oauth/authorize
-          tokenUrl: https://tenant.api.identitynow.com/oauth/token
+          authorizationUrl: https://example-tenant.login.sailpoint.com/oauth/authorize
+          tokenUrl: https://example-tenant.api.identitynow.com/oauth/token
           scopes:
             sp:scopes:default: default scope
             sp:scopes:all: access to all scopes
@@ -44400,7 +44321,7 @@ components:
         See [Identity Security Cloud REST API Authentication](https://developer.sailpoint.com/docs/api/authentication/) for more information.
       flows:
         clientCredentials:
-          tokenUrl: https://tenant.api.identitynow.com/oauth/token
+          tokenUrl: https://example-tenant.api.identitynow.com/oauth/token
           scopes:
             sp:scopes:default: default scope
             sp:scopes:all: access to all scopes
@@ -46359,7 +46280,7 @@ components:
           example: dateFormat
           externalDocs:
             description: Transform Operations
-            url: https://developer.sailpoint.com/idn/docs/transforms/operations
+            url: https://developer.sailpoint.com/docs/extensibility/transforms/operations
         attributes:
           nullable: true
           description: Meta-data about the transform. Values in this list are specific to the type of transform to be executed.
@@ -49917,7 +49838,7 @@ components:
             callbackUrl:
               type: string
               description: The allowed callback URL where users will be redirected to after authentication. Used with SP configurations.
-              example: https://stradbroke-sso.identitysoon.com/sso/Consumer/metaAlias/cdov-saml/sp
+              example: https://example-tenant.identitynow.com/sso/Consumer/metaAlias/example-tenant-sp
             legacyAcsUrl:
               type: string
               description: The legacy ACS URL used for SAML authentication. Used with SP configurations.
@@ -61575,7 +61496,7 @@ components:
             A string value of the date and time components to operation on, along with the math operations to execute.
           externalDocs:
             description: Date Math Expressions
-            url: https://developer.sailpoint.com/idn/docs/transforms/operations/date-math#transform-structure
+            url: https://developer.sailpoint.com/docs/extensibility/transforms/operations/date-math#transform-structure
           example: now+1w
         roundUp:
           type: boolean
@@ -62011,7 +61932,7 @@ components:
           example: string$variable
           externalDocs:
             description: Static Transform Documentation
-            url: https://developer.sailpoint.com/idn/docs/transforms/operations/static
+            url: https://developer.sailpoint.com/docs/extensibility/transforms/operations/static
         requiresPeriodicRefresh:
           $ref: '#/components/schemas/RequiresPeriodicRefresh'
     Substring:
@@ -63384,7 +63305,7 @@ components:
         url:
           type: string
           description: URL to invoke this workflow
-          example: https://tenant.api.identitynow.com/beta/workflows/execute/external/c79e0079-562c-4df5-aa73-60a9e25c916d
+          example: https://example-tenant.api.identitynow.com/beta/workflows/execute/external/c79e0079-562c-4df5-aa73-60a9e25c916d
           nullable: true
     ScheduledAttributes:
       title: Scheduled Trigger Attributes
@@ -63860,7 +63781,7 @@ components:
           nullable: true
           externalDocs:
             description: List of triggers and their input schemas
-            url: https://developer.sailpoint.com/idn/docs/event-triggers/available
+            url: https://developer.sailpoint.com/docs/extensibility/event-triggers/available
           example:
             changes:
               - attribute: department
@@ -63967,7 +63888,7 @@ components:
         url:
           type: string
           description: URL for the external trigger to invoke
-          example: https://tenant.api.identitynow.com/beta/workflows/execute/external/c17bea3a-574d-453c-9e04-4365fbf5af0b
+          example: https://example-tenant.api.identitynow.com/beta/workflows/execute/external/c17bea3a-574d-453c-9e04-4365fbf5af0b
     IdentityPreviewRequest:
       type: object
       title: Identity Preview Request
@@ -71829,7 +71750,7 @@ components:
           example: $[?($.identityId == "201327fda1c44704ac01181e963d463c")]
           externalDocs:
             description: JSONPath filter documentation
-            url: https://developer.sailpoint.com/idn/docs/event-triggers/filtering-events
+            url: https://developer.sailpoint.com/docs/extensibility/event-triggers/filtering-events
     SubscriptionPostRequest:
       type: object
       title: Subscription Post Request
@@ -71877,7 +71798,7 @@ components:
           example: $[?($.identityId == "201327fda1c44704ac01181e963d463c")]
           externalDocs:
             description: JSONPath filter documentation
-            url: https://developer.sailpoint.com/idn/docs/event-triggers/filtering-events
+            url: https://developer.sailpoint.com/docs/extensibility/event-triggers/filtering-events
     SubscriptionPutRequest:
       type: object
       title: Subscription Put Request
@@ -71917,7 +71838,7 @@ components:
           example: $[?($.identityId == "201327fda1c44704ac01181e963d463c")]
           externalDocs:
             description: JSONPath filter documentation
-            url: https://developer.sailpoint.com/idn/docs/event-triggers/filtering-events
+            url: https://developer.sailpoint.com/docs/extensibility/event-triggers/filtering-events
     SubscriptionPatchRequest:
       description: Operations to be applied
       type: array
@@ -71977,7 +71898,7 @@ components:
           example: $[?($.identityId == "201327fda1c44704ac01181e963d463c")]
           externalDocs:
             description: JSONPath filter documentation
-            url: https://developer.sailpoint.com/idn/docs/event-triggers/filtering-events
+            url: https://developer.sailpoint.com/docs/extensibility/event-triggers/filtering-events
       required:
         - input
         - filter
