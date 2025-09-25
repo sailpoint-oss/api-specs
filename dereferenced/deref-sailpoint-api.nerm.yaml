@@ -6878,6 +6878,11 @@ components:
           description: The user password. Not required for NeprofileUser
           required: false
           example: U*bF7hy9fW
+        sailpoint_identity_id:
+          type: string
+          format: string
+          description: The SailPoint Identity ID associated with this user
+          example: db6f8e8b-65c2-47d5-a0db-90bcc4e9df9e
     User-2:
       type: object
       properties:
@@ -7018,6 +7023,11 @@ components:
           type: string
           description: The locale the user prefers to use
           example: fr-CA
+        sailpoint_identity_id:
+          type: string
+          format: string
+          description: The SailPoint Identity ID associated with this user
+          example: db6f8e8b-65c2-47d5-a0db-90bcc4e9df9e
     UserManager:
       type: object
       properties:
