@@ -91324,7 +91324,7 @@
             "nullable": true
           },
           "owner": {
-            "$ref": "#/components/schemas/BaseReferenceDto",
+            "$ref": "#/components/schemas/PublicIdentity",
             "description": "The owner of the UserLevel."
           },
           "status": {
@@ -91372,7 +91372,7 @@
             "example": "This is a description of the custom user level."
           },
           "owner": {
-            "$ref": "#/components/schemas/BaseReferenceDto",
+            "$ref": "#/components/schemas/PublicIdentity",
             "description": "The owner of the UserLevel."
           },
           "rightSets": {
