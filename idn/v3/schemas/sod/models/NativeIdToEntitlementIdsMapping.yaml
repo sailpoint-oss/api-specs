@@ -1,0 +1,16 @@
+description: Native ID to Entitlement IDs mapping.
+required:
+  - nativeId
+  - entitlementIds
+type: object
+properties:
+  nativeId:
+    description: The native ID in the source system.
+    type: string
+    example: "jdoe"
+  entitlementIds:
+    description: The list of entitlement IDs associated with the native ID in the source system.
+    type: array
+    items:
+      type: string
+      example: 2c91809773dee32014e13e122092014e

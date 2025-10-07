@@ -19,15 +19,43 @@ post:
           $ref: '../schemas/sod/models/IdentityWithNewAccess.yaml'
         example:
           {
-            "identityId": "2c91808568c529c60168cca6f90c1313",
+            "identityId": "113ffa035a904766b2baf0dda167aa68",
             "accessRefs": [
               {
                 "type": "ENTITLEMENT",
-                "id": "2c918087682f9a86016839c050861ab1"
+                "id": "47687ab86744322e9da8eb9529f416c9"
               },
               {
                 "type": "ENTITLEMENT",
-                "id": "2c918087682f9a86016839c0509c1ab2"
+                "id": "651e628ac6d7347ea733c8052d53bb76"
+              },
+              {
+                "type": "ENTITLEMENT",
+                "id": "a317c1270ae5345392c0dfd7a652f19c"
+              },
+              {
+                "type": "ENTITLEMENT",
+                "id": "93b39259048d3b27bbdf8fea4f88471a"
+              }
+            ],
+            "sourceIdAndNativeIdToEntitlementIdsMappings": [
+              {
+                "sourceId": "34816f63abbe43be816c7a756f18b5f1",
+                "nativeIdToEntitlementIdsMappings": [ {
+                  "nativeId": "15M23A11",
+                  "entitlementIds": [
+                    "47687ab86744322e9da8eb9529f416c9",
+                    "651e628ac6d7347ea733c8052d53bb76"
+                  ]
+                },
+                  {
+                    "nativeId": "AK19J23F",
+                    "entitlementIds": [
+                      "a317c1270ae5345392c0dfd7a652f19c",
+                      "93b39259048d3b27bbdf8fea4f88471a"
+                    ]
+                  }
+                ]
               }
             ]
           }

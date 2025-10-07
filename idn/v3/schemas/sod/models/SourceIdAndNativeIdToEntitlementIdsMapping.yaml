@@ -1,0 +1,15 @@
+description: Source ID and Native ID to Entitlement IDs mapping.
+required:
+  - sourceId
+  - nativeIdToEntitlementIdsMappings
+type: object
+properties:
+  sourceId:
+    description: The ID of the source system.
+    type: string
+    example: 2c91809773dee32014e13e122092014e
+  nativeIdToEntitlementIdsMappings:
+    description: The native ID and entitlement IDs mapping in the source system.
+    type: array
+    items:
+      $ref: 'NativeIdToEntitlementIdsMapping.yaml'
