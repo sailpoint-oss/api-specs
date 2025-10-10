@@ -677,6 +677,25 @@ tags:
     description: |
       Use this API to implement organization configuration functionality. 
       Administrators can use this functionality to manage organization settings, such as time zones. 
+  - name: Parameter Storage
+    description: |
+      The Parameter Storage is SailPoint's centralized repository for authentication, authorization, and connection configurations, stored as typed Parameters.
+
+      The APIs can be used to input Parameters, which can then be referenced by other services, such as Workflow configurations. When these services are executed, the relevant values are fetched via an internal API (not documented here).
+
+      The usage of Parameters can be monitored via References managed by Parameter Storage. References provide an indirect mapping between a Parameter and its usage (e.g., within a Workflow), allowing for reports such as "Parameter X is used in Workflow Y" via APIs.
+
+      A Parameter is a named instance of typed configuration, where the state is stored as Fields. These Fields are either Public (cleartext, searchable) or Private (encrypted).
+
+      Parameter Types are grouped and fall into three Categories: Authentication, Authorization, and Connection.
+
+      Parameters are strongly typed; each Type's fields are named and exposed to the consumer. This means that if a service states that it expects a Credential Type, it will receive a Parameter with a Username and Password.
+
+      Fields are named, typed variables within a Parameter; the Fields on a Parameter depend on the Parameter's Type. Fields contain customer-provided data that will be referenced by another service, and their typing determines whether they're stored in cleartext or encrypted.
+
+      The Specification documents the supported Categories, Types, Fields, Field Names, and their relationships.
+
+      A Reference is an indirect pointer to a Parameter, where each usage of a Parameter has a corresponding Reference. This allows for usage tracking and safe deletion.
   - name: Password Configuration
     description: |
       Use this API to implement organization password configuration functionality. 
@@ -33620,6 +33639,382 @@ paths:
       x-sailpoint-userLevels:
         - ORG_ADMIN
         - REPORT_ADMIN
+  /parameter-storage/attestation:
+    get:
+      operationId: getAttestationDocument
+      summary: Get an attestation document.
+      tags:
+        - Parameter Storage
+      description: Get an attestation document, and perform x25519 handshake to enabled end-to-end encrypted transport of parameter private fields.
+      parameters:
+        - name: key
+          in: query
+          required: true
+          description: Base64Url encoded public key
+          example: cHVibGljIGtleSBnb2VzIGhlcmU=
+          schema:
+            type: string
+      security:
+        - userAuth:
+            - sp:parameter-storage:read
+            - sp:parameter-storage:create
+            - sp:parameter-storage:update
+            - sp:parameter-storage:delete
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      x-audience:
+        - external-public
+      responses:
+        '200':
+          description: Returns the attestation document. This contains the public key needed to add a parameter to the store.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParameterStorageAttestationDocument'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /parameter-storage/parameters:
+    post:
+      summary: Add a new parameter.
+      description: Add a new parameter.
+      operationId: createParameter
+      tags:
+        - Parameter Storage
+      security:
+        - userAuth:
+            - sp:parameter-storage:create
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      x-audience:
+        - external-public
+      requestBody:
+        description: The parameter to add to the store.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ParameterStorageNewParameter'
+      responses:
+        '201':
+          description: Created Parameter.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParameterStorageParameter'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    get:
+      summary: Query stored parameters.
+      description: Query a stored parameter.
+      operationId: searchParameters
+      tags:
+        - Parameter Storage
+      parameters:
+        - in: query
+          name: filters
+          required: false
+          description: |-
+            Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)
+
+            Filtering is supported for the following fields and operators:
+
+            **id**: *eq, ne*
+
+            **name**: *eq, in, co*
+
+            **description**: *co*
+
+            **ownerId**: *eq*
+
+            **type**: *eq, sw*
+          example: id eq 550e8400-e29b-41d4-a716-446655440000
+          schema:
+            type: string
+        - in: query
+          name: sorters
+          schema:
+            type: string
+            format: comma-separated
+          description: |-
+            Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)
+
+            Sorting is supported for the following fields: **id, name, ownerId, type, description, lastModifiedAt, lastModifiedBy, privateFieldsLastModifiedAt, privateFieldsLastModifiedAt**
+          example: type,name
+          required: false
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/limit'
+      security:
+        - userAuth:
+            - sp:parameter-storage:read
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      x-audience:
+        - external-public
+      responses:
+        '200':
+          description: Search returned results.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ParameterStorageParameter'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /parameter-storage/parameters/{id}:
+    get:
+      summary: Get a specific parameter.
+      description: Get a parameter by ID. This will only return the public fields for the parameter.
+      operationId: getParameter
+      parameters:
+        - name: id
+          in: path
+          required: true
+          example: 58de858b-83d9-4563-9e15-7393594c684a
+          x-sailpoint-resource-operation-id: searchParameters
+          description: The ID of the parameter to be fetched
+          schema:
+            type: string
+      tags:
+        - Parameter Storage
+      security:
+        - userAuth:
+            - sp:parameter-storage:read
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      x-audience:
+        - external-public
+      responses:
+        '200':
+          description: Return Parameter.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParameterStorageParameter'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      summary: Update a parameter.
+      description: Update a parameter. You cannot change a parameter's type once set. Only the name, owner, description, public fields, and private fields can be updated. Private field updates are made via JWE AES256 encrypted blobs.
+      operationId: updateParameter
+      parameters:
+        - name: id
+          in: path
+          required: true
+          example: 58de858b-83d9-4563-9e15-7393594c684a
+          x-sailpoint-resource-operation-id: searchParameters
+          description: The ID of the parameter to be updated.
+          schema:
+            type: string
+      tags:
+        - Parameter Storage
+      security:
+        - userAuth:
+            - sp:parameter-storage:update
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      x-audience:
+        - external-public
+      requestBody:
+        description: The updated parameter. Supports both full and RFC 6902 JSON Patch updates. For RFC 6902 JSON Patch updates, move and copy operations are not supported for privateField updates.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ParameterStorageUpdateParameter'
+          application/json-patch+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ParameterStorageJsonPatch'
+      responses:
+        '200':
+          description: Updated Parameter.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParameterStorageParameter'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      summary: Delete a parameter.
+      description: Delete a parameter. Will only delete parameters without existing references.
+      operationId: deleteParameter
+      parameters:
+        - name: id
+          in: path
+          required: true
+          example: 58de858b-83d9-4563-9e15-7393594c684a
+          x-sailpoint-resource-operation-id: searchParameters
+          description: The ID of the parameter to be deleted.
+          schema:
+            type: string
+      tags:
+        - Parameter Storage
+      security:
+        - userAuth:
+            - sp:parameter-storage:delete
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      x-audience:
+        - external-public
+      responses:
+        '200':
+          description: Parameter deleted.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /parameter-storage/parameters/{id}/references:
+    get:
+      summary: Get parameter references.
+      description: Get the references for a given parameter.
+      operationId: getParameterReferences
+      tags:
+        - Parameter Storage
+      security:
+        - userAuth:
+            - sp:parameter-storage:read
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      x-audience:
+        - external-public
+      parameters:
+        - name: id
+          in: path
+          required: true
+          example: 58de858b-83d9-4563-9e15-7393594c684a
+          x-sailpoint-resource-operation-id: searchParameters
+          description: The ID of the parameter which you want to fetch the references for.
+          schema:
+            type: string
+        - in: query
+          name: sorters
+          schema:
+            type: string
+            format: comma-separated
+          description: |-
+            Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)
+
+            Sorting is supported for the following fields: **id, consumerId, parameterId, name, usageHint**
+          example: consumerId,name
+          required: false
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+      responses:
+        '200':
+          description: Return references for given parameter.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ParameterStorageReference'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /parameter-storage/specification:
+    get:
+      summary: Get specifications for parameter types.
+      description: Get the specifications for all parameter types. All parameters must conform to this specification document.
+      operationId: getParameterStorageSpecification
+      security:
+        - userAuth:
+            - sp:parameter-storage:read
+            - sp:parameter-storage:update
+            - sp:parameter-storage:create
+            - sp:parameter-storage:delete
+      parameters:
+        - name: Accept-Language
+          in: header
+          required: false
+          example: en
+          description: The i18n internationalization code for the language that the spec is in. Defaults to english.
+          schema:
+            type: string
+            default: en
+      tags:
+        - Parameter Storage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      x-audience:
+        - external-public
+      responses:
+        '200':
+          description: Returns the JSON spec in the language chosen.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
   /peer-group-strategies/{strategy}/identity-outliers:
     get:
       operationId: getPeerGroupOutliers
@@ -70497,6 +70892,185 @@ components:
           example:
             displayName: All Rare Entitlements
             searchPlaceholder: Search by name or description
+    ParameterStorageAttestationDocument:
+      description: The attestation document. This is Base64Url encoded binary data containing the attestation document. This has a cert with a public key that needs to be used to encrypt the private fields of the parameter on creation or update.
+      type: object
+      properties:
+        attestationDocument:
+          type: string
+          description: The Base64Url encoded attestation document.
+          example: YmFzZTY0IGVuY29kZWQgYXR0ZXN0YXRpb24gZG9jdW1lbnQgZ29lcyBoZXJlLg==
+    ParameterStorageParameter:
+      description: A parameter that has been retrieved from the store.
+      type: object
+      required:
+        - id
+        - ownerId
+        - name
+        - publicFields
+      properties:
+        id:
+          type: string
+          description: The ID of the reference
+          example: 58de858b-83d9-4563-9e15-7393594c684a
+        ownerId:
+          type: string
+          description: The ID of the user who owns the parameter.
+          example: c0b4568a4fe7458c434ee77d1fbt156b
+        type:
+          type: string
+          description: The type of the parameter. This cannot be changed after being set. Please see the types document for more information.
+          example: '1.1'
+        name:
+          type: string
+          description: The human-readable name of the parameter.
+          example: Credentials for server
+        primaryField:
+          type: string
+          description: The name of the primary field in the public fields.
+          example: username
+        publicFields:
+          type: object
+          description: The public fields stored for this parameter. See the types document for information about what can be stored.
+          example: '{"username": "username"}'
+        description:
+          type: string
+          description: Describe the parameter
+          example: Credentials for server.
+        lastModifiedAt:
+          type: string
+          description: ISO8606 format datetime of the last time any field of the parameter was changed.
+          format: datetime
+          example: '2025-09-16T12:47:08Z'
+        lastModifiedBy:
+          type: string
+          description: The ID of the user who last modified the parameter. Empty when identity is not known.
+          example: c0b4568a4fe7458c434ee77d1fbt156b
+        privateFieldsLastModifiedAt:
+          type: string
+          format: datetime
+          description: ISO8606 format datetime of the time the secret fields were changed on the parameter.
+          example: '2025-09-16T12:47:08Z'
+        privateFieldsLastModifiedBy:
+          type: string
+          description: The ID of the user who last modified the private fields. Empty when identity is not known.
+          example: c0b4568a4fe7458c434ee77d1fbt156b
+    ParameterStorageNewParameter:
+      description: A parameter to add to parameter storage. The public and private fields must match the type specification.
+      type: object
+      required:
+        - ownerId
+        - name
+        - type
+      properties:
+        ownerId:
+          type: string
+          description: The UUID of the parameter owner.
+          example: c0b4568a4fe7458c434ee77d1fbt156b
+        name:
+          type: string
+          description: The human-readable name for the parameter.
+          example: Credentials for server.
+        type:
+          type: string
+          description: The type of the parameter. This cannot be changed after being set. Please see the types document for more information.
+          example: '1.1'
+        publicFields:
+          type: object
+          description: The content must be a JSON object containing the public fields that can be stored with this parameter.
+          example: '{"username": "username"}'
+        privateFields:
+          type: string
+          description: |
+            Must be a JWE AES256 encrypted blob.
+            The content of the blob must be a JSON object containing the private fields that can be stored with this parameter.
+          example: ZW5jcnlwdGVkIHBhc3N3b3JkIGhlcmUu
+        description:
+          type: string
+          description: Describe the parameter
+          example: Credentials for server.
+    ParameterStorageUpdateParameter:
+      description: An existing parameter that needs to be updated. The type cannot be changed once the parameter is created.
+      type: object
+      properties:
+        ownerId:
+          type: string
+          description: The UUID of the parameter owner.
+          example: c0b4568a4fe7458c434ee77d1fbt156b
+        name:
+          type: string
+          description: The human-readable name for the parameter.
+          example: Credentials for server.
+        publicFields:
+          type: object
+          description: The public fields that can be stored with this parameter.
+          example: '{"username": "username"}'
+        privateFields:
+          type: string
+          description: The private fields that can be stored with this parameter.
+          example: ZW5jcnlwdGVkIHBhc3N3b3JkIGhlcmUu
+        description:
+          type: string
+          description: Describe the parameter
+          example: Credentials for server.
+    ParameterStorageJsonPatch:
+      description: RFC 6902 JSON Patch operation
+      type: object
+      required:
+        - op
+        - path
+      properties:
+        op:
+          type: string
+          description: The operation to perform (add, remove, replace, move, copy, test)
+          enum:
+            - add
+            - remove
+            - replace
+            - move
+            - copy
+            - test
+          example: replace
+        path:
+          type: string
+          description: A JSON-Pointer describing the target location
+          example: /name
+        value:
+          description: The value to be used within the operations. Required for add/replace/test.
+          example: Credentials for server.
+        from:
+          type: string
+          description: A JSON-Pointer describing the source location for move/copy.
+          example: /description
+    ParameterStorageReference:
+      description: Reference information returned in response to a request.
+      type: object
+      required:
+        - id
+        - consumerId
+        - parameterId
+        - name
+      properties:
+        id:
+          type: string
+          description: The ID of the reference
+          example: 4018c3ec-2714-42b5-92e8-232b17333b52
+        consumerId:
+          type: string
+          description: The ID of the consumer holding the reference
+          example: sp-workflow-config
+        parameterId:
+          type: string
+          description: The ID of the parameter that the reference is pointing to.
+          example: 58de858b-83d9-4563-9e15-7393594c684a
+        name:
+          type: string
+          description: The human-readable name of the reference
+          example: Workflow 6d3d0677-b6fb-470c-b931-89195bedcebe
+        usageHint:
+          type: string
+          description: The hint string used to validate the reference
+          example: '{"workflowId": "6d3d0677-b6fb-470c-b931-89195bedcebe"}'
     PeerGroupMember:
       type: object
       title: Peer Group Member
@@ -78489,6 +79063,22 @@ components:
                 type: string
                 description: Unique tracking id for the error.
                 example: e7eab60924f64aa284175b9fa3309599
+    '409':
+      description: Conflict - Indicates that the request could not be processed because of conflict in the current state of the resource.
+      content:
+        schema:
+          type: object
+          properties:
+            errorName:
+              description: A message describing the error
+              example: ConflictException
+            errorMessage:
+              description: Description of the error
+              example: Failed to store object
+            trackingId:
+              type: string
+              description: Unique tracking id for the error.
+              example: e7eab60924f64aa284175b9fa3309599
     '412':
       description: Precondition Failed - Returned in response if API/Feature not enabled for an organization.
       content:
