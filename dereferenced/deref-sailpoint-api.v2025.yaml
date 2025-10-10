@@ -966,7 +966,7 @@ tags:
       For example, the query "attributes.location:austin AND NOT manager.name:amanda.ross" returns all results associated with the Austin location, but it excludes those associated with the manager Amanda Ross.
       Refer to [Building a Search Query](https://documentation.sailpoint.com/saas/help/search/building-query.html) for more information about how to construct specific search queries. 
 
-      Refer to [Using Search](https://documentation.sailpoint.com/saas/help/search/index.html) for more information about ISC's search and its different possibilities. 
+      Refer to [Search Attribute Configuration](https://developer.sailpoint.com/docs/extensibility/rules/rule-utility/#configuration-of-search-attributes-within-identity-security-cloud) for more information about ISC's search and its different possibilities. 
 
       With Search Attribute Configuration, administrators can create, manage, and run searches based on the attributes they want to search. 
   - name: Segments
@@ -20553,27 +20553,12 @@ paths:
             schema:
               $ref: '#/components/schemas/IdentityWithNewAccess'
             example:
-              identityId: 113ffa035a904766b2baf0dda167aa68
+              identityId: 2c91808568c529c60168cca6f90c1313
               accessRefs:
                 - type: ENTITLEMENT
-                  id: 47687ab86744322e9da8eb9529f416c9
+                  id: 2c918087682f9a86016839c050861ab1
                 - type: ENTITLEMENT
-                  id: 651e628ac6d7347ea733c8052d53bb76
-                - type: ENTITLEMENT
-                  id: a317c1270ae5345392c0dfd7a652f19c
-                - type: ENTITLEMENT
-                  id: 93b39259048d3b27bbdf8fea4f88471a
-              sourceIdAndNativeIdToEntitlementIdsMappings:
-                - sourceId: 34816f63abbe43be816c7a756f18b5f1
-                  nativeIdToEntitlementIdsMappings:
-                    - nativeId: 15M23A11
-                      entitlementIds:
-                        - 47687ab86744322e9da8eb9529f416c9
-                        - 651e628ac6d7347ea733c8052d53bb76
-                    - nativeId: AK19J23F
-                      entitlementIds:
-                        - a317c1270ae5345392c0dfd7a652f19c
-                        - 93b39259048d3b27bbdf8fea4f88471a
+                  id: 2c918087682f9a86016839c0509c1ab2
       responses:
         '200':
           description: Violation Contexts
@@ -20612,27 +20597,12 @@ paths:
             schema:
               $ref: '#/components/schemas/IdentityWithNewAccess'
             example:
-              identityId: 113ffa035a904766b2baf0dda167aa68
+              identityId: 2c91808568c529c60168cca6f90c1313
               accessRefs:
                 - type: ENTITLEMENT
-                  id: 47687ab86744322e9da8eb9529f416c9
+                  id: 2c918087682f9a86016839c050861ab1
                 - type: ENTITLEMENT
-                  id: 651e628ac6d7347ea733c8052d53bb76
-                - type: ENTITLEMENT
-                  id: a317c1270ae5345392c0dfd7a652f19c
-                - type: ENTITLEMENT
-                  id: 93b39259048d3b27bbdf8fea4f88471a
-              sourceIdAndNativeIdToEntitlementIdsMappings:
-                - sourceId: 34816f63abbe43be816c7a756f18b5f1
-                  nativeIdToEntitlementIdsMappings:
-                    - nativeId: 15M23A11
-                      entitlementIds:
-                        - 47687ab86744322e9da8eb9529f416c9
-                        - 651e628ac6d7347ea733c8052d53bb76
-                    - nativeId: AK19J23F
-                      entitlementIds:
-                        - a317c1270ae5345392c0dfd7a652f19c
-                        - 93b39259048d3b27bbdf8fea4f88471a
+                  id: 2c918087682f9a86016839c0509c1ab2
               clientMetadata:
                 additionalProp1: string
                 additionalProp2: string
@@ -63074,39 +63044,6 @@ components:
           description: Policy's modifier ID
           example: 0f11f2a47c944bf3a2bd742580fe3bde
           readOnly: true
-    NativeIdToEntitlementIdsMapping:
-      description: Native ID to Entitlement IDs mapping.
-      required:
-        - nativeId
-        - entitlementIds
-      type: object
-      properties:
-        nativeId:
-          description: The native ID in the source system.
-          type: string
-          example: jdoe
-        entitlementIds:
-          description: The list of entitlement IDs associated with the native ID in the source system.
-          type: array
-          items:
-            type: string
-            example: 2c91809773dee32014e13e122092014e
-    SourceIdAndNativeIdToEntitlementIdsMapping:
-      description: Source ID and Native ID to Entitlement IDs mapping.
-      required:
-        - sourceId
-        - nativeIdToEntitlementIdsMappings
-      type: object
-      properties:
-        sourceId:
-          description: The ID of the source system.
-          type: string
-          example: 2c91809773dee32014e13e122092014e
-        nativeIdToEntitlementIdsMappings:
-          description: The native ID and entitlement IDs mapping in the source system.
-          type: array
-          items:
-            $ref: '#/components/schemas/NativeIdToEntitlementIdsMapping'
     IdentityWithNewAccess:
       description: An identity with a set of access to be added
       required:
@@ -63142,11 +63079,6 @@ components:
               id: 2c918087682f9a86016839c050861ab1
             - type: ENTITLEMENT
               id: 2c918087682f9a86016839c0509c1ab2
-        sourceIdAndNativeIdToEntitlementIdsMappings:
-          description: Mappings between sourceId and nativeId to entitlement IDs for which access is requested. This is only being used for ARM analysis in case of user having multiple accounts on the same source on which entitlement is requested. Optional parameter that helps identify which account the entitlement is requested on. For scenarios where users have a single account on the source and do not provide this field, the available account is chosen.
-          type: array
-          items:
-            $ref: '#/components/schemas/SourceIdAndNativeIdToEntitlementIdsMapping'
     SodPolicyDto-2:
       type: object
       description: SOD policy.
@@ -63342,7 +63274,27 @@ components:
           example: false
         type:
           type: string
-          description: The type of the attribute.
+          description: |
+            The type of the attribute.
+
+            string: For text-based data.
+
+            int: For whole numbers.
+
+            long: For larger whole numbers.
+
+            date: For date and time values.
+
+            boolean: For true/false values.
+
+            secret: For sensitive data like passwords, which will be masked and encrypted.
+          enum:
+            - string
+            - int
+            - long
+            - date
+            - boolean
+            - secret
           example: string
         isMultiValued:
           type: boolean

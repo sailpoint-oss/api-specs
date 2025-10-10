@@ -251,7 +251,7 @@
     },
     {
       "name": "Search Attribute Configuration",
-      "description": "Use this API to implement search attribute configuration functionality, along with [Search](https://developer.sailpoint.com/docs/api/v3/search).\nWith this functionality in place, administrators can create custom search attributes that and run extended searches based on those attributes to further narrow down their searches and get the information and insights they want. \n\nIdentity Security Cloud (ISC) enables organizations to store user data from across all their connected sources and manage the users' access, so the ability to query and filter that data is essential.  \nIts search goes through all those sources and finds the results quickly and specifically. \n\nThe search query is flexible - it can be very broad or very narrow. \nThe search only returns results for searchable objects it is filtering for. \nThe following objects are searchable: identities, roles, access profiles, entitlements, events, and account activities. \nBy default, no filter is applied, so a search for \"Ad\" returns both the identity \"Adam.Archer\" as well as the role \"Administrator.\"\n\nUsers can further narrow their results by using ISC's specific syntax and punctuation to structure their queries. \nFor example, the query \"attributes.location:austin AND NOT manager.name:amanda.ross\" returns all results associated with the Austin location, but it excludes those associated with the manager Amanda Ross.\nRefer to [Building a Search Query](https://documentation.sailpoint.com/saas/help/search/building-query.html) for more information about how to construct specific search queries. \n\nRefer to [Using Search](https://documentation.sailpoint.com/saas/help/search/index.html) for more information about ISC's search and its different possibilities. \n\nWith Search Attribute Configuration, administrators can create, manage, and run searches based on the attributes they want to search.\n"
+      "description": "Use this API to implement search attribute configuration functionality, along with [Search](https://developer.sailpoint.com/docs/api/v3/search).\nWith this functionality in place, administrators can create custom search attributes that and run extended searches based on those attributes to further narrow down their searches and get the information and insights they want. \n\nIdentity Security Cloud (ISC) enables organizations to store user data from across all their connected sources and manage the users' access, so the ability to query and filter that data is essential.  \nIts search goes through all those sources and finds the results quickly and specifically. \n\nThe search query is flexible - it can be very broad or very narrow. \nThe search only returns results for searchable objects it is filtering for. \nThe following objects are searchable: identities, roles, access profiles, entitlements, events, and account activities. \nBy default, no filter is applied, so a search for \"Ad\" returns both the identity \"Adam.Archer\" as well as the role \"Administrator.\"\n\nUsers can further narrow their results by using ISC's specific syntax and punctuation to structure their queries. \nFor example, the query \"attributes.location:austin AND NOT manager.name:amanda.ross\" returns all results associated with the Austin location, but it excludes those associated with the manager Amanda Ross.\nRefer to [Building a Search Query](https://documentation.sailpoint.com/saas/help/search/building-query.html) for more information about how to construct specific search queries. \n\nRefer to [Search Attribute Configuration](https://developer.sailpoint.com/docs/extensibility/rules/rule-utility/#configuration-of-search-attributes-within-identity-security-cloud) for more information about ISC's search and its different possibilities. \n\nWith Search Attribute Configuration, administrators can create, manage, and run searches based on the attributes they want to search.\n"
     },
     {
       "name": "Segments",
@@ -66726,7 +66726,15 @@
           },
           "type": {
             "type": "string",
-            "description": "The type of the attribute.",
+            "description": "The type of the attribute.\n\nstring: For text-based data.\n\nint: For whole numbers.\n\nlong: For larger whole numbers.\n\ndate: For date and time values.\n\nboolean: For true/false values.\n\nsecret: For sensitive data like passwords, which will be masked and encrypted.\n",
+            "enum": [
+              "string",
+              "int",
+              "long",
+              "date",
+              "boolean",
+              "secret"
+            ],
             "example": "string"
           },
           "isMultiValued": {
