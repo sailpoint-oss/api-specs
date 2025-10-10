@@ -66813,13 +66813,13 @@ components:
           description: shows date when last time has been ignored outlier
           example: '2021-06-01T18:40:35.772Z'
           nullable: true
-    OutlierValueType: |-
+    OutlierValueType:
       type: object
       description: The data type of the value field
       properties:
         name:
           type: string
-          enum: 
+          enum:
             - INTEGER
             - FLOAT
           description: The data type of the value field
