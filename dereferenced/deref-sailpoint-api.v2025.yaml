@@ -30582,7 +30582,7 @@ paths:
       description: |-
         Currently this endpoint only supports Entitlement Description Approvals.
         Get a list of approvals. This endpoint is for generic approvals, unlike the access-request-approval endpoint, and does not include access-request-approvals. 
-        Absence of all query parameters for non admins will will default to mine=true.
+        Absence of all query parameters for non admins will will default to mine=true. Admin will default to mine=false.
         Absence of all query parameters for admins will return all approvals in the org.
       parameters:
         - in: query
@@ -30591,7 +30591,7 @@ paths:
           schema:
             type: boolean
             default: false
-          description: Returns the list of approvals for the current caller.
+          description: Returns the list of approvals for the current caller. Defaults to false if admin, true otherwise.
           example: 'true'
         - in: query
           name: requesterId
@@ -30623,7 +30623,7 @@ paths:
           description: Adds X-Total-Count to the header to give the amount of total approvals returned from the query.
           example: 'true'
         - in: query
-          name: countOnly
+          name: count-only
           required: false
           schema:
             type: boolean
@@ -30655,14 +30655,6 @@ paths:
           description: If set to true in the query, the approval requests returned will include batch information.
           example: 'true'
         - in: query
-          name: include-batch-info
-          required: false
-          schema:
-            type: boolean
-            default: false
-          description: If set to true in the query, the approval requests returned will include batch information.
-          example: 'true'
-        - in: query
           name: filters
           required: false
           schema:
@@ -30672,51 +30664,53 @@ paths:
 
             Filtering is supported for the following fields and operators:
 
-            **status**: *eq*
+            **status**: *eq, ne, in, co, sw*
 
-            **referenceType**: *eq*
+            **referenceType**: *eq, ne, in, co, sw*
 
-            **name**: *eq*
+            **name**: *eq, ne, in, co, sw*
 
-            **priority**: *eq*
+            **priority**: *eq, ne, in, co, sw*
 
-            **type**: *eq*
+            **type**: *eq, ne, in, co, sw*
 
-            **medium**: *eq*
+            **medium**: *eq, ne, in, co, sw*
 
-            **description**: *eq*
+            **description**: *eq, ne, in, co, sw*
 
-            **batchId**: *eq*
+            **batchId**: *eq, ne, in, co, sw*
 
-            **approvalId**: *eq*
+            **approvalId**: *eq, ne, in, co, sw*
 
-            **tenantId**: *eq*
+            **tenantId**: *eq, ne, in, co, sw*
 
-            **createdDate**: *eq*
+            **createdDate**: *eq, ne, in, co, sw, gt, ge, lt, le*
 
-            **dueDate**: *eq*
+            **dueDate**: *eq, ne, in, co, sw, gt, ge, lt, le*
 
-            **completedDate**: *eq*
+            **completedDate**: *eq, ne, in, co, sw, gt, ge, lt, le*
 
-            **search**: *eq*
+            **search**: *eq, ne, in, co, sw*
 
-            **referenceId**: *eq*
+            **referenceId**: *eq, ne, in, co, sw*
 
-            **referenceName**: *eq*
+            **referenceName**: *eq, ne, in, co, sw*
 
-            **requestedTargetType**: *eq*
+            **requestedTargetType**: *eq, ne, in, co, sw*
 
-            **requestedTargetRequestType**: *eq*
+            **requestedTargetRequestType**: *eq, ne, in, co, sw*
 
-            **requestedTargetId**: *eq*
+            **requestedTargetId**: *eq, ne, in, co, sw*
 
-            **modifiedDate**: *eq*
+            **modifiedDate**: *eq, ne, in, co, sw, gt, ge, lt, le*
 
-            **requesterId**: *eq*
+            **requesterId**: *eq, ne, in, co, sw*
 
-            **requesteeId**: *eq*
+            **requesteeId**: *eq, ne, in, co, sw*
 
-            **approverId**: *eq*
+            **approverId**: *eq, ne, in, co, sw*
+
+            **decisionDate**: *eq, ne, in, co, sw, gt, ge, lt, le*
           example: filters=status eq PENDING
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
@@ -31009,6 +31003,99 @@ paths:
       responses:
         '204':
           $ref: '#/components/responses/204'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /generic-approvals/config:
+    get:
+      security:
+        - userAuth:
+            - sp:approvals:read
+      x-sailpoint-userLevels:
+        - APPROVAL_OWNER
+      operationId: getApprovalsConfigIdType
+      tags:
+        - Approvals
+      summary: Get Approval Config Type
+      description: |-
+        Currently this endpoint only supports Entitlement Description Approvals.
+        Retrieves a singular approval configuration that matches the given ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: ID the ID defined by the scope field, this could the approval ID (uuid), specific domain object ID (uuid), approval type (role/application/access_request/entitlement/source), tenant ID (uuid)
+          example: 38453251-6be2-5f8f-df93-5ce19e295837
+          x-sailpoint-resource-operation-id: getApprovals
+      responses:
+        '200':
+          description: Approval object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApprovalConfig'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      security:
+        - userAuth:
+            - sp:approvals:write
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      operationId: patchApprovalsConfigType
+      tags:
+        - Approvals
+      summary: Patch Approval Config Type
+      description: Updates a singular approval configuration that matches the given configID and configScope
+      parameters:
+        - in: query
+          name: id
+          required: true
+          schema:
+            type: string
+          description: 'The ID defined by the scope field, where {id}:{scope} is the following: {approvalID}:APPROVAL_REQUEST {roleID}:ROLE {entitlementID}:ENTITLEMENT {accessProfileID}:ACCESS_PROFILE {sourceID}:SOURCE {applicationID}:APPLICATION ENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE CUSTOM_ACCESS_REQUEST_APPROVAL:APPROVAL_TYPE GENERIC_APPROVAL:APPROVAL_TYPE {tenantID}:TENANT'
+          example: 38453251-6be2-5f8f-df93-5ce19e295837
+          x-sailpoint-resource-operation-id: getApprovals
+        - in: query
+          name: scope
+          required: true
+          schema:
+            type: string
+          description: 'The scope of the field, where {id}:{scope} is the following: {approvalID}:APPROVAL_REQUEST {roleID}:ROLE {entitlementID}:ENTITLEMENT {accessProfileID}:ACCESS_PROFILE {sourceID}:SOURCE {applicationID}:APPLICATION ENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE CUSTOM_ACCESS_REQUEST_APPROVAL:APPROVAL_TYPE GENERIC_APPROVAL:APPROVAL_TYPE {tenantID}:TENANT'
+          example: ROLE
+          x-sailpoint-resource-operation-id: getApprovals
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApprovalConfig'
+      responses:
+        '200':
+          description: Verified Email Status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApprovalConfig'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -71163,6 +71250,7 @@ components:
         - ACCESS_REQUESTS
         - CERTIFICATIONS
         - MANUAL_TASKS
+        - GENERIC_APPROVALS
       example: ACCESS_REQUESTS
     ConfigType:
       type: object

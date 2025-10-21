@@ -42498,7 +42498,7 @@
           "Approvals"
         ],
         "summary": "Get approvals",
-        "description": "Currently this endpoint only supports Entitlement Description Approvals.\nGet a list of approvals. This endpoint is for generic approvals, unlike the access-request-approval endpoint, and does not include access-request-approvals. \nAbsence of all query parameters for non admins will will default to mine=true.\nAbsence of all query parameters for admins will return all approvals in the org.",
+        "description": "Currently this endpoint only supports Entitlement Description Approvals.\nGet a list of approvals. This endpoint is for generic approvals, unlike the access-request-approval endpoint, and does not include access-request-approvals. \nAbsence of all query parameters for non admins will will default to mine=true. Admin will default to mine=false.\nAbsence of all query parameters for admins will return all approvals in the org.",
         "parameters": [
           {
             "in": "query",
@@ -42508,7 +42508,7 @@
               "type": "boolean",
               "default": false
             },
-            "description": "Returns the list of approvals for the current caller.",
+            "description": "Returns the list of approvals for the current caller. Defaults to false if admin, true otherwise.",
             "example": "true"
           },
           {
@@ -42554,7 +42554,7 @@
           },
           {
             "in": "query",
-            "name": "countOnly",
+            "name": "count-only",
             "required": false,
             "schema": {
               "type": "boolean",
@@ -42598,23 +42598,12 @@
           },
           {
             "in": "query",
-            "name": "include-batch-info",
-            "required": false,
-            "schema": {
-              "type": "boolean",
-              "default": false
-            },
-            "description": "If set to true in the query, the approval requests returned will include batch information.",
-            "example": "true"
-          },
-          {
-            "in": "query",
             "name": "filters",
             "required": false,
             "schema": {
               "type": "string"
             },
-            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**status**: *eq*\n\n**referenceType**: *eq*\n\n**name**: *eq*\n\n**priority**: *eq*\n\n**type**: *eq*\n\n**medium**: *eq*\n\n**description**: *eq*\n\n**batchId**: *eq*\n\n**approvalId**: *eq*\n\n**tenantId**: *eq*\n\n**createdDate**: *eq*\n\n**dueDate**: *eq*\n\n**completedDate**: *eq*\n\n**search**: *eq*\n\n**referenceId**: *eq*\n\n**referenceName**: *eq*\n\n**requestedTargetType**: *eq*\n\n**requestedTargetRequestType**: *eq*\n\n**requestedTargetId**: *eq*\n\n**modifiedDate**: *eq*\n\n**requesterId**: *eq*\n\n**requesteeId**: *eq*\n\n**approverId**: *eq*",
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**status**: *eq, ne, in, co, sw*\n\n**referenceType**: *eq, ne, in, co, sw*\n\n**name**: *eq, ne, in, co, sw*\n\n**priority**: *eq, ne, in, co, sw*\n\n**type**: *eq, ne, in, co, sw*\n\n**medium**: *eq, ne, in, co, sw*\n\n**description**: *eq, ne, in, co, sw*\n\n**batchId**: *eq, ne, in, co, sw*\n\n**approvalId**: *eq, ne, in, co, sw*\n\n**tenantId**: *eq, ne, in, co, sw*\n\n**createdDate**: *eq, ne, in, co, sw, gt, ge, lt, le*\n\n**dueDate**: *eq, ne, in, co, sw, gt, ge, lt, le*\n\n**completedDate**: *eq, ne, in, co, sw, gt, ge, lt, le*\n\n**search**: *eq, ne, in, co, sw*\n\n**referenceId**: *eq, ne, in, co, sw*\n\n**referenceName**: *eq, ne, in, co, sw*\n\n**requestedTargetType**: *eq, ne, in, co, sw*\n\n**requestedTargetRequestType**: *eq, ne, in, co, sw*\n\n**requestedTargetId**: *eq, ne, in, co, sw*\n\n**modifiedDate**: *eq, ne, in, co, sw, gt, ge, lt, le*\n\n**requesterId**: *eq, ne, in, co, sw*\n\n**requesteeId**: *eq, ne, in, co, sw*\n\n**approverId**: *eq, ne, in, co, sw*\n\n**decisionDate**: *eq, ne, in, co, sw, gt, ge, lt, le*",
             "example": "filters=status eq PENDING"
           },
           {
@@ -43056,6 +43045,148 @@
         "responses": {
           "204": {
             "$ref": "#/components/responses/204"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/generic-approvals/config": {
+      "get": {
+        "security": [
+          {
+            "userAuth": [
+              "sp:approvals:read"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "APPROVAL_OWNER"
+        ],
+        "operationId": "getApprovalsConfigIdType",
+        "tags": [
+          "Approvals"
+        ],
+        "summary": "Get Approval Config Type",
+        "description": "Currently this endpoint only supports Entitlement Description Approvals.\nRetrieves a singular approval configuration that matches the given ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID the ID defined by the scope field, this could the approval ID (uuid), specific domain object ID (uuid), approval type (role/application/access_request/entitlement/source), tenant ID (uuid)",
+            "example": "38453251-6be2-5f8f-df93-5ce19e295837",
+            "x-sailpoint-resource-operation-id": "getApprovals"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Approval object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApprovalConfig"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "patch": {
+        "security": [
+          {
+            "userAuth": [
+              "sp:approvals:write"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "operationId": "patchApprovalsConfigType",
+        "tags": [
+          "Approvals"
+        ],
+        "summary": "Patch Approval Config Type",
+        "description": "Updates a singular approval configuration that matches the given configID and configScope",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID defined by the scope field, where {id}:{scope} is the following: {approvalID}:APPROVAL_REQUEST {roleID}:ROLE {entitlementID}:ENTITLEMENT {accessProfileID}:ACCESS_PROFILE {sourceID}:SOURCE {applicationID}:APPLICATION ENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE CUSTOM_ACCESS_REQUEST_APPROVAL:APPROVAL_TYPE GENERIC_APPROVAL:APPROVAL_TYPE {tenantID}:TENANT",
+            "example": "38453251-6be2-5f8f-df93-5ce19e295837",
+            "x-sailpoint-resource-operation-id": "getApprovals"
+          },
+          {
+            "in": "query",
+            "name": "scope",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The scope of the field, where {id}:{scope} is the following: {approvalID}:APPROVAL_REQUEST {roleID}:ROLE {entitlementID}:ENTITLEMENT {accessProfileID}:ACCESS_PROFILE {sourceID}:SOURCE {applicationID}:APPLICATION ENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE CUSTOM_ACCESS_REQUEST_APPROVAL:APPROVAL_TYPE GENERIC_APPROVAL:APPROVAL_TYPE {tenantID}:TENANT",
+            "example": "ROLE",
+            "x-sailpoint-resource-operation-id": "getApprovals"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApprovalConfig"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Verified Email Status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApprovalConfig"
+                }
+              }
+            }
           },
           "400": {
             "$ref": "#/components/responses/400"
@@ -97023,7 +97154,8 @@
         "enum": [
           "ACCESS_REQUESTS",
           "CERTIFICATIONS",
-          "MANUAL_TASKS"
+          "MANUAL_TASKS",
+          "GENERIC_APPROVALS"
         ],
         "example": "ACCESS_REQUESTS"
       },
