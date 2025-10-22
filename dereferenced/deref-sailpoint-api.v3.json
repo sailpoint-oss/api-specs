@@ -24284,7 +24284,7 @@
           "Tagged Objects"
         ],
         "summary": "List tagged objects",
-        "description": "This API returns a list of all tagged objects.\n\nAny authenticated token may be used to call this API.",
+        "description": "This API returns a list of all tagged objects.",
         "parameters": [
           {
             "$ref": "#/components/parameters/limit"
@@ -24350,7 +24350,7 @@
           "Tagged Objects"
         ],
         "summary": "Add tag to object",
-        "description": "This adds a tag to an object.\n\nAny authenticated token may be used to call this API.",
+        "description": "This adds a tag to an object.",
         "requestBody": {
           "required": true,
           "content": {
@@ -24398,7 +24398,7 @@
           "Tagged Objects"
         ],
         "summary": "List tagged objects by type",
-        "description": "This API returns a list of all tagged objects by type.\n\nAny authenticated token may be used to call this API.",
+        "description": "This API returns a list of all tagged objects by type.",
         "parameters": [
           {
             "in": "path",

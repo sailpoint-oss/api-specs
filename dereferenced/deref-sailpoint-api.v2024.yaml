@@ -22902,10 +22902,7 @@ paths:
       tags:
         - Tagged Objects
       summary: List tagged objects
-      description: |-
-        This API returns a list of all tagged objects.
-
-        Any authenticated token may be used to call this API.
+      description: This API returns a list of all tagged objects.
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
@@ -22953,10 +22950,7 @@ paths:
       tags:
         - Tagged Objects
       summary: Add tag to object
-      description: |-
-        This adds a tag to an object.
-
-        Any authenticated token may be used to call this API.
+      description: This adds a tag to an object.
       requestBody:
         required: true
         content:
@@ -22986,10 +22980,7 @@ paths:
       tags:
         - Tagged Objects
       summary: List tagged objects by type
-      description: |-
-        This API returns a list of all tagged objects by type.
-
-        Any authenticated token may be used to call this API.
+      description: This API returns a list of all tagged objects by type.
       parameters:
         - in: path
           name: type
