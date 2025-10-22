@@ -43449,6 +43449,218 @@
         }
       }
     },
+    "/generic-approvals/bulk-approve": {
+      "post": {
+        "security": [
+          {
+            "userAuth": [
+              "sp:approvals:write"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "operationId": "approveApproval",
+        "tags": [
+          "Approvals"
+        ],
+        "summary": "Post Bulk Approve Approvals",
+        "description": "Bulk Approves specified approval requests on behalf of the caller",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BulkApproveRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "$ref": "#/components/responses/202"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/generic-approvals/bulk-reject": {
+      "post": {
+        "security": [
+          {
+            "userAuth": [
+              "sp:approvals:write"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "operationId": "rejectApproval",
+        "tags": [
+          "Approvals"
+        ],
+        "summary": "Post Bulk Reject Approvals",
+        "description": "Bulk reject specified approval requests on behalf of the caller",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BulkRejectRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "$ref": "#/components/responses/202"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/generic-approvals/bulk-cancel": {
+      "post": {
+        "security": [
+          {
+            "userAuth": [
+              "sp:approvals:write"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "operationId": "cancelApproval",
+        "tags": [
+          "Approvals"
+        ],
+        "summary": "Post Bulk Cancel Approvals",
+        "description": "Bulk cancels specified approval requests on behalf of the caller",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BulkCancelRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "$ref": "#/components/responses/202"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/generic-approvals/bulk-reassign": {
+      "post": {
+        "security": [
+          {
+            "userAuth": [
+              "sp:approvals:write"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "operationId": "moveApproval",
+        "tags": [
+          "Approvals"
+        ],
+        "summary": "Post Bulk Reassign Approvals",
+        "description": "Bulk reassigns specified approval requests on behalf of the caller",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BulkReassignRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "$ref": "#/components/responses/202"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
     "/machine-accounts": {
       "get": {
         "operationId": "listMachineAccounts",
@@ -95325,6 +95537,117 @@
           }
         },
         "description": "Request body for rejecting an approval request."
+      },
+      "BulkApproveRequestDTO": {
+        "type": "object",
+        "title": "BulkApproveRequestDTO",
+        "description": "BulkApproveRequestDTO is the input struct that represents the request body required to facilitate a bulk approval action for a set of generic approval requests.",
+        "properties": {
+          "approvalIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Array of Approval IDs to be bulk approved",
+            "example": [
+              "38453251-6be2-5f8f-df93-5ce19e295837",
+              "38453251-6be2-5f8f-df93-5ce19e295838"
+            ]
+          },
+          "comment": {
+            "type": "string",
+            "description": "Optional comment to include with the bulk approval request",
+            "example": "Bulk approved by admin for monthly review"
+          },
+          "additionalAttributes": {
+            "type": "object",
+            "additionalProperties": {},
+            "description": "Additional attributes to include with the bulk approval request",
+            "example": {
+              "source": "automation",
+              "urgency": "high"
+            }
+          }
+        }
+      },
+      "BulkRejectRequestDTO": {
+        "type": "object",
+        "title": "BulkRejectRequestDTO",
+        "description": "BulkRejectRequestDTO is the input struct that represents the request body required to facilitate a bulk reject action for a set of generic approval requests.",
+        "properties": {
+          "approvalIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Array of Approval IDs to be bulk rejected",
+            "example": [
+              "38453251-6be2-5f8f-df93-5ce19e295837",
+              "38453251-6be2-5f8f-df93-5ce19e295838"
+            ]
+          },
+          "comment": {
+            "type": "string",
+            "description": "Optional comment to include with the bulk reject request",
+            "example": "Bulk reject by admin"
+          }
+        }
+      },
+      "BulkCancelRequestDTO": {
+        "type": "object",
+        "title": "BulkCancelRequestDTO",
+        "description": "BulkCancelRequestDTO is the input struct that represents the request body required to facilitate a bulk cancellation action for a set of generic approval requests.",
+        "properties": {
+          "approvalIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Array of Approval IDs to be bulk cancelled",
+            "example": [
+              "38453251-6be2-5f8f-df93-5ce19e295837",
+              "38453251-6be2-5f8f-df93-5ce19e295838"
+            ]
+          },
+          "comment": {
+            "type": "string",
+            "description": "Optional comment to include with the bulk cancellation request",
+            "example": "Bulk cancellation by admin"
+          }
+        }
+      },
+      "BulkReassignRequestDTO": {
+        "type": "object",
+        "title": "BulkReassignRequestDTO",
+        "description": "BulkReassignRequestDTO is the input struct that represents the request body required to facilitate a bulk reassignment action for a set of generic approval requests.",
+        "properties": {
+          "approvalIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Array of Approval IDs to be bulk reassigned",
+            "example": [
+              "38453251-6be2-5f8f-df93-5ce19e295837",
+              "38453251-6be2-5f8f-df93-5ce19e295838"
+            ]
+          },
+          "comment": {
+            "type": "string",
+            "description": "Optional comment to include with the bulk reassignment request",
+            "example": "Bulk reassignment by admin"
+          },
+          "reassignFrom": {
+            "type": "string",
+            "description": "Identity ID from which the approval requests are being reassigned",
+            "example": "12353251-6be2-5f8f-df93-5ce19b6e5837"
+          },
+          "reassignTo": {
+            "type": "string",
+            "description": "ReassignTo signifies the Identity ID that the approval request is being reassigned to",
+            "example": "32454251-6ce2-5d8f-df93-5ce19e295238"
+          }
+        }
       },
       "MachineAccount": {
         "allOf": [
