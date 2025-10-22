@@ -226,6 +226,9 @@ tags:
       The user's capabilities refer to their access to different systems, or authorization, within the tenant, like access to certifications (CERT_ADMIN) or reports (REPORT_ADMIN). 
       These capabilities also determine a user's access to the different APIs. 
       This API provides users with a way to determine a user's access and make quick and easy changes to that access. 
+  - name: Authorization
+    description: |
+      Use this API to gather information related to the identities associated with a user level.
   - name: Branding
     description: |
       Use this API to implement and customize branding functionality. 
@@ -27640,6 +27643,160 @@ paths:
               description: The locale to use for translations for the response
               schema:
                 type: string
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /authorization/user-levels/{id}/identities:
+    get:
+      tags:
+        - Authorization
+      summary: List user level identities
+      description: List of identities associated with a user level.
+      operationId: listUserLevelIdentities
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      security:
+        - userAuth:
+            - idn:user-level:read
+            - idn:user-level:manage
+      parameters:
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
+        - name: id
+          in: path
+          required: true
+          description: The unique identifier of the user level.
+          schema:
+            type: string
+          example: idn:access-request-administrator
+        - name: count
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: If true, X-Total-Count header with the the total number of identities for this user level will be included in the response.
+          example: true
+          required: false
+        - name: sorters
+          in: query
+          schema:
+            type: string
+          description: |-
+            Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)
+
+            Sorting is supported for the following fields: **displayName**
+          example: displayName
+          required: false
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+      responses:
+        '200':
+          description: List of identities associated with a user level.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AuthUserSlimResponse'
+              example:
+                - id: eea1c52bc51c4f7d95565f4f8d6c1e41
+                  uid: john.doe@testmail.identitysoon.com
+                  alias: john.doe
+                  displayName: John Doe
+                - id: 892af9e8c5a74ce1a73ffdfbfd248018
+                  uid: jane.doe@testmail.identitysoon.com
+                  alias: jane.doe
+                  displayName: Jane Doe
+          headers:
+            X-Total-Count:
+              description: Total number of identities for this user level. This will be included only if it was explicitly requested.
+              schema:
+                type: integer
+              example: 10
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /authorization/user-levels/get-identity-count:
+    post:
+      tags:
+        - Authorization
+      summary: Count user levels identities
+      description: List of user levels along with the number of identities associated to it.
+      operationId: listUserLevelCounts
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      security:
+        - userAuth:
+            - idn:user-level:read
+            - idn:user-level:manage
+      parameters:
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
+      requestBody:
+        description: List of user level ids. Max 50 identifiers can be passed in a single request.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+              example:
+                - HELPDESK
+                - ORG_ADMIN
+                - sp:ui-config-hub-admin
+      responses:
+        '200':
+          description: List of user levels along with the number of identities associated to it.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AuthUserLevelsIdentityCount'
+              example:
+                - id: HELPDESK
+                  count: 1
+                - id: ORG_ADMIN
+                  count: 1
+                - id: sp:ui-config-hub-admin
+                  count: 2
+          headers:
+            X-Total-Count:
+              description: Total number of user levels assigned to identities for this tenant.
+              schema:
+                type: integer
+              example: 3
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -67335,6 +67492,39 @@ components:
               parentId: idn:ui-identity-management-example
               childrenIds: []
             children: []
+    AuthUserSlimResponse:
+      type: object
+      title: Auth User
+      properties:
+        id:
+          type: string
+          description: Identity ID.
+          example: eea1c52bc51c4f7d95565f4f8d6c1e41
+        uid:
+          type: string
+          description: Identity unique identifier.
+          example: john.doe@testmail.identitysoon.com
+        alias:
+          type: string
+          description: Identity alias.
+          example: john.doe
+        displayName:
+          type: string
+          description: Identity name in display format.
+          example: John Doe
+    AuthUserLevelsIdentityCount:
+      type: object
+      title: Auth user levels identity count
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the user level.
+          example: idn:access-request-administrator
+        count:
+          type: integer
+          format: int32
+          description: Number of identities having this user level.
+          example: 10
     AuthProfileSummary:
       type: object
       title: Auth Profile Summary
