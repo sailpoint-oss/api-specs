@@ -43366,7 +43366,7 @@
           }
         }
       },
-      "patch": {
+      "put": {
         "security": [
           {
             "userAuth": [
@@ -43377,12 +43377,12 @@
         "x-sailpoint-userLevels": [
           "ORG_ADMIN"
         ],
-        "operationId": "patchApprovalsConfigType",
+        "operationId": "putApprovalsConfigType",
         "tags": [
           "Approvals"
         ],
-        "summary": "Patch Approval Config Type",
-        "description": "Updates a singular approval configuration that matches the given configID and configScope",
+        "summary": "Put Approval Config Type",
+        "description": "Upserts a singular approval configuration that matches the given configID and configScope",
         "parameters": [
           {
             "in": "query",
