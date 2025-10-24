@@ -83477,6 +83477,12 @@
             "description": "The name of the attribute.",
             "example": "sAMAccountName"
           },
+          "nativeName": {
+            "type": "string",
+            "nullable": true,
+            "description": "Attribute name in the native system.",
+            "example": "sAMAccountName"
+          },
           "type": {
             "$ref": "#/components/schemas/AttributeDefinitionType",
             "description": "The type of the attribute.",
@@ -83570,6 +83576,7 @@
           "includePermissions": {
             "type": "boolean",
             "description": "Flag indicating whether or not the include permissions with the object data when aggregating the schema.",
+            "default": false,
             "example": false
           },
           "features": {

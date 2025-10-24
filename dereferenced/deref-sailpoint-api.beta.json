@@ -66792,6 +66792,12 @@
             "description": "The name of the attribute.",
             "example": "sAMAccountName"
           },
+          "nativeName": {
+            "type": "string",
+            "nullable": true,
+            "description": "Attribute name in the native system.",
+            "example": "sAMAccountName"
+          },
           "type": {
             "$ref": "#/components/schemas/AttributeDefinitionType"
           },
