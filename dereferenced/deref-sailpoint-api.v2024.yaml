@@ -53912,7 +53912,16 @@ components:
           description: The health indicators of the ManagedClient
           type: object
           nullable: true
-          example: '{ "network": { "errors": [], "warnings": [] }, "memory": { "errors": [], "warnings": [] }, "cpu": { "errors": [], "warnings": [] } }'
+          example:
+            network:
+              errors: []
+              warnings: []
+            memory:
+              errors: []
+              warnings: []
+            cpu:
+              errors: []
+              warnings: []
     ManagedClientRequest:
       description: Managed Client Request
       type: object
@@ -54216,7 +54225,10 @@ components:
           example: false
         logConfiguration:
           description: client log configuration for the cluster
-          example: '{ "rootLevel": "WARN", "logLevels": { "foobar": "WARN" } }'
+          example:
+            rootLevel: WARN
+            logLevels:
+              foobar: WARN
           $ref: '#/components/schemas/ClientLogConfiguration'
         operational:
           description: Whether or not the cluster is operational or not

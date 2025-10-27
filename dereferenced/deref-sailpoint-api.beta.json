@@ -15438,7 +15438,7 @@
           "Non-Employee Lifecycle Management"
         ],
         "summary": "List schema attributes non-employee source",
-        "description": "This API gets the list of schema attributes for the specified Non-Employee SourceId. There are 8 mandatory attributes added to each new Non-Employee Source automatically. Additionaly, user can add up to 10 custom attributes. This interface returns all the mandatory attributes followed by any custom attributes. At most, a total of 18 attributes will be returned.",
+        "description": "This API gets the list of schema attributes for the specified Non-Employee SourceId. There are 8\nmandatory attributes added to each new Non-Employee Source automatically. Additionaly, user can\nadd up to 10 custom attributes. This interface returns all the mandatory attributes followed by\nany custom attributes. At most, a total of 18 attributes will be returned.\n",
         "deprecated": true,
         "parameters": [
           {
@@ -59598,7 +59598,12 @@
           },
           "logConfiguration": {
             "description": "client log configuration for the cluster",
-            "example": "{ \"rootLevel\": \"WARN\", \"logLevels\": { \"foobar\": \"WARN\" } }",
+            "example": {
+              "rootLevel": "WARN",
+              "logLevels": {
+                "foobar": "WARN"
+              }
+            },
             "$ref": "#/components/schemas/ClientLogConfiguration"
           },
           "operational": {

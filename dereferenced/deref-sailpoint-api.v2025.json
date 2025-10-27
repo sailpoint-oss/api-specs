@@ -37542,7 +37542,7 @@
           }
         ],
         "requestBody": {
-          "description": "Payload containing the details of the user level to be created.",
+          "description": "Payload containing the details of the user level to be created.\n  - If only a parent right set id is included in the request body, all child right sets associated with that parent will be automatically assigned.\n  - If the request body includes both a parent right set and a subset of its children, only the explicitly listed right sets (parent and specified children) will be assigned. Implicit inheritance is not applied in this case.\n",
           "required": true,
           "content": {
             "application/json": {
@@ -37558,7 +37558,7 @@
                 },
                 "rightSets": [
                   "idn:ui-identity-manage-example",
-                  "idn:ui-identity-details-read-example"
+                  "idn:ui-identity-manage-child-one-example"
                 ]
               }
             }
@@ -37608,8 +37608,8 @@
                         "idn:identity-management-example"
                       ],
                       "uiAssignableChildRightSetIds": [
-                        "idn:ui-identity-details-read-example",
-                        "idn:ui-identity-list-read-example"
+                        "idn:ui-identity-manage-child-one-example",
+                        "idn:ui-identity-manage-child-two-example"
                       ],
                       "uiAssignable": true,
                       "translatedName": "Identity Management",
@@ -37617,12 +37617,12 @@
                       "parentId": null
                     },
                     {
-                      "id": "idn:ui-identity-details-read-example",
+                      "id": "idn:ui-identity-manage-child-one-example",
                       "name": "Identity Details Read",
                       "description": "Read only access for identity details.",
                       "category": "identity",
                       "rights": [
-                        "idn:ui-identity-details-example:read"
+                        "idn:ui-identity-manage-child-one-example:read"
                       ],
                       "rightSetIds": [],
                       "uiAssignableChildRightSetIds": [],
@@ -38162,7 +38162,7 @@
           }
         ],
         "requestBody": {
-          "description": "JSON Patch payload for updating the user level.",
+          "description": "JSON Patch payload for updating the user level.\n  - If only a parent right set id is included in the request body, all child right sets associated with that parent will be automatically assigned.\n  - If the request body includes both a parent right set and a subset of its children, only the explicitly listed right sets (parent and specified children) will be assigned. Implicit inheritance is not applied in this case.\n",
           "required": true,
           "content": {
             "application/json-patch+json": {
@@ -38225,13 +38225,43 @@
                         "idn:identity-management-example"
                       ],
                       "uiAssignableChildRightSetIds": [
-                        "idn:ui-identity-details-read-example",
-                        "idn:ui-identity-list-read-example"
+                        "idn:ui-identity-manage-child-one-example",
+                        "idn:ui-identity-manage-child-two-example"
                       ],
                       "uiAssignable": true,
                       "translatedName": "Identity Management",
                       "translatedDescription": "Access to manage all identities.",
                       "parentId": null
+                    },
+                    {
+                      "id": "idn:ui-identity-manage-child-one-example",
+                      "name": "Identity Details Read",
+                      "description": "Read only access for identity details.",
+                      "category": "identity",
+                      "rights": [
+                        "idn:ui-identity-manage-child-one-example:read"
+                      ],
+                      "rightSetIds": [],
+                      "uiAssignableChildRightSetIds": [],
+                      "uiAssignable": true,
+                      "translatedName": "Identity Details Read",
+                      "translatedDescription": "Read only access for identity details.",
+                      "parentId": "idn:ui-identity-manage-example"
+                    },
+                    {
+                      "id": "idn:ui-identity-manage-child-two-example",
+                      "name": "Identity List Read",
+                      "description": "Read only access for identity list.",
+                      "category": "identity",
+                      "rights": [
+                        "idn:ui-identity-manage-child-two-example:read"
+                      ],
+                      "rightSetIds": [],
+                      "uiAssignableChildRightSetIds": [],
+                      "uiAssignable": true,
+                      "translatedName": "Identity List Read",
+                      "translatedDescription": "Read only access for identity list.",
+                      "parentId": "idn:ui-identity-manage-example"
                     }
                   ],
                   "custom": true,
@@ -79438,7 +79468,12 @@
           },
           "logConfiguration": {
             "description": "client log configuration for the cluster",
-            "example": "{ \"rootLevel\": \"WARN\", \"logLevels\": { \"foobar\": \"WARN\" } }",
+            "example": {
+              "rootLevel": "WARN",
+              "logLevels": {
+                "foobar": "WARN"
+              }
+            },
             "$ref": "#/components/schemas/ClientLogConfiguration"
           },
           "operational": {
