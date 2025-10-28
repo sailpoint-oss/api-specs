@@ -105,10 +105,6 @@
       "description": "Use this API to implement user authentication system functionality. \nWith this functionality in place, users can get a user's authentication system details, including their capabilities, and modify those capabilities. \nThe user's capabilities refer to their access to different systems, or authorization, within the tenant, like access to certifications (CERT_ADMIN) or reports (REPORT_ADMIN). \nThese capabilities also determine a user's access to the different APIs. \nThis API provides users with a way to determine a user's access and make quick and easy changes to that access. \n"
     },
     {
-      "name": "Authorization",
-      "description": "Use this API to gather information related to the identities associated with a user level.\n"
-    },
-    {
       "name": "Branding",
       "description": "Use this API to implement and customize branding functionality. \nWith this functionality in place, administrators can get and manage existing branding items, and they can also create new branding items and configure them for use throughout Identity Security Cloud. \nThe Branding APIs provide administrators with a way to customize branding items. \nThis customization includes details like their colors, logos, and other information. \nRefer to [Certifications](https://documentation.sailpoint.com/saas/user-help/certs/reviewing/index.html) for more information about certifications.\n"
     },
@@ -38449,7 +38445,7 @@
     "/authorization/user-levels/{id}/identities": {
       "get": {
         "tags": [
-          "Authorization"
+          "Custom User Levels"
         ],
         "summary": "List user level identities",
         "description": "List of identities associated with a user level.",
@@ -38576,7 +38572,7 @@
     "/authorization/user-levels/get-identity-count": {
       "post": {
         "tags": [
-          "Authorization"
+          "Custom User Levels"
         ],
         "summary": "Count user levels identities",
         "description": "List of user levels along with the number of identities associated to it.",
