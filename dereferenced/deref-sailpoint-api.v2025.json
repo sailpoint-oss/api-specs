@@ -43617,7 +43617,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "The ID defined by the scope field, where {id}:{scope} is the following: {approvalID}:APPROVAL_REQUEST {roleID}:ROLE {entitlementID}:ENTITLEMENT {accessProfileID}:ACCESS_PROFILE {sourceID}:SOURCE {applicationID}:APPLICATION ENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE CUSTOM_ACCESS_REQUEST_APPROVAL:APPROVAL_TYPE GENERIC_APPROVAL:APPROVAL_TYPE {tenantID}:TENANT",
+            "description": "The ID defined by the scope field, where [[id]]:[[scope]] is the following:\n[[approvalID]]:APPROVAL_REQUEST\n[[roleID]]:ROLE\n[[entitlementID]]:ENTITLEMENT\n[[accessProfileID]]:ACCESS_PROFILE\n[[sourceID]]:SOURCE\n[[applicationID]]:APPLICATION\nENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE\nCUSTOM_ACCESS_REQUEST_APPROVAL:APPROVAL_TYPE\nGENERIC_APPROVAL:APPROVAL_TYPE\n[[tenantID]]:TENANT\n",
             "example": "38453251-6be2-5f8f-df93-5ce19e295837",
             "x-sailpoint-resource-operation-id": "getApprovals"
           },
@@ -43628,7 +43628,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "The scope of the field, where {id}:{scope} is the following: {approvalID}:APPROVAL_REQUEST {roleID}:ROLE {entitlementID}:ENTITLEMENT {accessProfileID}:ACCESS_PROFILE {sourceID}:SOURCE {applicationID}:APPLICATION ENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE CUSTOM_ACCESS_REQUEST_APPROVAL:APPROVAL_TYPE GENERIC_APPROVAL:APPROVAL_TYPE {tenantID}:TENANT",
+            "description": "The scope of the field, where [[id]]:[[scope]] is the following:\n[[approvalID]]:APPROVAL_REQUEST\n[[roleID]]:ROLE\n[[entitlementID]]:ENTITLEMENT\n[[accessProfileID]]:ACCESS_PROFILE\n[[sourceID]]:SOURCE\n[[applicationID]]:APPLICATION\nENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE\nCUSTOM_ACCESS_REQUEST_APPROVAL:APPROVAL_TYPE\nGENERIC_APPROVAL:APPROVAL_TYPE\n[[tenantID]]:TENANT\n",
             "example": "ROLE",
             "x-sailpoint-resource-operation-id": "getApprovals"
           }
