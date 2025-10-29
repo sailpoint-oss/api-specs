@@ -38481,7 +38481,8 @@
             "schema": {
               "type": "string"
             },
-            "example": "idn:access-request-administrator"
+            "example": "idn:access-request-administrator",
+            "x-sailpoint-resource-operation-id": "listUserLevels"
           },
           {
             "name": "count",
@@ -38576,7 +38577,7 @@
         ],
         "summary": "Count user levels identities",
         "description": "List of user levels along with the number of identities associated to it.",
-        "operationId": "listUserLevelCounts",
+        "operationId": "showUserLevelCounts",
         "x-sailpoint-userLevels": [
           "ORG_ADMIN"
         ],
