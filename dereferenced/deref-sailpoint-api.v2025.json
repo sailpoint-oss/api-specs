@@ -43533,7 +43533,7 @@
         }
       }
     },
-    "/generic-approvals/config": {
+    "/generic-approvals/config/{id}": {
       "get": {
         "security": [
           {
@@ -43545,12 +43545,12 @@
         "x-sailpoint-userLevels": [
           "APPROVAL_OWNER"
         ],
-        "operationId": "getApprovalsConfigIdType",
+        "operationId": "getApprovalsConfig",
         "tags": [
           "Approvals"
         ],
-        "summary": "Get Approval Config Type",
-        "description": "Currently this endpoint only supports Entitlement Description Approvals.\nRetrieves a singular approval configuration that matches the given ID",
+        "summary": "Get Approval Config",
+        "description": "Retrieves a singular approval configuration that matches the given ID",
         "parameters": [
           {
             "in": "path",
@@ -43559,7 +43559,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "ID the ID defined by the scope field, this could the approval ID (uuid), specific domain object ID (uuid), approval type (role/application/access_request/entitlement/source), tenant ID (uuid)",
+            "description": "The id of the object the config applies to, for example one of the following: [{approvalID}, {roleID}, {entitlementID}, {accessProfileID}, {sourceID}, {applicationID}, \"ENTITLEMENT_DESCRIPTIONS\", \"ACCESS_REQUEST_APPROVAL\", {tenantID}]",
             "example": "38453251-6be2-5f8f-df93-5ce19e295837",
             "x-sailpoint-resource-operation-id": "getApprovals"
           }
@@ -43591,7 +43591,9 @@
             "$ref": "#/components/responses/500"
           }
         }
-      },
+      }
+    },
+    "/generic-approvals/config": {
       "put": {
         "security": [
           {
@@ -43603,32 +43605,32 @@
         "x-sailpoint-userLevels": [
           "ORG_ADMIN"
         ],
-        "operationId": "putApprovalsConfigType",
+        "operationId": "putApprovalsConfig",
         "tags": [
           "Approvals"
         ],
-        "summary": "Put Approval Config Type",
-        "description": "Upserts a singular approval configuration that matches the given configID and configScope",
+        "summary": "Put Approval Config",
+        "description": "Upserts a singular approval configuration that matches the given configID and configScope. If id and scope are not provided, it will default to setting the tenant config.",
         "parameters": [
           {
             "in": "query",
             "name": "id",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string"
             },
-            "description": "The ID defined by the scope field, where [[id]]:[[scope]] is the following:\n[[approvalID]]:APPROVAL_REQUEST\n[[roleID]]:ROLE\n[[entitlementID]]:ENTITLEMENT\n[[accessProfileID]]:ACCESS_PROFILE\n[[sourceID]]:SOURCE\n[[applicationID]]:APPLICATION\nENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE\nCUSTOM_ACCESS_REQUEST_APPROVAL:APPROVAL_TYPE\nGENERIC_APPROVAL:APPROVAL_TYPE\n[[tenantID]]:TENANT\n",
+            "description": "The ID defined by the scope field, where [[id]]:[[scope]] is the following:\n\n[[roleID]]:ROLE\n\n[[entitlementID]]:ENTITLEMENT\n\n[[accessProfileID]]:ACCESS_PROFILE\n\n[[sourceID]]:SOURCE\n\n[[applicationID]]:APPLICATION\n\nENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE\n\nACCESS_REQUEST_APPROVAL:APPROVAL_TYPE\n\n[[tenantID]]:TENANT\n",
             "example": "38453251-6be2-5f8f-df93-5ce19e295837",
             "x-sailpoint-resource-operation-id": "getApprovals"
           },
           {
             "in": "query",
             "name": "scope",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string"
             },
-            "description": "The scope of the field, where [[id]]:[[scope]] is the following:\n[[approvalID]]:APPROVAL_REQUEST\n[[roleID]]:ROLE\n[[entitlementID]]:ENTITLEMENT\n[[accessProfileID]]:ACCESS_PROFILE\n[[sourceID]]:SOURCE\n[[applicationID]]:APPLICATION\nENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE\nCUSTOM_ACCESS_REQUEST_APPROVAL:APPROVAL_TYPE\nGENERIC_APPROVAL:APPROVAL_TYPE\n[[tenantID]]:TENANT\n",
+            "description": "The scope of the field, where [[id]]:[[scope]] is the following:\n\n[[roleID]]:ROLE\n\n[[entitlementID]]:ENTITLEMENT\n\n[[accessProfileID]]:ACCESS_PROFILE\n\n[[sourceID]]:SOURCE\n\n[[applicationID]]:APPLICATION\n\nENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE\n\nACCESS_REQUEST_APPROVAL:APPROVAL_TYPE\n\n[[tenantID]]:TENANT\n",
             "example": "ROLE",
             "x-sailpoint-resource-operation-id": "getApprovals"
           }
@@ -95066,8 +95068,8 @@
           },
           "scope": {
             "type": "string",
-            "example": "APPROVAL_REQUEST",
-            "description": "The type/scope of the configuration. Ie APPROVAL_REQUEST, DOMAIN_OBJECT, APPROVAL_TYPE, TENANT"
+            "example": "DOMAIN_OBJECT",
+            "description": "The type/scope of the configuration. Ie DOMAIN_OBJECT, APPROVAL_TYPE, TENANT"
           },
           "reminderConfig": {
             "type": "object",
