@@ -44958,7 +44958,7 @@
               "type": "string"
             },
             "example": "identityId eq \"2c9180858082150f0180893dbaf44201\"",
-            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**displayName**: *eq, sw*\n\n**technicalName**: *eq, sw*"
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\n\nFiltering is supported for the following fields and operators:\n\n\n**displayName**: *eq, sw*\n\n\n**technicalName**: *eq, sw*\n"
           },
           {
             "in": "query",
@@ -45004,7 +45004,7 @@
                   }
                 },
                 "examples": {
-                  "example": {
+                  "SourceSubtype": {
                     "value": [
                       {
                         "id": "43bdd144-4b17-4fce-a744-17c7fd3e717b",
@@ -45089,7 +45089,7 @@
                 "$ref": "#/components/schemas/SourceSubtype"
               },
               "examples": {
-                "example": {
+                "SourceSubtype": {
                   "value": {
                     "technicalName": "foo",
                     "displayName": "Mr Foo",
@@ -45109,7 +45109,7 @@
                   "$ref": "#/components/schemas/SourceSubtype"
                 },
                 "examples": {
-                  "example": {
+                  "SourceSubtype": {
                     "value": {
                       "id": "43bdd144-4b17-4fce-a744-17c7fd3e717b",
                       "sourceId": "6d0458373bec4b4b80460992b76016da",
@@ -45206,7 +45206,7 @@
                   "$ref": "#/components/schemas/SourceSubtype"
                 },
                 "examples": {
-                  "example": {
+                  "SourceSubtype": {
                     "value": {
                       "id": "43bdd144-4b17-4fce-a744-17c7fd3e717b",
                       "sourceId": "6d0458373bec4b4b80460992b76016da",
@@ -45300,7 +45300,7 @@
                 "$ref": "#/components/schemas/SourceSubtype"
               },
               "examples": {
-                "example": {
+                "SourceSubtype": {
                   "value": {
                     "displayName": "Mr Foo Updated",
                     "description": "fighters updated"
@@ -45319,7 +45319,7 @@
                   "$ref": "#/components/schemas/SourceSubtype"
                 },
                 "examples": {
-                  "example": {
+                  "SourceSubtype": {
                     "value": {
                       "id": "43bdd144-4b17-4fce-a744-17c7fd3e717b",
                       "sourceId": "6d0458373bec4b4b80460992b76016da",
@@ -45480,7 +45480,7 @@
                   "$ref": "#/components/schemas/SourceSubtype"
                 },
                 "examples": {
-                  "example": {
+                  "SourceSubType": {
                     "value": {
                       "id": "43bdd144-4b17-4fce-a744-17c7fd3e717b",
                       "sourceId": "6d0458373bec4b4b80460992b76016da",

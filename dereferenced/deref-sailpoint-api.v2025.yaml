@@ -32368,12 +32368,15 @@ paths:
           schema:
             type: string
           example: identityId eq "2c9180858082150f0180893dbaf44201"
-          description: |-
+          description: |
             Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)
+
 
             Filtering is supported for the following fields and operators:
 
+
             **displayName**: *eq, sw*
+
 
             **technicalName**: *eq, sw*
         - in: query
@@ -32408,7 +32411,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/SourceSubtype'
               examples:
-                example:
+                SourceSubtype:
                   value:
                     - id: 43bdd144-4b17-4fce-a744-17c7fd3e717b
                       sourceId: 6d0458373bec4b4b80460992b76016da
@@ -32464,7 +32467,7 @@ paths:
             schema:
               $ref: '#/components/schemas/SourceSubtype'
             examples:
-              example:
+              SourceSubtype:
                 value:
                   technicalName: foo
                   displayName: Mr Foo
@@ -32477,7 +32480,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/SourceSubtype'
               examples:
-                example:
+                SourceSubtype:
                   value:
                     id: 43bdd144-4b17-4fce-a744-17c7fd3e717b
                     sourceId: 6d0458373bec4b4b80460992b76016da
@@ -32543,7 +32546,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/SourceSubtype'
               examples:
-                example:
+                SourceSubtype:
                   value:
                     id: 43bdd144-4b17-4fce-a744-17c7fd3e717b
                     sourceId: 6d0458373bec4b4b80460992b76016da
@@ -32609,7 +32612,7 @@ paths:
             schema:
               $ref: '#/components/schemas/SourceSubtype'
             examples:
-              example:
+              SourceSubtype:
                 value:
                   displayName: Mr Foo Updated
                   description: fighters updated
@@ -32621,7 +32624,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/SourceSubtype'
               examples:
-                example:
+                SourceSubtype:
                   value:
                     id: 43bdd144-4b17-4fce-a744-17c7fd3e717b
                     sourceId: 6d0458373bec4b4b80460992b76016da
@@ -32730,7 +32733,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/SourceSubtype'
               examples:
-                example:
+                SourceSubType:
                   value:
                     id: 43bdd144-4b17-4fce-a744-17c7fd3e717b
                     sourceId: 6d0458373bec4b4b80460992b76016da
