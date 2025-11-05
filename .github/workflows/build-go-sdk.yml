@@ -83,10 +83,18 @@ jobs:
           rm -rf ./api_v2025
           java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.v2025.yaml -g go -o api_v2025 --global-property skipFormModel=false,apiDocs=true,modelDocs=true --config sdk-resources/v2025-config.yaml -p enumClassPrefix=true --git-repo-id golang-sdk/v2 --git-user-id sailpoint-oss
           node sdk-resources/postscript.js ./api_v2025
+      - name: Build V2026 SDK
+        id: buildV2026
+        if: steps.buildV2025.outcome == 'success'
+        run: |
+          cd golang-sdk
+          rm -rf ./api_v2026
+          java -jar openapi-generator-cli.jar generate -i ../idn/sailpoint-api.v2026.yaml -g go -o api_v2026 --global-property skipFormModel=false,apiDocs=true,modelDocs=true --config sdk-resources/v2026-config.yaml -p enumClassPrefix=true --git-repo-id golang-sdk/v2 --git-user-id sailpoint-oss
+          node sdk-resources/postscript.js ./api_v2026
 
       - name: Build Generic SDK
         id: buildGeneric
-        if: steps.buildV2025.outcome == 'success'
+        if: steps.buildV2026.outcome == 'success'
         run: |
           cd golang-sdk
           rm -rf ./api_generic
