@@ -31471,7 +31471,7 @@ paths:
             - sp:approvals:write
       x-sailpoint-userLevels:
         - ORG_ADMIN
-      operationId: approveApproval
+      operationId: approveApprovalInBulk
       tags:
         - Approvals
       summary: Post Bulk Approve Approvals
@@ -31504,7 +31504,7 @@ paths:
             - sp:approvals:write
       x-sailpoint-userLevels:
         - ORG_ADMIN
-      operationId: rejectApproval
+      operationId: rejectApprovalInBulk
       tags:
         - Approvals
       summary: Post Bulk Reject Approvals

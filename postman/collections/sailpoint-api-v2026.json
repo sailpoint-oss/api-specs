@@ -1,0 +1,998 @@
+{
+  "item": [
+    {
+      "name": "Task Management",
+      "description": "",
+      "item": [
+        {
+          "id": "2e794bfa-7e17-49a4-9738-717248296988",
+          "name": "Get task status by id",
+          "request": {
+            "name": "Get task status by id",
+            "description": {
+              "content": "Get task status by task ID. Types of tasks include account and entitlement aggregation and other general background processing tasks.  Data for tasks older than 90 days will not be returned.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "task-status",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "value": "00eebcf881994e419d72e757fd30dc0e",
+                  "key": "id",
+                  "disabled": true,
+                  "description": {
+                    "content": "(Required) Task ID.",
+                    "type": "text/plain"
+                  }
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": true,
+                "description": {
+                  "content": "(Required) Use this header to enable this experimental API.",
+                  "type": "text/plain"
+                },
+                "key": "X-SailPoint-Experimental",
+                "value": "true"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "response": [
+            {
+              "id": "05c25c22-79ae-474f-b8d4-56ae1220fa01",
+              "name": "Responds with a TaskStatus for the task with the given task ID.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "task-status",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": true,
+                    "description": {
+                      "content": "(Required) Use this header to enable this experimental API.",
+                      "type": "text/plain"
+                    },
+                    "key": "X-SailPoint-Experimental",
+                    "value": "true"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"id12345\",\n  \"type\": \"QUARTZ\",\n  \"uniqueName\": \"Big Task\",\n  \"description\": \"A Really Big Task\",\n  \"parentName\": \"Parent Task\",\n  \"attributes\": {\n    \"identityCount\": 0\n  },\n  \"created\": \"2020-07-11T21:23:15.000Z\",\n  \"modified\": \"2020-07-11T21:23:15.000Z\",\n  \"launched\": \"2020-07-11T21:23:15.000Z\",\n  \"launcher\": \"sweep\",\n  \"completed\": \"2020-07-11T21:23:15.000Z\",\n  \"completionStatus\": \"SUCCESS\",\n  \"messages\": [\n    {\n      \"key\": \"akey\",\n      \"localizedText\": {\n        \"locale\": \"An error has occurred!\",\n        \"message\": \"Error has occurred!\"\n      },\n      \"type\": \"INFO\",\n      \"parameters\": [\n        {\n          \"name\": \"value\"\n        }\n      ]\n    },\n    {\n      \"key\": \"akey\",\n      \"localizedText\": {\n        \"locale\": \"An error has occurred!\",\n        \"message\": \"Error has occurred!\"\n      },\n      \"type\": \"INFO\",\n      \"parameters\": [\n        {\n          \"name\": \"value\"\n        }\n      ]\n    }\n  ],\n  \"progress\": \"Started\",\n  \"percentComplete\": 100,\n  \"returns\": [\n    {\n      \"name\": \"label\",\n      \"attributeName\": \"identityCount\"\n    },\n    {\n      \"name\": \"label\",\n      \"attributeName\": \"identityCount\"\n    }\n  ],\n  \"target\": {\n    \"id\": \"c6dc37bf508149b28ce5b7d90ca4bbf9\",\n    \"type\": \"APPLICATION\",\n    \"name\": \"Active Directory [source]\"\n  },\n  \"taskDefinitionSummary\": {\n    \"arguments\": {\n      \"mantisExecutor\": \"com.sailpoint.mantis.sources.task.AccountAggregationTask\",\n      \"eventClassesCsv\": \"sailpoint.thunderbolt.events.AggregationEvents\",\n      \"serviceClass\": \"sailpoint.thunderbolt.service.AggregationService\",\n      \"serviceMethod\": \"accountAggregationTask\"\n    },\n    \"description\": \"Aggregates from the specified application.\",\n    \"executor\": \"sailpoint.task.ServiceTaskExecutor\",\n    \"id\": \"2c91808475b4334b0175e1dff64b63c5\",\n    \"uniqueName\": \"Cloud Account Aggregation\",\n    \"parentName\": \"Cloud Account Aggregation\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1cc8a181-c26e-42c5-bbb6-0fc72a053293",
+          "name": "Update task status by id",
+          "request": {
+            "name": "Update task status by id",
+            "description": {
+              "content": "Update a current task status by task ID. Use this API to clear a pending task by updating the completionStatus and completed attributes.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "task-status",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "value": "00eebcf881994e419d72e757fd30dc0e",
+                  "key": "id",
+                  "disabled": true,
+                  "description": {
+                    "content": "(Required) Task ID.",
+                    "type": "text/plain"
+                  }
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": true,
+                "description": {
+                  "content": "(Required) Use this header to enable this experimental API.",
+                  "type": "text/plain"
+                },
+                "key": "X-SailPoint-Experimental",
+                "value": "true"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json-patch+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"op\": \"replace\",\n    \"path\": \"/completionStatus\",\n    \"value\": \"Error\"\n  },\n  {\n    \"op\": \"replace\",\n    \"path\": \"/completed\",\n    \"value\": \"2024-05-17 19:33:16.470000+00:00\"\n  }\n]",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c2fc0243-6ad5-42c3-8b73-eae101087f33",
+              "name": "This response indicates the PATCH operation succeeded, and the API returns the updated task object.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "task-status",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": true,
+                    "description": {
+                      "content": "(Required) Use this header to enable this experimental API.",
+                      "type": "text/plain"
+                    },
+                    "key": "X-SailPoint-Experimental",
+                    "value": "true"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json-patch+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"op\": \"replace\",\n    \"path\": \"/completionStatus\",\n    \"value\": \"Error\"\n  },\n  {\n    \"op\": \"replace\",\n    \"path\": \"/completed\",\n    \"value\": \"2024-05-17 19:33:16.470000+00:00\"\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"id12345\",\n  \"type\": \"QUARTZ\",\n  \"uniqueName\": \"Big Task\",\n  \"description\": \"A Really Big Task\",\n  \"parentName\": \"Parent Task\",\n  \"attributes\": {\n    \"identityCount\": 0\n  },\n  \"created\": \"2020-07-11T21:23:15.000Z\",\n  \"modified\": \"2020-07-11T21:23:15.000Z\",\n  \"launched\": \"2020-07-11T21:23:15.000Z\",\n  \"launcher\": \"sweep\",\n  \"completed\": \"2020-07-11T21:23:15.000Z\",\n  \"completionStatus\": \"SUCCESS\",\n  \"messages\": [\n    {\n      \"key\": \"akey\",\n      \"localizedText\": {\n        \"locale\": \"An error has occurred!\",\n        \"message\": \"Error has occurred!\"\n      },\n      \"type\": \"INFO\",\n      \"parameters\": [\n        {\n          \"name\": \"value\"\n        }\n      ]\n    },\n    {\n      \"key\": \"akey\",\n      \"localizedText\": {\n        \"locale\": \"An error has occurred!\",\n        \"message\": \"Error has occurred!\"\n      },\n      \"type\": \"INFO\",\n      \"parameters\": [\n        {\n          \"name\": \"value\"\n        }\n      ]\n    }\n  ],\n  \"progress\": \"Started\",\n  \"percentComplete\": 100,\n  \"returns\": [\n    {\n      \"name\": \"label\",\n      \"attributeName\": \"identityCount\"\n    },\n    {\n      \"name\": \"label\",\n      \"attributeName\": \"identityCount\"\n    }\n  ],\n  \"target\": {\n    \"id\": \"c6dc37bf508149b28ce5b7d90ca4bbf9\",\n    \"type\": \"APPLICATION\",\n    \"name\": \"Active Directory [source]\"\n  },\n  \"taskDefinitionSummary\": {\n    \"arguments\": {\n      \"mantisExecutor\": \"com.sailpoint.mantis.sources.task.AccountAggregationTask\",\n      \"eventClassesCsv\": \"sailpoint.thunderbolt.events.AggregationEvents\",\n      \"serviceClass\": \"sailpoint.thunderbolt.service.AggregationService\",\n      \"serviceMethod\": \"accountAggregationTask\"\n    },\n    \"description\": \"Aggregates from the specified application.\",\n    \"executor\": \"sailpoint.task.ServiceTaskExecutor\",\n    \"id\": \"2c91808475b4334b0175e1dff64b63c5\",\n    \"uniqueName\": \"Cloud Account Aggregation\",\n    \"parentName\": \"Cloud Account Aggregation\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "85fde50e-cd95-4bf4-b927-fd849d8feec9",
+          "name": "Retrieve task status list",
+          "request": {
+            "name": "Retrieve task status list",
+            "description": {
+              "content": "Use this endpoint to get a list of statuses for **all** tasks which include finished, in-progress, terminated, and errored tasks. Types of tasks include account and entitlement aggregation and other general background processing tasks.  Data for tasks older than 90 days will not be returned. To get a list of statuses for only **in-progress** tasks, please use the [retrieve pending task status list](https://developer.sailpoint.com/docs/api/v2024/get-pending-tasks) endpoint.\nPossible tasks to be returned: Cloud Account Aggregation, Cloud Group Aggregation, Cloud Process Uncorrelated Accounts, Cloud Refresh Role, Source Application Discovery, AI Agent Aggregation, Cloud Entitlement Import, Cloud Uncorrelated Refresh, Cloud Identity Aggregation, Cloud Attribute Synchronization, Identity Refresh\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "task-status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Max number of results to return.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                    "type": "text/plain"
+                  },
+                  "key": "limit",
+                  "value": "250"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Offset into the full result set. Usually specified with *limit* to paginate through the results.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                    "type": "text/plain"
+                  },
+                  "key": "offset",
+                  "value": "0"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "If *true* it will populate the *X-Total-Count* response header with the number of results that would be returned if *limit* and *offset* were ignored.\n\nSince requesting a total count can have a performance impact, it is recommended not to send **count=true** if that value will not be used.\n\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                    "type": "text/plain"
+                  },
+                  "key": "count",
+                  "value": "true"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in*\n\n**sourceId**: *eq, in*\n\n**completionStatus**: *eq, in*\n\n**type**: *eq, in*",
+                    "type": "text/plain"
+                  },
+                  "key": "filters",
+                  "value": "type eq \"Cloud Account Aggregation\" and completionStatus eq \"null\""
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **created**",
+                    "type": "text/plain"
+                  },
+                  "key": "sorters",
+                  "value": "-created"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": true,
+                "description": {
+                  "content": "(Required) Use this header to enable this experimental API.",
+                  "type": "text/plain"
+                },
+                "key": "X-SailPoint-Experimental",
+                "value": "true"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "response": [
+            {
+              "id": "00383b47-b4ca-4a32-9d8d-144b15368718",
+              "name": "Responds with a TaskStatus for the task with the given task ID.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "task-status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Max number of results to return.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                        "type": "text/plain"
+                      },
+                      "key": "limit",
+                      "value": "250"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Offset into the full result set. Usually specified with *limit* to paginate through the results.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                        "type": "text/plain"
+                      },
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "If *true* it will populate the *X-Total-Count* response header with the number of results that would be returned if *limit* and *offset* were ignored.\n\nSince requesting a total count can have a performance impact, it is recommended not to send **count=true** if that value will not be used.\n\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                        "type": "text/plain"
+                      },
+                      "key": "count",
+                      "value": "true"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in*\n\n**sourceId**: *eq, in*\n\n**completionStatus**: *eq, in*\n\n**type**: *eq, in*",
+                        "type": "text/plain"
+                      },
+                      "key": "filters",
+                      "value": "type eq \"Cloud Account Aggregation\" and completionStatus eq \"null\""
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **created**",
+                        "type": "text/plain"
+                      },
+                      "key": "sorters",
+                      "value": "-created"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": true,
+                    "description": {
+                      "content": "(Required) Use this header to enable this experimental API.",
+                      "type": "text/plain"
+                    },
+                    "key": "X-SailPoint-Experimental",
+                    "value": "true"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"id12345\",\n    \"type\": \"QUARTZ\",\n    \"uniqueName\": \"Big Task\",\n    \"description\": \"A Really Big Task\",\n    \"parentName\": \"Parent Task\",\n    \"attributes\": {\n      \"identityCount\": 0\n    },\n    \"created\": \"2020-07-11T21:23:15.000Z\",\n    \"modified\": \"2020-07-11T21:23:15.000Z\",\n    \"launched\": \"2020-07-11T21:23:15.000Z\",\n    \"launcher\": \"sweep\",\n    \"completed\": \"2020-07-11T21:23:15.000Z\",\n    \"completionStatus\": \"SUCCESS\",\n    \"messages\": [\n      {\n        \"key\": \"akey\",\n        \"localizedText\": {\n          \"locale\": \"An error has occurred!\",\n          \"message\": \"Error has occurred!\"\n        },\n        \"type\": \"INFO\",\n        \"parameters\": [\n          {\n            \"name\": \"value\"\n          }\n        ]\n      },\n      {\n        \"key\": \"akey\",\n        \"localizedText\": {\n          \"locale\": \"An error has occurred!\",\n          \"message\": \"Error has occurred!\"\n        },\n        \"type\": \"INFO\",\n        \"parameters\": [\n          {\n            \"name\": \"value\"\n          }\n        ]\n      }\n    ],\n    \"progress\": \"Started\",\n    \"percentComplete\": 100,\n    \"returns\": [\n      {\n        \"name\": \"label\",\n        \"attributeName\": \"identityCount\"\n      },\n      {\n        \"name\": \"label\",\n        \"attributeName\": \"identityCount\"\n      }\n    ],\n    \"target\": {\n      \"id\": \"c6dc37bf508149b28ce5b7d90ca4bbf9\",\n      \"type\": \"APPLICATION\",\n      \"name\": \"Active Directory [source]\"\n    },\n    \"taskDefinitionSummary\": {\n      \"arguments\": {\n        \"mantisExecutor\": \"com.sailpoint.mantis.sources.task.AccountAggregationTask\",\n        \"eventClassesCsv\": \"sailpoint.thunderbolt.events.AggregationEvents\",\n        \"serviceClass\": \"sailpoint.thunderbolt.service.AggregationService\",\n        \"serviceMethod\": \"accountAggregationTask\"\n      },\n      \"description\": \"Aggregates from the specified application.\",\n      \"executor\": \"sailpoint.task.ServiceTaskExecutor\",\n      \"id\": \"2c91808475b4334b0175e1dff64b63c5\",\n      \"uniqueName\": \"Cloud Account Aggregation\",\n      \"parentName\": \"Cloud Account Aggregation\"\n    }\n  },\n  {\n    \"id\": \"id12345\",\n    \"type\": \"QUARTZ\",\n    \"uniqueName\": \"Big Task\",\n    \"description\": \"A Really Big Task\",\n    \"parentName\": \"Parent Task\",\n    \"attributes\": {\n      \"identityCount\": 0\n    },\n    \"created\": \"2020-07-11T21:23:15.000Z\",\n    \"modified\": \"2020-07-11T21:23:15.000Z\",\n    \"launched\": \"2020-07-11T21:23:15.000Z\",\n    \"launcher\": \"sweep\",\n    \"completed\": \"2020-07-11T21:23:15.000Z\",\n    \"completionStatus\": \"SUCCESS\",\n    \"messages\": [\n      {\n        \"key\": \"akey\",\n        \"localizedText\": {\n          \"locale\": \"An error has occurred!\",\n          \"message\": \"Error has occurred!\"\n        },\n        \"type\": \"INFO\",\n        \"parameters\": [\n          {\n            \"name\": \"value\"\n          }\n        ]\n      },\n      {\n        \"key\": \"akey\",\n        \"localizedText\": {\n          \"locale\": \"An error has occurred!\",\n          \"message\": \"Error has occurred!\"\n        },\n        \"type\": \"INFO\",\n        \"parameters\": [\n          {\n            \"name\": \"value\"\n          }\n        ]\n      }\n    ],\n    \"progress\": \"Started\",\n    \"percentComplete\": 100,\n    \"returns\": [\n      {\n        \"name\": \"label\",\n        \"attributeName\": \"identityCount\"\n      },\n      {\n        \"name\": \"label\",\n        \"attributeName\": \"identityCount\"\n      }\n    ],\n    \"target\": {\n      \"id\": \"c6dc37bf508149b28ce5b7d90ca4bbf9\",\n      \"type\": \"APPLICATION\",\n      \"name\": \"Active Directory [source]\"\n    },\n    \"taskDefinitionSummary\": {\n      \"arguments\": {\n        \"mantisExecutor\": \"com.sailpoint.mantis.sources.task.AccountAggregationTask\",\n        \"eventClassesCsv\": \"sailpoint.thunderbolt.events.AggregationEvents\",\n        \"serviceClass\": \"sailpoint.thunderbolt.service.AggregationService\",\n        \"serviceMethod\": \"accountAggregationTask\"\n      },\n      \"description\": \"Aggregates from the specified application.\",\n      \"executor\": \"sailpoint.task.ServiceTaskExecutor\",\n      \"id\": \"2c91808475b4334b0175e1dff64b63c5\",\n      \"uniqueName\": \"Cloud Account Aggregation\",\n      \"parentName\": \"Cloud Account Aggregation\"\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a1e40c97-cc4f-4dd5-9a99-d419316fbd7e",
+          "name": "Retrieve pending task status list",
+          "request": {
+            "name": "Retrieve pending task status list",
+            "description": {
+              "content": "Retrieve a list of statuses for pending tasks. Types of tasks include account and entitlement aggregation and other general background processing tasks.  Data for tasks older than 90 days will not be returned.\nPossible tasks to be returned: Cloud Account Aggregation, Cloud Group Aggregation, Cloud Process Uncorrelated Accounts, Cloud Refresh Role, Source Application Discovery, AI Agent Aggregation, Cloud Entitlement Import, Cloud Uncorrelated Refresh, Cloud Identity Aggregation, Cloud Attribute Synchronization, Identity Refresh\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "task-status",
+                "pending-tasks"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Offset into the full result set. Usually specified with *limit* to paginate through the results.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                    "type": "text/plain"
+                  },
+                  "key": "offset",
+                  "value": "0"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Max number of results to return.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                    "type": "text/plain"
+                  },
+                  "key": "limit",
+                  "value": "250"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "If *true* it will populate the *X-Total-Count* response header with the number of results that would be returned if *limit* and *offset* were ignored.\n\nSince requesting a total count can have a performance impact, it is recommended not to send **count=true** if that value will not be used.\n\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                    "type": "text/plain"
+                  },
+                  "key": "count",
+                  "value": "true"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": true,
+                "description": {
+                  "content": "(Required) Use this header to enable this experimental API.",
+                  "type": "text/plain"
+                },
+                "key": "X-SailPoint-Experimental",
+                "value": "true"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "response": [
+            {
+              "id": "b6f8c61d-3112-4714-a027-400ec0b4bc49",
+              "name": "Responds with a list of TaskStatus for pending tasks.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "task-status",
+                    "pending-tasks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Offset into the full result set. Usually specified with *limit* to paginate through the results.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                        "type": "text/plain"
+                      },
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Max number of results to return.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                        "type": "text/plain"
+                      },
+                      "key": "limit",
+                      "value": "250"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "If *true* it will populate the *X-Total-Count* response header with the number of results that would be returned if *limit* and *offset* were ignored.\n\nSince requesting a total count can have a performance impact, it is recommended not to send **count=true** if that value will not be used.\n\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                        "type": "text/plain"
+                      },
+                      "key": "count",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": true,
+                    "description": {
+                      "content": "(Required) Use this header to enable this experimental API.",
+                      "type": "text/plain"
+                    },
+                    "key": "X-SailPoint-Experimental",
+                    "value": "true"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"id12345\",\n    \"type\": \"QUARTZ\",\n    \"uniqueName\": \"Big Task\",\n    \"description\": \"A Really Big Task\",\n    \"parentName\": \"Parent Task\",\n    \"attributes\": {\n      \"identityCount\": 0\n    },\n    \"created\": \"2020-07-11T21:23:15.000Z\",\n    \"modified\": \"2020-07-11T21:23:15.000Z\",\n    \"launched\": \"2020-07-11T21:23:15.000Z\",\n    \"launcher\": \"sweep\",\n    \"completed\": \"2020-07-11T21:23:15.000Z\",\n    \"completionStatus\": \"SUCCESS\",\n    \"messages\": [\n      {\n        \"key\": \"akey\",\n        \"localizedText\": {\n          \"locale\": \"An error has occurred!\",\n          \"message\": \"Error has occurred!\"\n        },\n        \"type\": \"INFO\",\n        \"parameters\": [\n          {\n            \"name\": \"value\"\n          }\n        ]\n      },\n      {\n        \"key\": \"akey\",\n        \"localizedText\": {\n          \"locale\": \"An error has occurred!\",\n          \"message\": \"Error has occurred!\"\n        },\n        \"type\": \"INFO\",\n        \"parameters\": [\n          {\n            \"name\": \"value\"\n          }\n        ]\n      }\n    ],\n    \"progress\": \"Started\",\n    \"percentComplete\": 100,\n    \"returns\": [\n      {\n        \"name\": \"label\",\n        \"attributeName\": \"identityCount\"\n      },\n      {\n        \"name\": \"label\",\n        \"attributeName\": \"identityCount\"\n      }\n    ],\n    \"target\": {\n      \"id\": \"c6dc37bf508149b28ce5b7d90ca4bbf9\",\n      \"type\": \"APPLICATION\",\n      \"name\": \"Active Directory [source]\"\n    },\n    \"taskDefinitionSummary\": {\n      \"arguments\": {\n        \"mantisExecutor\": \"com.sailpoint.mantis.sources.task.AccountAggregationTask\",\n        \"eventClassesCsv\": \"sailpoint.thunderbolt.events.AggregationEvents\",\n        \"serviceClass\": \"sailpoint.thunderbolt.service.AggregationService\",\n        \"serviceMethod\": \"accountAggregationTask\"\n      },\n      \"description\": \"Aggregates from the specified application.\",\n      \"executor\": \"sailpoint.task.ServiceTaskExecutor\",\n      \"id\": \"2c91808475b4334b0175e1dff64b63c5\",\n      \"uniqueName\": \"Cloud Account Aggregation\",\n      \"parentName\": \"Cloud Account Aggregation\"\n    }\n  },\n  {\n    \"id\": \"id12345\",\n    \"type\": \"QUARTZ\",\n    \"uniqueName\": \"Big Task\",\n    \"description\": \"A Really Big Task\",\n    \"parentName\": \"Parent Task\",\n    \"attributes\": {\n      \"identityCount\": 0\n    },\n    \"created\": \"2020-07-11T21:23:15.000Z\",\n    \"modified\": \"2020-07-11T21:23:15.000Z\",\n    \"launched\": \"2020-07-11T21:23:15.000Z\",\n    \"launcher\": \"sweep\",\n    \"completed\": \"2020-07-11T21:23:15.000Z\",\n    \"completionStatus\": \"SUCCESS\",\n    \"messages\": [\n      {\n        \"key\": \"akey\",\n        \"localizedText\": {\n          \"locale\": \"An error has occurred!\",\n          \"message\": \"Error has occurred!\"\n        },\n        \"type\": \"INFO\",\n        \"parameters\": [\n          {\n            \"name\": \"value\"\n          }\n        ]\n      },\n      {\n        \"key\": \"akey\",\n        \"localizedText\": {\n          \"locale\": \"An error has occurred!\",\n          \"message\": \"Error has occurred!\"\n        },\n        \"type\": \"INFO\",\n        \"parameters\": [\n          {\n            \"name\": \"value\"\n          }\n        ]\n      }\n    ],\n    \"progress\": \"Started\",\n    \"percentComplete\": 100,\n    \"returns\": [\n      {\n        \"name\": \"label\",\n        \"attributeName\": \"identityCount\"\n      },\n      {\n        \"name\": \"label\",\n        \"attributeName\": \"identityCount\"\n      }\n    ],\n    \"target\": {\n      \"id\": \"c6dc37bf508149b28ce5b7d90ca4bbf9\",\n      \"type\": \"APPLICATION\",\n      \"name\": \"Active Directory [source]\"\n    },\n    \"taskDefinitionSummary\": {\n      \"arguments\": {\n        \"mantisExecutor\": \"com.sailpoint.mantis.sources.task.AccountAggregationTask\",\n        \"eventClassesCsv\": \"sailpoint.thunderbolt.events.AggregationEvents\",\n        \"serviceClass\": \"sailpoint.thunderbolt.service.AggregationService\",\n        \"serviceMethod\": \"accountAggregationTask\"\n      },\n      \"description\": \"Aggregates from the specified application.\",\n      \"executor\": \"sailpoint.task.ServiceTaskExecutor\",\n      \"id\": \"2c91808475b4334b0175e1dff64b63c5\",\n      \"uniqueName\": \"Cloud Account Aggregation\",\n      \"parentName\": \"Cloud Account Aggregation\"\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2c870831-8eb0-4f3b-8ca2-04fccea74998",
+              "name": "No content - indicates the request was successful but there is no content to be returned in the response.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "task-status",
+                    "pending-tasks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Offset into the full result set. Usually specified with *limit* to paginate through the results.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                        "type": "text/plain"
+                      },
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Max number of results to return.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                        "type": "text/plain"
+                      },
+                      "key": "limit",
+                      "value": "250"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "If *true* it will populate the *X-Total-Count* response header with the number of results that would be returned if *limit* and *offset* were ignored.\n\nSince requesting a total count can have a performance impact, it is recommended not to send **count=true** if that value will not be used.\n\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                        "type": "text/plain"
+                      },
+                      "key": "count",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": true,
+                    "description": {
+                      "content": "(Required) Use this header to enable this experimental API.",
+                      "type": "text/plain"
+                    },
+                    "key": "X-SailPoint-Experimental",
+                    "value": "true"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [],
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "44bce586-b5b1-4f3f-8b73-b1e4c5921c52",
+          "name": "Retrieve pending task list headers",
+          "request": {
+            "name": "Retrieve pending task list headers",
+            "description": {
+              "content": "Responds with headers only for list of task statuses for pending tasks.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "task-status",
+                "pending-tasks"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Offset into the full result set. Usually specified with *limit* to paginate through the results.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                    "type": "text/plain"
+                  },
+                  "key": "offset",
+                  "value": "0"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Max number of results to return.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                    "type": "text/plain"
+                  },
+                  "key": "limit",
+                  "value": "250"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "If *true* it will populate the *X-Total-Count* response header with the number of results that would be returned if *limit* and *offset* were ignored.\n\nSince requesting a total count can have a performance impact, it is recommended not to send **count=true** if that value will not be used.\n\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                    "type": "text/plain"
+                  },
+                  "key": "count",
+                  "value": "true"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": true,
+                "description": {
+                  "content": "(Required) Use this header to enable this experimental API.",
+                  "type": "text/plain"
+                },
+                "key": "X-SailPoint-Experimental",
+                "value": "true"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "HEAD",
+            "body": {}
+          },
+          "response": [
+            {
+              "id": "e3784b28-7885-4ec8-92bb-1c43b1042b60",
+              "name": "Retrieve headers for a list of TaskStatus for pending tasks.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "task-status",
+                    "pending-tasks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Offset into the full result set. Usually specified with *limit* to paginate through the results.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                        "type": "text/plain"
+                      },
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Max number of results to return.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                        "type": "text/plain"
+                      },
+                      "key": "limit",
+                      "value": "250"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "If *true* it will populate the *X-Total-Count* response header with the number of results that would be returned if *limit* and *offset* were ignored.\n\nSince requesting a total count can have a performance impact, it is recommended not to send **count=true** if that value will not be used.\n\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                        "type": "text/plain"
+                      },
+                      "key": "count",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": true,
+                    "description": {
+                      "content": "(Required) Use this header to enable this experimental API.",
+                      "type": "text/plain"
+                    },
+                    "key": "X-SailPoint-Experimental",
+                    "value": "true"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "HEAD",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [],
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d8e418b4-2c58-4012-b6c5-207fc01ac8cd",
+              "name": "No content - indicates the request was successful but there is no content to be returned in the response.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "task-status",
+                    "pending-tasks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Offset into the full result set. Usually specified with *limit* to paginate through the results.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                        "type": "text/plain"
+                      },
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Max number of results to return.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                        "type": "text/plain"
+                      },
+                      "key": "limit",
+                      "value": "250"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "If *true* it will populate the *X-Total-Count* response header with the number of results that would be returned if *limit* and *offset* were ignored.\n\nSince requesting a total count can have a performance impact, it is recommended not to send **count=true** if that value will not be used.\n\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                        "type": "text/plain"
+                      },
+                      "key": "count",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": true,
+                    "description": {
+                      "content": "(Required) Use this header to enable this experimental API.",
+                      "type": "text/plain"
+                    },
+                    "key": "X-SailPoint-Experimental",
+                    "value": "true"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "HEAD",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [],
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "const domain = pm.environment.get('domain') ? pm.environment.get('domain') : pm.collectionVariables.get('domain')",
+          "const tokenUrl = 'https://' + pm.environment.get('tenant') + '.api.' + domain + '.com/oauth/token';",
+          "const clientId = pm.environment.get('clientId');",
+          "const clientSecret = pm.environment.get('clientSecret');",
+          "",
+          "const getTokenRequest = {",
+          "    method: 'POST',",
+          "    url: tokenUrl,",
+          "    body: {",
+          "        mode: 'formdata',",
+          "        formdata: [{",
+          "                key: 'grant_type',",
+          "                value: 'client_credentials'",
+          "            },",
+          "            {",
+          "                key: 'client_id',",
+          "                value: clientId",
+          "            },",
+          "            {",
+          "                key: 'client_secret',",
+          "                value: clientSecret",
+          "            }",
+          "        ]",
+          "    }",
+          "};",
+          "",
+          "",
+          "var moment = require('moment');",
+          "if (!pm.environment.has('tokenExpTime')) {",
+          "    pm.environment.set('tokenExpTime', moment());",
+          "}",
+          "",
+          "if (moment(pm.environment.get('tokenExpTime')) <= moment() || !pm.environment.get('tokenExpTime') || !pm.environment.get('accessToken')) {",
+          "    var time = moment();",
+          "    time.add(12, 'hours');",
+          "    pm.environment.set('tokenExpTime', time);",
+          "    pm.sendRequest(getTokenRequest, (err, response) => {",
+          "        const jsonResponse = response.json();",
+          "        if (response.code != 200) {",
+          "            throw new Error(`Unable to authenticate: ${JSON.stringify(jsonResponse)}`);",
+          "        }",
+          "        const newAccessToken = jsonResponse.access_token;",
+          "        pm.environment.set('accessToken', newAccessToken);",
+          "    });",
+          "",
+          "}",
+          "",
+          "const flag = pm.collectionVariables.get('experimentalEnabled');",
+          "",
+          "if (flag === 'true') {",
+          "    pm.request.addHeader({",
+          "        key: 'X-SailPoint-Experimental',",
+          "        value: 'true'",
+          "    });",
+          "}",
+          "",
+          "// Add custom User-Agent header to all requests",
+          "pm.request.addHeader({",
+          "    key: 'User-Agent',",
+          "    value: 'SailPointPostmanCollection'",
+          "});"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "domain",
+      "value": "identitynow",
+      "type": "string"
+    },
+    {
+      "key": "baseUrl",
+      "value": "https://{{tenant}}.api.{{domain}}.com/v2025",
+      "type": "string"
+    },
+    {
+      "key": "experimentalEnabled",
+      "value": "false",
+      "type": "string"
+    }
+  ],
+  "info": {
+    "_postman_id": "167b5433-d4bd-4fa5-99e1-b12613bce8b9",
+    "name": "Identity Security Cloud v2026 API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Use these APIs to interact with the Identity Security Cloud platform to achieve repeatable, automated processes with greater scalability. We encourage you to join the SailPoint Developer Community forum at https://developer.sailpoint.com/discuss to connect with other developers using our APIs.\n\nContact Support:\n Name: Developer Relations",
+      "type": "text/plain"
+    }
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{accessToken}}",
+        "type": "string"
+      }
+    ]
+  }
+}
