@@ -67,9 +67,9 @@ jobs:
           redocly bundle idn/sailpoint-api.v2025.yaml --ext json -o dereferenced/deref-sailpoint-api.v2025.json
 
           # v2026
-          swagger-cli bundle --dereference idn/sailpoint-api.v2026.yaml -t yaml -o dereferenced/deref-sailpoint-api.v2026.yaml
-          swagger-cli bundle --dereference idn/sailpoint-api.v2026.yaml -t json -o dereferenced/deref-sailpoint-api.v2026.json
-
+          redocly bundle idn/sailpoint-api.v2026.yaml --ext yaml -o dereferenced/deref-sailpoint-api.v2026.yaml
+          redocly bundle idn/sailpoint-api.v2026.yaml --ext json -o dereferenced/deref-sailpoint-api.v2026.json
+          
           # nerm
           redocly bundle nerm/openapi.yaml --ext yaml -o dereferenced/deref-sailpoint-api.nerm.yaml
           redocly bundle nerm/openapi.yaml --ext json -o dereferenced/deref-sailpoint-api.nerm.json
@@ -83,7 +83,8 @@ jobs:
           openapi2postmanv2 -s dereferenced/deref-sailpoint-api.nerm.v2025.yaml -o postman/collections/sailpoint-api-nerm-v2025.json -p -c postman-script/openapi2postman-config.json
           openapi2postmanv2 -s dereferenced/deref-sailpoint-api.v2024.yaml -o postman/collections/sailpoint-api-v2024.json -p -c postman-script/openapi2postman-config.json
           openapi2postmanv2 -s dereferenced/deref-sailpoint-api.v2025.yaml -o postman/collections/sailpoint-api-v2025.json -p -c postman-script/openapi2postman-config.json
-
+          openapi2postmanv2 -s dereferenced/deref-sailpoint-api.v2026.yaml -o postman/collections/sailpoint-api-v2026.json -p -c postman-script/openapi2postman-config.json 
+          
           # modify collections
           node postman-script/modify-collection.js postman/collections/sailpoint-api-v3.json
           node postman-script/modify-collection.js postman/collections/sailpoint-api-beta.json
@@ -91,12 +92,7 @@ jobs:
           node postman-script/modify-collection.js postman/collections/sailpoint-api-v2025.json
           node postman-script/modify-collection.js postman/collections/sailpoint-api-v2026.json
 
-
-          swagger-cli bundle --dereference idn/sailpoint-api.v2026.yaml -t yaml -o dereferenced/deref-sailpoint-api.v2026.yaml
-          openapi2postmanv2 -s dereferenced/deref-sailpoint-api.v2026.yaml -o postman/collections/sailpoint-api-v2026.json -p -c postman-script/openapi2postman-config.json
-          node postman-script/modify-collection.js postman/collections/sailpoint-api-v2026.json
-          swagger-cli bundle --dereference idn/sailpoint-api.v2026.yaml -t json -o dereferenced/deref-sailpoint-api.v2026.json
-
+          
           cd postman-script/update-by-folder-ts
           echo "POSTMAN_API_KEY=${{ secrets.POSTMAN_API_KEY }}" > .env
           npm ci
