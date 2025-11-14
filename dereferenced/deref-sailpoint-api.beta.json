@@ -6685,6 +6685,7 @@
         ],
         "summary": "Certification task status",
         "description": "This API returns the status of a certification task. A token with ORG_ADMIN or CERT_ADMIN authority is required to call this API. Reviewers for this certification can also call this API.",
+        "deprecated": true,
         "parameters": [
           {
             "in": "path",
@@ -6747,6 +6748,7 @@
         ],
         "summary": "Pending certification tasks",
         "description": "This API returns the status of all pending (`QUEUED` or `IN_PROGRESS`) tasks for an identity campaign certification. A token with ORG_ADMIN or CERT_ADMIN authority is required to call this API. Reviewers for this certification can also call this API.",
+        "deprecated": true,
         "parameters": [
           {
             "in": "path",
@@ -6987,6 +6989,7 @@
         ],
         "summary": "Certifications by ids",
         "description": "This API returns a list of certifications that satisfy the given query parameters. Any authenticated token can call this API, but only certifications you are authorized to review will be returned.",
+        "deprecated": true,
         "parameters": [
           {
             "in": "query",
