@@ -10163,6 +10163,7 @@ paths:
       security:
         - userAuth:
             - idn:accounts-state:manage
+            - idn:accounts-provisioning:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
       parameters:
@@ -10202,6 +10203,7 @@ paths:
       security:
         - userAuth:
             - idn:accounts-state:manage
+            - idn:accounts-provisioning:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
       parameters:
@@ -10241,6 +10243,7 @@ paths:
       security:
         - userAuth:
             - idn:accounts-state:manage
+            - idn:accounts-provisioning:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
       requestBody:
@@ -10288,6 +10291,7 @@ paths:
       security:
         - userAuth:
             - idn:accounts-state:manage
+            - idn:accounts-provisioning:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
       requestBody:

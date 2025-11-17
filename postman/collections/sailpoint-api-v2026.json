@@ -5,7 +5,7 @@
       "description": "",
       "item": [
         {
-          "id": "949b1db5-cc04-4bf0-89ba-93aeb0e3aaa8",
+          "id": "67894a49-beed-4078-b732-ff71c6ecbb76",
           "name": "Get task status by id",
           "request": {
             "name": "Get task status by id",
@@ -55,7 +55,7 @@
           },
           "response": [
             {
-              "id": "839d4390-b610-46d5-a32b-6af001ce93a1",
+              "id": "fc32fb90-7d2a-47b3-9948-948aa9016949",
               "name": "Responds with a TaskStatus for the task with the given task ID.",
               "originalRequest": {
                 "url": {
@@ -67,7 +67,18 @@
                     "{{baseUrl}}"
                   ],
                   "query": [],
-                  "variable": []
+                  "variable": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "(Required) Task ID.",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "00eebcf881994e419d72e757fd30dc0e",
+                      "key": "id"
+                    }
+                  ]
                 },
                 "header": [
                   {
@@ -114,7 +125,7 @@
           }
         },
         {
-          "id": "49247849-ebf8-4b79-8a58-0019d18189aa",
+          "id": "ead6c9e2-8194-4f08-b880-7fc8434cd772",
           "name": "Update task status by id",
           "request": {
             "name": "Update task status by id",
@@ -177,7 +188,7 @@
           },
           "response": [
             {
-              "id": "728e9aab-9080-468f-9873-27a5630dab3b",
+              "id": "4f8fadbf-f9dc-4e77-ae44-72351f992936",
               "name": "This response indicates the PATCH operation succeeded, and the API returns the updated task object.",
               "originalRequest": {
                 "url": {
@@ -189,7 +200,18 @@
                     "{{baseUrl}}"
                   ],
                   "query": [],
-                  "variable": []
+                  "variable": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "(Required) Task ID.",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "00eebcf881994e419d72e757fd30dc0e",
+                      "key": "id"
+                    }
+                  ]
                 },
                 "header": [
                   {
@@ -249,7 +271,7 @@
           }
         },
         {
-          "id": "efed68ec-be1d-4168-a32d-783229d427ff",
+          "id": "802ccc49-dc13-4487-9c72-cdbff4566e2b",
           "name": "Retrieve task status list",
           "request": {
             "name": "Retrieve task status list",
@@ -333,7 +355,7 @@
           },
           "response": [
             {
-              "id": "5da78b7a-a955-4a02-8f9e-527dce5d9719",
+              "id": "a36138a9-9063-4927-aae4-f421a7f2bdd2",
               "name": "Responds with a TaskStatus for the task with the given task ID.",
               "originalRequest": {
                 "url": {
@@ -437,7 +459,7 @@
           }
         },
         {
-          "id": "632eb5a3-f93e-43c2-aa4d-fb40214165dd",
+          "id": "b4e5af48-116c-4bd5-b6dd-eae6eac61423",
           "name": "Retrieve pending task status list",
           "request": {
             "name": "Retrieve pending task status list",
@@ -504,7 +526,7 @@
           },
           "response": [
             {
-              "id": "000fc56a-5809-497c-81f6-dae75e921af9",
+              "id": "aa4b18e2-54d7-402d-919d-182f646ae731",
               "name": "Responds with a list of TaskStatus for pending tasks.",
               "originalRequest": {
                 "url": {
@@ -585,7 +607,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "871ee077-4417-4a9c-b2e2-069e030ab9fd",
+              "id": "667738ac-d10b-4b48-bfc1-353c344abba8",
               "name": "No content - indicates the request was successful but there is no content to be returned in the response.",
               "originalRequest": {
                 "url": {
@@ -662,7 +684,7 @@
           }
         },
         {
-          "id": "dcb57c94-06cb-4457-acfc-8dd3ea78598a",
+          "id": "09beb67a-df4f-4b02-b04e-dda1378de264",
           "name": "Retrieve pending task list headers",
           "request": {
             "name": "Retrieve pending task list headers",
@@ -729,7 +751,7 @@
           },
           "response": [
             {
-              "id": "2cb3ef3e-77bb-4369-a9ad-6158c9f381b6",
+              "id": "d0137fad-4a55-445a-a9b4-a8b80c96bc43",
               "name": "Retrieve headers for a list of TaskStatus for pending tasks.",
               "originalRequest": {
                 "url": {
@@ -800,7 +822,7 @@
               "_postman_previewlanguage": "text"
             },
             {
-              "id": "71b2c9b4-3d45-424d-a92b-541607bf21ab",
+              "id": "ee6fe8f9-5b94-43d0-9544-59fba13bcf9b",
               "name": "No content - indicates the request was successful but there is no content to be returned in the response.",
               "originalRequest": {
                 "url": {
@@ -977,7 +999,7 @@
     }
   ],
   "info": {
-    "_postman_id": "78123e12-630a-4708-b636-ab47bfd44248",
+    "_postman_id": "4e272ffb-6797-4267-a367-fa0ed074a710",
     "name": "Identity Security Cloud v2026 API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": {

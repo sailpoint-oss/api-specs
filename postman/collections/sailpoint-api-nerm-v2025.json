@@ -5,7 +5,7 @@
             "description": "",
             "item": [
                 {
-                    "id": "64e1ab32-1754-4ca7-8d59-bbd526ec5ae1",
+                    "id": "ab98815b-8f43-4c18-a90d-5b6e8fcc3c56",
                     "name": "List delegations",
                     "request": {
                         "name": "List delegations",
@@ -90,7 +90,7 @@
                     },
                     "response": [
                         {
-                            "id": "049873cd-82d5-40d5-88c1-157f68f620b8",
+                            "id": "a3f9eabd-5bbc-407f-beab-de91abf06cab",
                             "name": "Expected response to a valid request",
                             "originalRequest": {
                                 "url": {
@@ -180,7 +180,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "0350907f-22ae-49a1-b157-5e278767f50d",
+                            "id": "eb979f50-c150-4307-8d25-dfb0982f3456",
                             "name": "Internal Server Error - returned on unhandled exceptions.",
                             "originalRequest": {
                                 "url": {
@@ -276,7 +276,7 @@
                     }
                 },
                 {
-                    "id": "92a8b88e-8226-4c39-8ed0-3898fba32338",
+                    "id": "c90cc3fe-b2e5-43e2-85d0-7260088bc919",
                     "name": "Create a delegation",
                     "request": {
                         "name": "Create a delegation",
@@ -319,7 +319,7 @@
                     },
                     "response": [
                         {
-                            "id": "b64598b7-3093-470d-af91-0de0205b7e6a",
+                            "id": "28b2cec6-3c8d-419b-9ad8-4ed0755dd6c1",
                             "name": "Expected response to a valid request",
                             "originalRequest": {
                                 "url": {
@@ -367,7 +367,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "99a72d3e-972a-4951-b0bf-f7b9fc66de12",
+                            "id": "a2722abc-b13a-4831-aac8-893bb335841d",
                             "name": "Record Not Found",
                             "originalRequest": {
                                 "url": {
@@ -415,7 +415,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "2fb6f429-7e68-4546-bb01-91f165a1e45f",
+                            "id": "ec0dfd61-97f5-4942-9cde-d778d3512db7",
                             "name": "Internal Server Error - returned on unhandled exceptions.",
                             "originalRequest": {
                                 "url": {
@@ -469,7 +469,7 @@
                     }
                 },
                 {
-                    "id": "6f7a80a0-a7e1-4a31-ac8d-e01269ff3a5e",
+                    "id": "8ac5f151-5205-4a33-bed1-2ff29cc442e7",
                     "name": "Get a single delegation",
                     "request": {
                         "name": "Get a single delegation",
@@ -511,7 +511,7 @@
                     },
                     "response": [
                         {
-                            "id": "9da338e5-f894-456e-a8fd-304d09e2427a",
+                            "id": "bc8242ac-39b6-4f20-8047-8af28dfa2aa1",
                             "name": "Expected response to a valid request",
                             "originalRequest": {
                                 "url": {
@@ -523,7 +523,18 @@
                                         "{{baseUrl}}"
                                     ],
                                     "query": [],
-                                    "variable": []
+                                    "variable": [
+                                        {
+                                            "disabled": false,
+                                            "description": {
+                                                "content": "(Required) ID of the object to retrieve, update, or delete",
+                                                "type": "text/plain"
+                                            },
+                                            "type": "any",
+                                            "value": "1246d8b3-ac29-4015-8154-dea4434a73fa",
+                                            "key": "id"
+                                        }
+                                    ]
                                 },
                                 "header": [
                                     {
@@ -547,7 +558,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "2639f1f0-e2b6-4f8e-b872-bc6135618b32",
+                            "id": "ada130f7-1add-4e5f-9a85-bd952d6ed60a",
                             "name": "Record Not Found",
                             "originalRequest": {
                                 "url": {
@@ -559,7 +570,18 @@
                                         "{{baseUrl}}"
                                     ],
                                     "query": [],
-                                    "variable": []
+                                    "variable": [
+                                        {
+                                            "disabled": false,
+                                            "description": {
+                                                "content": "(Required) ID of the object to retrieve, update, or delete",
+                                                "type": "text/plain"
+                                            },
+                                            "type": "any",
+                                            "value": "1246d8b3-ac29-4015-8154-dea4434a73fa",
+                                            "key": "id"
+                                        }
+                                    ]
                                 },
                                 "header": [
                                     {
@@ -583,7 +605,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "22580907-fc16-4ffb-b84f-45fe48987a28",
+                            "id": "d211c7ca-468e-4e2c-a751-6108bf4fcdd4",
                             "name": "Internal Server Error - returned on unhandled exceptions.",
                             "originalRequest": {
                                 "url": {
@@ -595,7 +617,18 @@
                                         "{{baseUrl}}"
                                     ],
                                     "query": [],
-                                    "variable": []
+                                    "variable": [
+                                        {
+                                            "disabled": false,
+                                            "description": {
+                                                "content": "(Required) ID of the object to retrieve, update, or delete",
+                                                "type": "text/plain"
+                                            },
+                                            "type": "any",
+                                            "value": "1246d8b3-ac29-4015-8154-dea4434a73fa",
+                                            "key": "id"
+                                        }
+                                    ]
                                 },
                                 "header": [
                                     {
@@ -625,7 +658,7 @@
                     }
                 },
                 {
-                    "id": "3ba208f9-855e-40f0-9e5d-0be8da1f9ca6",
+                    "id": "14827bd6-63d5-4978-a79f-43f7335fae6f",
                     "name": "Update a delegation",
                     "request": {
                         "name": "Update a delegation",
@@ -680,7 +713,7 @@
                     },
                     "response": [
                         {
-                            "id": "41a4cec7-8628-463b-8636-f71d262a4940",
+                            "id": "7964c15a-dc12-4138-816b-644222c8b509",
                             "name": "Expected response to a valid request",
                             "originalRequest": {
                                 "url": {
@@ -692,7 +725,18 @@
                                         "{{baseUrl}}"
                                     ],
                                     "query": [],
-                                    "variable": []
+                                    "variable": [
+                                        {
+                                            "disabled": false,
+                                            "description": {
+                                                "content": "(Required) ID of the object to retrieve, update, or delete",
+                                                "type": "text/plain"
+                                            },
+                                            "type": "any",
+                                            "value": "1246d8b3-ac29-4015-8154-dea4434a73fa",
+                                            "key": "id"
+                                        }
+                                    ]
                                 },
                                 "header": [
                                     {
@@ -729,7 +773,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "97faf946-bfb5-4f6c-bd57-419efe8b4411",
+                            "id": "fb22477b-a429-4b6f-b22c-4ba39068ad73",
                             "name": "Record Not Found",
                             "originalRequest": {
                                 "url": {
@@ -741,7 +785,18 @@
                                         "{{baseUrl}}"
                                     ],
                                     "query": [],
-                                    "variable": []
+                                    "variable": [
+                                        {
+                                            "disabled": false,
+                                            "description": {
+                                                "content": "(Required) ID of the object to retrieve, update, or delete",
+                                                "type": "text/plain"
+                                            },
+                                            "type": "any",
+                                            "value": "1246d8b3-ac29-4015-8154-dea4434a73fa",
+                                            "key": "id"
+                                        }
+                                    ]
                                 },
                                 "header": [
                                     {
@@ -778,7 +833,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "6d6a52cb-eaee-48c7-a977-184ab3370224",
+                            "id": "a35ceed9-a252-44e7-8d3d-03c1c9573e50",
                             "name": "Internal Server Error - returned on unhandled exceptions.",
                             "originalRequest": {
                                 "url": {
@@ -790,7 +845,18 @@
                                         "{{baseUrl}}"
                                     ],
                                     "query": [],
-                                    "variable": []
+                                    "variable": [
+                                        {
+                                            "disabled": false,
+                                            "description": {
+                                                "content": "(Required) ID of the object to retrieve, update, or delete",
+                                                "type": "text/plain"
+                                            },
+                                            "type": "any",
+                                            "value": "1246d8b3-ac29-4015-8154-dea4434a73fa",
+                                            "key": "id"
+                                        }
+                                    ]
                                 },
                                 "header": [
                                     {
@@ -833,7 +899,7 @@
                     }
                 },
                 {
-                    "id": "3ab9acfd-0f20-48a7-b956-ced914ab566e",
+                    "id": "ebf337b0-e83f-44ff-9f56-b9480d980538",
                     "name": "Delete a delegation",
                     "request": {
                         "name": "Delete a delegation",
@@ -875,7 +941,7 @@
                     },
                     "response": [
                         {
-                            "id": "78e4d139-f1af-4877-abbb-a752a61ea617",
+                            "id": "6e9d9161-1637-4b7b-a27b-298ab7fe5da0",
                             "name": "The delegation record '<delegation_id>' has been destroyed.",
                             "originalRequest": {
                                 "url": {
@@ -887,7 +953,18 @@
                                         "{{baseUrl}}"
                                     ],
                                     "query": [],
-                                    "variable": []
+                                    "variable": [
+                                        {
+                                            "disabled": false,
+                                            "description": {
+                                                "content": "(Required) ID of the object to retrieve, update, or delete",
+                                                "type": "text/plain"
+                                            },
+                                            "type": "any",
+                                            "value": "1246d8b3-ac29-4015-8154-dea4434a73fa",
+                                            "key": "id"
+                                        }
+                                    ]
                                 },
                                 "method": "DELETE",
                                 "body": {}
@@ -899,7 +976,7 @@
                             "_postman_previewlanguage": "text"
                         },
                         {
-                            "id": "38820543-387c-4279-8216-3d571a7861ef",
+                            "id": "60483fcf-335c-4b1c-b634-cfb8e1b2b10f",
                             "name": "Record Not Found",
                             "originalRequest": {
                                 "url": {
@@ -911,7 +988,18 @@
                                         "{{baseUrl}}"
                                     ],
                                     "query": [],
-                                    "variable": []
+                                    "variable": [
+                                        {
+                                            "disabled": false,
+                                            "description": {
+                                                "content": "(Required) ID of the object to retrieve, update, or delete",
+                                                "type": "text/plain"
+                                            },
+                                            "type": "any",
+                                            "value": "1246d8b3-ac29-4015-8154-dea4434a73fa",
+                                            "key": "id"
+                                        }
+                                    ]
                                 },
                                 "header": [
                                     {
@@ -935,7 +1023,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "b03b9cc6-5249-4229-b456-cf53321c23e5",
+                            "id": "80023174-2c9c-4878-a0d4-91fda6f77e4f",
                             "name": "Internal Server Error - returned on unhandled exceptions.",
                             "originalRequest": {
                                 "url": {
@@ -947,7 +1035,18 @@
                                         "{{baseUrl}}"
                                     ],
                                     "query": [],
-                                    "variable": []
+                                    "variable": [
+                                        {
+                                            "disabled": false,
+                                            "description": {
+                                                "content": "(Required) ID of the object to retrieve, update, or delete",
+                                                "type": "text/plain"
+                                            },
+                                            "type": "any",
+                                            "value": "1246d8b3-ac29-4015-8154-dea4434a73fa",
+                                            "key": "id"
+                                        }
+                                    ]
                                 },
                                 "header": [
                                     {
@@ -991,7 +1090,7 @@
         }
     ],
     "info": {
-        "_postman_id": "b44c62fc-5049-4a90-bf3f-24fff2e0a3cc",
+        "_postman_id": "686e34a3-150b-4958-97dd-f788aee6a6b4",
         "name": "NERM API v2025",
         "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
         "description": {
