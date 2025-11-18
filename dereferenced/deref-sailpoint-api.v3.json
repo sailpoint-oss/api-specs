@@ -1021,7 +1021,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:access-request:cancel"
+              "idn:access-request:manage"
             ]
           }
         ],
@@ -1120,7 +1120,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:access-request-config:update"
+              "idn:access-request-config:manage"
             ]
           }
         ],
@@ -1518,7 +1518,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:access-request-approvals:read"
+              "idn:access-request-approvals:manage"
             ]
           }
         ],
@@ -1634,7 +1634,14 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:access-request-approvals:manage"
+            ]
+          }
+        ]
       }
     },
     "/access-request-approvals/{approvalId}/forward": {
@@ -1691,7 +1698,14 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:access-request-approvals:manage"
+            ]
+          }
+        ]
       }
     },
     "/access-request-approvals/approval-summary": {
@@ -1700,7 +1714,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:access-request-approvals-summary:read"
+              "idn:access-request-approvals:read"
             ]
           }
         ],
@@ -1778,7 +1792,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:accounts:read"
+              "idn:accounts:read",
+              "idn:accounts:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:accounts:read",
+              "idn:accounts:manage"
             ]
           }
         ],
@@ -1877,6 +1898,11 @@
             "userAuth": [
               "idn:accounts:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:accounts:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -1934,7 +1960,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:accounts:read"
+              "idn:accounts:read",
+              "idn:accounts:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:accounts:read",
+              "idn:accounts:manage"
             ]
           }
         ],
@@ -2257,7 +2290,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:accounts:read"
+              "idn:accounts:read",
+              "idn:accounts:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:accounts:read",
+              "idn:accounts:manage"
             ]
           }
         ],
@@ -2553,8 +2593,12 @@
         "security": [
           {
             "userAuth": [
-              "idn:accounts-state:manage",
-              "idn:accounts-provisioning:manage"
+              "idn:accounts-state:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:accounts-state:manage"
             ]
           }
         ],
@@ -2625,7 +2669,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:account-config:create"
+              "idn:account-config:manage"
             ]
           }
         ],
@@ -2684,7 +2728,8 @@
         "security": [
           {
             "userAuth": [
-              "idn:account-config:read"
+              "idn:account-config:read",
+              "idn:account-config:manage"
             ]
           }
         ],
@@ -2742,7 +2787,8 @@
         "security": [
           {
             "userAuth": [
-              "idn:account-config:read"
+              "idn:account-config:read",
+              "idn:account-config:manage"
             ]
           }
         ],
@@ -2809,7 +2855,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:account-config:delete"
+              "idn:account-config:manage"
             ]
           }
         ],
@@ -2863,7 +2909,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:account-config:create"
+              "idn:account-config:manage"
             ]
           }
         ],
@@ -3447,7 +3493,14 @@
         },
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "sp:auth-org:read "
+            ]
+          },
+          {
+            "applicationAuth": [
+              "sp:auth-org:read "
+            ]
           }
         ]
       },
@@ -3562,7 +3615,14 @@
         },
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "sp:auth-org:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "sp:auth-org:manage"
+            ]
           }
         ]
       }
@@ -3758,7 +3818,7 @@
         "security": [
           {
             "userAuth": [
-              "sp:auth-user:update"
+              "sp:auth-user:manage"
             ]
           }
         ],
@@ -5142,7 +5202,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:campaign-filter:create"
+              "idn:campaign-filter:manage"
             ]
           }
         ],
@@ -5194,7 +5254,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:campaign-filter-list:read"
+              "idn:campaign-filter:manage"
             ]
           }
         ],
@@ -5388,7 +5448,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:campaign-filter:update"
+              "idn:campaign-filter:manage"
             ]
           }
         ],
@@ -5456,7 +5516,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:campaign-filter:delete"
+              "idn:campaign-filter:manage"
             ]
           }
         ],
@@ -6109,7 +6169,9 @@
         "description": "Use this API to get the schedule for a certification campaign template. The API returns a 404 if there is no schedule set.\n",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:campaign-temlates:read"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -6169,7 +6231,9 @@
         "description": "Use this API to set the schedule for a certification campaign template. If a schedule already exists, the API overwrites it with the new one.\n",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:campaign-template:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -6331,7 +6395,9 @@
         "description": "Use this API to delete the schedule for a certification campaign template. The API returns a 404 if there is no schedule set.\n",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:campaign-template:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -6516,7 +6582,14 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:campaign:read"
+            ]
+          }
+        ]
       }
     },
     "/certifications/{id}": {
@@ -6528,7 +6601,9 @@
         "summary": "Identity certification by id",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:campaign:read"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -6590,7 +6665,9 @@
         "summary": "List of access review items",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:campaign:read"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -6715,7 +6792,9 @@
         "summary": "Decide on a certification item",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:campaign:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -6858,7 +6937,14 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:campaign:manage"
+            ]
+          }
+        ]
       }
     },
     "/certifications/{id}/sign-off": {
@@ -6870,7 +6956,9 @@
         "summary": "Finalize identity certification decisions",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:campaign:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -6932,7 +7020,9 @@
         "summary": "Summary of certification decisions",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:campaign:read"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -7004,7 +7094,9 @@
         "summary": "Identity summaries for campaign certification",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:campaign:read"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -7115,7 +7207,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:certification:read"
+              "idn:campaign:read"
             ]
           }
         ],
@@ -7275,7 +7367,9 @@
         "summary": "Summary for identity",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:campaign:read"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -7350,7 +7444,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:certification:read"
+              "idn:campaign:read"
             ]
           }
         ],
@@ -7446,7 +7540,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:certification:read"
+              "idn:campaign:read"
             ]
           }
         ],
@@ -7615,7 +7709,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:certification:read"
+              "idn:campaign:read"
             ]
           }
         ],
@@ -7679,7 +7773,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:certification:read"
+              "idn:campaign:read"
             ]
           }
         ],
@@ -10133,7 +10227,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:identity-profile:delete"
+              "idn:identity-profile:manage"
             ]
           }
         ],
@@ -10460,7 +10554,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:identity-profile:delete"
+              "idn:identity-profile:manage"
             ]
           }
         ],
@@ -10684,7 +10778,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:identity-profile:refresh"
+              "idn:identity-profile:manage"
             ]
           }
         ],
@@ -12597,13 +12691,32 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:nelm:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:manage"
+            ]
+          }
+        ]
       },
       "get": {
         "operationId": "listNonEmployeeRecords",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:nelm:read"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:read"
+            ]
           }
         ],
         "tags": [
@@ -12722,13 +12835,27 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:nelm:read"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:read"
+            ]
+          }
+        ]
       },
       "put": {
         "operationId": "updateNonEmployeeRecord",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:nelm:manage"
+            ]
           }
         ],
         "tags": [
@@ -12795,7 +12922,9 @@
         "operationId": "patchNonEmployeeRecord",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:nelm:manage"
+            ]
           }
         ],
         "tags": [
@@ -12907,7 +13036,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:nelm:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:manage"
+            ]
+          }
+        ]
       }
     },
     "/non-employee-records/bulk-delete": {
@@ -12965,7 +13106,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:nelm:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:manage"
+            ]
+          }
+        ]
       }
     },
     "/non-employee-requests": {
@@ -12973,7 +13126,14 @@
         "operationId": "createNonEmployeeRequest",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:nelm:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:manage"
+            ]
           }
         ],
         "tags": [
@@ -13061,7 +13221,14 @@
         "operationId": "listNonEmployeeRequests",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:nelm:read"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:read"
+            ]
           }
         ],
         "tags": [
@@ -13148,7 +13315,14 @@
         "operationId": "getNonEmployeeRequest",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:nelm:read"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:read"
+            ]
           }
         ],
         "tags": [
@@ -13243,7 +13417,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:nelm:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:manage"
+            ]
+          }
+        ]
       }
     },
     "/non-employee-requests/summary/{requested-for}": {
@@ -13251,7 +13437,14 @@
         "operationId": "getNonEmployeeRequestSummary",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:nelm:read"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:read"
+            ]
           }
         ],
         "tags": [
@@ -13310,6 +13503,11 @@
             "userAuth": [
               "idn:nelm:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -13364,6 +13562,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:nelm:read"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:nelm:read"
             ]
           }
@@ -13456,7 +13659,14 @@
         "operationId": "getNonEmployeeSource",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:nelm:read"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:read"
+            ]
           }
         ],
         "tags": [
@@ -13582,7 +13792,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:nelm:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:manage"
+            ]
+          }
+        ]
       },
       "delete": {
         "operationId": "deleteNonEmployeeSource",
@@ -13623,7 +13845,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:nelm:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:manage"
+            ]
+          }
+        ]
       }
     },
     "/non-employee-sources/{id}/non-employees/download": {
@@ -13674,7 +13908,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:nelm:read"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:read"
+            ]
+          }
+        ]
       }
     },
     "/non-employee-sources/{id}/non-employee-bulk-upload": {
@@ -13683,6 +13929,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:nelm:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:nelm:manage"
             ]
           }
@@ -13809,7 +14060,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:nelm:read"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:read"
+            ]
+          }
+        ]
       }
     },
     "/non-employee-sources/{id}/schema-attributes-template/download": {
@@ -13860,7 +14123,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:nelm:read"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:read"
+            ]
+          }
+        ]
       }
     },
     "/non-employee-approvals": {
@@ -13868,7 +14143,14 @@
         "operationId": "listNonEmployeeApprovals",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:nelm:read"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:read"
+            ]
           }
         ],
         "tags": [
@@ -13955,7 +14237,9 @@
         "operationId": "getNonEmployeeApproval",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:nelm:read"
+            ]
           }
         ],
         "tags": [
@@ -14020,7 +14304,9 @@
         "operationId": "approveNonEmployeeRequest",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:nelm:manage"
+            ]
           }
         ],
         "tags": [
@@ -14085,7 +14371,9 @@
         "operationId": "rejectNonEmployeeRequest",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:nelm:manage"
+            ]
           }
         ],
         "tags": [
@@ -14150,7 +14438,14 @@
         "operationId": "getNonEmployeeApprovalSummary",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:nelm:read"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:read"
+            ]
           }
         ],
         "tags": [
@@ -14205,7 +14500,14 @@
         "operationId": "getNonEmployeeSourceSchemaAttributes",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:nelm:read"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:read"
+            ]
           }
         ],
         "tags": [
@@ -14317,7 +14619,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:nelm:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:manage"
+            ]
+          }
+        ]
       },
       "delete": {
         "operationId": "deleteNonEmployeeSourceSchemaAttributes",
@@ -14359,7 +14673,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:nelm:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:manage"
+            ]
+          }
+        ]
       }
     },
     "/non-employee-sources/{sourceId}/schema-attributes/{attributeId}": {
@@ -14367,7 +14693,14 @@
         "operationId": "getNonEmployeeSchemaAttribute",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:nelm:read"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:read"
+            ]
           }
         ],
         "tags": [
@@ -14510,7 +14843,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:nelm:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:manage"
+            ]
+          }
+        ]
       },
       "delete": {
         "operationId": "deleteNonEmployeeSchemaAttribute",
@@ -14563,7 +14908,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:nelm:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:manage"
+            ]
+          }
+        ]
       }
     },
     "/oauth-clients": {
@@ -14572,6 +14929,7 @@
         "security": [
           {
             "userAuth": [
+              "sp:oauth-client:read",
               "sp:oauth-client:manage"
             ]
           }
@@ -14884,7 +15242,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:password-sync-group-management:read"
+              "idn:password-sync-group:read",
+              "idn:password-sync-group:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:password-sync-group:read",
+              "idn:password-sync-group:manage"
             ]
           }
         ],
@@ -14943,7 +15308,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:password-sync-group-management:write"
+              "idn:password-sync-group:manage"
             ]
           }
         ],
@@ -15017,7 +15382,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:password-sync-group-management:read"
+              "idn:password-sync-group:read",
+              "idn:password-sync-group:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:password-sync-group:read",
+              "idn:password-sync-group:manage"
             ]
           }
         ],
@@ -15087,7 +15459,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:password-sync-group-management:write"
+              "idn:password-sync-group:manage"
             ]
           }
         ],
@@ -15176,7 +15548,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:password-sync-group-management:write"
+              "idn:password-sync-group:manage"
             ]
           }
         ],
@@ -16145,7 +16517,10 @@
         "description": "Returns the publicly visible attributes of an identity available to request approvers for Access Requests and Certification Campaigns.",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:public-identity-config:read",
+              "idn:public-identity-config:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -16188,7 +16563,9 @@
         "description": "Updates the publicly visible attributes of an identity available to request approvers for Access Requests and Certification Campaigns.",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:public-identity-config:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -17091,7 +17468,7 @@
         "security": [
           {
             "userAuth": [
-              "sp:saved-search:create"
+              "sp:saved-search:manage"
             ]
           }
         ],
@@ -17280,7 +17657,14 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "sp:saved-search:manage"
+            ]
+          }
+        ]
       },
       "get": {
         "tags": [
@@ -17331,7 +17715,14 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "sp:saved-search:read"
+            ]
+          }
+        ]
       },
       "delete": {
         "tags": [
@@ -17375,7 +17766,14 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "sp:saved-search:manage"
+            ]
+          }
+        ]
       }
     },
     "/saved-searches/{id}/execute": {
@@ -17432,7 +17830,14 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "sp:saved-search:manage"
+            ]
+          }
+        ]
       }
     },
     "/scheduled-searches": {
@@ -17641,7 +18046,14 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "sp:scheduled-search:manage"
+            ]
+          }
+        ]
       },
       "get": {
         "tags": [
@@ -17711,7 +18123,14 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "sp:scheduled-search:manage"
+            ]
+          }
+        ]
       }
     },
     "/scheduled-searches/{id}": {
@@ -17775,7 +18194,14 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "sp:scheduled-search:manage"
+            ]
+          }
+        ]
       },
       "get": {
         "tags": [
@@ -17870,7 +18296,14 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "sp:scheduled-search:manage"
+            ]
+          }
+        ]
       }
     },
     "/scheduled-searches/{id}/unsubscribe": {
@@ -19402,7 +19835,14 @@
         "summary": "Query password info",
         "security": [
           {
-            "applicationAuth": []
+            "userAuth": [
+              "idn:password-info:read"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:password-info:read"
+            ]
           }
         ],
         "description": "This API is used to query password related information. \n",
@@ -19454,7 +19894,14 @@
         "summary": "Set identity's password",
         "security": [
           {
-            "applicationAuth": []
+            "userAuth": [
+              "idn:password-change:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:password-change:manage"
+            ]
           }
         ],
         "description": "This API is used to set a password for an identity. \n\nAn identity can change their own password (as well as any of their accounts' passwords) if they use a token generated by their ISC user, such as a [personal access token](https://developer.sailpoint.com/idn/api/authentication#personal-access-tokens) or [\"authorization_code\" derived OAuth token](https://developer.sailpoint.com/idn/api/authentication#authorization-code-grant-flow).\n\n>**Note: If you want to set an identity's source account password, you must enable `PASSWORD` as one of the source's features. You can use the [PATCH Source endpoint](https://developer.sailpoint.com/docs/api/v3/update-source) to add the `PASSWORD` feature.**\n\nTo generate the encryptedPassword (RSA encrypted using publicKey) for the request body, run the following command:\n\n```bash\necho -n \"myPassword\" | openssl pkeyutl -encrypt -inkey public_key.pem -pubin | base64\n```\n\nIn this example, myPassword is the plain text password being set and encrypted, and public_key.pem is the path to the public key file. You can retrieve the required publicKey, along with other information like identityId, sourceId, publicKeyId, accounts, and policies, using the Query Password Info endpoint.\n\nTo successfully run this command, you must have OpenSSL installed on your machine. If OpenSSL is unavailable, consider using the Virtual Appliance (VA), which has OpenSSL pre-installed and configured.\n\nIf you are using a Windows machine, refer to this [guide](https://tecadmin.net/install-openssl-on-windows/) for instructions on installing OpenSSL.\n\nYou can then use [Get Password Change Request Status](https://developer.sailpoint.com/idn/api/v3/get-password-change-status) to check the password change request status. To do so, you must provide the `requestId` from your earlier request to set the password. \n",
@@ -19506,10 +19953,14 @@
         "summary": "Get password change request status",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:password-change:read"
+            ]
           },
           {
-            "applicationAuth": []
+            "applicationAuth": [
+              "idn:password-change:read"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -19572,7 +20023,8 @@
         "security": [
           {
             "userAuth": [
-              "idn:password-dictionary-management:read"
+              "idn:password-dictionary:read",
+              "idn:password-dictionary:manage"
             ]
           }
         ],
@@ -19731,7 +20183,12 @@
         "security": [
           {
             "userAuth": [
-              "idn:password-org-config:write"
+              "idn:password-org-config:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:password-org-config:manage"
             ]
           }
         ],
@@ -19793,7 +20250,12 @@
         "security": [
           {
             "userAuth": [
-              "idn:password-org-config:write"
+              "idn:password-org-config:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:password-org-config:manage"
             ]
           }
         ],
@@ -19859,7 +20321,14 @@
         "security": [
           {
             "userAuth": [
-              "sp:report-result:read"
+              "sp:report:read",
+              "sp:report:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "sp:report:read",
+              "sp:report:manage"
             ]
           }
         ],
@@ -20031,7 +20500,7 @@
         "security": [
           {
             "userAuth": [
-              "sp:report:delete"
+              "sp:report:manage"
             ]
           }
         ],
@@ -20083,7 +20552,14 @@
         "security": [
           {
             "userAuth": [
-              "sp:report:read"
+              "sp:report:read",
+              "sp:report:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "sp:report:read",
+              "sp:report:manage"
             ]
           }
         ],
@@ -20211,7 +20687,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-policy:write"
+              "idn:sod-policy:manage"
             ]
           }
         ],
@@ -20434,7 +20910,8 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-policy:read"
+              "idn:sod-policy:read",
+              "idn:sod-policy:manage"
             ]
           }
         ],
@@ -20599,7 +21076,8 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-policy:read"
+              "idn:sod-policy:read",
+              "idn:sod-policy:manage"
             ]
           }
         ],
@@ -20747,7 +21225,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-policy:write"
+              "idn:sod-policy:manage"
             ]
           }
         ],
@@ -20984,7 +21462,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-policy:write"
+              "idn:sod-policy:manage"
             ]
           }
         ],
@@ -21046,7 +21524,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-policy:write"
+              "idn:sod-policy:manage"
             ]
           }
         ],
@@ -21244,7 +21722,12 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-violation:write"
+              "idn:sod-violation:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sod-violation:manage"
             ]
           }
         ],
@@ -21307,7 +21790,8 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-policy:read"
+              "idn:sod-policy:read",
+              "idn:sod-policy:manage"
             ]
           }
         ],
@@ -21362,7 +21846,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-policy:write"
+              "idn:sod-policy:manage"
             ]
           }
         ],
@@ -21427,7 +21911,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-policy:write"
+              "idn:sod-policy:manage"
             ]
           }
         ],
@@ -21480,7 +21964,12 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-violation:write"
+              "idn:sod-violation:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sod-violation:manage"
             ]
           }
         ],
@@ -21546,7 +22035,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-violation:read"
+              "idn:sod-violation:read",
+              "idn:sod-violation:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sod-violation:read",
+              "idn:sod-violation:manage"
             ]
           }
         ],
@@ -21612,7 +22108,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-violation:read"
+              "idn:sod-violation:read",
+              "idn:sod-violation:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sod-violation:read",
+              "idn:sod-violation:manage"
             ]
           }
         ],
@@ -21678,12 +22181,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-violation:read"
+              "idn:sod-violation:read",
+              "idn:sod-violation:manage"
             ]
           },
           {
             "applicationAuth": [
-              "idn:sod-violation:read"
+              "idn:sod-violation:read",
+              "idn:sod-violation:manage"
             ]
           }
         ],
@@ -21756,7 +22261,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-violation:read"
+              "idn:sod-violation:read",
+              "idn:sod-violation:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sod-violation:read",
+              "idn:sod-violation:manage"
             ]
           }
         ],
@@ -21834,7 +22346,12 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-violation:write"
+              "idn:sod-violation:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sod-violation:manage"
             ]
           }
         ],
@@ -21900,7 +22417,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-violation:read"
+              "idn:sod-violation:read",
+              "idn:sod-violation:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sod-violation:read",
+              "idn:sod-violation:manage"
             ]
           }
         ],
@@ -21950,7 +22474,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-violation:read"
+              "idn:sod-violation:read",
+              "idn:sod-violation:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sod-violation:read",
+              "idn:sod-violation:manage"
             ]
           }
         ],
@@ -22011,7 +22542,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-violation:read"
+              "idn:sod-violation:read",
+              "idn:sod-violation:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sod-violation:read",
+              "idn:sod-violation:manage"
             ]
           }
         ],
@@ -22265,7 +22803,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:sources:read"
+              "idn:sources:read",
+              "idn:sources:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:read",
+              "idn:sources:manage"
             ]
           }
         ],
@@ -22738,6 +23283,13 @@
         "security": [
           {
             "userAuth": [
+              "idn:provisioning-policy-source-admin-operations:manage",
+              "idn:provisioning-policy:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:provisioning-policy-source-admin-operations:manage",
               "idn:provisioning-policy:manage"
             ]
           }
@@ -22909,18 +23461,18 @@
         "security": [
           {
             "userAuth": [
-              "idn:provisioning-policy:read",
               "idn:provisioning-policy-source:read",
-              "idn:provisioning-policy:manage",
-              "idn:provisioning-policy-source-admin-operations:manage"
+              "idn:provisioning-policy:read",
+              "idn:provisioning-policy-source-admin-operations:manage",
+              "idn:provisioning-policy:manage"
             ]
           },
           {
             "applicationAuth": [
-              "idn:provisioning-policy:read",
               "idn:provisioning-policy-source:read",
-              "idn:provisioning-policy:manage",
-              "idn:provisioning-policy-source-admin-operations:manage"
+              "idn:provisioning-policy:read",
+              "idn:provisioning-policy-source-admin-operations:manage",
+              "idn:provisioning-policy:manage"
             ]
           }
         ],
@@ -22993,14 +23545,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:provisioning-policy:manage",
-              "idn:provisioning-policy-source-admin-operations:manage"
+              "idn:provisioning-policy-source-admin-operations:manage",
+              "idn:provisioning-policy:manage"
             ]
           },
           {
             "applicationAuth": [
-              "idn:provisioning-policy:manage",
-              "idn:provisioning-policy-source-admin-operations:manage"
+              "idn:provisioning-policy-source-admin-operations:manage",
+              "idn:provisioning-policy:manage"
             ]
           }
         ],
@@ -23083,12 +23635,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:provisioning-policy:update"
+              "idn:provisioning-policy-source-admin-operations:manage",
+              "idn:provisioning-policy:manage"
             ]
           },
           {
             "applicationAuth": [
-              "idn:provisioning-policy:update"
+              "idn:provisioning-policy-source-admin-operations:manage",
+              "idn:provisioning-policy:manage"
             ]
           }
         ],
@@ -23350,7 +23904,8 @@
         "security": [
           {
             "userAuth": [
-              "idn:source-schema:read"
+              "idn:source-schema:read",
+              "idn:source-schema:manage"
             ]
           }
         ],
@@ -23440,7 +23995,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:source-schema:create"
+              "idn:source-schema:manage"
             ]
           }
         ],
@@ -23566,7 +24121,15 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:source-schema:read",
+              "idn:source-schema:manage"
+            ]
+          }
+        ]
       },
       "put": {
         "operationId": "putSourceSchema",
@@ -23638,7 +24201,14 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:source-schema:manage"
+            ]
+          }
+        ]
       },
       "patch": {
         "operationId": "updateSourceSchema",
@@ -23734,7 +24304,14 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:source-schema:manage"
+            ]
+          }
+        ]
       },
       "delete": {
         "operationId": "deleteSourceSchema",
@@ -23789,7 +24366,14 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:source-schema:manage"
+            ]
+          }
+        ]
       }
     },
     "/sources/{sourceId}/source-health": {
@@ -23798,7 +24382,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:sources:read"
+              "idn:sources:read",
+              "idn:sources:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:read",
+              "idn:sources:manage"
             ]
           }
         ],
@@ -23904,7 +24495,8 @@
         "security": [
           {
             "userAuth": [
-              "idn:source-schema:read"
+              "idn:source-schema:read",
+              "idn:source-schema:manage"
             ]
           }
         ]
@@ -24210,7 +24802,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:sources:read"
+              "idn:sources:read",
+              "idn:sources:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:read",
+              "idn:sources:manage"
             ]
           }
         ],
@@ -25982,7 +26581,8 @@
         "security": [
           {
             "userAuth": [
-              "sp:workflow:read"
+              "sp:workflow:read",
+              "sp:workflow:manage"
             ]
           }
         ],
@@ -26267,7 +26867,8 @@
         "security": [
           {
             "userAuth": [
-              "sp:workflow:read"
+              "sp:workflow:read",
+              "sp:workflow:manage"
             ]
           }
         ],
@@ -26731,7 +27332,8 @@
         "security": [
           {
             "userAuth": [
-              "sp:workflow:read"
+              "sp:workflow:read",
+              "sp:workflow:manage"
             ]
           }
         ],
@@ -26820,7 +27422,8 @@
         "security": [
           {
             "userAuth": [
-              "sp:workflow:read"
+              "sp:workflow:read",
+              "sp:workflow:manage"
             ]
           }
         ],
@@ -26885,7 +27488,8 @@
         "security": [
           {
             "userAuth": [
-              "sp:workflow:read"
+              "sp:workflow:read",
+              "sp:workflow:manage"
             ]
           }
         ],
@@ -27021,7 +27625,8 @@
         "security": [
           {
             "userAuth": [
-              "sp:workflow:read"
+              "sp:workflow:read",
+              "sp:workflow:manage"
             ]
           }
         ],
@@ -27100,7 +27705,8 @@
         "security": [
           {
             "userAuth": [
-              "sp:workflow:read"
+              "sp:workflow:read",
+              "sp:workflow:manage"
             ]
           }
         ],
@@ -27169,7 +27775,8 @@
         "security": [
           {
             "userAuth": [
-              "sp:workflow:read"
+              "sp:workflow:read",
+              "sp:workflow:manage"
             ]
           }
         ],
@@ -27216,7 +27823,8 @@
         "security": [
           {
             "userAuth": [
-              "sp:workflow:read"
+              "sp:workflow:read",
+              "sp:workflow:manage"
             ]
           }
         ],
@@ -27510,7 +28118,12 @@
         "security": [
           {
             "userAuth": [
-              "idn:accounts:read"
+              "idn:identity-history:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-history:manage"
             ]
           }
         ],
@@ -27586,7 +28199,12 @@
         "security": [
           {
             "userAuth": [
-              "idn:accounts:read"
+              "idn:identity-history:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-history:manage"
             ]
           }
         ],
@@ -27665,7 +28283,12 @@
         "security": [
           {
             "userAuth": [
-              "idn:accounts:read"
+              "idn:identity-history:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-history:manage"
             ]
           }
         ],

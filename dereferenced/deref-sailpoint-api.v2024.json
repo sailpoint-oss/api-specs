@@ -1198,7 +1198,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:access-request:cancel"
+              "idn:access-request:manage"
             ]
           }
         ],
@@ -1371,7 +1371,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:access-request:create"
+              "idn:access-request:manage"
             ]
           }
         ],
@@ -1484,7 +1484,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:access-request-config:update"
+              "idn:access-request-config:manage"
             ]
           }
         ],
@@ -2054,7 +2054,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:access-request-approvals:read"
+              "idn:access-request-approvals:manage"
             ]
           }
         ],
@@ -2170,7 +2170,14 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:access-request-approvals:manage"
+            ]
+          }
+        ]
       }
     },
     "/access-request-approvals/{approvalId}/forward": {
@@ -2227,7 +2234,14 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:access-request-approvals:manage"
+            ]
+          }
+        ]
       }
     },
     "/access-request-approvals/approval-summary": {
@@ -2236,7 +2250,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:access-request-approvals-summary:read"
+              "idn:access-request-approvals:read"
             ]
           }
         ],
@@ -2309,7 +2323,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:access-request-administration:write"
+              "idn:access-request:manage"
             ]
           }
         ],
@@ -2477,7 +2491,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:accounts:read"
+              "idn:accounts:read",
+              "idn:accounts:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:accounts:read",
+              "idn:accounts:manage"
             ]
           }
         ],
@@ -2576,6 +2597,11 @@
             "userAuth": [
               "idn:accounts:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:accounts:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -2633,7 +2659,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:accounts:read"
+              "idn:accounts:read",
+              "idn:accounts:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:accounts:read",
+              "idn:accounts:manage"
             ]
           }
         ],
@@ -2956,7 +2989,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:accounts:read"
+              "idn:accounts:read",
+              "idn:accounts:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:accounts:read",
+              "idn:accounts:manage"
             ]
           }
         ],
@@ -3252,8 +3292,12 @@
         "security": [
           {
             "userAuth": [
-              "idn:accounts-state:manage",
-              "idn:accounts-provisioning:manage"
+              "idn:accounts-state:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:accounts-state:manage"
             ]
           }
         ],
@@ -3941,7 +3985,14 @@
         },
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "sp:auth-org:read "
+            ]
+          },
+          {
+            "applicationAuth": [
+              "sp:auth-org:read "
+            ]
           }
         ]
       },
@@ -4056,7 +4107,14 @@
         },
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "sp:auth-org:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "sp:auth-org:manage"
+            ]
           }
         ]
       }
@@ -4252,7 +4310,7 @@
         "security": [
           {
             "userAuth": [
-              "sp:auth-user:update"
+              "sp:auth-user:manage"
             ]
           }
         ],
@@ -5636,7 +5694,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:campaign-filter:create"
+              "idn:campaign-filter:manage"
             ]
           }
         ],
@@ -5688,7 +5746,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:campaign-filter-list:read"
+              "idn:campaign-filter:manage"
             ]
           }
         ],
@@ -5882,7 +5940,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:campaign-filter:update"
+              "idn:campaign-filter:manage"
             ]
           }
         ],
@@ -5950,7 +6008,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:campaign-filter:delete"
+              "idn:campaign-filter:manage"
             ]
           }
         ],
@@ -6603,7 +6661,9 @@
         "description": "Use this API to get the schedule for a certification campaign template. The API returns a 404 if there is no schedule set.\n",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:campaign-temlates:read"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -6663,7 +6723,9 @@
         "description": "Use this API to set the schedule for a certification campaign template. If a schedule already exists, the API overwrites it with the new one.\n",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:campaign-template:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -6825,7 +6887,9 @@
         "description": "Use this API to delete the schedule for a certification campaign template. The API returns a 404 if there is no schedule set.\n",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:campaign-template:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -7010,7 +7074,14 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:campaign:read"
+            ]
+          }
+        ]
       }
     },
     "/certifications/{id}": {
@@ -7022,7 +7093,9 @@
         "summary": "Identity certification by id",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:campaign:read"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -7084,7 +7157,9 @@
         "summary": "List of access review items",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:campaign:read"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -7209,7 +7284,9 @@
         "summary": "Decide on a certification item",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:campaign:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -7352,7 +7429,14 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:campaign:manage"
+            ]
+          }
+        ]
       }
     },
     "/certifications/{id}/sign-off": {
@@ -7364,7 +7448,9 @@
         "summary": "Finalize identity certification decisions",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:campaign:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -7426,7 +7512,9 @@
         "summary": "Summary of certification decisions",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:campaign:read"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -7498,7 +7586,9 @@
         "summary": "Identity summaries for campaign certification",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:campaign:read"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -7609,7 +7699,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:certification:read"
+              "idn:campaign:read"
             ]
           }
         ],
@@ -7769,7 +7859,9 @@
         "summary": "Summary for identity",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:campaign:read"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -7844,7 +7936,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:certification:read"
+              "idn:campaign:read"
             ]
           }
         ],
@@ -7940,7 +8032,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:certification:read"
+              "idn:campaign:read"
             ]
           }
         ],
@@ -8109,7 +8201,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:certification:read"
+              "idn:campaign:read"
             ]
           }
         ],
@@ -8173,7 +8265,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:certification:read"
+              "idn:campaign:read"
             ]
           }
         ],
@@ -8347,7 +8439,7 @@
         "security": [
           {
             "userAuth": [
-              "sp:connector:create"
+              "sp:connector:manage"
             ]
           }
         ],
@@ -8481,7 +8573,7 @@
         "security": [
           {
             "userAuth": [
-              "sp:connector:update"
+              "sp:connector:manage"
             ]
           }
         ],
@@ -8535,7 +8627,7 @@
         "security": [
           {
             "userAuth": [
-              "sp:connector:delete"
+              "sp:connector:manage"
             ]
           }
         ],
@@ -8550,7 +8642,7 @@
         "security": [
           {
             "userAuth": [
-              "sp:connector:update"
+              "sp:connector:manage"
             ]
           }
         ],
@@ -11634,12 +11726,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:data-segments:read"
-            ]
-          },
-          {
-            "applicationAuth": [
-              "idn:data-segments:read"
+              "idn:data-segment:read"
             ]
           }
         ],
@@ -11714,12 +11801,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:data-segments:read"
-            ]
-          },
-          {
-            "applicationAuth": [
-              "idn:data-segments:read"
+              "idn:data-segment:read"
             ]
           }
         ],
@@ -11792,12 +11874,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:data-segments:read"
-            ]
-          },
-          {
-            "applicationAuth": [
-              "idn:data-segments:read"
+              "idn:data-segment:read"
             ]
           }
         ],
@@ -11868,12 +11945,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:data-segments:write"
-            ]
-          },
-          {
-            "applicationAuth": [
-              "idn:data-segments:write"
+              "idn:data-segment:manage"
             ]
           }
         ],
@@ -11952,12 +12024,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:data-segments:write"
-            ]
-          },
-          {
-            "applicationAuth": [
-              "idn:data-segments:write"
+              "idn:data-segment:manage"
             ]
           }
         ],
@@ -12076,12 +12143,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:data-segments:write"
-            ]
-          },
-          {
-            "applicationAuth": [
-              "idn:data-segments:write"
+              "idn:data-segment:manage"
             ]
           }
         ],
@@ -12158,12 +12220,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:data-segments:read"
-            ]
-          },
-          {
-            "applicationAuth": [
-              "idn:data-segments:read"
+              "idn:data-segment:read"
             ]
           }
         ],
@@ -12279,12 +12336,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:data-segments:write"
-            ]
-          },
-          {
-            "applicationAuth": [
-              "idn:data-segments:write"
+              "idn:data-segment:manage"
             ]
           }
         ],
@@ -12500,7 +12552,12 @@
         "security": [
           {
             "userAuth": [
-              "idn:identity:delete"
+              "idn:identity:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity:manage"
             ]
           }
         ],
@@ -12921,7 +12978,12 @@
         "security": [
           {
             "userAuth": [
-              "idn:identity:update"
+              "idn:identity:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity:manage"
             ]
           }
         ],
@@ -12974,7 +13036,9 @@
         "security": [
           {
             "userAuth": [
-              "idn:identity:read"
+              "idn:identity:read",
+              "idn:identity-direct-report:read",
+              "idn:identity:manage"
             ]
           }
         ],
@@ -13063,7 +13127,9 @@
         "security": [
           {
             "userAuth": [
-              "idn:identity:read"
+              "idn:identity:read",
+              "idn:identity-direct-report:read",
+              "idn:identity:manage"
             ]
           }
         ],
@@ -13859,7 +13925,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:identity-profile:delete"
+              "idn:identity-profile:manage"
             ]
           }
         ],
@@ -14128,7 +14194,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:identity-profile:delete"
+              "idn:identity-profile:manage"
             ]
           }
         ],
@@ -14352,7 +14418,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:identity-profile:refresh"
+              "idn:identity-profile:manage"
             ]
           }
         ],
@@ -15396,7 +15462,8 @@
         "security": [
           {
             "userAuth": [
-              "idn:managed-cluster-types:read"
+              "idn:managed-cluster-types:read",
+              "idn:managed-cluster-types:manage"
             ]
           }
         ],
@@ -15454,7 +15521,7 @@
         "security": [
           {
             "userAuth": [
-              "dn:managed-cluster-types:create"
+              "idn:managed-cluster-types:manage"
             ]
           }
         ],
@@ -15517,7 +15584,8 @@
         "security": [
           {
             "userAuth": [
-              "idn:managed-cluster-types:read"
+              "idn:managed-cluster-types:read",
+              "idn:managed-cluster-types:manage"
             ]
           }
         ],
@@ -15589,7 +15657,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:managed-cluster-types:update"
+              "idn:managed-cluster-types:manage"
             ]
           }
         ],
@@ -15641,7 +15709,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:managed-cluster-types:delete"
+              "idn:managed-cluster-types:manage"
             ]
           }
         ],
@@ -16198,8 +16266,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:multihosts:create",
-              "idn:sources:create"
+              "idn:sources:manage",
+              "idn:multihosts-admin:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:manage",
+              "idn:multihosts-admin:manage"
             ]
           }
         ]
@@ -16292,8 +16366,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:multihosts:read",
-              "idn:sources:read"
+              "idn:sources:read",
+              "idn:multihosts-admin:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:read",
+              "idn:multihosts-admin:manage"
             ]
           }
         ]
@@ -16343,8 +16423,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:multihosts:read",
-              "idn:sources:read"
+              "idn:sources:read",
+              "idn:multihosts-admin:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:read",
+              "idn:multihosts-admin:manage"
             ]
           }
         ]
@@ -16413,8 +16499,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:multihosts:create",
-              "idn:sources:create"
+              "idn:sources:manage",
+              "idn:multihosts-admin:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:manage",
+              "idn:multihosts-admin:manage"
             ]
           }
         ]
@@ -16474,8 +16566,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:multihosts:read",
-              "idn:sources:read"
+              "idn:sources:read",
+              "idn:multihosts-admin:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:read",
+              "idn:multihosts-admin:manage"
             ]
           }
         ]
@@ -16528,8 +16626,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:multihosts:delete",
-              "idn:sources:delete"
+              "idn:sources:manage",
+              "idn:multihosts-admin:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:manage",
+              "idn:multihosts-admin:manage"
             ]
           }
         ]
@@ -16677,7 +16781,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:multihosts:update"
+              "idn:multihosts-admin:manage"
             ]
           }
         ]
@@ -16732,8 +16836,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:multihosts:read",
-              "idn:sources:read"
+              "idn:multihosts-admin:manage"
             ]
           }
         ]
@@ -16847,8 +16950,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:multihosts:read",
-              "idn:sources:read"
+              "idn:sources:read",
+              "idn:multihosts-admin:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:read",
+              "idn:multihosts-admin:manage"
             ]
           }
         ]
@@ -16947,8 +17056,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:multihosts:read",
-              "idn:sources:read"
+              "idn:sources:read",
+              "idn:multihosts-admin:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:read",
+              "idn:multihosts-admin:manage"
             ]
           }
         ]
@@ -17013,8 +17128,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:multihosts:read",
-              "idn:sources:read"
+              "idn:sources:read",
+              "idn:multihosts-admin:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:read",
+              "idn:multihosts-admin:manage"
             ]
           }
         ]
@@ -17085,7 +17206,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:multihosts:update"
+              "idn:multihosts-admin:manage"
             ]
           }
         ],
@@ -17159,7 +17280,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:multihosts:update"
+              "idn:multihosts-admin:manage"
             ]
           }
         ],
@@ -17213,13 +17334,32 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:nelm:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:manage"
+            ]
+          }
+        ]
       },
       "get": {
         "operationId": "listNonEmployeeRecords",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:nelm:read"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:read"
+            ]
           }
         ],
         "tags": [
@@ -17338,13 +17478,27 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:nelm:read"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:read"
+            ]
+          }
+        ]
       },
       "put": {
         "operationId": "updateNonEmployeeRecord",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:nelm:manage"
+            ]
           }
         ],
         "tags": [
@@ -17411,7 +17565,9 @@
         "operationId": "patchNonEmployeeRecord",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:nelm:manage"
+            ]
           }
         ],
         "tags": [
@@ -17523,7 +17679,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:nelm:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:manage"
+            ]
+          }
+        ]
       }
     },
     "/non-employee-records/bulk-delete": {
@@ -17581,7 +17749,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:nelm:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:manage"
+            ]
+          }
+        ]
       }
     },
     "/non-employee-requests": {
@@ -17589,7 +17769,14 @@
         "operationId": "createNonEmployeeRequest",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:nelm:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:manage"
+            ]
           }
         ],
         "tags": [
@@ -17677,7 +17864,14 @@
         "operationId": "listNonEmployeeRequests",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:nelm:read"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:read"
+            ]
           }
         ],
         "tags": [
@@ -17764,7 +17958,14 @@
         "operationId": "getNonEmployeeRequest",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:nelm:read"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:read"
+            ]
           }
         ],
         "tags": [
@@ -17859,7 +18060,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:nelm:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:manage"
+            ]
+          }
+        ]
       }
     },
     "/non-employee-requests/summary/{requested-for}": {
@@ -17867,7 +18080,14 @@
         "operationId": "getNonEmployeeRequestSummary",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:nelm:read"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:read"
+            ]
           }
         ],
         "tags": [
@@ -17926,6 +18146,11 @@
             "userAuth": [
               "idn:nelm:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -17980,6 +18205,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:nelm:read"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:nelm:read"
             ]
           }
@@ -18072,7 +18302,14 @@
         "operationId": "getNonEmployeeSource",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:nelm:read"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:read"
+            ]
           }
         ],
         "tags": [
@@ -18198,7 +18435,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:nelm:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:manage"
+            ]
+          }
+        ]
       },
       "delete": {
         "operationId": "deleteNonEmployeeSource",
@@ -18239,7 +18488,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:nelm:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:manage"
+            ]
+          }
+        ]
       }
     },
     "/non-employee-sources/{id}/non-employees/download": {
@@ -18290,7 +18551,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:nelm:read"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:read"
+            ]
+          }
+        ]
       }
     },
     "/non-employee-sources/{id}/non-employee-bulk-upload": {
@@ -18299,6 +18572,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:nelm:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:nelm:manage"
             ]
           }
@@ -18425,7 +18703,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:nelm:read"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:read"
+            ]
+          }
+        ]
       }
     },
     "/non-employee-sources/{id}/schema-attributes-template/download": {
@@ -18476,7 +18766,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:nelm:read"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:read"
+            ]
+          }
+        ]
       }
     },
     "/non-employee-approvals": {
@@ -18484,7 +18786,14 @@
         "operationId": "listNonEmployeeApprovals",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:nelm:read"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:read"
+            ]
           }
         ],
         "tags": [
@@ -18571,7 +18880,9 @@
         "operationId": "getNonEmployeeApproval",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:nelm:read"
+            ]
           }
         ],
         "tags": [
@@ -18636,7 +18947,9 @@
         "operationId": "approveNonEmployeeRequest",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:nelm:manage"
+            ]
           }
         ],
         "tags": [
@@ -18701,7 +19014,9 @@
         "operationId": "rejectNonEmployeeRequest",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:nelm:manage"
+            ]
           }
         ],
         "tags": [
@@ -18766,7 +19081,14 @@
         "operationId": "getNonEmployeeApprovalSummary",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:nelm:read"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:read"
+            ]
           }
         ],
         "tags": [
@@ -18821,7 +19143,14 @@
         "operationId": "getNonEmployeeSourceSchemaAttributes",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:nelm:read"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:read"
+            ]
           }
         ],
         "tags": [
@@ -18933,7 +19262,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:nelm:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:manage"
+            ]
+          }
+        ]
       },
       "delete": {
         "operationId": "deleteNonEmployeeSourceSchemaAttributes",
@@ -18975,7 +19316,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:nelm:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:manage"
+            ]
+          }
+        ]
       }
     },
     "/non-employee-sources/{sourceId}/schema-attributes/{attributeId}": {
@@ -18983,7 +19336,14 @@
         "operationId": "getNonEmployeeSchemaAttribute",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:nelm:read"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:read"
+            ]
           }
         ],
         "tags": [
@@ -19126,7 +19486,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:nelm:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:manage"
+            ]
+          }
+        ]
       },
       "delete": {
         "operationId": "deleteNonEmployeeSchemaAttribute",
@@ -19179,7 +19551,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:nelm:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:nelm:manage"
+            ]
+          }
+        ]
       }
     },
     "/oauth-clients": {
@@ -19188,6 +19572,7 @@
         "security": [
           {
             "userAuth": [
+              "sp:oauth-client:read",
               "sp:oauth-client:manage"
             ]
           }
@@ -19500,7 +19885,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:password-sync-group-management:read"
+              "idn:password-sync-group:read",
+              "idn:password-sync-group:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:password-sync-group:read",
+              "idn:password-sync-group:manage"
             ]
           }
         ],
@@ -19559,7 +19951,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:password-sync-group-management:write"
+              "idn:password-sync-group:manage"
             ]
           }
         ],
@@ -19633,7 +20025,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:password-sync-group-management:read"
+              "idn:password-sync-group:read",
+              "idn:password-sync-group:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:password-sync-group:read",
+              "idn:password-sync-group:manage"
             ]
           }
         ],
@@ -19703,7 +20102,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:password-sync-group-management:write"
+              "idn:password-sync-group:manage"
             ]
           }
         ],
@@ -19792,7 +20191,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:password-sync-group-management:write"
+              "idn:password-sync-group:manage"
             ]
           }
         ],
@@ -20761,7 +21160,10 @@
         "description": "Returns the publicly visible attributes of an identity available to request approvers for Access Requests and Certification Campaigns.",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:public-identity-config:read",
+              "idn:public-identity-config:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -20804,7 +21206,9 @@
         "description": "Updates the publicly visible attributes of an identity available to request approvers for Access Requests and Certification Campaigns.",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:public-identity-config:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -22637,7 +23041,7 @@
         "security": [
           {
             "userAuth": [
-              "sp:saved-search:create"
+              "sp:saved-search:manage"
             ]
           }
         ],
@@ -22826,7 +23230,14 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "sp:saved-search:manage"
+            ]
+          }
+        ]
       },
       "get": {
         "tags": [
@@ -22877,7 +23288,14 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "sp:saved-search:read"
+            ]
+          }
+        ]
       },
       "delete": {
         "tags": [
@@ -22921,7 +23339,14 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "sp:saved-search:manage"
+            ]
+          }
+        ]
       }
     },
     "/saved-searches/{id}/execute": {
@@ -22978,7 +23403,14 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "sp:saved-search:manage"
+            ]
+          }
+        ]
       }
     },
     "/scheduled-searches": {
@@ -23187,7 +23619,14 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "sp:scheduled-search:manage"
+            ]
+          }
+        ]
       },
       "get": {
         "tags": [
@@ -23257,7 +23696,14 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "sp:scheduled-search:manage"
+            ]
+          }
+        ]
       }
     },
     "/scheduled-searches/{id}": {
@@ -23321,7 +23767,14 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "sp:scheduled-search:manage"
+            ]
+          }
+        ]
       },
       "get": {
         "tags": [
@@ -23416,7 +23869,14 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "sp:scheduled-search:manage"
+            ]
+          }
+        ]
       }
     },
     "/scheduled-searches/{id}/unsubscribe": {
@@ -24948,7 +25408,14 @@
         "summary": "Query password info",
         "security": [
           {
-            "applicationAuth": []
+            "userAuth": [
+              "idn:password-info:read"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:password-info:read"
+            ]
           }
         ],
         "description": "This API is used to query password related information. \n",
@@ -25000,7 +25467,14 @@
         "summary": "Set identity's password",
         "security": [
           {
-            "applicationAuth": []
+            "userAuth": [
+              "idn:password-change:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:password-change:manage"
+            ]
           }
         ],
         "description": "This API is used to set a password for an identity. \n\nAn identity can change their own password (as well as any of their accounts' passwords) if they use a token generated by their ISC user, such as a [personal access token](https://developer.sailpoint.com/idn/api/authentication#personal-access-tokens) or [\"authorization_code\" derived OAuth token](https://developer.sailpoint.com/idn/api/authentication#authorization-code-grant-flow).\n\n>**Note: If you want to set an identity's source account password, you must enable `PASSWORD` as one of the source's features. You can use the [PATCH Source endpoint](https://developer.sailpoint.com/docs/api/v3/update-source) to add the `PASSWORD` feature.**\n\nTo generate the encryptedPassword (RSA encrypted using publicKey) for the request body, run the following command:\n\n```bash\necho -n \"myPassword\" | openssl pkeyutl -encrypt -inkey public_key.pem -pubin | base64\n```\n\nIn this example, myPassword is the plain text password being set and encrypted, and public_key.pem is the path to the public key file. You can retrieve the required publicKey, along with other information like identityId, sourceId, publicKeyId, accounts, and policies, using the Query Password Info endpoint.\n\nTo successfully run this command, you must have OpenSSL installed on your machine. If OpenSSL is unavailable, consider using the Virtual Appliance (VA), which has OpenSSL pre-installed and configured.\n\nIf you are using a Windows machine, refer to this [guide](https://tecadmin.net/install-openssl-on-windows/) for instructions on installing OpenSSL.\n\nYou can then use [Get Password Change Request Status](https://developer.sailpoint.com/idn/api/v3/get-password-change-status) to check the password change request status. To do so, you must provide the `requestId` from your earlier request to set the password. \n",
@@ -25052,10 +25526,14 @@
         "summary": "Get password change request status",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:password-change:read"
+            ]
           },
           {
-            "applicationAuth": []
+            "applicationAuth": [
+              "idn:password-change:read"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -25118,7 +25596,8 @@
         "security": [
           {
             "userAuth": [
-              "idn:password-dictionary-management:read"
+              "idn:password-dictionary:read",
+              "idn:password-dictionary:manage"
             ]
           }
         ],
@@ -25277,7 +25756,12 @@
         "security": [
           {
             "userAuth": [
-              "idn:password-org-config:write"
+              "idn:password-org-config:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:password-org-config:manage"
             ]
           }
         ],
@@ -25339,7 +25823,12 @@
         "security": [
           {
             "userAuth": [
-              "idn:password-org-config:write"
+              "idn:password-org-config:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:password-org-config:manage"
             ]
           }
         ],
@@ -25405,7 +25894,14 @@
         "security": [
           {
             "userAuth": [
-              "sp:report-result:read"
+              "sp:report:read",
+              "sp:report:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "sp:report:read",
+              "sp:report:manage"
             ]
           }
         ],
@@ -25577,7 +26073,7 @@
         "security": [
           {
             "userAuth": [
-              "sp:report:delete"
+              "sp:report:manage"
             ]
           }
         ],
@@ -25629,7 +26125,14 @@
         "security": [
           {
             "userAuth": [
-              "sp:report:read"
+              "sp:report:read",
+              "sp:report:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "sp:report:read",
+              "sp:report:manage"
             ]
           }
         ],
@@ -25757,7 +26260,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-policy:write"
+              "idn:sod-policy:manage"
             ]
           }
         ],
@@ -25980,7 +26483,8 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-policy:read"
+              "idn:sod-policy:read",
+              "idn:sod-policy:manage"
             ]
           }
         ],
@@ -26145,7 +26649,8 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-policy:read"
+              "idn:sod-policy:read",
+              "idn:sod-policy:manage"
             ]
           }
         ],
@@ -26293,7 +26798,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-policy:write"
+              "idn:sod-policy:manage"
             ]
           }
         ],
@@ -26530,7 +27035,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-policy:write"
+              "idn:sod-policy:manage"
             ]
           }
         ],
@@ -26592,7 +27097,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-policy:write"
+              "idn:sod-policy:manage"
             ]
           }
         ],
@@ -26790,7 +27295,12 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-violation:write"
+              "idn:sod-violation:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sod-violation:manage"
             ]
           }
         ],
@@ -26853,7 +27363,8 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-policy:read"
+              "idn:sod-policy:read",
+              "idn:sod-policy:manage"
             ]
           }
         ],
@@ -26908,7 +27419,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-policy:write"
+              "idn:sod-policy:manage"
             ]
           }
         ],
@@ -26973,7 +27484,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-policy:write"
+              "idn:sod-policy:manage"
             ]
           }
         ],
@@ -27026,7 +27537,12 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-violation:write"
+              "idn:sod-violation:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sod-violation:manage"
             ]
           }
         ],
@@ -27092,7 +27608,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-violation:read"
+              "idn:sod-violation:read",
+              "idn:sod-violation:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sod-violation:read",
+              "idn:sod-violation:manage"
             ]
           }
         ],
@@ -27158,7 +27681,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-violation:read"
+              "idn:sod-violation:read",
+              "idn:sod-violation:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sod-violation:read",
+              "idn:sod-violation:manage"
             ]
           }
         ],
@@ -27224,12 +27754,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-violation:read"
+              "idn:sod-violation:read",
+              "idn:sod-violation:manage"
             ]
           },
           {
             "applicationAuth": [
-              "idn:sod-violation:read"
+              "idn:sod-violation:read",
+              "idn:sod-violation:manage"
             ]
           }
         ],
@@ -27302,7 +27834,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-violation:read"
+              "idn:sod-violation:read",
+              "idn:sod-violation:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sod-violation:read",
+              "idn:sod-violation:manage"
             ]
           }
         ],
@@ -27380,7 +27919,12 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-violation:write"
+              "idn:sod-violation:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sod-violation:manage"
             ]
           }
         ],
@@ -27446,7 +27990,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-violation:read"
+              "idn:sod-violation:read",
+              "idn:sod-violation:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sod-violation:read",
+              "idn:sod-violation:manage"
             ]
           }
         ],
@@ -27496,7 +28047,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-violation:read"
+              "idn:sod-violation:read",
+              "idn:sod-violation:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sod-violation:read",
+              "idn:sod-violation:manage"
             ]
           }
         ],
@@ -27557,7 +28115,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:sod-violation:read"
+              "idn:sod-violation:read",
+              "idn:sod-violation:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sod-violation:read",
+              "idn:sod-violation:manage"
             ]
           }
         ],
@@ -27811,7 +28376,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:sources:read"
+              "idn:sources:read",
+              "idn:sources:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:read",
+              "idn:sources:manage"
             ]
           }
         ],
@@ -28284,6 +28856,13 @@
         "security": [
           {
             "userAuth": [
+              "idn:provisioning-policy-source-admin-operations:manage",
+              "idn:provisioning-policy:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:provisioning-policy-source-admin-operations:manage",
               "idn:provisioning-policy:manage"
             ]
           }
@@ -28455,18 +29034,18 @@
         "security": [
           {
             "userAuth": [
-              "idn:provisioning-policy:read",
               "idn:provisioning-policy-source:read",
-              "idn:provisioning-policy:manage",
-              "idn:provisioning-policy-source-admin-operations:manage"
+              "idn:provisioning-policy:read",
+              "idn:provisioning-policy-source-admin-operations:manage",
+              "idn:provisioning-policy:manage"
             ]
           },
           {
             "applicationAuth": [
-              "idn:provisioning-policy:read",
               "idn:provisioning-policy-source:read",
-              "idn:provisioning-policy:manage",
-              "idn:provisioning-policy-source-admin-operations:manage"
+              "idn:provisioning-policy:read",
+              "idn:provisioning-policy-source-admin-operations:manage",
+              "idn:provisioning-policy:manage"
             ]
           }
         ],
@@ -28539,14 +29118,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:provisioning-policy:manage",
-              "idn:provisioning-policy-source-admin-operations:manage"
+              "idn:provisioning-policy-source-admin-operations:manage",
+              "idn:provisioning-policy:manage"
             ]
           },
           {
             "applicationAuth": [
-              "idn:provisioning-policy:manage",
-              "idn:provisioning-policy-source-admin-operations:manage"
+              "idn:provisioning-policy-source-admin-operations:manage",
+              "idn:provisioning-policy:manage"
             ]
           }
         ],
@@ -28629,12 +29208,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:provisioning-policy:update"
+              "idn:provisioning-policy-source-admin-operations:manage",
+              "idn:provisioning-policy:manage"
             ]
           },
           {
             "applicationAuth": [
-              "idn:provisioning-policy:update"
+              "idn:provisioning-policy-source-admin-operations:manage",
+              "idn:provisioning-policy:manage"
             ]
           }
         ],
@@ -28896,7 +29477,8 @@
         "security": [
           {
             "userAuth": [
-              "idn:source-schema:read"
+              "idn:source-schema:read",
+              "idn:source-schema:manage"
             ]
           }
         ],
@@ -28986,7 +29568,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:source-schema:create"
+              "idn:source-schema:manage"
             ]
           }
         ],
@@ -29057,7 +29639,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:sources:read"
+              "idn:sources:read",
+              "idn:sources:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:read",
+              "idn:sources:manage"
             ]
           }
         ],
@@ -29123,7 +29712,12 @@
         "security": [
           {
             "userAuth": [
-              "idn:sources:update"
+              "idn:sources:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:manage"
             ]
           }
         ],
@@ -29195,7 +29789,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:sources:read"
+              "idn:sources:read",
+              "idn:sources:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:read",
+              "idn:sources:manage"
             ]
           }
         ],
@@ -29272,7 +29873,12 @@
         "security": [
           {
             "userAuth": [
-              "idn:sources:update"
+              "idn:sources:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:manage"
             ]
           }
         ],
@@ -29375,7 +29981,12 @@
         "security": [
           {
             "userAuth": [
-              "idn:sources:update"
+              "idn:sources:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:manage"
             ]
           }
         ],
@@ -29502,7 +30113,15 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:source-schema:read",
+              "idn:source-schema:manage"
+            ]
+          }
+        ]
       },
       "put": {
         "operationId": "putSourceSchema",
@@ -29574,7 +30193,14 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:source-schema:manage"
+            ]
+          }
+        ]
       },
       "patch": {
         "operationId": "updateSourceSchema",
@@ -29670,7 +30296,14 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:source-schema:manage"
+            ]
+          }
+        ]
       },
       "delete": {
         "operationId": "deleteSourceSchema",
@@ -29725,7 +30358,14 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:source-schema:manage"
+            ]
+          }
+        ]
       }
     },
     "/sources/{sourceId}/source-health": {
@@ -29734,7 +30374,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:sources:read"
+              "idn:sources:read",
+              "idn:sources:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:read",
+              "idn:sources:manage"
             ]
           }
         ],
@@ -29840,7 +30487,8 @@
         "security": [
           {
             "userAuth": [
-              "idn:source-schema:read"
+              "idn:source-schema:read",
+              "idn:source-schema:manage"
             ]
           }
         ]
@@ -29978,7 +30626,8 @@
         "security": [
           {
             "userAuth": [
-              "idn:source-schema:read"
+              "idn:source-schema:read",
+              "idn:source-schema:manage"
             ]
           }
         ]
@@ -30146,7 +30795,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:sources:read"
+              "idn:sources:read",
+              "idn:sources:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:read",
+              "idn:sources:manage"
             ]
           }
         ],
@@ -30414,7 +31070,12 @@
         "security": [
           {
             "userAuth": [
-              "idn:sources:update"
+              "idn:sources:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:manage"
             ]
           }
         ]
@@ -30695,7 +31356,10 @@
         "summary": "Gets source config with language-translations",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:connector-config:read",
+              "idn:connector-config:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -30921,12 +31585,12 @@
         "security": [
           {
             "userAuth": [
-              "idn:sources:update"
+              "idn:sources:manage"
             ]
           },
           {
             "applicationAuth": [
-              "idn:sources:update"
+              "idn:sources:manage"
             ]
           }
         ],
@@ -31831,7 +32495,21 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:tag:read",
+              "idn:tag:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:tag:read",
+              "idn:tag:manage"
+            ]
+          }
+        ]
       },
       "post": {
         "operationId": "createTag",
@@ -31913,7 +32591,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:tag:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:tag:manage"
+            ]
+          }
+        ]
       }
     },
     "/tags/{id}": {
@@ -31966,7 +32656,21 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:tag:read",
+              "idn:tag:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:tag:read",
+              "idn:tag:manage"
+            ]
+          }
+        ]
       },
       "delete": {
         "operationId": "deleteTagById",
@@ -32047,7 +32751,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:tag:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:tag:manage"
+            ]
+          }
+        ]
       }
     },
     "/transforms": {
@@ -33136,7 +33852,8 @@
         "security": [
           {
             "userAuth": [
-              "sp:workflow:read"
+              "sp:workflow:read",
+              "sp:workflow:manage"
             ]
           }
         ],
@@ -33365,7 +34082,8 @@
         "security": [
           {
             "userAuth": [
-              "sp:workflow:read"
+              "sp:workflow:read",
+              "sp:workflow:manage"
             ]
           }
         ],
@@ -33806,7 +34524,8 @@
         "security": [
           {
             "userAuth": [
-              "sp:workflow:read"
+              "sp:workflow:read",
+              "sp:workflow:manage"
             ]
           }
         ],
@@ -33892,7 +34611,8 @@
         "security": [
           {
             "userAuth": [
-              "sp:workflow:read"
+              "sp:workflow:read",
+              "sp:workflow:manage"
             ]
           }
         ],
@@ -33955,7 +34675,8 @@
         "security": [
           {
             "userAuth": [
-              "sp:workflow:read"
+              "sp:workflow:read",
+              "sp:workflow:manage"
             ]
           }
         ],
@@ -34085,7 +34806,8 @@
         "security": [
           {
             "userAuth": [
-              "sp:workflow:read"
+              "sp:workflow:read",
+              "sp:workflow:manage"
             ]
           }
         ],
@@ -34164,7 +34886,8 @@
         "security": [
           {
             "userAuth": [
-              "sp:workflow:read"
+              "sp:workflow:read",
+              "sp:workflow:manage"
             ]
           }
         ],
@@ -34233,7 +34956,8 @@
         "security": [
           {
             "userAuth": [
-              "sp:workflow:read"
+              "sp:workflow:read",
+              "sp:workflow:manage"
             ]
           }
         ],
@@ -34280,7 +35004,8 @@
         "security": [
           {
             "userAuth": [
-              "sp:workflow:read"
+              "sp:workflow:read",
+              "sp:workflow:manage"
             ]
           }
         ],
@@ -34574,7 +35299,12 @@
         "security": [
           {
             "userAuth": [
-              "idn:accounts:read"
+              "idn:identity-history:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-history:manage"
             ]
           }
         ],
@@ -34650,7 +35380,12 @@
         "security": [
           {
             "userAuth": [
-              "idn:accounts:read"
+              "idn:identity-history:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-history:manage"
             ]
           }
         ],
@@ -34729,7 +35464,12 @@
         "security": [
           {
             "userAuth": [
-              "idn:accounts:read"
+              "idn:identity-history:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-history:manage"
             ]
           }
         ],
@@ -34897,7 +35637,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:account-config:create"
+              "idn:account-config:manage"
             ]
           }
         ],
@@ -34969,7 +35709,8 @@
         "security": [
           {
             "userAuth": [
-              "idn:account-config:read"
+              "idn:account-config:read",
+              "idn:account-config:manage"
             ]
           }
         ],
@@ -35037,7 +35778,10 @@
         "summary": "Get extended search attribute",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:account-config:read",
+              "idn:account-config:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -35106,7 +35850,9 @@
         "summary": "Delete extended search attribute",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:account-config:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -35165,7 +35911,9 @@
         "summary": "Update extended search attribute",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:account-config:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -35270,7 +36018,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:access-model-metadata:read"
+              "idn:access-model-metadata:read",
+              "idn:access-model-metadata:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:access-model-metadata:read",
+              "idn:access-model-metadata:manage"
             ]
           }
         ],
@@ -35352,7 +36107,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:access-model-metadata:read"
+              "idn:access-model-metadata:read",
+              "idn:access-model-metadata:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:access-model-metadata:read",
+              "idn:access-model-metadata:manage"
             ]
           }
         ],
@@ -35412,7 +36174,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:access-model-metadata:read"
+              "idn:access-model-metadata:read",
+              "idn:access-model-metadata:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:access-model-metadata:read",
+              "idn:access-model-metadata:manage"
             ]
           }
         ],
@@ -35484,7 +36253,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:access-model-metadata:read"
+              "idn:access-model-metadata:read",
+              "idn:access-model-metadata:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:access-model-metadata:read",
+              "idn:access-model-metadata:manage"
             ]
           }
         ],
@@ -35642,7 +36418,14 @@
         "security": [
           {
             "userAuth": [
-              "iai:access-request-recommender:read"
+              "iai:access-request-recommender:read",
+              "iai:access-request-recommender:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:access-request-recommender:read",
+              "iai:access-request-recommender:manage"
             ]
           }
         ],
@@ -35768,7 +36551,14 @@
         "security": [
           {
             "userAuth": [
-              "iai:configuration:read"
+              "iai:configuration:read",
+              "iai:configuration:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:configuration:read",
+              "iai:configuration:manage"
             ]
           }
         ],
@@ -35826,7 +36616,14 @@
         "security": [
           {
             "userAuth": [
-              "iai:configuration:update"
+              "iai:configuration:read",
+              "iai:configuration:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:configuration:read",
+              "iai:configuration:manage"
             ]
           }
         ],
@@ -35897,7 +36694,14 @@
         "security": [
           {
             "userAuth": [
-              "iai:access-request-recommender:manage"
+              "iai:access-request-recommender:manage",
+              "idn:access-request:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:access-request-recommender:manage",
+              "idn:access-request:manage"
             ]
           }
         ],
@@ -35966,7 +36770,14 @@
         "security": [
           {
             "userAuth": [
-              "iai:access-request-recommender:manage"
+              "iai:access-request-recommender:manage",
+              "idn:access-request:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:access-request-recommender:manage",
+              "idn:access-request:manage"
             ]
           }
         ],
@@ -36059,7 +36870,14 @@
         "security": [
           {
             "userAuth": [
-              "iai:access-request-recommender:manage"
+              "iai:access-request-recommender:manage",
+              "idn:access-request:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:access-request-recommender:manage",
+              "idn:access-request:manage"
             ]
           }
         ],
@@ -36128,7 +36946,14 @@
         "security": [
           {
             "userAuth": [
-              "iai:access-request-recommender:manage"
+              "iai:access-request-recommender:manage",
+              "idn:access-request:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:access-request-recommender:manage",
+              "idn:access-request:manage"
             ]
           }
         ],
@@ -36290,7 +37115,16 @@
         "security": [
           {
             "userAuth": [
-              "iai:access-request-recommender:read"
+              "iai:access-request-recommender:read",
+              "iai:access-request-recommender:manage",
+              "idn:access-request:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:access-request-recommender:read",
+              "iai:access-request-recommender:manage",
+              "idn:access-request:manage"
             ]
           }
         ],
@@ -37142,8 +37976,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:entitlement:manage",
-              "idn:entitlement:update"
+              "idn:entitlement:manage"
             ]
           }
         ],
@@ -37453,7 +38286,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:entitlement:read"
+              "idn:entitlement:read",
+              "idn:entitlement:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:entitlement:read",
+              "idn:entitlement:manage"
             ]
           }
         ],
@@ -37592,7 +38432,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:entitlement:update"
+              "idn:entitlement:manage"
             ]
           }
         ],
@@ -37752,7 +38592,6 @@
         "security": [
           {
             "userAuth": [
-              "idn:entitlement:update",
               "idn:entitlement:manage"
             ]
           }
@@ -37912,7 +38751,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:entitlement:update"
+              "idn:entitlement:manage"
             ]
           }
         ],
@@ -37932,7 +38771,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:entitlement:update"
+              "idn:entitlement:manage"
             ]
           }
         ],
@@ -38012,7 +38851,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:entitlement:delete"
+              "idn:entitlement:manage"
             ]
           }
         ],
@@ -38144,7 +38983,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:entitlements:manage"
+              "idn:entitlement:manage"
             ]
           }
         ],
@@ -38232,7 +39071,14 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:entitlement:read"
+            ]
+          }
+        ]
       }
     },
     "/generate-password-reset-token/digit": {
@@ -38319,7 +39165,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:identity-history:read"
+              "idn:identity-history:read",
+              "idn:identity-history:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-history:read",
+              "idn:identity-history:manage"
             ]
           }
         ],
@@ -38415,7 +39268,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:identity-history:read"
+              "idn:identity-history:read",
+              "idn:identity-history:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-history:read",
+              "idn:identity-history:manage"
             ]
           }
         ],
@@ -38482,7 +39342,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:identity-history:read"
+              "idn:identity-history:read",
+              "idn:identity-history:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-history:read",
+              "idn:identity-history:manage"
             ]
           }
         ],
@@ -38753,7 +39620,21 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:identity-history:read",
+              "idn:identity-history:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-history:read",
+              "idn:identity-history:manage"
+            ]
+          }
+        ]
       }
     },
     "/historical-identities/{id}/snapshot-summary": {
@@ -38856,7 +39737,21 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:identity-history:read",
+              "idn:identity-history:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-history:read",
+              "idn:identity-history:manage"
+            ]
+          }
+        ]
       }
     },
     "/historical-identities/{id}/snapshots/{date}": {
@@ -38927,7 +39822,21 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:identity-history:read",
+              "idn:identity-history:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-history:read",
+              "idn:identity-history:manage"
+            ]
+          }
+        ]
       }
     },
     "/historical-identities/{id}/snapshots/{date}/access-items": {
@@ -39095,7 +40004,21 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:identity-history:read",
+              "idn:identity-history:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-history:read",
+              "idn:identity-history:manage"
+            ]
+          }
+        ]
       }
     },
     "/common-access": {
@@ -39176,7 +40099,21 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
+            ]
+          }
+        ]
       },
       "post": {
         "operationId": "createCommonAccess",
@@ -39233,6 +40170,18 @@
               "default": true
             },
             "required": true
+          }
+        ],
+        "security": [
+          {
+            "userAuth": [
+              "iai:access-modeling:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:access-modeling:manage"
+            ]
           }
         ]
       }
@@ -39291,6 +40240,18 @@
             },
             "required": true
           }
+        ],
+        "security": [
+          {
+            "userAuth": [
+              "iai:access-modeling:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:access-modeling:manage"
+            ]
+          }
         ]
       }
     },
@@ -39305,7 +40266,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:identity-history:read"
+              "idn:identity-history:read",
+              "idn:identity-history:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-history:read",
+              "idn:identity-history:manage"
             ]
           }
         ],
@@ -39680,7 +40648,21 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:identity-history:read",
+              "idn:identity-history:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-history:read",
+              "idn:identity-history:manage"
+            ]
+          }
+        ]
       }
     },
     "/historical-identities/{id}/compare": {
@@ -39782,7 +40764,21 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:identity-history:read",
+              "idn:identity-history:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-history:read",
+              "idn:identity-history:manage"
+            ]
+          }
+        ]
       }
     },
     "/historical-identities/{id}/compare/{access-type}": {
@@ -39899,7 +40895,21 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:identity-history:read",
+              "idn:identity-history:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-history:read",
+              "idn:identity-history:manage"
+            ]
+          }
+        ]
       }
     },
     "/identities/{identityId}/synchronize-attributes": {
@@ -40131,7 +41141,14 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:password:user-invite"
+            ]
+          }
+        ]
       }
     },
     "/identities/process": {
@@ -40223,7 +41240,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:identity-profile-attribute-list:read"
+              "idn:identity-profile-attribute:read",
+              "idn:identity-profile-attribute:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-profile-attribute:read",
+              "idn:identity-profile-attribute:manage"
             ]
           }
         ],
@@ -40306,7 +41330,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:identity-profile-attribute:create"
+              "idn:identity-profile-attribute:manage"
             ]
           }
         ],
@@ -40363,7 +41387,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:identity-profile-attribute:read"
+              "idn:identity-profile-attribute:read",
+              "idn:identity-profile-attribute:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-profile-attribute:read",
+              "idn:identity-profile-attribute:manage"
             ]
           }
         ],
@@ -40421,7 +41452,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:identity-profile-attribute:create"
+              "idn:identity-profile-attribute:manage"
             ]
           }
         ],
@@ -40489,7 +41520,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:identity-profile-attribute:delete"
+              "idn:identity-profile-attribute:manage"
             ]
           }
         ],
@@ -40542,7 +41573,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:identity-profile-attribute-bulk:delete"
+              "idn:identity-profile-attribute:manage"
             ]
           }
         ],
@@ -41149,7 +42180,9 @@
         "security": [
           {
             "userAuth": [
-              "sp:approvals:read"
+              "idn:access-request-approvals:read",
+              "idn:access-request-administration:read",
+              "idn:access-request-approvals:manage"
             ]
           }
         ],
@@ -41236,7 +42269,9 @@
         "security": [
           {
             "userAuth": [
-              "sp:approvals:read"
+              "idn:access-request-approvals:read",
+              "idn:access-request-administration:read",
+              "idn:access-request-approvals:manage"
             ]
           }
         ],
@@ -41602,7 +42637,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:sources:read"
+              "idn:sources:read",
+              "idn:sources:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:read",
+              "idn:sources:manage"
             ]
           }
         ],
@@ -41665,7 +42707,12 @@
         "security": [
           {
             "userAuth": [
-              "idn:sources:update"
+              "idn:sources:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:manage"
             ]
           }
         ],
@@ -41738,7 +42785,12 @@
         "security": [
           {
             "userAuth": [
-              "idn:sources:update"
+              "idn:sources:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:manage"
             ]
           }
         ],
@@ -41796,7 +42848,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:sources:read"
+              "idn:sources:read",
+              "idn:sources:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:read",
+              "idn:sources:manage"
             ]
           }
         ],
@@ -41867,7 +42926,12 @@
         "security": [
           {
             "userAuth": [
-              "idn:sources:create"
+              "idn:sources:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:manage"
             ]
           }
         ],
@@ -41943,7 +43007,12 @@
         "security": [
           {
             "userAuth": [
-              "idn:sources:update"
+              "idn:sources:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:manage"
             ]
           }
         ],
@@ -42001,7 +43070,12 @@
         "security": [
           {
             "userAuth": [
-              "idn:sources:update"
+              "idn:sources:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:manage"
             ]
           }
         ],
@@ -42153,7 +43227,8 @@
         "security": [
           {
             "userAuth": [
-              "idn:mis-identity:read"
+              "idn:mis-identity:read",
+              "idn:mis-identity:manage"
             ]
           }
         ],
@@ -42249,6 +43324,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:mis-identity:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:mis-identity:manage"
             ]
           }
@@ -44291,7 +45371,8 @@
         "security": [
           {
             "userAuth": [
-              "idn:reassignment-configuration:read"
+              "idn:reassignment-configuration:read",
+              "idn:reassignment-configuration:manage"
             ]
           }
         ],
@@ -44351,7 +45432,8 @@
         "security": [
           {
             "userAuth": [
-              "idn:reassignment-configuration:read"
+              "idn:reassignment-configuration:read",
+              "idn:reassignment-configuration:manage"
             ]
           }
         ],
@@ -44412,7 +45494,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:reassignment-configuration:create"
+              "idn:reassignment-configuration:manage"
             ]
           }
         ],
@@ -44479,7 +45561,8 @@
         "security": [
           {
             "userAuth": [
-              "idn:reassignment-configuration:read"
+              "idn:reassignment-configuration:read",
+              "idn:reassignment-configuration:manage"
             ]
           }
         ],
@@ -44548,7 +45631,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:reassignment-configuration:update"
+              "idn:reassignment-configuration:manage"
             ]
           }
         ],
@@ -44626,7 +45709,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:reassignment-configuration:delete"
+              "idn:reassignment-configuration:manage"
             ]
           }
         ],
@@ -44695,7 +45778,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:reassignment-configuration:evaluate"
+              "idn:reassignment-configuration:manage"
             ]
           }
         ],
@@ -45160,6 +46243,18 @@
             },
             "required": true
           }
+        ],
+        "security": [
+          {
+            "userAuth": [
+              "iai:role-insights"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:role-insights"
+            ]
+          }
         ]
       }
     },
@@ -45222,7 +46317,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "iai:role-insights"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:role-insights"
+            ]
+          }
+        ]
       }
     },
     "/role-insights/summary": {
@@ -45268,6 +46375,18 @@
               "default": true
             },
             "required": true
+          }
+        ],
+        "security": [
+          {
+            "userAuth": [
+              "iai:role-insights"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:role-insights"
+            ]
           }
         ]
       }
@@ -45352,7 +46471,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "iai:role-insights"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:role-insights"
+            ]
+          }
+        ]
       }
     },
     "/role-insights/{insightId}": {
@@ -45410,7 +46541,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "iai:role-insights"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:role-insights"
+            ]
+          }
+        ]
       }
     },
     "/role-insights/{insightId}/entitlement-changes": {
@@ -45494,7 +46637,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "iai:role-insights"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:role-insights"
+            ]
+          }
+        ]
       }
     },
     "/role-insights/{insightId}/entitlement-changes/download": {
@@ -45576,7 +46731,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "iai:role-insights"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:role-insights"
+            ]
+          }
+        ]
       }
     },
     "/role-insights/{insightId}/current-entitlements": {
@@ -45649,7 +46816,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "iai:role-insights"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:role-insights"
+            ]
+          }
+        ]
       }
     },
     "/role-insights/{insightId}/entitlement-changes/{entitlementId}/identities": {
@@ -45766,7 +46945,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "iai:role-insights"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:role-insights"
+            ]
+          }
+        ]
       }
     },
     "/role-mining-sessions": {
@@ -45826,6 +47017,18 @@
               "default": true
             },
             "required": true
+          }
+        ],
+        "security": [
+          {
+            "userAuth": [
+              "iai:access-modeling:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:access-modeling:manage"
+            ]
           }
         ]
       },
@@ -45906,7 +47109,21 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
+            ]
+          }
+        ]
       }
     },
     "/role-mining-sessions/{sessionId}": {
@@ -46005,7 +47222,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "iai:access-modeling:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:access-modeling:manage"
+            ]
+          }
+        ]
       },
       "get": {
         "operationId": "getRoleMiningSession",
@@ -46067,7 +47296,21 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
+            ]
+          }
+        ]
       }
     },
     "/role-mining-sessions/{sessionId}/status": {
@@ -46125,7 +47368,21 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
+            ]
+          }
+        ]
       }
     },
     "/role-mining-sessions/{sessionId}/potential-role-summaries": {
@@ -46223,7 +47480,21 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
+            ]
+          }
+        ]
       }
     },
     "/role-mining-sessions/{sessionId}/potential-role-summaries/{potentialRoleId}": {
@@ -46295,7 +47566,21 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
+            ]
+          }
+        ]
       },
       "patch": {
         "operationId": "patchPotentialRole",
@@ -46526,7 +47811,14 @@
         "security": [
           {
             "userAuth": [
-              "iai:access-modeling:read"
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
             ]
           }
         ],
@@ -46630,7 +47922,14 @@
         "security": [
           {
             "userAuth": [
-              "iai:access-modeling:read"
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
             ]
           }
         ],
@@ -46760,7 +48059,16 @@
         },
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
+            ]
           }
         ]
       }
@@ -46845,7 +48153,21 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
+            ]
+          }
+        ]
       }
     },
     "/role-mining-sessions/{sessionId}/potential-roles/{potentialRoleId}/edit-entitlements": {
@@ -46925,7 +48247,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "iai:access-modeling:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:access-modeling:manage"
+            ]
+          }
+        ]
       }
     },
     "/role-mining-sessions/{sessionId}/potential-roles/{potentialRoleId}/identities": {
@@ -47029,7 +48363,21 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
+            ]
+          }
+        ]
       }
     },
     "/role-mining-sessions/{sessionId}/potential-roles/{potentialRoleId}/export": {
@@ -47099,7 +48447,21 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
+            ]
+          }
+        ]
       }
     },
     "/role-mining-sessions/{sessionId}/potential-roles/{potentialRoleId}/export-async": {
@@ -47177,7 +48539,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "iai:access-modeling:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:access-modeling:manage"
+            ]
+          }
+        ]
       }
     },
     "/role-mining-sessions/{sessionId}/potential-roles/{potentialRoleId}/export-async/{exportId}": {
@@ -47260,7 +48634,21 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
+            ]
+          }
+        ]
       }
     },
     "/role-mining-sessions/{sessionId}/potential-roles/{potentialRoleId}/export-async/{exportId}/download": {
@@ -47344,7 +48732,21 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
+            ]
+          }
+        ]
       }
     },
     "/role-mining-sessions/{sessionId}/potential-roles/{potentialRoleId}/provision": {
@@ -47452,7 +48854,19 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "iai:access-modeling:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:access-modeling:manage"
+            ]
+          }
+        ]
       }
     },
     "/role-mining-sessions/{sessionId}/potential-roles/{potentialRoleId}/excluded-entitlements": {
@@ -47557,7 +48971,21 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
+            ]
+          }
+        ]
       }
     },
     "/role-mining-potential-roles": {
@@ -47570,7 +48998,16 @@
         "description": "Returns all potential role summaries that match the query parameters",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
+            ]
           }
         ],
         "parameters": [
@@ -47662,7 +49099,16 @@
         "description": "This method returns a specific potential role.",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
+            ]
           }
         ],
         "parameters": [
@@ -47726,7 +49172,9 @@
         "description": "The method updates an existing potential role using.\n\nThe following fields can be modified:\n\n* `description`\n\n* `name`\n\n* `saved`\n\n\n>**NOTE: All other fields cannot be modified.**\n",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "iai:access-modeling:manage"
+            ]
           }
         ],
         "parameters": [
@@ -47866,7 +49314,16 @@
         "description": "This method returns all saved potential roles (draft roles).",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
+            ]
           }
         ],
         "parameters": [
@@ -47946,7 +49403,16 @@
         "description": "This method returns source usageCount (as number of days in the last 90 days) for each identity in a potential role.",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:access-modeling:read",
+              "iai:access-modeling:manage"
+            ]
           }
         ],
         "parameters": [
@@ -48295,7 +49761,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:service-desk-admin:create"
+              "idn:service-desk-integration:manage"
             ]
           }
         ],
@@ -48367,7 +49833,8 @@
         "security": [
           {
             "userAuth": [
-              "idn:service-desk-admin:read"
+              "idn:service-desk-integration:read",
+              "idn:service-desk-integration:manage"
             ]
           }
         ],
@@ -48432,7 +49899,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:service-desk-admin:write"
+              "idn:service-desk-integration:manage"
             ]
           }
         ],
@@ -48515,7 +49982,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:service-desk-admin:write"
+              "idn:service-desk-integration:manage"
             ]
           }
         ],
@@ -48600,7 +50067,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:service-desk-admin:write"
+              "idn:service-desk-integration:manage"
             ]
           }
         ],
@@ -48653,7 +50120,8 @@
         "security": [
           {
             "userAuth": [
-              "idn:service-desk-admin:read"
+              "idn:service-desk-integration:read",
+              "idn:service-desk-integration:manage"
             ]
           }
         ],
@@ -48725,7 +50193,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:service-desk-admin:create"
+              "idn:service-desk-integration:manage"
             ]
           }
         ],
@@ -49539,7 +51007,9 @@
         "summary": "Synchronize single source attributes.",
         "security": [
           {
-            "userAuth": []
+            "userAuth": [
+              "idn:attr-sync-source-config:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -49905,7 +51375,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:entitlements:manage"
+              "idn:entitlement:manage"
             ]
           }
         ],
@@ -50836,6 +52306,11 @@
             "userAuth": [
               "sp:trigger-service-subscriptions:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "sp:trigger-service-subscriptions:manage"
+            ]
           }
         ],
         "parameters": [
@@ -50999,7 +52474,14 @@
         "security": [
           {
             "userAuth": [
-              "sp:trigger-service-subscriptions:read"
+              "sp:trigger-service-subscriptions:read",
+              "sp:trigger-service-subscriptions:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "sp:trigger-service-subscriptions:read",
+              "sp:trigger-service-subscriptions:manage"
             ]
           }
         ]
@@ -51132,6 +52614,11 @@
         "security": [
           {
             "userAuth": [
+              "sp:trigger-service-subscriptions:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
               "sp:trigger-service-subscriptions:manage"
             ]
           }
@@ -52161,7 +53648,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:workgroup:read"
+              "idn:workgroup:read",
+              "idn:workgroup:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:workgroup:read",
+              "idn:workgroup:manage"
             ]
           }
         ]
@@ -52171,7 +53665,12 @@
         "security": [
           {
             "userAuth": [
-              "idn:workgroup:write"
+              "idn:workgroup:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:workgroup:manage"
             ]
           }
         ],
@@ -52293,12 +53792,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:workgroup:read"
+              "idn:workgroup:read",
+              "idn:workgroup:manage"
             ]
           },
           {
             "applicationAuth": [
-              "idn:workgroup:read"
+              "idn:workgroup:read",
+              "idn:workgroup:manage"
             ]
           }
         ],
@@ -52359,12 +53860,12 @@
         "security": [
           {
             "userAuth": [
-              "idn:workgroup:write"
+              "idn:workgroup:manage"
             ]
           },
           {
             "applicationAuth": [
-              "idn:workgroup:write"
+              "idn:workgroup:manage"
             ]
           }
         ],
@@ -52456,12 +53957,12 @@
         "security": [
           {
             "userAuth": [
-              "idn:workgroup:write"
+              "idn:workgroup:manage"
             ]
           },
           {
             "applicationAuth": [
-              "idn:workgroup:write"
+              "idn:workgroup:manage"
             ]
           }
         ],
@@ -52524,7 +54025,12 @@
         "security": [
           {
             "userAuth": [
-              "idn:workgroup:write"
+              "idn:workgroup:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:workgroup:manage"
             ]
           }
         ],
@@ -52627,7 +54133,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:workgroup:read"
+              "idn:workgroup:read",
+              "idn:workgroup:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:workgroup:read",
+              "idn:workgroup:manage"
             ]
           }
         ]
@@ -52743,7 +54256,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:workgroup:read"
+              "idn:workgroup:read",
+              "idn:workgroup:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:workgroup:read",
+              "idn:workgroup:manage"
             ]
           }
         ]
@@ -53131,6 +54651,7 @@
         "security": [
           {
             "userAuth": [
+              "sp:forms:read",
               "sp:forms:manage"
             ]
           }
@@ -53564,6 +55085,7 @@
         "security": [
           {
             "userAuth": [
+              "sp:forms:read",
               "sp:forms:manage"
             ]
           }
@@ -54271,6 +55793,7 @@
         "security": [
           {
             "userAuth": [
+              "sp:forms:read",
               "sp:forms:manage"
             ]
           }
@@ -54518,7 +56041,9 @@
         "security": [
           {
             "userAuth": [
-              "sp:forms:manage"
+              "sp:config:read",
+              "sp:forms:manage",
+              "sp:config:manage"
             ]
           }
         ],
@@ -54739,6 +56264,7 @@
         "security": [
           {
             "userAuth": [
+              "sp:forms:read",
               "sp:forms:manage"
             ]
           }
@@ -55116,7 +56642,8 @@
         "security": [
           {
             "userAuth": [
-              "sp:forms:manage"
+              "sp:forms:manage",
+              "sp:config:manage"
             ]
           }
         ],
@@ -56217,6 +57744,7 @@
         "security": [
           {
             "userAuth": [
+              "sp:forms:read",
               "sp:forms:manage"
             ]
           }
@@ -56388,6 +57916,7 @@
         "security": [
           {
             "userAuth": [
+              "sp:forms:read",
               "sp:forms:manage"
             ]
           }
@@ -58256,6 +59785,7 @@
         "security": [
           {
             "userAuth": [
+              "sp:forms:read",
               "sp:forms:manage"
             ]
           }
@@ -58316,7 +59846,8 @@
         "security": [
           {
             "userAuth": [
-              "idn:access-request-approvals:read"
+              "idn:access-request-approvals:read",
+              "idn:access-request-approvals:manage"
             ]
           }
         ],
@@ -59319,7 +60850,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:app-roles:read"
+              "idn:app-roles:read",
+              "idn:app-roles:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:app-roles:read",
+              "idn:app-roles:manage"
             ]
           }
         ],
@@ -59388,6 +60926,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:app-roles:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:app-roles:manage"
             ]
           }
@@ -59552,8 +61095,12 @@
         "security": [
           {
             "userAuth": [
-              "idn:app-roles:manage",
-              "idn:app-roles:delete"
+              "idn:app-roles:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:app-roles:manage"
             ]
           }
         ],
@@ -59687,7 +61234,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:app-roles:read"
+              "idn:app-roles:read",
+              "idn:app-roles:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:app-roles:read",
+              "idn:app-roles:manage"
             ]
           }
         ],
@@ -59781,7 +61335,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:app-roles:read"
+              "idn:app-roles:read",
+              "idn:app-roles:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:app-roles:read",
+              "idn:app-roles:manage"
             ]
           }
         ],
@@ -60227,7 +61788,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:app-roles:read"
+              "idn:app-roles:manage"
             ]
           }
         ],
@@ -60319,7 +61880,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:app-roles:read"
+              "idn:app-roles:read",
+              "idn:app-roles:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:app-roles:read",
+              "idn:app-roles:manage"
             ]
           }
         ],
@@ -60396,7 +61964,14 @@
         "security": [
           {
             "userAuth": [
-              "idn:app-roles:read"
+              "idn:app-roles:read",
+              "idn:app-roles:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:app-roles:read",
+              "idn:app-roles:manage"
             ]
           }
         ],
@@ -61061,9 +62636,9 @@
         "description": "This API returns a list of Role that filter by metadata and filter, it support filter by  both path parameter and attribute key and values.\nA token with API, ORG_ADMIN, ROLE_ADMIN, ROLE_SUBADMIN, HELPDESK, CERT_ADMIN, REPORT_ADMIN or SOURCE_ADMIN  authority is required to call this API. ",
         "security": [
           {
-            "UserContextAuth": [
-              "idn:role:read",
-              "idn:role-checked:read"
+            "userAuth": [
+              "idn:role-unchecked:read",
+              "idn:role-unchecked:manage"
             ]
           }
         ],
