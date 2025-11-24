@@ -449,6 +449,9 @@ tags:
       Custom user levels allow administrators to create custom user levels that can be used to control access to Identity Security Cloud features and APIs.
 
       Refer to [User Levels](https://documentation.sailpoint.com/saas/help/common/users/index.html) for more information about User Levels.
+  - name: Data Access Security
+    description: |
+      Use this API to trigger and manage DAS tasks such as scans-starting them on demand, updating schedules, and retrieving statuses.
   - name: Data Segmentation
     description: |
       This service is responsible for creating segments that will determine how access is delegated to identities
@@ -1045,7 +1048,7 @@ tags:
 
       You must have an IdentityNow ServiceNow ServiceDesk license to use this integration. Contact your Customer Success Manager for more information.
 
-      Service Desk integration for IdentityNow and in deprecation - not available for new implementation, as of July 21st, 2021. As per SailPoint’s [support policy](https://community.sailpoint.com/t5/Connector-Directory/SailPoint-Support-Policy-for-Connectivity/ta-p/79422), all existing SailPoint IdentityNow customers using this legacy integration will be supported until July 2022.
+      Service Desk integration for IdentityNow and in deprecation - not available for new implementation, as of July 21st, 2021. As per SailPoint's [support policy](https://community.sailpoint.com/t5/Connector-Directory/SailPoint-Support-Policy-for-Connectivity/ta-p/79422), all existing SailPoint IdentityNow customers using this legacy integration will be supported until July 2022.
   - name: SOD Policies
     description: |
       Use this API to implement and manage "separation of duties" (SOD) policies. 
@@ -1296,7 +1299,7 @@ tags:
       - Temporarily redirecting work for users who are out of office, such as on vacation or sick leave
       - Permanently redirecting work for users who should not be assigned these tasks at all, such as senior executives or service identities
 
-      Users can define reassignments for themselves, managers can add them for their team members, and administrators can configure them on any user’s behalf. Work assigned during the specified reassignment timeframes will be automatically reassigned to the designated user as it is created.
+      Users can define reassignments for themselves, managers can add them for their team members, and administrators can configure them on any user's behalf. Work assigned during the specified reassignment timeframes will be automatically reassigned to the designated user as it is created.
 
       Refer to [Work Reassignment](https://documentation.sailpoint.com/saas/help/users/work_reassignment.html) for more information about this topic.
   - name: Workflows
@@ -9546,6 +9549,457 @@ paths:
             - idn:rule-management-connector:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
+  /das/tasks:
+    get:
+      security:
+        - userAuth:
+            - das:task:read
+            - das:task:manage
+        - applicationAuth:
+            - das:task:read
+            - das:task:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      tags:
+        - Data Access Security
+      operationId: getTasks
+      summary: Lists all DAS tasks.
+      description: This end-point lists all the tasks in Data Access Security.
+      parameters:
+        - name: filters
+          in: query
+          schema:
+            type: string
+          example: TaskTypeName eq "DataClassification and EndBeforeTime eq 1762240800
+          required: false
+          description: |-
+            Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)
+
+            Filtering is supported for the following fields and operators:
+
+            **taskIds**: *eq, in*
+
+            **statuses**: *eq, in*
+
+            **taskTypeName**: *eq, in*
+
+            **taskName**: *eq*
+
+            **endBeforeTime**: *eq*
+
+            Supported composite operators are *and, or*
+
+            Example: taskTypeName eq "DataSync" and endBeforeTime eq 1762240800
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/count'
+      responses:
+        '200':
+          description: OK. Returns a list of Data Access Security tasks.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TaskInfo'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /das/tasks/{id}:
+    get:
+      security:
+        - userAuth:
+            - das:task:read
+            - das:task:manage
+        - applicationAuth:
+            - das:task:read
+            - das:task:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      tags:
+        - Data Access Security
+      summary: Get a DAS task.
+      description: This end-point gets a task in Data Access Security.
+      operationId: getTask
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: The unique identifier of the task to retrieve.
+          example: 1001
+      responses:
+        '200':
+          description: A Task object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskInfo'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      security:
+        - userAuth:
+            - das:task:manage
+        - applicationAuth:
+            - das:task:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      tags:
+        - Data Access Security
+      summary: Delete a DAS task.
+      description: |
+        This end-point sends a request to delete a task in Data Access Security.
+      operationId: deleteTask
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: The unique identifier of the task to delete.
+          example: 1001
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /das/tasks/cancel/{id}:
+    post:
+      security:
+        - userAuth:
+            - das:task:manage
+        - applicationAuth:
+            - das:task:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      tags:
+        - Data Access Security
+      summary: Cancel a DAS task.
+      description: This end-point sends a request to cancel a task in Data Access Security.
+      operationId: cancelTask
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: The unique identifier of the task to cancel.
+          example: 1001
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /das/tasks/rerun/{id}:
+    post:
+      security:
+        - userAuth:
+            - das:task:manage
+        - applicationAuth:
+            - das:task:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      tags:
+        - Data Access Security
+      summary: Rerun a DAS task.
+      description: This end-point sends a request to re-run a task in Data Access Security.
+      operationId: startTaskRerun
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: The unique identifier of the task to rerun.
+          example: 1001
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /das/tasks/schedules:
+    get:
+      summary: List all schedules.
+      security:
+        - userAuth:
+            - das:task:read
+            - das:task:manage
+        - applicationAuth:
+            - das:task:read
+            - das:task:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      tags:
+        - Data Access Security
+      description: This end-point lists all the schedules in Data Access Security.
+      operationId: getSchedules
+      parameters:
+        - name: filters
+          in: query
+          schema:
+            type: string
+          required: false
+          example: ScheduleType eq "Daily" and startTime eq 1762237200
+          description: |-
+            Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)
+
+            Filtering is supported for the following fields and operators:
+
+            **scheduleTaskIds**: *eq, in*
+
+            **taskTypeName**: *eq, in*
+
+            **status**: *eq*
+
+            **applicationId**: *eq*
+
+            **fullName**: *eq*
+
+            **nameSubString**: *eq*
+
+            **scheduleType**: *eq*
+
+            Supported composite operators are *and, or*
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/count'
+      responses:
+        '200':
+          description: List of Schedule objects.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ScheduleInfo'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      summary: Create a new schedule.
+      security:
+        - userAuth:
+            - das:task:manage
+        - applicationAuth:
+            - das:task:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      tags:
+        - Data Access Security
+      operationId: createSchedule
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateScheduleRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int64
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /das/tasks/schedules/{id}:
+    get:
+      security:
+        - userAuth:
+            - das:task:read
+            - das:task:manage
+        - applicationAuth:
+            - das:task:read
+            - das:task:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      tags:
+        - Data Access Security
+      operationId: getSchedule
+      summary: Get a DAS schedule.
+      description: This end-point gets a schedule in Data Access Security.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: The unique identifier of the schedule to retrieve.
+          example: 1001
+      responses:
+        '200':
+          description: A schedule object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduleInfo'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      summary: Update a schedule.
+      security:
+        - userAuth:
+            - das:task:manage
+        - applicationAuth:
+            - das:task:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      tags:
+        - Data Access Security
+      operationId: putSchedule
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: The unique identifier of the schedule to update.
+          example: 1001
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateScheduleRequest'
+        required: true
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      security:
+        - userAuth:
+            - das:task:manage
+        - applicationAuth:
+            - das:task:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      tags:
+        - Data Access Security
+      operationId: deleteSchedule
+      summary: Delete a DAS schedule.
+      description: This end-point sends a request to delete a schedule in Data Access Security.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: The unique identifier of the schedule to delete.
+          example: 1001
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
   /data-segments/membership/{identityId}:
     get:
       operationId: getDataSegmentIdentityMembership
@@ -56554,6 +57008,276 @@ components:
                 type: string
                 description: a description of the issue in the code
                 example: Remove reference to .decrypt(
+    TaskInfo:
+      type: object
+      title: TaskInfo
+      properties:
+        taskId:
+          type: integer
+          format: int64
+          nullable: true
+          description: The unique identifier for the task.
+          example: 1001
+        taskTypeName:
+          type: string
+          nullable: true
+          description: The type or category of the task.
+          example: DataSync
+        startTime:
+          type: integer
+          format: int64
+          nullable: true
+          description: The start time of the task, represented as epoch seconds.
+          example: 1762237200
+        endTime:
+          type: integer
+          format: int64
+          nullable: true
+          description: The end time of the task, represented as epoch seconds.
+          example: 1762240800
+        taskName:
+          type: string
+          nullable: true
+          description: The display name of the task.
+          example: Daily Data Sync
+        createdByDisplayName:
+          type: string
+          nullable: true
+          description: The display name of the user who created the task.
+          example: Jane Doe
+        progress:
+          type: integer
+          format: int32
+          description: The progress of the task, typically represented as a percentage (0-100).
+          example: 75
+        status:
+          type: string
+          nullable: true
+          description: The current status of the task (e.g., "Running", "Completed", "Failed").
+          example: Running
+        details:
+          type: string
+          nullable: true
+          description: Additional details or information about the task.
+          example: Task is processing files in the Finance folder.
+        scheduleTaskId:
+          type: integer
+          format: int64
+          nullable: true
+          description: The unique identifier of the associated scheduled task, if applicable.
+          example: 2001
+    ScheduleInfo:
+      type: object
+      title: ScheduleInfo
+      properties:
+        scheduleTaskId:
+          type: integer
+          format: int64
+          description: The unique identifier for the scheduled task.
+          example: 1001
+        scheduleTaskName:
+          type: string
+          nullable: true
+          description: The display name of the scheduled task.
+          example: Daily Data Sync
+        taskTypeName:
+          type: string
+          nullable: true
+          description: The type or category of the scheduled task.
+          example: DataSync
+        interval:
+          type: integer
+          format: int32
+          description: The interval depends on the chosen schedule cycle (scheduleType), i.e. if the schedule is daily, the interval will represent the days between executions.
+          example: 1440
+        scheduleType:
+          type: string
+          nullable: true
+          description: The scheduling type, such as "Daily", "Weekly", or "Manual" etc.
+          example: Daily
+        active:
+          type: boolean
+          description: Indicates whether the scheduled task is currently active.
+          example: true
+          default: false
+        startTime:
+          type: integer
+          format: int64
+          nullable: true
+          description: The start time for the scheduled task, represented as epoch seconds.
+          example: 1762237200
+        endTime:
+          type: integer
+          format: int64
+          nullable: true
+          description: The end time for the scheduled task, represented as epoch seconds.
+          example: 1762240800
+        daysOfWeek:
+          type: array
+          items:
+            type: string
+          nullable: true
+          description: A list of days of the week when the task should run (e.g., "Monday", "Wednesday").
+          example:
+            - Monday
+            - Wednesday
+            - Friday
+        runAfterScheduleTaskId:
+          type: integer
+          format: int64
+          nullable: true
+          description: The ID of another scheduled task that triggers this scheduled task upon its completion.
+          example: 1000
+        runAfterScheduleTaskName:
+          type: string
+          nullable: true
+          description: The name of the scheduled task that must complete before this task runs.
+          example: Pre-Sync Task
+        applicationId:
+          type: integer
+          format: int64
+          nullable: true
+          description: The unique identifier of the application associated with the scheduled task.
+          example: 2001
+        createdByDisplayName:
+          type: string
+          nullable: true
+          description: The display name of the user who created the scheduled task.
+          example: Jane Doe
+        nextRun:
+          type: integer
+          format: int64
+          nullable: true
+          description: The next scheduled run time for the task, represented as epoch seconds.
+          example: 1762323600
+        lastRun:
+          type: integer
+          format: int64
+          nullable: true
+          description: The last run time of the task, represented as epoch seconds.
+          example: 1762237200
+    CreateScheduleRequest:
+      type: object
+      properties:
+        taskTypeName:
+          type: string
+          nullable: true
+          description: The type or category of the scheduled task.
+          example: DataSync
+        scheduleType:
+          type: string
+          nullable: true
+          description: The scheduling type, such as "Daily", "Weekly" etc.
+          example: Daily
+        interval:
+          type: integer
+          format: int32
+          nullable: true
+          description: The interval depends on the chosen schedule cycle (scheduleType), i.e. if the schedule is daily, the interval will represent the days between executions.
+          example: 1440
+        scheduleTaskName:
+          type: string
+          nullable: true
+          description: The display name of the scheduled task.
+          example: Daily Data Sync
+        startTime:
+          type: integer
+          format: int64
+          description: The start time for the scheduled task, represented as epoch seconds.
+          example: 1762237200
+        endTime:
+          type: integer
+          format: int64
+          description: The end time for the scheduled task, represented as epoch seconds.
+          example: 1762240800
+        daysOfWeek:
+          type: array
+          items:
+            type: string
+          nullable: true
+          description: A list of days of the week when the task should run (e.g., "Monday", "Wednesday").
+          example:
+            - Monday
+            - Wednesday
+            - Friday
+        active:
+          type: boolean
+          description: Indicates whether the scheduled task is currently active.
+          example: true
+          default: false
+        runAfterScheduleTaskId:
+          type: integer
+          format: int64
+          nullable: true
+          description: The ID of another scheduled task that triggers this scheduled task upon its completion.
+          example: 1000
+        applicationId:
+          type: integer
+          format: int64
+          nullable: true
+          description: The unique identifier of the application associated with the scheduled task.
+          example: 2001
+    UpdateScheduleRequest:
+      type: object
+      properties:
+        taskTypeName:
+          type: string
+          nullable: true
+          description: The type or category of the scheduled task.
+          example: DataSync
+        scheduleType:
+          type: string
+          nullable: true
+          description: The scheduling type, such as "Daily", "Weekly", or "Manual" etc.
+          example: Daily
+        interval:
+          type: integer
+          format: int32
+          nullable: true
+          description: The interval depends on the chosen schedule cycle (scheduleType), i.e. if the schedule is daily, the interval will represent the days between executions.
+          example: 1440
+        scheduleTaskName:
+          type: string
+          nullable: true
+          description: The display name of the scheduled task.
+          example: Daily Data Sync
+        startTime:
+          type: integer
+          format: int64
+          description: The start time for the scheduled task, represented as epoch seconds.
+          example: 1762237200
+        endTime:
+          type: integer
+          format: int64
+          description: The end time for the scheduled task, represented as epoch seconds.
+          example: 1762240800
+        daysOfWeek:
+          type: array
+          items:
+            type: string
+          nullable: true
+          description: A list of days of the week when the task should run (e.g., "Monday", "Wednesday").
+          example:
+            - Monday
+            - Wednesday
+            - Friday
+        active:
+          type: boolean
+          description: Indicates whether the scheduled task is currently active.
+          example: true
+          default: false
+        runAfterScheduleTaskId:
+          type: integer
+          format: int64
+          nullable: true
+          description: The ID of another scheduled task that triggers this scheduled task upon its completion.
+          example: 1000
+        applicationId:
+          type: integer
+          format: int64
+          nullable: true
+          description: The unique identifier of the application associated with the scheduled task.
+          example: 2001
     SegmentId:
       type: string
       description: The segment's ID.
