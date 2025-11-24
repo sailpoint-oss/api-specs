@@ -71631,7 +71631,7 @@
           "name": {
             "type": "string",
             "description": "The entitlement name",
-            "example": "LauncherTest2"
+            "example": "PayrollControls"
           },
           "attribute": {
             "type": "string",
@@ -71641,7 +71641,7 @@
           "value": {
             "type": "string",
             "description": "The value of the entitlement",
-            "example": "CN=LauncherTest2,OU=LauncherTestOrg,OU=slpt-automation,DC=TestAutomationAD,DC=local"
+            "example": "CN=PayrollControls,OU=Groups,OU=Demo,DC=seri,DC=sailpointdemo,DC=com"
           },
           "sourceSchemaObjectType": {
             "type": "string",
@@ -71651,7 +71651,7 @@
           "description": {
             "type": "string",
             "description": "The description of the entitlement",
-            "example": "CN=LauncherTest2,OU=LauncherTestOrg,OU=slpt-automation,DC=TestAutomationAD,DC=local",
+            "example": "Grants the ability to access and manage payroll-related controls and settings within the Corporate Active Directory system.",
             "nullable": true
           },
           "privileged": {
@@ -71747,7 +71747,7 @@
               "name": {
                 "type": "string",
                 "description": "The source name",
-                "example": "ODS-AD-Source"
+                "example": "Corporate Active Directory"
               }
             }
           },
