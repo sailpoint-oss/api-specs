@@ -17,13 +17,13 @@ jobs:
     steps:
       # Checkout API specs to run the validator on
       - name: Checkout PR branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.ref }}
 
       # Checkout API validator code
       - name: Checkout API Schema Validator
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
         with:
           repository: sailpoint-oss/api-schema-validator
           path: api-schema-validator
@@ -31,9 +31,9 @@ jobs:
 
       # Install node and run npm install on API schema validator to install required packages
       - name: Use Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v6
         with:
-          node-version: "16.x"
+          node-version: "24"
       
       - name: Install Dependencies
         run: |

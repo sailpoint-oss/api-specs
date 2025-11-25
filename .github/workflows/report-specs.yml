@@ -20,7 +20,7 @@ jobs:
         spec-name: [v2024, beta, nerm, v3]
     steps:
       - name: Checkout PR branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.ref }}
 
