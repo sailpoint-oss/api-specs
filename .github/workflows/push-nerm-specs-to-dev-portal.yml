@@ -14,13 +14,13 @@ jobs:
     steps:
       # Checkout the master branch request to run rsync
       - name: Checkout PR branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.ref }}
 
       # Checkout the main branch of api-specs
       - name: Checkout API Specs Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
         with:
           repository: sailpoint-oss/developer.sailpoint.com
           path: developer-community

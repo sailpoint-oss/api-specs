@@ -23,7 +23,7 @@ jobs:
       GH_TOKEN: ${{ github.token }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           
@@ -33,15 +33,15 @@ jobs:
           git config --global user.email 'devrel-service@sailpoint.com'
           
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: '18'
+          node-version: '24'
           
       - name: Run simple release automation
         run: |
           node scripts/simple-release-automation.js
 
-      - uses: stefanzweifel/git-auto-commit-action@v4
+      - uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "Update dereferenced specifications"
           commit_author: developer-relations-sp <devrel-service@sailpoint.com>

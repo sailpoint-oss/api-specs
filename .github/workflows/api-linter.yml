@@ -14,13 +14,13 @@ jobs:
     steps:
       # Checkout the pull request to run Spectral on
       - name: Checkout PR branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.ref }}
 
       # Checkout custom spectral action to comment issues to the PR
       - name: Checkout Spectral Action
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
         with:
           repository: sailpoint-oss/github-spectral-action
           path: spectral-comment-action
@@ -28,9 +28,9 @@ jobs:
 
       # Install node and run npm install on spectral action to install required packages
       - name: Use Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v6
         with:
-          node-version: "16.x"
+          node-version: "24"
       - run: |
           ls -al
           cd spectral-comment-action
@@ -40,7 +40,7 @@ jobs:
       - id: files
         with:
           format: "csv"
-        uses: masesgroup/retrieve-changed-files@v2
+        uses: masesgroup/retrieve-changed-files@v3
         continue-on-error: true
 
       # Run the spectral linter action and recieve a comment on the PR for any issues the linter found
