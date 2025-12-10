@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - idn/**
+  workflow_dispatch:
 
 jobs:
   push_idn_spec_workflow:
