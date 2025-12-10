@@ -115,7 +115,7 @@ jobs:
         if: steps.buildSDK.outcome == 'success'
         run: |
           cd powershell-sdk
-          git config --unset-all http.https://github.com/.extraheader
+          git config --unset-all http.https://github.com/.extraheader || true
           git config --local user.email "devrel-service@sailpoint.com"
           git config --local user.name "GitHub Action Bot"
 
