@@ -25,6 +25,7 @@ jobs:
           repository: sailpoint-oss/developer.sailpoint.com
           path: developer-community
           ref: main
+          persist-credentials: false
 
       - name: Install rsync
         run: |

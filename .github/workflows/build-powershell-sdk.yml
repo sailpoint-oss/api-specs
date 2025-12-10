@@ -26,6 +26,7 @@ jobs:
           repository: sailpoint-oss/powershell-sdk
           path: powershell-sdk
           ref: main
+          persist-credentials: false
 
       - name: Set up Node
         uses: actions/setup-node@v6
