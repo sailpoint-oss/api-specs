@@ -523,11 +523,6 @@
             "userAuth": [
               "idn:access-profile:read"
             ]
-          },
-          {
-            "applicationAuth": [
-              "idn:access-profile:read"
-            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -585,14 +580,6 @@
         "security": [
           {
             "userAuth": [
-              "idn:access-profile:manage",
-              "idn:entitlement:read",
-              "idn:identity:read",
-              "idn:sources:read"
-            ]
-          },
-          {
-            "applicationAuth": [
               "idn:access-profile:manage",
               "idn:entitlement:read",
               "idn:identity:read",
@@ -663,11 +650,6 @@
         "security": [
           {
             "userAuth": [
-              "idn:access-profile:read"
-            ]
-          },
-          {
-            "applicationAuth": [
               "idn:access-profile:read"
             ]
           }
@@ -827,11 +809,6 @@
             "userAuth": [
               "idn:access-profile:manage"
             ]
-          },
-          {
-            "applicationAuth": [
-              "idn:access-profile:manage"
-            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -906,11 +883,6 @@
         "security": [
           {
             "userAuth": [
-              "idn:access-profile:manage"
-            ]
-          },
-          {
-            "applicationAuth": [
               "idn:access-profile:manage"
             ]
           }
@@ -1020,11 +992,6 @@
             "userAuth": [
               "idn:access-profile:manage"
             ]
-          },
-          {
-            "applicationAuth": [
-              "idn:access-profile:manage"
-            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -1118,11 +1085,6 @@
         "security": [
           {
             "userAuth": [
-              "idn:access-profile:read"
-            ]
-          },
-          {
-            "applicationAuth": [
               "idn:access-profile:read"
             ]
           }
@@ -51663,7 +51625,9 @@
           "Task Management"
         ],
         "summary": "Retrieve pending task status list",
-        "description": "Retrieve a list of statuses for pending tasks. Types of tasks include account and entitlement aggregation and other general background processing tasks.  Data for tasks older than 90 days will not be returned.",
+        "description": "This API is being deprecated. Please use the [task-status-list](https://developer.sailpoint.com/docs/api/v2025/get-task-status-list) endpoint with isnull filtering on the completionStatus field to retrieve pending tasks. Example: /v2025/task-status?filters=completionStatus isnull \n\nRetrieve a list of statuses for pending tasks. Types of tasks include account and entitlement aggregation and other general background processing tasks.  Data for tasks older than 90 days will not be returned.\n",
+        "deprecated": true,
+        "x-deprecated-description": "This API has been deprecated, please refer to [task-status-list](https://developer.sailpoint.com/docs/api/v2025/get-task-status-list) for the latest API.\n",
         "operationId": "getPendingTasks",
         "parameters": [
           {
@@ -51739,7 +51703,9 @@
           "Task Management"
         ],
         "summary": "Retrieve pending task list headers",
-        "description": "Responds with headers only for list of task statuses for pending tasks.",
+        "description": "This API is being deprecated. Please use the [task-status-list](https://developer.sailpoint.com/docs/api/v2025/get-task-status-list) endpoint with isnull filtering on the completionStatus field and count=true. Example: /v2025/task-status?count=true&filters=completionStatus isnull\n\nResponds with headers only for list of task statuses for pending tasks.\n",
+        "deprecated": true,
+        "x-deprecated-description": "This API has been deprecated, please refer to [task-status-list](https://developer.sailpoint.com/docs/api/v2025/get-task-status-list) for the latest API.\n",
         "operationId": "getPendingTaskHeaders",
         "parameters": [
           {
@@ -66853,6 +66819,29 @@
           }
         }
       },
+      "AccessDuration": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "value": {
+            "type": "integer",
+            "description": "The numeric value representing the amount of time, which is defined in the **timeUnit**.",
+            "format": "int32",
+            "example": 6
+          },
+          "timeUnit": {
+            "type": "string",
+            "description": "The unit of time that corresponds to the **value**. It defines the scale of the time period.",
+            "enum": [
+              "HOURS",
+              "DAYS",
+              "WEEKS",
+              "MONTHS"
+            ],
+            "example": "MONTHS"
+          }
+        }
+      },
       "AccessProfileApprovalScheme": {
         "type": "object",
         "properties": {
@@ -66902,6 +66891,17 @@
             "nullable": true,
             "default": false
           },
+          "requireEndDate": {
+            "type": "boolean",
+            "description": "Indicates whether the requester of the containing object must provide access end date.",
+            "example": true,
+            "nullable": true,
+            "default": false
+          },
+          "maxPermittedAccessDuration": {
+            "$ref": "#/components/schemas/AccessDuration",
+            "nullable": true
+          },
           "approvalSchemes": {
             "type": "array",
             "nullable": true,
@@ -66923,6 +66923,112 @@
             "items": {
               "$ref": "#/components/schemas/AccessProfileApprovalScheme"
             }
+          }
+        }
+      },
+      "AttributeValueDTO": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "description": "Technical name of the Attribute value. This is unique and cannot be changed after creation.",
+            "example": "public"
+          },
+          "name": {
+            "type": "string",
+            "description": "The display name of the Attribute value.",
+            "example": "Public"
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of the Attribute value.",
+            "example": "active"
+          }
+        }
+      },
+      "AttributeDTO": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Technical name of the Attribute. This is unique and cannot be changed after creation.",
+            "example": "iscPrivacy"
+          },
+          "name": {
+            "type": "string",
+            "description": "The display name of the key.",
+            "example": "Privacy"
+          },
+          "multiselect": {
+            "type": "boolean",
+            "default": false,
+            "description": "Indicates whether the attribute can have multiple values.",
+            "example": false
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of the Attribute.",
+            "example": "active"
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of the Attribute. This can be either \"custom\" or \"governance\".",
+            "example": "governance"
+          },
+          "objectTypes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true,
+            "description": "An array of object types this attributes values can be applied to. Possible values are \"all\" or \"entitlement\". Value \"all\" means this attribute can be used with all object types that are supported.",
+            "example": [
+              "entitlement"
+            ]
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the Attribute.",
+            "example": "Specifies the level of privacy associated with an access item."
+          },
+          "values": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/AttributeValueDTO"
+            }
+          }
+        }
+      },
+      "AttributeDTOList": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/AttributeDTO"
+            },
+            "example": [
+              {
+                "key": "iscPrivacy",
+                "name": "Privacy",
+                "multiselect": false,
+                "status": "active",
+                "type": "governance",
+                "objectTypes": [
+                  "all"
+                ],
+                "description": "Specifies the level of privacy associated with an access item.",
+                "values": [
+                  {
+                    "value": "public",
+                    "name": "Public",
+                    "status": "active"
+                  }
+                ]
+              }
+            ]
           }
         }
       },
@@ -67111,6 +67217,30 @@
               "29cb6c06-1da8-43ea-8be4-b3125f248f2a"
             ]
           },
+          "accessModelMetadata": {
+            "$ref": "#/components/schemas/AttributeDTOList",
+            "description": "This field must be left null or empty when creating an Role, otherwise a 400 Bad Request error will result.",
+            "example": [
+              {
+                "key": "iscFederalClassifications",
+                "name": "Federal Classifications",
+                "multiselect": true,
+                "status": "active",
+                "type": "governance",
+                "objectTypes": [
+                  "general"
+                ],
+                "description": "Classification used by government organizations to specify the level of confidentiality for an access item.",
+                "values": [
+                  {
+                    "value": "secret",
+                    "name": "Secret",
+                    "status": "active"
+                  }
+                ]
+              }
+            ]
+          },
           "provisioningCriteria": {
             "$ref": "#/components/schemas/ProvisioningCriteriaLevel1",
             "description": "When an identity has multiple accounts on the source the access profile is associated with, the API evaluates this expression against those accounts to choose one to provision with the access profile.",
@@ -67149,6 +67279,13 @@
                   ]
                 }
               ]
+            }
+          },
+          "additionalOwners": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/OwnerReference"
             }
           }
         },
@@ -80860,112 +80997,6 @@
             "type": "string",
             "description": "Human-readable display name of the object to which this reference applies",
             "example": "Role 2"
-          }
-        }
-      },
-      "AttributeValueDTO": {
-        "type": "object",
-        "properties": {
-          "value": {
-            "type": "string",
-            "description": "Technical name of the Attribute value. This is unique and cannot be changed after creation.",
-            "example": "public"
-          },
-          "name": {
-            "type": "string",
-            "description": "The display name of the Attribute value.",
-            "example": "Public"
-          },
-          "status": {
-            "type": "string",
-            "description": "The status of the Attribute value.",
-            "example": "active"
-          }
-        }
-      },
-      "AttributeDTO": {
-        "type": "object",
-        "properties": {
-          "key": {
-            "type": "string",
-            "description": "Technical name of the Attribute. This is unique and cannot be changed after creation.",
-            "example": "iscPrivacy"
-          },
-          "name": {
-            "type": "string",
-            "description": "The display name of the key.",
-            "example": "Privacy"
-          },
-          "multiselect": {
-            "type": "boolean",
-            "default": false,
-            "description": "Indicates whether the attribute can have multiple values.",
-            "example": false
-          },
-          "status": {
-            "type": "string",
-            "description": "The status of the Attribute.",
-            "example": "active"
-          },
-          "type": {
-            "type": "string",
-            "description": "The type of the Attribute. This can be either \"custom\" or \"governance\".",
-            "example": "governance"
-          },
-          "objectTypes": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true,
-            "description": "An array of object types this attributes values can be applied to. Possible values are \"all\" or \"entitlement\". Value \"all\" means this attribute can be used with all object types that are supported.",
-            "example": [
-              "entitlement"
-            ]
-          },
-          "description": {
-            "type": "string",
-            "description": "The description of the Attribute.",
-            "example": "Specifies the level of privacy associated with an access item."
-          },
-          "values": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/AttributeValueDTO"
-            }
-          }
-        }
-      },
-      "AttributeDTOList": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/AttributeDTO"
-            },
-            "example": [
-              {
-                "key": "iscPrivacy",
-                "name": "Privacy",
-                "multiselect": false,
-                "status": "active",
-                "type": "governance",
-                "objectTypes": [
-                  "all"
-                ],
-                "description": "Specifies the level of privacy associated with an access item.",
-                "values": [
-                  {
-                    "value": "public",
-                    "name": "Public",
-                    "status": "active"
-                  }
-                ]
-              }
-            ]
           }
         }
       },

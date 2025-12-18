@@ -70,7 +70,7 @@
     },
     {
       "name": "Account Aggregations",
-      "description": "Use this API to implement account aggregation progress tracking functionality.\nWith this functionality in place, administrators can view in-progress account aggregations, their statuses, and their relevant details.\n\nAn account aggregation refers to the process Identity Security Cloud uses to gather and load account data from a source into Identity Security Cloud.\n\nWhenever Identity Security Cloud is in the process of aggregating a source, it adds an entry to the Aggregation Activity Log, along with its relevant details.\nTo view aggregation activity, administrators can select the Connections drop-down menu, select Sources, and select the relevant source, select its Import Data tab, and select Account Aggregation.\nIn Account Aggregation, administrators can view the account aggregations' statuses and details in the Account Activity Log.\n\nRefer to [Loading Account Data](https://documentation.sailpoint.com/saas/help/accounts/loading_data.html) for more information about account aggregations.\n"
+      "description": "Use this API to implement account aggregation progress tracking functionality.\nWith this functionality in place, administrators can view in-progress account aggregations, their statuses, and their relevant details.\n\nAn account aggregation refers to the process Identity Security Cloud uses to gather and load account data from a source into Identity Security Cloud.\n\nWhenever Identity Security Cloud is in the process of aggregating a source, it adds an entry to the Aggregation Activity Log, along with its relevant details.\nTo view aggregation activity, administrators can select the Connections drop-down menu, select Sources, and select the relevant source, select its Import Data tab, and select Account Aggregation.\nIn Account Aggregation, administrators can view the account aggregations' statuses and details in the Account Activity Log.\n\nRefer to [Loading Account Data](https://documentation.sailpoint.com/saas/help/accounts/loading_data.html) for more information about account aggregations.\n\nIf you are looking for the endpoint for account aggregations in a source, [click here](https://developer.sailpoint.com/docs/api/v2025/import-accounts)\n"
     },
     {
       "name": "Account Usages",
@@ -157,7 +157,7 @@
     },
     {
       "name": "Data Access Security",
-      "description": "Use this API to trigger and manage DAS tasks such as scans-starting them on demand, updating schedules, and retrieving statuses.\n"
+      "description": "Use this API to trigger and manage DAS tasks such as starting them on demand, updating configurations or schedules, and retrieving statuses. Additionally, you can onboard and manage applications at scale by creating and configuring them, setting scanning schedules, retrieving metadata, and associating them with Virtual Appliances and Identity Collectors.\n"
     },
     {
       "name": "Data Segmentation",
@@ -542,11 +542,6 @@
             "userAuth": [
               "idn:access-profile:read"
             ]
-          },
-          {
-            "applicationAuth": [
-              "idn:access-profile:read"
-            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -604,14 +599,6 @@
         "security": [
           {
             "userAuth": [
-              "idn:access-profile:manage",
-              "idn:entitlement:read",
-              "idn:identity:read",
-              "idn:sources:read"
-            ]
-          },
-          {
-            "applicationAuth": [
               "idn:access-profile:manage",
               "idn:entitlement:read",
               "idn:identity:read",
@@ -679,11 +666,6 @@
         "security": [
           {
             "userAuth": [
-              "idn:access-profile:read"
-            ]
-          },
-          {
-            "applicationAuth": [
               "idn:access-profile:read"
             ]
           }
@@ -843,11 +825,6 @@
             "userAuth": [
               "idn:access-profile:manage"
             ]
-          },
-          {
-            "applicationAuth": [
-              "idn:access-profile:manage"
-            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -922,11 +899,6 @@
         "security": [
           {
             "userAuth": [
-              "idn:access-profile:manage"
-            ]
-          },
-          {
-            "applicationAuth": [
               "idn:access-profile:manage"
             ]
           }
@@ -1036,11 +1008,6 @@
             "userAuth": [
               "idn:access-profile:manage"
             ]
-          },
-          {
-            "applicationAuth": [
-              "idn:access-profile:manage"
-            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -1134,11 +1101,6 @@
         "security": [
           {
             "userAuth": [
-              "idn:access-profile:read"
-            ]
-          },
-          {
-            "applicationAuth": [
               "idn:access-profile:read"
             ]
           }
@@ -12582,6 +12544,343 @@
         "responses": {
           "204": {
             "description": "No Content"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/das/applications": {
+      "post": {
+        "summary": "Create application",
+        "description": "This endpoint creates a new application in Data Access Security with the specified configuration.",
+        "security": [
+          {
+            "userAuth": [
+              "das:applications:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "das:applications:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "tags": [
+          "Data Access Security"
+        ],
+        "operationId": "createApplication",
+        "requestBody": {
+          "description": "Request body containing the details required to create a new application.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseCreateApplicationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "get": {
+        "summary": "Search applications in DAS.",
+        "description": "This endpoint lists all the applications in Data Access Security with optional filtering.",
+        "security": [
+          {
+            "userAuth": [
+              "das:applications:read",
+              "das:applications:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "das:applications:read",
+              "das:applications:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "tags": [
+          "Data Access Security"
+        ],
+        "operationId": "getApplications",
+        "parameters": [
+          {
+            "name": "filters",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "example": "AppType eq 'ActiveDirectory' and Statuses eq 'Passed'",
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**appIds**: *eq, in*\n\n**tagIds**: *eq, in*\n\n**statuses**: *eq, in*\n\n**groupCodes**: *eq, in*\n\n**virtualAppId**: *eq*\n\n**appName**: *eq*\n\n**supportsValidation**: *eq*\n\nSupported composite operators are *and, or*"
+          },
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          },
+          {
+            "$ref": "#/components/parameters/count"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of applications matching the filter criteria.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApplicationItem"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/das/applications/{id}": {
+      "put": {
+        "summary": "Update application by identifier.",
+        "description": "This endpoint updates an existing application in Data Access Security with the specified configuration.",
+        "security": [
+          {
+            "userAuth": [
+              "das:applications:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "das:applications:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "tags": [
+          "Data Access Security"
+        ],
+        "operationId": "putApplication",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "The unique identifier of the application to update.",
+            "example": 12345
+          }
+        ],
+        "requestBody": {
+          "description": "Request body containing the updated details for the application.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseCreateApplicationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete an application by identifier.",
+        "description": "This endpoint deletes an application from Data Access Security by its unique identifier.",
+        "security": [
+          {
+            "userAuth": [
+              "das:applications:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "das:applications:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "tags": [
+          "Data Access Security"
+        ],
+        "operationId": "deleteApplication",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "The unique identifier of the application to delete.",
+            "example": 12345
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "get": {
+        "summary": "Retrieve application details by identifier.",
+        "description": "This endpoint retrieves the details of a specific application in Data Access Security by its unique identifier.",
+        "security": [
+          {
+            "userAuth": [
+              "das:applications:read",
+              "das:applications:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "das:applications:read",
+              "das:applications:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "tags": [
+          "Data Access Security"
+        ],
+        "operationId": "getApplication",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "The unique identifier of the application to retrieve.",
+            "example": 12345
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The application details were retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationItem"
+                }
+              }
+            }
           },
           "400": {
             "$ref": "#/components/responses/400"
@@ -32503,6 +32802,79 @@
       }
     },
     "/sources/{sourceId}/password-policies": {
+      "get": {
+        "operationId": "listPasswordPolicyHoldersOnSource",
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN",
+          "ROLE_SUBADMIN"
+        ],
+        "tags": [
+          "Sources"
+        ],
+        "summary": "Get Password Policy for source",
+        "description": "This API can be used to get Password Policy in IdentityNow for the specified Source.\nSource must support PASSWORD feature.\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sourceId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The Source id",
+            "example": "8c190e6787aa4ed9a90bd9d5344523fb",
+            "x-sailpoint-resource-operation-id": "listSources"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          },
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/count"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Password Policies",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PasswordPolicyHoldersDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:password-policy:read"
+            ]
+          }
+        ]
+      },
       "patch": {
         "operationId": "updatePasswordPolicyHolders",
         "x-sailpoint-userLevels": [
@@ -33976,7 +34348,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Tag"
+                    "$ref": "#/components/schemas/Tag-2"
                   }
                 }
               }
@@ -34025,7 +34397,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Tag"
+                "$ref": "#/components/schemas/Tag-2"
               }
             }
           }
@@ -34036,7 +34408,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Tag"
+                  "$ref": "#/components/schemas/Tag-2"
                 }
               }
             }
@@ -34135,7 +34507,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Tag"
+                  "$ref": "#/components/schemas/Tag-2"
                 }
               }
             }
@@ -37894,6 +38266,8 @@
       "post": {
         "summary": "Metadata Attribute update by filter",
         "description": "Bulk update Access Model Metadata Attribute Values using a filter",
+        "deprecated": true,
+        "x-deprecated-description": "This API has been deprecated, please refer to entitlements, roles and access-profile documentations for latest API.\n",
         "tags": [
           "Access Model Metadata"
         ],
@@ -37952,6 +38326,8 @@
       "post": {
         "summary": "Metadata Attribute update by query",
         "description": "Bulk update Access Model Metadata Attribute Values using a query",
+        "deprecated": true,
+        "x-deprecated-description": "This API has been deprecated, please refer to entitlements, roles and access-profile documentations for latest API.\n",
         "tags": [
           "Access Model Metadata"
         ],
@@ -38010,6 +38386,8 @@
       "post": {
         "summary": "Metadata Attribute update by ids",
         "description": "Bulk update Access Model Metadata Attribute Values using ids.",
+        "deprecated": true,
+        "x-deprecated-description": "This API has been deprecated, please refer to entitlements, roles and access-profile documentations for latest API.\n",
         "tags": [
           "Access Model Metadata"
         ],
@@ -46720,8 +47098,8 @@
             "schema": {
               "type": "string"
             },
-            "example": "identityId eq \"2c9180858082150f0180893dbaf44201\"",
-            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\n\nFiltering is supported for the following fields and operators:\n\n\n**displayName**: *eq, sw*\n\n\n**technicalName**: *eq, sw*\n"
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**displayName**: *eq, sw*\n\n**technicalName**: *eq, sw*",
+            "example": "displayName eq \"sail\""
           },
           {
             "in": "query",
@@ -46776,7 +47154,8 @@
                         "displayName": "Mr Foo",
                         "description": "fighters",
                         "created": "2025-07-28T16:13:42.801Z",
-                        "modified": "2025-07-28T16:13:42.750Z"
+                        "modified": "2025-07-28T16:13:42.750Z",
+                        "type": "MACHINE"
                       }
                     ]
                   }
@@ -46856,14 +47235,42 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SourceSubtype"
+                "type": "object",
+                "required": [
+                  "technicalName",
+                  "displayName",
+                  "description"
+                ],
+                "properties": {
+                  "technicalName": {
+                    "type": "string",
+                    "description": "Technical name of the subtype.",
+                    "example": "foo"
+                  },
+                  "displayName": {
+                    "type": "string",
+                    "description": "Display name of the subtype.",
+                    "example": "Mr Foo"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Description of the subtype.",
+                    "example": "fighters"
+                  },
+                  "type": {
+                    "type": "string",
+                    "description": "Type of the subtype.",
+                    "example": "MACHINE"
+                  }
+                }
               },
               "examples": {
                 "SourceSubtype": {
                   "value": {
                     "technicalName": "foo",
                     "displayName": "Mr Foo",
-                    "description": "fighters"
+                    "description": "fighters",
+                    "type": "MACHINE"
                   }
                 }
               }
@@ -46887,7 +47294,8 @@
                       "displayName": "Mr Foo",
                       "description": "fighters",
                       "created": "2025-07-28T16:13:42.801Z",
-                      "modified": "2025-07-28T16:13:42.750Z"
+                      "modified": "2025-07-28T16:13:42.750Z",
+                      "type": "MACHINE"
                     }
                   }
                 }
@@ -46989,7 +47397,8 @@
                       "displayName": "Mr Foo",
                       "description": "fighters",
                       "created": "2025-07-28T16:13:42.801Z",
-                      "modified": "2025-07-28T16:13:42.750Z"
+                      "modified": "2025-07-28T16:13:42.750Z",
+                      "type": "MACHINE"
                     }
                   }
                 }
@@ -47034,7 +47443,7 @@
       },
       "patch": {
         "summary": "Patch subtype",
-        "description": "Update fields of a machine account subtype by its ID.\nPatchable fields include: `displayName`, `description`, `technicalName`.",
+        "description": "Update fields of a machine account subtype by source ID and technical name.\nPatchable fields include: `displayName`, `description`.",
         "operationId": "patchMachineAccountSubtype",
         "tags": [
           "Machine Accounts"
@@ -47042,13 +47451,13 @@
         "parameters": [
           {
             "in": "path",
-            "name": "subtypeId",
+            "name": "sourceId",
             "required": true,
             "schema": {
               "type": "string"
             },
-            "example": "43bdd144-4b17-4fce-a744-17c7fd3e717b",
-            "description": "The ID of the machine account subtype.",
+            "example": "6d0458373bec4b4b80460992b76016da",
+            "description": "The ID of the source.",
             "x-sailpoint-resource-operation-id": "listMachineAccountSubtypes"
           },
           {
@@ -47076,17 +47485,24 @@
         ],
         "requestBody": {
           "required": true,
+          "description": "A JSON of updated values [JSON Patch](https://tools.ietf.org/html/rfc6902) standard.",
           "content": {
-            "application/json": {
+            "application/json-patch+json": {
               "schema": {
-                "$ref": "#/components/schemas/SourceSubtype"
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
               },
               "examples": {
-                "SourceSubtype": {
-                  "value": {
-                    "displayName": "Mr Foo Updated",
-                    "description": "fighters updated"
-                  }
+                "Update display name": {
+                  "value": [
+                    {
+                      "op": "replace",
+                      "path": "/displayName",
+                      "value": "Test New DisplayName"
+                    }
+                  ]
                 }
               }
             }
@@ -47106,10 +47522,11 @@
                       "id": "43bdd144-4b17-4fce-a744-17c7fd3e717b",
                       "sourceId": "6d0458373bec4b4b80460992b76016da",
                       "technicalName": "foo",
-                      "displayName": "Mr Foo Updated",
+                      "displayName": "Test New DisplayName",
                       "description": "fighters updated",
                       "created": "2025-07-28T16:13:42.801Z",
-                      "modified": "2025-07-28T16:13:42.750Z"
+                      "modified": "2025-07-28T16:13:42.750Z",
+                      "type": "MACHINE"
                     }
                   }
                 }
@@ -47152,7 +47569,7 @@
       },
       "delete": {
         "summary": "Delete subtype",
-        "description": "Delete a machine account subtype by its ID.",
+        "description": "Delete a machine account subtype by source ID and technical name.",
         "operationId": "deleteMachineAccountSubtype",
         "tags": [
           "Machine Accounts"
@@ -47160,13 +47577,13 @@
         "parameters": [
           {
             "in": "path",
-            "name": "subtypeId",
+            "name": "sourceId",
             "required": true,
             "schema": {
               "type": "string"
             },
-            "example": "43bdd144-4b17-4fce-a744-17c7fd3e717b",
-            "description": "The ID of the machine account subtype.",
+            "example": "6d0458373bec4b4b80460992b76016da",
+            "description": "The ID of the source.",
             "x-sailpoint-resource-operation-id": "listMachineAccountSubtypes"
           },
           {
@@ -47231,7 +47648,7 @@
         ]
       }
     },
-    "/sources/subtype/{subtypeId}": {
+    "/sources/subtypes/{subtypeId}": {
       "get": {
         "summary": "Retrieve subtype by subtype id",
         "description": "Get a machine account subtype by its unique ID.",
@@ -49420,14 +49837,14 @@
         "tags": [
           "Parameter Storage"
         ],
-        "description": "Get an attestation document, and perform x25519 handshake to enabled end-to-end encrypted transport of parameter private fields.",
+        "description": "Get an attestation document containing a NIST P-384 service public key for an ECDHE handshake, enabling the end-to-end-encrypted transport of parameter private fields.",
         "parameters": [
           {
             "name": "key",
             "in": "query",
             "required": true,
-            "description": "Base64Url encoded public key",
-            "example": "cHVibGljIGtleSBnb2VzIGhlcmU=",
+            "description": "Base64Url encoded NIST P-384 public key",
+            "example": "BLdV-KA7nSRXx2XkksQX7bmOAShARsB3CCVWodKr4dOJj_puru76wy6drBTVlSytW_rDheLwepm9xdrRuqUI7p81wMP576frFBbsjndBKyRm3eouPbDcW8MAz0XRH1BB3w==",
             "schema": {
               "type": "string"
             }
@@ -56376,7 +56793,7 @@
           "Task Management"
         ],
         "summary": "Retrieve task status list",
-        "description": "Use this endpoint to get a list of statuses for **completed** tasks. Types of tasks include account and entitlement aggregation and other general background processing tasks.  Data for tasks older than 90 days will not be returned. To get a list of statuses for **in-progress** tasks, please use the [retrieve pending task status list](https://developer.sailpoint.com/docs/api/v2024/get-pending-tasks) endpoint.\n",
+        "description": "Use this endpoint to get a list of statuses for **all** tasks, including completed, in-progress, terminated, and errored tasks. Types of tasks include account and entitlement aggregation and other general background processing tasks. Data for tasks older than 90 days will not be returned. For a list of **in-progress** tasks, use the [retrieve pending task status list](https://developer.sailpoint.com/docs/api/v2025/get-pending-tasks) endpoint or apply the isnull filter to the Completion Status field.\n",
         "operationId": "getTaskStatusList",
         "parameters": [
           {
@@ -56396,7 +56813,7 @@
             },
             "example": "completionStatus eq \"Success\"",
             "required": false,
-            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in*\n\n**sourceId**: *eq, in*\n\n**completionStatus**: *eq, in*\n\n**type**: *eq, in*"
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in*\n\n**sourceId**: *eq, in*\n\n**completionStatus**: *eq, in, isnull*\n\n**type**: *eq, in*\n\n**Possible Values:** CLOUD_ACCOUNT_AGGREGATION, CLOUD_GROUP_AGGREGATION, CLOUD_PROCESS_UNCORRELATED_ACCOUNTS, CLOUD_REFRESH_ROLE, SOURCE_APPLICATION_DISCOVERY, AI_AGENT_AGGREGATION, APPLICATION_DISCOVERY, MACHINE_IDENTITY_AGGREGATION, MACHINE_IDENTITY_DELETION, ACCOUNT_DELETION"
           },
           {
             "in": "query",
@@ -56475,7 +56892,9 @@
           "Task Management"
         ],
         "summary": "Retrieve pending task status list",
-        "description": "Retrieve a list of statuses for pending tasks. Types of tasks include account and entitlement aggregation and other general background processing tasks.  Data for tasks older than 90 days will not be returned.",
+        "description": "This API is being deprecated. Please use the [task-status-list](https://developer.sailpoint.com/docs/api/v2025/get-task-status-list) endpoint with isnull filtering on the completionStatus field to retrieve pending tasks. Example: /v2025/task-status?filters=completionStatus isnull\n\nRetrieve a list of statuses for pending tasks. Types of tasks include account and entitlement aggregation and other general background processing tasks.  Data for tasks older than 90 days will not be returned.\n",
+        "deprecated": true,
+        "x-deprecated-description": "This API has been deprecated, please refer to [task-status-list](https://developer.sailpoint.com/docs/api/v2025/get-task-status-list) for the latest API.\n",
         "operationId": "getPendingTasks",
         "parameters": [
           {
@@ -56490,7 +56909,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Responds with a list of TaskStatus for pending tasks.",
+            "description": "Responds with a list of TaskStatus for pending tasks.\n\nPossible Values: CLOUD_ACCOUNT_AGGREGATION, CLOUD_GROUP_AGGREGATION, CLOUD_PROCESS_UNCORRELATED_ACCOUNTS, CLOUD_REFRESH_ROLE, SOURCE_APPLICATION_DISCOVERY, AI_AGENT_AGGREGATION, APPLICATION_DISCOVERY, MACHINE_IDENTITY_AGGREGATION, MACHINE_IDENTITY_DELETION, ACCOUNT_DELETION\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -56551,7 +56970,9 @@
           "Task Management"
         ],
         "summary": "Retrieve pending task list headers",
-        "description": "Responds with headers only for list of task statuses for pending tasks.",
+        "description": "This API is being deprecated. Please use the [task-status-list](https://developer.sailpoint.com/docs/api/v2025/get-task-status-list) endpoint with isnull filtering on the completionStatus field and count=true. Example: /v2025/task-status?count=true&filters=completionStatus isnull\n\nResponds with headers only for list of task statuses for pending tasks.\n",
+        "deprecated": true,
+        "x-deprecated-description": "This API has been deprecated, please refer to [task-status-list](https://developer.sailpoint.com/docs/api/v2025/get-task-status-list) for the latest API.\n",
         "operationId": "getPendingTaskHeaders",
         "parameters": [
           {
@@ -65473,6 +65894,80 @@
         ]
       }
     },
+    "/sources/{sourceId}/discover-applications": {
+      "post": {
+        "operationId": "startApplicationDiscovery",
+        "tags": [
+          "Application Discovery"
+        ],
+        "summary": "Start Application Discovery",
+        "security": [
+          {
+            "userAuth": [
+              "idn:application-discovery:write"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN"
+        ],
+        "description": "Use this API to discover applications.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationDiscoveryRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Application Discovery task was started successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationDiscoveryResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ]
+      }
+    },
     "/discovered-applications": {
       "get": {
         "operationId": "getDiscoveredApplications",
@@ -65488,12 +65983,18 @@
             ]
           }
         ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN"
+        ],
         "parameters": [
           {
-            "$ref": "#/components/parameters/limit"
+            "$ref": "#/components/parameters/limit",
+            "required": false
           },
           {
-            "$ref": "#/components/parameters/offset"
+            "$ref": "#/components/parameters/offset",
+            "required": false
           },
           {
             "in": "query",
@@ -65506,7 +66007,8 @@
               ]
             },
             "description": "Determines whether slim, or increased level of detail is provided for each discovered application in the returned list. SLIM is the default behavior.",
-            "example": "FULL"
+            "example": "FULL",
+            "required": false
           },
           {
             "in": "query",
@@ -65514,8 +66016,9 @@
             "schema": {
               "type": "string"
             },
-            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n  \n  \nFiltering is supported for the following fields and operators:\n\n**name**: *eq, sw, co*\n\n**description**: *eq, sw, co*\n\n**createdAtStart**: *eq, le, ge*\n\n**createdAtEnd**: *eq, le, ge*\n\n**discoveredAtStart**: *eq, le, ge*\n\n**discoveredAtEnd**: *eq, le, ge*\n\n**discoverySource**: *eq, in*\n",
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**name**: *eq, sw, co*\n\n**description**: *eq, sw, co*\n\n**createdAtStart**: *eq, le, ge*\n\n**createdAtEnd**: *eq, le, ge*\n\n**discoveredAtStart**: *eq, le, ge*\n\n**discoveredAtEnd**: *eq, le, ge*\n\n**discoverySource**: *eq, in*\n\n**discoverySourceName**: *eq, in*\n\n**discoverySourceCategory**: *eq, in*\n",
             "example": "name eq \"Okta\" and description co \"Okta\" and discoverySource in (\"csv\", \"Okta Saas\")",
+            "x-sailpoint-resource-operation-id": "getDiscoveredApplications",
             "required": false,
             "style": "form"
           },
@@ -65526,8 +66029,9 @@
               "type": "string",
               "format": "comma-separated"
             },
-            "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **name, description, discoveredAt, discoverySource**",
-            "example": "name"
+            "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **name, description, discoveredAt, discoverySource, discoverySourceName, discoverySourceCategory**",
+            "example": "name",
+            "required": false
           }
         ],
         "responses": {
@@ -67743,6 +68247,87 @@
         }
       }
     },
+    "AccountCreated": {
+      "post": {
+        "summary": "Account created",
+        "operationId": "accountCreatedEvent",
+        "description": "This event trigger fires when a new account is created in Identity Security Cloud.\nAccounts can be created via aggregations or provisioning, including when entitlements are added or removed.\nYou could use this event trigger to fire a Workflow that notifies a source owner when an account is created.\nSee [Aggregating Accounts](https://documentation.sailpoint.com/saas/help/accounts/index.html#aggregating-accounts) and [Configuring Source Account Provisioning](https://documentation.sailpoint.com/saas/help/provisioning/create_profile.html) for more information about the scenarios that lead to account creation.\nThis is a `FIRE_AND_FORGET` event trigger.  You can have a maximum of 50 subscriptions for this trigger. For more information about this event trigger, refer to [Account Created](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/account-created).",
+        "tags": [
+          "Triggers"
+        ],
+        "security": [
+          {
+            "userAuth": [
+              "sp:trigger-service-subscriptions:manage"
+            ]
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountCreated"
+              }
+            }
+          }
+        }
+      }
+    },
+    "AccountDeleted": {
+      "post": {
+        "summary": "Account deleted",
+        "operationId": "accountDeletedEvent",
+        "description": "This event trigger fires when an account is deleted in Identity Security Cloud.\nAccounts can be deleted via aggregations or provisioning.\nYou could use this event trigger to fire a Workflow that takes additional actions after a privileged account has been deleted.\nSee [Aggregating Accounts](https://documentation.sailpoint.com/saas/help/accounts/index.html#aggregating-accounts) and [Configuring Source Account Provisioning](https://documentation.sailpoint.com/saas/help/provisioning/create_profile.html) for more information about the scenarios that lead to account deletion.\nThis is a `FIRE_AND_FORGET` event trigger.  You can have a maximum of 50 subscriptions for this trigger. For more information about this event trigger, refer to [Account Deleted](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/account-deleted).",
+        "tags": [
+          "Triggers"
+        ],
+        "security": [
+          {
+            "userAuth": [
+              "sp:trigger-service-subscriptions:manage"
+            ]
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountDeleted"
+              }
+            }
+          }
+        }
+      }
+    },
+    "AccountUpdated": {
+      "post": {
+        "summary": "Account updated",
+        "operationId": "accountUpdatedEvent",
+        "description": "This event trigger fires when an account is updated in Identity Security Cloud.\nAccounts can be updated via aggregations or provisioning, including when entitlements are added or removed.\nYou could use this event trigger to fire a Workflow that takes additional actions after a new entitlement has been provisioned to a privileged account.\nSee [Aggregating Accounts](https://documentation.sailpoint.com/saas/help/accounts/index.html#aggregating-accounts) and [Configuring Source Account Provisioning](https://documentation.sailpoint.com/saas/help/provisioning/create_profile.html) for more information about the scenarios that lead to account updates.\nThis is a `FIRE_AND_FORGET` event trigger.  You can have a maximum of 50 subscriptions for this trigger. For more information about this event trigger, refer to [Account Updated](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/account-updated).",
+        "tags": [
+          "Triggers"
+        ],
+        "security": [
+          {
+            "userAuth": [
+              "sp:trigger-service-subscriptions:manage"
+            ]
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountUpdated"
+              }
+            }
+          }
+        }
+      }
+    },
     "CampaignActivated": {
       "post": {
         "summary": "Campaign activated",
@@ -67926,6 +68511,87 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/IdentityCreated"
+              }
+            }
+          }
+        }
+      }
+    },
+    "MachineIdentityCreated": {
+      "post": {
+        "summary": "Machine Identity Created",
+        "operationId": "machineIdentityCreatedEvent",
+        "description": "This event trigger fires when a new machine identity is created in Identity Security Cloud.\nMachine identities can be created via the UI, endpoint, or aggregated. Machine identities can also be created via machine account to machine account mappings.\nYou could use this event trigger to fire a Workflow that discovers machine identity owners when a machine identity is created.\nSee [Managing Application Identities](https://documentation.sailpoint.com/saas/help/machine/identity.html),  [Managing AI Agents](https://documentation.sailpoint.com/saas/help/agent/agent_mgmt.html#updating-ai-agents),  [Aggregating AI Agents](https://documentation.sailpoint.com/saas/help/agent/agent_aggregations.html) or  [Mapping Machine Account Attributes](https://documentation.sailpoint.com/saas/help/machine/account_configuration.html#mapping-machine-account-attributes)  for more information about the scenarios that lead to machine identity creation. \nCustomers that have licensed Machine Identity Security or Agent Identity Security will receive this event trigger.\nThis is a `FIRE_AND_FORGET` event trigger.  You can have a maximum of 50 subscriptions for this trigger. For more information about this event trigger, refer to [Machine Identity Created](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/machine-identity-created).",
+        "tags": [
+          "Triggers"
+        ],
+        "security": [
+          {
+            "userAuth": [
+              "sp:trigger-service-subscriptions:manage"
+            ]
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MachineIdentityCreated"
+              }
+            }
+          }
+        }
+      }
+    },
+    "MachineIdentityUpdated": {
+      "post": {
+        "summary": "Machine Identity Updated",
+        "operationId": "machineIdentityUpdatedEvent",
+        "description": "This event trigger fires when a machine identity is updated in Identity Security Cloud.\nMachine identities can be updated via the UI, endpoint, or aggregations.\nYou could use this event trigger to fire a Workflow that notifies machine identity owners when a machine identity's owner list changes.\nSee [Managing Application Identities](https://documentation.sailpoint.com/saas/help/machine/identity.html),  [Managing AI Agents](https://documentation.sailpoint.com/saas/help/agent/agent_mgmt.html#updating-ai-agents) or  [Aggregating AI Agents](https://documentation.sailpoint.com/saas/help/agent/agent_aggregations.html)  for more information about the scenarios that lead to machine identity updates.\nCustomers that have licensed Machine Identity Security or Agent Identity Security will receive this event trigger.\nThis is a `FIRE_AND_FORGET` event trigger.  You can have a maximum of 50 subscriptions for this trigger. For more information about this event trigger, refer to [Machine Identity Updated](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/machine-identity-updated).",
+        "tags": [
+          "Triggers"
+        ],
+        "security": [
+          {
+            "userAuth": [
+              "sp:trigger-service-subscriptions:manage"
+            ]
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MachineIdentityUpdated"
+              }
+            }
+          }
+        }
+      }
+    },
+    "MachineIdentityDeleted": {
+      "post": {
+        "summary": "Machine Identity Deleted",
+        "operationId": "machineIdentityDeletedEvent",
+        "description": "This event trigger fires when a machine identity is deleted in Identity Security Cloud.\nMachine identities can be deleted via the UI, endpoint, or aggregations. Machine identities can also be auto-deleted when all account correlations to the machine identity are removed.\nYou could use this event trigger to fire a Workflow that notifies machine identity owners when a machine identity is decommissioned.\nSee [Managing Application Identities](https://documentation.sailpoint.com/saas/help/machine/identity.html),  [Managing AI Agents](https://documentation.sailpoint.com/saas/help/agent/agent_mgmt.html#updating-ai-agents),  [Aggregating AI Agents](https://documentation.sailpoint.com/saas/help/agent/agent_aggregations.html),  [Mapping Machine Account Attributes](https://documentation.sailpoint.com/saas/help/machine/account_configuration.html#mapping-machine-account-attributes)  for more information about the scenarios that lead to machine identity deletion.\nCustomers that have licensed Machine Identity Security or Agent Identity Security will receive this event trigger.\nThis is a `FIRE_AND_FORGET` event trigger.  You can have a maximum of 50 subscriptions for this trigger. For more information about this event trigger, refer to [Machine Identity Deleted](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/machine-identity-deleted).",
+        "tags": [
+          "Triggers"
+        ],
+        "security": [
+          {
+            "userAuth": [
+              "sp:trigger-service-subscriptions:manage"
+            ]
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MachineIdentityDeleted"
               }
             }
           }
@@ -71665,6 +72331,29 @@
           }
         }
       },
+      "AccessDuration": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "value": {
+            "type": "integer",
+            "description": "The numeric value representing the amount of time, which is defined in the **timeUnit**.",
+            "format": "int32",
+            "example": 6
+          },
+          "timeUnit": {
+            "type": "string",
+            "description": "The unit of time that corresponds to the **value**. It defines the scale of the time period.",
+            "enum": [
+              "HOURS",
+              "DAYS",
+              "WEEKS",
+              "MONTHS"
+            ],
+            "example": "MONTHS"
+          }
+        }
+      },
       "AccessProfileApprovalScheme": {
         "type": "object",
         "properties": {
@@ -71714,6 +72403,17 @@
             "nullable": true,
             "default": false
           },
+          "requireEndDate": {
+            "type": "boolean",
+            "description": "Indicates whether the requester of the containing object must provide access end date.",
+            "example": true,
+            "nullable": true,
+            "default": false
+          },
+          "maxPermittedAccessDuration": {
+            "$ref": "#/components/schemas/AccessDuration",
+            "nullable": true
+          },
           "approvalSchemes": {
             "type": "array",
             "nullable": true,
@@ -71735,6 +72435,112 @@
             "items": {
               "$ref": "#/components/schemas/AccessProfileApprovalScheme"
             }
+          }
+        }
+      },
+      "AttributeValueDTO": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "description": "Technical name of the Attribute value. This is unique and cannot be changed after creation.",
+            "example": "public"
+          },
+          "name": {
+            "type": "string",
+            "description": "The display name of the Attribute value.",
+            "example": "Public"
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of the Attribute value.",
+            "example": "active"
+          }
+        }
+      },
+      "AttributeDTO": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Technical name of the Attribute. This is unique and cannot be changed after creation.",
+            "example": "iscPrivacy"
+          },
+          "name": {
+            "type": "string",
+            "description": "The display name of the key.",
+            "example": "Privacy"
+          },
+          "multiselect": {
+            "type": "boolean",
+            "default": false,
+            "description": "Indicates whether the attribute can have multiple values.",
+            "example": false
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of the Attribute.",
+            "example": "active"
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of the Attribute. This can be either \"custom\" or \"governance\".",
+            "example": "governance"
+          },
+          "objectTypes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true,
+            "description": "An array of object types this attributes values can be applied to. Possible values are \"all\" or \"entitlement\". Value \"all\" means this attribute can be used with all object types that are supported.",
+            "example": [
+              "entitlement"
+            ]
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the Attribute.",
+            "example": "Specifies the level of privacy associated with an access item."
+          },
+          "values": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/AttributeValueDTO"
+            }
+          }
+        }
+      },
+      "AttributeDTOList": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/AttributeDTO"
+            },
+            "example": [
+              {
+                "key": "iscPrivacy",
+                "name": "Privacy",
+                "multiselect": false,
+                "status": "active",
+                "type": "governance",
+                "objectTypes": [
+                  "all"
+                ],
+                "description": "Specifies the level of privacy associated with an access item.",
+                "values": [
+                  {
+                    "value": "public",
+                    "name": "Public",
+                    "status": "active"
+                  }
+                ]
+              }
+            ]
           }
         }
       },
@@ -71923,6 +72729,30 @@
               "29cb6c06-1da8-43ea-8be4-b3125f248f2a"
             ]
           },
+          "accessModelMetadata": {
+            "$ref": "#/components/schemas/AttributeDTOList",
+            "description": "This field must be left null or empty when creating an Role, otherwise a 400 Bad Request error will result.",
+            "example": [
+              {
+                "key": "iscFederalClassifications",
+                "name": "Federal Classifications",
+                "multiselect": true,
+                "status": "active",
+                "type": "governance",
+                "objectTypes": [
+                  "general"
+                ],
+                "description": "Classification used by government organizations to specify the level of confidentiality for an access item.",
+                "values": [
+                  {
+                    "value": "secret",
+                    "name": "Secret",
+                    "status": "active"
+                  }
+                ]
+              }
+            ]
+          },
           "provisioningCriteria": {
             "$ref": "#/components/schemas/ProvisioningCriteriaLevel1",
             "description": "When an identity has multiple accounts on the source the access profile is associated with, the API evaluates this expression against those accounts to choose one to provision with the access profile.",
@@ -71961,6 +72791,13 @@
                   ]
                 }
               ]
+            }
+          },
+          "additionalOwners": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/OwnerReference"
             }
           }
         },
@@ -79689,6 +80526,457 @@
           }
         }
       },
+      "Tag": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The unique identifier for the tag.",
+            "example": 101
+          },
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "description": "The display name or label for the tag.",
+            "example": "Confidential"
+          }
+        }
+      },
+      "ApplicationItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The unique identifier of the application.",
+            "example": 12345
+          },
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "description": "The display name of the application.",
+            "example": "HR File Server"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "description": "A brief description of the application and its purpose.",
+            "example": "Stores HR documents and employee records."
+          },
+          "type": {
+            "type": "string",
+            "nullable": true,
+            "description": "The type of the application.",
+            "example": "OneDriveForBusiness"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Tag"
+            },
+            "nullable": true,
+            "description": "A list of tags associated with the application.",
+            "example": [
+              {
+                "id": 101,
+                "name": "Confidential"
+              }
+            ]
+          },
+          "testConnectionStatus": {
+            "type": "string",
+            "nullable": true,
+            "description": "The status of the last connection test performed on the application.",
+            "example": "Success"
+          },
+          "testConnectionDate": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "description": "The timestamp of the last connection test performed on the application, in milliseconds since epoch.",
+            "example": 1700000000000
+          },
+          "rcClusterId": {
+            "type": "string",
+            "nullable": true,
+            "description": "The identifier of the cluster used for crawling resources.",
+            "example": "459B5ABB-47BE-4069-8DB1-D6A8BE3F4D47"
+          },
+          "dcClusterId": {
+            "type": "string",
+            "nullable": true,
+            "description": "The identifier of the cluster used for data classification.",
+            "example": "B28B4B37-9E47-426B-BAFD-A1FF048B4DAC"
+          },
+          "pcClusterId": {
+            "type": "string",
+            "nullable": true,
+            "description": "The identifier of the cluster used for permission collection.",
+            "example": "E1304AA9-D8FA-4574-A5CD-B59A6D8CB918"
+          }
+        }
+      },
+      "ApplicationType": {
+        "type": "integer",
+        "format": "int32",
+        "description": "Specifies the type of application. Possible values:\n  1  - Sharepoint\n  8  - WindowsFileServer\n  9  - ActiveDirectory\n  11 - EmcCelerraCifs\n  15 - NetappCifs\n  20 - EmcIsilon\n  21 - GoogleDrive\n  24 - Box\n  25 - Dropbox\n  27 - OneDriveForBusiness\n  28 - SharepointOnline\n  29 - ExchangeOnline\n  33 - Cifs\n  35 - AwsS3\n  37 - Snowflake\n",
+        "enum": [
+          1,
+          8,
+          9,
+          11,
+          15,
+          20,
+          21,
+          24,
+          25,
+          27,
+          28,
+          29,
+          33,
+          35,
+          37
+        ],
+        "example": 9
+      },
+      "Int64StringKeyValuePair": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The key for the tag or pair.",
+            "example": 1
+          },
+          "value": {
+            "type": "string",
+            "nullable": true,
+            "description": "The value for the tag or pair.",
+            "example": "Confidential"
+          }
+        }
+      },
+      "BaseSettings": {
+        "type": "object",
+        "properties": {
+          "isEnabled": {
+            "type": "boolean",
+            "description": "Indicates whether the feature or configuration is enabled.",
+            "example": true,
+            "default": false
+          },
+          "clusterId": {
+            "type": "string",
+            "nullable": true,
+            "description": "The identifier of the cluster associated with this configuration, if applicable.",
+            "example": "cluster-001"
+          }
+        }
+      },
+      "CrawlResourcesSizesOptions": {
+        "enum": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "type": "integer",
+        "format": "int32",
+        "description": "Specifies when resource sizes should be calculated during a crawl operation. - 0: Unspecified - No specific option set. - 1: Never - Resource sizes are never calculated. - 2: Always - Resource sizes are always calculated. - 3: Secondcrawl - Resource sizes are calculated only on a second crawl.",
+        "example": 2
+      },
+      "ApplicationCrawlerSettings": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseSettings"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "calculateResourceSize": {
+                "$ref": "#/components/schemas/CrawlResourcesSizesOptions",
+                "description": "Specifies when resource sizes should be calculated during the crawl operation.",
+                "example": 2
+              },
+              "crawlSnapshotsFolder": {
+                "type": "boolean",
+                "nullable": true,
+                "description": "Indicates whether to crawl the snapshots folder.",
+                "example": true,
+                "default": false
+              },
+              "crawlMailboxes": {
+                "type": "boolean",
+                "nullable": true,
+                "description": "Indicates whether to crawl mailboxes.",
+                "example": false,
+                "default": false
+              },
+              "crawlPublicFolders": {
+                "type": "boolean",
+                "nullable": true,
+                "description": "Indicates whether to crawl public folders.",
+                "example": true,
+                "default": false
+              },
+              "excludedPathsByRegex": {
+                "type": "string",
+                "nullable": true,
+                "description": "Regular expression pattern for paths to exclude from crawling.",
+                "example": "^/archive/.*"
+              },
+              "crawlTopLevelShares": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "nullable": true,
+                "description": "List of top-level shares to crawl.",
+                "example": [
+                  "share1",
+                  "share2"
+                ]
+              },
+              "excludedResources": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "nullable": true,
+                "description": "List of resource identifiers to exclude from crawling.",
+                "example": [
+                  "resourceA",
+                  "resourceB"
+                ]
+              },
+              "includeResources": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "nullable": true,
+                "description": "List of resource identifiers to include in crawling.",
+                "example": [
+                  "resourceX",
+                  "resourceY"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "PermissionCollectorSettings": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseSettings",
+            "description": "Inherits base settings for permission collector configuration."
+          },
+          {
+            "type": "object",
+            "properties": {
+              "analyzeUniquePermissions": {
+                "type": "boolean",
+                "nullable": true,
+                "description": "Indicates whether unique permissions should be analyzed for resources.",
+                "example": true,
+                "default": false
+              },
+              "calculateEffectivePermissions": {
+                "type": "boolean",
+                "nullable": true,
+                "description": "Indicates whether effective permissions should be calculated.",
+                "example": true,
+                "default": false
+              },
+              "calculateRiskiestPermissions": {
+                "type": "boolean",
+                "nullable": true,
+                "description": "Indicates whether riskiest permissions should be calculated.",
+                "example": false,
+                "default": false
+              },
+              "effectivePermissionsSource": {
+                "type": "string",
+                "nullable": true,
+                "description": "Source for effective permissions calculation.",
+                "example": "S3"
+              }
+            }
+          }
+        ]
+      },
+      "DataClassificationSettings": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseSettings",
+            "description": "Inherits base settings for data classification configuration.\nFields:\n  isEnabled: Indicates whether the feature or configuration is enabled.\n    Example: true\n  clusterId: The identifier of the cluster associated with this configuration, if applicable.\n    Example: \"cluster-001\"\n"
+          },
+          {
+            "type": "object",
+            "description": "Extend with additional data classification configuration properties as needed.\n",
+            "example": {
+              "isEnabled": true,
+              "clusterId": "cluster-001"
+            }
+          }
+        ]
+      },
+      "ActivityConfigurationSettings": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseSettings"
+          },
+          {
+            "type": "object",
+            "description": "Inherits base settings for activity configuration.",
+            "properties": {
+              "retentionTimePeriod": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The time period for retaining activity logs.",
+                "example": 30
+              },
+              "retentionTimeType": {
+                "type": "string",
+                "nullable": true,
+                "description": "The type of retention period (e.g., days, months, years).",
+                "example": "days"
+              },
+              "excludeUsers": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "nullable": true,
+                "description": "List of user identifiers to exclude from activity tracking.",
+                "example": [
+                  "user1",
+                  "user2"
+                ]
+              },
+              "excludeFolders": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "nullable": true,
+                "description": "List of folder paths to exclude from activity tracking.",
+                "example": [
+                  "/tmp",
+                  "/archive"
+                ]
+              },
+              "excludeFileExtensions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "nullable": true,
+                "description": "List of file extensions to exclude from activity tracking.",
+                "example": [
+                  ".log",
+                  ".bak"
+                ]
+              },
+              "excludeActions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "nullable": true,
+                "description": "List of actions to exclude from activity tracking.",
+                "example": [
+                  "delete",
+                  "move"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "BaseCreateApplicationRequest": {
+        "required": [
+          "applicationType",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "applicationType": {
+            "$ref": "#/components/schemas/ApplicationType",
+            "description": "The type of application to be created (e.g., Active Directory, AWS S3, etc.).",
+            "example": 9
+          },
+          "name": {
+            "type": "string",
+            "description": "The display name of the application.",
+            "example": "HR File Server"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "description": "A brief description of the application and its purpose.",
+            "example": "Stores HR documents and employee records."
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Int64StringKeyValuePair"
+            },
+            "nullable": true,
+            "description": "A list of tags to categorize or identify the application.",
+            "example": [
+              {
+                "key": 1,
+                "value": "Confidential"
+              }
+            ]
+          },
+          "identityCollectorId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "description": "The unique identifier for the identity collector associated with this application.",
+            "example": 123456789
+          },
+          "adIdentityCollectorId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "description": "The unique identifier for the AD identity collector.",
+            "example": 987654321
+          },
+          "nisIdentityCollectorId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "description": "The unique identifier for the NIS identity collector.",
+            "example": 192837465
+          },
+          "applicationCrawlerSettings": {
+            "$ref": "#/components/schemas/ApplicationCrawlerSettings",
+            "description": "Settings for crawling the application to discover resources."
+          },
+          "permissionCollectorSettings": {
+            "$ref": "#/components/schemas/PermissionCollectorSettings",
+            "description": "Settings for collecting permissions from the application."
+          },
+          "dataClassificationSettings": {
+            "$ref": "#/components/schemas/DataClassificationSettings",
+            "description": "Settings for classifying data within the application."
+          },
+          "activityConfigurationSettings": {
+            "$ref": "#/components/schemas/ActivityConfigurationSettings",
+            "description": "Settings for tracking and configuring activity within the application."
+          },
+          "executeNow": {
+            "type": "boolean",
+            "description": "If true, the application setup will be executed immediately after creation.",
+            "example": false,
+            "default": false
+          }
+        }
+      },
       "SegmentId": {
         "type": "string",
         "description": "The segment's ID.",
@@ -86574,112 +87862,6 @@
           }
         }
       },
-      "AttributeValueDTO": {
-        "type": "object",
-        "properties": {
-          "value": {
-            "type": "string",
-            "description": "Technical name of the Attribute value. This is unique and cannot be changed after creation.",
-            "example": "public"
-          },
-          "name": {
-            "type": "string",
-            "description": "The display name of the Attribute value.",
-            "example": "Public"
-          },
-          "status": {
-            "type": "string",
-            "description": "The status of the Attribute value.",
-            "example": "active"
-          }
-        }
-      },
-      "AttributeDTO": {
-        "type": "object",
-        "properties": {
-          "key": {
-            "type": "string",
-            "description": "Technical name of the Attribute. This is unique and cannot be changed after creation.",
-            "example": "iscPrivacy"
-          },
-          "name": {
-            "type": "string",
-            "description": "The display name of the key.",
-            "example": "Privacy"
-          },
-          "multiselect": {
-            "type": "boolean",
-            "default": false,
-            "description": "Indicates whether the attribute can have multiple values.",
-            "example": false
-          },
-          "status": {
-            "type": "string",
-            "description": "The status of the Attribute.",
-            "example": "active"
-          },
-          "type": {
-            "type": "string",
-            "description": "The type of the Attribute. This can be either \"custom\" or \"governance\".",
-            "example": "governance"
-          },
-          "objectTypes": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true,
-            "description": "An array of object types this attributes values can be applied to. Possible values are \"all\" or \"entitlement\". Value \"all\" means this attribute can be used with all object types that are supported.",
-            "example": [
-              "entitlement"
-            ]
-          },
-          "description": {
-            "type": "string",
-            "description": "The description of the Attribute.",
-            "example": "Specifies the level of privacy associated with an access item."
-          },
-          "values": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/AttributeValueDTO"
-            }
-          }
-        }
-      },
-      "AttributeDTOList": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/AttributeDTO"
-            },
-            "example": [
-              {
-                "key": "iscPrivacy",
-                "name": "Privacy",
-                "multiselect": false,
-                "status": "active",
-                "type": "governance",
-                "objectTypes": [
-                  "all"
-                ],
-                "description": "Specifies the level of privacy associated with an access item.",
-                "values": [
-                  {
-                    "value": "public",
-                    "name": "Public",
-                    "status": "active"
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      },
       "Role": {
         "type": "object",
         "description": "A Role",
@@ -93218,7 +94400,7 @@
           }
         }
       },
-      "Tag": {
+      "Tag-2": {
         "type": "object",
         "title": "Tag",
         "properties": {
@@ -99230,6 +100412,11 @@
             "format": "date-time",
             "description": "Last modified timestamp.",
             "example": "2025-07-28T16:13:42.750850Z"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the subtype. Either MACHINE OR null.",
+            "example": "MACHINE"
           }
         }
       },
@@ -104683,6 +105870,217 @@
           }
         }
       },
+      "AccountSourceReference": {
+        "type": "object",
+        "description": "Details about the account source.",
+        "required": [
+          "id",
+          "name",
+          "alias",
+          "owner",
+          "governanceGroup"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique ID of the source.",
+            "example": "2c918082814e693601816e09471b29b6"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the source.",
+            "example": "Active Directory"
+          },
+          "alias": {
+            "type": "string",
+            "description": "The alias of the source.",
+            "example": "AD"
+          },
+          "owner": {
+            "type": "object",
+            "description": "Details about the owner of the source.",
+            "required": [
+              "id",
+              "name"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "ID of the source owner.",
+                "example": "owner-123"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the source owner.",
+                "example": "owner-name"
+              }
+            }
+          },
+          "governanceGroup": {
+            "type": "object",
+            "description": "Details about the governance group of the source.",
+            "required": [
+              "id",
+              "name"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "ID of the governance group.",
+                "example": "group-456"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the governance group.",
+                "example": "governance-group-name"
+              }
+            }
+          }
+        }
+      },
+      "AccountV2": {
+        "type": "object",
+        "description": "Details about the account.",
+        "required": [
+          "id",
+          "name",
+          "nativeIdentity",
+          "uuid",
+          "correlated",
+          "isMachine",
+          "origin",
+          "attributes"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier of the account.",
+            "example": "2c9180835d2e5168015d32f890ca1581"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the account.",
+            "example": "john.doe"
+          },
+          "nativeIdentity": {
+            "type": "string",
+            "description": "The unique ID of the account generated by the source system.",
+            "example": "CN=John Doe,OU=Austin,OU=Americas,OU=Demo,DC=seri,DC=acme,DC=com"
+          },
+          "uuid": {
+            "type": "string",
+            "description": "The unique ID associated with this account.",
+            "nullable": true,
+            "example": "b7264868-7201-415f-9118-b581d431c688"
+          },
+          "correlated": {
+            "type": "boolean",
+            "description": "Indicates if the account is correlated to an identity.",
+            "example": true
+          },
+          "isMachine": {
+            "type": "boolean",
+            "description": "Indicates if the account is a machine account.",
+            "example": false
+          },
+          "origin": {
+            "type": "string",
+            "description": "The origin of the account.",
+            "nullable": true,
+            "example": "Active Directory"
+          },
+          "attributes": {
+            "type": "object",
+            "description": "The attributes of the account. The contents of attributes depends on the account schema for the source.",
+            "nullable": true,
+            "additionalProperties": true,
+            "example": {
+              "firstname": "John",
+              "lastname": "Doe"
+            }
+          }
+        }
+      },
+      "IdentityReference-2": {
+        "type": "object",
+        "description": "Details about the identity correlated with the account.",
+        "required": [
+          "id",
+          "name",
+          "alias",
+          "email"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The ID of the identity that is correlated with this account.",
+            "example": "ee769173319b41d19ccec6c235423237b"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the identity that is correlated with this account.",
+            "example": "john.doe"
+          },
+          "alias": {
+            "type": "string",
+            "description": "The alias of the identity.",
+            "example": "jdoe"
+          },
+          "email": {
+            "type": "string",
+            "description": "The email of the identity.",
+            "example": "john.doe@email.com"
+          }
+        }
+      },
+      "AccountCreated": {
+        "title": "Account Created",
+        "type": "object",
+        "required": [
+          "event",
+          "source",
+          "account",
+          "identity"
+        ],
+        "properties": {
+          "event": {
+            "type": "object",
+            "description": "Details about the event.",
+            "required": [
+              "type",
+              "cause"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "The type of event.",
+                "enum": [
+                  "ACCOUNT_CREATED_V2"
+                ],
+                "example": "ACCOUNT_CREATED_V2"
+              },
+              "cause": {
+                "type": "string",
+                "description": "The cause of the event.",
+                "enum": [
+                  "AGGREGATION",
+                  "PROVISIONING"
+                ],
+                "example": "AGGREGATION"
+              }
+            }
+          },
+          "source": {
+            "$ref": "#/components/schemas/AccountSourceReference"
+          },
+          "account": {
+            "$ref": "#/components/schemas/AccountV2"
+          },
+          "identity": {
+            "$ref": "#/components/schemas/IdentityReference-2"
+          }
+        }
+      },
       "AccountUncorrelated": {
         "title": "Account Uncorrelated",
         "type": "object",
@@ -104795,6 +106193,414 @@
             "format": "int32",
             "description": "The number of entitlements associated with this account.",
             "example": 0
+          }
+        }
+      },
+      "AccountDeleted": {
+        "title": "Account Deleted",
+        "type": "object",
+        "required": [
+          "event",
+          "source",
+          "account",
+          "identity"
+        ],
+        "properties": {
+          "event": {
+            "type": "object",
+            "description": "Details about the event.",
+            "required": [
+              "type",
+              "cause"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "The type of event.",
+                "enum": [
+                  "ACCOUNT_DELETED_V2"
+                ],
+                "example": "ACCOUNT_DELETED_V2"
+              },
+              "cause": {
+                "type": "string",
+                "description": "The cause of the event.",
+                "enum": [
+                  "AGGREGATION",
+                  "PROVISIONING"
+                ],
+                "example": "AGGREGATION"
+              }
+            }
+          },
+          "source": {
+            "$ref": "#/components/schemas/AccountSourceReference"
+          },
+          "account": {
+            "$ref": "#/components/schemas/AccountV2"
+          },
+          "identity": {
+            "$ref": "#/components/schemas/IdentityReference-2"
+          }
+        }
+      },
+      "AccountUpdated": {
+        "title": "Account Updated",
+        "type": "object",
+        "required": [
+          "event",
+          "source",
+          "account",
+          "identity",
+          "accountChangeTypes",
+          "singleValueAttributeChanges",
+          "multiValueAttributeChanges",
+          "entitlementChanges"
+        ],
+        "properties": {
+          "event": {
+            "type": "object",
+            "description": "Details about the event.",
+            "required": [
+              "type",
+              "cause"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "The type of event.",
+                "enum": [
+                  "ACCOUNT_UPDATED_V2"
+                ],
+                "example": "ACCOUNT_UPDATED_V2"
+              },
+              "cause": {
+                "type": "string",
+                "description": "The cause of the event.",
+                "enum": [
+                  "AGGREGATION",
+                  "PROVISIONING",
+                  "PASSWORD_CHANGE"
+                ],
+                "example": "AGGREGATION"
+              }
+            }
+          },
+          "source": {
+            "$ref": "#/components/schemas/AccountSourceReference"
+          },
+          "account": {
+            "$ref": "#/components/schemas/AccountV2"
+          },
+          "identity": {
+            "$ref": "#/components/schemas/IdentityReference-2"
+          },
+          "accountChangeTypes": {
+            "type": "array",
+            "description": "The types of changes that occurred to the account.",
+            "items": {
+              "type": "string",
+              "enum": [
+                "ATTRIBUTES_CHANGED",
+                "ENTITLEMENTS_ADDED",
+                "ENTITLEMENTS_REMOVED"
+              ],
+              "example": "ATTRIBUTES_CHANGED"
+            }
+          },
+          "singleValueAttributeChanges": {
+            "type": "array",
+            "description": "Details about the single-value attribute changes that occurred to the account.",
+            "nullable": true,
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "oldValue",
+                "newValue"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "The name of the attribute that was changed.",
+                  "example": "displayName"
+                },
+                "oldValue": {
+                  "description": "The old value of the attribute before the change.",
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "nullable": true
+                    }
+                  ],
+                  "example": "John Doe"
+                },
+                "newValue": {
+                  "description": "The new value of the attribute after the change.",
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "nullable": true
+                    }
+                  ],
+                  "example": "John A. Doe"
+                }
+              }
+            }
+          },
+          "multiValueAttributeChanges": {
+            "type": "array",
+            "nullable": true,
+            "description": "Details about the multi-value attribute changes that occurred to the account.",
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "addedValues",
+                "removedValues"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "The name of the attribute that was changed.",
+                  "example": "memberOf"
+                },
+                "addedValues": {
+                  "type": "array",
+                  "description": "The values that were added to the attribute.",
+                  "items": {
+                    "oneOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "boolean"
+                      },
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "nullable": true
+                      }
+                    ]
+                  },
+                  "example": [
+                    "CN=Sales,OU=Groups,DC=acme,DC=com",
+                    "CN=AllEmployees,OU=Groups,DC=acme,DC=com"
+                  ]
+                },
+                "removedValues": {
+                  "type": "array",
+                  "description": "The values that were removed from the attribute.",
+                  "items": {
+                    "oneOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "boolean"
+                      },
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "nullable": true
+                      }
+                    ]
+                  },
+                  "example": [
+                    "CN=AllEmployees,OU=Groups,DC=acme,DC=com",
+                    "CN=Contractors,OU=Groups,DC=acme,DC=com"
+                  ]
+                }
+              }
+            }
+          },
+          "entitlementChanges": {
+            "type": "array",
+            "description": "Details about the entitlement changes that occurred to the account.",
+            "nullable": true,
+            "items": {
+              "type": "object",
+              "required": [
+                "attributeName",
+                "added",
+                "removed"
+              ],
+              "properties": {
+                "attributeName": {
+                  "type": "string",
+                  "description": "The name of the entitlement attribute that was changed.",
+                  "example": "roles"
+                },
+                "added": {
+                  "type": "array",
+                  "nullable": true,
+                  "description": "The entitlements that were added.",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the entitlement.",
+                        "nullable": true,
+                        "example": "2c9180835d2e5168015d32f890ca1581"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "The name of the entitlement.",
+                        "nullable": true,
+                        "example": "Admin"
+                      },
+                      "owner": {
+                        "type": "object",
+                        "description": "The type of the entitlement.",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "The unique identifier of the owner.",
+                            "example": "2c9180835d2e5168015d32f890ca1581"
+                          },
+                          "name": {
+                            "type": "string",
+                            "description": "The name of the owner.",
+                            "nullable": true,
+                            "example": "Owner Name"
+                          },
+                          "type": {
+                            "type": "string",
+                            "description": "The type of the owner.",
+                            "example": "Primary"
+                          }
+                        }
+                      },
+                      "value": {
+                        "type": "string",
+                        "description": "The value of the entitlement.",
+                        "example": "Admin"
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "id": "2c9180835d2e5168015d32f890ca1581",
+                      "name": "Admin",
+                      "owner": {
+                        "id": "2c9180835d2e5168015d32f890ca1581",
+                        "name": "Owner Name",
+                        "type": "Primary"
+                      },
+                      "value": "Admin"
+                    },
+                    {
+                      "id": "2c9180835d2e5168015d32f890ca1582",
+                      "name": "User",
+                      "owner": {
+                        "id": "2c9180835d2e5168015d32f890ca1582",
+                        "name": "Owner Name 2",
+                        "type": "Secondary"
+                      },
+                      "value": "User"
+                    }
+                  ]
+                },
+                "removed": {
+                  "type": "array",
+                  "description": "The entitlements that were removed.",
+                  "nullable": true,
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the entitlement.",
+                        "nullable": true,
+                        "example": "2c9180835d2e5168015d32f890ca1581"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "The name of the entitlement.",
+                        "nullable": true,
+                        "example": "Admin"
+                      },
+                      "owner": {
+                        "type": "object",
+                        "description": "The type of the entitlement.",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "The unique identifier of the owner.",
+                            "example": "2c9180835d2e5168015d32f890ca1581"
+                          },
+                          "name": {
+                            "type": "string",
+                            "description": "The name of the owner.",
+                            "nullable": true,
+                            "example": "Owner Name"
+                          },
+                          "type": {
+                            "type": "string",
+                            "description": "The type of the owner.",
+                            "example": "Primary"
+                          }
+                        }
+                      },
+                      "value": {
+                        "type": "string",
+                        "description": "The value of the entitlement.",
+                        "example": "Admin"
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "id": "2c9180835d2e5168015d32f890ca1583",
+                      "name": "Group",
+                      "owner": {
+                        "id": "2c9180835d2e5168015d32f890ca1583",
+                        "name": "Owner Name 3",
+                        "type": "Primary"
+                      },
+                      "value": "Group"
+                    }
+                  ]
+                }
+              }
+            }
           }
         }
       },
@@ -105461,6 +107267,678 @@
             "additionalProperties": true,
             "example": {
               "firstname": "John"
+            }
+          }
+        }
+      },
+      "MachineIdentityOwnerReference": {
+        "type": "object",
+        "description": "Reference to an owner of the machine identity.",
+        "required": [
+          "id",
+          "name",
+          "type"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Owner's type.",
+            "example": "IDENTITY"
+          },
+          "id": {
+            "type": "string",
+            "description": "Owner ID.",
+            "example": "84d8c1b819144608b8b8bc3b84ddbb7b"
+          },
+          "name": {
+            "type": "string",
+            "description": "Owner's display name.",
+            "example": "Jerrie admin3cf084"
+          },
+          "isPrimary": {
+            "type": "boolean",
+            "description": "Indicates if this owner is the primary owner.",
+            "default": false,
+            "example": true
+          }
+        },
+        "additionalProperties": true,
+        "example": {
+          "type": "IDENTITY",
+          "id": "84d8c1b819144608b8b8bc3b84ddbb7b",
+          "name": "Jerrie admin3cf084",
+          "isPrimary": true
+        }
+      },
+      "MachineIdentitySourceReference": {
+        "type": "object",
+        "description": "Reference to a source of entity.",
+        "required": [
+          "type",
+          "id",
+          "name"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Source Type.",
+            "example": "SOURCE"
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique identifier.",
+            "example": "c0201251a6ce4d268aba536cdd60a7f2"
+          },
+          "name": {
+            "type": "string",
+            "description": "Display name.",
+            "example": "IdentityNow"
+          }
+        },
+        "additionalProperties": true,
+        "example": {
+          "type": "SOURCE",
+          "id": "c0201251a6ce4d268aba536cdd60a7f2",
+          "name": "IdentityNow"
+        }
+      },
+      "MachineIdentityUserEntitlements": {
+        "type": "object",
+        "description": "Reference to a user entitlement.",
+        "required": [
+          "entitlementId",
+          "displayName",
+          "source"
+        ],
+        "properties": {
+          "entitlementId": {
+            "type": "string",
+            "description": "Entitlement identifier.",
+            "example": "2509f650c20a3ab5956be70f6f136fbc"
+          },
+          "displayName": {
+            "type": "string",
+            "description": "Display name of the entitlement.",
+            "example": "CN=Engineering-test-org3,OU=megapod-useast1-test-org3,OU=org-data-service,DC=TestAutomationAD,DC=local"
+          },
+          "source": {
+            "$ref": "#/components/schemas/MachineIdentitySourceReference"
+          }
+        },
+        "additionalProperties": true,
+        "example": {
+          "entitlementId": "2509f650c20a3ab5956be70f6f136fbc",
+          "displayName": "CN=Engineering-test-org3,OU=megapod-useast1-test-org3,OU=org-data-service,DC=TestAutomationAD,DC=local",
+          "source": {
+            "type": "SOURCE",
+            "id": "7443d0ffb1304bbcbdf4c07b5c09d4f2",
+            "name": "ODS-AD-Source"
+          }
+        }
+      },
+      "MachineIdentityCreated": {
+        "title": "Machine Identity Created",
+        "type": "object",
+        "required": [
+          "eventType",
+          "machineIdentity"
+        ],
+        "properties": {
+          "eventType": {
+            "type": "string",
+            "description": "Type of the event.",
+            "enum": [
+              "MACHINE_IDENTITY_CREATED"
+            ],
+            "example": "MACHINE_IDENTITY_CREATED"
+          },
+          "machineIdentity": {
+            "type": "object",
+            "description": "Details of the created machine identity.",
+            "required": [
+              "id",
+              "created",
+              "modified",
+              "subtype",
+              "manuallyEdited"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Unique identifier for the machine identity.",
+                "example": "8cd6c945-0057-4a6e-ad65-9cbf3b3c71b6"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the machine identity.",
+                "example": "TestName"
+              },
+              "created": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Creation timestamp.",
+                "example": "2025-08-08T12:42:21.491666Z"
+              },
+              "modified": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Last modified timestamp.",
+                "example": "2025-09-01T06:36:54.401476Z"
+              },
+              "businessApplication": {
+                "type": "string",
+                "description": "Associated business application.",
+                "example": "MyBusinessApplication2"
+              },
+              "description": {
+                "type": "string",
+                "description": "Description of the machine identity.",
+                "example": "test description event"
+              },
+              "attributes": {
+                "type": "object",
+                "description": "The attributes assigned to the identity.",
+                "example": {
+                  "botUserId": "005KV00000BLoMCYA1"
+                },
+                "additionalProperties": true
+              },
+              "subtype": {
+                "type": "string",
+                "description": "Subtype of the machine identity.",
+                "enum": [
+                  "AI Agent",
+                  "Application"
+                ],
+                "example": "AI Agent"
+              },
+              "owners": {
+                "type": "array",
+                "description": "List of owners.",
+                "items": {
+                  "$ref": "#/components/schemas/MachineIdentityOwnerReference"
+                }
+              },
+              "sourceId": {
+                "type": "string",
+                "description": "Source identifier.",
+                "example": "c0201251a6ce4d268aba536cdd60a7f2"
+              },
+              "uuid": {
+                "type": "string",
+                "description": "UUID of the machine identity.",
+                "example": "f5dd23fe-3414-42b7-bb1c-869400ad7a10"
+              },
+              "nativeIdentity": {
+                "type": "string",
+                "description": "Native identity value.",
+                "example": "abc:123:dddd1"
+              },
+              "manuallyEdited": {
+                "type": "boolean",
+                "default": false,
+                "description": "Indicates if manually edited.",
+                "example": true
+              },
+              "manuallyCreated": {
+                "type": "boolean",
+                "default": false,
+                "description": "Indicates if manually created.",
+                "example": true
+              },
+              "datasetId": {
+                "type": "string",
+                "description": "Dataset identifier.",
+                "example": "agentforce:agents"
+              },
+              "source": {
+                "$ref": "#/components/schemas/MachineIdentitySourceReference"
+              },
+              "userEntitlements": {
+                "type": "array",
+                "description": "List of user entitlements.",
+                "items": {
+                  "$ref": "#/components/schemas/MachineIdentityUserEntitlements"
+                }
+              },
+              "existsOnSource": {
+                "type": "string",
+                "description": "Existence status on source.",
+                "example": "NOT_APPLICABLE"
+              }
+            }
+          }
+        }
+      },
+      "MachineIdentityUpdated": {
+        "title": "Machine Identity Updated",
+        "type": "object",
+        "required": [
+          "eventType",
+          "machineIdentity",
+          "machineIdentityChangeTypes",
+          "userEntitlementChanges",
+          "ownerChanges",
+          "singleValueAttributeChanges"
+        ],
+        "properties": {
+          "eventType": {
+            "type": "string",
+            "description": "Type of the event.",
+            "enum": [
+              "MACHINE_IDENTITY_UPDATED"
+            ],
+            "example": "MACHINE_IDENTITY_UPDATED"
+          },
+          "machineIdentity": {
+            "type": "object",
+            "description": "Details of the updated machine identity.",
+            "required": [
+              "id",
+              "created",
+              "modified",
+              "subtype",
+              "manuallyEdited"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Unique identifier for the machine identity.",
+                "example": "8cd6c945-0057-4a6e-ad65-9cbf3b3c71b6"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the machine identity.",
+                "example": "test"
+              },
+              "created": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Creation timestamp.",
+                "example": "2025-08-08T12:42:21.491666Z"
+              },
+              "modified": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Last modified timestamp.",
+                "example": "2025-09-01T06:36:54.401476Z"
+              },
+              "businessApplication": {
+                "type": "string",
+                "description": "Associated business application.",
+                "example": "MyBusinessApplication2"
+              },
+              "description": {
+                "type": "string",
+                "description": "Description of the machine identity.",
+                "example": "test description event"
+              },
+              "attributes": {
+                "type": "object",
+                "description": "The attributes assigned to the identity.",
+                "example": {
+                  "botUserId": "005KV00000BLoMCYA1"
+                },
+                "additionalProperties": true
+              },
+              "subtype": {
+                "type": "string",
+                "enum": [
+                  "AI Agent",
+                  "Application"
+                ],
+                "description": "Subtype of the machine identity.",
+                "example": "AI Agent"
+              },
+              "owners": {
+                "type": "array",
+                "description": "List of owners.",
+                "items": {
+                  "$ref": "#/components/schemas/MachineIdentityOwnerReference"
+                }
+              },
+              "sourceId": {
+                "type": "string",
+                "description": "Source identifier.",
+                "example": "c0201251a6ce4d268aba536cdd60a7f2"
+              },
+              "uuid": {
+                "type": "string",
+                "description": "UUID of the machine identity.",
+                "example": "f5dd23fe-3414-42b7-bb1c-869400ad7a10"
+              },
+              "nativeIdentity": {
+                "type": "string",
+                "description": "Native identity value.",
+                "example": "abc:123:dddd1"
+              },
+              "manuallyEdited": {
+                "type": "boolean",
+                "default": false,
+                "description": "Indicates if manually edited.",
+                "example": true
+              },
+              "manuallyCreated": {
+                "type": "boolean",
+                "default": false,
+                "description": "Indicates if manually created.",
+                "example": true
+              },
+              "datasetId": {
+                "type": "string",
+                "description": "Dataset identifier.",
+                "example": "agentforce:agents"
+              },
+              "source": {
+                "$ref": "#/components/schemas/MachineIdentitySourceReference"
+              },
+              "userEntitlements": {
+                "type": "array",
+                "description": "List of user entitlements.",
+                "items": {
+                  "$ref": "#/components/schemas/MachineIdentityUserEntitlements"
+                }
+              },
+              "existsOnSource": {
+                "type": "string",
+                "description": "Existence status on source.",
+                "example": "NOT_APPLICABLE"
+              }
+            }
+          },
+          "machineIdentityChangeTypes": {
+            "type": "array",
+            "description": "Types of changes that occurred to the machine identity.",
+            "items": {
+              "type": "string",
+              "enum": [
+                "ATTRIBUTES_CHANGED",
+                "USER_ENTITLEMENTS_ADDED",
+                "USER_ENTITLEMENTS_REMOVED",
+                "OWNERS_ADDED",
+                "OWNERS_REMOVED"
+              ]
+            },
+            "example": [
+              "ATTRIBUTES_CHANGED",
+              "USER_ENTITLEMENTS_ADDED",
+              "USER_ENTITLEMENTS_REMOVED",
+              "OWNERS_ADDED",
+              "OWNERS_REMOVED"
+            ]
+          },
+          "userEntitlementChanges": {
+            "type": "object",
+            "description": "Changes to user entitlements.",
+            "properties": {
+              "attributeName": {
+                "type": "string",
+                "description": "Name of the attribute that changed.",
+                "example": "userEntitlements"
+              },
+              "added": {
+                "type": "array",
+                "description": "User entitlements that were added.",
+                "items": {
+                  "$ref": "#/components/schemas/MachineIdentityUserEntitlements"
+                }
+              },
+              "removed": {
+                "type": "array",
+                "description": "User entitlements that were removed.",
+                "items": {
+                  "$ref": "#/components/schemas/MachineIdentityUserEntitlements"
+                }
+              }
+            }
+          },
+          "ownerChanges": {
+            "type": "object",
+            "description": "Changes to owners.",
+            "properties": {
+              "attributeName": {
+                "type": "string",
+                "description": "Name of the attribute that changed.",
+                "example": "owners"
+              },
+              "added": {
+                "type": "array",
+                "description": "Owners that were added.",
+                "items": {
+                  "$ref": "#/components/schemas/MachineIdentityOwnerReference"
+                }
+              },
+              "removed": {
+                "type": "array",
+                "description": "Owners that were removed.",
+                "items": {
+                  "$ref": "#/components/schemas/MachineIdentityOwnerReference"
+                }
+              }
+            }
+          },
+          "singleValueAttributeChanges": {
+            "type": "array",
+            "description": "Details about the single-value attribute changes that occurred.",
+            "nullable": true,
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "oldValue",
+                "newValue"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "The name of the attribute that was changed.",
+                  "example": "displayName"
+                },
+                "oldValue": {
+                  "description": "The old value of the attribute before the change.",
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "example": "Sample Old Value",
+                      "title": "string"
+                    },
+                    {
+                      "type": "boolean",
+                      "example": true,
+                      "title": "boolean"
+                    },
+                    {
+                      "type": "number",
+                      "example": 123456789,
+                      "title": "number"
+                    },
+                    {
+                      "type": "array",
+                      "title": "array",
+                      "items": {
+                        "type": "string",
+                        "example": [
+                          "001",
+                          "002",
+                          "003"
+                        ]
+                      },
+                      "nullable": true
+                    }
+                  ],
+                  "example": "John Doe"
+                },
+                "newValue": {
+                  "description": "The new value of the attribute after the change.",
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "example": "Sample New Value",
+                      "title": "string"
+                    },
+                    {
+                      "type": "boolean",
+                      "example": true,
+                      "title": "boolean"
+                    },
+                    {
+                      "type": "number",
+                      "example": 123456789,
+                      "title": "number"
+                    },
+                    {
+                      "type": "array",
+                      "title": "array",
+                      "items": {
+                        "type": "string",
+                        "example": [
+                          "001",
+                          "002",
+                          "003"
+                        ]
+                      },
+                      "nullable": true
+                    }
+                  ],
+                  "example": "John A. Doe"
+                }
+              }
+            }
+          }
+        }
+      },
+      "MachineIdentityDeleted": {
+        "title": "Machine Identity Deleted",
+        "type": "object",
+        "required": [
+          "eventType",
+          "machineIdentity"
+        ],
+        "properties": {
+          "eventType": {
+            "type": "string",
+            "description": "Type of the event.",
+            "enum": [
+              "MACHINE_IDENTITY_DELETED"
+            ],
+            "example": "MACHINE_IDENTITY_DELETED"
+          },
+          "machineIdentity": {
+            "type": "object",
+            "description": "Details of the deleted machine identity.",
+            "required": [
+              "id",
+              "created",
+              "modified",
+              "subtype",
+              "manuallyEdited"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Unique identifier for the machine identity.",
+                "example": "8cd6c945-0057-4a6e-ad65-9cbf3b3c71b6"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the machine identity.",
+                "example": "TestName"
+              },
+              "created": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Creation timestamp.",
+                "example": "2025-08-08T12:42:21.491666Z"
+              },
+              "modified": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Last modified timestamp.",
+                "example": "2025-09-01T06:36:54.401476Z"
+              },
+              "businessApplication": {
+                "type": "string",
+                "description": "Associated business application.",
+                "example": "MyBusinessApplication2"
+              },
+              "description": {
+                "type": "string",
+                "description": "Description of the machine identity.",
+                "example": "test description event"
+              },
+              "attributes": {
+                "type": "object",
+                "description": "The attributes assigned to the identity.",
+                "example": {
+                  "botUserId": "005KV00000BLoMCYA1"
+                },
+                "additionalProperties": true
+              },
+              "subtype": {
+                "type": "string",
+                "enum": [
+                  "AI Agent",
+                  "Application"
+                ],
+                "description": "Subtype of the machine identity.",
+                "example": "AI Agent"
+              },
+              "owners": {
+                "type": "array",
+                "description": "List of owners.",
+                "items": {
+                  "$ref": "#/components/schemas/MachineIdentityOwnerReference"
+                }
+              },
+              "sourceId": {
+                "type": "string",
+                "description": "Source identifier.",
+                "example": "c0201251a6ce4d268aba536cdd60a7f2"
+              },
+              "uuid": {
+                "type": "string",
+                "description": "UUID of the machine identity.",
+                "example": "f5dd23fe-3414-42b7-bb1c-869400ad7a10"
+              },
+              "nativeIdentity": {
+                "type": "string",
+                "description": "Native identity value.",
+                "example": "abc:123:dddd1"
+              },
+              "manuallyEdited": {
+                "type": "boolean",
+                "default": false,
+                "description": "Indicates if manually edited.",
+                "example": true
+              },
+              "manuallyCreated": {
+                "type": "boolean",
+                "default": false,
+                "description": "Indicates if manually created.",
+                "example": true
+              },
+              "datasetId": {
+                "type": "string",
+                "description": "Dataset identifier.",
+                "example": "agentforce:agents"
+              },
+              "source": {
+                "$ref": "#/components/schemas/MachineIdentitySourceReference"
+              },
+              "userEntitlements": {
+                "type": "array",
+                "description": "List of user entitlements.",
+                "items": {
+                  "$ref": "#/components/schemas/MachineIdentityUserEntitlements"
+                }
+              },
+              "existsOnSource": {
+                "type": "string",
+                "description": "Existence status on source.",
+                "example": "NOT_APPLICABLE"
+              }
             }
           }
         }
@@ -106470,7 +108948,16 @@
                 "$ref": "#/components/schemas/AccountsCollectedForAggregation"
               },
               {
+                "$ref": "#/components/schemas/AccountCreated"
+              },
+              {
                 "$ref": "#/components/schemas/AccountUncorrelated"
+              },
+              {
+                "$ref": "#/components/schemas/AccountDeleted"
+              },
+              {
+                "$ref": "#/components/schemas/AccountUpdated"
               },
               {
                 "$ref": "#/components/schemas/CampaignActivated"
@@ -106492,6 +108979,15 @@
               },
               {
                 "$ref": "#/components/schemas/IdentityDeleted"
+              },
+              {
+                "$ref": "#/components/schemas/MachineIdentityCreated"
+              },
+              {
+                "$ref": "#/components/schemas/MachineIdentityUpdated"
+              },
+              {
+                "$ref": "#/components/schemas/MachineIdentityDeleted"
               },
               {
                 "$ref": "#/components/schemas/ProvisioningCompleted"
@@ -109404,6 +111900,159 @@
           }
         }
       },
+      "ApplicationDiscoveryRequest": {
+        "type": "object",
+        "title": "Application Discovery Request",
+        "required": [
+          "datasetIds"
+        ],
+        "properties": {
+          "datasetIds": {
+            "type": "array",
+            "description": "List of dataset Ids to discover applications",
+            "items": {
+              "type": "string",
+              "description": "The dataset Id of the source",
+              "example": "source:datasetId12345"
+            }
+          }
+        }
+      },
+      "ApplicationDiscoveryResponse": {
+        "type": "object",
+        "title": "Application Discovery Response",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "System-generated unique ID of the Object",
+            "example": "8886e5e3-63d0-462f-a195-d98da885b8dc"
+          },
+          "type": {
+            "description": "Type of task for app discovery",
+            "type": "string",
+            "enum": [
+              "QUARTZ",
+              "QPOC",
+              "QUEUED_TASK"
+            ],
+            "example": "QUARTZ"
+          },
+          "uniqueName": {
+            "description": "Name of the task for app discovery",
+            "type": "string",
+            "example": "Application Discovery - ID123"
+          },
+          "description": {
+            "description": "Description of the app discovery aggregation",
+            "type": "string",
+            "example": "Application Discovery - From given dataset IDs"
+          },
+          "parentName": {
+            "description": "Name of the parent of the task for app discovery",
+            "nullable": true,
+            "type": "string",
+            "example": "Parent Task"
+          },
+          "launcher": {
+            "description": "Service to execute app discovery",
+            "type": "string",
+            "example": "System"
+          },
+          "target": {
+            "description": "The target(source) of app discovery",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/BaseReferenceDto"
+              },
+              {
+                "type": "object",
+                "example": {
+                  "id": "6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa",
+                  "name": "Source name",
+                  "type": "APPLICATION"
+                }
+              }
+            ]
+          },
+          "created": {
+            "description": "Creation date of app discovery task",
+            "type": "string",
+            "format": "date-time",
+            "example": "2020-07-11T21:23:15.000Z"
+          },
+          "modified": {
+            "description": "Last modification date of app discovery task",
+            "type": "string",
+            "format": "date-time",
+            "example": "2020-07-11T21:23:15.000Z"
+          },
+          "launched": {
+            "description": "Launch date of app discovery task",
+            "nullable": true,
+            "type": "string",
+            "format": "date-time",
+            "example": "2020-07-11T21:23:15.000Z"
+          },
+          "completed": {
+            "description": "Completion date of app discovery task",
+            "nullable": true,
+            "type": "string",
+            "format": "date-time",
+            "example": "2020-07-11T21:23:15.000Z"
+          },
+          "taskDefinitionSummary": {
+            "$ref": "#/components/schemas/TaskDefinitionSummary"
+          },
+          "completionStatus": {
+            "description": "Completion status of app discovery task",
+            "type": "string",
+            "nullable": true,
+            "enum": [
+              "SUCCESS",
+              "WARNING",
+              "ERROR",
+              "TERMINATED",
+              "TEMPERROR",
+              null
+            ],
+            "example": "SUCCESS"
+          },
+          "messages": {
+            "description": "Messages associated with the app discovery task",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TaskStatusMessage"
+            }
+          },
+          "returns": {
+            "description": "Return values associated with the app discovery task",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TaskReturnDetails"
+            }
+          },
+          "attributes": {
+            "description": "Attributes of the app discovery task",
+            "type": "object",
+            "additionalProperties": true,
+            "example": {
+              "creatorRequestId": "ed5a371bbaba411fb8f1f6970b842334"
+            }
+          },
+          "progress": {
+            "description": "Current progress of aggregation",
+            "nullable": true,
+            "type": "string",
+            "example": "Started"
+          },
+          "percentComplete": {
+            "description": "Current percentage completion of app discovery task",
+            "type": "integer",
+            "format": "int32",
+            "example": 100
+          }
+        }
+      },
       "SlimDiscoveredApplications": {
         "type": "object",
         "description": "Discovered applications",
@@ -109462,6 +112111,143 @@
             "type": "string",
             "description": "The status of an application within the discovery source.\n\nBy default this field is set to \"ACTIVE\" when the application is discovered.\n\nIf an application has been deleted from within the discovery source, the status will be set to \"INACTIVE\".",
             "example": "ACTIVE"
+          },
+          "operationalStatus": {
+            "type": "string",
+            "description": "The operational status of the application.",
+            "example": "Operational"
+          },
+          "discoverySourceCategory": {
+            "type": "string",
+            "description": "The category of the discovery source.",
+            "example": "sso"
+          },
+          "licenseCount": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The number of licenses associated with the application.",
+            "example": 175
+          },
+          "isSanctioned": {
+            "type": "boolean",
+            "description": "Indicates whether the application is sanctioned.",
+            "example": true,
+            "default": false
+          },
+          "logo": {
+            "type": "string",
+            "description": "URL of the application's logo.",
+            "example": "https://spdojtest1.oktapreview.com/api/v1/apps/0oaeuef9hiipHcMgR0h7/logo"
+          },
+          "appUrl": {
+            "type": "string",
+            "description": "The URL of the application.",
+            "example": "https://spdojtest1.oktapreview.com/home/salesforce/0oaeuef9hiipHcMgR0h7/24"
+          },
+          "groups": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "List of groups associated with the application.",
+            "example": [
+              {
+                "map": {
+                  "id": "id",
+                  "name": "JIRA Users",
+                  "nativeIdentifiers": {
+                    "map": {
+                      "distinguishedName": "CN=Engineering users,OU=Engineering,DC=corp,DC=example,DC=com",
+                      "id": "nativeId",
+                      "objectSid": "S-1-5-21-717838489-685202119-709183397-1177"
+                    }
+                  },
+                  "type": "EXTERNAL_GROUP|LOCAL_GROUP"
+                }
+              }
+            ]
+          },
+          "usersCount": {
+            "type": "string",
+            "description": "The count of users associated with the application.",
+            "example": "175"
+          },
+          "applicationOwner": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The owners of the application.",
+            "example": [
+              "owner1@example.com",
+              "owner2@example.com"
+            ]
+          },
+          "itApplicationOwner": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The IT owners of the application.",
+            "example": [
+              "itowner1@example.com",
+              "itowner2@example.com"
+            ]
+          },
+          "businessCriticality": {
+            "type": "string",
+            "description": "The business criticality level of the application.",
+            "example": "High"
+          },
+          "dataClassification": {
+            "type": "string",
+            "description": "The data classification level of the application.",
+            "example": "Restricted"
+          },
+          "businessUnit": {
+            "type": "string",
+            "description": "The business unit associated with the application.",
+            "example": "Finance"
+          },
+          "installType": {
+            "type": "string",
+            "description": "The installation type of the application.",
+            "example": "On Premise"
+          },
+          "environment": {
+            "type": "string",
+            "description": "The environment in which the application operates.",
+            "example": "Production"
+          },
+          "riskScore": {
+            "type": "string",
+            "description": "The risk score of the application.",
+            "example": "ANY"
+          },
+          "isPrivileged": {
+            "type": "boolean",
+            "description": "Indicates whether the application has privileged access.",
+            "example": false,
+            "default": false
+          },
+          "warrantyExpiration": {
+            "type": "string",
+            "description": "The warranty expiration date of the application.",
+            "example": "2023-09-25T14:07:27.000+0000"
+          },
+          "attributes": {
+            "type": "object",
+            "description": "Additional attributes of the application useful for visibility of governance posture.",
+            "example": {
+              "features": [
+                "IMPORT_PROFILE_UPDATES",
+                "IMPORT_USER_SCHEMA",
+                "IMPORT_NEW_USERS"
+              ],
+              "identityStack": "NOT_SHARED",
+              "selfService": false,
+              "signOnMode": "SAML_2_0"
+            }
           }
         }
       },
@@ -109535,6 +112321,143 @@
               "e0cc5d7d-bf7f-4f81-b2af-8885b09d9923",
               "a0303682-5e4a-44f7-bdc2-6ce6112549c1"
             ]
+          },
+          "operationalStatus": {
+            "type": "string",
+            "description": "The operational status of the application.",
+            "example": "Operational"
+          },
+          "discoverySourceCategory": {
+            "type": "string",
+            "description": "The category of the discovery source.",
+            "example": "sso"
+          },
+          "licenseCount": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The number of licenses associated with the application.",
+            "example": 175
+          },
+          "isSanctioned": {
+            "type": "boolean",
+            "description": "Indicates whether the application is sanctioned.",
+            "example": true,
+            "default": false
+          },
+          "logo": {
+            "type": "string",
+            "description": "URL of the application's logo.",
+            "example": "https://spdojtest1.oktapreview.com/api/v1/apps/0oaeuef9hiipHcMgR0h7/logo"
+          },
+          "appUrl": {
+            "type": "string",
+            "description": "The URL of the application.",
+            "example": "https://spdojtest1.oktapreview.com/home/salesforce/0oaeuef9hiipHcMgR0h7/24"
+          },
+          "groups": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "List of groups associated with the application.",
+            "example": [
+              {
+                "map": {
+                  "id": "id",
+                  "name": "JIRA Users",
+                  "nativeIdentifiers": {
+                    "map": {
+                      "distinguishedName": "CN=Engineering users,OU=Engineering,DC=corp,DC=example,DC=com",
+                      "id": "nativeId",
+                      "objectSid": "S-1-5-21-717838489-685202119-709183397-1177"
+                    }
+                  },
+                  "type": "EXTERNAL_GROUP|LOCAL_GROUP"
+                }
+              }
+            ]
+          },
+          "usersCount": {
+            "type": "string",
+            "description": "The count of users associated with the application.",
+            "example": "175"
+          },
+          "applicationOwner": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The owners of the application.",
+            "example": [
+              "owner1@example.com",
+              "owner2@example.com"
+            ]
+          },
+          "itApplicationOwner": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The IT owners of the application.",
+            "example": [
+              "itowner1@example.com",
+              "itowner2@example.com"
+            ]
+          },
+          "businessCriticality": {
+            "type": "string",
+            "description": "The business criticality level of the application.",
+            "example": "High"
+          },
+          "dataClassification": {
+            "type": "string",
+            "description": "The data classification level of the application.",
+            "example": "Restricted"
+          },
+          "businessUnit": {
+            "type": "string",
+            "description": "The business unit associated with the application.",
+            "example": "Finance"
+          },
+          "installType": {
+            "type": "string",
+            "description": "The installation type of the application.",
+            "example": "On Premise"
+          },
+          "environment": {
+            "type": "string",
+            "description": "The environment in which the application operates.",
+            "example": "Production"
+          },
+          "riskScore": {
+            "type": "string",
+            "description": "The risk score of the application.",
+            "example": "ANY"
+          },
+          "isPrivileged": {
+            "type": "boolean",
+            "description": "Indicates whether the application has privileged access.",
+            "example": false,
+            "default": false
+          },
+          "warrantyExpiration": {
+            "type": "string",
+            "description": "The warranty expiration date of the application.",
+            "example": "2023-09-25T14:07:27.000+0000"
+          },
+          "attributes": {
+            "type": "object",
+            "description": "Additional attributes of the application useful for visibility of governance posture.",
+            "example": {
+              "features": [
+                "IMPORT_PROFILE_UPDATES",
+                "IMPORT_USER_SCHEMA",
+                "IMPORT_NEW_USERS"
+              ],
+              "identityStack": "NOT_SHARED",
+              "selfService": false,
+              "signOnMode": "SAML_2_0"
+            }
           }
         }
       },
@@ -115295,12 +118218,36 @@
             ],
             "discoveredAt": "2023-07-01T12:00:00Z",
             "createdAt": "2024-06-01T12:00:00Z",
-            "status": "ACTIVE"
+            "status": "ACTIVE",
+            "operationalStatus": "Operational",
+            "datasetId": null,
+            "discoverySourceCategory": "csv",
+            "licenseCount": null,
+            "isSanctioned": false,
+            "logo": null,
+            "appUrl": null,
+            "groups": null,
+            "usersCount": null,
+            "applicationOwner": [
+              "Ms. jane.doe"
+            ],
+            "itApplicationOwner": [
+              "Mr. mark.smith"
+            ],
+            "businessCriticality": "Medium",
+            "dataClassification": "Confidential",
+            "businessUnit": "Operations",
+            "installType": null,
+            "environment": null,
+            "riskScore": null,
+            "isPrivileged": false,
+            "warrantyExpiration": null,
+            "attributes": null
           },
           {
             "id": "59310a1e-0d8f-42fa-95aa-b82b263de7f6",
             "name": "Sample Tracker",
-            "discoverySource": "Okta SaaS",
+            "discoverySource": "ServiceNow CMDB",
             "discoveredVendor": "Sample Vendor",
             "description": "A tool for monitoring and managing samples.",
             "recommendedConnectors": [
@@ -115309,7 +118256,35 @@
             ],
             "discoveredAt": "2023-08-15T08:00:00Z",
             "createdAt": "2024-05-20T08:00:00Z",
-            "status": "ACTIVE"
+            "status": "ACTIVE",
+            "operationalStatus": "Operational",
+            "datasetId": "cmdb-servicenow:applications",
+            "discoverySourceCategory": "cmdb",
+            "licenseCount": "",
+            "isSanctioned": false,
+            "logo": "",
+            "appUrl": "",
+            "groups": null,
+            "usersCount": "",
+            "applicationOwner": [
+              "Ms. lisa.brown"
+            ],
+            "itApplicationOwner": [
+              "Mr. david.lee"
+            ],
+            "businessCriticality": "High",
+            "dataClassification": "Internal",
+            "businessUnit": "R&D",
+            "installType": "SaaS",
+            "environment": "Production",
+            "riskScore": "MEDIUM",
+            "isPrivileged": false,
+            "warrantyExpiration": "2024-09-01T00:00:00.000+0000",
+            "attributes": {
+              "identityStack": "NOT_SHARED",
+              "selfService": false,
+              "signOnMode": "SAML_2_0"
+            }
           },
           {
             "id": "dfe675cb-f689-475f-99f1-49e348449867",
@@ -115323,7 +118298,55 @@
             ],
             "discoveredAt": "2023-09-10T15:00:00Z",
             "createdAt": "2024-07-03T15:00:00Z",
-            "status": "ACTIVE"
+            "status": "ACTIVE",
+            "operationalStatus": "Operational",
+            "datasetId": "sso-okta:applications",
+            "discoverySourceCategory": "sso",
+            "licenseCount": 175,
+            "isSanctioned": true,
+            "logo": "https://spdojtest1.oktapreview.com/api/v1/apps/0oaeuef9hiipHcMgR0h7/logo",
+            "appUrl": "https://spdojtest1.oktapreview.com/home/salesforce/0oaeuef9hiipHcMgR0h7/24",
+            "groups": [
+              {
+                "map": {
+                  "id": "id",
+                  "name": "JIRA Users",
+                  "nativeIdentifiers": {
+                    "map": {
+                      "distinguishedName": "CN=Engineering users,OU=Engineering,DC=corp,DC=example,DC=com",
+                      "id": "nativeId",
+                      "objectSid": "S-1-5-21-717838489-685202119-709183397-1177"
+                    }
+                  },
+                  "type": "EXTERNAL_GROUP|LOCAL_GROUP"
+                }
+              }
+            ],
+            "usersCount": "175",
+            "applicationOwner": [
+              "Mr. abel.tuter"
+            ],
+            "itApplicationOwner": [
+              "Mr. john doe"
+            ],
+            "businessCriticality": "High",
+            "dataClassification": "Restricted",
+            "businessUnit": "Finance",
+            "installType": "On Premise",
+            "environment": "Production",
+            "riskScore": "ANY",
+            "isPrivileged": false,
+            "warrantyExpiration": "2023-09-25T14:07:27.000+0000",
+            "attributes": {
+              "features": [
+                "IMPORT_PROFILE_UPDATES",
+                "IMPORT_USER_SCHEMA",
+                "IMPORT_NEW_USERS"
+              ],
+              "identityStack": "NOT_SHARED",
+              "selfService": false,
+              "signOnMode": "SAML_2_0"
+            }
           }
         ]
       },
@@ -115343,6 +118366,30 @@
             "discoveredAt": "2023-07-01T12:00:00Z",
             "createdAt": "2024-06-01T12:00:00Z",
             "status": "ACTIVE",
+            "operationalStatus": "Operational",
+            "datasetId": null,
+            "discoverySourceCategory": "csv",
+            "licenseCount": null,
+            "isSanctioned": false,
+            "logo": null,
+            "appUrl": null,
+            "groups": null,
+            "usersCount": null,
+            "applicationOwner": [
+              "Ms. jane.doe"
+            ],
+            "itApplicationOwner": [
+              "Mr. mark.smith"
+            ],
+            "businessCriticality": "Medium",
+            "dataClassification": "Confidential",
+            "businessUnit": "Operations",
+            "installType": null,
+            "environment": null,
+            "riskScore": null,
+            "isPrivileged": false,
+            "warrantyExpiration": null,
+            "attributes": null,
             "associatedSources": [
               "e0cc5d7d-bf7f-4f81-b2af-8885b09d9923"
             ]
@@ -115350,7 +118397,7 @@
           {
             "id": "b3a3a704-6a45-45ee-a501-bbc332388222",
             "name": "Sample Tracker",
-            "discoverySource": "Okta SaaS",
+            "discoverySource": "ServiceNow CMDB",
             "discoveredVendor": "Sample Vendor",
             "description": "A tool for monitoring and managing samples.",
             "recommendedConnectors": [
@@ -115360,13 +118407,41 @@
             "discoveredAt": "2023-08-15T08:00:00Z",
             "createdAt": "2024-05-20T08:00:00Z",
             "status": "ACTIVE",
+            "operationalStatus": "Operational",
+            "datasetId": "cmdb-servicenow:applications",
+            "discoverySourceCategory": "cmdb",
+            "licenseCount": "",
+            "isSanctioned": false,
+            "logo": "",
+            "appUrl": "",
+            "groups": null,
+            "usersCount": "",
+            "applicationOwner": [
+              "Ms. lisa.brown"
+            ],
+            "itApplicationOwner": [
+              "Mr. david.lee"
+            ],
+            "businessCriticality": "High",
+            "dataClassification": "Internal",
+            "businessUnit": "R&D",
+            "installType": "SaaS",
+            "environment": "Production",
+            "riskScore": "MEDIUM",
+            "isPrivileged": false,
+            "warrantyExpiration": "2024-09-01T00:00:00.000+0000",
+            "attributes": {
+              "identityStack": "NOT_SHARED",
+              "selfService": false,
+              "signOnMode": "SAML_2_0"
+            },
             "associatedSources": [
               "a3b159f2-5f09-43c9-b40e-a6f317aa5b8f",
               "e0cc5d7d-bf7f-4f81-b2af-8885b09d9923"
             ]
           },
           {
-            "id": "1d070458-faed-4a6c-8990-918ad70a06ee",
+            "id": "dfe675cb-f689-475f-99f1-49e348449867",
             "name": "Demo Manager",
             "discoverySource": "Okta SaaS",
             "discoveredVendor": "Demo Provider",
@@ -115378,25 +118453,54 @@
             "discoveredAt": "2023-09-10T15:00:00Z",
             "createdAt": "2024-07-03T15:00:00Z",
             "status": "ACTIVE",
-            "associatedSources": [
-              "4e2d7605-833f-4c34-8d03-5b2c7d2f4f66",
-              "f9b7e2ce-aced-4117-a95f-4ffad8b33989",
-              "a3b159f2-5f09-43c9-b40e-a6f317aa5b8f"
-            ]
-          },
-          {
-            "id": "9be7c5a5-9f37-46ba-965a-e5b9453472c6",
-            "name": "Task Organizer",
-            "discoverySource": "Manual Entry",
-            "discoveredVendor": "Organizer Solutions",
-            "description": "An application designed to help teams manage tasks and projects efficiently.",
-            "recommendedConnectors": [
-              "ConnectorG",
-              "ConnectorH"
+            "operationalStatus": "Operational",
+            "datasetId": "sso-okta:applications",
+            "discoverySourceCategory": "sso",
+            "licenseCount": 175,
+            "isSanctioned": true,
+            "logo": "https://spdojtest1.oktapreview.com/api/v1/apps/0oaeuef9hiipHcMgR0h7/logo",
+            "appUrl": "https://spdojtest1.oktapreview.com/home/salesforce/0oaeuef9hiipHcMgR0h7/24",
+            "groups": [
+              {
+                "map": {
+                  "id": "id",
+                  "name": "JIRA Users",
+                  "nativeIdentifiers": {
+                    "map": {
+                      "distinguishedName": "CN=Engineering users,OU=Engineering,DC=corp,DC=example,DC=com",
+                      "id": "nativeId",
+                      "objectSid": "S-1-5-21-717838489-685202119-709183397-1177"
+                    }
+                  },
+                  "type": "EXTERNAL_GROUP|LOCAL_GROUP"
+                }
+              }
             ],
-            "discoveredAt": "2023-10-05T14:00:00Z",
-            "createdAt": "2024-08-01T14:00:00Z",
-            "status": "ACTIVE",
+            "usersCount": "175",
+            "applicationOwner": [
+              "Mr. abel.tuter"
+            ],
+            "itApplicationOwner": [
+              "Mr. john doe"
+            ],
+            "businessCriticality": "High",
+            "dataClassification": "Restricted",
+            "businessUnit": "Finance",
+            "installType": "On Premise",
+            "environment": "Production",
+            "riskScore": "ANY",
+            "isPrivileged": false,
+            "warrantyExpiration": "2023-09-25T14:07:27.000+0000",
+            "attributes": {
+              "features": [
+                "IMPORT_PROFILE_UPDATES",
+                "IMPORT_USER_SCHEMA",
+                "IMPORT_NEW_USERS"
+              ],
+              "identityStack": "NOT_SHARED",
+              "selfService": false,
+              "signOnMode": "SAML_2_0"
+            },
             "associatedSources": []
           }
         ]

@@ -5,7 +5,7 @@
       "description": "",
       "item": [
         {
-          "id": "d1a5fcb4-2448-403a-bee6-76d7a6e39a14",
+          "id": "527c0b3f-1c75-41ea-b266-b9b89e6f8ac4",
           "name": "Get task status by id",
           "request": {
             "name": "Get task status by id",
@@ -55,7 +55,7 @@
           },
           "response": [
             {
-              "id": "d23ed4b1-1e8c-4c17-bea0-c847e0507ef5",
+              "id": "37cbef7e-190e-4326-ba53-72925bb2eaa3",
               "name": "Responds with a TaskStatus for the task with the given task ID.",
               "originalRequest": {
                 "url": {
@@ -125,7 +125,7 @@
           }
         },
         {
-          "id": "69db9679-deeb-43bc-ab1c-bf015b4a715b",
+          "id": "a65d5b27-d112-4803-a1f8-42d588eb061c",
           "name": "Update task status by id",
           "request": {
             "name": "Update task status by id",
@@ -188,7 +188,7 @@
           },
           "response": [
             {
-              "id": "cc3be882-118c-4a11-9dcf-8bdcab0e725d",
+              "id": "1aeeeeb8-be03-42d7-a083-d77f3f8d2c26",
               "name": "This response indicates the PATCH operation succeeded, and the API returns the updated task object.",
               "originalRequest": {
                 "url": {
@@ -271,12 +271,12 @@
           }
         },
         {
-          "id": "2774d103-07da-4153-bf7a-d4cc501c24d0",
+          "id": "a5e9c1d9-60f5-456b-9beb-8b597a59e3f0",
           "name": "Retrieve task status list",
           "request": {
             "name": "Retrieve task status list",
             "description": {
-              "content": "Use this endpoint to get a list of statuses for **all** tasks which include finished, in-progress, terminated, and errored tasks. Types of tasks include account and entitlement aggregation and other general background processing tasks.  Data for tasks older than 90 days will not be returned. To get a list of statuses for only **in-progress** tasks, please use the [retrieve pending task status list](https://developer.sailpoint.com/docs/api/v2024/get-pending-tasks) endpoint.\nPossible tasks to be returned: Cloud Account Aggregation, Cloud Group Aggregation, Cloud Process Uncorrelated Accounts, Cloud Refresh Role, Source Application Discovery, AI Agent Aggregation, Cloud Entitlement Import, Cloud Uncorrelated Refresh, Cloud Identity Aggregation, Cloud Attribute Synchronization, Identity Refresh\n",
+              "content": "Use this endpoint to get a list of statuses for **all** tasks, including completed, in-progress, terminated, and errored tasks. Types of tasks include account and entitlement aggregation and other general background processing tasks. Data for tasks older than 90 days will not be returned. For a list of **in-progress** tasks, apply the isnull filter to the Completion Status field.\n",
               "type": "text/plain"
             },
             "url": {
@@ -317,11 +317,11 @@
                 {
                   "disabled": true,
                   "description": {
-                    "content": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in*\n\n**sourceId**: *eq, in*\n\n**completionStatus**: *eq, in*\n\n**type**: *eq, in*",
+                    "content": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in*\n\n**sourceId**: *eq, in*\n\n**completionStatus**: *eq, in, isnull*\n\n**type**: *eq, in*\n\n**Possible Values:** CLOUD_ACCOUNT_AGGREGATION, CLOUD_GROUP_AGGREGATION, CLOUD_PROCESS_UNCORRELATED_ACCOUNTS, CLOUD_REFRESH_ROLE, SOURCE_APPLICATION_DISCOVERY, AI_AGENT_AGGREGATION, CLOUD_ENTITLEMENT_IMPORT, CLOUD_UNCORRELATED_REFRESH, CLOUD_IDENTITY_AGGREGATION, CLOUD_ATTRIBUTE_SYNCHRONIZATION, IDENTITY_REFRESH, APPLICATION_DISCOVERY, MACHINE_IDENTITY_AGGREGATION, MACHINE_IDENTITY_DELETION, ACCOUNT_DELETION",
                     "type": "text/plain"
                   },
                   "key": "filters",
-                  "value": "type eq \"Cloud Account Aggregation\" and completionStatus eq \"null\""
+                  "value": "type eq \"CLOUD_ACCOUNT_AGGREGATION\" and completionStatus isnull"
                 },
                 {
                   "disabled": true,
@@ -355,7 +355,7 @@
           },
           "response": [
             {
-              "id": "9e4642bc-0929-4a86-bd18-cad514b23e77",
+              "id": "f8624c3e-07e8-4ad1-b31a-f0ced4f9cb61",
               "name": "Responds with a TaskStatus for the task with the given task ID.",
               "originalRequest": {
                 "url": {
@@ -396,11 +396,11 @@
                     {
                       "disabled": true,
                       "description": {
-                        "content": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in*\n\n**sourceId**: *eq, in*\n\n**completionStatus**: *eq, in*\n\n**type**: *eq, in*",
+                        "content": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in*\n\n**sourceId**: *eq, in*\n\n**completionStatus**: *eq, in, isnull*\n\n**type**: *eq, in*\n\n**Possible Values:** CLOUD_ACCOUNT_AGGREGATION, CLOUD_GROUP_AGGREGATION, CLOUD_PROCESS_UNCORRELATED_ACCOUNTS, CLOUD_REFRESH_ROLE, SOURCE_APPLICATION_DISCOVERY, AI_AGENT_AGGREGATION, CLOUD_ENTITLEMENT_IMPORT, CLOUD_UNCORRELATED_REFRESH, CLOUD_IDENTITY_AGGREGATION, CLOUD_ATTRIBUTE_SYNCHRONIZATION, IDENTITY_REFRESH, APPLICATION_DISCOVERY, MACHINE_IDENTITY_AGGREGATION, MACHINE_IDENTITY_DELETION, ACCOUNT_DELETION",
                         "type": "text/plain"
                       },
                       "key": "filters",
-                      "value": "type eq \"Cloud Account Aggregation\" and completionStatus eq \"null\""
+                      "value": "type eq \"CLOUD_ACCOUNT_AGGREGATION\" and completionStatus isnull"
                     },
                     {
                       "disabled": true,
@@ -459,12 +459,12 @@
           }
         },
         {
-          "id": "e0b079cd-daa4-4496-8c80-33bb08dba988",
+          "id": "b7314a2e-4c23-46a9-b427-e486add70db2",
           "name": "Retrieve pending task status list",
           "request": {
             "name": "Retrieve pending task status list",
             "description": {
-              "content": "Retrieve a list of statuses for pending tasks. Types of tasks include account and entitlement aggregation and other general background processing tasks.  Data for tasks older than 90 days will not be returned.\nPossible tasks to be returned: Cloud Account Aggregation, Cloud Group Aggregation, Cloud Process Uncorrelated Accounts, Cloud Refresh Role, Source Application Discovery, AI Agent Aggregation, Cloud Entitlement Import, Cloud Uncorrelated Refresh, Cloud Identity Aggregation, Cloud Attribute Synchronization, Identity Refresh\n",
+              "content": "This API is being deprecated. Please use the [task-status-list](https://developer.sailpoint.com/docs/api/v2026/get-task-status-list) endpoint with isnull filtering on the completionStatus field to retrieve pending tasks. Example: /v2026/task-status?filters=completionStatus isnull\n\nRetrieve a list of statuses for pending tasks. Types of tasks include account and entitlement aggregation and other general background processing tasks. Data for tasks older than 90 days will not be returned.\n",
               "type": "text/plain"
             },
             "url": {
@@ -526,8 +526,8 @@
           },
           "response": [
             {
-              "id": "3172478c-9888-4678-ab59-9639ca416d73",
-              "name": "Responds with a list of TaskStatus for pending tasks.",
+              "id": "4bb85ba7-f81b-49fd-9d24-6839ea8dcfdc",
+              "name": "Responds with a list of TaskStatus for pending tasks.\n\nPossible Values: CLOUD_ACCOUNT_AGGREGATION, CLOUD_GROUP_AGGREGATION, CLOUD_PROCESS_UNCORRELATED_ACCOUNTS, CLOUD_REFRESH_ROLE, SOURCE_APPLICATION_DISCOVERY, AI_AGENT_AGGREGATION, CLOUD_ENTITLEMENT_IMPORT, CLOUD_UNCORRELATED_REFRESH, CLOUD_IDENTITY_AGGREGATION, CLOUD_ATTRIBUTE_SYNCHRONIZATION, IDENTITY_REFRESH, APPLICATION_DISCOVERY, MACHINE_IDENTITY_AGGREGATION, MACHINE_IDENTITY_DELETION, ACCOUNT_DELETION\n",
               "originalRequest": {
                 "url": {
                   "path": [
@@ -607,7 +607,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "6597319d-b3e1-4e18-a6cd-d9650b613423",
+              "id": "324a40b7-8574-4ee9-a5d4-28728cf0ac3f",
               "name": "No content - indicates the request was successful but there is no content to be returned in the response.",
               "originalRequest": {
                 "url": {
@@ -684,12 +684,12 @@
           }
         },
         {
-          "id": "9b9fa327-5f77-4e96-a077-9df8ec2551c3",
+          "id": "39aebc8f-86b0-43d4-ad32-1f040488832d",
           "name": "Retrieve pending task list headers",
           "request": {
             "name": "Retrieve pending task list headers",
             "description": {
-              "content": "Responds with headers only for list of task statuses for pending tasks.",
+              "content": "This API is being deprecated. Please use the [task-status-list](https://developer.sailpoint.com/docs/api/v2026/get-task-status-list) endpoint with isnull filtering on the completionStatus field and count=true. Example: /v2026/task-status?count=true&filters=completionStatus isnull\n\nResponds with headers only for list of task statuses for pending tasks.\n",
               "type": "text/plain"
             },
             "url": {
@@ -751,7 +751,7 @@
           },
           "response": [
             {
-              "id": "c00e71ba-e236-45ba-89a9-d47a30f6de3e",
+              "id": "16302d5d-d624-4aff-ba7a-95ad9cb5a77a",
               "name": "Retrieve headers for a list of TaskStatus for pending tasks.",
               "originalRequest": {
                 "url": {
@@ -822,7 +822,7 @@
               "_postman_previewlanguage": "text"
             },
             {
-              "id": "7a649565-57ba-4a69-819d-09c3bba8bf94",
+              "id": "4e069562-c319-4eb0-b709-f994006c9528",
               "name": "No content - indicates the request was successful but there is no content to be returned in the response.",
               "originalRequest": {
                 "url": {
@@ -999,7 +999,7 @@
     }
   ],
   "info": {
-    "_postman_id": "13107fac-c4ed-46bb-b111-1786f383536c",
+    "_postman_id": "729e96de-33f9-49cb-bf87-4198ba176b84",
     "name": "Identity Security Cloud v2026 API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": {

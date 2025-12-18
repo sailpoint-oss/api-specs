@@ -1390,8 +1390,6 @@ paths:
       security:
         - userAuth:
             - idn:access-profile:read
-        - applicationAuth:
-            - idn:access-profile:read
       x-sailpoint-userLevels:
         - ORG_ADMIN
         - ROLE_ADMIN
@@ -1437,11 +1435,6 @@ paths:
             - idn:entitlement:read
             - idn:identity:read
             - idn:sources:read
-        - applicationAuth:
-            - idn:access-profile:manage
-            - idn:entitlement:read
-            - idn:identity:read
-            - idn:sources:read
       x-sailpoint-userLevels:
         - ORG_ADMIN
         - ROLE_ADMIN
@@ -1483,9 +1476,6 @@ paths:
           $ref: '#/components/responses/500'
       security:
         - userAuth:
-            - idn:access-profile:read
-            - idn:access-profile:manage
-        - applicationAuth:
             - idn:access-profile:read
             - idn:access-profile:manage
       x-sailpoint-userLevels:
@@ -1576,6 +1566,10 @@ paths:
       security:
         - userAuth:
             - idn:access-profile:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
     delete:
       operationId: deleteAccessProfile
       tags:
@@ -1626,6 +1620,10 @@ paths:
       security:
         - userAuth:
             - idn:access-profile:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
   /access-profiles/bulk-delete:
     post:
       operationId: deleteAccessProfilesInBulk
@@ -1689,8 +1687,6 @@ paths:
           $ref: '#/components/responses/500'
       security:
         - userAuth:
-            - idn:access-profile:manage
-        - applicationAuth:
             - idn:access-profile:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
@@ -1833,9 +1829,6 @@ paths:
           $ref: '#/components/responses/500'
       security:
         - userAuth:
-            - idn:access-profile:read
-            - idn:access-profile:manage
-        - applicationAuth:
             - idn:access-profile:read
             - idn:access-profile:manage
       x-sailpoint-userLevels:
@@ -23650,7 +23643,13 @@ paths:
       tags:
         - Task Management
       summary: Retrieve pending task status list
-      description: Retrieve a list of statuses for pending tasks. Types of tasks include account and entitlement aggregation and other general background processing tasks.  Data for tasks older than 90 days will not be returned.
+      description: |
+        This API is being deprecated. Please use the [task-status-list](https://developer.sailpoint.com/docs/api/v2025/get-task-status-list) endpoint with isnull filtering on the completionStatus field to retrieve pending tasks. Example: /v2025/task-status?filters=completionStatus isnull 
+
+        Retrieve a list of statuses for pending tasks. Types of tasks include account and entitlement aggregation and other general background processing tasks.  Data for tasks older than 90 days will not be returned.
+      deprecated: true
+      x-deprecated-description: |
+        This API has been deprecated, please refer to [task-status-list](https://developer.sailpoint.com/docs/api/v2025/get-task-status-list) for the latest API.
       operationId: getPendingTasks
       parameters:
         - $ref: '#/components/parameters/offset'
@@ -23697,7 +23696,13 @@ paths:
       tags:
         - Task Management
       summary: Retrieve pending task list headers
-      description: Responds with headers only for list of task statuses for pending tasks.
+      description: |
+        This API is being deprecated. Please use the [task-status-list](https://developer.sailpoint.com/docs/api/v2025/get-task-status-list) endpoint with isnull filtering on the completionStatus field and count=true. Example: /v2025/task-status?count=true&filters=completionStatus isnull
+
+        Responds with headers only for list of task statuses for pending tasks.
+      deprecated: true
+      x-deprecated-description: |
+        This API has been deprecated, please refer to [task-status-list](https://developer.sailpoint.com/docs/api/v2025/get-task-status-list) for the latest API.
       operationId: getPendingTaskHeaders
       parameters:
         - $ref: '#/components/parameters/offset'
@@ -35404,6 +35409,24 @@ components:
           nullable: true
           description: Entitlement's display name.
           example: CN=entitlement.490efde5,OU=OrgCo,OU=ServiceDept,DC=HQAD,DC=local
+    AccessDuration:
+      type: object
+      nullable: true
+      properties:
+        value:
+          type: integer
+          description: The numeric value representing the amount of time, which is defined in the **timeUnit**.
+          format: int32
+          example: 6
+        timeUnit:
+          type: string
+          description: The unit of time that corresponds to the **value**. It defines the scale of the time period.
+          enum:
+            - HOURS
+            - DAYS
+            - WEEKS
+            - MONTHS
+          example: MONTHS
     AccessProfileApprovalScheme:
       type: object
       properties:
@@ -35457,6 +35480,15 @@ components:
           example: true
           nullable: true
           default: false
+        requireEndDate:
+          type: boolean
+          description: Indicates whether the requester of the containing object must provide access end date.
+          example: true
+          nullable: true
+          default: false
+        maxPermittedAccessDuration:
+          $ref: '#/components/schemas/AccessDuration'
+          nullable: true
         approvalSchemes:
           type: array
           nullable: true
@@ -35473,6 +35505,27 @@ components:
           description: List describing the steps involved in approving the revocation request.
           items:
             $ref: '#/components/schemas/AccessProfileApprovalScheme'
+    AttributeDTOList:
+      type: object
+      properties:
+        attributes:
+          type: array
+          nullable: true
+          items:
+            $ref: '#/components/schemas/AttributeDTO'
+          example:
+            - key: iscPrivacy
+              name: Privacy
+              multiselect: false
+              status: active
+              type: governance
+              objectTypes:
+                - all
+              description: Specifies the level of privacy associated with an access item.
+              values:
+                - value: public
+                  name: Public
+                  status: active
     ProvisioningCriteriaOperation:
       type: string
       enum:
@@ -35620,6 +35673,22 @@ components:
           example:
             - f7b1b8a3-5fed-4fd4-ad29-82014e137e19
             - 29cb6c06-1da8-43ea-8be4-b3125f248f2a
+        accessModelMetadata:
+          $ref: '#/components/schemas/AttributeDTOList'
+          description: This field must be left null or empty when creating an Role, otherwise a 400 Bad Request error will result.
+          example:
+            - key: iscFederalClassifications
+              name: Federal Classifications
+              multiselect: true
+              status: active
+              type: governance
+              objectTypes:
+                - general
+              description: Classification used by government organizations to specify the level of confidentiality for an access item.
+              values:
+                - value: secret
+                  name: Secret
+                  status: active
         provisioningCriteria:
           $ref: '#/components/schemas/ProvisioningCriteriaLevel1'
           description: When an identity has multiple accounts on the source the access profile is associated with, the API evaluates this expression against those accounts to choose one to provision with the access profile.
@@ -35643,6 +35712,11 @@ components:
                   - attribute: telephoneNumber
                     operation: CONTAINS
                     value: '512'
+        additionalOwners:
+          type: array
+          nullable: true
+          items:
+            $ref: '#/components/schemas/OwnerReference'
       required:
         - owner
         - name
@@ -35879,27 +35953,6 @@ components:
             True if the entitlement description was updated manually via entitlement import csv or patch endpoint.  False means that property value has not been change after first entitlement aggregation.
             Field refers to [Entitlement response schema](https://developer.sailpoint.com/idn/api/beta/get-entitlement) > `description` property.
           example: true
-    AttributeDTOList:
-      type: object
-      properties:
-        attributes:
-          type: array
-          nullable: true
-          items:
-            $ref: '#/components/schemas/AttributeDTO'
-          example:
-            - key: iscPrivacy
-              name: Privacy
-              multiselect: false
-              status: active
-              type: governance
-              objectTypes:
-                - all
-              description: Specifies the level of privacy associated with an access item.
-              values:
-                - value: public
-                  name: Public
-                  status: active
     Entitlement:
       type: object
       title: Entitlement
