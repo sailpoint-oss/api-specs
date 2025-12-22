@@ -28465,7 +28465,7 @@ paths:
             Sorting is supported for the following fields: **name, created, description, status, owner**
           example: name, -created, description, status, owner
           required: false
-        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/limit50'
         - $ref: '#/components/parameters/offset'
       responses:
         '200':
