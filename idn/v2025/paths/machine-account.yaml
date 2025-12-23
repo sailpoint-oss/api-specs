@@ -82,10 +82,10 @@ patch:
       required: true
   requestBody:
     required: true
-    description: >-
-      A JSON of updated values [JSON
-      Patch](https://tools.ietf.org/html/rfc6902) standard.
+    description: |-
+      A JSON of updated values [JSON Patch](https://tools.ietf.org/html/rfc6902) standard.
       The following fields are patchable:
+      
                 * description
                 * ownerIdentity
                 * subType
