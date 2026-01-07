@@ -5,7 +5,7 @@
       "description": "",
       "item": [
         {
-          "id": "834b2029-9c6b-4d4e-ae02-4babff8b077f",
+          "id": "48dffb8e-7b0a-4dc8-aa7c-02881464d706",
           "name": "Get task status by id",
           "request": {
             "name": "Get task status by id",
@@ -55,7 +55,7 @@
           },
           "response": [
             {
-              "id": "3324a250-5a0a-4db0-b227-a5c7402213db",
+              "id": "ac1be37a-52ae-403f-9d3a-77bd7e93bb73",
               "name": "Responds with a TaskStatus for the task with the given task ID.",
               "originalRequest": {
                 "url": {
@@ -125,7 +125,7 @@
           }
         },
         {
-          "id": "8818cff8-df20-4cac-b0b4-c2625a961f1c",
+          "id": "f6f59dae-6012-4da6-ac41-469b4a56b15a",
           "name": "Update task status by id",
           "request": {
             "name": "Update task status by id",
@@ -188,7 +188,7 @@
           },
           "response": [
             {
-              "id": "666e3186-6764-4d97-8f71-0a08494c777f",
+              "id": "2564f508-38f2-4d7d-b117-6053c0e8c973",
               "name": "This response indicates the PATCH operation succeeded, and the API returns the updated task object.",
               "originalRequest": {
                 "url": {
@@ -271,7 +271,7 @@
           }
         },
         {
-          "id": "9d8111fa-feb5-4d40-bc83-3198ad55b357",
+          "id": "1bcacd91-fd54-4390-9a6d-937c18f49cca",
           "name": "Retrieve task status list",
           "request": {
             "name": "Retrieve task status list",
@@ -317,7 +317,7 @@
                 {
                   "disabled": true,
                   "description": {
-                    "content": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in*\n\n**sourceId**: *eq, in*\n\n**completionStatus**: *eq, in, isnull*\n\n**type**: *eq, in*\n\n**Possible Values:** CLOUD_ACCOUNT_AGGREGATION, CLOUD_GROUP_AGGREGATION, CLOUD_PROCESS_UNCORRELATED_ACCOUNTS, CLOUD_REFRESH_ROLE, SOURCE_APPLICATION_DISCOVERY, AI_AGENT_AGGREGATION, CLOUD_ENTITLEMENT_IMPORT, CLOUD_UNCORRELATED_REFRESH, CLOUD_IDENTITY_AGGREGATION, CLOUD_ATTRIBUTE_SYNCHRONIZATION, IDENTITY_REFRESH, APPLICATION_DISCOVERY, MACHINE_IDENTITY_AGGREGATION, MACHINE_IDENTITY_DELETION, ACCOUNT_DELETION",
+                    "content": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in*\n\n**sourceId**: *eq, in*\n\n**completionStatus**: *eq, in, isnull*\n\n**type**: *eq, in*\n\n**launcher**: *eq, in*\n\n**Possible Values:** CLOUD_ACCOUNT_AGGREGATION, CLOUD_GROUP_AGGREGATION, CLOUD_PROCESS_UNCORRELATED_ACCOUNTS, CLOUD_REFRESH_ROLE, SOURCE_APPLICATION_DISCOVERY, AI_AGENT_AGGREGATION, CLOUD_ENTITLEMENT_IMPORT, CLOUD_UNCORRELATED_REFRESH, CLOUD_IDENTITY_AGGREGATION, CLOUD_ATTRIBUTE_SYNCHRONIZATION, IDENTITY_REFRESH, APPLICATION_DISCOVERY, MACHINE_IDENTITY_AGGREGATION, MACHINE_IDENTITY_DELETION, ACCOUNT_DELETION",
                     "type": "text/plain"
                   },
                   "key": "filters",
@@ -355,7 +355,7 @@
           },
           "response": [
             {
-              "id": "1e8847aa-be8b-4e20-b7fb-e53b537ac3bb",
+              "id": "1641feef-cb28-4c8c-a709-f12a6466bc36",
               "name": "Responds with a TaskStatus for the task with the given task ID.",
               "originalRequest": {
                 "url": {
@@ -396,7 +396,7 @@
                     {
                       "disabled": true,
                       "description": {
-                        "content": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in*\n\n**sourceId**: *eq, in*\n\n**completionStatus**: *eq, in, isnull*\n\n**type**: *eq, in*\n\n**Possible Values:** CLOUD_ACCOUNT_AGGREGATION, CLOUD_GROUP_AGGREGATION, CLOUD_PROCESS_UNCORRELATED_ACCOUNTS, CLOUD_REFRESH_ROLE, SOURCE_APPLICATION_DISCOVERY, AI_AGENT_AGGREGATION, CLOUD_ENTITLEMENT_IMPORT, CLOUD_UNCORRELATED_REFRESH, CLOUD_IDENTITY_AGGREGATION, CLOUD_ATTRIBUTE_SYNCHRONIZATION, IDENTITY_REFRESH, APPLICATION_DISCOVERY, MACHINE_IDENTITY_AGGREGATION, MACHINE_IDENTITY_DELETION, ACCOUNT_DELETION",
+                        "content": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in*\n\n**sourceId**: *eq, in*\n\n**completionStatus**: *eq, in, isnull*\n\n**type**: *eq, in*\n\n**launcher**: *eq, in*\n\n**Possible Values:** CLOUD_ACCOUNT_AGGREGATION, CLOUD_GROUP_AGGREGATION, CLOUD_PROCESS_UNCORRELATED_ACCOUNTS, CLOUD_REFRESH_ROLE, SOURCE_APPLICATION_DISCOVERY, AI_AGENT_AGGREGATION, CLOUD_ENTITLEMENT_IMPORT, CLOUD_UNCORRELATED_REFRESH, CLOUD_IDENTITY_AGGREGATION, CLOUD_ATTRIBUTE_SYNCHRONIZATION, IDENTITY_REFRESH, APPLICATION_DISCOVERY, MACHINE_IDENTITY_AGGREGATION, MACHINE_IDENTITY_DELETION, ACCOUNT_DELETION",
                         "type": "text/plain"
                       },
                       "key": "filters",
@@ -459,7 +459,7 @@
           }
         },
         {
-          "id": "49adffef-9a2e-431c-a50b-c72b9e356bac",
+          "id": "3c0e60c4-23c2-4b2d-84c1-197fd5167baa",
           "name": "Retrieve pending task status list",
           "request": {
             "name": "Retrieve pending task status list",
@@ -526,7 +526,7 @@
           },
           "response": [
             {
-              "id": "303204d2-e790-4659-98c4-1d72741c3edb",
+              "id": "26aa1583-ed45-49f0-accf-c63a5c329184",
               "name": "Responds with a list of TaskStatus for pending tasks.\n\nPossible Values: CLOUD_ACCOUNT_AGGREGATION, CLOUD_GROUP_AGGREGATION, CLOUD_PROCESS_UNCORRELATED_ACCOUNTS, CLOUD_REFRESH_ROLE, SOURCE_APPLICATION_DISCOVERY, AI_AGENT_AGGREGATION, CLOUD_ENTITLEMENT_IMPORT, CLOUD_UNCORRELATED_REFRESH, CLOUD_IDENTITY_AGGREGATION, CLOUD_ATTRIBUTE_SYNCHRONIZATION, IDENTITY_REFRESH, APPLICATION_DISCOVERY, MACHINE_IDENTITY_AGGREGATION, MACHINE_IDENTITY_DELETION, ACCOUNT_DELETION\n",
               "originalRequest": {
                 "url": {
@@ -607,7 +607,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "db15e3d1-beab-4617-bd19-cbe001966121",
+              "id": "8bf73605-f6a5-4f4e-b7a9-9bda5bf7bb42",
               "name": "No content - indicates the request was successful but there is no content to be returned in the response.",
               "originalRequest": {
                 "url": {
@@ -684,7 +684,7 @@
           }
         },
         {
-          "id": "d64d6ea6-2ec1-46f9-b10d-9d6076a91b44",
+          "id": "f0b8e30e-3909-411c-b088-7ab3b5bfadf1",
           "name": "Retrieve pending task list headers",
           "request": {
             "name": "Retrieve pending task list headers",
@@ -751,7 +751,7 @@
           },
           "response": [
             {
-              "id": "cb93dff0-6d1f-4dd2-bcf9-9e8cdf081555",
+              "id": "f10a5e21-c836-433d-91d6-8fda334ed410",
               "name": "Retrieve headers for a list of TaskStatus for pending tasks.",
               "originalRequest": {
                 "url": {
@@ -822,7 +822,7 @@
               "_postman_previewlanguage": "text"
             },
             {
-              "id": "147524e4-d9e2-491a-b1e0-afb59a76787f",
+              "id": "969a45ee-d8e2-431e-a548-16540eabe85a",
               "name": "No content - indicates the request was successful but there is no content to be returned in the response.",
               "originalRequest": {
                 "url": {
@@ -999,7 +999,7 @@
     }
   ],
   "info": {
-    "_postman_id": "98b530f1-9e37-4611-927d-6ff2d45888e6",
+    "_postman_id": "0b2d1c99-3e49-4af8-a3c1-b819871d0a37",
     "name": "Identity Security Cloud v2026 API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": {
