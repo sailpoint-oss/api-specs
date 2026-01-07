@@ -50858,7 +50858,7 @@ components:
         provisionRequestEnabled:
           type: boolean
           default: false
-          description: True if the source app is provision request enabled
+          description: True if the app allows access request
           example: true
         description:
           type: string
@@ -50873,7 +50873,7 @@ components:
         appCenterEnabled:
           type: boolean
           default: true
-          description: True if the source app is shown in the app center
+          description: True if the app is visible in the request center
           example: true
         accountSource:
           type: object
@@ -50949,7 +50949,7 @@ components:
         provisionRequestEnabled:
           type: boolean
           default: false
-          description: True if the source app is provision request enabled
+          description: True if the app allows access request
           example: true
         description:
           type: string
@@ -50964,7 +50964,7 @@ components:
         appCenterEnabled:
           type: boolean
           default: true
-          description: True if the source app is shown in the app center
+          description: True if the app is visible in the request center
           example: true
         accessProfiles:
           type: array
@@ -55076,12 +55076,12 @@ components:
         provisionRequestEnabled:
           type: boolean
           default: false
-          description: True if the source app related to the user app is provision request enabled
+          description: True if the app allows access request
           example: true
         appCenterEnabled:
           type: boolean
           default: true
-          description: True if the source app related to the user app is shown in the app center
+          description: True if the app is visible in the request center
           example: true
         sourceApp:
           type: object
