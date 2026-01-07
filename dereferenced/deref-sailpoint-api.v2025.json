@@ -17065,7 +17065,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**operational**: *eq*",
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**operational**: *eq*\n\n**name**: *eq*\n\n**type**: *eq*\n\n**status**: *eq*",
             "required": false,
             "example": "operational eq \"operation\""
           }
@@ -83937,11 +83937,19 @@
       },
       "ManagedClusterTypes": {
         "type": "string",
-        "description": "The Type of Cluster",
+        "description": "The Type of Cluster:\n* `idn` - IDN VA type\n* `iai` - IAI harvester VA\n* `spConnectCluster` - Saas 2.0 connector cluster (this should be one per org)\n* `sqsCluster` - This should be unused\n* `das-rc` - Data Access Security Resources Collector\n* `das-pc` - Data Access Security Permissions Collector\n* `das-dc` - Data Access Security Data Classification Collector\n* `pag` - Privilege Action Gateway VA\n* `das-am` - Data Access Security Activity Monitor\n* `standard` - Standard Cluster type for running multiple products\n",
         "example": "idn",
         "enum": [
           "idn",
-          "iai"
+          "iai",
+          "spConnectCluster",
+          "sqsCluster",
+          "das-rc",
+          "das-pc",
+          "das-dc",
+          "pag",
+          "das-am",
+          "standard"
         ]
       },
       "ManagedClusterKeyPair": {
@@ -84281,6 +84289,74 @@
             "nullable": true,
             "type": "string",
             "format": "date-time"
+          },
+          "lastReleaseNotifiedAt": {
+            "description": "The date/time this cluster was notified for the last release",
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "example": "2025-03-11T07:00:13.729721Z"
+          },
+          "updatePreferences": {
+            "description": "The preference for applying updates for the cluster",
+            "type": "object",
+            "properties": {
+              "processGroups": {
+                "description": "The processGroups for updatePreferences",
+                "type": "string",
+                "nullable": true,
+                "example": "processGroup1"
+              },
+              "updateState": {
+                "description": "The current updateState for the cluster",
+                "type": "string",
+                "nullable": true,
+                "enum": [
+                  null,
+                  "AUTO",
+                  "DISABLED"
+                ],
+                "example": "DISABLED"
+              },
+              "notificationEmail": {
+                "description": "The mail id to which new releases will be notified",
+                "type": "string",
+                "format": "email",
+                "nullable": true,
+                "example": "test@mail.com"
+              }
+            }
+          },
+          "currentInstalledReleaseVersion": {
+            "description": "The current installed release on the Managed cluster",
+            "type": "string",
+            "nullable": true,
+            "example": "123.1"
+          },
+          "updatePackage": {
+            "description": "New available updates for the Managed cluster",
+            "type": "string",
+            "nullable": true,
+            "example": "123.1.2"
+          },
+          "isOutOfDateNotifiedAt": {
+            "description": "The time at which out of date notification was sent for the Managed cluster",
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "example": "2025-03-11T07:00:13.734393Z"
+          },
+          "consolidatedHealthIndicatorsStatus": {
+            "description": "The consolidated Health Status for the Managed cluster",
+            "type": "string",
+            "nullable": true,
+            "enum": [
+              null,
+              "NORMAL",
+              "WARNING",
+              "ERROR"
+            ],
+            "example": "ERROR"
           }
         }
       },

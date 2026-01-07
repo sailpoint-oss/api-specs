@@ -54944,11 +54944,30 @@ components:
           example: '2020-01-01T00:00:00.000000Z'
     ManagedClusterTypes:
       type: string
-      description: The Type of Cluster
+      description: |
+        The Type of Cluster:
+        * `idn` - IDN VA type
+        * `iai` - IAI harvester VA
+        * `spConnectCluster` - Saas 2.0 connector cluster (this should be one per org)
+        * `sqsCluster` - This should be unused
+        * `das-rc` - Data Access Security Resources Collector
+        * `das-pc` - Data Access Security Permissions Collector
+        * `das-dc` - Data Access Security Data Classification Collector
+        * `pag` - Privilege Action Gateway VA
+        * `das-am` - Data Access Security Activity Monitor
+        * `standard` - Standard Cluster type for running multiple products
       example: idn
       enum:
         - idn
         - iai
+        - spConnectCluster
+        - sqsCluster
+        - das-rc
+        - das-pc
+        - das-dc
+        - pag
+        - das-am
+        - standard
     ManagedClusterKeyPair:
       description: Managed Cluster key pair for Cluster
       type: object
@@ -55233,6 +55252,7 @@ components:
               description: The processGroups for updatePreferences
               type: string
               nullable: true
+              example: processGroup1
             updateState:
               description: The current updateState for the cluster
               type: string
@@ -55257,6 +55277,7 @@ components:
           description: New available updates for the Managed cluster
           type: string
           nullable: true
+          example: 123.1.2
         isOutOfDateNotifiedAt:
           description: The time at which out of date notification was sent for the Managed cluster
           type: string
