@@ -2920,6 +2920,8 @@ paths:
       security:
         - userAuth:
             - iai:access-request-recommender:manage
+        - applicationAuth:
+            - iai:access-request-recommender:manage
       x-sailpoint-userLevels:
         - Any
       summary: Mark viewed access request recommendations
@@ -3022,6 +3024,8 @@ paths:
         - IAI Access Request Recommendations
       security:
         - userAuth:
+            - iai:access-request-recommender:manage
+        - applicationAuth:
             - iai:access-request-recommender:manage
       x-sailpoint-userLevels:
         - Any
@@ -3336,6 +3340,8 @@ paths:
       security:
         - userAuth:
             - idn:accounts:manage
+        - applicationAuth:
+            - idn:accounts:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
         - SOURCE_ADMIN
@@ -3422,6 +3428,8 @@ paths:
       security:
         - userAuth:
             - idn:accounts:manage
+        - applicationAuth:
+            - idn:accounts:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
         - SOURCE_ADMIN
@@ -3476,6 +3484,8 @@ paths:
         This API has been deprecated, please refer to [Delete Account](https://developer.sailpoint.com/docs/api/v2025/delete-account) for latest API.
       security:
         - userAuth:
+            - idn:accounts:manage
+        - applicationAuth:
             - idn:accounts:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
@@ -3581,6 +3591,8 @@ paths:
       security:
         - userAuth:
             - idn:accounts-state:manage
+        - applicationAuth:
+            - idn:accounts-state:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
         - SOURCE_ADMIN
@@ -3628,6 +3640,8 @@ paths:
         This API has been deprecated, please refer to [Enable Account](https://developer.sailpoint.com/docs/api/v2025/enable-account) for latest API.
       security:
         - userAuth:
+            - idn:accounts-state:manage
+        - applicationAuth:
             - idn:accounts-state:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
@@ -3682,6 +3696,8 @@ paths:
         This API has been deprecated, please refer to [Disable Account](https://developer.sailpoint.com/docs/api/v2025/disable-account) for latest API.
       security:
         - userAuth:
+            - idn:accounts-state:manage
+        - applicationAuth:
             - idn:accounts-state:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
@@ -3825,6 +3841,8 @@ paths:
       security:
         - userAuth:
             - idn:accounts:manage
+        - applicationAuth:
+            - idn:accounts:manage
   /identities-accounts/{id}/enable:
     post:
       operationId: enableAccountForIdentity
@@ -3840,6 +3858,8 @@ paths:
         url: https://documentation.sailpoint.com/saas/help/accounts/identities.html?h=disabling+identities#enabling-identities
       security:
         - userAuth:
+            - idn:accounts-state:manage
+        - applicationAuth:
             - idn:accounts-state:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
@@ -3885,6 +3905,8 @@ paths:
       security:
         - userAuth:
             - idn:accounts-state:manage
+        - applicationAuth:
+            - idn:accounts-state:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
         - SOURCE_ADMIN
@@ -3928,6 +3950,8 @@ paths:
         url: https://documentation.sailpoint.com/saas/help/accounts/identities.html?h=disabling+identities#enabling-identities
       security:
         - userAuth:
+            - idn:accounts-state:manage
+        - applicationAuth:
             - idn:accounts-state:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
@@ -3980,6 +4004,8 @@ paths:
         url: https://documentation.sailpoint.com/saas/help/accounts/identities.html?h=disabling+identities#disabling-identities
       security:
         - userAuth:
+            - idn:accounts-state:manage
+        - applicationAuth:
             - idn:accounts-state:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
@@ -6636,6 +6662,9 @@ paths:
         - userAuth:
             - idn:entitlement:read
             - idn:entitlement:manage
+        - applicationAuth:
+            - idn:entitlement:read
+            - idn:entitlement:manage
       x-sailpoint-userLevels:
         - Any
       description: |-
@@ -6758,6 +6787,9 @@ paths:
         - userAuth:
             - idn:entitlement:read
             - idn:entitlement:update
+        - applicationAuth:
+            - idn:entitlement:read
+            - idn:entitlement:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
         - SOURCE_ADMIN
@@ -6940,6 +6972,9 @@ paths:
       description: This API returns a list of all parent entitlements of a given entitlement.
       security:
         - userAuth:
+            - idn:entitlement:read
+            - idn:entitlement:manage
+        - applicationAuth:
             - idn:entitlement:read
             - idn:entitlement:manage
       x-sailpoint-userLevels:
@@ -7228,6 +7263,9 @@ paths:
       description: This API returns the entitlement request config for a specified entitlement.
       security:
         - userAuth:
+            - idn:entitlement:read
+            - idn:entitlement:manage
+        - applicationAuth:
             - idn:entitlement:read
             - idn:entitlement:manage
       x-sailpoint-userLevels:
@@ -7558,6 +7596,8 @@ paths:
       operationId: createDigitToken
       security:
         - userAuth:
+            - idn:password-digit-token:create
+        - applicationAuth:
             - idn:password-digit-token:create
       summary: Generate a digit token
       tags:
@@ -9045,6 +9085,8 @@ paths:
         url: https://documentation.sailpoint.com/saas/help/setup/identity_processing.html
       security:
         - userAuth:
+            - idn:identity:manage
+        - applicationAuth:
             - idn:identity:manage
       requestBody:
         required: true
@@ -12526,6 +12568,8 @@ paths:
       security:
         - userAuth:
             - idn:managed-client-status:read
+        - applicationAuth:
+            - idn:managed-client-status:read
     post:
       tags:
         - Managed Clients
@@ -13761,6 +13805,9 @@ paths:
         - userAuth:
             - sp:oauth-client:manage
             - sp:oauth-client:read
+        - applicationAuth:
+            - sp:oauth-client:manage
+            - sp:oauth-client:read
       tags:
         - OAuth Clients
       summary: Get oauth client
@@ -13908,6 +13955,9 @@ paths:
         - userAuth:
             - idn:org-configs:read
             - idn:org-configs:manage
+        - applicationAuth:
+            - idn:org-configs:read
+            - idn:org-configs:manage
       description: Get org configuration with only external (org admin) accessible properties for the current org.
       responses:
         '200':
@@ -13977,6 +14027,9 @@ paths:
       summary: Get list of time zones
       security:
         - userAuth:
+            - idn:org-configs:read
+            - idn:org-configs-user:read
+        - applicationAuth:
             - idn:org-configs:read
             - idn:org-configs-user:read
       description: Get a list of valid time zones that can be set in org configurations.
@@ -15125,6 +15178,8 @@ paths:
       security:
         - userAuth:
             - idn:password-policy:read
+        - applicationAuth:
+            - idn:password-policy:read
       x-sailpoint-userLevels:
         - ORG_ADMIN
       parameters:
@@ -15411,6 +15466,8 @@ paths:
       security:
         - userAuth:
             - idn:password-policy:read
+        - applicationAuth:
+            - idn:password-policy:read
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
@@ -15504,6 +15561,8 @@ paths:
       description: This API returns the password org config . Requires ORG_ADMIN, API role or authorization scope of 'idn:password-org-config:read'
       security:
         - userAuth:
+            - idn:password-org-config:read
+        - applicationAuth:
             - idn:password-org-config:read
       responses:
         '200':
@@ -17472,6 +17531,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
+      security: []
   /role-mining-sessions/{sessionId}/potential-role-summaries/{potentialRoleId}/applications:
     get:
       operationId: getPotentialRoleApplications
@@ -18666,6 +18726,11 @@ paths:
             - idn:role-unchecked:manage
             - idn:role-checked:manage
             - idn:role-checked:read
+        - applicationAuth:
+            - idn:role-unchecked:read
+            - idn:role-unchecked:manage
+            - idn:role-checked:manage
+            - idn:role-checked:read
       x-sailpoint-userLevels:
         - ORG_ADMIN
         - ROLE_ADMIN
@@ -18753,6 +18818,11 @@ paths:
           $ref: '#/components/responses/500'
       security:
         - userAuth:
+            - idn:role-unchecked:read
+            - idn:role-unchecked:manage
+            - idn:role-checked:manage
+            - idn:role-checked:read
+        - applicationAuth:
             - idn:role-unchecked:read
             - idn:role-unchecked:manage
             - idn:role-checked:manage
@@ -19097,6 +19167,11 @@ paths:
           $ref: '#/components/responses/500'
       security:
         - userAuth:
+            - idn:role-unchecked:read
+            - idn:role-unchecked:manage
+            - idn:role-checked:manage
+            - idn:role-checked:read
+        - applicationAuth:
             - idn:role-unchecked:read
             - idn:role-unchecked:manage
             - idn:role-checked:manage
@@ -20694,6 +20769,8 @@ paths:
       security:
         - userAuth:
             - idn:sources:manage
+        - applicationAuth:
+            - idn:sources:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
         - SOURCE_ADMIN
@@ -20784,6 +20861,8 @@ paths:
       security:
         - userAuth:
             - idn:sources:manage
+        - applicationAuth:
+            - idn:sources:manage
       tags:
         - Sources
       summary: Update source (full)
@@ -20840,6 +20919,8 @@ paths:
       operationId: updateSource
       security:
         - userAuth:
+            - idn:sources:manage
+        - applicationAuth:
             - idn:sources:manage
       tags:
         - Sources
@@ -20956,6 +21037,8 @@ paths:
     delete:
       security:
         - userAuth:
+            - idn:sources:manage
+        - applicationAuth:
             - idn:sources:manage
       operationId: delete
       tags:
@@ -21114,6 +21197,8 @@ paths:
       security:
         - userAuth:
             - idn:source-connector:manage
+        - applicationAuth:
+            - idn:source-connector:manage
       parameters:
         - in: path
           name: sourceId
@@ -21153,6 +21238,8 @@ paths:
         A token with ORG_ADMIN authority is required to call this API.
       security:
         - userAuth:
+            - idn:source-connector:manage
+        - applicationAuth:
             - idn:source-connector:manage
       parameters:
         - in: path
@@ -21203,6 +21290,8 @@ paths:
       security:
         - userAuth:
             - idn:source-connector:manage
+        - applicationAuth:
+            - idn:source-connector:manage
       parameters:
         - in: path
           name: sourceId
@@ -21242,6 +21331,8 @@ paths:
         A token with ORG_ADMIN authority is required to call this API.
       security:
         - userAuth:
+            - idn:source-connector:manage
+        - applicationAuth:
             - idn:source-connector:manage
       parameters:
         - in: path
@@ -21343,6 +21434,8 @@ paths:
       security:
         - userAuth:
             - idn:sources:read
+        - applicationAuth:
+            - idn:sources:read
       description: |-
         This API returns the existing native change detection configuration for a source specified by the given ID.
         A token with ORG_ADMIN authority is required to call this API.
@@ -21381,6 +21474,8 @@ paths:
       summary: Update native change detection configuration
       security:
         - userAuth:
+            - idn:sources:update
+        - applicationAuth:
             - idn:sources:update
       description: |-
         Replaces the native change detection configuration for the source specified by the given ID with the configuration provided in the request body.
@@ -23200,6 +23295,8 @@ paths:
       security:
         - userAuth:
             - idn:app-roles:manage
+        - applicationAuth:
+            - idn:app-roles:manage
       requestBody:
         content:
           application/json:
@@ -23373,6 +23470,8 @@ paths:
       security:
         - userAuth:
             - idn:app-roles:manage
+        - applicationAuth:
+            - idn:app-roles:manage
       requestBody:
         required: true
         content:
@@ -23486,6 +23585,8 @@ paths:
       security:
         - userAuth:
             - idn:app-roles:manage
+        - applicationAuth:
+            - idn:app-roles:manage
       description: This API returns the list of access profiles for the specified source app
       parameters:
         - name: id
@@ -23545,6 +23646,8 @@ paths:
       summary: Bulk remove access profiles from the specified source app
       security:
         - userAuth:
+            - idn:app-roles:manage
+        - applicationAuth:
             - idn:app-roles:manage
       description: This API returns the final list of access profiles for the specified source app after removing
       parameters:
@@ -23890,6 +23993,9 @@ paths:
         - userAuth:
             - idn:tag:read
             - idn:tag:manage
+        - applicationAuth:
+            - idn:tag:read
+            - idn:tag:manage
       tags:
         - Tagged Objects
       summary: List tagged objects
@@ -23938,6 +24044,8 @@ paths:
       security:
         - userAuth:
             - idn:tag:manage
+        - applicationAuth:
+            - idn:tag:manage
       tags:
         - Tagged Objects
       summary: Add tag to object
@@ -23966,6 +24074,9 @@ paths:
       operationId: listTaggedObjectsByType
       security:
         - userAuth:
+            - idn:tag:read
+            - idn:tag:manage
+        - applicationAuth:
             - idn:tag:read
             - idn:tag:manage
       tags:
@@ -24032,6 +24143,9 @@ paths:
         - userAuth:
             - idn:tag:read
             - idn:tag:manage
+        - applicationAuth:
+            - idn:tag:read
+            - idn:tag:manage
       tags:
         - Tagged Objects
       summary: Get tagged object
@@ -24082,6 +24196,8 @@ paths:
       operationId: putTaggedObject
       security:
         - userAuth:
+            - idn:tag:manage
+        - applicationAuth:
             - idn:tag:manage
       tags:
         - Tagged Objects
@@ -24139,6 +24255,8 @@ paths:
       operationId: deleteTaggedObject
       security:
         - userAuth:
+            - idn:tag:manage
+        - applicationAuth:
             - idn:tag:manage
       tags:
         - Tagged Objects
@@ -24589,6 +24707,9 @@ paths:
         - userAuth:
             - idn:transform:read
             - idn:transform:manage
+        - applicationAuth:
+            - idn:transform:read
+            - idn:transform:manage
     post:
       tags:
         - Transforms
@@ -24629,6 +24750,8 @@ paths:
           $ref: '#/components/responses/500'
       security:
         - userAuth:
+            - idn:transform:manage
+        - applicationAuth:
             - idn:transform:manage
   /transforms/{id}:
     get:
@@ -24671,6 +24794,9 @@ paths:
           $ref: '#/components/responses/500'
       security:
         - userAuth:
+            - idn:transform:read
+            - idn:transform:manage
+        - applicationAuth:
             - idn:transform:read
             - idn:transform:manage
     put:
@@ -24734,6 +24860,8 @@ paths:
       security:
         - userAuth:
             - idn:transform:manage
+        - applicationAuth:
+            - idn:transform:manage
     delete:
       tags:
         - Transforms
@@ -24770,6 +24898,8 @@ paths:
           $ref: '#/components/responses/500'
       security:
         - userAuth:
+            - idn:transform:manage
+        - applicationAuth:
             - idn:transform:manage
   /translation-catalogs/{catalog-id}:
     get:
@@ -24868,6 +24998,8 @@ paths:
           $ref: '#/components/responses/500'
       security:
         - userAuth:
+            - sp:trigger-service-subscriptions:read
+        - applicationAuth:
             - sp:trigger-service-subscriptions:read
   /trigger-subscriptions:
     post:
@@ -25203,6 +25335,8 @@ paths:
       security:
         - userAuth:
             - sp:trigger-service-subscriptions:manage
+        - applicationAuth:
+            - sp:trigger-service-subscriptions:manage
     delete:
       operationId: deleteSubscription
       tags:
@@ -25236,6 +25370,8 @@ paths:
           $ref: '#/components/responses/500'
       security:
         - userAuth:
+            - sp:trigger-service-subscriptions:manage
+        - applicationAuth:
             - sp:trigger-service-subscriptions:manage
   /trigger-subscriptions/validate-filter:
     post:
@@ -25282,6 +25418,8 @@ paths:
           $ref: '#/components/responses/500'
       security:
         - userAuth:
+            - sp:trigger-service-subscriptions:manage
+        - applicationAuth:
             - sp:trigger-service-subscriptions:manage
   /trigger-invocations/status:
     get:
@@ -25343,6 +25481,9 @@ paths:
           $ref: '#/components/responses/500'
       security:
         - userAuth:
+            - sp:trigger-service-invocation-status:read
+            - sp:trigger-service-invocation-status:manage
+        - applicationAuth:
             - sp:trigger-service-invocation-status:read
             - sp:trigger-service-invocation-status:manage
   /trigger-invocations/{id}/complete:
@@ -25437,6 +25578,8 @@ paths:
       security:
         - userAuth:
             - sp:trigger-service-invocation-status:manage
+        - applicationAuth:
+            - sp:trigger-service-invocation-status:manage
   /ui-metadata/tenant:
     get:
       operationId: getTenantUiMetadata
@@ -25448,6 +25591,8 @@ paths:
         A token with ORG_ADMIN authority is required to call this API.
       security:
         - userAuth:
+            - idn:ui-access-metadata-page:read
+        - applicationAuth:
             - idn:ui-access-metadata-page:read
       responses:
         '200':
@@ -25669,6 +25814,8 @@ paths:
       summary: List all user apps
       security:
         - userAuth:
+            - idn:app-roles:manage
+        - applicationAuth:
             - idn:app-roles:manage
       description: |-
         This API returns the list of all user apps with specified filters.
@@ -28673,6 +28820,8 @@ paths:
       security:
         - userAuth:
             - sp:workflow-execute:external
+        - applicationAuth:
+            - sp:workflow-execute:external
       parameters:
         - name: id
           in: path
@@ -28732,6 +28881,8 @@ paths:
       description: Validate a workflow with an "External Trigger" can receive input.  The response includes the input that the workflow received, which can be used to validate that the input is intact when it reaches the workflow.
       security:
         - userAuth:
+            - sp:workflow-execute:external
+        - applicationAuth:
             - sp:workflow-execute:external
       parameters:
         - name: id
@@ -29191,6 +29342,8 @@ paths:
       operationId: updateWorkgroupMembers
       security:
         - userAuth:
+            - idn:workgroup:write
+        - applicationAuth:
             - idn:workgroup:write
       tags:
         - Governance Groups
@@ -33341,6 +33494,8 @@ paths:
       security:
         - userAuth:
             - idn:application-discovery:write
+        - applicationAuth:
+            - idn:application-discovery:write
       operationId: sendManualDiscoverApplicationsCsvTemplate
       requestBody:
         content:
@@ -33622,6 +33777,8 @@ paths:
       security:
         - userAuth:
             - idn:icons:manage
+        - applicationAuth:
+            - idn:icons:manage
       responses:
         '200':
           description: Icon updated
@@ -33672,6 +33829,8 @@ paths:
           x-sailpoint-resource-operation-id: searchObjects
       security:
         - userAuth:
+            - idn:icons:manage
+        - applicationAuth:
             - idn:icons:manage
       responses:
         '204':
@@ -33730,6 +33889,8 @@ paths:
           $ref: '#/components/responses/500'
       security:
         - userAuth:
+            - idn:sed:read
+        - applicationAuth:
             - idn:sed:read
       x-sailpoint-userLevels:
         - ORG_ADMIN
@@ -33828,6 +33989,8 @@ paths:
       security:
         - userAuth:
             - idn:sed:read
+        - applicationAuth:
+            - idn:sed:read
       x-sailpoint-userLevels:
         - ORG_ADMIN
         - SOURCE_ADMIN
@@ -33869,6 +34032,8 @@ paths:
           $ref: '#/components/responses/500'
       security:
         - userAuth:
+            - idn:sed:write
+        - applicationAuth:
             - idn:sed:write
       x-sailpoint-userLevels:
         - ORG_ADMIN
@@ -33915,6 +34080,8 @@ paths:
       security:
         - userAuth:
             - idn:sed:write
+        - applicationAuth:
+            - idn:sed:write
   /suggested-entitlement-description-assignments:
     post:
       tags:
@@ -33952,6 +34119,8 @@ paths:
           $ref: '#/components/responses/500'
       security:
         - userAuth:
+            - idn:sed:write
+        - applicationAuth:
             - idn:sed:write
   /suggested-entitlement-descriptions:
     get:
@@ -34070,6 +34239,8 @@ paths:
       security:
         - userAuth:
             - idn:sed:read
+        - applicationAuth:
+            - idn:sed:read
       x-sailpoint-userLevels:
         - ORG_ADMIN
         - SOURCE_ADMIN
@@ -34120,6 +34291,8 @@ paths:
           $ref: '#/components/responses/500'
       security:
         - userAuth:
+            - idn:sed:write
+        - applicationAuth:
             - idn:sed:write
       x-sailpoint-userLevels:
         - ORG_ADMIN

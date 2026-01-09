@@ -2713,6 +2713,11 @@
             "userAuth": [
               "idn:accounts:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:accounts:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -2834,6 +2839,11 @@
             "userAuth": [
               "idn:accounts:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:accounts:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -2905,6 +2915,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:accounts:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:accounts:manage"
             ]
           }
@@ -3057,6 +3072,11 @@
             "userAuth": [
               "idn:accounts-state:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:accounts-state:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -3121,6 +3141,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:accounts-state:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:accounts-state:manage"
             ]
           }
@@ -3197,6 +3222,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:accounts-state:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:accounts-state:manage"
             ]
           }
@@ -3402,6 +3432,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:accounts:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:accounts:manage"
             ]
           }
@@ -3834,6 +3869,11 @@
             "userAuth": [
               "sp:auth-org:read"
             ]
+          },
+          {
+            "applicationAuth": [
+              "sp:auth-org:read"
+            ]
           }
         ],
         "responses": {
@@ -3877,6 +3917,11 @@
         "security": [
           {
             "userAuth": [
+              "sp:auth-org:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
               "sp:auth-org:manage"
             ]
           }
@@ -3933,6 +3978,11 @@
         "security": [
           {
             "userAuth": [
+              "sp:auth-org:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
               "sp:auth-org:manage"
             ]
           }
@@ -4012,6 +4062,11 @@
             "userAuth": [
               "sp:auth-org:read"
             ]
+          },
+          {
+            "applicationAuth": [
+              "sp:auth-org:read"
+            ]
           }
         ],
         "responses": {
@@ -4055,6 +4110,11 @@
         "security": [
           {
             "userAuth": [
+              "sp:auth-org:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
               "sp:auth-org:manage"
             ]
           }
@@ -4308,6 +4368,11 @@
             "userAuth": [
               "sp:auth-org:read"
             ]
+          },
+          {
+            "applicationAuth": [
+              "sp:auth-org:read"
+            ]
           }
         ],
         "responses": {
@@ -4351,6 +4416,11 @@
         "security": [
           {
             "userAuth": [
+              "sp:auth-org:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
               "sp:auth-org:manage"
             ]
           }
@@ -14362,6 +14432,11 @@
               "idn:accounts-state:manage",
               "idn:accounts-provisioning:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:accounts-state:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -14423,6 +14498,11 @@
               "idn:accounts-state:manage",
               "idn:accounts-provisioning:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:accounts-state:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -14483,6 +14563,11 @@
             "userAuth": [
               "idn:accounts-state:manage",
               "idn:accounts-provisioning:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:accounts-state:manage"
             ]
           }
         ],
@@ -14560,6 +14645,11 @@
             "userAuth": [
               "idn:accounts-state:manage",
               "idn:accounts-provisioning:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:accounts-state:manage"
             ]
           }
         ],
@@ -14927,6 +15017,11 @@
             "userAuth": [
               "idn:identity-lifecycle-state:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-lifecycle-state:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -15174,6 +15269,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:identity-profile-lifecycle-state:read"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:identity-profile-lifecycle-state:read"
             ]
           }
@@ -15743,6 +15843,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:identity-profile:read"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:identity-profile:read"
             ]
           }
@@ -16653,6 +16758,12 @@
               "idn:remote-client:read",
               "idn:remote-client:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:remote-client:read",
+              "idn:remote-client:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -16769,6 +16880,14 @@
         "security": [
           {
             "userAuth": [
+              "idn:remote-client:read",
+              "idn:remote-client:manage",
+              "idn:managed-client-status:read",
+              "idn:managed-client-status:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:remote-client:read",
               "idn:remote-client:manage",
               "idn:managed-client-status:read",
@@ -16974,6 +17093,11 @@
             "userAuth": [
               "idn:managed-client-status:read"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:managed-client-status:read"
+            ]
           }
         ]
       }
@@ -17032,6 +17156,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:remote-client:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:remote-client:manage"
             ]
           }
@@ -21976,6 +22105,12 @@
               "sp:oauth-client:manage",
               "sp:oauth-client:read"
             ]
+          },
+          {
+            "applicationAuth": [
+              "sp:oauth-client:manage",
+              "sp:oauth-client:read"
+            ]
           }
         ],
         "tags": [
@@ -22535,6 +22670,11 @@
             "userAuth": [
               "idn:password-policy:read"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:password-policy:read"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -22961,6 +23101,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:password-policy:read"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:password-policy:read"
             ]
           }
@@ -23922,6 +24067,14 @@
               "idn:role-checked:manage",
               "idn:role-checked:read"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:role-unchecked:read",
+              "idn:role-unchecked:manage",
+              "idn:role-checked:manage",
+              "idn:role-checked:read"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -24040,6 +24193,14 @@
         "security": [
           {
             "userAuth": [
+              "idn:role-unchecked:read",
+              "idn:role-unchecked:manage",
+              "idn:role-checked:manage",
+              "idn:role-checked:read"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:role-unchecked:read",
               "idn:role-unchecked:manage",
               "idn:role-checked:manage",
@@ -24518,6 +24679,14 @@
         "security": [
           {
             "userAuth": [
+              "idn:role-unchecked:read",
+              "idn:role-unchecked:manage",
+              "idn:role-checked:manage",
+              "idn:role-checked:read"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:role-unchecked:read",
               "idn:role-unchecked:manage",
               "idn:role-checked:manage",
@@ -26157,7 +26326,8 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": []
       },
       "delete": {
         "tags": [
@@ -26447,6 +26617,11 @@
             "userAuth": [
               "sp:search:read"
             ]
+          },
+          {
+            "applicationAuth": [
+              "sp:search:read"
+            ]
           }
         ],
         "summary": "Count documents satisfying a query",
@@ -26506,6 +26681,11 @@
         "security": [
           {
             "userAuth": [
+              "sp:search:read"
+            ]
+          },
+          {
+            "applicationAuth": [
               "sp:search:read"
             ]
           }
@@ -28040,6 +28220,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:password-org-config:read"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:password-org-config:read"
             ]
           }
@@ -30639,6 +30824,11 @@
             "userAuth": [
               "idn:sources:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -30780,6 +30970,11 @@
             "userAuth": [
               "idn:sources:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -30851,6 +31046,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:sources:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:sources:manage"
             ]
           }
@@ -31017,6 +31217,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:sources:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:sources:manage"
             ]
           }
@@ -33206,6 +33411,12 @@
               "idn:sources:read",
               "idn:sources:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:read",
+              "idn:sources:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -33267,6 +33478,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:sources:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:sources:manage"
             ]
           }
@@ -33499,6 +33715,11 @@
             "userAuth": [
               "idn:source-connector:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:source-connector:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -33560,6 +33781,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:source-connector:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:source-connector:manage"
             ]
           }
@@ -33639,6 +33865,11 @@
             "userAuth": [
               "idn:source-connector:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:source-connector:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -33700,6 +33931,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:source-connector:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:source-connector:manage"
             ]
           }
@@ -33859,6 +34095,11 @@
             "userAuth": [
               "idn:sources:read"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:read"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -33918,6 +34159,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:sources:update"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:sources:update"
             ]
           }
@@ -34118,6 +34364,11 @@
             "userAuth": [
               "idn:sources:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -34201,6 +34452,11 @@
             "userAuth": [
               "idn:sources:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -34272,6 +34528,12 @@
               "idn:tag:read",
               "idn:tag:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:tag:read",
+              "idn:tag:manage"
+            ]
           }
         ],
         "tags": [
@@ -34338,6 +34600,11 @@
             "userAuth": [
               "idn:tag:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:tag:manage"
+            ]
           }
         ],
         "tags": [
@@ -34383,6 +34650,12 @@
         "security": [
           {
             "userAuth": [
+              "idn:tag:read",
+              "idn:tag:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:tag:read",
               "idn:tag:manage"
             ]
@@ -34475,6 +34748,12 @@
               "idn:tag:read",
               "idn:tag:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:tag:read",
+              "idn:tag:manage"
+            ]
           }
         ],
         "tags": [
@@ -34548,6 +34827,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:tag:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:tag:manage"
             ]
           }
@@ -34633,6 +34917,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:tag:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:tag:manage"
             ]
           }
@@ -35274,6 +35563,12 @@
               "idn:transform:read",
               "idn:transform:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:transform:read",
+              "idn:transform:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -35341,6 +35636,11 @@
             "userAuth": [
               "idn:transform:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:transform:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -35404,6 +35704,12 @@
         "security": [
           {
             "userAuth": [
+              "idn:transform:read",
+              "idn:transform:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:transform:read",
               "idn:transform:manage"
             ]
@@ -35498,6 +35804,11 @@
             "userAuth": [
               "idn:transform:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:transform:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -35552,6 +35863,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:transform:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:transform:manage"
             ]
           }
@@ -37585,6 +37901,11 @@
             "userAuth": [
               "sp:workflow-execute:external"
             ]
+          },
+          {
+            "applicationAuth": [
+              "sp:workflow-execute:external"
+            ]
           }
         ],
         "parameters": [
@@ -37673,6 +37994,11 @@
         "security": [
           {
             "userAuth": [
+              "sp:workflow-execute:external"
+            ]
+          },
+          {
+            "applicationAuth": [
               "sp:workflow-execute:external"
             ]
           }
@@ -39701,6 +40027,11 @@
             "userAuth": [
               "iai:access-request-recommender:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "iai:access-request-recommender:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -39870,6 +40201,11 @@
         "security": [
           {
             "userAuth": [
+              "iai:access-request-recommender:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
               "iai:access-request-recommender:manage"
             ]
           }
@@ -41575,6 +41911,12 @@
               "idn:entitlement:read",
               "idn:entitlement:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:entitlement:read",
+              "idn:entitlement:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -41702,6 +42044,12 @@
         "security": [
           {
             "userAuth": [
+              "idn:entitlement:read",
+              "idn:entitlement:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:entitlement:read",
               "idn:entitlement:manage"
             ]
@@ -41971,6 +42319,12 @@
         "security": [
           {
             "userAuth": [
+              "idn:entitlement:read",
+              "idn:entitlement:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:entitlement:read",
               "idn:entitlement:manage"
             ]
@@ -42309,6 +42663,12 @@
         "security": [
           {
             "userAuth": [
+              "idn:entitlement:read",
+              "idn:entitlement:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:entitlement:read",
               "idn:entitlement:manage"
             ]
@@ -42913,6 +43273,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:password-digit-token:create"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:password-digit-token:create"
             ]
           }
@@ -44994,6 +45359,11 @@
             "userAuth": [
               "idn:identity:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -46709,6 +47079,11 @@
             "userAuth": [
               "idn:mis-account:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:mis-account:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -47342,6 +47717,11 @@
             "userAuth": [
               "idn:account:update"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:account:update"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -47414,6 +47794,11 @@
             "userAuth": [
               "idn:account:update"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:account:update"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -47469,6 +47854,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:account:update"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:account:update"
             ]
           }
@@ -48342,6 +48732,11 @@
             "userAuth": [
               "idn:account:update"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:account:update"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -48668,6 +49063,11 @@
             "userAuth": [
               "idn:mis-identity:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:mis-identity:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -48780,6 +49180,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:mis-identity:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:mis-identity:manage"
             ]
           }
@@ -49306,6 +49711,12 @@
               "idn:org-configs:read",
               "idn:org-configs:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:org-configs:read",
+              "idn:org-configs:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -49423,6 +49834,12 @@
         "security": [
           {
             "userAuth": [
+              "idn:org-configs:read",
+              "idn:org-configs-user:read"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:org-configs:read",
               "idn:org-configs-user:read"
             ]
@@ -53531,7 +53948,8 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": []
       }
     },
     "/role-mining-sessions/{sessionId}/potential-role-summaries/{potentialRoleId}/applications": {
@@ -56906,6 +57324,12 @@
               "idn:sources:read",
               "idn:sources:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:read",
+              "idn:sources:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -57014,6 +57438,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:sources:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:sources:manage"
             ]
           }
@@ -57698,6 +58127,11 @@
             "userAuth": [
               "idn:tenant-context:read"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:tenant-context:read"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -57773,6 +58207,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:tenant-context:write"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:tenant-context:write"
             ]
           }
@@ -58017,6 +58456,11 @@
         "security": [
           {
             "userAuth": [
+              "sp:trigger-service-subscriptions:read"
+            ]
+          },
+          {
+            "applicationAuth": [
               "sp:trigger-service-subscriptions:read"
             ]
           }
@@ -58522,6 +58966,11 @@
             "userAuth": [
               "sp:trigger-service-subscriptions:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "sp:trigger-service-subscriptions:manage"
+            ]
           }
         ]
       },
@@ -58583,6 +59032,11 @@
         "security": [
           {
             "userAuth": [
+              "sp:trigger-service-subscriptions:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
               "sp:trigger-service-subscriptions:manage"
             ]
           }
@@ -58652,6 +59106,11 @@
         "security": [
           {
             "userAuth": [
+              "sp:trigger-service-subscriptions:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
               "sp:trigger-service-subscriptions:manage"
             ]
           }
@@ -58755,6 +59214,12 @@
         "security": [
           {
             "userAuth": [
+              "sp:trigger-service-invocation-status:read",
+              "sp:trigger-service-invocation-status:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
               "sp:trigger-service-invocation-status:read",
               "sp:trigger-service-invocation-status:manage"
             ]
@@ -58913,6 +59378,11 @@
             "userAuth": [
               "sp:trigger-service-invocation-status:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "sp:trigger-service-invocation-status:manage"
+            ]
           }
         ],
         "parameters": [
@@ -58941,6 +59411,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:ui-access-metadata-page:read"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:ui-access-metadata-page:read"
             ]
           }
@@ -60097,6 +60572,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:workgroup:write"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:workgroup:write"
             ]
           }
@@ -65798,6 +66278,11 @@
             "userAuth": [
               "idn:icons:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:icons:manage"
+            ]
           }
         ],
         "responses": {
@@ -65887,6 +66372,11 @@
             "userAuth": [
               "idn:icons:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:icons:manage"
+            ]
           }
         ],
         "responses": {
@@ -65969,6 +66459,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:sed:read"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:sed:read"
             ]
           }
@@ -66089,6 +66584,11 @@
             "userAuth": [
               "idn:sed:read"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sed:read"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -66146,6 +66646,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:sed:write"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:sed:write"
             ]
           }
@@ -66216,6 +66721,11 @@
             "userAuth": [
               "idn:sed:write"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sed:write"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -66276,6 +66786,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:sed:write"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:sed:write"
             ]
           }
@@ -66396,6 +66911,11 @@
             "userAuth": [
               "idn:sed:read"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sed:read"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -66472,6 +66992,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:sed:write"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:sed:write"
             ]
           }
@@ -66725,6 +67250,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:application-discovery:write"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:application-discovery:write"
             ]
           }
@@ -67098,6 +67628,11 @@
             "userAuth": [
               "idn:app-roles:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:app-roles:manage"
+            ]
           }
         ],
         "parameters": [
@@ -67360,6 +67895,11 @@
             "userAuth": [
               "idn:app-roles:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:app-roles:manage"
+            ]
           }
         ],
         "parameters": [
@@ -67531,6 +68071,11 @@
             "userAuth": [
               "idn:app-roles:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:app-roles:manage"
+            ]
           }
         ],
         "description": "This API returns the list of access profiles for the specified source app",
@@ -67618,6 +68163,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:app-roles:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:app-roles:manage"
             ]
           }
@@ -67975,6 +68525,11 @@
         "security": [
           {
             "userAuth": [
+              "idn:app-roles:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
               "idn:app-roles:manage"
             ]
           }
