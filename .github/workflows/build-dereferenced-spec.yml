@@ -91,6 +91,8 @@ jobs:
           node postman-script/modify-collection.js postman/collections/sailpoint-api-v2024.json
           node postman-script/modify-collection.js postman/collections/sailpoint-api-v2025.json
           node postman-script/modify-collection.js postman/collections/sailpoint-api-v2026.json
+          node postman-script/modify-collection.js postman/collections/sailpoint-api-nerm.json
+          node postman-script/modify-collection.js postman/collections/sailpoint-api-nerm-v2025.json
 
           
           cd postman-script/update-by-folder-ts
