@@ -23731,10 +23731,15 @@
               "iai:access-modeling:manage"
             ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "ROLE_ADMIN",
+          "ROLE_SUBADMIN"
         ]
       },
       "patch": {
-        "operationId": "patchPotentialRole",
+        "operationId": "patchPotentialRoleSession",
         "summary": "Update a potential role in session",
         "tags": [
           "IAI Role Mining"
@@ -23771,10 +23776,12 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/JsonPatchOperation"
-                    }
+                  "type": "object",
+                  "title": "Json Patch Operation",
+                  "description": "A JSONPatch Operation as defined by [RFC 6902 - JSON Patch](https://tools.ietf.org/html/rfc6902)",
+                  "required": [
+                    "op",
+                    "path"
                   ],
                   "properties": {
                     "op": {
@@ -23785,6 +23792,63 @@
                         "replace"
                       ],
                       "example": "replace"
+                    },
+                    "path": {
+                      "type": "string",
+                      "description": "A string JSON Pointer representing the target path to an element to be affected by the operation",
+                      "example": "/description"
+                    },
+                    "value": {
+                      "oneOf": [
+                        {
+                          "type": "string",
+                          "example": "New description",
+                          "title": "string"
+                        },
+                        {
+                          "type": "boolean",
+                          "example": true,
+                          "title": "boolean"
+                        },
+                        {
+                          "type": "integer",
+                          "example": 300,
+                          "title": "integer"
+                        },
+                        {
+                          "type": "object",
+                          "title": "object",
+                          "example": {
+                            "attributes": {
+                              "name": "philip"
+                            }
+                          }
+                        },
+                        {
+                          "type": "array",
+                          "title": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "integer"
+                              },
+                              {
+                                "type": "object"
+                              }
+                            ],
+                            "example": [
+                              "001",
+                              "002",
+                              "003"
+                            ]
+                          }
+                        }
+                      ],
+                      "description": "The value to be used for the operation, required for \"add\" and \"replace\" operations",
+                      "example": "New description"
                     }
                   }
                 }
@@ -23854,7 +23918,23 @@
             "$ref": "#/components/responses/500"
           }
         },
-        "security": []
+        "security": [
+          {
+            "userAuth": [
+              "iai:access-modeling:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "iai:access-modeling:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "ROLE_ADMIN",
+          "ROLE_SUBADMIN"
+        ]
       }
     },
     "/role-mining-sessions/{sessionId}/potential-role-summaries/{potentialRoleId}/applications": {
@@ -65962,16 +66042,20 @@
             "type": "array",
             "items": {
               "type": "object",
-              "additionalProperties": {
-                "type": "string"
+              "properties": {
+                "attributeValue": {
+                  "type": "string",
+                  "description": "The attribute value that identities are grouped by",
+                  "example": "NM Tier 3"
+                },
+                "count": {
+                  "type": "integer",
+                  "description": "The number of identities that have this attribute value",
+                  "format": "int32",
+                  "example": 6
+                }
               }
-            },
-            "example": [
-              {
-                "attributeValue": "NM Tier 3",
-                "count": 6
-              }
-            ]
+            }
           }
         }
       },
