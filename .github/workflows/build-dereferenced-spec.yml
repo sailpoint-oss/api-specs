@@ -104,6 +104,7 @@ jobs:
           npm run v2025
           npm run v2026
           npm run nerm
+          npm run nerm-v2025
 
       - name: Configure Git
         run: |
