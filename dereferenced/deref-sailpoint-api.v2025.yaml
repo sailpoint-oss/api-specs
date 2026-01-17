@@ -27829,7 +27829,7 @@ paths:
 
             **objectTypes**: *eq*
 
-            **Supported composite operators**: *and*
+            Supported composite operators are *and, or*
         - in: query
           name: sorters
           schema:
@@ -27841,7 +27841,6 @@ paths:
             Sorting is supported for the following fields: **name, key**
           example: name,-key
           required: false
-        - $ref: '#/components/parameters/offset'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/count'
       responses:
@@ -27853,6 +27852,46 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/AttributeDTO'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      summary: Create access model metadata attribute
+      description: |
+        Create a new Access Model Metadata Attribute.
+      operationId: createAccessModelMetadataAttribute
+      tags:
+        - Access Model Metadata
+      security:
+        - userAuth:
+            - idn:access-model-metadata:create
+        - applicationAuth:
+            - idn:access-model-metadata:create
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      requestBody:
+        required: true
+        description: Attribute to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttributeDTO'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeDTO'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -27901,6 +27940,60 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      summary: Update access model metadata attribute
+      description: |
+        Update an existing Access Model Metadata Attribute.  
+        The following fields are patchable: **name**, **description**, **multiselect**, **values**
+      operationId: updateAccessModelMetadataAttribute
+      tags:
+        - Access Model Metadata
+      security:
+        - userAuth:
+            - idn:access-model-metadata:update
+        - applicationAuth:
+            - idn:access-model-metadata:update
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      parameters:
+        - name: key
+          in: path
+          required: true
+          x-sailpoint-resource-operation-id: listAccessModelMetadataAttribute
+          schema:
+            type: string
+          description: Technical name of the Attribute.
+          example: iscPrivacy
+      requestBody:
+        required: true
+        description: JSON Patch array to apply
+        content:
+          application/json-patch+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/JsonPatchOperation'
+      responses:
+        '200':
+          description: OK - Attribute updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeDTO'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
         '429':
           $ref: '#/components/responses/429'
         '500':
@@ -27930,7 +28023,6 @@ paths:
             type: string
           description: Technical name of the Attribute.
           example: iscPrivacy
-        - $ref: '#/components/parameters/offset'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/count'
       responses:
@@ -27948,6 +28040,57 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      summary: Create access model metadata value
+      description: |
+        Create a new value for an existing Access Model Metadata Attribute.    
+      operationId: createAccessModelMetadataAttributeValue
+      tags:
+        - Access Model Metadata
+      security:
+        - userAuth:
+            - idn:access-model-metadata:create
+        - applicationAuth:
+            - idn:access-model-metadata:create
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      parameters:
+        - name: key
+          in: path
+          required: true
+          x-sailpoint-resource-operation-id: listAccessModelMetadataAttribute
+          schema:
+            type: string
+          description: Technical name of the Attribute.
+          example: iscPrivacy
+      requestBody:
+        required: true
+        description: Attribute value to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttributeValueDTO'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeValueDTO'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
         '429':
           $ref: '#/components/responses/429'
         '500':
@@ -27998,6 +28141,68 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      summary: Update access model metadata value
+      description: |
+        Update an existing Access Model Metadata Attribute Value.    
+        The following fields are patchable: **name**
+      operationId: updateAccessModelMetadataAttributeValue
+      tags:
+        - Access Model Metadata
+      security:
+        - userAuth:
+            - idn:access-model-metadata:update
+        - applicationAuth:
+            - idn:access-model-metadata:update
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      parameters:
+        - name: key
+          in: path
+          required: true
+          x-sailpoint-resource-operation-id: listAccessModelMetadataAttribute
+          schema:
+            type: string
+          description: Technical name of the Attribute.
+          example: iscPrivacy
+        - name: value
+          in: path
+          required: true
+          x-sailpoint-resource-operation-id: listAccessModelMetadataAttributeValue
+          schema:
+            type: string
+          description: Technical name of the Attribute value.
+          example: public
+      requestBody:
+        required: true
+        description: JSON Patch array to apply
+        content:
+          application/json-patch+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/JsonPatchOperation'
+      responses:
+        '200':
+          description: OK - Attribute value updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeValueDTO'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
         '429':
           $ref: '#/components/responses/429'
         '500':

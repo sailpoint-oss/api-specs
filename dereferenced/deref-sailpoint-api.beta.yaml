@@ -1117,7 +1117,7 @@ paths:
 
             **objectTypes**: *eq*
 
-            **Supported composite operators**: *and*
+            Supported composite operators are *and, or*
         - in: query
           name: sorters
           schema:
@@ -1129,7 +1129,6 @@ paths:
             Sorting is supported for the following fields: **name, key**
           example: name,-key
           required: false
-        - $ref: '#/components/parameters/offset'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/count'
       responses:
@@ -1141,6 +1140,46 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/AttributeDTO'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      summary: Create access model metadata attribute
+      description: |
+        Create a new Access Model Metadata Attribute.
+      operationId: createAccessModelMetadataAttribute
+      tags:
+        - Access Model Metadata
+      security:
+        - userAuth:
+            - idn:access-model-metadata:create
+        - applicationAuth:
+            - idn:access-model-metadata:create
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      requestBody:
+        required: true
+        description: Attribute to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttributeDTO'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeDTO'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -1189,6 +1228,60 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      summary: Update access model metadata attribute
+      description: |
+        Update an existing Access Model Metadata Attribute.  
+        The following fields are patchable: **name**, **description**, **multiselect**, **values**
+      operationId: updateAccessModelMetadataAttribute
+      tags:
+        - Access Model Metadata
+      security:
+        - userAuth:
+            - idn:access-model-metadata:update
+        - applicationAuth:
+            - idn:access-model-metadata:update
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      parameters:
+        - name: key
+          in: path
+          required: true
+          description: Technical name of the Attribute.
+          schema:
+            type: string
+          example: iscPrivacy
+          x-sailpoint-resource-operation-id: listAccessModelMetadataAttribute
+      requestBody:
+        required: true
+        description: JSON Patch array to apply
+        content:
+          application/json-patch+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/JsonPatchOperation'
+      responses:
+        '200':
+          description: OK - Attribute updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeDTO'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
         '429':
           $ref: '#/components/responses/429'
         '500':
@@ -1218,7 +1311,6 @@ paths:
           description: Technical name of the Attribute.
           example: iscPrivacy
           x-sailpoint-resource-operation-id: listAccessModelMetadataAttribute
-        - $ref: '#/components/parameters/offset'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/count'
       responses:
@@ -1236,6 +1328,57 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      summary: Create access model metadata value
+      description: |
+        Create a new value for an existing Access Model Metadata Attribute.    
+      operationId: createAccessModelMetadataAttributeValue
+      tags:
+        - Access Model Metadata
+      security:
+        - userAuth:
+            - idn:access-model-metadata:create
+        - applicationAuth:
+            - idn:access-model-metadata:create
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      parameters:
+        - name: key
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Technical name of the Attribute.
+          example: iscPrivacy
+          x-sailpoint-resource-operation-id: listAccessModelMetadataAttribute
+      requestBody:
+        required: true
+        description: Attribute value to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttributeValueDTO'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeValueDTO'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
         '429':
           $ref: '#/components/responses/429'
         '500':
@@ -1286,6 +1429,68 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      summary: Update access model metadata value
+      description: |
+        Update an existing Access Model Metadata Attribute Value.    
+        The following fields are patchable: **name**
+      operationId: updateAccessModelMetadataAttributeValue
+      tags:
+        - Access Model Metadata
+      security:
+        - userAuth:
+            - idn:access-model-metadata:update
+        - applicationAuth:
+            - idn:access-model-metadata:update
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      parameters:
+        - name: key
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Technical name of the Attribute.
+          example: iscPrivacy
+          x-sailpoint-resource-operation-id: listAccessModelMetadataAttribute
+        - name: value
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Technical name of the Attribute value.
+          example: public
+          x-sailpoint-resource-operation-id: listAccessModelMetadataAttributeValue
+      requestBody:
+        required: true
+        description: JSON Patch array to apply
+        content:
+          application/json-patch+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/JsonPatchOperation'
+      responses:
+        '200':
+          description: OK - Attribute value updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeValueDTO'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
         '429':
           $ref: '#/components/responses/429'
         '500':
@@ -35720,6 +35925,58 @@ components:
           description: Plain-text descriptive reasons to provide additional detail to the text provided in the messages field
           items:
             $ref: '#/components/schemas/ErrorMessageDto'
+    JsonPatchOperation:
+      type: object
+      title: Json Patch Operation
+      description: A JSONPatch Operation as defined by [RFC 6902 - JSON Patch](https://tools.ietf.org/html/rfc6902)
+      required:
+        - op
+        - path
+      properties:
+        op:
+          type: string
+          description: The operation to be performed
+          enum:
+            - add
+            - remove
+            - replace
+            - move
+            - copy
+            - test
+          example: replace
+        path:
+          type: string
+          description: A string JSON Pointer representing the target path to an element to be affected by the operation
+          example: /description
+        value:
+          oneOf:
+            - type: string
+              example: New description
+              title: string
+            - type: boolean
+              example: true
+              title: boolean
+            - type: integer
+              example: 300
+              title: integer
+            - type: object
+              title: object
+              example:
+                attributes:
+                  name: philip
+            - type: array
+              title: array
+              items:
+                anyOf:
+                  - type: string
+                  - type: integer
+                  - type: object
+                example:
+                  - '001'
+                  - '002'
+                  - '003'
+          description: The value to be used for the operation, required for "add" and "replace" operations
+          example: New description
     OwnerReference:
       type: object
       nullable: false
@@ -36087,58 +36344,6 @@ components:
         - owner
         - name
         - source
-    JsonPatchOperation:
-      type: object
-      title: Json Patch Operation
-      description: A JSONPatch Operation as defined by [RFC 6902 - JSON Patch](https://tools.ietf.org/html/rfc6902)
-      required:
-        - op
-        - path
-      properties:
-        op:
-          type: string
-          description: The operation to be performed
-          enum:
-            - add
-            - remove
-            - replace
-            - move
-            - copy
-            - test
-          example: replace
-        path:
-          type: string
-          description: A string JSON Pointer representing the target path to an element to be affected by the operation
-          example: /description
-        value:
-          oneOf:
-            - type: string
-              example: New description
-              title: string
-            - type: boolean
-              example: true
-              title: boolean
-            - type: integer
-              example: 300
-              title: integer
-            - type: object
-              title: object
-              example:
-                attributes:
-                  name: philip
-            - type: array
-              title: array
-              items:
-                anyOf:
-                  - type: string
-                  - type: integer
-                  - type: object
-                example:
-                  - '001'
-                  - '002'
-                  - '003'
-          description: The value to be used for the operation, required for "add" and "replace" operations
-          example: New description
     AccessProfileBulkDeleteRequest:
       type: object
       properties:
@@ -59163,19 +59368,6 @@ components:
           format: decimal
           example: 0.82
   parameters:
-    offset:
-      in: query
-      name: offset
-      description: |-
-        Offset into the full result set. Usually specified with *limit* to paginate through the results.
-        See [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.
-      required: false
-      example: 0
-      schema:
-        type: integer
-        format: int32
-        minimum: 0
-        default: 0
     limit:
       in: query
       name: limit
@@ -59204,6 +59396,19 @@ components:
       schema:
         type: boolean
         default: false
+    offset:
+      in: query
+      name: offset
+      description: |-
+        Offset into the full result set. Usually specified with *limit* to paginate through the results.
+        See [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.
+      required: false
+      example: 0
+      schema:
+        type: integer
+        format: int32
+        minimum: 0
+        default: 0
     limit50:
       in: query
       name: limit
