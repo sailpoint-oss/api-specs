@@ -43011,8 +43011,8 @@
             "schema": {
               "type": "string"
             },
-            "example": "identityId eq \"2c9180858082150f0180893dbaf44201\"",
-            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in, sw*\n\n**name**: *eq, in, sw*\n\n**nativeIdentity**: *eq, in, sw*\n\n**machineIdentity**: *eq, in, sw*\n\n**description**: *eq, in, sw*\n\n**ownerIdentity**: *eq, in, sw*\n\n**ownerIdentityId**: *eq, in, sw*\n\n**entitlements**: *eq*\n\n**accessType**: *eq, in, sw*\n\n**subType**: *eq, in, sw*\n\n**environment**: *eq, in, sw*\n\n**classificationMethod**: *eq, in, sw*\n\n**manuallyCorrelated**: *eq*\n\n**manuallyEdited**: *eq*\n\n**identity**: *eq, in, sw*\n\n**source**: *eq, in*\n\n**hasEntitlement**: *eq*\n\n**locked**: *eq*\n\n**connectorAttributes**: *eq*"
+            "example": "hasEntitlements eq true",
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in*\n\n**name**: *eq, in, sw*\n\n**nativeIdentity**: *eq, in, sw*\n\n**uuid**: *eq, in*\n\n**description**: *eq, in, sw*\n\n**machineIdentity.id**: *eq, in*\n\n**machineIdentity.name**: *eq, in, sw*\n\n**subtype.technicalName**: *eq, in, sw*\n\n**subtype.displayName**: *eq, in, sw*\n\n**accessType**: *eq, in, sw*\n\n**environment**: *eq, in, sw*\n\n**ownerIdentity**: *eq, in*\n\n**ownerIdentity.id**: *eq, in*\n\n**ownerIdentity.name**: *eq, in, sw*\n\n**manuallyCorrelated**: *eq*\n\n**enabled**: *eq*\n\n**locked**: *eq*\n\n**hasEntitlements**: *eq*\n\n**attributes**: *eq*\n\n**source.id**: *eq, in*\n\n**source.name**: *eq, in, sw*\n\n**created**: *eq, gt, lt, ge, le*\n\n**modified**: *eq, gt, lt, ge, le*"
           },
           {
             "in": "query",
@@ -43023,7 +43023,7 @@
               "format": "comma-separated"
             },
             "example": "id,name",
-            "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **id, name, created, modified, machineIdentity, identity.id, nativeIdentity, uuid, manuallyCorrelated, connectorAttributes, entitlements, identity.name, identity.type, source.id, source.name, source.type**"
+            "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **id, name, nativeIdentity, ownerIdentity, uuid, description, machineIdentity.id, machineIdentity.name, subtype.technicalName, subtype.displayName, accessType, environment, manuallyCorrelated, enabled, locked, hasEntitlements, ownerIdentity.id, ownerIdentity.name, attributes, source.id, source.name, created, modified**"
           },
           {
             "name": "X-SailPoint-Experimental",
