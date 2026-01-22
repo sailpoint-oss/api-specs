@@ -5,7 +5,7 @@
       "description": "",
       "item": [
         {
-          "id": "d4c33ee3-46eb-43d7-9359-ab2e7d2d764a",
+          "id": "4bc23c5b-2673-4506-9e21-fb9ea671271f",
           "name": "Get task status by id",
           "request": {
             "name": "Get task status by id",
@@ -55,7 +55,7 @@
           },
           "response": [
             {
-              "id": "873081fd-0731-4f57-b647-9155e8595841",
+              "id": "9e7462b3-a116-44c8-b0c5-abd5234c0fdc",
               "name": "Responds with a TaskStatus for the task with the given task ID.",
               "originalRequest": {
                 "url": {
@@ -125,7 +125,7 @@
           }
         },
         {
-          "id": "115937d6-fd37-4a51-b4ea-52fcc91c0b9b",
+          "id": "f150b381-8bfc-4dfc-8b63-3c2463d55f16",
           "name": "Update task status by id",
           "request": {
             "name": "Update task status by id",
@@ -188,7 +188,7 @@
           },
           "response": [
             {
-              "id": "99cc96e8-07cb-48d6-8c10-589e3a54b229",
+              "id": "aa1de5b8-314d-4f8a-930a-1cfac40bb350",
               "name": "This response indicates the PATCH operation succeeded, and the API returns the updated task object.",
               "originalRequest": {
                 "url": {
@@ -271,7 +271,7 @@
           }
         },
         {
-          "id": "156534a4-bb05-4387-898a-de56f655b865",
+          "id": "3648793d-dad3-43cb-b412-936eda23f24b",
           "name": "Retrieve task status list",
           "request": {
             "name": "Retrieve task status list",
@@ -355,7 +355,7 @@
           },
           "response": [
             {
-              "id": "337a68f5-bb9a-4486-a4c3-54ae78020098",
+              "id": "665e3e73-dc48-46d8-9bff-767be14adc53",
               "name": "Responds with a TaskStatus for the task with the given task ID.",
               "originalRequest": {
                 "url": {
@@ -459,7 +459,7 @@
           }
         },
         {
-          "id": "0db9a724-0484-47b5-a19c-5cefcc0604ec",
+          "id": "f07ae2fe-dbd1-4b78-b398-345b2a6083b2",
           "name": "Retrieve pending task status list",
           "request": {
             "name": "Retrieve pending task status list",
@@ -526,7 +526,7 @@
           },
           "response": [
             {
-              "id": "58434931-a23b-44c1-a699-01fb6790cec9",
+              "id": "a25dd834-586a-40a7-b205-45de74337762",
               "name": "Responds with a list of TaskStatus for pending tasks.\n\nPossible Values: CLOUD_ACCOUNT_AGGREGATION, CLOUD_GROUP_AGGREGATION, CLOUD_PROCESS_UNCORRELATED_ACCOUNTS, CLOUD_REFRESH_ROLE, SOURCE_APPLICATION_DISCOVERY, AI_AGENT_AGGREGATION, CLOUD_ENTITLEMENT_IMPORT, CLOUD_UNCORRELATED_REFRESH, CLOUD_IDENTITY_AGGREGATION, CLOUD_ATTRIBUTE_SYNCHRONIZATION, IDENTITY_REFRESH, APPLICATION_DISCOVERY, MACHINE_IDENTITY_AGGREGATION, MACHINE_IDENTITY_DELETION, ACCOUNT_DELETION",
               "originalRequest": {
                 "url": {
@@ -607,7 +607,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "01f5d675-868f-4b1a-93f2-87666a9bd4ca",
+              "id": "02b57a4b-e481-4496-87f7-d3f6becb7905",
               "name": "No content - indicates the request was successful but there is no content to be returned in the response.",
               "originalRequest": {
                 "url": {
@@ -684,7 +684,7 @@
           }
         },
         {
-          "id": "3d792156-ba19-4bb0-8d1c-6f7e713ae87a",
+          "id": "f12c4fe1-6fbd-42bd-b120-b5e888969206",
           "name": "Retrieve pending task list headers",
           "request": {
             "name": "Retrieve pending task list headers",
@@ -751,7 +751,7 @@
           },
           "response": [
             {
-              "id": "d3bea712-59aa-49ac-b88a-fb34bccb28ca",
+              "id": "cffc8c2d-75fa-48f7-91ca-4a73e2ca26a3",
               "name": "Retrieve headers for a list of TaskStatus for pending tasks.",
               "originalRequest": {
                 "url": {
@@ -822,7 +822,7 @@
               "_postman_previewlanguage": "text"
             },
             {
-              "id": "4e59db64-ba50-42f1-8112-b2a3ba99c55c",
+              "id": "7dcd7a97-faf1-46d5-a6e0-8df49829047d",
               "name": "No content - indicates the request was successful but there is no content to be returned in the response.",
               "originalRequest": {
                 "url": {
@@ -999,7 +999,7 @@
     }
   ],
   "info": {
-    "_postman_id": "58e3dfc9-0223-4146-b9e3-c5ac8f5d91f6",
+    "_postman_id": "92c38fcf-3247-4376-b784-52e665cbb825",
     "name": "Identity Security Cloud v2026 API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": {
