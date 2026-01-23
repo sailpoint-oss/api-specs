@@ -101977,7 +101977,10 @@
                     "description": "The type of target entity",
                     "type": "string",
                     "enum": [
-                      "IDENTITY"
+                      "ACCOUNT",
+                      "IDENTITY",
+                      "OWNER_ACCOUNT",
+                      "OWNER_IDENTITY"
                     ],
                     "example": "IDENTITY"
                   },

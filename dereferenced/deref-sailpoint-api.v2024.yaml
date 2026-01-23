@@ -67674,7 +67674,10 @@ components:
                   description: The type of target entity
                   type: string
                   enum:
+                    - ACCOUNT
                     - IDENTITY
+                    - OWNER_ACCOUNT
+                    - OWNER_IDENTITY
                   example: IDENTITY
                 attributeName:
                   type: string
