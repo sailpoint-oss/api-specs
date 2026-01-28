@@ -89680,6 +89680,16 @@
             "nullable": true,
             "default": false
           },
+          "requireEndDate": {
+            "type": "boolean",
+            "description": "Indicates whether the requester of the containing object must provide access end date.",
+            "example": true,
+            "default": false
+          },
+          "maxPermittedAccessDuration": {
+            "$ref": "#/components/schemas/AccessDuration",
+            "nullable": true
+          },
           "approvalSchemes": {
             "type": "array",
             "description": "List describing the steps in approving the request",
