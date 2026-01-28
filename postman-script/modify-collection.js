@@ -45,6 +45,10 @@ fs.readFile(args[2], 'utf8', (err, data) => {
     jsonObject.event = JSON.parse(fs.readFileSync('postman-script/pre-script.json', 'utf8'));
     if (args[2].includes("beta")) {
       jsonObject.variable = JSON.parse(fs.readFileSync('postman-script/variable-beta.json', 'utf8'));
+    } else if (args[2].includes("nerm-v2025")) {
+      jsonObject.variable = JSON.parse(fs.readFileSync('postman-script/variable-nerm-v2025.json', 'utf8'));
+    } else if (args[2].includes("nerm")) {
+      jsonObject.variable = JSON.parse(fs.readFileSync('postman-script/variable-nerm.json', 'utf8'));
     } else if (args[2].includes("v3")) {
       jsonObject.variable = JSON.parse(fs.readFileSync('postman-script/variable-v3.json', 'utf8'));
     } else if (args[2].includes("v2024")) {

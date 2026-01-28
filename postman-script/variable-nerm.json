@@ -1,0 +1,10 @@
+[
+    {
+        "key": "tenantName",
+        "value": "{{tenant}}"
+    },
+    {
+        "key": "baseUrl",
+        "value": "https://{{tenantName}}.nonemployee.com/api"
+    }
+]
