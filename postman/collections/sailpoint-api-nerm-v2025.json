@@ -1,1101 +1,691 @@
 {
-    "item": [
+  "item": [
+    {
+      "name": "delegations",
+      "description": "",
+      "item": [
         {
-            "name": "delegations",
-            "description": "",
-            "item": [
+          "id": "8a714ed3-7a2a-4e1a-b393-7d3b6472a3c1",
+          "name": "List delegations",
+          "request": {
+            "name": "List delegations",
+            "description": {
+              "content": "Returns a list of delegation records, optionally filtered by delegate, delegator, or expiration status.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "delegations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
                 {
-                    "id": "fb218744-e2f2-4e0d-acfe-aa3021d5510c",
-                    "name": "List delegations",
-                    "request": {
-                        "name": "List delegations",
-                        "description": {
-                            "content": "Returns a list of delegation records, optionally filtered by delegate, delegator, or expiration status.",
-                            "type": "text/plain"
-                        },
-                        "url": {
-                            "path": [
-                                "delegations"
-                            ],
-                            "host": [
-                                "{{baseUrl}}"
-                            ],
-                            "query": [
-                                {
-                                    "disabled": false,
-                                    "description": {
-                                        "content": "Filter by delegate ID",
-                                        "type": "text/plain"
-                                    },
-                                    "key": "delegate_id",
-                                    "value": "ac4aae0b-4140-49a4-a84c-126762fd0c8f"
-                                },
-                                {
-                                    "disabled": false,
-                                    "description": {
-                                        "content": "Filter by delegator ID",
-                                        "type": "text/plain"
-                                    },
-                                    "key": "delegator_id",
-                                    "value": "ac4aae0b-4140-49a4-a84c-126762fd0c8f"
-                                },
-                                {
-                                    "disabled": false,
-                                    "description": {
-                                        "content": "Filter by expiration status (true for expired, false for not expired)",
-                                        "type": "text/plain"
-                                    },
-                                    "key": "expired",
-                                    "value": "true"
-                                },
-                                {
-                                    "disabled": false,
-                                    "description": {
-                                        "content": "The maximum number of items to return.",
-                                        "type": "text/plain"
-                                    },
-                                    "key": "limit",
-                                    "value": "5"
-                                },
-                                {
-                                    "disabled": false,
-                                    "description": {
-                                        "content": "The number of items to skip before starting to collect the result set.",
-                                        "type": "text/plain"
-                                    },
-                                    "key": "offset",
-                                    "value": "5"
-                                },
-                                {
-                                    "disabled": false,
-                                    "description": {
-                                        "content": "Include related resources body. For example, 'include=delegator,delegate'.",
-                                        "type": "text/plain"
-                                    },
-                                    "key": "include",
-                                    "value": "delegator,delegate"
-                                }
-                            ],
-                            "variable": []
-                        },
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json"
-                            }
-                        ],
-                        "method": "GET",
-                        "body": {},
-                        "auth": null
-                    },
-                    "response": [
-                        {
-                            "id": "d9734129-ceb6-437e-a6bc-0989aafbec6d",
-                            "name": "Expected response to a valid request",
-                            "originalRequest": {
-                                "url": {
-                                    "path": [
-                                        "delegations"
-                                    ],
-                                    "host": [
-                                        "{{baseUrl}}"
-                                    ],
-                                    "query": [
-                                        {
-                                            "disabled": false,
-                                            "description": {
-                                                "content": "Filter by delegate ID",
-                                                "type": "text/plain"
-                                            },
-                                            "key": "delegate_id",
-                                            "value": "ac4aae0b-4140-49a4-a84c-126762fd0c8f"
-                                        },
-                                        {
-                                            "disabled": false,
-                                            "description": {
-                                                "content": "Filter by delegator ID",
-                                                "type": "text/plain"
-                                            },
-                                            "key": "delegator_id",
-                                            "value": "ac4aae0b-4140-49a4-a84c-126762fd0c8f"
-                                        },
-                                        {
-                                            "disabled": false,
-                                            "description": {
-                                                "content": "Filter by expiration status (true for expired, false for not expired)",
-                                                "type": "text/plain"
-                                            },
-                                            "key": "expired",
-                                            "value": "true"
-                                        },
-                                        {
-                                            "disabled": false,
-                                            "description": {
-                                                "content": "The maximum number of items to return.",
-                                                "type": "text/plain"
-                                            },
-                                            "key": "limit",
-                                            "value": "5"
-                                        },
-                                        {
-                                            "disabled": false,
-                                            "description": {
-                                                "content": "The number of items to skip before starting to collect the result set.",
-                                                "type": "text/plain"
-                                            },
-                                            "key": "offset",
-                                            "value": "5"
-                                        },
-                                        {
-                                            "disabled": false,
-                                            "description": {
-                                                "content": "Include related resources body. For example, 'include=delegator,delegate'.",
-                                                "type": "text/plain"
-                                            },
-                                            "key": "include",
-                                            "value": "delegator,delegate"
-                                        }
-                                    ],
-                                    "variable": []
-                                },
-                                "header": [
-                                    {
-                                        "key": "Accept",
-                                        "value": "application/json"
-                                    }
-                                ],
-                                "method": "GET",
-                                "body": {}
-                            },
-                            "status": "OK",
-                            "code": 200,
-                            "header": [
-                                {
-                                    "key": "Content-Type",
-                                    "value": "application/json"
-                                }
-                            ],
-                            "body": "{\n  \"delegations\": [\n    {\n      \"id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n      \"delegator_id\": \"12345678-1234-5678-1234-123456789012\",\n      \"delegate_id\": \"87654321-4321-6789-4321-210987654321\",\n      \"delegator\": {\n        \"id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n        \"uid\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n        \"type\": \"NeprofileUser\",\n        \"name\": \"Jane Doe\",\n        \"email\": \"jane@example.com\",\n        \"status\": \"active\",\n        \"login\": \"jane.doe\",\n        \"last_login\": \"2024-06-01T12:34:56Z\",\n        \"created_at\": \"2022-12-27 08:26:49.219717\",\n        \"updated_at\": \"2022-12-27 08:26:49.219717\"\n      },\n      \"delegate\": {\n        \"id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n        \"uid\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n        \"type\": \"NeprofileUser\",\n        \"name\": \"Jane Doe\",\n        \"email\": \"jane@example.com\",\n        \"status\": \"active\",\n        \"login\": \"jane.doe\",\n        \"last_login\": \"2024-06-01T12:34:56Z\",\n        \"created_at\": \"2022-12-27 08:26:49.219717\",\n        \"updated_at\": \"2022-12-27 08:26:49.219717\"\n      },\n      \"expiration\": \"2023-10-01T12:00:00Z\",\n      \"expired\": false,\n      \"created_at\": \"2022-12-27 08:26:49.219717\",\n      \"updated_at\": \"2022-12-27 08:26:49.219717\"\n    },\n    {\n      \"id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n      \"delegator_id\": \"12345678-1234-5678-1234-123456789012\",\n      \"delegate_id\": \"87654321-4321-6789-4321-210987654321\",\n      \"delegator\": {\n        \"id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n        \"uid\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n        \"type\": \"NeprofileUser\",\n        \"name\": \"Jane Doe\",\n        \"email\": \"jane@example.com\",\n        \"status\": \"active\",\n        \"login\": \"jane.doe\",\n        \"last_login\": \"2024-06-01T12:34:56Z\",\n        \"created_at\": \"2022-12-27 08:26:49.219717\",\n        \"updated_at\": \"2022-12-27 08:26:49.219717\"\n      },\n      \"delegate\": {\n        \"id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n        \"uid\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n        \"type\": \"NeprofileUser\",\n        \"name\": \"Jane Doe\",\n        \"email\": \"jane@example.com\",\n        \"status\": \"active\",\n        \"login\": \"jane.doe\",\n        \"last_login\": \"2024-06-01T12:34:56Z\",\n        \"created_at\": \"2022-12-27 08:26:49.219717\",\n        \"updated_at\": \"2022-12-27 08:26:49.219717\"\n      },\n      \"expiration\": \"2023-10-01T12:00:00Z\",\n      \"expired\": false,\n      \"created_at\": \"2022-12-27 08:26:49.219717\",\n      \"updated_at\": \"2022-12-27 08:26:49.219717\"\n    }\n  ]\n}",
-                            "cookie": [],
-                            "_postman_previewlanguage": "json"
-                        },
-                        {
-                            "id": "039627e7-ec5c-4e69-89ae-f54ca55c5b69",
-                            "name": "Internal Server Error - returned on unhandled exceptions.",
-                            "originalRequest": {
-                                "url": {
-                                    "path": [
-                                        "delegations"
-                                    ],
-                                    "host": [
-                                        "{{baseUrl}}"
-                                    ],
-                                    "query": [
-                                        {
-                                            "disabled": false,
-                                            "description": {
-                                                "content": "Filter by delegate ID",
-                                                "type": "text/plain"
-                                            },
-                                            "key": "delegate_id",
-                                            "value": "ac4aae0b-4140-49a4-a84c-126762fd0c8f"
-                                        },
-                                        {
-                                            "disabled": false,
-                                            "description": {
-                                                "content": "Filter by delegator ID",
-                                                "type": "text/plain"
-                                            },
-                                            "key": "delegator_id",
-                                            "value": "ac4aae0b-4140-49a4-a84c-126762fd0c8f"
-                                        },
-                                        {
-                                            "disabled": false,
-                                            "description": {
-                                                "content": "Filter by expiration status (true for expired, false for not expired)",
-                                                "type": "text/plain"
-                                            },
-                                            "key": "expired",
-                                            "value": "true"
-                                        },
-                                        {
-                                            "disabled": false,
-                                            "description": {
-                                                "content": "The maximum number of items to return.",
-                                                "type": "text/plain"
-                                            },
-                                            "key": "limit",
-                                            "value": "5"
-                                        },
-                                        {
-                                            "disabled": false,
-                                            "description": {
-                                                "content": "The number of items to skip before starting to collect the result set.",
-                                                "type": "text/plain"
-                                            },
-                                            "key": "offset",
-                                            "value": "5"
-                                        },
-                                        {
-                                            "disabled": false,
-                                            "description": {
-                                                "content": "Include related resources body. For example, 'include=delegator,delegate'.",
-                                                "type": "text/plain"
-                                            },
-                                            "key": "include",
-                                            "value": "delegator,delegate"
-                                        }
-                                    ],
-                                    "variable": []
-                                },
-                                "header": [
-                                    {
-                                        "key": "Accept",
-                                        "value": "application/json"
-                                    }
-                                ],
-                                "method": "GET",
-                                "body": {}
-                            },
-                            "status": "Internal Server Error",
-                            "code": 500,
-                            "header": [
-                                {
-                                    "key": "Content-Type",
-                                    "value": "application/json"
-                                }
-                            ],
-                            "body": "{\n  \"error\": \"Sorry something went wrong\"\n}",
-                            "cookie": [],
-                            "_postman_previewlanguage": "json"
-                        }
-                    ],
-                    "event": [],
-                    "protocolProfileBehavior": {
-                        "disableBodyPruning": true
-                    }
+                  "disabled": true,
+                  "description": {
+                    "content": "Filter by delegate ID",
+                    "type": "text/plain"
+                  },
+                  "key": "delegate_id",
+                  "value": "ac4aae0b-4140-49a4-a84c-126762fd0c8f"
                 },
                 {
-                    "id": "4c878849-11c2-4887-9d28-3caed5df2199",
-                    "name": "Create a delegation",
-                    "request": {
-                        "name": "Create a delegation",
-                        "description": {
-                            "content": "Create a new delegation record.",
-                            "type": "text/plain"
-                        },
-                        "url": {
-                            "path": [
-                                "delegations"
-                            ],
-                            "host": [
-                                "{{baseUrl}}"
-                            ],
-                            "query": [],
-                            "variable": []
-                        },
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application/json"
-                            }
-                        ],
-                        "method": "POST",
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n  \"delegation\": {\n    \"delegator_id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n    \"delegate_id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n    \"expiration\": \"2023-10-01T12:00:00Z\"\n  }\n}",
-                            "options": {
-                                "raw": {
-                                    "headerFamily": "json",
-                                    "language": "json"
-                                }
-                            }
-                        },
-                        "auth": null
-                    },
-                    "response": [
-                        {
-                            "id": "3c411b6c-56bf-4e5c-9901-75fe4b683cb3",
-                            "name": "Expected response to a valid request",
-                            "originalRequest": {
-                                "url": {
-                                    "path": [
-                                        "delegations"
-                                    ],
-                                    "host": [
-                                        "{{baseUrl}}"
-                                    ],
-                                    "query": [],
-                                    "variable": []
-                                },
-                                "header": [
-                                    {
-                                        "key": "Content-Type",
-                                        "value": "application/json"
-                                    },
-                                    {
-                                        "key": "Accept",
-                                        "value": "application/json"
-                                    }
-                                ],
-                                "method": "POST",
-                                "body": {
-                                    "mode": "raw",
-                                    "raw": "{\n  \"delegation\": {\n    \"delegator_id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n    \"delegate_id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n    \"expiration\": \"2023-10-01T12:00:00Z\"\n  }\n}",
-                                    "options": {
-                                        "raw": {
-                                            "headerFamily": "json",
-                                            "language": "json"
-                                        }
-                                    }
-                                }
-                            },
-                            "status": "Created",
-                            "code": 201,
-                            "header": [
-                                {
-                                    "key": "Content-Type",
-                                    "value": "application/json"
-                                }
-                            ],
-                            "body": "{\n  \"delegation\": {\n    \"id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n    \"delegator_id\": \"12345678-1234-5678-1234-123456789012\",\n    \"delegate_id\": \"87654321-4321-6789-4321-210987654321\",\n    \"expiration\": \"2023-10-01T12:00:00Z\",\n    \"expired\": false,\n    \"created_at\": \"2022-12-27 08:26:49.219717\",\n    \"updated_at\": \"2022-12-27 08:26:49.219717\"\n  }\n}",
-                            "cookie": [],
-                            "_postman_previewlanguage": "json"
-                        },
-                        {
-                            "id": "2017af87-0e84-4f3a-94f4-1639b1a51e71",
-                            "name": "Record Not Found",
-                            "originalRequest": {
-                                "url": {
-                                    "path": [
-                                        "delegations"
-                                    ],
-                                    "host": [
-                                        "{{baseUrl}}"
-                                    ],
-                                    "query": [],
-                                    "variable": []
-                                },
-                                "header": [
-                                    {
-                                        "key": "Content-Type",
-                                        "value": "application/json"
-                                    },
-                                    {
-                                        "key": "Accept",
-                                        "value": "application/json"
-                                    }
-                                ],
-                                "method": "POST",
-                                "body": {
-                                    "mode": "raw",
-                                    "raw": "{\n  \"delegation\": {\n    \"delegator_id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n    \"delegate_id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n    \"expiration\": \"2023-10-01T12:00:00Z\"\n  }\n}",
-                                    "options": {
-                                        "raw": {
-                                            "headerFamily": "json",
-                                            "language": "json"
-                                        }
-                                    }
-                                }
-                            },
-                            "status": "Not Found",
-                            "code": 404,
-                            "header": [
-                                {
-                                    "key": "Content-Type",
-                                    "value": "application/json"
-                                }
-                            ],
-                            "body": "{\n  \"error\": \"The requested Profile was not found\"\n}",
-                            "cookie": [],
-                            "_postman_previewlanguage": "json"
-                        },
-                        {
-                            "id": "b24606e5-a1da-444d-a556-485f42d8099f",
-                            "name": "Internal Server Error - returned on unhandled exceptions.",
-                            "originalRequest": {
-                                "url": {
-                                    "path": [
-                                        "delegations"
-                                    ],
-                                    "host": [
-                                        "{{baseUrl}}"
-                                    ],
-                                    "query": [],
-                                    "variable": []
-                                },
-                                "header": [
-                                    {
-                                        "key": "Content-Type",
-                                        "value": "application/json"
-                                    },
-                                    {
-                                        "key": "Accept",
-                                        "value": "application/json"
-                                    }
-                                ],
-                                "method": "POST",
-                                "body": {
-                                    "mode": "raw",
-                                    "raw": "{\n  \"delegation\": {\n    \"delegator_id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n    \"delegate_id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n    \"expiration\": \"2023-10-01T12:00:00Z\"\n  }\n}",
-                                    "options": {
-                                        "raw": {
-                                            "headerFamily": "json",
-                                            "language": "json"
-                                        }
-                                    }
-                                }
-                            },
-                            "status": "Internal Server Error",
-                            "code": 500,
-                            "header": [
-                                {
-                                    "key": "Content-Type",
-                                    "value": "application/json"
-                                }
-                            ],
-                            "body": "{\n  \"error\": \"Sorry something went wrong\"\n}",
-                            "cookie": [],
-                            "_postman_previewlanguage": "json"
-                        }
-                    ],
-                    "event": [],
-                    "protocolProfileBehavior": {
-                        "disableBodyPruning": true
-                    }
+                  "disabled": true,
+                  "description": {
+                    "content": "Filter by delegator ID",
+                    "type": "text/plain"
+                  },
+                  "key": "delegator_id",
+                  "value": "ac4aae0b-4140-49a4-a84c-126762fd0c8f"
                 },
                 {
-                    "id": "2ebca650-da72-431f-ba51-75c4ff7a6af5",
-                    "name": "Get a single delegation",
-                    "request": {
-                        "name": "Get a single delegation",
-                        "description": {
-                            "content": "Returns a single delegation record by its ID.",
-                            "type": "text/plain"
-                        },
-                        "url": {
-                            "path": [
-                                "delegations",
-                                ":id"
-                            ],
-                            "host": [
-                                "{{baseUrl}}"
-                            ],
-                            "query": [],
-                            "variable": [
-                                {
-                                    "type": "any",
-                                    "value": "1246d8b3-ac29-4015-8154-dea4434a73fa",
-                                    "key": "id",
-                                    "disabled": false,
-                                    "description": {
-                                        "content": "(Required) ID of the object to retrieve, update, or delete",
-                                        "type": "text/plain"
-                                    }
-                                }
-                            ]
-                        },
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json"
-                            }
-                        ],
-                        "method": "GET",
-                        "body": {},
-                        "auth": null
-                    },
-                    "response": [
-                        {
-                            "id": "c7acc2ec-32f4-4176-893c-8d40c111327b",
-                            "name": "Expected response to a valid request",
-                            "originalRequest": {
-                                "url": {
-                                    "path": [
-                                        "delegations",
-                                        ":id"
-                                    ],
-                                    "host": [
-                                        "{{baseUrl}}"
-                                    ],
-                                    "query": [],
-                                    "variable": [
-                                        {
-                                            "disabled": false,
-                                            "description": {
-                                                "content": "(Required) ID of the object to retrieve, update, or delete",
-                                                "type": "text/plain"
-                                            },
-                                            "type": "any",
-                                            "value": "1246d8b3-ac29-4015-8154-dea4434a73fa",
-                                            "key": "id"
-                                        }
-                                    ]
-                                },
-                                "header": [
-                                    {
-                                        "key": "Accept",
-                                        "value": "application/json"
-                                    }
-                                ],
-                                "method": "GET",
-                                "body": {}
-                            },
-                            "status": "OK",
-                            "code": 200,
-                            "header": [
-                                {
-                                    "key": "Content-Type",
-                                    "value": "application/json"
-                                }
-                            ],
-                            "body": "{\n  \"delegation\": {\n    \"id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n    \"delegator_id\": \"12345678-1234-5678-1234-123456789012\",\n    \"delegate_id\": \"87654321-4321-6789-4321-210987654321\",\n    \"delegator\": {\n      \"id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n      \"uid\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n      \"type\": \"NeprofileUser\",\n      \"name\": \"Jane Doe\",\n      \"email\": \"jane@example.com\",\n      \"status\": \"active\",\n      \"login\": \"jane.doe\",\n      \"last_login\": \"2024-06-01T12:34:56Z\",\n      \"created_at\": \"2022-12-27 08:26:49.219717\",\n      \"updated_at\": \"2022-12-27 08:26:49.219717\"\n    },\n    \"delegate\": {\n      \"id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n      \"uid\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n      \"type\": \"NeprofileUser\",\n      \"name\": \"Jane Doe\",\n      \"email\": \"jane@example.com\",\n      \"status\": \"active\",\n      \"login\": \"jane.doe\",\n      \"last_login\": \"2024-06-01T12:34:56Z\",\n      \"created_at\": \"2022-12-27 08:26:49.219717\",\n      \"updated_at\": \"2022-12-27 08:26:49.219717\"\n    },\n    \"expiration\": \"2023-10-01T12:00:00Z\",\n    \"expired\": false,\n    \"created_at\": \"2022-12-27 08:26:49.219717\",\n    \"updated_at\": \"2022-12-27 08:26:49.219717\"\n  }\n}",
-                            "cookie": [],
-                            "_postman_previewlanguage": "json"
-                        },
-                        {
-                            "id": "847cbf5e-a075-4618-b936-f4603c75ecf5",
-                            "name": "Record Not Found",
-                            "originalRequest": {
-                                "url": {
-                                    "path": [
-                                        "delegations",
-                                        ":id"
-                                    ],
-                                    "host": [
-                                        "{{baseUrl}}"
-                                    ],
-                                    "query": [],
-                                    "variable": [
-                                        {
-                                            "disabled": false,
-                                            "description": {
-                                                "content": "(Required) ID of the object to retrieve, update, or delete",
-                                                "type": "text/plain"
-                                            },
-                                            "type": "any",
-                                            "value": "1246d8b3-ac29-4015-8154-dea4434a73fa",
-                                            "key": "id"
-                                        }
-                                    ]
-                                },
-                                "header": [
-                                    {
-                                        "key": "Accept",
-                                        "value": "application/json"
-                                    }
-                                ],
-                                "method": "GET",
-                                "body": {}
-                            },
-                            "status": "Not Found",
-                            "code": 404,
-                            "header": [
-                                {
-                                    "key": "Content-Type",
-                                    "value": "application/json"
-                                }
-                            ],
-                            "body": "{\n  \"error\": \"The requested Profile was not found\"\n}",
-                            "cookie": [],
-                            "_postman_previewlanguage": "json"
-                        },
-                        {
-                            "id": "253d8d2b-a1b5-4482-bf79-506a6c0e813c",
-                            "name": "Internal Server Error - returned on unhandled exceptions.",
-                            "originalRequest": {
-                                "url": {
-                                    "path": [
-                                        "delegations",
-                                        ":id"
-                                    ],
-                                    "host": [
-                                        "{{baseUrl}}"
-                                    ],
-                                    "query": [],
-                                    "variable": [
-                                        {
-                                            "disabled": false,
-                                            "description": {
-                                                "content": "(Required) ID of the object to retrieve, update, or delete",
-                                                "type": "text/plain"
-                                            },
-                                            "type": "any",
-                                            "value": "1246d8b3-ac29-4015-8154-dea4434a73fa",
-                                            "key": "id"
-                                        }
-                                    ]
-                                },
-                                "header": [
-                                    {
-                                        "key": "Accept",
-                                        "value": "application/json"
-                                    }
-                                ],
-                                "method": "GET",
-                                "body": {}
-                            },
-                            "status": "Internal Server Error",
-                            "code": 500,
-                            "header": [
-                                {
-                                    "key": "Content-Type",
-                                    "value": "application/json"
-                                }
-                            ],
-                            "body": "{\n  \"error\": \"Sorry something went wrong\"\n}",
-                            "cookie": [],
-                            "_postman_previewlanguage": "json"
-                        }
-                    ],
-                    "event": [],
-                    "protocolProfileBehavior": {
-                        "disableBodyPruning": true
-                    }
+                  "disabled": true,
+                  "description": {
+                    "content": "Filter by expiration status (true for expired, false for not expired)",
+                    "type": "text/plain"
+                  },
+                  "key": "expired",
+                  "value": "true"
                 },
                 {
-                    "id": "50dd5629-82cb-4a6b-ad08-480557d87bb6",
-                    "name": "Update a delegation",
-                    "request": {
-                        "name": "Update a delegation",
-                        "description": {
-                            "content": "Update an existing delegation record.",
-                            "type": "text/plain"
-                        },
-                        "url": {
-                            "path": [
-                                "delegations",
-                                ":id"
-                            ],
-                            "host": [
-                                "{{baseUrl}}"
-                            ],
-                            "query": [],
-                            "variable": [
-                                {
-                                    "type": "any",
-                                    "value": "1246d8b3-ac29-4015-8154-dea4434a73fa",
-                                    "key": "id",
-                                    "disabled": false,
-                                    "description": {
-                                        "content": "(Required) ID of the object to retrieve, update, or delete",
-                                        "type": "text/plain"
-                                    }
-                                }
-                            ]
-                        },
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application/json"
-                            }
-                        ],
-                        "method": "PATCH",
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n  \"delegation\": {\n    \"delegator_id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n    \"delegatee_id\": \"12345678-1234-5678-1234-567812345678\",\n    \"expiration_date\": \"2023-12-31T23:59:59Z\"\n  }\n}",
-                            "options": {
-                                "raw": {
-                                    "headerFamily": "json",
-                                    "language": "json"
-                                }
-                            }
-                        },
-                        "auth": null
-                    },
-                    "response": [
-                        {
-                            "id": "ba58a6ee-e441-4fd2-8a5f-53989819534a",
-                            "name": "Expected response to a valid request",
-                            "originalRequest": {
-                                "url": {
-                                    "path": [
-                                        "delegations",
-                                        ":id"
-                                    ],
-                                    "host": [
-                                        "{{baseUrl}}"
-                                    ],
-                                    "query": [],
-                                    "variable": [
-                                        {
-                                            "disabled": false,
-                                            "description": {
-                                                "content": "(Required) ID of the object to retrieve, update, or delete",
-                                                "type": "text/plain"
-                                            },
-                                            "type": "any",
-                                            "value": "1246d8b3-ac29-4015-8154-dea4434a73fa",
-                                            "key": "id"
-                                        }
-                                    ]
-                                },
-                                "header": [
-                                    {
-                                        "key": "Content-Type",
-                                        "value": "application/json"
-                                    },
-                                    {
-                                        "key": "Accept",
-                                        "value": "application/json"
-                                    }
-                                ],
-                                "method": "PATCH",
-                                "body": {
-                                    "mode": "raw",
-                                    "raw": "{\n  \"delegation\": {\n    \"delegator_id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n    \"delegatee_id\": \"12345678-1234-5678-1234-567812345678\",\n    \"expiration_date\": \"2023-12-31T23:59:59Z\"\n  }\n}",
-                                    "options": {
-                                        "raw": {
-                                            "headerFamily": "json",
-                                            "language": "json"
-                                        }
-                                    }
-                                }
-                            },
-                            "status": "OK",
-                            "code": 200,
-                            "header": [
-                                {
-                                    "key": "Content-Type",
-                                    "value": "application/json"
-                                }
-                            ],
-                            "body": "{\n  \"delegation\": {\n    \"id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n    \"delegator_id\": \"12345678-1234-5678-1234-123456789012\",\n    \"delegate_id\": \"87654321-4321-6789-4321-210987654321\",\n    \"expiration\": \"2023-10-01T12:00:00Z\",\n    \"expired\": false,\n    \"created_at\": \"2022-12-27 08:26:49.219717\",\n    \"updated_at\": \"2022-12-27 08:26:49.219717\"\n  }\n}",
-                            "cookie": [],
-                            "_postman_previewlanguage": "json"
-                        },
-                        {
-                            "id": "a2a49047-0914-48b2-9bca-5423227f19a2",
-                            "name": "Record Not Found",
-                            "originalRequest": {
-                                "url": {
-                                    "path": [
-                                        "delegations",
-                                        ":id"
-                                    ],
-                                    "host": [
-                                        "{{baseUrl}}"
-                                    ],
-                                    "query": [],
-                                    "variable": [
-                                        {
-                                            "disabled": false,
-                                            "description": {
-                                                "content": "(Required) ID of the object to retrieve, update, or delete",
-                                                "type": "text/plain"
-                                            },
-                                            "type": "any",
-                                            "value": "1246d8b3-ac29-4015-8154-dea4434a73fa",
-                                            "key": "id"
-                                        }
-                                    ]
-                                },
-                                "header": [
-                                    {
-                                        "key": "Content-Type",
-                                        "value": "application/json"
-                                    },
-                                    {
-                                        "key": "Accept",
-                                        "value": "application/json"
-                                    }
-                                ],
-                                "method": "PATCH",
-                                "body": {
-                                    "mode": "raw",
-                                    "raw": "{\n  \"delegation\": {\n    \"delegator_id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n    \"delegatee_id\": \"12345678-1234-5678-1234-567812345678\",\n    \"expiration_date\": \"2023-12-31T23:59:59Z\"\n  }\n}",
-                                    "options": {
-                                        "raw": {
-                                            "headerFamily": "json",
-                                            "language": "json"
-                                        }
-                                    }
-                                }
-                            },
-                            "status": "Not Found",
-                            "code": 404,
-                            "header": [
-                                {
-                                    "key": "Content-Type",
-                                    "value": "application/json"
-                                }
-                            ],
-                            "body": "{\n  \"error\": \"The requested Profile was not found\"\n}",
-                            "cookie": [],
-                            "_postman_previewlanguage": "json"
-                        },
-                        {
-                            "id": "91ebf70e-11b2-4184-8c6f-025b9736830a",
-                            "name": "Internal Server Error - returned on unhandled exceptions.",
-                            "originalRequest": {
-                                "url": {
-                                    "path": [
-                                        "delegations",
-                                        ":id"
-                                    ],
-                                    "host": [
-                                        "{{baseUrl}}"
-                                    ],
-                                    "query": [],
-                                    "variable": [
-                                        {
-                                            "disabled": false,
-                                            "description": {
-                                                "content": "(Required) ID of the object to retrieve, update, or delete",
-                                                "type": "text/plain"
-                                            },
-                                            "type": "any",
-                                            "value": "1246d8b3-ac29-4015-8154-dea4434a73fa",
-                                            "key": "id"
-                                        }
-                                    ]
-                                },
-                                "header": [
-                                    {
-                                        "key": "Content-Type",
-                                        "value": "application/json"
-                                    },
-                                    {
-                                        "key": "Accept",
-                                        "value": "application/json"
-                                    }
-                                ],
-                                "method": "PATCH",
-                                "body": {
-                                    "mode": "raw",
-                                    "raw": "{\n  \"delegation\": {\n    \"delegator_id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n    \"delegatee_id\": \"12345678-1234-5678-1234-567812345678\",\n    \"expiration_date\": \"2023-12-31T23:59:59Z\"\n  }\n}",
-                                    "options": {
-                                        "raw": {
-                                            "headerFamily": "json",
-                                            "language": "json"
-                                        }
-                                    }
-                                }
-                            },
-                            "status": "Internal Server Error",
-                            "code": 500,
-                            "header": [
-                                {
-                                    "key": "Content-Type",
-                                    "value": "application/json"
-                                }
-                            ],
-                            "body": "{\n  \"error\": \"Sorry something went wrong\"\n}",
-                            "cookie": [],
-                            "_postman_previewlanguage": "json"
-                        }
-                    ],
-                    "event": [],
-                    "protocolProfileBehavior": {
-                        "disableBodyPruning": true
-                    }
+                  "disabled": true,
+                  "description": {
+                    "content": "The maximum number of items to return.",
+                    "type": "text/plain"
+                  },
+                  "key": "limit",
+                  "value": "5"
                 },
                 {
-                    "id": "90f42857-b679-4d08-83fb-8a042873b677",
-                    "name": "Delete a delegation",
-                    "request": {
-                        "name": "Delete a delegation",
-                        "description": {
-                            "content": "Delete an existing delegation record.",
-                            "type": "text/plain"
-                        },
-                        "url": {
-                            "path": [
-                                "delegations",
-                                ":id"
-                            ],
-                            "host": [
-                                "{{baseUrl}}"
-                            ],
-                            "query": [],
-                            "variable": [
-                                {
-                                    "type": "any",
-                                    "value": "1246d8b3-ac29-4015-8154-dea4434a73fa",
-                                    "key": "id",
-                                    "disabled": false,
-                                    "description": {
-                                        "content": "(Required) ID of the object to retrieve, update, or delete",
-                                        "type": "text/plain"
-                                    }
-                                }
-                            ]
-                        },
-                        "header": [
-                            {
-                                "key": "Accept",
-                                "value": "application/json"
-                            }
-                        ],
-                        "method": "DELETE",
-                        "body": {},
-                        "auth": null
-                    },
-                    "response": [
-                        {
-                            "id": "378066d1-11de-4664-8c5c-54151ff44adf",
-                            "name": "The delegation record '<delegation_id>' has been destroyed.",
-                            "originalRequest": {
-                                "url": {
-                                    "path": [
-                                        "delegations",
-                                        ":id"
-                                    ],
-                                    "host": [
-                                        "{{baseUrl}}"
-                                    ],
-                                    "query": [],
-                                    "variable": [
-                                        {
-                                            "disabled": false,
-                                            "description": {
-                                                "content": "(Required) ID of the object to retrieve, update, or delete",
-                                                "type": "text/plain"
-                                            },
-                                            "type": "any",
-                                            "value": "1246d8b3-ac29-4015-8154-dea4434a73fa",
-                                            "key": "id"
-                                        }
-                                    ]
-                                },
-                                "method": "DELETE",
-                                "body": {}
-                            },
-                            "status": "OK",
-                            "code": 200,
-                            "header": [],
-                            "cookie": [],
-                            "_postman_previewlanguage": "text"
-                        },
-                        {
-                            "id": "a3020a32-7e4e-439e-9494-575ea8899136",
-                            "name": "Record Not Found",
-                            "originalRequest": {
-                                "url": {
-                                    "path": [
-                                        "delegations",
-                                        ":id"
-                                    ],
-                                    "host": [
-                                        "{{baseUrl}}"
-                                    ],
-                                    "query": [],
-                                    "variable": [
-                                        {
-                                            "disabled": false,
-                                            "description": {
-                                                "content": "(Required) ID of the object to retrieve, update, or delete",
-                                                "type": "text/plain"
-                                            },
-                                            "type": "any",
-                                            "value": "1246d8b3-ac29-4015-8154-dea4434a73fa",
-                                            "key": "id"
-                                        }
-                                    ]
-                                },
-                                "header": [
-                                    {
-                                        "key": "Accept",
-                                        "value": "application/json"
-                                    }
-                                ],
-                                "method": "DELETE",
-                                "body": {}
-                            },
-                            "status": "Not Found",
-                            "code": 404,
-                            "header": [
-                                {
-                                    "key": "Content-Type",
-                                    "value": "application/json"
-                                }
-                            ],
-                            "body": "{\n  \"error\": \"The requested Profile was not found\"\n}",
-                            "cookie": [],
-                            "_postman_previewlanguage": "json"
-                        },
-                        {
-                            "id": "3e2e2114-199a-40e1-bc6d-469b54ecf2e4",
-                            "name": "Internal Server Error - returned on unhandled exceptions.",
-                            "originalRequest": {
-                                "url": {
-                                    "path": [
-                                        "delegations",
-                                        ":id"
-                                    ],
-                                    "host": [
-                                        "{{baseUrl}}"
-                                    ],
-                                    "query": [],
-                                    "variable": [
-                                        {
-                                            "disabled": false,
-                                            "description": {
-                                                "content": "(Required) ID of the object to retrieve, update, or delete",
-                                                "type": "text/plain"
-                                            },
-                                            "type": "any",
-                                            "value": "1246d8b3-ac29-4015-8154-dea4434a73fa",
-                                            "key": "id"
-                                        }
-                                    ]
-                                },
-                                "header": [
-                                    {
-                                        "key": "Accept",
-                                        "value": "application/json"
-                                    }
-                                ],
-                                "method": "DELETE",
-                                "body": {}
-                            },
-                            "status": "Internal Server Error",
-                            "code": 500,
-                            "header": [
-                                {
-                                    "key": "Content-Type",
-                                    "value": "application/json"
-                                }
-                            ],
-                            "body": "{\n  \"error\": \"Sorry something went wrong\"\n}",
-                            "cookie": [],
-                            "_postman_previewlanguage": "json"
-                        }
-                    ],
-                    "event": [],
-                    "protocolProfileBehavior": {
-                        "disableBodyPruning": true
-                    }
+                  "disabled": true,
+                  "description": {
+                    "content": "The number of items to skip before starting to collect the result set.",
+                    "type": "text/plain"
+                  },
+                  "key": "offset",
+                  "value": "5"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Include related resources body. For example, 'include=delegator,delegate'.",
+                    "type": "text/plain"
+                  },
+                  "key": "include",
+                  "value": "delegator,delegate"
                 }
-            ]
-        }
-    ],
-    "event": [],
-    "variable": [
-        {
-            "key": "tenantName",
-            "value": "acmeco"
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "response": [
+            {
+              "id": "d4436973-2066-4d6a-a9a3-411ac1166c1a",
+              "name": "Expected response to a valid request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "delegations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Filter by delegate ID",
+                        "type": "text/plain"
+                      },
+                      "key": "delegate_id",
+                      "value": "ac4aae0b-4140-49a4-a84c-126762fd0c8f"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Filter by delegator ID",
+                        "type": "text/plain"
+                      },
+                      "key": "delegator_id",
+                      "value": "ac4aae0b-4140-49a4-a84c-126762fd0c8f"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Filter by expiration status (true for expired, false for not expired)",
+                        "type": "text/plain"
+                      },
+                      "key": "expired",
+                      "value": "true"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "The maximum number of items to return.",
+                        "type": "text/plain"
+                      },
+                      "key": "limit",
+                      "value": "5"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "The number of items to skip before starting to collect the result set.",
+                        "type": "text/plain"
+                      },
+                      "key": "offset",
+                      "value": "5"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Include related resources body. For example, 'include=delegator,delegate'.",
+                        "type": "text/plain"
+                      },
+                      "key": "include",
+                      "value": "delegator,delegate"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"delegations\": [\n    {\n      \"id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n      \"delegator_id\": \"12345678-1234-5678-1234-123456789012\",\n      \"delegate_id\": \"87654321-4321-6789-4321-210987654321\",\n      \"delegator\": {\n        \"id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n        \"uid\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n        \"type\": \"NeprofileUser\",\n        \"name\": \"Jane Doe\",\n        \"email\": \"jane@example.com\",\n        \"status\": \"active\",\n        \"login\": \"jane.doe\",\n        \"last_login\": \"2024-06-01T12:34:56Z\",\n        \"created_at\": \"2022-12-27 08:26:49.219717\",\n        \"updated_at\": \"2022-12-27 08:26:49.219717\"\n      },\n      \"delegate\": {\n        \"id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n        \"uid\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n        \"type\": \"NeprofileUser\",\n        \"name\": \"Jane Doe\",\n        \"email\": \"jane@example.com\",\n        \"status\": \"active\",\n        \"login\": \"jane.doe\",\n        \"last_login\": \"2024-06-01T12:34:56Z\",\n        \"created_at\": \"2022-12-27 08:26:49.219717\",\n        \"updated_at\": \"2022-12-27 08:26:49.219717\"\n      },\n      \"expiration\": \"2023-10-01T12:00:00Z\",\n      \"expired\": false,\n      \"created_at\": \"2022-12-27 08:26:49.219717\",\n      \"updated_at\": \"2022-12-27 08:26:49.219717\"\n    },\n    {\n      \"id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n      \"delegator_id\": \"12345678-1234-5678-1234-123456789012\",\n      \"delegate_id\": \"87654321-4321-6789-4321-210987654321\",\n      \"delegator\": {\n        \"id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n        \"uid\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n        \"type\": \"NeprofileUser\",\n        \"name\": \"Jane Doe\",\n        \"email\": \"jane@example.com\",\n        \"status\": \"active\",\n        \"login\": \"jane.doe\",\n        \"last_login\": \"2024-06-01T12:34:56Z\",\n        \"created_at\": \"2022-12-27 08:26:49.219717\",\n        \"updated_at\": \"2022-12-27 08:26:49.219717\"\n      },\n      \"delegate\": {\n        \"id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n        \"uid\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n        \"type\": \"NeprofileUser\",\n        \"name\": \"Jane Doe\",\n        \"email\": \"jane@example.com\",\n        \"status\": \"active\",\n        \"login\": \"jane.doe\",\n        \"last_login\": \"2024-06-01T12:34:56Z\",\n        \"created_at\": \"2022-12-27 08:26:49.219717\",\n        \"updated_at\": \"2022-12-27 08:26:49.219717\"\n      },\n      \"expiration\": \"2023-10-01T12:00:00Z\",\n      \"expired\": false,\n      \"created_at\": \"2022-12-27 08:26:49.219717\",\n      \"updated_at\": \"2022-12-27 08:26:49.219717\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
         },
         {
-            "key": "baseUrl",
-            "value": "https://{{tenantName}}.nonemployee.com/api/v2025"
+          "id": "c081abb0-c5f4-4fe2-947b-88ebfb37525f",
+          "name": "Create a delegation",
+          "request": {
+            "name": "Create a delegation",
+            "description": {
+              "content": "Create a new delegation record.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "delegations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"delegation\": {\n    \"delegator_id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n    \"delegate_id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n    \"expiration\": \"2023-10-01T12:00:00Z\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0fdc3e15-e9a8-4d87-970b-b09afdf9fba7",
+              "name": "Expected response to a valid request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "delegations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"delegation\": {\n    \"delegator_id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n    \"delegate_id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n    \"expiration\": \"2023-10-01T12:00:00Z\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"delegation\": {\n    \"id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n    \"delegator_id\": \"12345678-1234-5678-1234-123456789012\",\n    \"delegate_id\": \"87654321-4321-6789-4321-210987654321\",\n    \"expiration\": \"2023-10-01T12:00:00Z\",\n    \"expired\": false,\n    \"created_at\": \"2022-12-27 08:26:49.219717\",\n    \"updated_at\": \"2022-12-27 08:26:49.219717\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e4cf014a-4583-45c4-9b21-021cc3d61196",
+          "name": "Get a single delegation",
+          "request": {
+            "name": "Get a single delegation",
+            "description": {
+              "content": "Returns a single delegation record by its ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "delegations",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "value": "1246d8b3-ac29-4015-8154-dea4434a73fa",
+                  "key": "id",
+                  "disabled": true,
+                  "description": {
+                    "content": "(Required) ID of the object to retrieve, update, or delete",
+                    "type": "text/plain"
+                  }
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "response": [
+            {
+              "id": "3bc41283-962a-4538-a122-eaa818a8a70e",
+              "name": "Expected response to a valid request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "delegations",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "(Required) ID of the object to retrieve, update, or delete",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "1246d8b3-ac29-4015-8154-dea4434a73fa",
+                      "key": "id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"delegation\": {\n    \"id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n    \"delegator_id\": \"12345678-1234-5678-1234-123456789012\",\n    \"delegate_id\": \"87654321-4321-6789-4321-210987654321\",\n    \"delegator\": {\n      \"id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n      \"uid\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n      \"type\": \"NeprofileUser\",\n      \"name\": \"Jane Doe\",\n      \"email\": \"jane@example.com\",\n      \"status\": \"active\",\n      \"login\": \"jane.doe\",\n      \"last_login\": \"2024-06-01T12:34:56Z\",\n      \"created_at\": \"2022-12-27 08:26:49.219717\",\n      \"updated_at\": \"2022-12-27 08:26:49.219717\"\n    },\n    \"delegate\": {\n      \"id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n      \"uid\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n      \"type\": \"NeprofileUser\",\n      \"name\": \"Jane Doe\",\n      \"email\": \"jane@example.com\",\n      \"status\": \"active\",\n      \"login\": \"jane.doe\",\n      \"last_login\": \"2024-06-01T12:34:56Z\",\n      \"created_at\": \"2022-12-27 08:26:49.219717\",\n      \"updated_at\": \"2022-12-27 08:26:49.219717\"\n    },\n    \"expiration\": \"2023-10-01T12:00:00Z\",\n    \"expired\": false,\n    \"created_at\": \"2022-12-27 08:26:49.219717\",\n    \"updated_at\": \"2022-12-27 08:26:49.219717\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4753e7d1-78b2-41d3-b627-8038ae1800b8",
+          "name": "Update a delegation",
+          "request": {
+            "name": "Update a delegation",
+            "description": {
+              "content": "Update an existing delegation record.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "delegations",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "value": "1246d8b3-ac29-4015-8154-dea4434a73fa",
+                  "key": "id",
+                  "disabled": true,
+                  "description": {
+                    "content": "(Required) ID of the object to retrieve, update, or delete",
+                    "type": "text/plain"
+                  }
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"delegation\": {\n    \"delegator_id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n    \"delegatee_id\": \"12345678-1234-5678-1234-567812345678\",\n    \"expiration_date\": \"2023-12-31T23:59:59Z\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7154167c-2023-420c-b612-9a030264964b",
+              "name": "Expected response to a valid request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "delegations",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "(Required) ID of the object to retrieve, update, or delete",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "1246d8b3-ac29-4015-8154-dea4434a73fa",
+                      "key": "id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"delegation\": {\n    \"delegator_id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n    \"delegatee_id\": \"12345678-1234-5678-1234-567812345678\",\n    \"expiration_date\": \"2023-12-31T23:59:59Z\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"delegation\": {\n    \"id\": \"ac4aae0b-4140-49a4-a84c-126762fd0c8f\",\n    \"delegator_id\": \"12345678-1234-5678-1234-123456789012\",\n    \"delegate_id\": \"87654321-4321-6789-4321-210987654321\",\n    \"expiration\": \"2023-10-01T12:00:00Z\",\n    \"expired\": false,\n    \"created_at\": \"2022-12-27 08:26:49.219717\",\n    \"updated_at\": \"2022-12-27 08:26:49.219717\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "539a7726-e450-4d13-86e8-5307897426df",
+          "name": "Delete a delegation",
+          "request": {
+            "name": "Delete a delegation",
+            "description": {
+              "content": "Delete an existing delegation record.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "delegations",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "value": "1246d8b3-ac29-4015-8154-dea4434a73fa",
+                  "key": "id",
+                  "disabled": true,
+                  "description": {
+                    "content": "(Required) ID of the object to retrieve, update, or delete",
+                    "type": "text/plain"
+                  }
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "body": {}
+          },
+          "response": [
+            {
+              "id": "eed7e55b-7157-403e-9a70-1dbca0fa9f96",
+              "name": "The delegation record '<delegation_id>' has been destroyed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "delegations",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "(Required) ID of the object to retrieve, update, or delete",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "1246d8b3-ac29-4015-8154-dea4434a73fa",
+                      "key": "id"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [],
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
         }
-    ],
-    "info": {
-        "_postman_id": "632dbe1d-8405-4471-94e6-86bc0845482e",
-        "name": "NERM API v2025",
-        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-        "description": {
-            "content": "The NERM API v2025 accesss and modifies resources in your environment.",
-            "type": "text/plain"
-        }
+      ]
     }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "const domain = pm.environment.get('domain') ? pm.environment.get('domain') : pm.collectionVariables.get('domain')",
+          "const tokenUrl = 'https://' + pm.environment.get('tenant') + '.api.' + domain + '.com/oauth/token';",
+          "const clientId = pm.environment.get('clientId');",
+          "const clientSecret = pm.environment.get('clientSecret');",
+          "",
+          "const getTokenRequest = {",
+          "    method: 'POST',",
+          "    url: tokenUrl,",
+          "    body: {",
+          "        mode: 'formdata',",
+          "        formdata: [{",
+          "                key: 'grant_type',",
+          "                value: 'client_credentials'",
+          "            },",
+          "            {",
+          "                key: 'client_id',",
+          "                value: clientId",
+          "            },",
+          "            {",
+          "                key: 'client_secret',",
+          "                value: clientSecret",
+          "            }",
+          "        ]",
+          "    }",
+          "};",
+          "",
+          "",
+          "var moment = require('moment');",
+          "if (!pm.environment.has('tokenExpTime')) {",
+          "    pm.environment.set('tokenExpTime', moment());",
+          "}",
+          "",
+          "if (moment(pm.environment.get('tokenExpTime')) <= moment() || !pm.environment.get('tokenExpTime') || !pm.environment.get('accessToken')) {",
+          "    var time = moment();",
+          "    time.add(12, 'hours');",
+          "    pm.environment.set('tokenExpTime', time);",
+          "    pm.sendRequest(getTokenRequest, (err, response) => {",
+          "        const jsonResponse = response.json();",
+          "        if (response.code != 200) {",
+          "            throw new Error(`Unable to authenticate: ${JSON.stringify(jsonResponse)}`);",
+          "        }",
+          "        const newAccessToken = jsonResponse.access_token;",
+          "        pm.environment.set('accessToken', newAccessToken);",
+          "    });",
+          "",
+          "}",
+          "",
+          "const flag = pm.collectionVariables.get('experimentalEnabled');",
+          "",
+          "if (flag === 'true') {",
+          "    pm.request.addHeader({",
+          "        key: 'X-SailPoint-Experimental',",
+          "        value: 'true'",
+          "    });",
+          "}",
+          "",
+          "// Add custom User-Agent header to all requests",
+          "pm.request.addHeader({",
+          "    key: 'User-Agent',",
+          "    value: 'SailPointPostmanCollection'",
+          "});"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "tenantName",
+      "value": "{{tenant}}"
+    },
+    {
+      "key": "baseUrl",
+      "value": "https://{{tenantName}}.nonemployee.com/api/v2025"
+    }
+  ],
+  "info": {
+    "_postman_id": "fe146457-4621-4f66-b844-a50234d17a8c",
+    "name": "NERM API v2025",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The NERM API v2025 accesss and modifies resources in your environment.",
+      "type": "text/plain"
+    }
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{accessToken}}",
+        "type": "string"
+      }
+    ]
+  }
 }
