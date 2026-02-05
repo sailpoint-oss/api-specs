@@ -3724,7 +3724,7 @@ paths:
       tags:
         - Api Usage
       summary: Total number of API requests
-      description: This API gets an aggregated number of all API calls from an org in a given timespan.
+      description: This API gets an aggregated number of all API calls from an org in a specific timespan. Unless specified, the results are aggregated between the first day of the current month and today.
       parameters:
         - name: X-SailPoint-Experimental
           in: header
@@ -3784,7 +3784,7 @@ paths:
       tags:
         - Api Usage
       summary: Get Api Summary
-      description: This API gets a list of APIs called by the org in a specific timespan, sorted by number of calls.
+      description: This API gets a list of APIs called by the org in a specific timespan, sorted by number of calls. Unless specified,  the results are aggregated between the first day of the current month and today.
       parameters:
         - name: X-SailPoint-Experimental
           in: header
@@ -3832,7 +3832,7 @@ paths:
           example: 10
       responses:
         '200':
-          description: List API calls sorted by number of requests.
+          description: A list of API calls sorted by number of requests.
           content:
             application/json:
               schema:
