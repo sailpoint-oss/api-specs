@@ -42561,10 +42561,13 @@ components:
             name: Active Directory
         accountInfo:
           $ref: '#/components/schemas/AccountInfoDto'
-        roleName:
-          type: string
-          description: Specific role name for this target if using multiple accounts
-          example: Marketing
+        role:
+          $ref: '#/components/schemas/BaseReferenceDto-2'
+          description: Role reference for this account target
+          example:
+            id: e7697a1e96d04db1ac7b0f4544915d2c
+            type: ACCESS_PROFILE
+            name: Marketing Access Profile
     RoleAssignmentDto:
       type: object
       title: Role Assignment Dto
