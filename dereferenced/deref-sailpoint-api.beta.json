@@ -32827,9 +32827,13 @@
         "security": [
           {
             "userAuth": [
+              "idn:app-roles:read",
               "idn:app-roles:manage"
             ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
         ],
         "description": "This API returns the list of all source apps for the org.\n\nA token with ORG_ADMIN authority is required to call this API.",
         "parameters": [
@@ -32861,7 +32865,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in*\n\n**name**: *eq, in, co, sw*\n\n**created**: *gt, lt, ge, le*\n\n**modified**: *gt, lt, ge, le*\n\n**owner.id**: *eq, in*\n\n**accountSource.id**: *eq, in*\n\n**enabled**: *eq*",
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in*\n\n**name**: *eq, in, co, sw*\n\n**created**: *gt, lt, ge, le*\n\n**modified**: *gt, ge, le*\n\n**owner.id**: *eq, in*\n\n**enabled**: *eq*",
             "example": "enabled eq true",
             "required": false,
             "style": "form",
