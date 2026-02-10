@@ -875,6 +875,12 @@ tags:
       With this functionality in place, administrators can determine which access items can be requested with the [Access Request APIs](https://developer.sailpoint.com/docs/api/v2025/access-requests/), along with their statuses. 
       This can be helpful for administrators who are implementing and customizing access request functionality as a way of checking which items are requestable as they are created, assigned, and made available.
   - name: Role Insights
+  - name: Role Propagation
+    description: |
+      Role Change Propagation ensures that any changes to the composition of a role’s access objects 
+      (entitlements, access profiles, or dimensions) are applied to all member identities. 
+      For example: If an entitlement is removed from a role, all identities assigned to that role 
+      should lose access to that entitlement as part of this process.
   - name: Roles
     description: |
       Use this API to implement and customize role functionality.
@@ -39688,6 +39694,230 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
+  /role-propagation:
+    post:
+      operationId: startRolePropagation
+      summary: Initiate Role Propagation process
+      tags:
+        - Role Propagation
+      description: |-
+        This endpoint initiates a role change propagation process for a tenant asynchronously.  If all preconditions are met, the request is accepted and a rolePropagationId is returned which  can be used to view the status.
+        API throws 4xx if any of the following conditions are met - Role propagation feature is disabled  - There is an ongoing role propagation for the tenant - Role refresh needs to be kicked off as part of the role propagation (skipRoleRefresh=false) and there is an ongoing refresh for the tenant
+      parameters:
+        - in: query
+          name: skipRoleRefresh
+          schema:
+            type: boolean
+            default: false
+          example: true
+          description: When true, the role refresh is not performed. Keeping it false is recommended.
+          required: false
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
+      responses:
+        '202':
+          description: Role Propagation has sucessfully started.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/role-propagation-response'
+              example:
+                rolePropagationId: 47b9fb02-e12e-42ba-8bfe-1860d78c88eb
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - userAuth:
+            - idn:role-propagation:write
+        - applicationAuth:
+            - idn:role-propagation:write
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - ROLE_ADMIN
+        - ROLE_SUBADMIN
+        - API
+        - HELPDESK
+  /role-propagation/{rolePropagationId}/status:
+    get:
+      operationId: getRolePropagationStatus
+      summary: Get status of Role-Propagation process
+      tags:
+        - Role Propagation
+      description: |-
+        This endpoint returns the information of the specified role change propagation process. The execution stage of the role propagation process can be one of the following:
+            - PENDING - The role propagation process is queued to be executed.
+            - DATA_AGGREGATION_RUNNING - The role propagation process is currently aggregating data.
+            - LAUNCH_PROVISIONING - The role propagation process has started to provision the access to the identities.
+            - SUCCEEDED - The role propagation process has successfully completed.
+            - FAILED - The role propagation process has failed.
+            - TERMINATED - The role propagation process was externally terminated.
+      parameters:
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
+        - name: rolePropagationId
+          in: path
+          description: The ID of the role propagation process to retrieve the status for.
+          x-sailpoint-resource-operation-id: startRolePropagation
+          required: true
+          schema:
+            type: string
+          example: 47b9fb02-e12e-42ba-8bfe-1860d78c88eb
+      responses:
+        '200':
+          description: Information of the role propagation process.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/role-propagation-status-response'
+              example:
+                id: 0210f50c-bc23-4f9d-9921-056f1a170471
+                status: COMPLETED
+                executionStage: SUCCEEDED
+                launched: '2025-05-29T17:18:31Z'
+                launchedBy:
+                  id: 3315765f71c44c849e41a9cb9b271d7b
+                  type: IDENTITY
+                  name: support
+                completed: '2025-05-29T17:21:19Z'
+                skipRoleRefresh: false
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - userAuth:
+            - idn:role-propagation:read
+        - applicationAuth:
+            - idn:role-propagation:read
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - ROLE_ADMIN
+        - ROLE_SUBADMIN
+        - API
+        - HELPDESK
+  /role-propagation/is-running:
+    get:
+      operationId: getOngoingRolePropagation
+      summary: Get ongoing Role Propagation process
+      tags:
+        - Role Propagation
+      description: 'This endpoint returns the information of ongoing role change propagation process for a tenant. It returns the information whether the role propagation process is currently running or not, If it is running it returns the details of the ongoing role propagation process. The execution stage of the role propagation process can be one of the following: - PENDING - The role propagation process is queued to be executed. - DATA_AGGREGATION_RUNNING - The role propagation process is currently aggregating data. - LAUNCH_PROVISIONING - The role propagation process has started to provision the access to the identities. - SUCCEEDED - The role propagation process has successfully completed. - FAILED - The role propagation process has failed. - TERMINATED - The role propagation process was externally terminated.'
+      parameters:
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
+      responses:
+        '200':
+          description: Information of ongoing role propagation process.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/role-propagation-ongoing-response'
+              example:
+                isRunning: true
+                rolePropagationDetails:
+                  id: f11f4239-d442-4261-a390-996a62d757e9
+                  status: RUNNING
+                  executionStage: DATA_AGGREGATION_RUNNING
+                  launched: '2025-05-29T22:27:40Z'
+                  launchedBy:
+                    id: 3315765f71c44c849e41a9cb9b271d7b
+                    type: IDENTITY
+                    name: support
+                  skipRoleRefresh: false
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - userAuth:
+            - idn:role-propagation:read
+        - applicationAuth:
+            - idn:role-propagation:read
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - ROLE_ADMIN
+        - ROLE_SUBADMIN
+        - API
+        - HELPDESK
+  /role-propagation/terminate:
+    post:
+      operationId: cancelRolePropagation
+      summary: Terminate Role Propagation process
+      tags:
+        - Role Propagation
+      description: This endpoint terminates the ongoing role change propagation process for a tenant.
+      parameters:
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
+      responses:
+        '204':
+          description: Role Propagation has been successfully terminated.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - userAuth:
+            - idn:role-propagation:write
+        - applicationAuth:
+            - idn:role-propagation:write
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - ROLE_ADMIN
+        - ROLE_SUBADMIN
+        - API
+        - HELPDESK
   /roles/{id}/entitlements:
     get:
       operationId: getRoleEntitlements
@@ -77059,6 +77289,185 @@ components:
           description: The number of days there has been usage of the source by the identity.
           format: int32
           example: 25
+    role-propagation-response:
+      description: Role Propagation Response
+      type: object
+      properties:
+        rolePropagationId:
+          description: Id of the Role Propagation process triggered.
+          type: string
+          example: 47b9fb02-e12e-42ba-8bfe-1860d78c88eb
+    role-propagation-status-response:
+      description: Role Propagation Status Response
+      type: object
+      properties:
+        id:
+          description: Id of the Role Propagation process triggered.
+          type: string
+          example: 47b9fb02-e12e-42ba-8bfe-1860d78c88eb
+        status:
+          description: Status of the Role Propagation process.
+          type: string
+          enum:
+            - RUNNING
+            - COMPLETED
+          example: RUNNING
+        executionStage:
+          description: Current execution stage of the Role Propagation process.
+          type: string
+          enum:
+            - PENDING
+            - DATA_AGGREGATION_RUNNING
+            - LAUNCH_PROVISIONING
+            - SUCCEEDED
+            - FAILED
+            - TERMINATED
+          example: PENDING
+        launched:
+          description: Time when the Role Propagation process was launched.
+          type: string
+          format: date-time
+          example: '2023-10-01T12:00:00Z'
+        launchedBy:
+          description: Identity who launched the Role Propagation process.
+          type: object
+          properties:
+            type:
+              type: string
+              description: DTO type of the identity who launched the Role Propagation process.
+              enum:
+                - IDENTITY
+              example: IDENTITY
+            id:
+              type: string
+              description: ID of the identity who launched the Role Propagation process.
+              example: 2c7180a46faadee4016fb4e018c20648
+            name:
+              type: string
+              description: Name of the identity who launched the Role Propagation process.
+              example: William Wilson
+        terminatedBy:
+          description: Identity who terminated the Role Propagation process.
+          type: object
+          properties:
+            type:
+              type: string
+              description: DTO type of the Identity who terminated the Role Propagation process.
+              enum:
+                - IDENTITY
+              example: IDENTITY
+            id:
+              type: string
+              description: ID of the Identity who terminated the Role Propagation process.
+              example: 2c7180a46faadee4016fb4e018c20648
+            name:
+              type: string
+              description: Name of the Identity who terminated the Role Propagation process.
+              example: William Wilson
+        completed:
+          description: Time when the Role Propagation process was completed.
+          type: string
+          format: date-time
+          example: '2023-10-01T12:30:00Z'
+        failureReason:
+          description: Reason for failure if the Role Propagation process failed.
+          type: string
+          example: Network error
+        skipRoleRefresh:
+          description: Indicates if the role refresh was skipped during the Role Propagation process.
+          type: boolean
+          example: false
+          default: false
+    role-propagation-ongoing-response:
+      description: Running Role Propagation Response
+      type: object
+      properties:
+        isRunning:
+          description: Indicates if the role propagation process is currently running on the tenant
+          type: boolean
+          example: true
+          default: false
+        rolePropagationDetails:
+          description: Details of the ongoing role propagation process
+          type: object
+          properties:
+            id:
+              description: Id of the Role Propagation process triggered.
+              type: string
+              example: 47b9fb02-e12e-42ba-8bfe-1860d78c88eb
+            status:
+              description: Status of the Role Propagation process.
+              type: string
+              enum:
+                - RUNNING
+                - COMPLETED
+              example: RUNNING
+            executionStage:
+              description: Current execution stage of the Role Propagation process.
+              type: string
+              enum:
+                - PENDING
+                - DATA_AGGREGATION_RUNNING
+                - LAUNCH_PROVISIONING
+                - SUCCEEDED
+                - FAILED
+                - TERMINATED
+              example: PENDING
+            launched:
+              description: Time when the Role Propagation process was launched.
+              type: string
+              format: date-time
+              example: '2023-10-01T12:00:00Z'
+            launchedBy:
+              description: Identity who launched the Role Propagation process.
+              type: object
+              properties:
+                type:
+                  type: string
+                  description: DTO type of the identity who launched the Role Propagation process.
+                  enum:
+                    - IDENTITY
+                  example: IDENTITY
+                id:
+                  type: string
+                  description: ID of the identity who launched the Role Propagation process.
+                  example: 2c7180a46faadee4016fb4e018c20648
+                name:
+                  type: string
+                  description: Name of the identity who launched the Role Propagation process.
+                  example: William Wilson
+            terminatedBy:
+              description: Identity who terminated the Role Propagation process.
+              type: object
+              properties:
+                type:
+                  type: string
+                  description: DTO type of the Identity who terminated the Role Propagation process.
+                  enum:
+                    - IDENTITY
+                  example: IDENTITY
+                id:
+                  type: string
+                  description: ID of the Identity who terminated the Role Propagation process.
+                  example: 2c7180a46faadee4016fb4e018c20648
+                name:
+                  type: string
+                  description: Name of the Identity who terminated the Role Propagation process.
+                  example: William Wilson
+            completed:
+              description: Time when the Role Propagation process was completed.
+              type: string
+              format: date-time
+              example: '2023-10-01T12:30:00Z'
+            failureReason:
+              description: Reason for failure if the Role Propagation process failed.
+              type: string
+              example: Network error
+            skipRoleRefresh:
+              description: Indicates if the role refresh was skipped during the Role Propagation process.
+              type: boolean
+              example: false
+              default: false
     SendTestNotificationRequestDto:
       type: object
       title: Send Test Notification Request Dto
