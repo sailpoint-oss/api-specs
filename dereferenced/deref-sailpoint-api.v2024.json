@@ -1600,7 +1600,7 @@
               "type": "string"
             },
             "example": "accountActivityItemId eq \"2c918086771c86df0177401efcdf54c0\"",
-            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**accessRequestId**: *eq, in, ge, gt, le, lt, ne, sw*\n\n**accountActivityItemId**: *eq, in, ge, gt, le, lt, ne, isnull, sw*\n\n**created**: *eq, in, ge, gt, le, lt, ne, isnull, sw*",
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**accessRequestId**: *eq, ge, gt, le, lt, ne, sw*\n\n**accountActivityItemId**: *eq, in, ge, gt, le, ne, sw*\n\n**created**: *eq, ge, gt, le, lt, ne*",
             "required": false
           },
           {
@@ -68713,9 +68713,10 @@
         "enum": [
           "GRANT_ACCESS",
           "REVOKE_ACCESS",
+          "MODIFY_ACCESS",
           null
         ],
-        "description": "Access request type. Defaults to GRANT_ACCESS. REVOKE_ACCESS type can only have a single Identity ID in the requestedFor field.",
+        "description": "Access request type. Defaults to GRANT_ACCESS. REVOKE_ACCESS type can only have a single Identity ID in the requestedFor field. MODIFY_ACCESS type is used for updating access expiration dates or other access modifications.",
         "example": "GRANT_ACCESS",
         "nullable": true
       },
