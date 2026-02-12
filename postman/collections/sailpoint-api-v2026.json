@@ -5,7 +5,7 @@
       "description": "",
       "item": [
         {
-          "id": "9b433386-7e6f-46dd-b913-ec1ac583336f",
+          "id": "addca794-f11a-4b6c-a765-0b7f66009fce",
           "name": "Get task status by id",
           "request": {
             "name": "Get task status by id",
@@ -55,7 +55,7 @@
           },
           "response": [
             {
-              "id": "ae40d9e7-e45d-482d-b9d3-589257621d15",
+              "id": "3c00d091-5aca-4c5f-9747-caa017e396ba",
               "name": "Responds with a TaskStatus for the task with the given task ID.",
               "originalRequest": {
                 "url": {
@@ -125,7 +125,7 @@
           }
         },
         {
-          "id": "0c7dc070-ac40-4c53-a9bb-14ee8751136c",
+          "id": "0f4d9dad-38f7-4b9d-8729-8ec8b886ff7a",
           "name": "Update task status by id",
           "request": {
             "name": "Update task status by id",
@@ -188,7 +188,7 @@
           },
           "response": [
             {
-              "id": "ebc5e7b0-2861-4ee9-82bc-4791841af480",
+              "id": "72a1d765-b96b-4d71-91bb-9c3dc8b33654",
               "name": "This response indicates the PATCH operation succeeded, and the API returns the updated task object.",
               "originalRequest": {
                 "url": {
@@ -271,7 +271,7 @@
           }
         },
         {
-          "id": "cd78be3f-28dc-4b27-9f93-1d633278ef41",
+          "id": "30b0c6e3-0672-435e-b098-045f8d7ac4d3",
           "name": "Retrieve task status list",
           "request": {
             "name": "Retrieve task status list",
@@ -355,7 +355,7 @@
           },
           "response": [
             {
-              "id": "70cca3c2-4f95-46bf-a8a9-8cad56b5c6ac",
+              "id": "7daa2c50-d26e-4ca8-8cc5-094bbf1f1fd7",
               "name": "Responds with a TaskStatus for the task with the given task ID.",
               "originalRequest": {
                 "url": {
@@ -459,7 +459,7 @@
           }
         },
         {
-          "id": "b3f9a9e5-c4b9-4a51-a160-44c3364f72a1",
+          "id": "07e67233-c876-4af9-b44a-0f0a409640ac",
           "name": "Retrieve pending task status list",
           "request": {
             "name": "Retrieve pending task status list",
@@ -526,7 +526,7 @@
           },
           "response": [
             {
-              "id": "28a97d3f-6b44-4307-9217-df6f264b74a0",
+              "id": "3cca9d1e-2e0d-4caa-85ab-3f5129ce7a41",
               "name": "Responds with a list of TaskStatus for pending tasks.\n\nPossible Values: CLOUD_ACCOUNT_AGGREGATION, CLOUD_GROUP_AGGREGATION, CLOUD_PROCESS_UNCORRELATED_ACCOUNTS, CLOUD_REFRESH_ROLE, SOURCE_APPLICATION_DISCOVERY, AI_AGENT_AGGREGATION, CLOUD_ENTITLEMENT_IMPORT, CLOUD_UNCORRELATED_REFRESH, CLOUD_IDENTITY_AGGREGATION, CLOUD_ATTRIBUTE_SYNCHRONIZATION, IDENTITY_REFRESH, APPLICATION_DISCOVERY, MACHINE_IDENTITY_AGGREGATION, MACHINE_IDENTITY_DELETION, ACCOUNT_DELETION",
               "originalRequest": {
                 "url": {
@@ -607,7 +607,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "bcda1b25-eb6f-4458-82fc-1711da4bb0d6",
+              "id": "1cb58363-32ee-4d5d-9526-f2735b611e30",
               "name": "No content - indicates the request was successful but there is no content to be returned in the response.",
               "originalRequest": {
                 "url": {
@@ -684,7 +684,7 @@
           }
         },
         {
-          "id": "95713c56-0249-4121-ad09-0f93e7e9aba4",
+          "id": "743c774f-a707-466e-915c-743845adc710",
           "name": "Retrieve pending task list headers",
           "request": {
             "name": "Retrieve pending task list headers",
@@ -751,7 +751,7 @@
           },
           "response": [
             {
-              "id": "700f8cb0-9a6b-4ca3-a63d-900b8dfa7f12",
+              "id": "58fa361c-0fbf-42c0-b452-5a73776dcaba",
               "name": "Retrieve headers for a list of TaskStatus for pending tasks.",
               "originalRequest": {
                 "url": {
@@ -822,7 +822,7 @@
               "_postman_previewlanguage": "text"
             },
             {
-              "id": "002fe064-a5ce-4c62-a135-a066a039096d",
+              "id": "86cde688-2a56-4010-a40f-4706859d07f4",
               "name": "No content - indicates the request was successful but there is no content to be returned in the response.",
               "originalRequest": {
                 "url": {
@@ -911,25 +911,35 @@
           "const tokenUrl = 'https://' + pm.environment.get('tenant') + '.api.' + domain + '.com/oauth/token';",
           "const clientId = pm.environment.get('clientId');",
           "const clientSecret = pm.environment.get('clientSecret');",
+          "const scope = pm.environment.get('scope');",
+          "",
+          "const formdata = [{",
+          "        key: 'grant_type',",
+          "        value: 'client_credentials'",
+          "    },",
+          "    {",
+          "        key: 'client_id',",
+          "        value: clientId",
+          "    },",
+          "    {",
+          "        key: 'client_secret',",
+          "        value: clientSecret",
+          "    }",
+          "];",
+          "",
+          "if (scope) {",
+          "    formdata.push({",
+          "        key: 'scope',",
+          "        value: scope",
+          "    });",
+          "}",
           "",
           "const getTokenRequest = {",
           "    method: 'POST',",
           "    url: tokenUrl,",
           "    body: {",
           "        mode: 'formdata',",
-          "        formdata: [{",
-          "                key: 'grant_type',",
-          "                value: 'client_credentials'",
-          "            },",
-          "            {",
-          "                key: 'client_id',",
-          "                value: clientId",
-          "            },",
-          "            {",
-          "                key: 'client_secret',",
-          "                value: clientSecret",
-          "            }",
-          "        ]",
+          "        formdata: formdata",
           "    }",
           "};",
           "",
@@ -999,7 +1009,7 @@
     }
   ],
   "info": {
-    "_postman_id": "b6eb3ce3-1d3e-49fa-b521-23762e73ebdf",
+    "_postman_id": "3b281e0c-ce1d-4d6b-a67a-bc99aec5f083",
     "name": "Identity Security Cloud v2026 API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": {

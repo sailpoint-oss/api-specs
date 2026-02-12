@@ -12,7 +12,7 @@ servers:
         default: acmeco
         description: Tenant name assigned to customer
 security:
-  - bearerAuth: []
+  - userAuth: []
 paths:
   /ne_attributes:
     get:
@@ -3267,10 +3267,27 @@ paths:
           $ref: '#/components/responses/500'
 components:
   securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: Token token=your token
+    userAuth:
+      type: oauth2
+      x-displayName: Personal Access Token
+      description: |
+        OAuth2 Bearer token (JWT) generated using either a [personal access token (PAT)](https://developer.sailpoint.com/docs/api/authentication/#generate-a-personal-access-token) or through the [authorization code flow](https://developer.sailpoint.com/docs/api/authentication/#request-access-token-with-authorization-code-grant-flow).
+
+        Personal access tokens are associated with a user in Identity Security Cloud and relies on the user's [user level](https://documentation.sailpoint.com/saas/help/common/users/index.html) (ex. Admin, Helpdesk, etc.) to determine a base level of access.
+
+        See [Identity Security Cloud REST API Authentication](https://developer.sailpoint.com/docs/api/authentication/) for more information.
+      flows:
+        clientCredentials:
+          tokenUrl: https://example-tenant.api.identitynow.com/oauth/token
+          scopes:
+            sp:scopes:default: default scope
+            sp:scopes:all: access to all scopes
+        authorizationCode:
+          authorizationUrl: https://example-tenant.login.sailpoint.com/oauth/authorize
+          tokenUrl: https://example-tenant.api.identitynow.com/oauth/token
+          scopes:
+            sp:scopes:default: default scope
+            sp:scopes:all: access to all scopes
   parameters:
     query:
       name: query
@@ -3794,8 +3811,6 @@ components:
       required: false
       schema:
         type: string
-        minLength: 32
-        maxLength: 32
         example: some_workflow_session_123
     requester_id:
       name: requester_id
@@ -3898,8 +3913,6 @@ components:
           example: ac4aae0b-4140-49a4-a84c-126762fd0c8f
         uid:
           type: string
-          minLength: 32
-          maxLength: 32
           readOnly: true
           description: The user-specified identifier of the attribute
           example: myattribute
@@ -4024,8 +4037,6 @@ components:
           example: ac4aae0b-4140-49a4-a84c-126762fd0c8f
         uid:
           type: string
-          minLength: 32
-          maxLength: 32
           readOnly: true
           description: The user-specified identifier of the attribute
           example: myattribute
@@ -4189,8 +4200,6 @@ components:
           example: ac4aae0b-4140-49a4-a84c-126762fd0c8f
         uid:
           type: string
-          minLength: 32
-          maxLength: 32
           readOnly: true
           description: The user-specified identifier of the attribute
           example: myattribute
@@ -4339,8 +4348,6 @@ components:
           readOnly: true
         uid:
           type: string
-          minLength: 32
-          maxLength: 32
           readOnly: true
         ne_attribute_id:
           type: string
@@ -4370,7 +4377,7 @@ components:
               type: string
               example: queued
         status:
-          type: int
+          type: integer
           example: 200
     AttributeOptions-2:
       type: object
@@ -4385,6 +4392,8 @@ components:
           type: string
     ProfileTypeRule:
       type: object
+      required:
+        - type
       properties:
         id:
           type: string
@@ -4392,12 +4401,9 @@ components:
           readOnly: true
         uid:
           type: string
-          minLength: 32
-          maxLength: 32
           readOnly: true
         type:
           type: string
-          required: true
           enum:
             - ProfileTypeRule
         comparison_operator:
@@ -4410,6 +4416,8 @@ components:
           format: uuid
     ProfileStatusRule:
       type: object
+      required:
+        - type
       properties:
         id:
           type: string
@@ -4417,12 +4425,9 @@ components:
           readOnly: true
         uid:
           type: string
-          minLength: 32
-          maxLength: 32
           readOnly: true
         type:
           type: string
-          required: true
           enum:
             - ProfileStatusRule
         comparison_operator:
@@ -4439,6 +4444,12 @@ components:
             - Terminated
     ProfileAttributeRuleString:
       type: object
+      required:
+        - type
+        - condition_object_type
+        - condition_object_id
+        - comparison_operator
+        - value
       properties:
         id:
           type: string
@@ -4446,27 +4457,21 @@ components:
           readOnly: true
         uid:
           type: string
-          minLength: 32
-          maxLength: 32
           readOnly: true
         type:
           type: string
-          required: true
           enum:
             - ProfileAttributeRule
         condition_object_type:
           type: string
-          required: true
           enum:
             - TextFieldAttribute
             - TextAreaAttribute
         condition_object_id:
           type: string
-          required: true
           format: uuid
         comparison_operator:
           type: string
-          required: true
           enum:
             - '=='
             - '!='
@@ -4477,10 +4482,13 @@ components:
             - include?
         value:
           type: string
-          required: true
           example: Some value
     ProfileAttributeRuleDate:
       type: object
+      required:
+        - type
+        - condition_object_type
+        - value
       properties:
         id:
           type: string
@@ -4488,17 +4496,13 @@ components:
           readOnly: true
         uid:
           type: string
-          minLength: 32
-          maxLength: 32
           readOnly: true
         type:
           type: string
-          required: true
           enum:
             - ProfileAttributeRule
         condition_object_type:
           type: string
-          required: true
           enum:
             - DateAttribute
         condition_object_id:
@@ -4520,7 +4524,6 @@ components:
             - before
         value:
           type: string
-          required: true
           enum:
             - Today
             - <uid>
@@ -4534,6 +4537,12 @@ components:
           example: 30
     ProfileAttributeRuleId:
       type: object
+      required:
+        - type
+        - condition_object_type
+        - condition_object_id
+        - comparison_operator
+        - value
       properties:
         id:
           type: string
@@ -4541,17 +4550,13 @@ components:
           readOnly: true
         uid:
           type: string
-          minLength: 32
-          maxLength: 32
           readOnly: true
         type:
           type: string
-          required: true
           enum:
             - ProfileAttributeRule
         condition_object_type:
           type: string
-          required: true
           enum:
             - ProfileSelectAttribute
             - ProfileSearchAttribute
@@ -4561,20 +4566,21 @@ components:
             - ContributorSearchAttribute
         condition_object_id:
           type: string
-          required: true
           format: uuid
         comparison_operator:
           type: string
-          required: true
           enum:
             - include?
             - exclude?
         value:
           type: string
-          required: true
           format: uuid
     RiskRule:
       type: object
+      required:
+        - type
+        - value
+        - secondary_value
       properties:
         id:
           type: string
@@ -4582,12 +4588,9 @@ components:
           readOnly: true
         uid:
           type: string
-          minLength: 32
-          maxLength: 32
           readOnly: true
         type:
           type: string
-          required: true
           enum:
             - RiskRule
         comparison_operator:
@@ -4599,11 +4602,9 @@ components:
         value:
           type: string
           summary: id of the Risk Level being compared against
-          required: true
           format: uuid
         secondary_value:
           type: string
-          required: true
           enum:
             - OverallRisk
     AdvancedSearch:
@@ -4615,8 +4616,6 @@ components:
           readOnly: true
         uid:
           type: string
-          minLength: 32
-          maxLength: 32
           readOnly: true
         label:
           type: string
@@ -4632,39 +4631,41 @@ components:
               - $ref: '#/components/schemas/RiskRule'
     ProfileTypeRule-2:
       type: object
+      required:
+        - type
+        - comparison_operator
+        - value
       properties:
         type:
           type: string
-          required: true
           enum:
             - ProfileTypeRule
         comparison_operator:
           type: string
-          required: true
           enum:
             - '=='
             - '!='
         value:
           type: string
-          required: true
           format: uuid
     ProfileStatusRule-2:
       type: object
+      required:
+        - type
+        - comparison_operator
+        - value
       properties:
         type:
           type: string
-          required: true
           enum:
             - ProfileStatusRule
         comparison_operator:
           type: string
-          required: true
           enum:
             - '=='
             - '!='
         value:
           type: string
-          required: true
           enum:
             - Active
             - Inactive
@@ -4672,25 +4673,27 @@ components:
             - Terminated
     ProfileAttributeRuleString-2:
       type: object
+      required:
+        - type
+        - condition_object_type
+        - condition_object_id
+        - comparison_operator
+        - value
       properties:
         type:
           type: string
-          required: true
           enum:
             - ProfileAttributeRule
         condition_object_type:
           type: string
-          required: true
           enum:
             - TextFieldAttribute
             - TextAreaAttribute
         condition_object_id:
           type: string
-          required: true
           format: uuid
         comparison_operator:
           type: string
-          required: true
           enum:
             - '=='
             - '!='
@@ -4701,19 +4704,20 @@ components:
             - include?
         value:
           type: string
-          required: true
           example: Some value
     ProfileAttributeRuleDate-2:
       type: object
+      required:
+        - type
+        - condition_object_type
+        - value
       properties:
         type:
           type: string
-          required: true
           enum:
             - ProfileAttributeRule
         condition_object_type:
           type: string
-          required: true
           enum:
             - DateAttribute
         condition_object_id:
@@ -4735,7 +4739,6 @@ components:
             - before
         value:
           type: string
-          required: true
           enum:
             - Today
             - <uid>
@@ -4749,15 +4752,19 @@ components:
           example: 30
     ProfileAttributeRuleId-2:
       type: object
+      required:
+        - type
+        - condition_object_type
+        - condition_object_id
+        - comparison_operator
+        - value
       properties:
         type:
           type: string
-          required: true
           enum:
             - ProfileAttributeRule
         condition_object_type:
           type: string
-          required: true
           enum:
             - ProfileSelectAttribute
             - ProfileSearchAttribute
@@ -4767,24 +4774,24 @@ components:
             - ContributorSearchAttribute
         condition_object_id:
           type: string
-          required: true
           format: uuid
         comparison_operator:
           type: string
-          required: true
           enum:
             - include?
             - exclude?
         value:
           type: string
-          required: true
           format: uuid
     RiskRule-2:
       type: object
+      required:
+        - type
+        - value
+        - secondary_value
       properties:
         type:
           type: string
-          required: true
           enum:
             - RiskRule
         comparison_operator:
@@ -4796,11 +4803,9 @@ components:
         value:
           type: string
           summary: id of the Risk Level being compared against
-          required: true
           format: uuid
         secondary_value:
           type: string
-          required: true
           enum:
             - OverallRisk
     AdvancedSearch-2:
@@ -4829,8 +4834,6 @@ components:
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         uid:
           type: string
-          minLength: 32
-          maxLength: 32
           readOnly: true
           description: The objects UID
           example: profileUid
@@ -4952,8 +4955,6 @@ components:
           readOnly: true
         uid:
           type: string
-          minLength: 32
-          maxLength: 32
           readOnly: true
         type:
           type: string
@@ -4997,8 +4998,6 @@ components:
           readOnly: true
         uid:
           type: string
-          minLength: 32
-          maxLength: 32
           readOnly: true
         type:
           type: string
@@ -5053,8 +5052,6 @@ components:
           readOnly: true
         uid:
           type: string
-          minLength: 32
-          maxLength: 32
           readOnly: true
         type:
           type: string
@@ -5097,8 +5094,6 @@ components:
           readOnly: true
         uid:
           type: string
-          minLength: 32
-          maxLength: 32
           readOnly: true
         type:
           type: string
@@ -5382,7 +5377,7 @@ components:
           description: The user-specified identifier of the form
           example: form_uid
         description:
-          type: text
+          type: string
           example: Form for creating new profile
           description: The description of the form
         name:
@@ -5407,7 +5402,7 @@ components:
           description: The user-specified identifier of the form
           example: form_uid
         description:
-          type: text
+          type: string
           example: Form for creating new profile
           description: The description of the form
         name:
@@ -5426,7 +5421,7 @@ components:
           description: The user-specified identifier of the form
           example: form_uid
         description:
-          type: text
+          type: string
           example: Form for creating new profile
           description: The description of the form
         name:
@@ -5607,6 +5602,8 @@ components:
           example: es
     PageContent:
       type: object
+      required:
+        - type
       properties:
         id:
           type: string
@@ -5629,7 +5626,6 @@ components:
             - HtmlContainer
             - Owner
             - RequestProgressBar
-          required: true
           description: The type of content on the page.
           example: MediumHeading
         content:
@@ -5641,15 +5637,17 @@ components:
           format: date-time
           readOnly: true
           description: The date-time the record created.
-          example: '2022-12-27 08:26:49.219717'
+          example: '2022-12-27T08:26:49.219717'
         updated_at:
           type: string
           format: date-time
           readOnly: true
           description: The date-time the record was last updated.
-          example: '2022-12-27 08:26:49.219717'
+          example: '2022-12-27T08:26:49.219717'
     PageContent-2:
       type: object
+      required:
+        - type
       properties:
         uid:
           type: string
@@ -5666,7 +5664,6 @@ components:
             - HtmlContainer
             - Owner
             - RequestProgressBar
-          required: true
           description: The type of content on the page.
           example: MediumHeading
         content:
@@ -5739,7 +5736,7 @@ components:
           description: The user-specified identifier of the page
           example: page_uid
         description:
-          type: text
+          type: string
           example: Page for workflow
           description: The description of the page
         name:
@@ -5758,7 +5755,7 @@ components:
           description: The user-specified identifier of the page
           example: page_uid
         description:
-          type: text
+          type: string
           example: Page for workflow
           description: The description of the page
         name:
@@ -5783,7 +5780,7 @@ components:
           description: The user-specified identifier of the page
           example: page_uid
         description:
-          type: text
+          type: string
           example: Page for workflow
           description: The description of the page
         name:
@@ -5802,12 +5799,14 @@ components:
           example: 2e06b876-f456-473d-bd65-b6435e0b6b2d
     PageElement:
       type: object
+      required:
+        - element_type
       properties:
         id:
           type: string
           format: uuid
           readOnly: true
-          description: The id of the page content
+          description: The id of the page element
           example: ac4aae0b-4140-49a4-a84c-126762fd0c8f
         uid:
           type: string
@@ -5818,7 +5817,6 @@ components:
           enum:
             - PageContent
             - Form
-          required: true
           description: The type of content on the page.
           example: PageContent
         page_uid:
@@ -5844,10 +5842,12 @@ components:
         order:
           type: integer
           format: int32
-          example: 1
           description: The position of the attribute in the ProfileType's naming
+          example: 1
     PageElement-2:
       type: object
+      required:
+        - element_type
       properties:
         id:
           type: string
@@ -5864,7 +5864,6 @@ components:
           enum:
             - PageContent
             - Form
-          required: true
           description: The type of content on the page.
           example: PageContent
         page_uid:
@@ -5894,6 +5893,8 @@ components:
           description: The ordinal position of the attribute in the user-interface page.
     PageElement-3:
       type: object
+      required:
+        - element_type
       properties:
         id:
           type: string
@@ -5910,7 +5911,6 @@ components:
           enum:
             - PageContent
             - Form
-          required: true
           description: The type of content on the page.
           example: PageContent
         page_uid:
@@ -6037,6 +6037,9 @@ components:
           description: The ID of the object that the permission is giving access to
     Profile-2:
       type: object
+      required:
+        - profile_type_id
+        - status
       properties:
         name:
           type: string
@@ -6045,7 +6048,6 @@ components:
         profile_type_id:
           type: string
           format: uuid
-          required: true
           description: The profile type id.
           example: 79ed1cb6-9977-4965-9bfe-f2bcc2424444
         status:
@@ -6055,7 +6057,6 @@ components:
             - Inactive
             - On Leave
             - Terminated
-          required: true
           description: The profile status.
           example: Active
         id_proofing_status:
@@ -6300,8 +6301,6 @@ components:
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         uid:
           type: string
-          minLength: 32
-          maxLength: 32
           readOnly: true
           description: The objects UID.
           example: ptUid
@@ -6351,8 +6350,6 @@ components:
                 example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
               uid:
                 type: string
-                minLength: 32
-                maxLength: 32
                 description: The user-specified identifier of the properties that are used for duplication protection.
                 example: attribute-uid
               profile_type_id:
@@ -6377,8 +6374,6 @@ components:
                 example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
               uid:
                 type: string
-                minLength: 32
-                maxLength: 32
                 description: The user-specified identifier of the profile type naming.
                 example: profile-type-name
               profile_type_id:
@@ -6487,6 +6482,8 @@ components:
           example: 2e06b876-f456-473d-bd65-b6435e0b6b2d
     ProfileTypeAttribute:
       type: object
+      required:
+        - label
       properties:
         id:
           description: ID of ne attribute
@@ -6497,20 +6494,17 @@ components:
         uid:
           description: Ne attribute's uid
           type: string
-          minLength: 32
-          maxLength: 32
           readOnly: true
           example: 1246d8b3-ac29-4015-8154-dea4434a73fa
         label:
           description: Ne attribute's label
           type: string
-          required: true
           readOnly: true
           example: object
         synced:
           description: synced_attribute ID if there is one
-          type: uuid
-          required: false
+          type: string
+          format: uuid
           example: 1246d8b3-ac29-4015-8154-dea4434a73fa
     ProfileTypeAttributes:
       type: object
@@ -6562,8 +6556,6 @@ components:
           readOnly: true
         uid:
           type: string
-          minLength: 32
-          maxLength: 32
           readOnly: true
         label:
           type: string
@@ -6582,8 +6574,6 @@ components:
           readOnly: true
         uid:
           type: string
-          minLength: 32
-          maxLength: 32
           readOnly: true
         object_id:
           type: string
@@ -6620,8 +6610,6 @@ components:
           readOnly: true
         uid:
           type: string
-          minLength: 32
-          maxLength: 32
           readOnly: true
           example: sponsors_role
         name:
@@ -6637,8 +6625,6 @@ components:
       properties:
         uid:
           type: string
-          minLength: 32
-          maxLength: 32
           example: sponsors_role
         type:
           type: string
@@ -6702,8 +6688,6 @@ components:
           readOnly: true
         uid:
           type: string
-          minLength: 32
-          maxLength: 32
           readOnly: true
         role_id:
           type: string
@@ -6742,8 +6726,6 @@ components:
         uid:
           type: string
           description: The user identifier for the object
-          minLength: 32
-          maxLength: 32
           readOnly: true
           enum:
             - profile_contributor
@@ -6822,16 +6804,19 @@ components:
           description: The ID of the object that the permission is giving access to
     User:
       type: object
+      required:
+        - name
+        - email
+        - type
+        - login
       properties:
         name:
           type: string
-          required: true
           description: The user name
           example: Bob
         email:
           type: string
           format: email
-          required: true
           description: The user email
           example: test@sailpoint.com
         type:
@@ -6857,12 +6842,10 @@ components:
             - Active
             - Pending
             - Disabled
-          required: true
           description: The user status
           example: Active
         login:
           type: string
-          required: true
           description: The user login
           example: my_user
         group_strings:
@@ -6876,11 +6859,9 @@ components:
         password:
           type: string
           description: The user password. Not required for NeprofileUser
-          required: false
           example: U*bF7hy9fW
         sailpoint_identity_id:
           type: string
-          format: string
           description: The SailPoint Identity ID associated with this user
           example: db6f8e8b-65c2-47d5-a0db-90bcc4e9df9e
     User-2:
@@ -6894,8 +6875,6 @@ components:
           description: ID of the object to retrieve or update
         uid:
           type: string
-          minLength: 32
-          maxLength: 32
           readonly: true
           example: user1
           description: UID of the user
@@ -7046,8 +7025,6 @@ components:
           readOnly: true
         uid:
           type: string
-          minLength: 32
-          maxLength: 32
           readOnly: true
         user_id:
           type: string
@@ -7100,8 +7077,6 @@ components:
           readOnly: true
         uid:
           type: string
-          minLength: 32
-          maxLength: 32
           readOnly: true
         user_id:
           type: string
@@ -7162,8 +7137,6 @@ components:
           readOnly: true
         uid:
           type: string
-          minLength: 32
-          maxLength: 32
           readOnly: true
         user_id:
           type: string
@@ -7192,11 +7165,15 @@ components:
           format: uuid
     CreateWorkflow:
       type: object
+      required:
+        - profile_type_id
+        - status
+        - uid
+        - name
       properties:
         profile_type_id:
           type: string
           format: uuid
-          required: true
           description: The profile type the workflow effects.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         status:
@@ -7204,17 +7181,14 @@ components:
           enum:
             - Enabled
             - Disabled
-          required: true
           description: Whether or not the workflow is enabled or disabled.
           example: Enabled
         uid:
           type: string
-          required: true
           description: The user-specified identifier of the workflow.
           example: my_uid
         name:
           type: string
-          required: true
           description: Name of the workflow
           example: my_workflow
     WorkflowSession:
@@ -7228,8 +7202,6 @@ components:
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         uid:
           type: string
-          minLength: 32
-          maxLength: 32
           readOnly: true
           description: The objects UID.
           example: wsUid
@@ -7353,11 +7325,16 @@ components:
             radio_attribute_uid: yes, no
     UpdateWorkflow:
       type: object
+      required:
+        - profile_type_id
+        - status
+        - uid
+        - name
+        - profile_status
       properties:
         profile_type_id:
           type: string
           format: uuid
-          required: true
           description: The profile type the workflow effects.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         status:
@@ -7365,31 +7342,31 @@ components:
           enum:
             - Enabled
             - Disabled
-          required: true
           description: Whether or not the workflow is enabled or disabled.
           example: Enabled
         uid:
           type: string
-          required: true
           description: The user-specified identifier of the workflow.
           example: my_uid
         name:
           type: string
-          required: true
           description: Name of the workflow
           example: my_workflow
         profile_status:
           type: string
-          required: true
           description: The status of the profiles the workflow will effect.
           example: active
     BatchWorkflow:
       type: object
+      required:
+        - profile_type_id
+        - status
+        - uid
+        - name
       properties:
         profile_type_id:
           type: string
           format: uuid
-          required: true
           description: The profile type the workflow effects.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         status:
@@ -7397,17 +7374,14 @@ components:
           enum:
             - Enabled
             - Disabled
-          required: true
           description: Whether or not the workflow is enabled or disabled.
           example: Enabled
         uid:
           type: string
-          required: true
           description: The user-specified identifier of the workflow.
           example: my_uid
         name:
           type: string
-          required: true
           description: Name of the workflow
           example: my_workflow
         options:
@@ -7429,11 +7403,16 @@ components:
               example: 'false'
     AutomatedWorkflow:
       type: object
+      required:
+        - profile_type_id
+        - status
+        - uid
+        - name
+        - condition_rules_attributes
       properties:
         profile_type_id:
           type: string
           format: uuid
-          required: true
           description: The profile type the workflow effects.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         status:
@@ -7441,32 +7420,34 @@ components:
           enum:
             - Enabled
             - Disabled
-          required: true
           description: Whether or not the workflow is enabled or disabled.
           example: Enabled
         uid:
           type: string
-          required: true
           description: The user-specified identifier of the workflow.
           example: my_uid
         name:
           type: string
-          required: true
           description: Name of the workflow
           example: my_workflow
         condition_rules_attributes:
           type: array
+          description: The ProfileTypeRule this workflow will be working with.
           items:
             type: object
+            required:
+              - logical_operator
+              - comparison_operator
+              - condition_object_type
+              - type
             properties:
               logical_operator:
                 type: string
                 enum:
                   - AND
                   - OR
-                required: true
                 description: The type of condition rule.
-                example: RiskRule
+                example: AND
               comparison_operator:
                 type: string
                 enum:
@@ -7477,38 +7458,32 @@ components:
                   - include?
                   - absent?
                   - after
-                required: true
                 description: The operator used by the condition rule.
-                example: '>'
+                example: '=='
               condition_object_id:
                 type: string
-                required: false
+                format: uuid
                 description: UUID for object targeted by the condition.
                 example: cc844e99-9895-43d0-9d17-8f606b2158ba
               condition_object_type:
                 type: string
-                required: false
                 description: Type of object targeted by the condition.
                 example: DateAttribute
               secondary_value:
                 type: string
-                required: false
                 description: Used for time_frame comparison.
                 example: before
               tertiary_value:
                 type: string
-                required: false
                 description: Represents the days of a temporal comparison.
                 example: before
               value:
                 type: string
-                required: false
                 description: The value being compared against.
-                example: before
+                example: 'true'
               order:
                 type: integer
                 format: int32
-                required: false
                 description: If there are multiple rules against one workflow, this is the order that they are ran in.
                 example: 1
               type:
@@ -7523,23 +7498,25 @@ components:
                   - ProfileAttributeRule
                   - ProfileDoesNotExistRule
                   - IdentityProofingRule
-                required: true
                 description: The type of condition rule.
-                example: ProfileIdRule
-          description: The ProfileTypeRule this workflow will be working with.
+                example: ProfileTypeRule
           example:
             - type: ProfileTypeRule
-              condition_type: Workflow
+              condition_object_type: DateAttribute
               comparison_operator: '=='
               logical_operator: AND
               value: 'true'
     LoginWorkflow:
       type: object
+      required:
+        - profile_type_id
+        - status
+        - uid
+        - name
       properties:
         profile_type_id:
           type: string
           format: uuid
-          required: true
           description: The profile type the workflow effects.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         status:
@@ -7547,17 +7524,14 @@ components:
           enum:
             - Enabled
             - Disabled
-          required: true
           description: Whether or not the workflow is enabled or disabled.
           example: Enabled
         uid:
           type: string
-          required: true
           description: The user-specified identifier of the workflow.
           example: my_uid
         name:
           type: string
-          required: true
           description: Name of the workflow
           example: my_workflow
         options:
@@ -7571,22 +7545,22 @@ components:
               example: 1
     ApprovalAction:
       type: object
+      required:
+        - workflow_id
+        - page_id
       properties:
         workflow_id:
           type: string
           format: uuid
-          required: true
           description: The workflow the workflow action belongs to.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         description:
           type: string
-          required: false
           description: The description of the workflow action.
           example: Require approval from another user or a group of users with a specific role.
         page_id:
           type: string
           format: uuid
-          required: true
           description: The page the workflow action should render.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         archived:
@@ -7606,22 +7580,22 @@ components:
           example: false
     WorkflowAction:
       type: object
+      required:
+        - workflow_id
+        - page_id
       properties:
         workflow_id:
           type: string
           format: uuid
-          required: true
           description: The workflow the workflow action belongs to.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         description:
           type: string
-          required: false
           description: The description of the workflow action.
           example: Require approval from another user or a group of users with a specific role.
         page_id:
           type: string
           format: uuid
-          required: true
           description: The page the workflow action should render.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         add_requester_as_owner:
@@ -7632,12 +7606,10 @@ components:
         email_attribute_id:
           type: string
           format: uuid
-          required: false
           description: The attribute storing the email address for the workflow action.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         email_addresses:
           type: array
-          required: false
           items:
             type: string
             format: text
@@ -7648,7 +7620,6 @@ components:
         new_status:
           type: string
           format: text
-          required: false
           description: The new status for the Status Change workflow action.
           example: Active, Inactive, On Leave, Terminated
         archived:
@@ -7668,33 +7639,34 @@ components:
           example: false
     AskSecurityQuestionAction:
       type: object
+      required:
+        - workflow_id
+        - description
+        - number_of_questions
+        - token_expiration
+        - token_expiration_type
       properties:
         workflow_id:
           type: string
           format: uuid
-          required: true
           description: The workflow the workflow action belongs to.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         description:
           type: string
-          required: true
           description: The description of the workflow action.
           example: Prompt the user to answer some personal security questions.
         number_of_questions:
           type: integer
           format: int32
-          required: true
           description: The number of questions the user should answer upon login.
           example: 1
         token_expiration:
           type: integer
           format: int32
-          required: true
           description: The token expiration time, coordinates with token_expiration_type.
           example: 1
         token_expiration_type:
           type: string
-          required: true
           enum:
             - hours
             - days
@@ -7709,16 +7681,17 @@ components:
           example: false
     AutoAssignAction:
       type: object
+      required:
+        - workflow_id
+        - description
       properties:
         workflow_id:
           type: string
           format: uuid
-          required: true
           description: The workflow the workflow action belongs to.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         description:
           type: string
-          required: true
           description: The description of the workflow action.
           example: Automatically assigns contributors to this profile.
         archived:
@@ -7729,21 +7702,21 @@ components:
         contributor_attr:
           type: string
           format: uuid
-          required: false
           description: The id of the contributor attribute for contributors from another profile. If workflow_action_roles are not associated to this object, this is required.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
     BatchUpdateAction:
       type: object
+      required:
+        - workflow_id
+        - description
       properties:
         workflow_id:
           type: string
           format: uuid
-          required: true
           description: The workflow the workflow action belongs to.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         description:
           type: string
-          required: true
           description: The description of the workflow action.
           example: Updates a batch of profiles with all attributes collected during the workflow.
         archived:
@@ -7753,16 +7726,17 @@ components:
           example: false
     CloseSessionAction:
       type: object
+      required:
+        - workflow_id
+        - description
       properties:
         workflow_id:
           type: string
           format: uuid
-          required: true
           description: The workflow the workflow action belongs to.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         description:
           type: string
-          required: true
           description: The description of the workflow action.
           example: Closes the current workflow session.
         archived:
@@ -7772,21 +7746,21 @@ components:
           example: false
     ContributorsAction:
       type: object
+      required:
+        - workflow_id
+        - description
       properties:
         workflow_id:
           type: string
           format: uuid
-          required: true
           description: The workflow the workflow action belongs to.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         description:
           type: string
-          required: true
           description: The description of the workflow action.
           example: Have the requester determine the contributors or owner of the profile.
         owner:
           type: string
-          required: false
           enum:
             - true
             - false
@@ -7794,7 +7768,6 @@ components:
           example: 'true'
         contributors:
           type: string
-          required: false
           enum:
             - true
             - false
@@ -7802,7 +7775,6 @@ components:
           example: 'true'
         roles:
           type: string
-          required: false
           enum:
             - true
             - false
@@ -7815,16 +7787,17 @@ components:
           example: false
     CreateProfileAction:
       type: object
+      required:
+        - workflow_id
+        - description
       properties:
         workflow_id:
           type: string
           format: uuid
-          required: true
           description: The workflow the workflow action belongs to.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         description:
           type: string
-          required: true
           description: The description of the workflow action.
           example: Creates a profile with all attributes collected during the workflow.
         add_requester_as_owner:
@@ -7839,21 +7812,22 @@ components:
           example: false
     DuplicatePreventionAction:
       type: object
+      required:
+        - workflow_id
+        - description
+        - search_scope
       properties:
         workflow_id:
           type: string
           format: uuid
-          required: true
           description: The workflow the workflow action belongs to.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         description:
           type: string
-          required: true
           description: The description of the workflow action.
           example: Allows a user to select an already existing profile, or create a new one for the request.
         search_scope:
           type: string
-          required: true
           enum:
             - all
             - current
@@ -7861,13 +7835,13 @@ components:
           example: current
         ne_attribute_ids:
           type: array
-          required: false
+          items:
+            type: string
           description: An array of ne_attribute_ids.
           example:
             - 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         handle_id:
           type: string
-          required: false
           description: The handle id.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         archived:
@@ -7877,33 +7851,34 @@ components:
           example: false
     EmailVerificationAction:
       type: object
+      required:
+        - workflow_id
+        - description
+        - email_expiration
+        - token_expiration
+        - token_expiration_type
       properties:
         workflow_id:
           type: string
           format: uuid
-          required: true
           description: The workflow the workflow action belongs to.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         description:
           type: string
-          required: true
           description: The description of the workflow action.
           example: Have the user verify their email address.
         email_expiration:
           type: integer
           format: int32
-          required: true
           description: The email expiration time, in minutes.
           example: 20
         token_expiration:
           type: integer
           format: int32
-          required: true
           description: The token expiration time, coordinates with token_expiration_type.
           example: 1
         token_expiration_type:
           type: string
-          required: true
           enum:
             - hours
             - days
@@ -7918,22 +7893,22 @@ components:
           example: false
     FulfillmentAction:
       type: object
+      required:
+        - workflow_id
+        - description
       properties:
         workflow_id:
           type: string
           format: uuid
-          required: true
           description: The workflow the workflow action belongs to.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         description:
           type: string
-          required: true
           description: The description of the workflow action.
           example: Have another user or group provide information for the profile.
         page_id:
           type: string
           format: uuid
-          required: false
           description: The page the workflow action should render.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         archived:
@@ -7948,16 +7923,17 @@ components:
           example: false
     IdentityProofingAction:
       type: object
+      required:
+        - workflow_id
+        - description
       properties:
         workflow_id:
           type: string
           format: uuid
-          required: true
           description: The workflow the workflow action belongs to.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         description:
           type: string
-          required: true
           description: The description of the workflow action.
           example: Have the user account associated with this profile validate the identity data.
         archived:
@@ -7967,16 +7943,17 @@ components:
           example: false
     InvitationAction:
       type: object
+      required:
+        - workflow_id
+        - description
       properties:
         workflow_id:
           type: string
           format: uuid
-          required: true
           description: The workflow the workflow action belongs to.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         description:
           type: string
-          required: true
           description: The description of the workflow action.
           example: Creates a registration session associated with an email address
         archived:
@@ -8052,16 +8029,18 @@ components:
               example: StandardEmail
     LdapAction:
       type: object
+      required:
+        - workflow_id
+        - description
+        - store_type
       properties:
         workflow_id:
           type: string
           format: uuid
-          required: true
           description: The workflow the workflow action belongs to.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         description:
           type: string
-          required: true
           description: The description of the workflow action.
           example: Create a Collaboration user account for this profile.
         archived:
@@ -8071,7 +8050,6 @@ components:
           example: false
         store_type:
           type: string
-          required: true
           enum:
             - Local
             - Directory
@@ -8138,27 +8116,26 @@ components:
               example: group
     NotificationAction:
       type: object
+      required:
+        - workflow_id
+        - description
       properties:
         workflow_id:
           type: string
           format: uuid
-          required: true
           description: The workflow the workflow action belongs to.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         description:
           type: string
-          required: true
           description: The description of the workflow action.
           example: Send a notification to a group of users.
         email_attribute_id:
           type: string
           format: uuid
-          required: false
           description: The attribute storing the email address for the workflow action.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         email_addresses:
           type: array
-          required: false
           items:
             type: string
             format: text
@@ -8197,16 +8174,17 @@ components:
               example: StandardEmail
     PasswordResetAction:
       type: object
+      required:
+        - workflow_id
+        - description
       properties:
         workflow_id:
           type: string
           format: uuid
-          required: true
           description: The workflow the workflow action belongs to.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         description:
           type: string
-          required: true
           description: The description of the workflow action.
           example: Prompt the user to reset their password.
         archived:
@@ -8216,16 +8194,17 @@ components:
           example: false
     ProfileCheckAction:
       type: object
+      required:
+        - workflow_id
+        - description
       properties:
         workflow_id:
           type: string
           format: uuid
-          required: true
           description: The workflow the workflow action belongs to.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         description:
           type: string
-          required: true
           description: The description of the workflow action.
           example: Finds a profile based on selected attributes and values found in the session.
         archived:
@@ -8235,13 +8214,13 @@ components:
           example: false
         ne_attribute_ids:
           type: array
-          required: false
+          items:
+            type: string
           description: An array of ne_attribute_ids.
           example:
             - 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         handle_type:
           type: string
-          required: false
           enum:
             - session
             - attribute
@@ -8249,21 +8228,21 @@ components:
           example: session
         handle_id:
           type: string
-          required: false
           description: The handle id.  When handle type is session, this is the session id.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
     ProfileSelectAction:
       type: object
+      required:
+        - workflow_id
+        - description
       properties:
         workflow_id:
           type: string
           format: uuid
-          required: true
           description: The workflow the workflow action belongs to.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         description:
           type: string
-          required: true
           description: The description of the workflow action.
           example: Select the profiles that you want to run this workflow for.
         archived:
@@ -8273,22 +8252,22 @@ components:
           example: false
     RequestAction:
       type: object
+      required:
+        - workflow_id
+        - description
       properties:
         workflow_id:
           type: string
           format: uuid
-          required: true
           description: The workflow the workflow action belongs to.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         description:
           type: string
-          required: true
           description: The description of the workflow action.
           example: Provides the requester a page with forms.
         page_id:
           type: string
           format: uuid
-          required: false
           description: The page the workflow action should render.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         archived:
@@ -8303,16 +8282,17 @@ components:
           example: false
     RestApiAction:
       type: object
+      required:
+        - workflow_id
+        - description
       properties:
         workflow_id:
           type: string
           format: uuid
-          required: true
           description: The workflow the workflow action belongs to.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         description:
           type: string
-          required: true
           description: The description of the workflow action.
           example: Makes a request to a Restful API.
         archived:
@@ -8322,22 +8302,22 @@ components:
           example: false
     ReviewAction:
       type: object
+      required:
+        - workflow_id
+        - description
       properties:
         workflow_id:
           type: string
           format: uuid
-          required: true
           description: The workflow the workflow action belongs to.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         description:
           type: string
-          required: true
           description: The description of the workflow action.
           example: Allows the requester to review.
         page_id:
           type: string
           format: uuid
-          required: false
           description: The page the workflow action should render.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         archived:
@@ -8352,16 +8332,17 @@ components:
           example: false
     RunWorkflowAction:
       type: object
+      required:
+        - workflow_id
+        - description
       properties:
         workflow_id:
           type: string
           format: uuid
-          required: true
           description: The workflow the workflow action belongs to.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         description:
           type: string
-          required: true
           description: The description of the workflow action.
           example: Runs another workflow with the ability to pass data in between.
         archived:
@@ -8411,16 +8392,17 @@ components:
               example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
     SetAttributesAction:
       type: object
+      required:
+        - workflow_id
+        - description
       properties:
         workflow_id:
           type: string
           format: uuid
-          required: true
           description: The workflow the workflow action belongs to.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         description:
           type: string
-          required: true
           description: The description of the workflow action.
           example: Set attribute(s) to a specific value.
         archived:
@@ -8430,16 +8412,18 @@ components:
           example: false
     SetSecurityQuestionAction:
       type: object
+      required:
+        - workflow_id
+        - description
+        - number_of_questions
       properties:
         workflow_id:
           type: string
           format: uuid
-          required: true
           description: The workflow the workflow action belongs to.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         description:
           type: string
-          required: true
           description: The description of the workflow action.
           example: Prompt the user to provide some personal security questions and answers.
         archived:
@@ -8450,21 +8434,21 @@ components:
         number_of_questions:
           type: integer
           format: int32
-          required: true
           description: The number of questions the user should answer upon login.
           example: 1
     SoapApiAction:
       type: object
+      required:
+        - workflow_id
+        - description
       properties:
         workflow_id:
           type: string
           format: uuid
-          required: true
           description: The workflow the workflow action belongs to.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         description:
           type: string
-          required: true
           description: The description of the workflow action.
           example: Makes a request to a SOAP API.
         archived:
@@ -8474,22 +8458,22 @@ components:
           example: false
     StatusChangeAction:
       type: object
+      required:
+        - workflow_id
+        - description
       properties:
         workflow_id:
           type: string
           format: uuid
-          required: true
           description: The workflow the workflow action belongs to.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         description:
           type: string
-          required: true
           description: The description of the workflow action.
           example: Changes the status of a non-employee.
         new_status:
           type: string
           format: text
-          required: false
           enum:
             - Active
             - Inactive
@@ -8504,16 +8488,17 @@ components:
           example: false
     UnassignAction:
       type: object
+      required:
+        - workflow_id
+        - description
       properties:
         workflow_id:
           type: string
           format: uuid
-          required: true
           description: The workflow the workflow action belongs to.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         description:
           type: string
-          required: true
           description: The description of the workflow action.
           example: Un-assigns roles from a profile.
         archived:
@@ -8523,16 +8508,17 @@ components:
           example: false
     UpdateProfileAction:
       type: object
+      required:
+        - workflow_id
+        - description
       properties:
         workflow_id:
           type: string
           format: uuid
-          required: true
           description: The workflow the workflow action belongs to.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         description:
           type: string
-          required: true
           description: The description of the workflow action.
           example: Updates a profile with all attributes collected during the workflow.
         archived:
@@ -8542,16 +8528,17 @@ components:
           example: false
     UsernamePasswordAction:
       type: object
+      required:
+        - workflow_id
+        - description
       properties:
         workflow_id:
           type: string
           format: uuid
-          required: true
           description: The workflow the workflow action belongs to.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         description:
           type: string
-          required: true
           description: The description of the workflow action.
           example: Prompt the user for their username and password.
         archived:
@@ -8652,17 +8639,19 @@ components:
           example: e6905f25-489a-43cd-a758-bdacaf60dcab
     WorkflowSession-2:
       type: object
+      required:
+        - workflow_id
+        - requester_id
+        - requester_type
       properties:
         workflow_id:
           type: string
           format: uuid
-          required: true
           description: The workflow id.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         requester_id:
           type: string
           format: uuid
-          required: true
           description: The requester's id.
           example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
         requester_type:
@@ -8671,7 +8660,6 @@ components:
             - User
             - NeprofileUser
             - NeaccessUser
-          required: true
           description: The requester type.
           example: User
         profile_id:
@@ -8684,11 +8672,13 @@ components:
           items:
             type: string
             format: uuid
-          example: 59ed1cb6-9977-4965-9bfe-f2bcc242523e, 89ed1cb6-9977-4965-9bfe-f2bcc242523e
           description: The profiles this workflow session will be working with. Only Applicable for Batch workflows
+          example:
+            - 59ed1cb6-9977-4965-9bfe-f2bcc242523e
+            - 89ed1cb6-9977-4965-9bfe-f2bcc242523e
         attributes:
           type: object
-          description: The attributes asscoiated with the workflow session.
+          description: The attributes associated with the workflow session.
           additionalProperties:
             type: string
           example:
@@ -8879,7 +8869,6 @@ components:
             type: object
             properties:
               ne_attribute:
-                type: object
                 $ref: '#/components/schemas/Attribute'
     AttributeOption:
       description: Expected response to a valid request
@@ -8889,7 +8878,6 @@ components:
             type: object
             properties:
               ne_attribute_option:
-                type: object
                 $ref: '#/components/schemas/AttributeOption-2'
     InvalidInput:
       description: Invalid input
@@ -8923,7 +8911,7 @@ components:
             properties:
               info:
                 type: string
-                default: The option '{Option Value}' has been deleted
+                default: The option {Option Value} has been deleted
     AdvancedSearches:
       description: Expected response to a valid request
       content:
@@ -9117,7 +9105,6 @@ components:
             type: object
             properties:
               page:
-                type: object
                 $ref: '#/components/schemas/Pages'
     PageElement:
       description: Expected response to a valid request
@@ -9566,7 +9553,6 @@ components:
             type: object
             properties:
               ne_attribute_option:
-                type: object
                 $ref: '#/components/schemas/AttributeOption'
     AttributeOptions:
       required: true
@@ -9685,7 +9671,6 @@ components:
             type: object
             properties:
               role:
-                type: object
                 $ref: '#/components/schemas/Form-2'
     FormAttribute:
       required: true
@@ -9712,18 +9697,17 @@ components:
         application/json:
           schema:
             type: object
+            required:
+              - profile
             properties:
               profile:
-                name: profile
-                in: body
-                required: true
-                description: The profile object to be updated with its schema-mapped attributes.
                 type: object
+                description: The profile object to be updated with its schema-mapped attributes.
                 properties:
                   attributes:
-                    required: false
                     type: object
                     description: schema-mapped attributes to be updated
+                    additionalProperties: true
                 example:
                   attributes:
                     First Name: John
@@ -9787,7 +9771,6 @@ components:
             type: object
             properties:
               page:
-                type: object
                 $ref: '#/components/schemas/ProfilePage'
     WorkflowPage:
       required: true
@@ -9797,7 +9780,6 @@ components:
             type: object
             properties:
               page:
-                type: object
                 $ref: '#/components/schemas/WorkflowPage'
     PageElement:
       required: true

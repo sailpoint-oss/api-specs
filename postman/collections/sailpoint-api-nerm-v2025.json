@@ -5,7 +5,7 @@
       "description": "",
       "item": [
         {
-          "id": "e6f4b710-b600-4d49-961f-436a088e3de9",
+          "id": "cc2d784a-a21e-41cb-b638-f394ef9c66c7",
           "name": "List delegations",
           "request": {
             "name": "List delegations",
@@ -89,7 +89,7 @@
           },
           "response": [
             {
-              "id": "a646e8ee-f55d-49c8-b857-5787236f67b6",
+              "id": "938c76e6-0ea7-4081-8c73-34ed9847b231",
               "name": "Expected response to a valid request",
               "originalRequest": {
                 "url": {
@@ -185,7 +185,7 @@
           }
         },
         {
-          "id": "c4897622-1ccb-4b4f-9c44-3c88d46d8ca7",
+          "id": "350dc727-416e-44c0-ae18-6dfad298e776",
           "name": "Create a delegation",
           "request": {
             "name": "Create a delegation",
@@ -227,7 +227,7 @@
           },
           "response": [
             {
-              "id": "3ab96704-a968-4bc7-9f48-b484c6a59796",
+              "id": "904e8762-de3f-4f7d-a7f5-aefe8e71c6a2",
               "name": "Expected response to a valid request",
               "originalRequest": {
                 "url": {
@@ -281,7 +281,7 @@
           }
         },
         {
-          "id": "3102a887-c1c6-4d91-b6ba-d53ea2ed1be0",
+          "id": "e53f0891-fb4a-42d1-941d-e8cf8f2105b7",
           "name": "Get a single delegation",
           "request": {
             "name": "Get a single delegation",
@@ -322,7 +322,7 @@
           },
           "response": [
             {
-              "id": "6b00c414-4834-43d4-9fa8-e83714d969e6",
+              "id": "1d190340-9e93-4c73-b31c-9ba31f9cd139",
               "name": "Expected response to a valid request",
               "originalRequest": {
                 "url": {
@@ -375,7 +375,7 @@
           }
         },
         {
-          "id": "b911e203-acbe-492e-97ad-a5ac38272555",
+          "id": "d8a99205-a610-492b-8f07-e972a6a5cc88",
           "name": "Update a delegation",
           "request": {
             "name": "Update a delegation",
@@ -429,7 +429,7 @@
           },
           "response": [
             {
-              "id": "5f1ce52a-c0db-4bad-813c-c35aed182ce8",
+              "id": "22682949-93ff-4dc9-bc17-9196a6df9bfd",
               "name": "Expected response to a valid request",
               "originalRequest": {
                 "url": {
@@ -495,7 +495,7 @@
           }
         },
         {
-          "id": "8bca2cf3-7321-4491-a87e-d4b0d84b0990",
+          "id": "81af603a-5d1c-4d88-a785-3e0f68b7f9c6",
           "name": "Delete a delegation",
           "request": {
             "name": "Delete a delegation",
@@ -536,7 +536,7 @@
           },
           "response": [
             {
-              "id": "bd190613-0633-446f-8e7e-a72177d9ae58",
+              "id": "7c164bdf-5467-40ae-865a-15ad9de4fcec",
               "name": "The delegation record '<delegation_id>' has been destroyed.",
               "originalRequest": {
                 "url": {
@@ -589,25 +589,35 @@
           "const tokenUrl = 'https://' + pm.environment.get('tenant') + '.api.' + domain + '.com/oauth/token';",
           "const clientId = pm.environment.get('clientId');",
           "const clientSecret = pm.environment.get('clientSecret');",
+          "const scope = pm.environment.get('scope');",
+          "",
+          "const formdata = [{",
+          "        key: 'grant_type',",
+          "        value: 'client_credentials'",
+          "    },",
+          "    {",
+          "        key: 'client_id',",
+          "        value: clientId",
+          "    },",
+          "    {",
+          "        key: 'client_secret',",
+          "        value: clientSecret",
+          "    }",
+          "];",
+          "",
+          "if (scope) {",
+          "    formdata.push({",
+          "        key: 'scope',",
+          "        value: scope",
+          "    });",
+          "}",
           "",
           "const getTokenRequest = {",
           "    method: 'POST',",
           "    url: tokenUrl,",
           "    body: {",
           "        mode: 'formdata',",
-          "        formdata: [{",
-          "                key: 'grant_type',",
-          "                value: 'client_credentials'",
-          "            },",
-          "            {",
-          "                key: 'client_id',",
-          "                value: clientId",
-          "            },",
-          "            {",
-          "                key: 'client_secret',",
-          "                value: clientSecret",
-          "            }",
-          "        ]",
+          "        formdata: formdata",
           "    }",
           "};",
           "",
@@ -670,7 +680,7 @@
     }
   ],
   "info": {
-    "_postman_id": "5c6ea53a-8089-41a9-8d64-9a93e6e482a8",
+    "_postman_id": "4a786103-498a-4e39-84c8-f181db61cd11",
     "name": "NERM API v2025",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": {
