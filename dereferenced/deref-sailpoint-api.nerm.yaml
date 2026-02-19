@@ -5206,6 +5206,17 @@ components:
             - Post
             - Patch
             - Delete
+            - ApprovalAction
+            - AutomatedUser
+            - DelegateUser
+            - NeaccessUser
+            - NeprofileUser
+            - Page
+            - Role
+            - SamlConfiguration
+            - SchemaMapping
+            - SchemaMappingField
+            - Workflow
           example: Profile
         type:
           description: The type of audit event

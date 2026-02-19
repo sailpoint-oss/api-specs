@@ -5,7 +5,7 @@
       "description": "",
       "item": [
         {
-          "id": "6a691255-04b1-4645-9a8e-b69b205a3aeb",
+          "id": "600ba641-9c6a-4ae6-90cc-e5cb3780245c",
           "name": "List delegations",
           "request": {
             "name": "List delegations",
@@ -89,7 +89,7 @@
           },
           "response": [
             {
-              "id": "a96dfbf9-0e7d-40a6-8662-742f15214688",
+              "id": "d5720016-28f3-4dfd-b3cc-7a6b6a8f5691",
               "name": "Expected response to a valid request",
               "originalRequest": {
                 "url": {
@@ -185,7 +185,7 @@
           }
         },
         {
-          "id": "fc4b2114-629e-484d-9d0a-857d654aef8b",
+          "id": "0e40b634-975e-4f5c-9d12-028d721055c6",
           "name": "Create a delegation",
           "request": {
             "name": "Create a delegation",
@@ -227,7 +227,7 @@
           },
           "response": [
             {
-              "id": "8821dd2c-acd9-4267-ba00-55ffc3e20453",
+              "id": "f01caab2-b7ec-4f0a-b2dd-abddea834e7e",
               "name": "Expected response to a valid request",
               "originalRequest": {
                 "url": {
@@ -281,7 +281,7 @@
           }
         },
         {
-          "id": "edb59afa-46e2-4090-8fd2-5472f4d4819d",
+          "id": "956422a6-8105-42c2-9dcf-e9e4c067c626",
           "name": "Get a single delegation",
           "request": {
             "name": "Get a single delegation",
@@ -322,7 +322,7 @@
           },
           "response": [
             {
-              "id": "a6749beb-8e13-4c77-ae63-56caa04ce74c",
+              "id": "c3cdcbeb-8908-40e3-87f0-1ab22c7a64c6",
               "name": "Expected response to a valid request",
               "originalRequest": {
                 "url": {
@@ -375,7 +375,7 @@
           }
         },
         {
-          "id": "de50e31d-b83f-490a-bdcf-4058194c7dbc",
+          "id": "7b5850fb-c3dd-47d5-9e46-2aef8a0cc264",
           "name": "Update a delegation",
           "request": {
             "name": "Update a delegation",
@@ -429,7 +429,7 @@
           },
           "response": [
             {
-              "id": "997a86cd-391c-467c-a084-9acab0481c60",
+              "id": "6e302fd9-de47-4114-b0ab-502101d0597d",
               "name": "Expected response to a valid request",
               "originalRequest": {
                 "url": {
@@ -495,7 +495,7 @@
           }
         },
         {
-          "id": "02480c4c-b556-4f9c-9751-2ac22119207b",
+          "id": "a660ad87-02cd-4512-99dc-5408c15a0ba8",
           "name": "Delete a delegation",
           "request": {
             "name": "Delete a delegation",
@@ -536,7 +536,7 @@
           },
           "response": [
             {
-              "id": "d9742494-cd9e-4fc9-a753-8e952c578cfc",
+              "id": "01ee96aa-00fc-40ba-b1ae-4c4bbb10da56",
               "name": "The delegation record '<delegation_id>' has been destroyed.",
               "originalRequest": {
                 "url": {
@@ -680,7 +680,7 @@
     }
   ],
   "info": {
-    "_postman_id": "ba391d03-7463-4b26-b965-064422cae715",
+    "_postman_id": "c5bb9b12-85ea-4f1c-9824-d60897693da4",
     "name": "NERM API v2025",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": {
