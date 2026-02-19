@@ -27,6 +27,11 @@ security:
   - userAuth:
       - sp:scopes:all
 tags:
+  - name: Account Deletion Requests
+  - name: Delete account
+  - name: Human Account Deletion Approval Config
+  - name: Machine Account Deletion Approval Config
+  - name: Machine Subtype Approval Config
   - name: Task Management
 paths:
   /task-status/{id}:
@@ -371,6 +376,568 @@ paths:
         - ROLE_SUBADMIN
         - SOURCE_ADMIN
         - SOURCE_SUBADMIN
+  /account-requests/deletion:
+    get:
+      operationId: getAccountDeletionRequests
+      tags:
+        - Account Deletion Requests
+      summary: List of Account Deletion Requests
+      description: Retrieves a paginated list of account deletion requests filtered by the provided query parameters. When the "mine" parameter is set to true, the response includes only those deletion requests that were initiated by the currently authenticated user. If "mine" is false or not specified, the endpoint returns all account deletion requests associated with the current tenant, regardless of the initiator. This allows both users and administrators to view relevant deletion requests based on their access level and intent.
+      security:
+        - userAuth:
+            - idn:account-requests:read
+            - idn:account-requests:management
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
+        - USER
+      parameters:
+        - in: header
+          name: X-SailPoint-Experimental
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/count'
+        - in: query
+          name: mine
+          schema:
+            type: boolean
+            default: false
+          description: Determines whether to return only the account deletion requests initiated by the currently authenticated user. If set to true, the response includes only deletion requests created by the logged-in user. If set to false or not provided, the response includes all deletion requests for the tenant, regardless of the initiator. This parameter allows users to view their own requests, while administrators can view all requests within the tenant.
+          example: true
+          required: false
+      responses:
+        '200':
+          description: Account Action Request objects.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccountActionRequestDto'
+              example:
+                - accountRequestId: 18104e7e499b4e23882d6323344ab6bc
+                  requestType: DELETE_ACCOUNT
+                  createdAt: '2026-01-14T08:08:27.195Z'
+                  completedAt: '2026-01-14T08:38:45.932Z'
+                  overallStatus: SUCCESS
+                  requester:
+                    type: IDENTITY
+                    id: 85131bd73fdc423599e57f40b29f01fe
+                    name: SailPoint Support
+                  requesterComments: Delete Machine Account with subtype and account owner Happy Path Test#1
+                  accountDetails:
+                    accountId: 4542bb255921482fb36f6a5550e23a99
+                    accountName: machine102,
+                    accountNativeIdentity: CN=machine 102,OU=megapod-useast1-vivek-e2e,OU=org-data-service,DC=TestAutomationAD,DC=local
+                    accountUuid: bcde4ff4-087a-4af4-b5e4-95c85e386276
+                    accountType: MACHINE
+                    accountSubtypeId: d7ae9ea3-507f-4d00-9d4f-b4464b344b88
+                    accountSubtype: null
+                    description: null
+                    sourceId: a03caa629a624cee90f94048252034cf
+                    sourceName: Active Directory
+                    hasEntitlements: false
+                    disabled: false
+                    locked: false
+                    ownerIdentity:
+                      type: IDENTITY
+                      id: 28ca01acdd3648b4b0890ab2e0af8839
+                      name: walter.white
+                  correlatedIdentity:
+                    id: c2353ef10dd54a8e9725beff360c0be2
+                    name: machine102
+                    status: null
+                    email: machine.102@testmail.identitysoon.com
+                  managerReference:
+                    id: 117e169acf21f4ae28e8a06198ce7f69
+                    name: manager
+                    email: manager@testmail.identitysoon.com
+                    status: ACTIVE
+                  approvalRequestId: 90a7b947-578b-4285-98dc-5d5d01c7b736
+                  accountRequestPhases:
+                    - name: APPROVAL_PHASE
+                      state: APPROVED
+                      started: '2026-01-14T08:08:28.644090559Z'
+                      finished: '2026-01-14T08:38:42.707043142Z'
+                    - name: PROVISIONING_PHASE
+                      state: PASSED
+                      started: '2026-01-14T08:38:42.785577841Z'
+                      finished: '2026-01-14T08:38:45.932606296Z'
+                  approvalDetails:
+                    approverType: SOURCE_OWNER
+                    approver:
+                      id: 85131bd73fdc423599e57f40b29f01fe
+                      type: IDENTITY
+                      name: SailPoint Support
+                    actionedBy:
+                      id: 85131bd73fdc423599e57f40b29f01fe
+                      type: IDENTITY
+                      name: SailPoint Support
+                    comments: Yes this can be deleted.
+                    decisionDate: '2026-01-14T08:38:41.733779Z'
+                    serialOrder: 1
+                    status: APPROVED
+                  errorDetails: null
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /account-requests/account/{accountId}/delete:
+    post:
+      operationId: deleteAccountRequest
+      tags:
+        - Delete account
+      summary: Delete account
+      description: |-
+        Initiates an account deletion request for the specified account.
+        This method validates the input data, processes the deletion request,
+        and generates an asynchronous result containing a tracking ID. 
+        >**NOTE: You can only delete accounts from sources of the "Connected" type. which supports account deletion**
+      security:
+        - userAuth:
+            - idn:account-requests:create
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
+        - USER
+      parameters:
+        - in: header
+          name: X-SailPoint-Experimental
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
+        - in: path
+          name: accountId
+          schema:
+            type: string
+          required: true
+          description: Account ID.
+          example: ef38f94347e94562b5bb8424a56498d8
+          x-sailpoint-resource-operation-id: listAccounts
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountDeleteRequestInput'
+            example:
+              comments: I requested this account deletion.
+      responses:
+        '202':
+          description: Account deletion request details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDeleteAsyncResult'
+              example:
+                accountRequestId: 2d81808474683da6017468693c260196
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /source-subtypes/{subtypeId}/machine-config:
+    get:
+      tags:
+        - Machine Subtype Approval Config
+      summary: Machine Subtype Approval Config
+      description: This endpoint retrieves the approval configuration for machine account deletion at the machine subtype level. By providing a specific subtypeId in the path, clients can fetch the approval rules and settings (such as required approvers and comments policy) that govern account deletion for that particular machine subtype. The response includes a MachineAccountSubtypeConfigDto object detailing these configurations, enabling clients to understand or display the approval workflow required for deleting machine accounts of the given subtype. Use this endpoint to get machine subtype level approval config for account deletion.
+      operationId: getMachineAccountDeletionSubTypeApprovalConfig
+      security:
+        - userAuth:
+            - idn:source-subtypes:read
+            - idn:source-subtypes:management
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
+        - API
+      parameters:
+        - in: header
+          name: X-SailPoint-Experimental
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
+        - in: path
+          name: subtypeId
+          schema:
+            type: string
+          description: machine subtype id.
+          required: true
+          example: ef38f94347e94562b5bb8424a56498d8
+          x-sailpoint-resource-operation-id: listMachineAccountSubtypes
+      responses:
+        '200':
+          description: Responds with a MachineAccountSubtypeConfigDto for machine account deletion approval config by subtypeId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MachineAccountSubTypeConfigDto'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      operationId: updateMachineAccountDeletionBySubTypeApprovalConfig
+      tags:
+        - Machine Subtype Approval Config
+      summary: Machine Subtype Approval Config
+      description: Updates the approval configuration for machine account deletion at the specified machine subtype level. This endpoint allows clients to modify approval rules and settings (such as required approvers and comments policy) for account deletion workflows associated with a given subtypeId. Use this to customize or enforce approval requirements for deleting machine accounts of a particular subtype.
+      security:
+        - userAuth:
+            - idn:source-subtypes:delete
+            - idn:source-subtypes:update
+            - idn:source-subtypes:management
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
+        - API
+      parameters:
+        - in: header
+          name: X-SailPoint-Experimental
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
+        - in: path
+          name: subtypeId
+          schema:
+            type: string
+          description: machine account subtype ID.
+          required: true
+          example: 00eebcf881994e419d72e757fd30dc0e
+          x-sailpoint-resource-operation-id: listMachineAccountSubtypes
+      requestBody:
+        required: true
+        description: The JSONPatch payload used to update the object.
+        content:
+          application/json-patch+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/JsonPatchOperation'
+              example:
+                - op: replace
+                  path: /machineAccountDelete/approvalConfig/approvers
+                  value: sourceOwner
+      responses:
+        '200':
+          description: This response indicates the PATCH operation succeeded and the API returns the updated MachineAccountSubtypeConfigDto object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MachineAccountSubTypeConfigDto'
+              example:
+                subtypeId: 1419fc28-a8ed-4a07-9f5c-0cb5dfad6311
+                machineAccountCreate:
+                  accountCreateEnabled: true
+                  approvalRequired: true
+                  formId: 4f1bb61b-a0ab-4c0a-b9fb-20f44407b75a
+                  entitlementId: 858d2151-ff19-464b-ae0d-6938b3af2baf
+                  approvalConfig:
+                    approvers: sourceOwner, manager, workgroup:f76ff96a-0815-402a-be1a-18cdc693b79f
+                    comments: ALL
+                machineAccountDelete:
+                  approvalRequired: false
+                  approvalConfig:
+                    approvers: sourceOwner
+                    comments: REJECTION
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /sources/{sourceId}/approval-config/machine-account-delete:
+    get:
+      tags:
+        - Machine Account Deletion Approval Config
+      summary: Machine Account Deletion Approval Config
+      operationId: getMachineAccountDeletionApprovalConfigBySource
+      description: Retrieves the machine account deletion approval configuration for a specific source. This endpoint returns details about the approval requirements, approvers, and comment settings that govern the deletion of machine accounts associated with the given source ID.
+      security:
+        - userAuth:
+            - idn:source-config:read
+            - idn:source-config:write
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
+      parameters:
+        - in: header
+          name: X-SailPoint-Experimental
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
+        - in: path
+          name: sourceId
+          schema:
+            type: string
+          required: true
+          description: source id.
+          example: gt38f94347e94562b5bb8424a56498d8
+          x-sailpoint-resource-operation-id: listSources
+      responses:
+        '200':
+          description: Responds with a AccountDeleteConfigDto for machine account deletion approval config by sourceId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDeleteConfigDto'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      operationId: updateMachineAccountDeletionApprovalConfig
+      tags:
+        - Machine Account Deletion Approval Config
+      summary: Machine Account Deletion Approval Config
+      description: |
+        Use this endpoint to update the machine account deletion approval configuration for a specific source.
+        The update is performed using a JSON Patch payload, which allows partial modifications to the approval config.
+        This operation is typically used to change approval requirements, approvers, or comments settings for machine account deletion.
+        The endpoint expects the source ID as a path parameter and a valid JSON Patch array in the request body.
+      security:
+        - userAuth:
+            - idn:source-config:read
+            - idn:source-config:write
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
+      parameters:
+        - in: header
+          name: X-SailPoint-Experimental
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
+        - in: path
+          name: sourceId
+          schema:
+            type: string
+          description: machine account source ID.
+          required: true
+          example: 00eebcf881994e419d72e757fd30dc0e
+          x-sailpoint-resource-operation-id: listSources
+      requestBody:
+        required: true
+        description: The JSONPatch payload used to update the object.
+        content:
+          application/json-patch+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/JsonPatchOperation'
+              example:
+                - op: replace
+                  path: /approvalConfig/comments
+                  value: ALL
+      responses:
+        '200':
+          description: This response indicates the PATCH operation succeeded and the API returns the updated AccountDeleteConfigDto object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDeleteConfigDto'
+              example:
+                approvalRequired: false
+                approvalConfig:
+                  approvers: sourceOwner
+                  comments: ALL
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /sources/{sourceId}/approval-config/account-delete:
+    get:
+      tags:
+        - Human Account Deletion Approval Config
+      summary: Human Account Deletion Approval Config
+      description: |
+        The endpoint retrieves the approval configuration for deleting human accounts from a specified source. It returns details such as whether approval is required, who the approvers are, and any additional approval settings. This helps administrators understand and manage the approval workflow for human account deletions in their organization. The response is provided as an AccountDeleteConfigDto object.
+      operationId: getAccountDeleteApprovalConfig
+      security:
+        - userAuth:
+            - idn:source-config:read
+            - idn:source-config:write
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
+      parameters:
+        - in: header
+          name: X-SailPoint-Experimental
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
+        - in: path
+          name: sourceId
+          schema:
+            type: string
+          required: true
+          description: The Source id
+          example: ha38f94347e94562b5bb8424a56498d8
+          x-sailpoint-resource-operation-id: listSources
+      responses:
+        '200':
+          description: Responds with a AccountDeleteConfigDto for human account deletion approval config by sourceId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDeleteConfigDto'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      operationId: updateAccountDeletionApprovalConfig
+      tags:
+        - Human Account Deletion Approval Config
+      summary: Human Account Deletion Approval Config
+      description: |
+        Updates the approval configuration for deleting human accounts for a specific source, identified by source ID. This endpoint allows administrators to modify settings such as whether approval is required, who the approvers are, and other approval-related options. The update is performed using a JSON Patch payload, and the response returns the updated AccountDeleteConfigDto object reflecting the new approval workflow configuration.
+      security:
+        - userAuth:
+            - idn:source-config:read
+            - idn:source-config:write
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
+      parameters:
+        - in: header
+          name: X-SailPoint-Experimental
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
+        - name: sourceId
+          in: path
+          schema:
+            type: string
+          description: Human account source ID.
+          required: true
+          example: 00eebcf881994e419d72e757fd30dc0e
+          x-sailpoint-resource-operation-id: listSources
+      requestBody:
+        required: true
+        description: The JSONPatch payload used to update the object.
+        content:
+          application/json-patch+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/JsonPatchOperation'
+              example:
+                - op: replace
+                  path: /approvalConfig/comments
+                  value: ALL
+      responses:
+        '200':
+          description: This response indicates the PATCH operation succeeded and the API returns the updated AccountDeleteConfigDto object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDeleteConfigDto'
+              example:
+                approvalRequired: false
+                approvalConfig:
+                  approvers: sourceOwner
+                  comments: ALL
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
 components:
   securitySchemes:
     userAuth:
@@ -410,6 +977,456 @@ components:
             sp:scopes:default: default scope
             sp:scopes:all: access to all scopes
   schemas:
+    AccountActionRequestDto:
+      type: object
+      title: Account Action Request Dto
+      description: Represents a request to perform an action on an account, such as deletion or modification.
+      properties:
+        accountRequestId:
+          type: string
+          description: Account requester ID.
+          example: 2d8180a46faadee4016fb4e018c20648
+        requestType:
+          type: string
+          description: Access item requester's identity ID.
+          example: 2c7180a46faadee4016fb4e018c20648
+        createdAt:
+          description: Creation date and time of account deletion request date.
+          type: string
+          example: '2026-01-20T21:30:00Z'
+          format: date-time
+          readOnly: true
+        completedAt:
+          description: Account deletion request completion date and time.
+          type: string
+          example: '2026-01-20T21:35:00Z'
+          format: date-time
+          readOnly: true
+        overallStatus:
+          type: string
+          description: Overall status of deletion request.
+          example: SUCCESS
+        requester:
+          allOf:
+            - $ref: '#/components/schemas/BaseReferenceDto'
+            - description: The identity who request this account delete request.
+              nullable: false
+              example:
+                type: IDENTITY
+                id: SailPoint Support
+                name: 85131bd73fdc423599e57f40b29f01fe
+        requesterComments:
+          type: string
+          description: Comments added by the requester while creating the account deletion request.
+          example: User requested account deletion due to inactivity.
+        accountDetails:
+          allOf:
+            - $ref: '#/components/schemas/AccountDetails'
+            - description: Account Details
+              nullable: false
+              example:
+                accountId: 4542bb255921482fb36f6a5550e23a99
+                accountName: machine102
+                accountNativeIdentity: CN=machine 102,OU=megapod-useast1-vivek-e2e,OU=org-data-service,DC=TestAutomationAD,DC=local
+                accountUuid:
+                  bcde4ff4-087a-4af4-b5e4-95c85e386276: null
+                accountType: MACHINE
+                accountSubtypeId: d7ae9ea3-507f-4d00-9d4f-b4464b344b88
+                accountSubtype: null
+                description: null
+                sourceId: a03caa629a624cee90f94048252034cf
+                sourceName: Active Directory
+                hasEntitlements: false
+                disabled: false
+                locked: false
+                ownerIdentity:
+                  type: IDENTITY
+                  id: 28ca01acdd3648b4b0890ab2e0af8839
+                  name: walter.white
+        correlatedIdentity:
+          allOf:
+            - $ref: '#/components/schemas/IdentityReference'
+            - description: Correlated Identity details
+          example:
+            id: c2353ef10dd54a8e9725beff360c0be2
+            name: machine102
+            email: machine.102@testmail.identitysoon.com
+            status: ACTIVE
+        managerReference:
+          allOf:
+            - $ref: '#/components/schemas/IdentityReference'
+          example:
+            id: 117e169acf21f4ae28e8a06198ce7f69
+            name: manager
+            email: manager@testmail.identitysoon.com
+            status: ACTIVE
+        approvalRequestId:
+          type: string
+          description: ID of the approval request associated with the account deletion action.
+          example: 06cc946d58bb4422bbd094cf78667d42
+        accountRequestPhases:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountRequestPhase'
+          description: List of account request phases.
+          example:
+            - name: APPROVAL_PHASE
+              state: APPROVED
+              started: '2026-01-14T08:08:28.644090559Z'
+              finished: '2026-01-14T08:38:42.707043142Z'
+            - name: PROVISIONING_PHASE
+              state: PASSED
+              started: '2026-01-14T08:38:42.785577841Z'
+              finished: '2026-01-14T08:38:45.932606296Z'
+        approvalDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApprovalDetails'
+          description: List approval details
+          example:
+            - identityID: 85131bd73fdc423599e57f40b29f01fe
+              id: 85131bd73fdc423599e57f40b29f01fe
+              name: SailPoint Support
+              email: support@testmail.identitysoon.com
+              type: IDENTITY
+              ownerOf:
+                email: Alfred.255e71dfc6e@testmail.identitysoon.com
+                type: IDENTITY
+                id: 7ec252acbd4245548bc25df22348cb75
+                name: Alfred
+              actionedAs:
+                email: Alfred.255e71dfc6e@testmail.identitysoon.com
+                type: IDENTITY
+                id: 7ec252acbd4245548bc25df22348cb75
+                name: Alfred
+              members:
+                email: Alfred.255e71dfc6e@testmail.identitysoon.com
+                type: IDENTITY
+                id: 7ec252acbd4245548bc25df22348cb75
+                name: Alfred
+        errorDetails:
+          nullable: true
+          type: string
+          description: Detailed error information.
+          example: Detailed error message.
+    AccountDeleteAsyncResult:
+      description: Asynchronous response containing a unique tracking ID for the account deletion request
+      required:
+        - accountRequestId
+      type: object
+      title: Account Delete Async Result
+      properties:
+        accountRequestId:
+          description: Id of the deletion request
+          type: string
+          example: 2d81808474683da6017468693c260196
+    AccountDeleteRequestInput:
+      type: object
+      title: Account Delete Request Input
+      description: Contains the required information for processing a user-initiated account deletion request, including the reason for deletion.
+      properties:
+        comments:
+          type: string
+          description: Reason for deleting the account.
+          example: Requesting account deletion request
+    AccountDetails:
+      type: object
+      title: Account Details
+      description: Contains detailed information about an account, including identifiers, type, status, source, and ownership details.
+      properties:
+        accountId:
+          type: string
+          description: ID of account
+          example: 15e169acf21f4ae28e8a06198ce7f699
+        accountName:
+          type: string
+          description: Account name
+          example: walter.white
+        accountNativeIdentity:
+          type: string
+          description: Native identity of account
+          example: CN=Walter White,OU=BB,OU=org-data-service,DC=TestAutomationAD,DC=local
+        accountUuid:
+          type: string
+          description: UUID associated with account
+          example:
+            3bbeb846-e168-47d2-9e5d-bd46506c9280: null
+        accountType:
+          type: string
+          nullable: false
+          description: Type of account
+          example: HUMAN
+        accountSubtypeId:
+          type: string
+          nullable: true
+          description: Sub Type ID of account
+          example: null
+        accountSubtype:
+          type: string
+          nullable: true
+          description: Subtype of account
+          example: null
+        description:
+          type: string
+          nullable: true
+          description: Account Description
+          example: This is human account for identity walter.white
+        sourceId:
+          type: string
+          description: ID of source
+          example: ee03924d95034cd088cbd5af068f1772
+        sourceName:
+          type: string
+          description: Name of source
+          example: BB AD
+        hasEntitlements:
+          type: boolean
+          default: false
+          description: Indicates entitlements assigned to identity or not
+          example: true
+        disabled:
+          type: boolean
+          default: false
+          description: Indicates account is enabled/disabled
+          example: false
+        locked:
+          type: boolean
+          default: false
+          description: Indicates account locked/unlocked
+          example: false
+        ownerIdentity:
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/BaseReferenceDto'
+            - description: Owner identity reference.
+            - example:
+                type: IDENTITY
+                id: SailPoint Support
+                name: 85131bd73fdc423599e57f40b29f01fe
+    AccountRequestPhase:
+      type: object
+      title: Account Request phase
+      description: Contains detailed information about each phase in the account request process, including its type, current state, and relevant timestamps.
+      properties:
+        name:
+          type: string
+          enum:
+            - APPROVAL_PHASE
+            - PROVISIONING_PHASE
+          title: AccountRequestPhaseType
+          description: Enum of account request phase type
+          example: APPROVAL_PHASE
+        state:
+          $ref: '#/components/schemas/AccountRequestPhaseState'
+        started:
+          type: string
+          description: Start date of account request phase.
+          format: date-time
+          readOnly: true
+          example: '2026-01-21T11:43:22.432Z'
+        finished:
+          description: Finish date of account request phase.
+          type: string
+          format: date-time
+          readOnly: true
+          example: '2026-01-21T11:45:22.432Z'
+    ApprovalDetails:
+      type: object
+      title: Approval Details
+      description: Contains comprehensive details about the approval process, including the approver's information, comments, decision date, serial order, and the current status of the approval request.
+      properties:
+        approver:
+          $ref: '#/components/schemas/ApproverDto'
+        approverComments:
+          type: string
+          description: Comments added by approver while rejecting or approving the account deletion request.
+          example: Approving account deletion request due to long term inactivity of account.
+        decisionDate:
+          type: string
+          description: Decision date of approval rejected or approved.
+          format: date-time
+          readOnly: true
+          example: '2026-01-21T11:43:22.432Z'
+        serialOrder:
+          type: integer
+          example: 12345
+          format: int64
+          description: SerialOrder of approval details.
+        status:
+          $ref: '#/components/schemas/AccountRequestPhaseState'
+    ApproverDto:
+      type: object
+      title: Approver Dto
+      description: Contains detailed information about the approver, including their identity, contact details, type, and references to related identities such as owners, actioned identities, and members.
+      properties:
+        identityID:
+          type: string
+          nullable: false
+          example: 22efd140d88a4ceeab32c8829973244c
+          description: Identity ID and it cannot be null.
+        id:
+          nullable: true
+          type: string
+          description: Optional id
+        name:
+          type: string
+          example: SailPoint Support
+          description: Identity display name
+        email:
+          type: string
+          example: support@testmail.identitysoon.com
+          description: Email address of identity
+        type:
+          type: string
+          example: IDENTITY
+          description: Used to mention type of data transfer object in this case it is used to transfer IDENTITY data.
+        ownerOf:
+          nullable: true
+          type: array
+          items:
+            $ref: '#/components/schemas/ApproverReference'
+          description: List of reference of identity type dto for account owner identities
+        actionedAs:
+          nullable: true
+          type: array
+          items:
+            $ref: '#/components/schemas/ApproverReference'
+          description: List of reference of identity type dto who acted on behalf of other identities.
+        members:
+          nullable: true
+          type: array
+          items:
+            $ref: '#/components/schemas/ApproverReference'
+          description: List of reference of identity type dto for member identities.
+    BaseReferenceDto:
+      type: object
+      title: Base Reference Dto
+      description: Base object for referencing other DTOs, containing type, id, and name fields for identification and display purposes.
+      properties:
+        type:
+          allOf:
+            - $ref: '#/components/schemas/DtoType'
+            - description: DTO type
+        id:
+          type: string
+          description: ID of the object to which this reference applies
+          example: 2c91808568c529c60168cca6f90c1313
+        name:
+          type: string
+          description: Human-readable display name of the object to which this reference applies
+          example: William Wilson
+    DtoType:
+      type: string
+      enum:
+        - ACCOUNT_CORRELATION_CONFIG
+        - ACCESS_PROFILE
+        - ACCESS_REQUEST_APPROVAL
+        - ACCESS_REQUEST_CONFIG
+        - ACCOUNT
+        - APPLICATION
+        - ATTRIBUTE
+        - AUTH_ORG
+        - CAMPAIGN
+        - CAMPAIGN_FILTER
+        - CERTIFICATION
+        - CLOUD_ACCESS
+        - CLUSTER
+        - CONNECTOR_SCHEMA
+        - ENTITLEMENT
+        - GOVERNANCE_GROUP
+        - IDENTITY
+        - IDENTITY_OBJECT_CONFIG
+        - IDENTITY_PROFILE
+        - IDENTITY_REQUEST
+        - MACHINE_IDENTITY
+        - LIFECYCLE_STATE
+        - NOTIFICATION_TEMPLATE
+        - PASSWORD_POLICY
+        - PASSWORD_POLICY_CONFIG
+        - PASSWORD_SYNC_GROUP
+        - PUBLIC_IDENTITIES_CONFIG
+        - ROLE
+        - RULE
+        - CONNECTOR_RULE
+        - SERVICE_DESK_INTEGRATION
+        - SOD_POLICY
+        - SOURCE
+        - SYSTEM
+        - TAG
+        - TAG_CATEGORY
+        - TASK_RESULT
+        - REPORT_RESULT
+        - SOD_VIOLATION
+        - ACCOUNT_ACTIVITY
+        - TRIGGER_SUBSCRIPTION
+        - TRANSFORM
+        - ARM_RISK
+        - ARM_ACTIVITY
+        - SEGMENT
+        - ATTR_SYNC_SOURCE_CONFIG
+        - FORM_DEFINITION
+        - WORKFLOW
+        - WORKGROUP
+        - DIMENSION
+        - UNKNOWN
+      description: An enumeration of the types of DTOs supported within the IdentityNow infrastructure.
+      example: IDENTITY
+    MachineAccountSubTypeConfigDto:
+      type: object
+      title: Machine Account Subtype Approval Config
+      description: Contains comprehensive configuration details for machine account subtype approval, including creation and deletion approval requirements, approver lists, form and entitlement references, and approval status options.
+      properties:
+        subtypeId:
+          type: string
+          description: Unique identifier representing the specific subtype of the machine account, used to distinguish between different machine account categories.
+          example: 1419fc28-a8ed-4a07-9f5c-0cb5dfad6311
+        machineAccountCreate:
+          type: object
+          description: Configuration options for machine account creation, including whether creation is enabled, if approval is required, associated form and entitlement IDs, and detailed approval settings such as approvers and allowed comment types.
+          properties:
+            accountCreateEnabled:
+              type: boolean
+              default: false
+              example: true
+              description: Specifies if the creation of machine accounts is allowed for this subtype.
+            approvalRequired:
+              type: boolean
+              default: false
+              example: true
+              description: Specifies if approval is needed before a machine account can be created for this subtype.
+            formId:
+              type: string
+              example: 4f1bb61b-a0ab-4c0a-b9fb-20f44407b75a
+              description: formId
+            entitlementId:
+              type: string
+              example: 858d2151-ff19-464b-ae0d-6938b3af2baf
+              description: Configuration details specifying who can approve machine account creation requests and the types of comments allowed during the approval process.
+            approvalConfig:
+              $ref: '#/components/schemas/ApprovalConfig'
+        machineAccountDelete:
+          type: object
+          description: Configuration options for machine account deletion, including whether approval is required, the list of authorized approvers, and the types of comments permitted during the approval workflow.
+          properties:
+            approvalRequired:
+              type: boolean
+              default: false
+              example: true
+              description: Indicates whether approval is required for an account deletion request.
+            approvalConfig:
+              $ref: '#/components/schemas/ApprovalConfig'
+    AccountDeleteConfigDto:
+      type: object
+      title: Account Delete Config
+      description: detailed information about account delete approval config
+      properties:
+        approvalRequired:
+          type: boolean
+          default: false
+          example: true
+          description: Specifies if an account deletion request requires approval.
+        approvalConfig:
+          $ref: '#/components/schemas/ApprovalConfig'
     Target:
       type: object
       title: Target
@@ -756,6 +1773,72 @@ components:
                   - '003'
           description: The value to be used for the operation, required for "add" and "replace" operations
           example: New description
+    IdentityReference:
+      type: object
+      title: Identity Reference
+      description: Contains detailed information about an identity, including unique identifier, name, email address, and registration status.
+      properties:
+        id:
+          type: string
+          description: ID of identity
+          example: 117e169acf21f4ae28e8a06198ce7f69
+        name:
+          type: string
+          description: Name of Identity
+          example: Alfred
+        email:
+          type: string
+          nullable: true
+          description: mail id of identity
+          example: alfred@testmail.identitysoon.com
+        status:
+          type: string
+          nullable: true
+          description: status of identity UNREGISTERED/REGISTERED
+          example: UNREGISTERED
+    AccountRequestPhaseState:
+      type: string
+      enum:
+        - PENDING
+        - CANCELLED
+        - APPROVED
+        - REJECTED
+        - PASSED
+        - FAILED
+      description: The current phase state of the account request, indicating its progress or outcome in the approval workflow.
+      example: APPROVED
+    ApproverReference:
+      type: object
+      title: ApproverReference
+      properties:
+        id:
+          type: string
+          description: Id of supported DtoType like IDENTITY, MACHINE_IDENTITY etc.
+          example: 85131bd73fdc423599e57f40b29f01fe
+        type:
+          type: string
+          description: Type of Dto
+          example: IDENTITY
+        name:
+          type: string
+          description: Display name of DtoType like IDENTITY, MACHINE_IDENTITY etc
+          example: SailPoint Support
+    ApprovalConfig:
+      type: object
+      properties:
+        approvers:
+          type: string
+          example: sourceOwner, accountOwner, manager, workgroup:f76ff96a-0815-402a-be1a-18cdc693b79f
+          description: Approvers must be listed as a comma-separated string, with each entry representing an individual or group authorized to approve account creation or deletion requests.
+        comments:
+          type: string
+          enum:
+            - APPROVAL
+            - REJECTION
+            - ALL
+            - 'OFF'
+          example: REJECTION
+          description: Specifies the approval status for an account creation or deletion request. Allowed values are APPROVAL, REJECTION, ALL, and OFF.
   responses:
     '204':
       description: No content - indicates the request was successful but there is no content to be returned in the response.

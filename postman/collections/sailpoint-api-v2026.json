@@ -1,11 +1,1181 @@
 {
   "item": [
     {
+      "name": "Account Deletion Requests",
+      "description": "",
+      "item": [
+        {
+          "id": "68c96f9c-5b20-495b-a96c-b89af66d3da1",
+          "name": "List of Account Deletion Requests",
+          "request": {
+            "name": "List of Account Deletion Requests",
+            "description": {
+              "content": "Retrieves a paginated list of account deletion requests filtered by the provided query parameters. When the \"mine\" parameter is set to true, the response includes only those deletion requests that were initiated by the currently authenticated user. If \"mine\" is false or not specified, the endpoint returns all account deletion requests associated with the current tenant, regardless of the initiator. This allows both users and administrators to view relevant deletion requests based on their access level and intent.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "account-requests",
+                "deletion"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Max number of results to return.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                    "type": "text/plain"
+                  },
+                  "key": "limit",
+                  "value": "250"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Offset into the full result set. Usually specified with *limit* to paginate through the results.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                    "type": "text/plain"
+                  },
+                  "key": "offset",
+                  "value": "0"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "If *true* it will populate the *X-Total-Count* response header with the number of results that would be returned if *limit* and *offset* were ignored.\n\nSince requesting a total count can have a performance impact, it is recommended not to send **count=true** if that value will not be used.\n\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                    "type": "text/plain"
+                  },
+                  "key": "count",
+                  "value": "true"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Determines whether to return only the account deletion requests initiated by the currently authenticated user. If set to true, the response includes only deletion requests created by the logged-in user. If set to false or not provided, the response includes all deletion requests for the tenant, regardless of the initiator. This parameter allows users to view their own requests, while administrators can view all requests within the tenant.",
+                    "type": "text/plain"
+                  },
+                  "key": "mine",
+                  "value": "true"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": true,
+                "description": {
+                  "content": "(Required) Use this header to enable this experimental API.",
+                  "type": "text/plain"
+                },
+                "key": "X-SailPoint-Experimental",
+                "value": "true"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "response": [
+            {
+              "id": "c6f9151e-7b2b-4b14-812f-9e18b8a5bac9",
+              "name": "Account Action Request objects.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-requests",
+                    "deletion"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Max number of results to return.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                        "type": "text/plain"
+                      },
+                      "key": "limit",
+                      "value": "250"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Offset into the full result set. Usually specified with *limit* to paginate through the results.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                        "type": "text/plain"
+                      },
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "If *true* it will populate the *X-Total-Count* response header with the number of results that would be returned if *limit* and *offset* were ignored.\n\nSince requesting a total count can have a performance impact, it is recommended not to send **count=true** if that value will not be used.\n\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                        "type": "text/plain"
+                      },
+                      "key": "count",
+                      "value": "true"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Determines whether to return only the account deletion requests initiated by the currently authenticated user. If set to true, the response includes only deletion requests created by the logged-in user. If set to false or not provided, the response includes all deletion requests for the tenant, regardless of the initiator. This parameter allows users to view their own requests, while administrators can view all requests within the tenant.",
+                        "type": "text/plain"
+                      },
+                      "key": "mine",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": true,
+                    "description": {
+                      "content": "(Required) Use this header to enable this experimental API.",
+                      "type": "text/plain"
+                    },
+                    "key": "X-SailPoint-Experimental",
+                    "value": "true"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"accountRequestId\": \"18104e7e499b4e23882d6323344ab6bc\",\n    \"requestType\": \"DELETE_ACCOUNT\",\n    \"createdAt\": \"2026-01-14T08:08:27.195Z\",\n    \"completedAt\": \"2026-01-14T08:38:45.932Z\",\n    \"overallStatus\": \"SUCCESS\",\n    \"requester\": {\n      \"type\": \"IDENTITY\",\n      \"id\": \"85131bd73fdc423599e57f40b29f01fe\",\n      \"name\": \"SailPoint Support\"\n    },\n    \"requesterComments\": \"Delete Machine Account with subtype and account owner Happy Path Test#1\",\n    \"accountDetails\": {\n      \"accountId\": \"4542bb255921482fb36f6a5550e23a99\",\n      \"accountName\": \"machine102,\",\n      \"accountNativeIdentity\": \"CN=machine 102,OU=megapod-useast1-vivek-e2e,OU=org-data-service,DC=TestAutomationAD,DC=local\",\n      \"accountUuid\": \"bcde4ff4-087a-4af4-b5e4-95c85e386276\",\n      \"accountType\": \"MACHINE\",\n      \"accountSubtypeId\": \"d7ae9ea3-507f-4d00-9d4f-b4464b344b88\",\n      \"accountSubtype\": null,\n      \"description\": null,\n      \"sourceId\": \"a03caa629a624cee90f94048252034cf\",\n      \"sourceName\": \"Active Directory\",\n      \"hasEntitlements\": false,\n      \"disabled\": false,\n      \"locked\": false,\n      \"ownerIdentity\": {\n        \"type\": \"IDENTITY\",\n        \"id\": \"28ca01acdd3648b4b0890ab2e0af8839\",\n        \"name\": \"walter.white\"\n      }\n    },\n    \"correlatedIdentity\": {\n      \"id\": \"c2353ef10dd54a8e9725beff360c0be2\",\n      \"name\": \"machine102\",\n      \"status\": null,\n      \"email\": \"machine.102@testmail.identitysoon.com\"\n    },\n    \"managerReference\": {\n      \"id\": \"117e169acf21f4ae28e8a06198ce7f69\",\n      \"name\": \"manager\",\n      \"email\": \"manager@testmail.identitysoon.com\",\n      \"status\": \"ACTIVE\"\n    },\n    \"approvalRequestId\": \"90a7b947-578b-4285-98dc-5d5d01c7b736\",\n    \"accountRequestPhases\": [\n      {\n        \"name\": \"APPROVAL_PHASE\",\n        \"state\": \"APPROVED\",\n        \"started\": \"2026-01-14T08:08:28.644090559Z\",\n        \"finished\": \"2026-01-14T08:38:42.707043142Z\"\n      },\n      {\n        \"name\": \"PROVISIONING_PHASE\",\n        \"state\": \"PASSED\",\n        \"started\": \"2026-01-14T08:38:42.785577841Z\",\n        \"finished\": \"2026-01-14T08:38:45.932606296Z\"\n      }\n    ],\n    \"approvalDetails\": {\n      \"approverType\": \"SOURCE_OWNER\",\n      \"approver\": {\n        \"id\": \"85131bd73fdc423599e57f40b29f01fe\",\n        \"type\": \"IDENTITY\",\n        \"name\": \"SailPoint Support\"\n      },\n      \"actionedBy\": {\n        \"id\": \"85131bd73fdc423599e57f40b29f01fe\",\n        \"type\": \"IDENTITY\",\n        \"name\": \"SailPoint Support\"\n      },\n      \"comments\": \"Yes this can be deleted.\",\n      \"decisionDate\": \"2026-01-14T08:38:41.733779Z\",\n      \"serialOrder\": 1,\n      \"status\": \"APPROVED\"\n    },\n    \"errorDetails\": null\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "Delete account",
+      "description": "",
+      "item": [
+        {
+          "id": "de5e9cc1-eb57-47d0-b95c-c571fa8e1cbc",
+          "name": "Delete account",
+          "request": {
+            "name": "Delete account",
+            "description": {
+              "content": "Initiates an account deletion request for the specified account.\nThis method validates the input data, processes the deletion request,\nand generates an asynchronous result containing a tracking ID. \n>**NOTE: You can only delete accounts from sources of the \"Connected\" type. which supports account deletion**",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "account-requests",
+                "account",
+                ":accountId",
+                "delete"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "value": "ef38f94347e94562b5bb8424a56498d8",
+                  "key": "accountId",
+                  "disabled": true,
+                  "description": {
+                    "content": "(Required) Account ID.",
+                    "type": "text/plain"
+                  }
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": true,
+                "description": {
+                  "content": "(Required) Use this header to enable this experimental API.",
+                  "type": "text/plain"
+                },
+                "key": "X-SailPoint-Experimental",
+                "value": "true"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"comments\": \"I requested this account deletion.\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0012234c-f491-48ba-bd39-a5ee8eac2d09",
+              "name": "Account deletion request details.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "account-requests",
+                    "account",
+                    ":accountId",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "(Required) Account ID.",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "ef38f94347e94562b5bb8424a56498d8",
+                      "key": "accountId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": true,
+                    "description": {
+                      "content": "(Required) Use this header to enable this experimental API.",
+                      "type": "text/plain"
+                    },
+                    "key": "X-SailPoint-Experimental",
+                    "value": "true"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"comments\": \"I requested this account deletion.\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"accountRequestId\": \"2d81808474683da6017468693c260196\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "Human Account Deletion Approval Config",
+      "description": "",
+      "item": [
+        {
+          "id": "f7076bf9-d1cc-428a-b7f0-fa22cd1d3561",
+          "name": "Human Account Deletion Approval Config",
+          "request": {
+            "name": "Human Account Deletion Approval Config",
+            "description": {
+              "content": "The endpoint retrieves the approval configuration for deleting human accounts from a specified source. It returns details such as whether approval is required, who the approvers are, and any additional approval settings. This helps administrators understand and manage the approval workflow for human account deletions in their organization. The response is provided as an AccountDeleteConfigDto object.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sources",
+                ":sourceId",
+                "approval-config",
+                "account-delete"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "value": "ha38f94347e94562b5bb8424a56498d8",
+                  "key": "sourceId",
+                  "disabled": true,
+                  "description": {
+                    "content": "(Required) The Source id",
+                    "type": "text/plain"
+                  }
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": true,
+                "description": {
+                  "content": "(Required) Use this header to enable this experimental API.",
+                  "type": "text/plain"
+                },
+                "key": "X-SailPoint-Experimental",
+                "value": "true"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "response": [
+            {
+              "id": "62b628b2-1076-40b9-b6cf-13fbba1e3f62",
+              "name": "Responds with a AccountDeleteConfigDto for human account deletion approval config by sourceId.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sources",
+                    ":sourceId",
+                    "approval-config",
+                    "account-delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "(Required) The Source id",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "ha38f94347e94562b5bb8424a56498d8",
+                      "key": "sourceId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": true,
+                    "description": {
+                      "content": "(Required) Use this header to enable this experimental API.",
+                      "type": "text/plain"
+                    },
+                    "key": "X-SailPoint-Experimental",
+                    "value": "true"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"approvalRequired\": true,\n  \"approvalConfig\": {\n    \"approvers\": \"sourceOwner, accountOwner, manager, workgroup:f76ff96a-0815-402a-be1a-18cdc693b79f\",\n    \"comments\": \"REJECTION\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d3cec8c5-28df-4626-84ac-11bb96b3b875",
+          "name": "Human Account Deletion Approval Config",
+          "request": {
+            "name": "Human Account Deletion Approval Config",
+            "description": {
+              "content": "Updates the approval configuration for deleting human accounts for a specific source, identified by source ID. This endpoint allows administrators to modify settings such as whether approval is required, who the approvers are, and other approval-related options. The update is performed using a JSON Patch payload, and the response returns the updated AccountDeleteConfigDto object reflecting the new approval workflow configuration.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sources",
+                ":sourceId",
+                "approval-config",
+                "account-delete"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "value": "00eebcf881994e419d72e757fd30dc0e",
+                  "key": "sourceId",
+                  "disabled": true,
+                  "description": {
+                    "content": "(Required) Human account source ID.",
+                    "type": "text/plain"
+                  }
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": true,
+                "description": {
+                  "content": "(Required) Use this header to enable this experimental API.",
+                  "type": "text/plain"
+                },
+                "key": "X-SailPoint-Experimental",
+                "value": "true"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json-patch+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"op\": \"replace\",\n    \"path\": \"/approvalConfig/comments\",\n    \"value\": \"ALL\"\n  }\n]",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2beadcac-310e-4f2e-8c00-a07f8eb274a7",
+              "name": "This response indicates the PATCH operation succeeded and the API returns the updated AccountDeleteConfigDto object.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sources",
+                    ":sourceId",
+                    "approval-config",
+                    "account-delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "(Required) Human account source ID.",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "00eebcf881994e419d72e757fd30dc0e",
+                      "key": "sourceId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": true,
+                    "description": {
+                      "content": "(Required) Use this header to enable this experimental API.",
+                      "type": "text/plain"
+                    },
+                    "key": "X-SailPoint-Experimental",
+                    "value": "true"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json-patch+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"op\": \"replace\",\n    \"path\": \"/approvalConfig/comments\",\n    \"value\": \"ALL\"\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"approvalRequired\": false,\n  \"approvalConfig\": {\n    \"approvers\": \"sourceOwner\",\n    \"comments\": \"ALL\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "Machine Account Deletion Approval Config",
+      "description": "",
+      "item": [
+        {
+          "id": "e890455c-5484-4173-99a8-a20c916d12bd",
+          "name": "Machine Account Deletion Approval Config",
+          "request": {
+            "name": "Machine Account Deletion Approval Config",
+            "description": {
+              "content": "Retrieves the machine account deletion approval configuration for a specific source. This endpoint returns details about the approval requirements, approvers, and comment settings that govern the deletion of machine accounts associated with the given source ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sources",
+                ":sourceId",
+                "approval-config",
+                "machine-account-delete"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "value": "gt38f94347e94562b5bb8424a56498d8",
+                  "key": "sourceId",
+                  "disabled": true,
+                  "description": {
+                    "content": "(Required) source id.",
+                    "type": "text/plain"
+                  }
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": true,
+                "description": {
+                  "content": "(Required) Use this header to enable this experimental API.",
+                  "type": "text/plain"
+                },
+                "key": "X-SailPoint-Experimental",
+                "value": "true"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "response": [
+            {
+              "id": "00981b60-91ed-42f8-a400-5440dc578505",
+              "name": "Responds with a AccountDeleteConfigDto for machine account deletion approval config by sourceId.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sources",
+                    ":sourceId",
+                    "approval-config",
+                    "machine-account-delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "(Required) source id.",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "gt38f94347e94562b5bb8424a56498d8",
+                      "key": "sourceId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": true,
+                    "description": {
+                      "content": "(Required) Use this header to enable this experimental API.",
+                      "type": "text/plain"
+                    },
+                    "key": "X-SailPoint-Experimental",
+                    "value": "true"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"approvalRequired\": true,\n  \"approvalConfig\": {\n    \"approvers\": \"sourceOwner, accountOwner, manager, workgroup:f76ff96a-0815-402a-be1a-18cdc693b79f\",\n    \"comments\": \"REJECTION\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "22f5af44-5c0a-48ff-9104-bf91ec73d7ca",
+          "name": "Machine Account Deletion Approval Config",
+          "request": {
+            "name": "Machine Account Deletion Approval Config",
+            "description": {
+              "content": "Use this endpoint to update the machine account deletion approval configuration for a specific source.\nThe update is performed using a JSON Patch payload, which allows partial modifications to the approval config.\nThis operation is typically used to change approval requirements, approvers, or comments settings for machine account deletion.\nThe endpoint expects the source ID as a path parameter and a valid JSON Patch array in the request body.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sources",
+                ":sourceId",
+                "approval-config",
+                "machine-account-delete"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "value": "00eebcf881994e419d72e757fd30dc0e",
+                  "key": "sourceId",
+                  "disabled": true,
+                  "description": {
+                    "content": "(Required) machine account source ID.",
+                    "type": "text/plain"
+                  }
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": true,
+                "description": {
+                  "content": "(Required) Use this header to enable this experimental API.",
+                  "type": "text/plain"
+                },
+                "key": "X-SailPoint-Experimental",
+                "value": "true"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json-patch+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"op\": \"replace\",\n    \"path\": \"/approvalConfig/comments\",\n    \"value\": \"ALL\"\n  }\n]",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "664a117f-4cfc-4562-a9b9-460396f42d30",
+              "name": "This response indicates the PATCH operation succeeded and the API returns the updated AccountDeleteConfigDto object.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sources",
+                    ":sourceId",
+                    "approval-config",
+                    "machine-account-delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "(Required) machine account source ID.",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "00eebcf881994e419d72e757fd30dc0e",
+                      "key": "sourceId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": true,
+                    "description": {
+                      "content": "(Required) Use this header to enable this experimental API.",
+                      "type": "text/plain"
+                    },
+                    "key": "X-SailPoint-Experimental",
+                    "value": "true"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json-patch+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"op\": \"replace\",\n    \"path\": \"/approvalConfig/comments\",\n    \"value\": \"ALL\"\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"approvalRequired\": false,\n  \"approvalConfig\": {\n    \"approvers\": \"sourceOwner\",\n    \"comments\": \"ALL\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "Machine Subtype Approval Config",
+      "description": "",
+      "item": [
+        {
+          "id": "7f470919-14e3-48f1-92c8-f1cce6a7f0e9",
+          "name": "Machine Subtype Approval Config",
+          "request": {
+            "name": "Machine Subtype Approval Config",
+            "description": {
+              "content": "This endpoint retrieves the approval configuration for machine account deletion at the machine subtype level. By providing a specific subtypeId in the path, clients can fetch the approval rules and settings (such as required approvers and comments policy) that govern account deletion for that particular machine subtype. The response includes a MachineAccountSubtypeConfigDto object detailing these configurations, enabling clients to understand or display the approval workflow required for deleting machine accounts of the given subtype. Use this endpoint to get machine subtype level approval config for account deletion.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "source-subtypes",
+                ":subtypeId",
+                "machine-config"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "value": "ef38f94347e94562b5bb8424a56498d8",
+                  "key": "subtypeId",
+                  "disabled": true,
+                  "description": {
+                    "content": "(Required) machine subtype id.",
+                    "type": "text/plain"
+                  }
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": true,
+                "description": {
+                  "content": "(Required) Use this header to enable this experimental API.",
+                  "type": "text/plain"
+                },
+                "key": "X-SailPoint-Experimental",
+                "value": "true"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "response": [
+            {
+              "id": "04893279-f4ae-4233-a46a-721b40077ac4",
+              "name": "Responds with a MachineAccountSubtypeConfigDto for machine account deletion approval config by subtypeId.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "source-subtypes",
+                    ":subtypeId",
+                    "machine-config"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "(Required) machine subtype id.",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "ef38f94347e94562b5bb8424a56498d8",
+                      "key": "subtypeId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": true,
+                    "description": {
+                      "content": "(Required) Use this header to enable this experimental API.",
+                      "type": "text/plain"
+                    },
+                    "key": "X-SailPoint-Experimental",
+                    "value": "true"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"subtypeId\": \"1419fc28-a8ed-4a07-9f5c-0cb5dfad6311\",\n  \"machineAccountCreate\": {\n    \"accountCreateEnabled\": true,\n    \"approvalRequired\": true,\n    \"formId\": \"4f1bb61b-a0ab-4c0a-b9fb-20f44407b75a\",\n    \"entitlementId\": \"858d2151-ff19-464b-ae0d-6938b3af2baf\",\n    \"approvalConfig\": {\n      \"approvers\": \"sourceOwner, accountOwner, manager, workgroup:f76ff96a-0815-402a-be1a-18cdc693b79f\",\n      \"comments\": \"REJECTION\"\n    }\n  },\n  \"machineAccountDelete\": {\n    \"approvalRequired\": true,\n    \"approvalConfig\": {\n      \"approvers\": \"sourceOwner, accountOwner, manager, workgroup:f76ff96a-0815-402a-be1a-18cdc693b79f\",\n      \"comments\": \"REJECTION\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "acf7c933-602d-4ad4-8ff3-67e4a45d5e68",
+          "name": "Machine Subtype Approval Config",
+          "request": {
+            "name": "Machine Subtype Approval Config",
+            "description": {
+              "content": "Updates the approval configuration for machine account deletion at the specified machine subtype level. This endpoint allows clients to modify approval rules and settings (such as required approvers and comments policy) for account deletion workflows associated with a given subtypeId. Use this to customize or enforce approval requirements for deleting machine accounts of a particular subtype.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "source-subtypes",
+                ":subtypeId",
+                "machine-config"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "value": "00eebcf881994e419d72e757fd30dc0e",
+                  "key": "subtypeId",
+                  "disabled": true,
+                  "description": {
+                    "content": "(Required) machine account subtype ID.",
+                    "type": "text/plain"
+                  }
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": true,
+                "description": {
+                  "content": "(Required) Use this header to enable this experimental API.",
+                  "type": "text/plain"
+                },
+                "key": "X-SailPoint-Experimental",
+                "value": "true"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json-patch+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"op\": \"replace\",\n    \"path\": \"/machineAccountDelete/approvalConfig/approvers\",\n    \"value\": \"sourceOwner\"\n  }\n]",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7d551c0c-4128-42e5-8ad8-ba50a55f51e3",
+              "name": "This response indicates the PATCH operation succeeded and the API returns the updated MachineAccountSubtypeConfigDto object.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "source-subtypes",
+                    ":subtypeId",
+                    "machine-config"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "(Required) machine account subtype ID.",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "00eebcf881994e419d72e757fd30dc0e",
+                      "key": "subtypeId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": true,
+                    "description": {
+                      "content": "(Required) Use this header to enable this experimental API.",
+                      "type": "text/plain"
+                    },
+                    "key": "X-SailPoint-Experimental",
+                    "value": "true"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json-patch+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"op\": \"replace\",\n    \"path\": \"/machineAccountDelete/approvalConfig/approvers\",\n    \"value\": \"sourceOwner\"\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"subtypeId\": \"1419fc28-a8ed-4a07-9f5c-0cb5dfad6311\",\n  \"machineAccountCreate\": {\n    \"accountCreateEnabled\": true,\n    \"approvalRequired\": true,\n    \"formId\": \"4f1bb61b-a0ab-4c0a-b9fb-20f44407b75a\",\n    \"entitlementId\": \"858d2151-ff19-464b-ae0d-6938b3af2baf\",\n    \"approvalConfig\": {\n      \"approvers\": \"sourceOwner, manager, workgroup:f76ff96a-0815-402a-be1a-18cdc693b79f\",\n      \"comments\": \"ALL\"\n    }\n  },\n  \"machineAccountDelete\": {\n    \"approvalRequired\": false,\n    \"approvalConfig\": {\n      \"approvers\": \"sourceOwner\",\n      \"comments\": \"REJECTION\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ]
+    },
+    {
       "name": "Task Management",
       "description": "",
       "item": [
         {
-          "id": "896010e8-d174-44c3-9b9f-1cf48ec6aec7",
+          "id": "18ae6df0-daed-40d6-8992-931f1612b28c",
           "name": "Get task status by id",
           "request": {
             "name": "Get task status by id",
@@ -55,7 +1225,7 @@
           },
           "response": [
             {
-              "id": "9131245e-7ab8-442f-b3c0-425abdee3941",
+              "id": "3978ad5e-6209-4d0d-b167-96a703fd48e9",
               "name": "Responds with a TaskStatus for the task with the given task ID.",
               "originalRequest": {
                 "url": {
@@ -125,7 +1295,7 @@
           }
         },
         {
-          "id": "e8442237-9e05-48a3-af70-8cd3f052165e",
+          "id": "aa264b15-39ed-4824-9597-46857f389458",
           "name": "Update task status by id",
           "request": {
             "name": "Update task status by id",
@@ -188,7 +1358,7 @@
           },
           "response": [
             {
-              "id": "31a71196-3a01-44e7-a3ff-f47b9b6bc5d8",
+              "id": "d8a47225-5208-4a07-95dd-eca795eb63f3",
               "name": "This response indicates the PATCH operation succeeded, and the API returns the updated task object.",
               "originalRequest": {
                 "url": {
@@ -271,7 +1441,7 @@
           }
         },
         {
-          "id": "febca88b-7ae8-454f-8592-92881493477b",
+          "id": "63db75b9-6f1f-46c4-9e85-1c750076be44",
           "name": "Retrieve task status list",
           "request": {
             "name": "Retrieve task status list",
@@ -355,7 +1525,7 @@
           },
           "response": [
             {
-              "id": "f530ccb4-f67d-4520-8b03-9f16847c2095",
+              "id": "e6cffa7f-219a-4416-9693-c2b20b4b15d8",
               "name": "Responds with a TaskStatus for the task with the given task ID.",
               "originalRequest": {
                 "url": {
@@ -459,7 +1629,7 @@
           }
         },
         {
-          "id": "e3581591-121c-489e-a1ef-1b2837275a3c",
+          "id": "02953941-8527-4125-9693-fc108494648e",
           "name": "Retrieve pending task status list",
           "request": {
             "name": "Retrieve pending task status list",
@@ -526,7 +1696,7 @@
           },
           "response": [
             {
-              "id": "170c39e0-28da-434c-8f98-fd589f0c5ada",
+              "id": "ce632bad-3d13-4c2e-a74a-6a489fe8c9c0",
               "name": "Responds with a list of TaskStatus for pending tasks.\n\nPossible Values: CLOUD_ACCOUNT_AGGREGATION, CLOUD_GROUP_AGGREGATION, CLOUD_PROCESS_UNCORRELATED_ACCOUNTS, CLOUD_REFRESH_ROLE, SOURCE_APPLICATION_DISCOVERY, AI_AGENT_AGGREGATION, CLOUD_ENTITLEMENT_IMPORT, CLOUD_UNCORRELATED_REFRESH, CLOUD_IDENTITY_AGGREGATION, CLOUD_ATTRIBUTE_SYNCHRONIZATION, IDENTITY_REFRESH, APPLICATION_DISCOVERY, MACHINE_IDENTITY_AGGREGATION, MACHINE_IDENTITY_DELETION, ACCOUNT_DELETION",
               "originalRequest": {
                 "url": {
@@ -607,7 +1777,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "fb617b50-d7bb-42d8-9c05-71ac9d66323d",
+              "id": "9241b193-fa02-4e67-b531-0f4004c0f781",
               "name": "No content - indicates the request was successful but there is no content to be returned in the response.",
               "originalRequest": {
                 "url": {
@@ -684,7 +1854,7 @@
           }
         },
         {
-          "id": "ad0d1ecf-2b8d-4716-919c-2a0ae4a316e1",
+          "id": "6692bd73-c175-4e07-af5a-08a618a30014",
           "name": "Retrieve pending task list headers",
           "request": {
             "name": "Retrieve pending task list headers",
@@ -751,7 +1921,7 @@
           },
           "response": [
             {
-              "id": "23d79431-fa0a-41e1-acf1-2a743bb780e9",
+              "id": "b652e120-e11a-4ad2-9340-2c67512ce804",
               "name": "Retrieve headers for a list of TaskStatus for pending tasks.",
               "originalRequest": {
                 "url": {
@@ -822,7 +1992,7 @@
               "_postman_previewlanguage": "text"
             },
             {
-              "id": "f1f2ff10-bf56-49ee-b3b1-6427e6edde33",
+              "id": "cabb0fcb-5628-40a2-834d-b091ba52ac05",
               "name": "No content - indicates the request was successful but there is no content to be returned in the response.",
               "originalRequest": {
                 "url": {
@@ -1009,7 +2179,7 @@
     }
   ],
   "info": {
-    "_postman_id": "8a05d9d6-217f-4d76-8578-6636bbf53d2c",
+    "_postman_id": "c5ba7d6c-bdbd-4fda-a980-90681469c881",
     "name": "Identity Security Cloud v2026 API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": {
