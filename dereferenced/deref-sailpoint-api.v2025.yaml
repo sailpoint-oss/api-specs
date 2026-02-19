@@ -17147,6 +17147,8 @@ paths:
             - sp:my-personal-access-tokens:manage
             - sp:all-personal-access-tokens:read
             - sp:all-personal-access-tokens:manage
+      x-sailpoint-userLevels:
+        - Any
       tags:
         - Personal Access Tokens
       summary: List personal access tokens
@@ -17200,12 +17202,25 @@ paths:
         - userAuth:
             - sp:my-personal-access-tokens:manage
             - sp:all-personal-access-tokens:manage
+      x-sailpoint-userLevels:
+        - Any
       tags:
         - Personal Access Tokens
       summary: Create personal access token
-      description: This creates a personal access token.
+      description: |-
+        This creates a personal access token.
+        **expirationDate and userAwareTokenNeverExpires Relationship:**
+        **Important:** When `expirationDate` is `null` or empty (not included in the request body), the token will never expire.
+        **Required Validation:** If `expirationDate` is `null` or empty, `userAwareTokenNeverExpires` must be set to `true`. This is a required validation rule.
+        The valid values for `expirationDate` depend on the value provided for `userAwareTokenNeverExpires`:
+        * **When `userAwareTokenNeverExpires` is `true` (or required to be `true`):** `expirationDate` can be `null` or omitted from the request body. When `expirationDate` is `null` or empty, the token will never expire. This creates a PAT that never expires and serves as an explicit acknowledgment that the user is aware of the security implications of creating a non-expiring token. * **When `userAwareTokenNeverExpires` is `false` or omitted:** `expirationDate` must be provided and must be a valid date-time string representing a future date (there is no upper limit). `expirationDate` cannot be `null` in this case. In this scenario, `userAwareTokenNeverExpires` can be omitted.
+        **Validation Rules:** * **If `expirationDate` is `null` or not included in the request body:** `userAwareTokenNeverExpires` must be set to `true` (required). The token will never expire. * **If `expirationDate` is provided and is not `null`:** `userAwareTokenNeverExpires` can be omitted.
+        **Security Considerations:** The `userAwareTokenNeverExpires` field is designed to ensure that users explicitly acknowledge the security implications of creating tokens that never expire. Setting this field to `true` indicates that the user understands the increased security risks and has made an informed decision to proceed.
+        **Note:** The `userAwareTokenNeverExpires` field indicates that the user acknowledges they are creating a token that will never expire. It does not affect token behavior beyond indicating this acknowledgment.
       requestBody:
-        description: Name and scope of personal access token.
+        description: |-
+          Configuration for creating a personal access token, including name, scope, expiration settings, and user acknowledgment of never-expiring tokens.
+          **Important:** See the endpoint description for validation rules regarding the relationship between `expirationDate` and `userAwareTokenNeverExpires`.
         required: true
         content:
           application/json:
@@ -17234,12 +17249,22 @@ paths:
       security:
         - userAuth:
             - sp:my-personal-access-tokens:manage
+      x-sailpoint-userLevels:
+        - Any
       tags:
         - Personal Access Tokens
       summary: Patch personal access token
       description: |-
         This performs a targeted update to the field(s) of a Personal Access Token.
         Changing scopes for a Personal Access Token does not impact existing bearer tokens. You will need to create a new bearer token to have the new scopes. Please note that it can take up to 20 minutes for scope changes to be seen on new bearer tokens.
+        **expirationDate and userAwareTokenNeverExpires Relationship:**
+        **Important:** When `expirationDate` is `null` or empty (replaced to `null` or omitted from the patch request), the token will never expire.
+        **Required Validation:** If `expirationDate` is being replaced to `null` or is empty, `userAwareTokenNeverExpires` must be set to `true` in the patch request. This is a required validation rule.
+        When patching `expirationDate` and `userAwareTokenNeverExpires`, the valid values for `expirationDate` depend on the value provided for `userAwareTokenNeverExpires`:
+        * **When `userAwareTokenNeverExpires` is being set to `true` (or required to be `true`):** `expirationDate` can be replaced to `null` or omitted from the patch request. When `expirationDate` is `null` or empty, the token will never expire. This sets the PAT to never expire and serves as an explicit acknowledgment that the user is aware of the security implications of creating a non-expiring token. * **When `userAwareTokenNeverExpires` is `false` or omitted:** `expirationDate` must be provided and must be a valid date-time string representing a future date (there is no upper limit). `expirationDate` cannot be `null` in this case. In this scenario, `userAwareTokenNeverExpires` can be omitted.
+        **Validation Rules:** * **If `expirationDate` is being replaced to `null`:** `userAwareTokenNeverExpires` must also be present in the patch request with a value of `true` (required). The token will never expire. * **If `expirationDate` is not being replaced to `null` (i.e., set to a future date):** `userAwareTokenNeverExpires` can be omitted.
+        **Security Considerations:** The `userAwareTokenNeverExpires` field is designed to ensure that users explicitly acknowledge the security implications of creating tokens that never expire. Setting this field to `true` indicates that the user understands the increased security risks and has made an informed decision to proceed.
+        **Note:** The `userAwareTokenNeverExpires` field indicates that the user acknowledges they are creating a token that will never expire. It does not affect token behavior beyond indicating this acknowledgment.
       parameters:
         - in: path
           name: id
@@ -17257,6 +17282,10 @@ paths:
           The following fields are patchable:
           * name
           * scope
+          * expirationDate
+          * userAwareTokenNeverExpires
+
+          **Important:** See the endpoint description for validation rules regarding the relationship between `expirationDate` and `userAwareTokenNeverExpires`.
         content:
           application/json-patch+json:
             schema:
@@ -17271,6 +17300,9 @@ paths:
                 path: /scope
                 value:
                   - sp:scopes:all
+              - op: replace
+                path: /expirationDate
+                value: '2027-12-31T23:59:59.999Z'
       responses:
         '200':
           description: Indicates the PATCH operation succeeded, and returns the PAT's new representation.
@@ -17296,6 +17328,8 @@ paths:
         - userAuth:
             - sp:my-personal-access-tokens:manage
             - sp:all-personal-access-tokens:manage
+      x-sailpoint-userLevels:
+        - Any
       tags:
         - Personal Access Tokens
       summary: Delete personal access token
@@ -64619,10 +64653,21 @@ components:
           description: Number of seconds an access token is valid when generated using this Personal Access Token. If no value is specified, the token will be created with the default value of 43200.
         expirationDate:
           type: string
+          nullable: true
           format: date-time
-          default: 6 Months from created date
-          example: '2018-01-11T18:45:37.098Z'
-          description: Date and time, down to the millisecond, when this personal access token will expire. If not provided, the token will expire 6 months after its creation date. The value must be a valid date-time string between the current date and 6 months from the creation date.
+          example: '2026-12-31T23:59:59.999Z'
+          description: |-
+            Date and time, down to the millisecond, when this personal access token will expire.
+            **Important:** When `expirationDate` is `null` or empty, the token will never expire (and `userAwareTokenNeverExpires` will be `true`).
+            When `expirationDate` is provided, this value must be a future date. There is no upper limit on how far in the future the expiration date can be set.
+        userAwareTokenNeverExpires:
+          type: boolean
+          default: false
+          example: false
+          description: |-
+            Indicates that the user who created or updated this Personal Access Token is aware of and acknowledges the security implications of creating a token that will never expire. When `true`, this flag confirms that the user understood the security risks associated with non-expiring tokens at the time of creation or update.
+            **Security Awareness:** This field serves as a record that the user acknowledged: * Tokens that never expire pose a greater security risk if compromised * Non-expiring tokens should be used only when necessary and with appropriate security measures * Regular rotation and monitoring of non-expiring tokens is recommended
+            **Behavior:** * When `true`: Indicates that the user acknowledged they were creating a token that will never expire. When `expirationDate` is `null`, the token will never expire. * When `false`: The token follows normal expiration rules based on the `expirationDate` field and `accessTokenValiditySeconds` setting.
       required:
         - id
         - name
@@ -64664,12 +64709,24 @@ components:
           type: string
           nullable: true
           format: date-time
-          items:
-            type: string
-            format: date-time
-            default: 6 Months from created date
-          description: Date and time, down to the millisecond, when this personal access token will expire. If not provided, the token will expire 6 months after its creation date. The value must be a valid date-time string between the current date and 6 months from the creation date.
-          example: '2018-01-11T18:45:37.098Z'
+          description: |-
+            Date and time, down to the millisecond, when this personal access token will expire.
+            **Important:** When `expirationDate` is `null` or empty (not included in the request body), the token will never expire.
+            **Required Validation:** If `expirationDate` is `null` or empty, `userAwareTokenNeverExpires` must be set to `true`. This is a required validation rule.
+            **Valid Values (dependent on `userAwareTokenNeverExpires`):** * **When `userAwareTokenNeverExpires` is `true` (or required to be `true`):** `expirationDate` can be `null` or omitted from the request body. When `expirationDate` is `null` or empty, the token will never expire. * **When `userAwareTokenNeverExpires` is `false` or omitted:** `expirationDate` must be provided and must be a valid date-time string representing a future date (after the current date/time). There is no upper limit on how far in the future the expiration date can be set. `expirationDate` cannot be `null` in this case.
+            **Validation Rules:** * **If `expirationDate` is `null` or not included in the request body:** `userAwareTokenNeverExpires` must be set to `true` (required). The token will never expire. * **If `expirationDate` is provided and is not `null`:** `userAwareTokenNeverExpires` can be omitted.
+          example: '2026-12-31T23:59:59.999Z'
+        userAwareTokenNeverExpires:
+          type: boolean
+          nullable: true
+          default: false
+          description: |-
+            Indicates that the user creating this Personal Access Token is aware of and acknowledges the security implications of creating a token that will never expire. When set to `true`, this flag confirms that the user understands the security risks associated with non-expiring tokens.
+            **Security Awareness:** Setting this field to `true` serves as an explicit acknowledgment that the user creating the token understands: * Tokens that never expire pose a greater security risk if compromised * Non-expiring tokens should be used only when necessary and with appropriate security measures * Regular rotation and monitoring of non-expiring tokens is recommended
+            **Required Validation:** If `expirationDate` is `null` or empty (not included in the request body), `userAwareTokenNeverExpires` must be set to `true`. This is a required validation rule.
+            **Validation Rules:** * **If `expirationDate` is `null` or not included in the request body:** `userAwareTokenNeverExpires` must be set to `true` (required). * **If `expirationDate` is provided and is not `null`:** `userAwareTokenNeverExpires` can be omitted.
+            **Behavior:** * When set to `true`: Indicates that the user acknowledges they are creating a token that will never expire. When `expirationDate` is `null` or empty, the token will never expire. * When set to `false` or not specified (and `expirationDate` is provided): The token will follow normal expiration rules based on the `expirationDate` field and `accessTokenValiditySeconds` setting.
+          example: false
       required:
         - name
     CreatePersonalAccessTokenResponse:
