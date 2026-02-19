@@ -5,7 +5,7 @@
       "description": "",
       "item": [
         {
-          "id": "68c96f9c-5b20-495b-a96c-b89af66d3da1",
+          "id": "02b97c77-2a44-4662-b17d-966989795060",
           "name": "List of Account Deletion Requests",
           "request": {
             "name": "List of Account Deletion Requests",
@@ -81,7 +81,7 @@
           },
           "response": [
             {
-              "id": "c6f9151e-7b2b-4b14-812f-9e18b8a5bac9",
+              "id": "0dc11b3a-7c3a-4f46-a073-d5973f4ea4a4",
               "name": "Account Action Request objects.",
               "originalRequest": {
                 "url": {
@@ -183,7 +183,7 @@
       "description": "",
       "item": [
         {
-          "id": "de5e9cc1-eb57-47d0-b95c-c571fa8e1cbc",
+          "id": "fc4297f9-1579-4bfb-a532-2dea9bd0939d",
           "name": "Delete account",
           "request": {
             "name": "Delete account",
@@ -248,7 +248,7 @@
           },
           "response": [
             {
-              "id": "0012234c-f491-48ba-bd39-a5ee8eac2d09",
+              "id": "ed97452a-6572-4267-aa75-0a5664db15ce",
               "name": "Account deletion request details.",
               "originalRequest": {
                 "url": {
@@ -335,11 +335,1130 @@
       ]
     },
     {
+      "name": "Entitlements",
+      "description": "",
+      "item": [
+        {
+          "id": "8070d97e-2840-439e-a45b-c5b8c645db35",
+          "name": "Gets a list of entitlements.",
+          "request": {
+            "name": "Gets a list of entitlements.",
+            "description": {
+              "content": "This API returns a list of entitlements.\n\nThis API can be used in one of the two following ways: either getting entitlements for a specific **account-id**, or getting via use of **filters** (those two options are exclusive).\n\nAny authenticated token can call this API.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "entitlements"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "If present and not empty, additionally filters Entitlements to those which are assigned to the Segment(s) which are visible to the Identity with the specified ID.\nCannot be specified with the **account-id** or **for-segment-ids** param(s). It is also illegal to specify a value that refers to a different user's Identity.",
+                    "type": "text/plain"
+                  },
+                  "key": "segmented-for-identity",
+                  "value": "e554098913544630b5985e9042f5e44b"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "If present and not empty, additionally filters Access Profiles to those which are assigned to the Segment(s) with the specified IDs.\nCannot be specified with the **account-id** or **segmented-for-identity** param(s).",
+                    "type": "text/plain"
+                  },
+                  "key": "for-segment-ids",
+                  "value": "041727d4-7d95-4779-b891-93cf41e98249,a378c9fa-bae5-494c-804e-a1e30f69f649"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Whether or not the response list should contain unsegmented Entitlements. If **for-segment-ids** and **segmented-for-identity** are both absent or empty, specifying **include-unsegmented=false** results in an error.",
+                    "type": "text/plain"
+                  },
+                  "key": "include-unsegmented",
+                  "value": "true"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Offset into the full result set. Usually specified with *limit* to paginate through the results.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                    "type": "text/plain"
+                  },
+                  "key": "offset",
+                  "value": "0"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Max number of results to return.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                    "type": "text/plain"
+                  },
+                  "key": "limit",
+                  "value": "250"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "If *true* it will populate the *X-Total-Count* response header with the number of results that would be returned if *limit* and *offset* were ignored.\n\nSince requesting a total count can have a performance impact, it is recommended not to send **count=true** if that value will not be used.\n\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                    "type": "text/plain"
+                  },
+                  "key": "count",
+                  "value": "true"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **id, name, created, modified, type, attribute, value, source.id, requestable**",
+                    "type": "text/plain"
+                  },
+                  "key": "sorters",
+                  "value": "name,-modified"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in*\n\n**name**: *eq, in, sw*\n\n**type**: *eq, in*\n\n**attribute**: *eq, in*\n\n**value**: *eq, in, sw*\n\n**source.id**: *eq, in*\n\n**requestable**: *eq*\n\n**created**: *gt, lt, ge, le*\n\n**modified**: *gt, lt, ge, le*\n\n**owner.id**: *eq, in*\n\n**tags**: *eq*\n\n**privilegeLevel.direct**: *eq*",
+                    "type": "text/plain"
+                  },
+                  "key": "filters",
+                  "value": "attribute eq \"memberOf\""
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "response": [
+            {
+              "id": "a8064bcd-e11d-4086-9c7c-09b0893535ea",
+              "name": "List of entitlements",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entitlements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "If present and not empty, additionally filters Entitlements to those which are assigned to the Segment(s) which are visible to the Identity with the specified ID.\nCannot be specified with the **account-id** or **for-segment-ids** param(s). It is also illegal to specify a value that refers to a different user's Identity.",
+                        "type": "text/plain"
+                      },
+                      "key": "segmented-for-identity",
+                      "value": "e554098913544630b5985e9042f5e44b"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "If present and not empty, additionally filters Access Profiles to those which are assigned to the Segment(s) with the specified IDs.\nCannot be specified with the **account-id** or **segmented-for-identity** param(s).",
+                        "type": "text/plain"
+                      },
+                      "key": "for-segment-ids",
+                      "value": "041727d4-7d95-4779-b891-93cf41e98249,a378c9fa-bae5-494c-804e-a1e30f69f649"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Whether or not the response list should contain unsegmented Entitlements. If **for-segment-ids** and **segmented-for-identity** are both absent or empty, specifying **include-unsegmented=false** results in an error.",
+                        "type": "text/plain"
+                      },
+                      "key": "include-unsegmented",
+                      "value": "true"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Offset into the full result set. Usually specified with *limit* to paginate through the results.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                        "type": "text/plain"
+                      },
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Max number of results to return.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                        "type": "text/plain"
+                      },
+                      "key": "limit",
+                      "value": "250"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "If *true* it will populate the *X-Total-Count* response header with the number of results that would be returned if *limit* and *offset* were ignored.\n\nSince requesting a total count can have a performance impact, it is recommended not to send **count=true** if that value will not be used.\n\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                        "type": "text/plain"
+                      },
+                      "key": "count",
+                      "value": "true"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **id, name, created, modified, type, attribute, value, source.id, requestable**",
+                        "type": "text/plain"
+                      },
+                      "key": "sorters",
+                      "value": "name,-modified"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in*\n\n**name**: *eq, in, sw*\n\n**type**: *eq, in*\n\n**attribute**: *eq, in*\n\n**value**: *eq, in, sw*\n\n**source.id**: *eq, in*\n\n**requestable**: *eq*\n\n**created**: *gt, lt, ge, le*\n\n**modified**: *gt, lt, ge, le*\n\n**owner.id**: *eq, in*\n\n**tags**: *eq*\n\n**privilegeLevel.direct**: *eq*",
+                        "type": "text/plain"
+                      },
+                      "key": "filters",
+                      "value": "attribute eq \"memberOf\""
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"2c91808874ff91550175097daaec161c\",\n    \"name\": \"Account Payable\",\n    \"attribute\": \"memberOf\",\n    \"value\": \"CN=Account Payable,OU=Finance,DC=xyz company\",\n    \"sourceSchemaObjectType\": \"group\",\n    \"description\": \"This entitlement allows users to access the accounts payable module of the organization's financial management system. Users can view, process, and approve invoices, manage vendor relationships, and perform other accounts payable-related tasks.\",\n    \"privilegeLevel\": {\n      \"direct\": \"HIGH\",\n      \"setBy\": \"SAILPOINT_MIGRATION\",\n      \"setByType\": \"OVERRIDE\",\n      \"inherited\": \"MEDIUM\",\n      \"effective\": \"HIGH\"\n    },\n    \"tags\": [\n      \"tag1\",\n      \"tag2\"\n    ],\n    \"cloudGoverned\": true,\n    \"requestable\": true,\n    \"owner\": {\n      \"id\": \"2c9180827ca885d7017ca8ce28a000eb\",\n      \"type\": \"IDENTITY\",\n      \"name\": \"john.doe\"\n    },\n    \"manuallyUpdatedFields\": {\n      \"DISPLAY_NAME\": true,\n      \"DESCRIPTION\": true\n    },\n    \"accessModelMetadata\": {\n      \"attributes\": [\n        {\n          \"key\": \"iscCsp\",\n          \"name\": \"CSP\",\n          \"multiselect\": true,\n          \"status\": \"active\",\n          \"type\": \"governance\",\n          \"objectTypes\": [\n            \"general\"\n          ],\n          \"description\": \"Indicates the type of deployment environment of an access item.\",\n          \"values\": [\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            },\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            }\n          ]\n        },\n        {\n          \"key\": \"iscCsp\",\n          \"name\": \"CSP\",\n          \"multiselect\": true,\n          \"status\": \"active\",\n          \"type\": \"governance\",\n          \"objectTypes\": [\n            \"general\"\n          ],\n          \"description\": \"Indicates the type of deployment environment of an access item.\",\n          \"values\": [\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            },\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            }\n          ]\n        }\n      ]\n    },\n    \"created\": \"2020-10-08T18:33:52.029Z\",\n    \"modified\": \"2020-10-08T18:33:52.029Z\",\n    \"source\": {\n      \"id\": \"2c9180827ca885d7017ca8ce28a000eb\",\n      \"type\": \"SOURCE\",\n      \"name\": \"ODS-AD-Source\"\n    },\n    \"attributes\": {\n      \"fieldName\": \"fieldValue\"\n    },\n    \"segments\": [\n      \"f7b1b8a3-5fed-4fd4-ad29-82014e137e19\",\n      \"29cb6c06-1da8-43ea-8be4-b3125f248f2a\"\n    ],\n    \"directPermissions\": [\n      {\n        \"rights\": [\n          \"SELECT\",\n          \"SELECT\"\n        ],\n        \"target\": \"SYS.GV_$TRANSACTION\"\n      },\n      {\n        \"rights\": [\n          \"SELECT\",\n          \"SELECT\"\n        ],\n        \"target\": \"SYS.GV_$TRANSACTION\"\n      }\n    ]\n  },\n  {\n    \"id\": \"2c91808874ff91550175097daaec161c\",\n    \"name\": \"Account Payable\",\n    \"attribute\": \"memberOf\",\n    \"value\": \"CN=Account Payable,OU=Finance,DC=xyz company\",\n    \"sourceSchemaObjectType\": \"group\",\n    \"description\": \"This entitlement allows users to access the accounts payable module of the organization's financial management system. Users can view, process, and approve invoices, manage vendor relationships, and perform other accounts payable-related tasks.\",\n    \"privilegeLevel\": {\n      \"direct\": \"HIGH\",\n      \"setBy\": \"SAILPOINT_MIGRATION\",\n      \"setByType\": \"OVERRIDE\",\n      \"inherited\": \"HIGH\",\n      \"effective\": \"HIGH\"\n    },\n    \"tags\": [\n      \"tag1\",\n      \"tag2\"\n    ],\n    \"cloudGoverned\": true,\n    \"requestable\": true,\n    \"owner\": {\n      \"id\": \"2c9180827ca885d7017ca8ce28a000eb\",\n      \"type\": \"IDENTITY\",\n      \"name\": \"john.doe\"\n    },\n    \"manuallyUpdatedFields\": {\n      \"DISPLAY_NAME\": true,\n      \"DESCRIPTION\": true\n    },\n    \"accessModelMetadata\": {\n      \"attributes\": [\n        {\n          \"key\": \"iscCsp\",\n          \"name\": \"CSP\",\n          \"multiselect\": true,\n          \"status\": \"active\",\n          \"type\": \"governance\",\n          \"objectTypes\": [\n            \"general\"\n          ],\n          \"description\": \"Indicates the type of deployment environment of an access item.\",\n          \"values\": [\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            },\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            }\n          ]\n        },\n        {\n          \"key\": \"iscCsp\",\n          \"name\": \"CSP\",\n          \"multiselect\": true,\n          \"status\": \"active\",\n          \"type\": \"governance\",\n          \"objectTypes\": [\n            \"general\"\n          ],\n          \"description\": \"Indicates the type of deployment environment of an access item.\",\n          \"values\": [\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            },\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            }\n          ]\n        }\n      ]\n    },\n    \"created\": \"2020-10-08T18:33:52.029Z\",\n    \"modified\": \"2020-10-08T18:33:52.029Z\",\n    \"source\": {\n      \"id\": \"2c9180827ca885d7017ca8ce28a000eb\",\n      \"type\": \"SOURCE\",\n      \"name\": \"ODS-AD-Source\"\n    },\n    \"attributes\": {\n      \"fieldName\": \"fieldValue\"\n    },\n    \"segments\": [\n      \"f7b1b8a3-5fed-4fd4-ad29-82014e137e19\",\n      \"29cb6c06-1da8-43ea-8be4-b3125f248f2a\"\n    ],\n    \"directPermissions\": [\n      {\n        \"rights\": [\n          \"SELECT\",\n          \"SELECT\"\n        ],\n        \"target\": \"SYS.GV_$TRANSACTION\"\n      },\n      {\n        \"rights\": [\n          \"SELECT\",\n          \"SELECT\"\n        ],\n        \"target\": \"SYS.GV_$TRANSACTION\"\n      }\n    ]\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "073e7878-f18e-4899-84b3-4472688c0ffa",
+          "name": "Get entitlements for an account",
+          "request": {
+            "name": "Get entitlements for an account",
+            "description": {
+              "content": "This API returns a list of all entitlements associated with the given account ID. The account must exist; if not found, the API returns 404.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "entitlements",
+                "account",
+                ":accountId",
+                "entitlements"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Max number of results to return.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                    "type": "text/plain"
+                  },
+                  "key": "limit",
+                  "value": "250"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Offset into the full result set. Usually specified with *limit* to paginate through the results.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                    "type": "text/plain"
+                  },
+                  "key": "offset",
+                  "value": "0"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "If *true* it will populate the *X-Total-Count* response header with the number of results that would be returned if *limit* and *offset* were ignored.\n\nSince requesting a total count can have a performance impact, it is recommended not to send **count=true** if that value will not be used.\n\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                    "type": "text/plain"
+                  },
+                  "key": "count",
+                  "value": "true"
+                }
+              ],
+              "variable": [
+                {
+                  "type": "any",
+                  "value": "ef38f94347e94562b5bb8424a56397d8",
+                  "key": "accountId",
+                  "disabled": true,
+                  "description": {
+                    "content": "(Required) The account ID to get entitlements for",
+                    "type": "text/plain"
+                  }
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "response": [
+            {
+              "id": "c52f54f4-2812-401b-a20f-a88ed25a9735",
+              "name": "List of entitlements for the account",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entitlements",
+                    "account",
+                    ":accountId",
+                    "entitlements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Max number of results to return.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                        "type": "text/plain"
+                      },
+                      "key": "limit",
+                      "value": "250"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Offset into the full result set. Usually specified with *limit* to paginate through the results.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                        "type": "text/plain"
+                      },
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "If *true* it will populate the *X-Total-Count* response header with the number of results that would be returned if *limit* and *offset* were ignored.\n\nSince requesting a total count can have a performance impact, it is recommended not to send **count=true** if that value will not be used.\n\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                        "type": "text/plain"
+                      },
+                      "key": "count",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "(Required) The account ID to get entitlements for",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "ef38f94347e94562b5bb8424a56397d8",
+                      "key": "accountId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Total number of results (when count is requested).",
+                    "type": "text/plain"
+                  },
+                  "key": "total-count",
+                  "value": "7777"
+                }
+              ],
+              "body": "[\n  {\n    \"sourceSchemaObjectType\": \"group\",\n    \"attribute\": \"memberOf\",\n    \"attributes\": {\n      \"GroupType\": \"Security\",\n      \"sAMAccountName\": \"Account Payable\",\n      \"GroupScope\": \"Global\",\n      \"objectguid\": \"{01a6e70b-9705-4155-a5c6-492a9bcc8c64}\",\n      \"objectSid\": \"S-1-5-21-3585869415-1648031554-2909195034-1633\",\n      \"cn\": \"Account Payable\",\n      \"msDS-PrincipalName\": \"AUTOMATIONAD\\\\Account Payable\"\n    },\n    \"value\": \"CN=Account Payable,OU=Finance,DC=xyz company\",\n    \"description\": \"This entitlement allows users to access the accounts payable module of the organization's financial management system. Users can view, process, and approve invoices, manage vendor relationships, and perform other accounts payable-related tasks.\",\n    \"privilegeLevel\": null,\n    \"cloudGoverned\": false,\n    \"source\": {\n      \"type\": \"SOURCE\",\n      \"id\": \"2c9180877504c40e0175097d5ce707c8\",\n      \"name\": \"EndToEnd-ADSource\"\n    },\n    \"owner\": {\n      \"id\": \"2a2fdacca5e345f18bf7970cfbb8fec2\",\n      \"name\": \"identity 1\",\n      \"type\": \"IDENTITY\"\n    },\n    \"segments\": [\n      \"1d126fe0-45e2-4aea-bc64-a07e9344ef26\"\n    ],\n    \"manuallyUpdatedFields\": {\n      \"DISPLAY_NAME\": true,\n      \"DESCRIPTION\": true\n    },\n    \"id\": \"2c91808c74ff913f0175097daa9d59cd\",\n    \"name\": \"Account Payable\",\n    \"created\": \"2020-10-08T18:33:52.029Z\",\n    \"modified\": \"2021-01-19T16:53:35.707Z\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "353abb11-6e76-4858-8fec-547a550bbfc5",
+          "name": "Bulk update an entitlement list",
+          "request": {
+            "name": "Bulk update an entitlement list",
+            "description": {
+              "content": "This API applies an update to every entitlement of the list.\n\n\nThe number of entitlements to update is limited to 50 items maximum.\n\n\nThe JsonPatch update follows the [JSON Patch](https://tools.ietf.org/html/rfc6902) standard.\nexamples of allowed operations :\n`**{ \"op\": \"replace\", \"path\": \"/requestable\",\"value\": boolean }**`\n`**{ \"op\": \"replace\", \"path\": \"/privilegeOverride/level\",\"value\": string }**`\n\nA token with ORG_ADMIN or API authority is required to call this API.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "entitlements",
+                "bulk-update"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"entitlementIds\": [\n    \"2c91808a7624751a01762f19d665220d\",\n    \"2c91808a7624751a01762f19d67c220e\",\n    \"2c91808a7624751a01762f19d692220f\"\n  ],\n  \"jsonPatch\": [\n    {\n      \"op\": \"replace\",\n      \"path\": \"/description\",\n      \"value\": \"New description\"\n    },\n    {\n      \"op\": \"replace\",\n      \"path\": \"/description\",\n      \"value\": \"New description\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f8345e6d-b9c3-445d-b723-472f1b973041",
+              "name": "No content - indicates the request was successful but there is no content to be returned in the response.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entitlements",
+                    "bulk-update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"entitlementIds\": [\n    \"2c91808a7624751a01762f19d665220d\",\n    \"2c91808a7624751a01762f19d67c220e\",\n    \"2c91808a7624751a01762f19d692220f\"\n  ],\n  \"jsonPatch\": [\n    {\n      \"op\": \"replace\",\n      \"path\": \"/description\",\n      \"value\": \"New description\"\n    },\n    {\n      \"op\": \"replace\",\n      \"path\": \"/description\",\n      \"value\": \"New description\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [],
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "201393ff-7c93-4b91-917c-d482d1832c94",
+          "name": "Get an entitlement",
+          "request": {
+            "name": "Get an entitlement",
+            "description": {
+              "content": "This API returns an entitlement by its ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "entitlements",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "value": "2c91808874ff91550175097daaec161c",
+                  "key": "id",
+                  "disabled": true,
+                  "description": {
+                    "content": "(Required) The entitlement ID",
+                    "type": "text/plain"
+                  }
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "response": [
+            {
+              "id": "7a41e3bd-5064-4829-84f0-5e7f81b60053",
+              "name": "An entitlement",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entitlements",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "(Required) The entitlement ID",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "2c91808874ff91550175097daaec161c",
+                      "key": "id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"sourceSchemaObjectType\": \"group\",\n  \"attribute\": \"memberOf\",\n  \"attributes\": {\n    \"GroupType\": \"Security\",\n    \"sAMAccountName\": \"Account Payable\",\n    \"GroupScope\": \"Global\",\n    \"objectguid\": \"{01a6e70b-9705-4155-a5c6-492a9bcc8c64}\",\n    \"objectSid\": \"S-1-5-21-3585869415-1648031554-2909195034-1633\",\n    \"cn\": \"Account Payable\",\n    \"msDS-PrincipalName\": \"AUTOMATIONAD\\\\Account Payable\"\n  },\n  \"value\": \"CN=Account Payable,OU=Finance,DC=xyz company\",\n  \"description\": \"This entitlement allows users to access the accounts payable module of the organization's financial management system. Users can view, process, and approve invoices, manage vendor relationships, and perform other accounts payable-related tasks.\",\n  \"privilegeLevel\": {\n    \"direct\": \"HIGH\",\n    \"setBy\": \"SAILPOINT_MIGRATION\",\n    \"setByType\": \"OVERRIDE\",\n    \"inherited\": null,\n    \"effective\": \"HIGH\"\n  },\n  \"cloudGoverned\": false,\n  \"source\": {\n    \"type\": \"SOURCE\",\n    \"id\": \"2c9180877504c40e0175097d5ce707c8\",\n    \"name\": \"EndToEnd-ADSource\"\n  },\n  \"owner\": {\n    \"id\": \"2c9180858315595501831958427e5424\",\n    \"name\": \"Addie Smith\",\n    \"type\": \"IDENTITY\"\n  },\n  \"segments\": [\n    \"1d126fe0-45e2-4aea-bc64-a07e9344ef26\"\n  ],\n  \"manuallyUpdatedFields\": {\n    \"DISPLAY_NAME\": true,\n    \"DESCRIPTION\": true\n  },\n  \"id\": \"2c91808c74ff913f0175097daa9d59cd\",\n  \"name\": \"Account Payable\",\n  \"created\": \"2020-10-08T18:33:52.029Z\",\n  \"modified\": \"2021-01-19T16:53:35.707Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fc2da7a6-45b3-4ec9-8668-e67e868477b7",
+          "name": "Patch an entitlement",
+          "request": {
+            "name": "Patch an entitlement",
+            "description": {
+              "content": "This API updates an existing entitlement using [JSON Patch](https://tools.ietf.org/html/rfc6902) syntax.\n\nThe following fields are patchable: **requestable**, **segments**, **privilegeOverride/level**, **owner**, **name**, **description**, and **manuallyUpdatedFields**\n\nWhen you're patching owner, only owner type and owner id must be provided. Owner name is optional, and it won't be modified. If the owner name is provided, it should correspond to the real name. The only owner type currently supported is IDENTITY.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "entitlements",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "value": "2c91808a7813090a017814121e121518",
+                  "key": "id",
+                  "disabled": true,
+                  "description": {
+                    "content": "(Required) ID of the entitlement to patch",
+                    "type": "text/plain"
+                  }
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json-patch+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"op\": \"replace\",\n    \"path\": \"/requestable\",\n    \"value\": true\n  }\n]",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "44251c23-e1fb-46dd-86f7-5d05d7e6a49f",
+              "name": "Responds with the entitlement as updated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entitlements",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "(Required) ID of the entitlement to patch",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "2c91808a7813090a017814121e121518",
+                      "key": "id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json-patch+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"op\": \"add\",\n    \"path\": \"/segments/-\",\n    \"value\": \"f7b1b8a3-5fed-4fd4-ad29-82014e137e19\"\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "CN=Account Payable,OU=Finance,DC=xyz company",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "957587ff-6d53-4dbf-8fc6-fbb2fe12da43",
+          "name": "List of entitlements parents",
+          "request": {
+            "name": "List of entitlements parents",
+            "description": {
+              "content": "This API returns a list of all parent entitlements of a given entitlement.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "entitlements",
+                ":id",
+                "parents"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Max number of results to return.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                    "type": "text/plain"
+                  },
+                  "key": "limit",
+                  "value": "250"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Offset into the full result set. Usually specified with *limit* to paginate through the results.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                    "type": "text/plain"
+                  },
+                  "key": "offset",
+                  "value": "0"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "If *true* it will populate the *X-Total-Count* response header with the number of results that would be returned if *limit* and *offset* were ignored.\n\nSince requesting a total count can have a performance impact, it is recommended not to send **count=true** if that value will not be used.\n\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                    "type": "text/plain"
+                  },
+                  "key": "count",
+                  "value": "true"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **id, name, created, modified, type, attribute, value, source.id**",
+                    "type": "text/plain"
+                  },
+                  "key": "sorters",
+                  "value": "name,-modified"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in*\n\n**name**: *eq, in, sw*\n\n**type**: *eq, in*\n\n**attribute**: *eq, in*\n\n**value**: *eq, in, sw*\n\n**source.id**: *eq, in*\n\n**requestable**: *eq*\n\n**created**: *gt, lt, ge, le*\n\n**modified**: *gt, lt, ge, le*\n\n**owner.id**: *eq, in*\n\n**tags**: *eq*\n\n**privilegeLevel.direct**: *eq*",
+                    "type": "text/plain"
+                  },
+                  "key": "filters",
+                  "value": "attribute eq \"memberOf\""
+                }
+              ],
+              "variable": [
+                {
+                  "type": "any",
+                  "value": "2c91808c74ff913f0175097daa9d59cd",
+                  "key": "id",
+                  "disabled": true,
+                  "description": {
+                    "content": "(Required) Entitlement Id",
+                    "type": "text/plain"
+                  }
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "response": [
+            {
+              "id": "9932c043-9fe3-4ba3-9702-466c7738fbec",
+              "name": "List of entitlements parents from an entitlement",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entitlements",
+                    ":id",
+                    "parents"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Max number of results to return.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                        "type": "text/plain"
+                      },
+                      "key": "limit",
+                      "value": "250"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Offset into the full result set. Usually specified with *limit* to paginate through the results.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                        "type": "text/plain"
+                      },
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "If *true* it will populate the *X-Total-Count* response header with the number of results that would be returned if *limit* and *offset* were ignored.\n\nSince requesting a total count can have a performance impact, it is recommended not to send **count=true** if that value will not be used.\n\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                        "type": "text/plain"
+                      },
+                      "key": "count",
+                      "value": "true"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **id, name, created, modified, type, attribute, value, source.id**",
+                        "type": "text/plain"
+                      },
+                      "key": "sorters",
+                      "value": "name,-modified"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in*\n\n**name**: *eq, in, sw*\n\n**type**: *eq, in*\n\n**attribute**: *eq, in*\n\n**value**: *eq, in, sw*\n\n**source.id**: *eq, in*\n\n**requestable**: *eq*\n\n**created**: *gt, lt, ge, le*\n\n**modified**: *gt, lt, ge, le*\n\n**owner.id**: *eq, in*\n\n**tags**: *eq*\n\n**privilegeLevel.direct**: *eq*",
+                        "type": "text/plain"
+                      },
+                      "key": "filters",
+                      "value": "attribute eq \"memberOf\""
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "(Required) Entitlement Id",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "2c91808c74ff913f0175097daa9d59cd",
+                      "key": "id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"sourceSchemaObjectType\": \"group\",\n    \"attribute\": \"memberOf\",\n    \"attributes\": {\n      \"GroupType\": \"Security\",\n      \"sAMAccountName\": \"Account Payable\",\n      \"GroupScope\": \"Global\",\n      \"objectguid\": \"{01a6e70b-9705-4155-a5c6-492a9bcc8c64}\",\n      \"objectSid\": \"S-1-5-21-3585869415-1648031554-2909195034-1633\",\n      \"cn\": \"Account Payable\",\n      \"msDS-PrincipalName\": \"AUTOMATIONAD\\\\Account Payable\"\n    },\n    \"value\": \"CN=Account Payable,OU=Finance,DC=xyz company\",\n    \"description\": \"This entitlement allows users to access the accounts payable module of the organization's financial management system. Users can view, process, and approve invoices, manage vendor relationships, and perform other accounts payable-related tasks.\",\n    \"privilegeLevel\": {\n      \"direct\": \"HIGH\",\n      \"setBy\": \"SAILPOINT_MIGRATION\",\n      \"setByType\": \"OVERRIDE\",\n      \"inherited\": null,\n      \"effective\": \"HIGH\"\n    },\n    \"cloudGoverned\": false,\n    \"source\": {\n      \"type\": \"SOURCE\",\n      \"id\": \"2c9180877504c40e0175097d5ce707c8\",\n      \"name\": \"EndToEnd-ADSource\"\n    },\n    \"owner\": {\n      \"id\": \"2a2fdacca5e345f18bf7970cfbb8fec2\",\n      \"name\": \"identity 1\",\n      \"type\": \"IDENTITY\"\n    },\n    \"segments\": [\n      \"1d126fe0-45e2-4aea-bc64-a07e9344ef26\"\n    ],\n    \"manuallyUpdatedFields\": {\n      \"DISPLAY_NAME\": true,\n      \"DESCRIPTION\": true\n    },\n    \"id\": \"2c91808c74ff913f0175097daa9d59cd\",\n    \"name\": \"Account Payable\",\n    \"created\": \"2020-10-08T18:33:52.029Z\",\n    \"modified\": \"2021-01-19T16:53:35.707Z\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e0202840-6992-4436-873a-f016e35a93f6",
+          "name": "List of entitlements children",
+          "request": {
+            "name": "List of entitlements children",
+            "description": {
+              "content": "This API returns a list of all child entitlements of a given entitlement.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "entitlements",
+                ":id",
+                "children"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Max number of results to return.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                    "type": "text/plain"
+                  },
+                  "key": "limit",
+                  "value": "250"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Offset into the full result set. Usually specified with *limit* to paginate through the results.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                    "type": "text/plain"
+                  },
+                  "key": "offset",
+                  "value": "0"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "If *true* it will populate the *X-Total-Count* response header with the number of results that would be returned if *limit* and *offset* were ignored.\n\nSince requesting a total count can have a performance impact, it is recommended not to send **count=true** if that value will not be used.\n\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                    "type": "text/plain"
+                  },
+                  "key": "count",
+                  "value": "true"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **id, name, created, modified, type, attribute, value, source.id**",
+                    "type": "text/plain"
+                  },
+                  "key": "sorters",
+                  "value": "name,-modified"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in*\n\n**name**: *eq, in, sw*\n\n**type**: *eq, in*\n\n**attribute**: *eq, in*\n\n**value**: *eq, in, sw*\n\n**source.id**: *eq, in*\n\n**requestable**: *eq*\n\n**created**: *gt, lt, ge, le*\n\n**modified**: *gt, lt, ge, le*\n\n**owner.id**: *eq, in*\n\n**tags**: *eq*\n\n**privilegeLevel.direct**: *eq*",
+                    "type": "text/plain"
+                  },
+                  "key": "filters",
+                  "value": "attribute eq \"memberOf\""
+                }
+              ],
+              "variable": [
+                {
+                  "type": "any",
+                  "value": "2c91808874ff91550175097daaec161c",
+                  "key": "id",
+                  "disabled": true,
+                  "description": {
+                    "content": "(Required) Entitlement Id",
+                    "type": "text/plain"
+                  }
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "response": [
+            {
+              "id": "846210fd-b66a-428c-95c3-c82808be3f37",
+              "name": "List of entitlements children from an entitlement",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entitlements",
+                    ":id",
+                    "children"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Max number of results to return.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                        "type": "text/plain"
+                      },
+                      "key": "limit",
+                      "value": "250"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Offset into the full result set. Usually specified with *limit* to paginate through the results.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                        "type": "text/plain"
+                      },
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "If *true* it will populate the *X-Total-Count* response header with the number of results that would be returned if *limit* and *offset* were ignored.\n\nSince requesting a total count can have a performance impact, it is recommended not to send **count=true** if that value will not be used.\n\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                        "type": "text/plain"
+                      },
+                      "key": "count",
+                      "value": "true"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **id, name, created, modified, type, attribute, value, source.id**",
+                        "type": "text/plain"
+                      },
+                      "key": "sorters",
+                      "value": "name,-modified"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in*\n\n**name**: *eq, in, sw*\n\n**type**: *eq, in*\n\n**attribute**: *eq, in*\n\n**value**: *eq, in, sw*\n\n**source.id**: *eq, in*\n\n**requestable**: *eq*\n\n**created**: *gt, lt, ge, le*\n\n**modified**: *gt, lt, ge, le*\n\n**owner.id**: *eq, in*\n\n**tags**: *eq*\n\n**privilegeLevel.direct**: *eq*",
+                        "type": "text/plain"
+                      },
+                      "key": "filters",
+                      "value": "attribute eq \"memberOf\""
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "(Required) Entitlement Id",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "2c91808874ff91550175097daaec161c",
+                      "key": "id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"sourceSchemaObjectType\": \"group\",\n    \"attribute\": \"memberOf\",\n    \"attributes\": {\n      \"GroupType\": \"Security\",\n      \"sAMAccountName\": \"Account Payable\",\n      \"GroupScope\": \"Global\",\n      \"objectguid\": \"{01a6e70b-9705-4155-a5c6-492a9bcc8c64}\",\n      \"objectSid\": \"S-1-5-21-3585869415-1648031554-2909195034-1633\",\n      \"cn\": \"Account Payable\",\n      \"msDS-PrincipalName\": \"AUTOMATIONAD\\\\Account Payable\"\n    },\n    \"value\": \"CN=Account Payable,OU=Finance,DC=xyz company\",\n    \"description\": \"This entitlement allows users to access the accounts payable module of the organization's financial management system. Users can view, process, and approve invoices, manage vendor relationships, and perform other accounts payable-related tasks.\",\n    \"privilegeLevel\": {\n      \"direct\": \"HIGH\",\n      \"setBy\": \"SAILPOINT_MIGRATION\",\n      \"setByType\": \"OVERRIDE\",\n      \"inherited\": null,\n      \"effective\": \"HIGH\"\n    },\n    \"cloudGoverned\": false,\n    \"source\": {\n      \"type\": \"SOURCE\",\n      \"id\": \"2c9180877504c40e0175097d5ce707c8\",\n      \"name\": \"EndToEnd-ADSource\"\n    },\n    \"owner\": {\n      \"id\": \"2a2fdacca5e345f18bf7970cfbb8fec2\",\n      \"name\": \"identity 1\",\n      \"type\": \"IDENTITY\"\n    },\n    \"segments\": [\n      \"1d126fe0-45e2-4aea-bc64-a07e9344ef26\"\n    ],\n    \"manuallyUpdatedFields\": {\n      \"DISPLAY_NAME\": true,\n      \"DESCRIPTION\": true\n    },\n    \"id\": \"2c91808c74ff913f0175097daa9d59cd\",\n    \"name\": \"Account Payable\",\n    \"created\": \"2020-10-08T18:33:52.029Z\",\n    \"modified\": \"2021-01-19T16:53:35.707Z\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ]
+    },
+    {
       "name": "Human Account Deletion Approval Config",
       "description": "",
       "item": [
         {
-          "id": "f7076bf9-d1cc-428a-b7f0-fa22cd1d3561",
+          "id": "55cd2335-76b1-4a66-8e17-a2ea39991c33",
           "name": "Human Account Deletion Approval Config",
           "request": {
             "name": "Human Account Deletion Approval Config",
@@ -391,7 +1510,7 @@
           },
           "response": [
             {
-              "id": "62b628b2-1076-40b9-b6cf-13fbba1e3f62",
+              "id": "3679b37f-2ee0-4693-ad45-6d00b6964611",
               "name": "Responds with a AccountDeleteConfigDto for human account deletion approval config by sourceId.",
               "originalRequest": {
                 "url": {
@@ -463,7 +1582,7 @@
           }
         },
         {
-          "id": "d3cec8c5-28df-4626-84ac-11bb96b3b875",
+          "id": "e1580445-01ad-4e56-b110-98bc3815c624",
           "name": "Human Account Deletion Approval Config",
           "request": {
             "name": "Human Account Deletion Approval Config",
@@ -528,7 +1647,7 @@
           },
           "response": [
             {
-              "id": "2beadcac-310e-4f2e-8c00-a07f8eb274a7",
+              "id": "5ada5de2-674e-41d6-b910-c6227e5fb78d",
               "name": "This response indicates the PATCH operation succeeded and the API returns the updated AccountDeleteConfigDto object.",
               "originalRequest": {
                 "url": {
@@ -619,7 +1738,7 @@
       "description": "",
       "item": [
         {
-          "id": "e890455c-5484-4173-99a8-a20c916d12bd",
+          "id": "b590a738-1011-4107-b242-2c6c74b1db2e",
           "name": "Machine Account Deletion Approval Config",
           "request": {
             "name": "Machine Account Deletion Approval Config",
@@ -671,7 +1790,7 @@
           },
           "response": [
             {
-              "id": "00981b60-91ed-42f8-a400-5440dc578505",
+              "id": "b9104205-535d-486d-ab9c-e10af6e65f0b",
               "name": "Responds with a AccountDeleteConfigDto for machine account deletion approval config by sourceId.",
               "originalRequest": {
                 "url": {
@@ -743,7 +1862,7 @@
           }
         },
         {
-          "id": "22f5af44-5c0a-48ff-9104-bf91ec73d7ca",
+          "id": "d86f0e39-5f75-4ab0-8d19-df09d08d8c00",
           "name": "Machine Account Deletion Approval Config",
           "request": {
             "name": "Machine Account Deletion Approval Config",
@@ -808,7 +1927,7 @@
           },
           "response": [
             {
-              "id": "664a117f-4cfc-4562-a9b9-460396f42d30",
+              "id": "5791e0e8-00e5-444f-a913-5ffe245d6dca",
               "name": "This response indicates the PATCH operation succeeded and the API returns the updated AccountDeleteConfigDto object.",
               "originalRequest": {
                 "url": {
@@ -899,7 +2018,7 @@
       "description": "",
       "item": [
         {
-          "id": "7f470919-14e3-48f1-92c8-f1cce6a7f0e9",
+          "id": "f7821bb2-fa4d-4791-a06f-692cdabc722a",
           "name": "Machine Subtype Approval Config",
           "request": {
             "name": "Machine Subtype Approval Config",
@@ -950,7 +2069,7 @@
           },
           "response": [
             {
-              "id": "04893279-f4ae-4233-a46a-721b40077ac4",
+              "id": "8e628f09-cf38-42ed-98df-f5af7981155c",
               "name": "Responds with a MachineAccountSubtypeConfigDto for machine account deletion approval config by subtypeId.",
               "originalRequest": {
                 "url": {
@@ -1021,7 +2140,7 @@
           }
         },
         {
-          "id": "acf7c933-602d-4ad4-8ff3-67e4a45d5e68",
+          "id": "5269ce6b-96ef-4a9d-adc2-9505971408af",
           "name": "Machine Subtype Approval Config",
           "request": {
             "name": "Machine Subtype Approval Config",
@@ -1085,7 +2204,7 @@
           },
           "response": [
             {
-              "id": "7d551c0c-4128-42e5-8ad8-ba50a55f51e3",
+              "id": "aef76d93-30b1-4b55-85b3-e599cde956d5",
               "name": "This response indicates the PATCH operation succeeded and the API returns the updated MachineAccountSubtypeConfigDto object.",
               "originalRequest": {
                 "url": {
@@ -1175,7 +2294,7 @@
       "description": "",
       "item": [
         {
-          "id": "18ae6df0-daed-40d6-8992-931f1612b28c",
+          "id": "0ca84f27-7474-44af-9124-b9f702dd85c3",
           "name": "Get task status by id",
           "request": {
             "name": "Get task status by id",
@@ -1225,7 +2344,7 @@
           },
           "response": [
             {
-              "id": "3978ad5e-6209-4d0d-b167-96a703fd48e9",
+              "id": "322240dd-3160-4ade-96b2-95f2b3727f93",
               "name": "Responds with a TaskStatus for the task with the given task ID.",
               "originalRequest": {
                 "url": {
@@ -1295,7 +2414,7 @@
           }
         },
         {
-          "id": "aa264b15-39ed-4824-9597-46857f389458",
+          "id": "1dcb16ee-107e-4030-8a92-227e4fe4df4b",
           "name": "Update task status by id",
           "request": {
             "name": "Update task status by id",
@@ -1358,7 +2477,7 @@
           },
           "response": [
             {
-              "id": "d8a47225-5208-4a07-95dd-eca795eb63f3",
+              "id": "9055c0be-5f9f-4f47-a373-ed7b9fa3d019",
               "name": "This response indicates the PATCH operation succeeded, and the API returns the updated task object.",
               "originalRequest": {
                 "url": {
@@ -1441,7 +2560,7 @@
           }
         },
         {
-          "id": "63db75b9-6f1f-46c4-9e85-1c750076be44",
+          "id": "18fbe5ba-3f02-4e28-b4d3-23510462f910",
           "name": "Retrieve task status list",
           "request": {
             "name": "Retrieve task status list",
@@ -1525,7 +2644,7 @@
           },
           "response": [
             {
-              "id": "e6cffa7f-219a-4416-9693-c2b20b4b15d8",
+              "id": "cc3bfc3e-04c9-4e99-8f9a-105c9c49ab13",
               "name": "Responds with a TaskStatus for the task with the given task ID.",
               "originalRequest": {
                 "url": {
@@ -1629,7 +2748,7 @@
           }
         },
         {
-          "id": "02953941-8527-4125-9693-fc108494648e",
+          "id": "778d9daa-d1fc-4b83-b0fb-f6c52e9ae1ee",
           "name": "Retrieve pending task status list",
           "request": {
             "name": "Retrieve pending task status list",
@@ -1696,7 +2815,7 @@
           },
           "response": [
             {
-              "id": "ce632bad-3d13-4c2e-a74a-6a489fe8c9c0",
+              "id": "a7f82d3c-adce-4ce5-905c-027115c4076b",
               "name": "Responds with a list of TaskStatus for pending tasks.\n\nPossible Values: CLOUD_ACCOUNT_AGGREGATION, CLOUD_GROUP_AGGREGATION, CLOUD_PROCESS_UNCORRELATED_ACCOUNTS, CLOUD_REFRESH_ROLE, SOURCE_APPLICATION_DISCOVERY, AI_AGENT_AGGREGATION, CLOUD_ENTITLEMENT_IMPORT, CLOUD_UNCORRELATED_REFRESH, CLOUD_IDENTITY_AGGREGATION, CLOUD_ATTRIBUTE_SYNCHRONIZATION, IDENTITY_REFRESH, APPLICATION_DISCOVERY, MACHINE_IDENTITY_AGGREGATION, MACHINE_IDENTITY_DELETION, ACCOUNT_DELETION",
               "originalRequest": {
                 "url": {
@@ -1777,7 +2896,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "9241b193-fa02-4e67-b531-0f4004c0f781",
+              "id": "ffc363b0-e1d3-4738-98f5-082aa14a7e32",
               "name": "No content - indicates the request was successful but there is no content to be returned in the response.",
               "originalRequest": {
                 "url": {
@@ -1854,7 +2973,7 @@
           }
         },
         {
-          "id": "6692bd73-c175-4e07-af5a-08a618a30014",
+          "id": "609e9941-462a-4255-ae75-7872c9e4a877",
           "name": "Retrieve pending task list headers",
           "request": {
             "name": "Retrieve pending task list headers",
@@ -1921,7 +3040,7 @@
           },
           "response": [
             {
-              "id": "b652e120-e11a-4ad2-9340-2c67512ce804",
+              "id": "203598dd-b962-447b-afdb-5177014c7799",
               "name": "Retrieve headers for a list of TaskStatus for pending tasks.",
               "originalRequest": {
                 "url": {
@@ -1992,7 +3111,7 @@
               "_postman_previewlanguage": "text"
             },
             {
-              "id": "cabb0fcb-5628-40a2-834d-b091ba52ac05",
+              "id": "fbbab3c1-47a9-4369-9d96-27f27aa2af2e",
               "name": "No content - indicates the request was successful but there is no content to be returned in the response.",
               "originalRequest": {
                 "url": {
@@ -2179,7 +3298,7 @@
     }
   ],
   "info": {
-    "_postman_id": "c5ba7d6c-bdbd-4fda-a980-90681469c881",
+    "_postman_id": "6d95ac85-5a64-40c2-8474-6deda869072f",
     "name": "Identity Security Cloud v2026 API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": {
