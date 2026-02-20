@@ -35,7 +35,13 @@
         ],
         "parameters": [
           {
-            "$ref": "#/components/parameters/query"
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          },
+          {
+            "$ref": "#/components/parameters/order"
           },
           {
             "$ref": "#/components/parameters/label"
@@ -267,7 +273,13 @@
         ],
         "parameters": [
           {
-            "$ref": "#/components/parameters/query"
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          },
+          {
+            "$ref": "#/components/parameters/order"
           },
           {
             "$ref": "#/components/parameters/ne_attribute_id"
@@ -528,7 +540,13 @@
         ],
         "parameters": [
           {
-            "$ref": "#/components/parameters/query"
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          },
+          {
+            "$ref": "#/components/parameters/order"
           }
         ],
         "requestBody": {
@@ -577,7 +595,13 @@
             "$ref": "#/components/parameters/id"
           },
           {
-            "$ref": "#/components/parameters/query"
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          },
+          {
+            "$ref": "#/components/parameters/order"
           }
         ],
         "responses": {
@@ -1257,7 +1281,13 @@
         ],
         "parameters": [
           {
-            "$ref": "#/components/parameters/query"
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          },
+          {
+            "$ref": "#/components/parameters/order"
           },
           {
             "$ref": "#/components/parameters/profile_id"
@@ -2159,7 +2189,13 @@
         ],
         "parameters": [
           {
-            "$ref": "#/components/parameters/query"
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          },
+          {
+            "$ref": "#/components/parameters/order"
           },
           {
             "$ref": "#/components/parameters/exclude_attributes"
@@ -2498,7 +2534,13 @@
         ],
         "parameters": [
           {
-            "$ref": "#/components/parameters/query"
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          },
+          {
+            "$ref": "#/components/parameters/order"
           },
           {
             "$ref": "#/components/parameters/name"
@@ -2805,7 +2847,13 @@
         ],
         "parameters": [
           {
-            "$ref": "#/components/parameters/query"
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          },
+          {
+            "$ref": "#/components/parameters/order"
           },
           {
             "$ref": "#/components/parameters/label"
@@ -2863,7 +2911,13 @@
         ],
         "parameters": [
           {
-            "$ref": "#/components/parameters/query"
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          },
+          {
+            "$ref": "#/components/parameters/order"
           },
           {
             "$ref": "#/components/parameters/object_id"
@@ -2933,7 +2987,13 @@
         ],
         "parameters": [
           {
-            "$ref": "#/components/parameters/query"
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          },
+          {
+            "$ref": "#/components/parameters/order"
           },
           {
             "$ref": "#/components/parameters/metadata"
@@ -3104,7 +3164,13 @@
         ],
         "parameters": [
           {
-            "$ref": "#/components/parameters/query"
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          },
+          {
+            "$ref": "#/components/parameters/order"
           },
           {
             "$ref": "#/components/parameters/role_id"
@@ -3269,7 +3335,13 @@
         ],
         "parameters": [
           {
-            "$ref": "#/components/parameters/query"
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          },
+          {
+            "$ref": "#/components/parameters/order"
           },
           {
             "$ref": "#/components/parameters/metadata"
@@ -3346,7 +3418,13 @@
         ],
         "parameters": [
           {
-            "$ref": "#/components/parameters/query"
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          },
+          {
+            "$ref": "#/components/parameters/order"
           },
           {
             "$ref": "#/components/parameters/name"
@@ -3594,7 +3672,13 @@
         ],
         "parameters": [
           {
-            "$ref": "#/components/parameters/query"
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          },
+          {
+            "$ref": "#/components/parameters/order"
           },
           {
             "$ref": "#/components/parameters/user_id"
@@ -3747,7 +3831,13 @@
         ],
         "parameters": [
           {
-            "$ref": "#/components/parameters/query"
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          },
+          {
+            "$ref": "#/components/parameters/order"
           },
           {
             "$ref": "#/components/parameters/user_id"
@@ -3964,7 +4054,13 @@
         ],
         "parameters": [
           {
-            "$ref": "#/components/parameters/query"
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          },
+          {
+            "$ref": "#/components/parameters/order"
           },
           {
             "$ref": "#/components/parameters/user_id"
@@ -5019,7 +5115,13 @@
         ],
         "parameters": [
           {
-            "$ref": "#/components/parameters/query"
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          },
+          {
+            "$ref": "#/components/parameters/order"
           },
           {
             "$ref": "#/components/parameters/profile_id"
@@ -5222,35 +5324,39 @@
       }
     },
     "parameters": {
-      "query": {
-        "name": "query",
+      "limit": {
+        "name": "limit",
         "in": "query",
-        "description": "Allows for pagination and sorting.",
+        "description": "The maximum number of items to return.",
         "required": false,
         "schema": {
-          "type": "object",
-          "properties": {
-            "limit": {
-              "type": "integer",
-              "example": 100
-            },
-            "offset": {
-              "type": "integer",
-              "example": 50
-            },
-            "order": {
-              "type": "string",
-              "example": "created_at"
-            }
-          },
-          "example": {
-            "limit": 100,
-            "offset": 50,
-            "order": "created_at"
-          }
-        },
-        "style": "deepObject",
-        "explode": true
+          "type": "integer",
+          "format": "int32",
+          "minimum": 1,
+          "example": 5
+        }
+      },
+      "offset": {
+        "name": "offset",
+        "in": "query",
+        "description": "The number of items to skip before starting to collect the result set.",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "minimum": 1,
+          "example": 5
+        }
+      },
+      "order": {
+        "name": "order",
+        "in": "query",
+        "description": "The field to order results by.",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "example": "created_at"
+        }
       },
       "label": {
         "name": "label",
@@ -5363,30 +5469,6 @@
           "type": "boolean",
           "default": false,
           "example": true
-        }
-      },
-      "limit": {
-        "name": "limit",
-        "in": "query",
-        "description": "The maximum number of items to return.",
-        "required": false,
-        "schema": {
-          "type": "integer",
-          "format": "int32",
-          "minimum": 1,
-          "example": 5
-        }
-      },
-      "offset": {
-        "name": "offset",
-        "in": "query",
-        "description": "The number of items to skip before starting to collect the result set.",
-        "required": false,
-        "schema": {
-          "type": "integer",
-          "format": "int32",
-          "minimum": 1,
-          "example": 5
         }
       },
       "profile_id": {

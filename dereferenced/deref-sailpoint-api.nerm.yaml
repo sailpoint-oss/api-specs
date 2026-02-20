@@ -22,7 +22,9 @@ paths:
       tags:
         - attributes
       parameters:
-        - $ref: '#/components/parameters/query'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/order'
         - $ref: '#/components/parameters/label'
         - $ref: '#/components/parameters/data_type'
         - $ref: '#/components/parameters/metadata'
@@ -166,7 +168,9 @@ paths:
       tags:
         - attribute options
       parameters:
-        - $ref: '#/components/parameters/query'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/order'
         - $ref: '#/components/parameters/ne_attribute_id'
         - $ref: '#/components/parameters/metadata'
       responses:
@@ -331,7 +335,9 @@ paths:
       tags:
         - advanced search
       parameters:
-        - $ref: '#/components/parameters/query'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/order'
       requestBody:
         $ref: '#/components/requestBodies/AdvancedSearch'
       responses:
@@ -360,7 +366,9 @@ paths:
         - advanced search
       parameters:
         - $ref: '#/components/parameters/id'
-        - $ref: '#/components/parameters/query'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/order'
       responses:
         '200':
           $ref: '#/components/responses/Profiles'
@@ -793,7 +801,9 @@ paths:
       tags:
         - identity proofing results
       parameters:
-        - $ref: '#/components/parameters/query'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/order'
         - $ref: '#/components/parameters/profile_id'
         - $ref: '#/components/parameters/workflow_session_id'
         - $ref: '#/components/parameters/result'
@@ -1361,7 +1371,9 @@ paths:
       tags:
         - profiles
       parameters:
-        - $ref: '#/components/parameters/query'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/order'
         - $ref: '#/components/parameters/exclude_attributes'
         - $ref: '#/components/parameters/name'
         - $ref: '#/components/parameters/profile_type_id'
@@ -1570,7 +1582,9 @@ paths:
       tags:
         - profile types
       parameters:
-        - $ref: '#/components/parameters/query'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/order'
         - $ref: '#/components/parameters/name'
         - $ref: '#/components/parameters/archived'
         - $ref: '#/components/parameters/metadata'
@@ -1755,7 +1769,9 @@ paths:
       tags:
         - risk levels
       parameters:
-        - $ref: '#/components/parameters/query'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/order'
         - $ref: '#/components/parameters/label'
         - $ref: '#/components/parameters/metadata'
       responses:
@@ -1789,7 +1805,9 @@ paths:
       tags:
         - risk scores
       parameters:
-        - $ref: '#/components/parameters/query'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/order'
         - $ref: '#/components/parameters/object_id'
         - $ref: '#/components/parameters/object_type'
         - $ref: '#/components/parameters/overall_risk_level_id'
@@ -1827,7 +1845,9 @@ paths:
       tags:
         - roles
       parameters:
-        - $ref: '#/components/parameters/query'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/order'
         - $ref: '#/components/parameters/metadata'
       responses:
         '200':
@@ -1937,7 +1957,9 @@ paths:
       tags:
         - role profiles
       parameters:
-        - $ref: '#/components/parameters/query'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/order'
         - $ref: '#/components/parameters/role_id'
         - $ref: '#/components/parameters/profile_id'
         - $ref: '#/components/parameters/metadata'
@@ -2039,7 +2061,9 @@ paths:
       tags:
         - system roles
       parameters:
-        - $ref: '#/components/parameters/query'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/order'
         - $ref: '#/components/parameters/metadata'
       responses:
         '200':
@@ -2088,7 +2112,9 @@ paths:
       tags:
         - users
       parameters:
-        - $ref: '#/components/parameters/query'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/order'
         - $ref: '#/components/parameters/name'
         - $ref: '#/components/parameters/login'
         - $ref: '#/components/parameters/title'
@@ -2239,7 +2265,9 @@ paths:
       tags:
         - user managers
       parameters:
-        - $ref: '#/components/parameters/query'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/order'
         - $ref: '#/components/parameters/user_id'
         - $ref: '#/components/parameters/manager_id'
         - $ref: '#/components/parameters/metadata'
@@ -2335,7 +2363,9 @@ paths:
       tags:
         - user profiles
       parameters:
-        - $ref: '#/components/parameters/query'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/order'
         - $ref: '#/components/parameters/user_id'
         - $ref: '#/components/parameters/ne_attribute_id'
         - $ref: '#/components/parameters/profile_id'
@@ -2470,7 +2500,9 @@ paths:
       tags:
         - user roles
       parameters:
-        - $ref: '#/components/parameters/query'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/order'
         - $ref: '#/components/parameters/user_id'
         - $ref: '#/components/parameters/role_id'
         - $ref: '#/components/parameters/metadata'
@@ -3164,7 +3196,9 @@ paths:
       tags:
         - workflow sessions
       parameters:
-        - $ref: '#/components/parameters/query'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/order'
         - $ref: '#/components/parameters/profile_id'
         - $ref: '#/components/parameters/uid-2'
         - $ref: '#/components/parameters/workflow_id'
@@ -3289,29 +3323,34 @@ components:
             sp:scopes:default: default scope
             sp:scopes:all: access to all scopes
   parameters:
-    query:
-      name: query
+    limit:
+      name: limit
       in: query
-      description: Allows for pagination and sorting.
+      description: The maximum number of items to return.
       required: false
       schema:
-        type: object
-        properties:
-          limit:
-            type: integer
-            example: 100
-          offset:
-            type: integer
-            example: 50
-          order:
-            type: string
-            example: created_at
-        example:
-          limit: 100
-          offset: 50
-          order: created_at
-      style: deepObject
-      explode: true
+        type: integer
+        format: int32
+        minimum: 1
+        example: 5
+    offset:
+      name: offset
+      in: query
+      description: The number of items to skip before starting to collect the result set.
+      required: false
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        example: 5
+    order:
+      name: order
+      in: query
+      description: The field to order results by.
+      required: false
+      schema:
+        type: string
+        example: created_at
     label:
       name: label
       in: query
@@ -3406,26 +3445,6 @@ components:
         type: boolean
         default: false
         example: true
-    limit:
-      name: limit
-      in: query
-      description: The maximum number of items to return.
-      required: false
-      schema:
-        type: integer
-        format: int32
-        minimum: 1
-        example: 5
-    offset:
-      name: offset
-      in: query
-      description: The number of items to skip before starting to collect the result set.
-      required: false
-      schema:
-        type: integer
-        format: int32
-        minimum: 1
-        example: 5
     profile_id:
       name: profile_id
       in: query
