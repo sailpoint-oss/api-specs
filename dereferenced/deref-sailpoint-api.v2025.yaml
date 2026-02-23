@@ -847,6 +847,38 @@ tags:
       They can then select 'Create Token' at the bottom of the page to generate and view the Secret and Client ID. 
 
       Refer to [Managing Personal Access Tokens](https://documentation.sailpoint.com/saas/help/common/api_keys.html?h=token#generating-a-personal-access-token) for more information about PATs.
+  - name: Privilege Criteria
+    description: |
+      Use this API to create, retrieve, update, and delete privilege criteria.
+  - name: Privilege Criteria Configuration
+    description: |
+      Use this API to manage the configuration of privilege criteria.
+
+      **globalPrivilegeLevelEnabled**: Boolean flag indicating whether privilege classification is enabled.
+
+
+      **privilegeClassificationMode**: Enum specifying the mode (CRITERIA_PRIVILEGE_LEVEL, SINGLE_PRIVILEGE_LEVEL) to use for privilege classification. CRITERIA_PRIVILEGE_LEVEL mode uses criteria to determine privilege levels, while SINGLE_PRIVILEGE_LEVEL assigns the same privilege level to all enititlements based on the value of singlePrivilegeLevel.privilegeLevel.
+
+
+      **singlePrivilegeLevel.privilegeLevel**: Enum specifying the privilege level (HIGH, MEDIUM, LOW) to assign to all privileges when the privilege classification mode is SINGLE_PRIVILEGE_LEVEL.
+
+
+      **criteriaPrivilegeLevel.connectorHighEnabled**: Boolean flag indicating whether HIGH level connector criteria is used for privilege classification.
+
+
+      **criteriaPrivilegeLevel.connectorMediumEnabled**: Boolean flag indicating whether MEDIUM level connector criteria is used for privilege classification.
+
+
+      **criteriaPrivilegeLevel.connectorLowEnabled**: Boolean flag indicating whether LOW level connector criteria is used for privilege classification.
+
+
+      **criteriaPrivilegeLevel.customHighEnabled**: Boolean flag indicating whether HIGH level custom criteria is used for privilege classification.
+
+
+      **criteriaPrivilegeLevel.customMediumEnabled**: Boolean flag indicating whether MEDIUM level custom criteria is used for privilege classification.
+
+
+      **criteriaPrivilegeLevel.customLowEnabled**: Boolean flag indicating whether LOW level custom criteria is used for privilege classification.
   - name: Public Identities
     description: |
       Use this API in conjunction with [Public Identites Config](https://developer.sailpoint.com/docs/api/v2025/public-identities-config/) to enable non-administrators to view identities' publicly visible attributes. 
@@ -49416,6 +49448,351 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
+  /criteria/privilege:
+    post:
+      summary: Create custom privilege criteria
+      description: Use this API to create a custom privilege criteria
+      tags:
+        - Privilege Criteria
+      operationId: createCustomPrivilegeCriteria
+      security:
+        - userAuth:
+            - sp:gov-criteria:write
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      requestBody:
+        description: Create custom privilege criteria request body.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePrivilegeCriteriaRequest'
+      responses:
+        '201':
+          description: Custom privilege criteria created
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PrivilegeCriteriaDTO'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    get:
+      summary: List privilege criteria
+      description: Use this API to list all privilege criteria matching a filter
+      tags:
+        - Privilege Criteria
+      operationId: listPrivilegeCriteria
+      security:
+        - userAuth:
+            - sp:gov-criteria:read
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      parameters:
+        - in: query
+          name: filters
+          schema:
+            type: string
+          description: |-
+            Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)
+
+            Filtering is supported for the following fields and operators:
+
+            **type**: *eq*
+
+            **sourceId**: *eq*
+
+            **privilegeLevel**: *eq*
+
+            **Supported composite operators**: *and*
+
+            All filter values are case-sensitive for this API.
+
+            For example, the following is valid: `?filters=type eq "CUSTOM" and sourceId eq "2c91809175e6c63f0175fb5570220569"`
+          required: true
+          example: type eq "CUSTOM" and sourceId eq "c42c45d8d7c04d2da64d215cd8c32f21"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PrivilegeCriteriaDTO'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /criteria/privilege/{criteriaId}:
+    put:
+      summary: Update privilege criteria
+      description: Use this API to update a specific custom privilege criteria by overwriting the information with new information.
+      tags:
+        - Privilege Criteria
+      operationId: putCustomPrivilegeCriteriaValue
+      security:
+        - userAuth:
+            - sp:gov-criteria:write
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      parameters:
+        - name: criteriaId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The Id of the privilege criteria record to return.
+          example: 6d123044-5834-4e8d-a49f-9c70089b0de1
+          x-sailpoint-resource-operation-id: listPrivilegeCriteria
+      requestBody:
+        description: The new version of the custom privilege criteria. This overwrites the existing privilege criteria.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PrivilegeCriteriaDTO'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PrivilegeCriteriaDTO'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    get:
+      summary: Get privilege criteria
+      description: Use this API to get a specific privilege criteria.
+      tags:
+        - Privilege Criteria
+      operationId: getPrivilegeCriteria
+      security:
+        - userAuth:
+            - sp:gov-criteria:read
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      parameters:
+        - name: criteriaId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The Id of the privilege criteria record to return.
+          example: 6d123044-5834-4e8d-a49f-9c70089b0de1
+          x-sailpoint-resource-operation-id: listPrivilegeCriteria
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrivilegeCriteriaDTO'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      summary: Delete privilege criteria
+      description: Use this API to delete a specific custom privilege criteria.
+      tags:
+        - Privilege Criteria
+      operationId: deleteCustomPrivilegeCriteria
+      security:
+        - userAuth:
+            - sp:gov-criteria:write
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      parameters:
+        - name: criteriaId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The Id of the custom privilege criteria to delete.
+          example: 6d123044-5834-4e8d-a49f-9c70089b0de1
+          x-sailpoint-resource-operation-id: listPrivilegeCriteria
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /criteria-config/privilege/{criteriaConfigId}:
+    patch:
+      summary: Update privilege criteria configuration
+      description: Use this API to update the privilege criteria configuration.
+      tags:
+        - Privilege Criteria Configuration
+      operationId: patchPrivilegeCriteriaConfig
+      security:
+        - userAuth:
+            - sp:gov-criteria:write
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      parameters:
+        - name: criteriaConfigId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The Id of the privilege criteria configuration to update.
+          example: 6d123044-5834-4e8d-a49f-9c70089b0de1
+          x-sailpoint-resource-operation-id: listPrivilegeCriteriaConfig
+      requestBody:
+        description: A list of criteria configuration operations according to the [JSON Patch](https://tools.ietf.org/html/rfc6902) standard.
+        required: true
+        content:
+          application/json-patch+json:
+            schema:
+              type: array
+              items:
+                type: object
+            example:
+              - op: replace
+                path: /config/privilegeClassificationMode
+                value: SINGLE_PRIVILEGE_LEVEL
+              - op: replace
+                path: /config/criteriaPrivilegeLevel/connectorMediumEnabled
+                value: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrivilegeCriteriaConfigDTO'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    get:
+      summary: Get privilege criteria config
+      description: Use this API to get the privilege criteria configuration by Id.
+      tags:
+        - Privilege Criteria Configuration
+      operationId: getPrivilegeCriteriaConfig
+      security:
+        - userAuth:
+            - sp:gov-criteria:read
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      parameters:
+        - name: criteriaConfigId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The Id of the privilege criteria configuration record to retrieve.
+          example: 6d123044-5834-4e8d-a49f-9c70089b0de1
+          x-sailpoint-resource-operation-id: listPrivilegeCriteriaConfig
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrivilegeCriteriaConfigDTO'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /criteria-config/privilege:
+    get:
+      summary: List privilege criteria config
+      description: Use this API to list the privilege criteria configuration.
+      tags:
+        - Privilege Criteria Configuration
+      operationId: listPrivilegeCriteriaConfig
+      security:
+        - userAuth:
+            - sp:gov-criteria:read
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      parameters:
+        - in: query
+          name: filters
+          schema:
+            type: string
+          description: |-
+            Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)
+
+            Filtering is supported for the following fields and operators:
+
+            **sourceId**: *eq*
+
+            All filter values are case-sensitive for this API.
+
+            For example, the following is valid: `?filters=sourceId eq "2c91809175e6c63f0175fb5570220569"`
+          required: true
+          example: sourceId eq "c42c45d8d7c04d2da64d215cd8c32f21"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PrivilegeCriteriaConfigDTO'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
 x-webhooks:
   AccessRequestDecision:
     post:
@@ -85078,6 +85455,220 @@ components:
               type: string
               description: The source name of account
               example: ODS-AD-SOURCE
+    PrivilegeCriteriaDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The Id of the criteria.
+          example: 2c9180867817ac4d017817c491119a20
+        sourceId:
+          type: string
+          description: The Id of the source that the criteria is applied to.
+          minLength: 32
+          maxLength: 32
+          example: c42c45d8d7c04d2da64d215cd8c32f21
+        type:
+          type: string
+          enum:
+            - CUSTOM
+            - CONNECTOR
+            - SINGLE_LEVEL
+          description: The type of criteria.
+          example: CUSTOM
+        operator:
+          type: string
+          description: The logical operator to apply between groups.
+          enum:
+            - AND
+            - OR
+          example: AND
+        groups:
+          type: array
+          items:
+            type: object
+            properties:
+              operator:
+                type: string
+                enum:
+                  - AND
+                  - OR
+                example: AND
+                description: The logical operator to apply between criteria items in the group.
+              criteriaItems:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    targetType:
+                      type: string
+                      enum:
+                        - group
+                      example: group
+                      description: The target type for the criteria item.
+                    operator:
+                      type: string
+                      enum:
+                        - IN
+                        - EQUALS
+                        - NOT_EQUALS
+                        - CONTAINS
+                        - DOES_NOT_CONTAIN
+                        - STARTS_WITH
+                        - ENDS_WITH
+                      example: IN
+                      description: The operator to apply to the property and values.
+                    property:
+                      type: string
+                      oneOf:
+                        - enum:
+                            - displayName
+                            - description
+                            - value
+                        - pattern: ^attributes\..*
+                    values:
+                      type: array
+                      minItems: 1
+                      maxItems: 50
+                      items:
+                        type: string
+                        maxLength: 450
+                      example:
+                        - admin
+                        - superuser
+                      description: The values to evaluate the property against.
+                    ignoreCase:
+                      type: boolean
+                      default: false
+                      example: true
+                      description: Whether to ignore case when evaluating the property against the values.
+        privilegeLevel:
+          type: string
+          enum:
+            - HIGH
+            - MEDIUM
+            - LOW
+          example: HIGH
+          description: The privilege level assigned by this criteria.
+    CreatePrivilegeCriteriaRequest:
+      type: object
+      properties:
+        sourceId:
+          type: string
+          description: The Id of the source that the criteria is applied to.
+          minLength: 32
+          maxLength: 32
+          example: c42c45d8d7c04d2da64d215cd8c32f21
+        type:
+          type: string
+          enum:
+            - CUSTOM
+          description: The type of criteria being created. Expects "CUSTOM".
+          example: CUSTOM
+        operator:
+          type: string
+          description: The logical operator to apply between groups.
+          enum:
+            - AND
+            - OR
+          example: AND
+        groups:
+          type: array
+          items:
+            type: object
+            properties:
+              operator:
+                type: string
+                enum:
+                  - AND
+                  - OR
+                example: AND
+                description: The logical operator to apply between criteria items in the group.
+              criteriaItems:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    targetType:
+                      type: string
+                      enum:
+                        - group
+                      example: group
+                      description: The target type of the criteria item.
+                    operator:
+                      type: string
+                      enum:
+                        - IN
+                        - EQUALS
+                        - NOT_EQUALS
+                        - CONTAINS
+                        - DOES_NOT_CONTAIN
+                        - STARTS_WITH
+                        - ENDS_WITH
+                      oneOf:
+                        - enum:
+                            - displayName
+                            - description
+                            - value
+                        - pattern: ^attributes\..*
+                    values:
+                      type: array
+                      minItems: 1
+                      maxItems: 50
+                      items:
+                        type: string
+                        maxLength: 450
+                      example:
+                        - admin
+                        - superuser
+                      description: The values to evaluate the property against.
+                    ignoreCase:
+                      type: boolean
+                      default: false
+                      example: true
+                      description: Whether to ignore case when evaluating the property against the values.
+        privilegeLevel:
+          type: string
+          enum:
+            - HIGH
+            - MEDIUM
+            - LOW
+          example: HIGH
+          description: The privilege level assigned by this criteria.
+    PrivilegeCriteriaConfigDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The Id of the task which is executing the bulk update.
+          example: 2c9180867817ac4d017817c491119a20
+        sourceId:
+          type: string
+          description: The Id of the source that the criteria configuration is applied to.
+          minLength: 32
+          maxLength: 32
+          example: c42c45d8d7c04d2da64d215cd8c32f21
+        config:
+          type: object
+          example:
+            globalPrivilegeLevelEnabled: true
+            privilegeClassificationMode: SINGLE_PRIVILEGE_LEVEL
+            singlePrivilegeLevel.privilegeLevel: HIGH
+            criteriaPrivilegeLevel.connectorHighEnabled: true
+            criteriaPrivilegeLevel.connectorMediumEnabled: true
+            criteriaPrivilegeLevel.connectorLowEnabled: true
+            criteriaPrivilegeLevel.customHighEnabled: true
+            criteriaPrivilegeLevel.customMediumEnabled: true
+            criteriaPrivilegeLevel.customLowEnabled: true
+          description: 'The configuration settings for privilege criteria evaluation. '
+        created:
+          type: string
+          example: '2024-01-10T12:00:00Z'
+          description: The date and time when the privilege criteria configuration was created.
+        modified:
+          type: string
+          example: '2024-01-15T12:00:00Z'
+          description: The date and time when the privilege criteria configuration was last modified.
     FormSubmitted:
       title: Form Submitted
       type: object
