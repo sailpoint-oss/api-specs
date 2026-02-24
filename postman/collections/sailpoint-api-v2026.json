@@ -5,7 +5,7 @@
       "description": "",
       "item": [
         {
-          "id": "e3a04a6b-4a18-4688-a58d-223eaa72d617",
+          "id": "469f2c29-6dc4-4d6a-93f2-5dadd8b39e3d",
           "name": "List of Account Deletion Requests",
           "request": {
             "name": "List of Account Deletion Requests",
@@ -81,7 +81,7 @@
           },
           "response": [
             {
-              "id": "597df602-da64-49f3-b1eb-d084cb1cb4a9",
+              "id": "7ade9e55-e609-438e-a416-ca6edc7e5937",
               "name": "Account Action Request objects.",
               "originalRequest": {
                 "url": {
@@ -183,7 +183,7 @@
       "description": "",
       "item": [
         {
-          "id": "cb167066-0b99-40c0-94ad-364ed30a3a47",
+          "id": "a4cdcfc7-ae6d-4a25-8c69-b6fea6a88872",
           "name": "Delete account",
           "request": {
             "name": "Delete account",
@@ -248,7 +248,7 @@
           },
           "response": [
             {
-              "id": "a701b57a-95c7-43e8-a681-c6846696a432",
+              "id": "f7466f54-226b-4d74-8291-875df7c98b85",
               "name": "Account deletion request details.",
               "originalRequest": {
                 "url": {
@@ -339,12 +339,12 @@
       "description": "",
       "item": [
         {
-          "id": "abbad011-0c51-4220-89d1-8bc84c3301f0",
+          "id": "c6d03811-e924-4c2f-8f82-690d736acdd9",
           "name": "Gets a list of entitlements.",
           "request": {
             "name": "Gets a list of entitlements.",
             "description": {
-              "content": "This API returns a list of entitlements.\n\nThis API can be used in one of the two following ways: either getting entitlements for a specific **account-id**, or getting via use of **filters** (those two options are exclusive).\n\nAny authenticated token can call this API.",
+              "content": "This API returns a list of entitlements. Any authenticated token can call this API.",
               "type": "text/plain"
             },
             "url": {
@@ -358,7 +358,7 @@
                 {
                   "disabled": true,
                   "description": {
-                    "content": "If present and not empty, additionally filters Entitlements to those which are assigned to the Segment(s) which are visible to the Identity with the specified ID.\nCannot be specified with the **account-id** or **for-segment-ids** param(s). It is also illegal to specify a value that refers to a different user's Identity.",
+                    "content": "If present and not empty, additionally filters Entitlements to those which are assigned to the Segment(s) which are visible to the Identity with the specified ID.",
                     "type": "text/plain"
                   },
                   "key": "segmented-for-identity",
@@ -367,7 +367,7 @@
                 {
                   "disabled": true,
                   "description": {
-                    "content": "If present and not empty, additionally filters Access Profiles to those which are assigned to the Segment(s) with the specified IDs.\nCannot be specified with the **account-id** or **segmented-for-identity** param(s).",
+                    "content": "If present and not empty, additionally filters Access Profiles to those which are assigned to the Segment(s) with the specified IDs.",
                     "type": "text/plain"
                   },
                   "key": "for-segment-ids",
@@ -412,11 +412,20 @@
                 {
                   "disabled": true,
                   "description": {
+                    "content": "Used to begin the search window at the values specified.\n\nThis parameter consists of the last values of the sorted fields in the current record set.\n\nsearchAfter length must match the number of sorters.\n\nThis is used to expand the Elasticsearch limit of 10K records by shifting the 10K window to begin at this value.\n\nIt is recommended that you always include the ID of the object in addition to any other fields on this parameter in order to ensure you don't get duplicate results while paging.\n\nFor example, if you are sorting by name you will also want to include ID, for example searchAfter=Account Payable,2c91808375d8e80a0175e1f88a575221&sorters=name,id.\n\nIf the last entitlement ID in the search result is 2c91808375d8e80a0175e1f88a575221 and the last name is \"Account Payable\", then using that name and ID will start a new search after this entitlement.",
+                    "type": "text/plain"
+                  },
+                  "key": "searchAfter",
+                  "value": "Account Payable,2c91808375d8e80a0175e1f88a575221"
+                },
+                {
+                  "disabled": true,
+                  "description": {
                     "content": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **id, name, created, modified, type, attribute, value, source.id, requestable**",
                     "type": "text/plain"
                   },
                   "key": "sorters",
-                  "value": "name,-modified"
+                  "value": "name,id"
                 },
                 {
                   "disabled": true,
@@ -441,7 +450,7 @@
           },
           "response": [
             {
-              "id": "414d3e9e-4cff-4a8b-ab87-12fd0b9ef861",
+              "id": "f52d493e-91c8-4e69-912b-aa6de5d1fb9e",
               "name": "List of entitlements",
               "originalRequest": {
                 "url": {
@@ -455,7 +464,7 @@
                     {
                       "disabled": true,
                       "description": {
-                        "content": "If present and not empty, additionally filters Entitlements to those which are assigned to the Segment(s) which are visible to the Identity with the specified ID.\nCannot be specified with the **account-id** or **for-segment-ids** param(s). It is also illegal to specify a value that refers to a different user's Identity.",
+                        "content": "If present and not empty, additionally filters Entitlements to those which are assigned to the Segment(s) which are visible to the Identity with the specified ID.",
                         "type": "text/plain"
                       },
                       "key": "segmented-for-identity",
@@ -464,7 +473,7 @@
                     {
                       "disabled": true,
                       "description": {
-                        "content": "If present and not empty, additionally filters Access Profiles to those which are assigned to the Segment(s) with the specified IDs.\nCannot be specified with the **account-id** or **segmented-for-identity** param(s).",
+                        "content": "If present and not empty, additionally filters Access Profiles to those which are assigned to the Segment(s) with the specified IDs.",
                         "type": "text/plain"
                       },
                       "key": "for-segment-ids",
@@ -509,11 +518,20 @@
                     {
                       "disabled": true,
                       "description": {
+                        "content": "Used to begin the search window at the values specified.\n\nThis parameter consists of the last values of the sorted fields in the current record set.\n\nsearchAfter length must match the number of sorters.\n\nThis is used to expand the Elasticsearch limit of 10K records by shifting the 10K window to begin at this value.\n\nIt is recommended that you always include the ID of the object in addition to any other fields on this parameter in order to ensure you don't get duplicate results while paging.\n\nFor example, if you are sorting by name you will also want to include ID, for example searchAfter=Account Payable,2c91808375d8e80a0175e1f88a575221&sorters=name,id.\n\nIf the last entitlement ID in the search result is 2c91808375d8e80a0175e1f88a575221 and the last name is \"Account Payable\", then using that name and ID will start a new search after this entitlement.",
+                        "type": "text/plain"
+                      },
+                      "key": "searchAfter",
+                      "value": "Account Payable,2c91808375d8e80a0175e1f88a575221"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
                         "content": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **id, name, created, modified, type, attribute, value, source.id, requestable**",
                         "type": "text/plain"
                       },
                       "key": "sorters",
-                      "value": "name,-modified"
+                      "value": "name,id"
                     },
                     {
                       "disabled": true,
@@ -552,7 +570,7 @@
                   "value": "application/json"
                 }
               ],
-              "body": "[\n  {\n    \"id\": \"2c91808874ff91550175097daaec161c\",\n    \"name\": \"Account Payable\",\n    \"attribute\": \"memberOf\",\n    \"value\": \"CN=Account Payable,OU=Finance,DC=xyz company\",\n    \"sourceSchemaObjectType\": \"group\",\n    \"description\": \"This entitlement allows users to access the accounts payable module of the organization's financial management system. Users can view, process, and approve invoices, manage vendor relationships, and perform other accounts payable-related tasks.\",\n    \"privilegeLevel\": {\n      \"direct\": \"HIGH\",\n      \"setBy\": \"SAILPOINT_MIGRATION\",\n      \"setByType\": \"OVERRIDE\",\n      \"inherited\": \"MEDIUM\",\n      \"effective\": \"HIGH\"\n    },\n    \"tags\": [\n      \"tag1\",\n      \"tag2\"\n    ],\n    \"cloudGoverned\": true,\n    \"requestable\": true,\n    \"owner\": {\n      \"id\": \"2c9180827ca885d7017ca8ce28a000eb\",\n      \"type\": \"IDENTITY\",\n      \"name\": \"john.doe\"\n    },\n    \"manuallyUpdatedFields\": {\n      \"DISPLAY_NAME\": true,\n      \"DESCRIPTION\": true\n    },\n    \"accessModelMetadata\": {\n      \"attributes\": [\n        {\n          \"key\": \"iscCsp\",\n          \"name\": \"CSP\",\n          \"multiselect\": true,\n          \"status\": \"active\",\n          \"type\": \"governance\",\n          \"objectTypes\": [\n            \"general\"\n          ],\n          \"description\": \"Indicates the type of deployment environment of an access item.\",\n          \"values\": [\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            },\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            }\n          ]\n        },\n        {\n          \"key\": \"iscCsp\",\n          \"name\": \"CSP\",\n          \"multiselect\": true,\n          \"status\": \"active\",\n          \"type\": \"governance\",\n          \"objectTypes\": [\n            \"general\"\n          ],\n          \"description\": \"Indicates the type of deployment environment of an access item.\",\n          \"values\": [\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            },\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            }\n          ]\n        }\n      ]\n    },\n    \"created\": \"2020-10-08T18:33:52.029Z\",\n    \"modified\": \"2020-10-08T18:33:52.029Z\",\n    \"source\": {\n      \"id\": \"2c9180827ca885d7017ca8ce28a000eb\",\n      \"type\": \"SOURCE\",\n      \"name\": \"ODS-AD-Source\"\n    },\n    \"attributes\": {\n      \"fieldName\": \"fieldValue\"\n    },\n    \"segments\": [\n      \"f7b1b8a3-5fed-4fd4-ad29-82014e137e19\",\n      \"29cb6c06-1da8-43ea-8be4-b3125f248f2a\"\n    ],\n    \"directPermissions\": [\n      {\n        \"rights\": [\n          \"SELECT\",\n          \"SELECT\"\n        ],\n        \"target\": \"SYS.GV_$TRANSACTION\"\n      },\n      {\n        \"rights\": [\n          \"SELECT\",\n          \"SELECT\"\n        ],\n        \"target\": \"SYS.GV_$TRANSACTION\"\n      }\n    ]\n  },\n  {\n    \"id\": \"2c91808874ff91550175097daaec161c\",\n    \"name\": \"Account Payable\",\n    \"attribute\": \"memberOf\",\n    \"value\": \"CN=Account Payable,OU=Finance,DC=xyz company\",\n    \"sourceSchemaObjectType\": \"group\",\n    \"description\": \"This entitlement allows users to access the accounts payable module of the organization's financial management system. Users can view, process, and approve invoices, manage vendor relationships, and perform other accounts payable-related tasks.\",\n    \"privilegeLevel\": {\n      \"direct\": \"HIGH\",\n      \"setBy\": \"SAILPOINT_MIGRATION\",\n      \"setByType\": \"OVERRIDE\",\n      \"inherited\": \"MEDIUM\",\n      \"effective\": \"HIGH\"\n    },\n    \"tags\": [\n      \"tag1\",\n      \"tag2\"\n    ],\n    \"cloudGoverned\": true,\n    \"requestable\": true,\n    \"owner\": {\n      \"id\": \"2c9180827ca885d7017ca8ce28a000eb\",\n      \"type\": \"IDENTITY\",\n      \"name\": \"john.doe\"\n    },\n    \"manuallyUpdatedFields\": {\n      \"DISPLAY_NAME\": true,\n      \"DESCRIPTION\": true\n    },\n    \"accessModelMetadata\": {\n      \"attributes\": [\n        {\n          \"key\": \"iscCsp\",\n          \"name\": \"CSP\",\n          \"multiselect\": true,\n          \"status\": \"active\",\n          \"type\": \"governance\",\n          \"objectTypes\": [\n            \"general\"\n          ],\n          \"description\": \"Indicates the type of deployment environment of an access item.\",\n          \"values\": [\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            },\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            }\n          ]\n        },\n        {\n          \"key\": \"iscCsp\",\n          \"name\": \"CSP\",\n          \"multiselect\": true,\n          \"status\": \"active\",\n          \"type\": \"governance\",\n          \"objectTypes\": [\n            \"general\"\n          ],\n          \"description\": \"Indicates the type of deployment environment of an access item.\",\n          \"values\": [\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            },\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            }\n          ]\n        }\n      ]\n    },\n    \"created\": \"2020-10-08T18:33:52.029Z\",\n    \"modified\": \"2020-10-08T18:33:52.029Z\",\n    \"source\": {\n      \"id\": \"2c9180827ca885d7017ca8ce28a000eb\",\n      \"type\": \"SOURCE\",\n      \"name\": \"ODS-AD-Source\"\n    },\n    \"attributes\": {\n      \"fieldName\": \"fieldValue\"\n    },\n    \"segments\": [\n      \"f7b1b8a3-5fed-4fd4-ad29-82014e137e19\",\n      \"29cb6c06-1da8-43ea-8be4-b3125f248f2a\"\n    ],\n    \"directPermissions\": [\n      {\n        \"rights\": [\n          \"SELECT\",\n          \"SELECT\"\n        ],\n        \"target\": \"SYS.GV_$TRANSACTION\"\n      },\n      {\n        \"rights\": [\n          \"SELECT\",\n          \"SELECT\"\n        ],\n        \"target\": \"SYS.GV_$TRANSACTION\"\n      }\n    ]\n  }\n]",
+              "body": "[\n  {\n    \"id\": \"2c91808874ff91550175097daaec161c\",\n    \"name\": \"Account Payable\",\n    \"attribute\": \"memberOf\",\n    \"value\": \"CN=Account Payable,OU=Finance,DC=xyz company\",\n    \"sourceSchemaObjectType\": \"group\",\n    \"description\": \"This entitlement allows users to access the accounts payable module of the organization's financial management system. Users can view, process, and approve invoices, manage vendor relationships, and perform other accounts payable-related tasks.\",\n    \"privilegeLevel\": {\n      \"direct\": \"HIGH\",\n      \"setBy\": \"SAILPOINT_MIGRATION\",\n      \"setByType\": \"OVERRIDE\",\n      \"inherited\": \"LOW\",\n      \"effective\": \"HIGH\"\n    },\n    \"tags\": [\n      \"tag1\",\n      \"tag2\"\n    ],\n    \"cloudGoverned\": true,\n    \"requestable\": true,\n    \"owner\": {\n      \"id\": \"2c9180827ca885d7017ca8ce28a000eb\",\n      \"type\": \"IDENTITY\",\n      \"name\": \"john.doe\"\n    },\n    \"manuallyUpdatedFields\": {\n      \"DISPLAY_NAME\": true,\n      \"DESCRIPTION\": true\n    },\n    \"accessModelMetadata\": {\n      \"attributes\": [\n        {\n          \"key\": \"iscCsp\",\n          \"name\": \"CSP\",\n          \"multiselect\": true,\n          \"status\": \"active\",\n          \"type\": \"governance\",\n          \"objectTypes\": [\n            \"general\"\n          ],\n          \"description\": \"Indicates the type of deployment environment of an access item.\",\n          \"values\": [\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            },\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            }\n          ]\n        },\n        {\n          \"key\": \"iscCsp\",\n          \"name\": \"CSP\",\n          \"multiselect\": true,\n          \"status\": \"active\",\n          \"type\": \"governance\",\n          \"objectTypes\": [\n            \"general\"\n          ],\n          \"description\": \"Indicates the type of deployment environment of an access item.\",\n          \"values\": [\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            },\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            }\n          ]\n        }\n      ]\n    },\n    \"created\": \"2020-10-08T18:33:52.029Z\",\n    \"modified\": \"2020-10-08T18:33:52.029Z\",\n    \"source\": {\n      \"id\": \"2c9180827ca885d7017ca8ce28a000eb\",\n      \"type\": \"SOURCE\",\n      \"name\": \"ODS-AD-Source\"\n    },\n    \"attributes\": {\n      \"fieldName\": \"fieldValue\"\n    },\n    \"segments\": [\n      \"f7b1b8a3-5fed-4fd4-ad29-82014e137e19\",\n      \"29cb6c06-1da8-43ea-8be4-b3125f248f2a\"\n    ],\n    \"directPermissions\": [\n      {\n        \"rights\": [\n          \"SELECT\",\n          \"SELECT\"\n        ],\n        \"target\": \"SYS.GV_$TRANSACTION\"\n      },\n      {\n        \"rights\": [\n          \"SELECT\",\n          \"SELECT\"\n        ],\n        \"target\": \"SYS.GV_$TRANSACTION\"\n      }\n    ]\n  },\n  {\n    \"id\": \"2c91808874ff91550175097daaec161c\",\n    \"name\": \"Account Payable\",\n    \"attribute\": \"memberOf\",\n    \"value\": \"CN=Account Payable,OU=Finance,DC=xyz company\",\n    \"sourceSchemaObjectType\": \"group\",\n    \"description\": \"This entitlement allows users to access the accounts payable module of the organization's financial management system. Users can view, process, and approve invoices, manage vendor relationships, and perform other accounts payable-related tasks.\",\n    \"privilegeLevel\": {\n      \"direct\": \"HIGH\",\n      \"setBy\": \"SAILPOINT_MIGRATION\",\n      \"setByType\": \"OVERRIDE\",\n      \"inherited\": \"MEDIUM\",\n      \"effective\": \"HIGH\"\n    },\n    \"tags\": [\n      \"tag1\",\n      \"tag2\"\n    ],\n    \"cloudGoverned\": true,\n    \"requestable\": true,\n    \"owner\": {\n      \"id\": \"2c9180827ca885d7017ca8ce28a000eb\",\n      \"type\": \"IDENTITY\",\n      \"name\": \"john.doe\"\n    },\n    \"manuallyUpdatedFields\": {\n      \"DISPLAY_NAME\": true,\n      \"DESCRIPTION\": true\n    },\n    \"accessModelMetadata\": {\n      \"attributes\": [\n        {\n          \"key\": \"iscCsp\",\n          \"name\": \"CSP\",\n          \"multiselect\": true,\n          \"status\": \"active\",\n          \"type\": \"governance\",\n          \"objectTypes\": [\n            \"general\"\n          ],\n          \"description\": \"Indicates the type of deployment environment of an access item.\",\n          \"values\": [\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            },\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            }\n          ]\n        },\n        {\n          \"key\": \"iscCsp\",\n          \"name\": \"CSP\",\n          \"multiselect\": true,\n          \"status\": \"active\",\n          \"type\": \"governance\",\n          \"objectTypes\": [\n            \"general\"\n          ],\n          \"description\": \"Indicates the type of deployment environment of an access item.\",\n          \"values\": [\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            },\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            }\n          ]\n        }\n      ]\n    },\n    \"created\": \"2020-10-08T18:33:52.029Z\",\n    \"modified\": \"2020-10-08T18:33:52.029Z\",\n    \"source\": {\n      \"id\": \"2c9180827ca885d7017ca8ce28a000eb\",\n      \"type\": \"SOURCE\",\n      \"name\": \"ODS-AD-Source\"\n    },\n    \"attributes\": {\n      \"fieldName\": \"fieldValue\"\n    },\n    \"segments\": [\n      \"f7b1b8a3-5fed-4fd4-ad29-82014e137e19\",\n      \"29cb6c06-1da8-43ea-8be4-b3125f248f2a\"\n    ],\n    \"directPermissions\": [\n      {\n        \"rights\": [\n          \"SELECT\",\n          \"SELECT\"\n        ],\n        \"target\": \"SYS.GV_$TRANSACTION\"\n      },\n      {\n        \"rights\": [\n          \"SELECT\",\n          \"SELECT\"\n        ],\n        \"target\": \"SYS.GV_$TRANSACTION\"\n      }\n    ]\n  }\n]",
               "cookie": [],
               "_postman_previewlanguage": "json"
             }
@@ -563,7 +581,7 @@
           }
         },
         {
-          "id": "ce6340b1-0b1a-4990-bf10-20e0e6cbe7bc",
+          "id": "69bb39cc-662c-4840-9d73-7c8f0c0efd77",
           "name": "Get entitlements for an account",
           "request": {
             "name": "Get entitlements for an account",
@@ -608,6 +626,24 @@
                   },
                   "key": "count",
                   "value": "true"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Used to begin the search window at the values specified.\n\nThis parameter consists of the last values of the sorted fields in the current record set.\n\nsearchAfter length must match the number of sorters.\n\nThis is used to expand the Elasticsearch limit of 10K records by shifting the 10K window to begin at this value.\n\nIt is recommended that you always include the ID of the object in addition to any other fields on this parameter in order to ensure you don't get duplicate results while paging.\n\nFor example, if you are sorting by name you will also want to include ID, for example searchAfter=Account Payable,2c91808375d8e80a0175e1f88a575221&sorters=name,id.\n\nIf the last entitlement ID in the search result is 2c91808375d8e80a0175e1f88a575221 and the last name is \"Account Payable\", then using that name and ID will start a new search after this entitlement.",
+                    "type": "text/plain"
+                  },
+                  "key": "searchAfter",
+                  "value": "Account Payable,2c91808375d8e80a0175e1f88a575221"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **id, name, created, modified, type, attribute, value, source.id, requestable**",
+                    "type": "text/plain"
+                  },
+                  "key": "sorters",
+                  "value": "name,id"
                 }
               ],
               "variable": [
@@ -634,7 +670,7 @@
           },
           "response": [
             {
-              "id": "a84f4614-90ad-4095-9d19-7a7d61bb842c",
+              "id": "63996bfc-0afc-42b5-96c7-f876139e56ad",
               "name": "List of entitlements for the account",
               "originalRequest": {
                 "url": {
@@ -674,6 +710,24 @@
                       },
                       "key": "count",
                       "value": "true"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Used to begin the search window at the values specified.\n\nThis parameter consists of the last values of the sorted fields in the current record set.\n\nsearchAfter length must match the number of sorters.\n\nThis is used to expand the Elasticsearch limit of 10K records by shifting the 10K window to begin at this value.\n\nIt is recommended that you always include the ID of the object in addition to any other fields on this parameter in order to ensure you don't get duplicate results while paging.\n\nFor example, if you are sorting by name you will also want to include ID, for example searchAfter=Account Payable,2c91808375d8e80a0175e1f88a575221&sorters=name,id.\n\nIf the last entitlement ID in the search result is 2c91808375d8e80a0175e1f88a575221 and the last name is \"Account Payable\", then using that name and ID will start a new search after this entitlement.",
+                        "type": "text/plain"
+                      },
+                      "key": "searchAfter",
+                      "value": "Account Payable,2c91808375d8e80a0175e1f88a575221"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **id, name, created, modified, type, attribute, value, source.id, requestable**",
+                        "type": "text/plain"
+                      },
+                      "key": "sorters",
+                      "value": "name,id"
                     }
                   ],
                   "variable": [
@@ -720,7 +774,7 @@
                     "type": "text/plain"
                   },
                   "key": "total-count",
-                  "value": "6604"
+                  "value": "2115"
                 }
               ],
               "body": "[\n  {\n    \"sourceSchemaObjectType\": \"group\",\n    \"attribute\": \"memberOf\",\n    \"attributes\": {\n      \"GroupType\": \"Security\",\n      \"sAMAccountName\": \"Account Payable\",\n      \"GroupScope\": \"Global\",\n      \"objectguid\": \"{01a6e70b-9705-4155-a5c6-492a9bcc8c64}\",\n      \"objectSid\": \"S-1-5-21-3585869415-1648031554-2909195034-1633\",\n      \"cn\": \"Account Payable\",\n      \"msDS-PrincipalName\": \"AUTOMATIONAD\\\\Account Payable\"\n    },\n    \"value\": \"CN=Account Payable,OU=Finance,DC=xyz company\",\n    \"description\": \"This entitlement allows users to access the accounts payable module of the organization's financial management system. Users can view, process, and approve invoices, manage vendor relationships, and perform other accounts payable-related tasks.\",\n    \"privilegeLevel\": null,\n    \"cloudGoverned\": false,\n    \"source\": {\n      \"type\": \"SOURCE\",\n      \"id\": \"2c9180877504c40e0175097d5ce707c8\",\n      \"name\": \"EndToEnd-ADSource\"\n    },\n    \"owner\": {\n      \"id\": \"2a2fdacca5e345f18bf7970cfbb8fec2\",\n      \"name\": \"identity 1\",\n      \"type\": \"IDENTITY\"\n    },\n    \"segments\": [\n      \"1d126fe0-45e2-4aea-bc64-a07e9344ef26\"\n    ],\n    \"manuallyUpdatedFields\": {\n      \"DISPLAY_NAME\": true,\n      \"DESCRIPTION\": true\n    },\n    \"id\": \"2c91808c74ff913f0175097daa9d59cd\",\n    \"name\": \"Account Payable\",\n    \"created\": \"2020-10-08T18:33:52.029Z\",\n    \"modified\": \"2021-01-19T16:53:35.707Z\"\n  }\n]",
@@ -734,7 +788,7 @@
           }
         },
         {
-          "id": "79a97ac5-866d-41e3-b66e-2e4d53797f95",
+          "id": "0d98142d-6df2-4cb6-8519-9fa06d124c99",
           "name": "Bulk update an entitlement list",
           "request": {
             "name": "Bulk update an entitlement list",
@@ -777,7 +831,7 @@
           },
           "response": [
             {
-              "id": "366b6c38-504b-4b30-97aa-ca9c223d077f",
+              "id": "8d0c5c6d-6653-408b-b621-f042bc45e181",
               "name": "No content - indicates the request was successful but there is no content to be returned in the response.",
               "originalRequest": {
                 "url": {
@@ -830,7 +884,7 @@
           }
         },
         {
-          "id": "10f89259-64f5-42d8-9b4b-e5ed0adc5b53",
+          "id": "6d2bce38-600d-4a88-be63-b71905beb085",
           "name": "Get an entitlement",
           "request": {
             "name": "Get an entitlement",
@@ -871,7 +925,7 @@
           },
           "response": [
             {
-              "id": "d4a1f9ee-cf72-4163-acb9-30bf36f85070",
+              "id": "2e6d5987-f1e6-421d-8ae8-edb9294b253d",
               "name": "An entitlement",
               "originalRequest": {
                 "url": {
@@ -932,7 +986,7 @@
           }
         },
         {
-          "id": "2a13e0df-c24c-46c4-832b-702476468000",
+          "id": "ea6ad97d-5ab7-446a-81b1-4e3a86291bb0",
           "name": "Patch an entitlement",
           "request": {
             "name": "Patch an entitlement",
@@ -986,7 +1040,7 @@
           },
           "response": [
             {
-              "id": "d6bfda75-5923-42d3-8cb5-0aa0b8e6c51b",
+              "id": "78b5f18f-d195-4626-9d18-a3ad05ad7e61",
               "name": "Responds with the entitlement as updated.",
               "originalRequest": {
                 "url": {
@@ -1060,7 +1114,7 @@
           }
         },
         {
-          "id": "8c6da7e7-c90f-4cc6-a792-b10a0d894687",
+          "id": "9353c56d-f88a-46b5-933e-652f6e8c6d5b",
           "name": "List of entitlements parents",
           "request": {
             "name": "List of entitlements parents",
@@ -1108,11 +1162,20 @@
                 {
                   "disabled": true,
                   "description": {
-                    "content": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **id, name, created, modified, type, attribute, value, source.id**",
+                    "content": "Used to begin the search window at the values specified.\n\nThis parameter consists of the last values of the sorted fields in the current record set.\n\nsearchAfter length must match the number of sorters.\n\nThis is used to expand the Elasticsearch limit of 10K records by shifting the 10K window to begin at this value.\n\nIt is recommended that you always include the ID of the object in addition to any other fields on this parameter in order to ensure you don't get duplicate results while paging.\n\nFor example, if you are sorting by name you will also want to include ID, for example searchAfter=Account Payable,2c91808375d8e80a0175e1f88a575221&sorters=name,id.\n\nIf the last entitlement ID in the search result is 2c91808375d8e80a0175e1f88a575221 and the last name is \"Account Payable\", then using that name and ID will start a new search after this entitlement.",
+                    "type": "text/plain"
+                  },
+                  "key": "searchAfter",
+                  "value": "Account Payable,2c91808375d8e80a0175e1f88a575221"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **id, name, created, modified, type, attribute, value, source.id, requestable**",
                     "type": "text/plain"
                   },
                   "key": "sorters",
-                  "value": "name,-modified"
+                  "value": "name,id"
                 },
                 {
                   "disabled": true,
@@ -1148,7 +1211,7 @@
           },
           "response": [
             {
-              "id": "6e939776-16b8-40f5-bb17-8372a0bbf6d1",
+              "id": "98b02c5b-9cb5-46fe-a258-d27694128ff3",
               "name": "List of entitlements parents from an entitlement",
               "originalRequest": {
                 "url": {
@@ -1191,11 +1254,20 @@
                     {
                       "disabled": true,
                       "description": {
-                        "content": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **id, name, created, modified, type, attribute, value, source.id**",
+                        "content": "Used to begin the search window at the values specified.\n\nThis parameter consists of the last values of the sorted fields in the current record set.\n\nsearchAfter length must match the number of sorters.\n\nThis is used to expand the Elasticsearch limit of 10K records by shifting the 10K window to begin at this value.\n\nIt is recommended that you always include the ID of the object in addition to any other fields on this parameter in order to ensure you don't get duplicate results while paging.\n\nFor example, if you are sorting by name you will also want to include ID, for example searchAfter=Account Payable,2c91808375d8e80a0175e1f88a575221&sorters=name,id.\n\nIf the last entitlement ID in the search result is 2c91808375d8e80a0175e1f88a575221 and the last name is \"Account Payable\", then using that name and ID will start a new search after this entitlement.",
+                        "type": "text/plain"
+                      },
+                      "key": "searchAfter",
+                      "value": "Account Payable,2c91808375d8e80a0175e1f88a575221"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **id, name, created, modified, type, attribute, value, source.id, requestable**",
                         "type": "text/plain"
                       },
                       "key": "sorters",
-                      "value": "name,-modified"
+                      "value": "name,id"
                     },
                     {
                       "disabled": true,
@@ -1256,7 +1328,7 @@
           }
         },
         {
-          "id": "5a2f13b4-4dcd-49df-a241-a4c13e01bc24",
+          "id": "1d031085-be08-4a7d-b63f-d7e2dcebe000",
           "name": "List of entitlements children",
           "request": {
             "name": "List of entitlements children",
@@ -1304,11 +1376,20 @@
                 {
                   "disabled": true,
                   "description": {
-                    "content": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **id, name, created, modified, type, attribute, value, source.id**",
+                    "content": "Used to begin the search window at the values specified.\n\nThis parameter consists of the last values of the sorted fields in the current record set.\n\nsearchAfter length must match the number of sorters.\n\nThis is used to expand the Elasticsearch limit of 10K records by shifting the 10K window to begin at this value.\n\nIt is recommended that you always include the ID of the object in addition to any other fields on this parameter in order to ensure you don't get duplicate results while paging.\n\nFor example, if you are sorting by name you will also want to include ID, for example searchAfter=Account Payable,2c91808375d8e80a0175e1f88a575221&sorters=name,id.\n\nIf the last entitlement ID in the search result is 2c91808375d8e80a0175e1f88a575221 and the last name is \"Account Payable\", then using that name and ID will start a new search after this entitlement.",
+                    "type": "text/plain"
+                  },
+                  "key": "searchAfter",
+                  "value": "Account Payable,2c91808375d8e80a0175e1f88a575221"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **id, name, created, modified, type, attribute, value, source.id, requestable**",
                     "type": "text/plain"
                   },
                   "key": "sorters",
-                  "value": "name,-modified"
+                  "value": "name,id"
                 },
                 {
                   "disabled": true,
@@ -1344,7 +1425,7 @@
           },
           "response": [
             {
-              "id": "0ca42386-ef9c-49e6-b1d4-65f6e6c8a3d5",
+              "id": "4fe76208-ec6c-498e-a68d-f6c28b96bd38",
               "name": "List of entitlements children from an entitlement",
               "originalRequest": {
                 "url": {
@@ -1387,11 +1468,20 @@
                     {
                       "disabled": true,
                       "description": {
-                        "content": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **id, name, created, modified, type, attribute, value, source.id**",
+                        "content": "Used to begin the search window at the values specified.\n\nThis parameter consists of the last values of the sorted fields in the current record set.\n\nsearchAfter length must match the number of sorters.\n\nThis is used to expand the Elasticsearch limit of 10K records by shifting the 10K window to begin at this value.\n\nIt is recommended that you always include the ID of the object in addition to any other fields on this parameter in order to ensure you don't get duplicate results while paging.\n\nFor example, if you are sorting by name you will also want to include ID, for example searchAfter=Account Payable,2c91808375d8e80a0175e1f88a575221&sorters=name,id.\n\nIf the last entitlement ID in the search result is 2c91808375d8e80a0175e1f88a575221 and the last name is \"Account Payable\", then using that name and ID will start a new search after this entitlement.",
+                        "type": "text/plain"
+                      },
+                      "key": "searchAfter",
+                      "value": "Account Payable,2c91808375d8e80a0175e1f88a575221"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **id, name, created, modified, type, attribute, value, source.id, requestable**",
                         "type": "text/plain"
                       },
                       "key": "sorters",
-                      "value": "name,-modified"
+                      "value": "name,id"
                     },
                     {
                       "disabled": true,
@@ -1458,7 +1548,7 @@
       "description": "",
       "item": [
         {
-          "id": "03696367-a625-49a5-9d6f-4459dd907f38",
+          "id": "50b07c39-e28f-4b63-a4af-05a4cb48876c",
           "name": "Human Account Deletion Approval Config",
           "request": {
             "name": "Human Account Deletion Approval Config",
@@ -1510,7 +1600,7 @@
           },
           "response": [
             {
-              "id": "a603e1a7-81c1-463b-8971-95bd1200edc7",
+              "id": "4a24e046-1098-4005-8775-c155a690463c",
               "name": "Responds with a AccountDeleteConfigDto for human account deletion approval config by sourceId.",
               "originalRequest": {
                 "url": {
@@ -1582,7 +1672,7 @@
           }
         },
         {
-          "id": "e0eda6f1-7f5c-49a6-bbf6-6dd70f43fc24",
+          "id": "1f3763b8-5e3b-4a6c-a7b4-90dd34290f6a",
           "name": "Human Account Deletion Approval Config",
           "request": {
             "name": "Human Account Deletion Approval Config",
@@ -1647,7 +1737,7 @@
           },
           "response": [
             {
-              "id": "fb4beadf-339b-49a4-850a-3731ee4d799b",
+              "id": "f309511e-34f9-4026-8fe6-1343f4ef4dbf",
               "name": "This response indicates the PATCH operation succeeded and the API returns the updated AccountDeleteConfigDto object.",
               "originalRequest": {
                 "url": {
@@ -1738,7 +1828,7 @@
       "description": "",
       "item": [
         {
-          "id": "e4b7d69d-2849-4953-b8a5-602cac597546",
+          "id": "51b93fdc-d97d-4fee-8cd0-73944d8c5fec",
           "name": "Machine Account Deletion Approval Config",
           "request": {
             "name": "Machine Account Deletion Approval Config",
@@ -1790,7 +1880,7 @@
           },
           "response": [
             {
-              "id": "9fd7a697-e5dc-46fa-aa29-32bd6d9ec351",
+              "id": "d0000b12-dff4-442d-bcc8-2a5d7a229f36",
               "name": "Responds with a AccountDeleteConfigDto for machine account deletion approval config by sourceId.",
               "originalRequest": {
                 "url": {
@@ -1862,7 +1952,7 @@
           }
         },
         {
-          "id": "fcf02bc9-56f8-401f-a4f5-a56a010d6dc1",
+          "id": "e08e5ae3-cc80-4d2c-a022-b2d3fefb5bc6",
           "name": "Machine Account Deletion Approval Config",
           "request": {
             "name": "Machine Account Deletion Approval Config",
@@ -1927,7 +2017,7 @@
           },
           "response": [
             {
-              "id": "24a99588-b3f5-43c9-9f45-a4d8fd137785",
+              "id": "fdd0b1c4-6600-4e89-9f75-659888f88470",
               "name": "This response indicates the PATCH operation succeeded and the API returns the updated AccountDeleteConfigDto object.",
               "originalRequest": {
                 "url": {
@@ -2018,7 +2108,7 @@
       "description": "",
       "item": [
         {
-          "id": "53f174b7-3696-486d-aab2-2223cd35c58b",
+          "id": "503ce3b3-a4cf-443e-bb1f-4a91ca8043e6",
           "name": "Machine Subtype Approval Config",
           "request": {
             "name": "Machine Subtype Approval Config",
@@ -2069,7 +2159,7 @@
           },
           "response": [
             {
-              "id": "fdba8b86-e262-41c3-8d34-f0abf4158a44",
+              "id": "41c1880e-10b6-4127-ad80-f77d0f95618b",
               "name": "Responds with a MachineAccountSubtypeConfigDto for machine account deletion approval config by subtypeId.",
               "originalRequest": {
                 "url": {
@@ -2140,7 +2230,7 @@
           }
         },
         {
-          "id": "d6cd2778-0a57-4d91-b28f-de641bb7252d",
+          "id": "fd2256b6-e6c6-45bb-a178-8ba8a4a5d488",
           "name": "Machine Subtype Approval Config",
           "request": {
             "name": "Machine Subtype Approval Config",
@@ -2204,7 +2294,7 @@
           },
           "response": [
             {
-              "id": "c2294db2-9e26-409a-9c98-6a827fe3d08c",
+              "id": "a8eab8f5-65fa-4214-a0d5-9b77bda260e5",
               "name": "This response indicates the PATCH operation succeeded and the API returns the updated MachineAccountSubtypeConfigDto object.",
               "originalRequest": {
                 "url": {
@@ -2294,7 +2384,7 @@
       "description": "",
       "item": [
         {
-          "id": "2c943cfa-0c24-493c-8cc6-020ed62a13fd",
+          "id": "609f93d1-1cdd-46e6-ad9f-7cf506303afe",
           "name": "Get task status by id",
           "request": {
             "name": "Get task status by id",
@@ -2344,7 +2434,7 @@
           },
           "response": [
             {
-              "id": "d6e3d075-5df0-45e6-8c41-7021cdcc40fc",
+              "id": "f97b7e6e-97e7-4d5c-8d9e-24db1fe668f5",
               "name": "Responds with a TaskStatus for the task with the given task ID.",
               "originalRequest": {
                 "url": {
@@ -2414,7 +2504,7 @@
           }
         },
         {
-          "id": "4dc1e592-a17c-4a32-bc64-68214ad052b9",
+          "id": "d16a77c8-ccc7-447f-b6fb-ee96273e0ef9",
           "name": "Update task status by id",
           "request": {
             "name": "Update task status by id",
@@ -2477,7 +2567,7 @@
           },
           "response": [
             {
-              "id": "6ea64a32-3479-4ab3-8424-74561380a365",
+              "id": "d5a8ab66-132e-4600-92df-dd7f58cfb156",
               "name": "This response indicates the PATCH operation succeeded, and the API returns the updated task object.",
               "originalRequest": {
                 "url": {
@@ -2560,7 +2650,7 @@
           }
         },
         {
-          "id": "a7f691ac-d811-4204-abb0-b67d1aa9008c",
+          "id": "4c4daf4a-06cd-46c8-a607-5dcc7ca1f839",
           "name": "Retrieve task status list",
           "request": {
             "name": "Retrieve task status list",
@@ -2644,7 +2734,7 @@
           },
           "response": [
             {
-              "id": "3257637b-61bd-4e1a-869b-69ad43849719",
+              "id": "61a755d2-32f6-46a8-92b7-48cb1f19973a",
               "name": "Responds with a TaskStatus for the task with the given task ID.",
               "originalRequest": {
                 "url": {
@@ -2748,7 +2838,7 @@
           }
         },
         {
-          "id": "bcebdc5f-17e7-478e-9883-e6b072d2b0c7",
+          "id": "bef731d6-0ec8-485f-b0cc-ce830c0aee87",
           "name": "Retrieve pending task status list",
           "request": {
             "name": "Retrieve pending task status list",
@@ -2815,7 +2905,7 @@
           },
           "response": [
             {
-              "id": "b71f3bb0-0ed7-4ee6-aebf-3be12cbc6f30",
+              "id": "79475b26-4617-4ce8-9e8a-462fd0ea47bf",
               "name": "Responds with a list of TaskStatus for pending tasks.\n\nPossible Values: CLOUD_ACCOUNT_AGGREGATION, CLOUD_GROUP_AGGREGATION, CLOUD_PROCESS_UNCORRELATED_ACCOUNTS, CLOUD_REFRESH_ROLE, SOURCE_APPLICATION_DISCOVERY, AI_AGENT_AGGREGATION, CLOUD_ENTITLEMENT_IMPORT, CLOUD_UNCORRELATED_REFRESH, CLOUD_IDENTITY_AGGREGATION, CLOUD_ATTRIBUTE_SYNCHRONIZATION, IDENTITY_REFRESH, APPLICATION_DISCOVERY, MACHINE_IDENTITY_AGGREGATION, MACHINE_IDENTITY_DELETION, ACCOUNT_DELETION",
               "originalRequest": {
                 "url": {
@@ -2896,7 +2986,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "62c45f6a-7a9d-4a5d-8d03-ea6a3c7e17a8",
+              "id": "1716a1f3-28c7-4750-891d-a9528832d70c",
               "name": "No content - indicates the request was successful but there is no content to be returned in the response.",
               "originalRequest": {
                 "url": {
@@ -2973,7 +3063,7 @@
           }
         },
         {
-          "id": "9d37232d-1966-4eb8-9664-cf28ee4ba3e7",
+          "id": "b978bb7f-cf3d-4653-bace-2350e4afe3de",
           "name": "Retrieve pending task list headers",
           "request": {
             "name": "Retrieve pending task list headers",
@@ -3040,7 +3130,7 @@
           },
           "response": [
             {
-              "id": "59d15f96-5cdc-4e4c-9a78-0e6ff6afbaf6",
+              "id": "da6081ad-5aee-42e6-887a-ec6981d6b818",
               "name": "Retrieve headers for a list of TaskStatus for pending tasks.",
               "originalRequest": {
                 "url": {
@@ -3111,7 +3201,7 @@
               "_postman_previewlanguage": "text"
             },
             {
-              "id": "0f12d5f8-fea9-4465-abe9-7aa766c0f913",
+              "id": "596c7efe-42ad-408a-adc5-d50a86f2eabd",
               "name": "No content - indicates the request was successful but there is no content to be returned in the response.",
               "originalRequest": {
                 "url": {
@@ -3298,7 +3388,7 @@
     }
   ],
   "info": {
-    "_postman_id": "ef8eb4b7-c8e9-4815-aff3-729606572457",
+    "_postman_id": "8a0fdb91-d382-42ea-933b-2cde8a3cf6a2",
     "name": "Identity Security Cloud v2026 API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": {
