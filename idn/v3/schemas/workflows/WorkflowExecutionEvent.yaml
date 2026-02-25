@@ -4,6 +4,8 @@ properties:
     type: string
     description: The type of event
     enum:
+    - TimerFired
+    - TimerStarted
     - WorkflowExecutionScheduled
     - WorkflowExecutionStarted
     - WorkflowExecutionCompleted
@@ -12,6 +14,7 @@ properties:
     - WorkflowTaskStarted
     - WorkflowTaskCompleted
     - WorkflowTaskFailed
+    - WorkflowTaskTimedOut
     - ActivityTaskScheduled
     - ActivityTaskStarted
     - ActivityTaskCompleted
