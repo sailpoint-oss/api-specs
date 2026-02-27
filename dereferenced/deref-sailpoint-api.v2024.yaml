@@ -34255,53 +34255,7 @@ paths:
             schema:
               type: array
               items:
-                type: object
-                title: Json Patch Operation
-                description: A JSONPatch Operation as defined by [RFC 6902 - JSON Patch](https://tools.ietf.org/html/rfc6902)
-                required:
-                  - op
-                  - path
-                properties:
-                  op:
-                    type: string
-                    description: The operation to be performed
-                    enum:
-                      - remove
-                      - replace
-                    example: replace
-                  path:
-                    type: string
-                    description: A string JSON Pointer representing the target path to an element to be affected by the operation
-                    example: /description
-                  value:
-                    oneOf:
-                      - type: string
-                        example: New description
-                        title: string
-                      - type: boolean
-                        example: true
-                        title: boolean
-                      - type: integer
-                        example: 300
-                        title: integer
-                      - type: object
-                        title: object
-                        example:
-                          attributes:
-                            name: philip
-                      - type: array
-                        title: array
-                        items:
-                          anyOf:
-                            - type: string
-                            - type: integer
-                            - type: object
-                          example:
-                            - '001'
-                            - '002'
-                            - '003'
-                    description: The value to be used for the operation, required for "add" and "replace" operations
-                    example: New description
+                $ref: '#/components/schemas/JsonPatchOperationRoleMining'
             example:
               - op: remove
                 path: /description
@@ -35326,6 +35280,10 @@ paths:
         - applicationAuth:
             - iai:access-modeling:read
             - iai:access-modeling:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - ROLE_ADMIN
+        - ROLE_SUBADMIN
       parameters:
         - in: path
           name: potentialRoleId
@@ -35381,6 +35339,12 @@ paths:
       security:
         - userAuth:
             - iai:access-modeling:manage
+        - applicationAuth:
+            - iai:access-modeling:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - ROLE_ADMIN
+        - ROLE_SUBADMIN
       parameters:
         - in: path
           name: sessionId
@@ -35413,16 +35377,7 @@ paths:
             schema:
               type: array
               items:
-                allOf:
-                  - $ref: '#/components/schemas/JsonPatchOperation'
-                properties:
-                  op:
-                    type: string
-                    description: The operation to be performed
-                    enum:
-                      - remove
-                      - replace
-                    example: replace
+                $ref: '#/components/schemas/JsonPatchOperationRoleMining'
             example:
               - op: remove
                 path: /description
@@ -69537,6 +69492,7 @@ components:
             properties:
               attributeValue:
                 type: string
+                nullable: true
                 description: The attribute value that identities are grouped by
                 example: NM Tier 3
               count:
@@ -69601,10 +69557,28 @@ components:
           example:
             - 07a0b4e2
             - 13b4e2a0
+        identityGroupStatus:
+          type: string
+          description: The status for this identity group which can be OBTAINED or COMPRESSED
+          example: OBTAINED
+          nullable: true
         name:
           type: string
           description: Name of the potential role.
           example: Saved Potential Role - 07/10
+        potentialRoleRef:
+          type: object
+          nullable: true
+          description: The potential role reference
+          properties:
+            id:
+              type: string
+              description: Id of the potential role
+              example: e0cc5d7d-bf7f-4f81-b2af-8885b09d9923
+            name:
+              type: string
+              description: Name of the potential role
+              example: Saved Potential Role - 07/10
         provisionState:
           allOf:
             - $ref: '#/components/schemas/RoleMiningPotentialRoleProvisionState'
@@ -69624,6 +69598,7 @@ components:
           type: boolean
           description: The potential role's saved status.
           example: true
+          default: false
         session:
           $ref: '#/components/schemas/RoleMiningSessionParametersDto'
           description: The session parameters of the potential role.
@@ -69638,10 +69613,60 @@ components:
           type: string
           format: date-time
           description: The date-time when this potential role was created.
+          example: '2020-01-01T00:00:00.000Z'
         modifiedDate:
           type: string
           format: date-time
           description: The date-time when this potential role was modified.
+          example: '2020-01-01T00:00:00.000Z'
+    JsonPatchOperationRoleMining:
+      type: object
+      title: Json Patch Operation (Role Mining)
+      description: A JSONPatch Operation for Role Mining endpoints, supporting only remove and replace operations as defined by [RFC 6902 - JSON Patch](https://tools.ietf.org/html/rfc6902)
+      required:
+        - op
+        - path
+      properties:
+        op:
+          type: string
+          description: The operation to be performed
+          enum:
+            - remove
+            - replace
+          example: replace
+        path:
+          type: string
+          description: A string JSON Pointer representing the target path to an element to be affected by the operation
+          example: /description
+        value:
+          oneOf:
+            - type: string
+              example: New description
+              title: string
+            - type: boolean
+              example: true
+              title: boolean
+            - type: integer
+              example: 300
+              title: integer
+            - type: object
+              title: object
+              example:
+                attributes:
+                  name: philip
+            - type: array
+              title: array
+              items:
+                anyOf:
+                  - type: string
+                  - type: integer
+                  - type: object
+              example:
+                - '001'
+                - '002'
+                - '003'
+          description: The value to be used for the operation, required for "replace" operations
+          example: New description
     RoleMiningPotentialRoleApplication:
       type: object
       title: Role Mining Potential Role Application
