@@ -2997,6 +2997,21 @@
           },
           {
             "$ref": "#/components/parameters/metadata"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "Filter roles by type.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "NeprofileRole",
+                "NeaccessRole",
+                "IdproxyRole"
+              ],
+              "example": "NeprofileRole"
+            }
           }
         ],
         "responses": {

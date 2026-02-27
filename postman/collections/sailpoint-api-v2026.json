@@ -5,7 +5,7 @@
       "description": "",
       "item": [
         {
-          "id": "48d5897e-5e3a-4753-88c1-0efc5b0c7cd8",
+          "id": "c63ec42e-9d21-4ed1-8c11-bd5f84e163b9",
           "name": "List of Account Deletion Requests",
           "request": {
             "name": "List of Account Deletion Requests",
@@ -81,7 +81,7 @@
           },
           "response": [
             {
-              "id": "a3c9f26f-2419-418b-8d03-55b561d4623c",
+              "id": "c17ce97a-c0f8-4768-b10e-e97496d0b3eb",
               "name": "Account Action Request objects.",
               "originalRequest": {
                 "url": {
@@ -183,7 +183,7 @@
       "description": "",
       "item": [
         {
-          "id": "0ca105a1-031b-4037-ab7c-c85df3ad8d58",
+          "id": "cf605619-0bba-4387-a050-b5ad41cb647d",
           "name": "Delete account",
           "request": {
             "name": "Delete account",
@@ -248,7 +248,7 @@
           },
           "response": [
             {
-              "id": "a9b9a36f-fd27-41ab-b147-ff2c1295b7c7",
+              "id": "9edbe2ee-cf12-45b0-86e8-37fa0fa30c79",
               "name": "Account deletion request details.",
               "originalRequest": {
                 "url": {
@@ -339,7 +339,7 @@
       "description": "",
       "item": [
         {
-          "id": "96f33fd0-cb95-4f95-b629-a43fb45eb7c5",
+          "id": "d03410f0-b62c-4c21-9d63-1b9ea63c1cf3",
           "name": "Gets a list of entitlements.",
           "request": {
             "name": "Gets a list of entitlements.",
@@ -450,7 +450,7 @@
           },
           "response": [
             {
-              "id": "ec1c73b5-dbf4-47b9-8a42-c0a53f7c5e58",
+              "id": "3403f809-b642-4322-9595-062fbd430c93",
               "name": "List of entitlements",
               "originalRequest": {
                 "url": {
@@ -581,7 +581,7 @@
           }
         },
         {
-          "id": "30be19ab-5f2b-4f07-a8c3-e69101a521ea",
+          "id": "0ceda85d-81b2-4676-a5c4-aff93eab8c95",
           "name": "Get entitlements for an account",
           "request": {
             "name": "Get entitlements for an account",
@@ -670,7 +670,7 @@
           },
           "response": [
             {
-              "id": "963f4591-b0db-44a3-9303-dc436ed2ce09",
+              "id": "b8cb14f6-fde3-461b-8769-0e4429054b12",
               "name": "List of entitlements for the account",
               "originalRequest": {
                 "url": {
@@ -774,7 +774,7 @@
                     "type": "text/plain"
                   },
                   "key": "total-count",
-                  "value": "5726"
+                  "value": "7760"
                 }
               ],
               "body": "[\n  {\n    \"sourceSchemaObjectType\": \"group\",\n    \"attribute\": \"memberOf\",\n    \"attributes\": {\n      \"GroupType\": \"Security\",\n      \"sAMAccountName\": \"Account Payable\",\n      \"GroupScope\": \"Global\",\n      \"objectguid\": \"{01a6e70b-9705-4155-a5c6-492a9bcc8c64}\",\n      \"objectSid\": \"S-1-5-21-3585869415-1648031554-2909195034-1633\",\n      \"cn\": \"Account Payable\",\n      \"msDS-PrincipalName\": \"AUTOMATIONAD\\\\Account Payable\"\n    },\n    \"value\": \"CN=Account Payable,OU=Finance,DC=xyz company\",\n    \"description\": \"This entitlement allows users to access the accounts payable module of the organization's financial management system. Users can view, process, and approve invoices, manage vendor relationships, and perform other accounts payable-related tasks.\",\n    \"privilegeLevel\": null,\n    \"cloudGoverned\": false,\n    \"source\": {\n      \"type\": \"SOURCE\",\n      \"id\": \"2c9180877504c40e0175097d5ce707c8\",\n      \"name\": \"EndToEnd-ADSource\"\n    },\n    \"owner\": {\n      \"id\": \"2a2fdacca5e345f18bf7970cfbb8fec2\",\n      \"name\": \"identity 1\",\n      \"type\": \"IDENTITY\"\n    },\n    \"segments\": [\n      \"1d126fe0-45e2-4aea-bc64-a07e9344ef26\"\n    ],\n    \"manuallyUpdatedFields\": {\n      \"DISPLAY_NAME\": true,\n      \"DESCRIPTION\": true\n    },\n    \"id\": \"2c91808c74ff913f0175097daa9d59cd\",\n    \"name\": \"Account Payable\",\n    \"created\": \"2020-10-08T18:33:52.029Z\",\n    \"modified\": \"2021-01-19T16:53:35.707Z\"\n  }\n]",
@@ -788,7 +788,7 @@
           }
         },
         {
-          "id": "1719b766-f137-481a-8921-1169c8a792ab",
+          "id": "e9392a44-12b2-406a-9f1d-831fe5d31bf5",
           "name": "Bulk update an entitlement list",
           "request": {
             "name": "Bulk update an entitlement list",
@@ -831,7 +831,7 @@
           },
           "response": [
             {
-              "id": "c2c9eb1d-544b-4097-94b1-4992a10a8b89",
+              "id": "4ec59ab2-e171-47ad-96be-d83af36ebd5e",
               "name": "No content - indicates the request was successful but there is no content to be returned in the response.",
               "originalRequest": {
                 "url": {
@@ -884,7 +884,7 @@
           }
         },
         {
-          "id": "8aeeb74a-a994-4056-aae8-ca4172c87be9",
+          "id": "0977e5ec-cad5-4e0d-8172-a2ecf028eadf",
           "name": "Get an entitlement",
           "request": {
             "name": "Get an entitlement",
@@ -925,7 +925,7 @@
           },
           "response": [
             {
-              "id": "0982cdc0-4509-46c2-b604-baed2587a887",
+              "id": "b955b46a-3ecd-43cb-9f89-3e3f6a28749f",
               "name": "An entitlement",
               "originalRequest": {
                 "url": {
@@ -986,7 +986,7 @@
           }
         },
         {
-          "id": "73c54405-eafb-4628-a2ac-85eff1f805e9",
+          "id": "d368b516-8ecd-4e01-83c8-31e1e972518d",
           "name": "Patch an entitlement",
           "request": {
             "name": "Patch an entitlement",
@@ -1040,7 +1040,7 @@
           },
           "response": [
             {
-              "id": "6d440e1d-7df8-4f82-a2e3-dbdf7b30ffa1",
+              "id": "5923a79c-8d89-4742-82c8-2c246b33426e",
               "name": "Responds with the entitlement as updated.",
               "originalRequest": {
                 "url": {
@@ -1114,7 +1114,7 @@
           }
         },
         {
-          "id": "6ed627a0-6f0a-4b94-a456-f12075eb56ab",
+          "id": "2527d1f9-953e-4b01-940e-da0948acadc2",
           "name": "List of entitlements parents",
           "request": {
             "name": "List of entitlements parents",
@@ -1211,7 +1211,7 @@
           },
           "response": [
             {
-              "id": "dab26f07-338f-456b-9a6f-9e52ab30e7ba",
+              "id": "5e0be986-60d4-4aec-8da1-f49b1456a834",
               "name": "List of entitlements parents from an entitlement",
               "originalRequest": {
                 "url": {
@@ -1328,7 +1328,7 @@
           }
         },
         {
-          "id": "b77c93f5-0714-47ef-92bd-ca21bca35afa",
+          "id": "3fbc3223-d4a5-42e2-8d68-6d36d23925ce",
           "name": "List of entitlements children",
           "request": {
             "name": "List of entitlements children",
@@ -1425,7 +1425,7 @@
           },
           "response": [
             {
-              "id": "b1c575cd-7239-470d-88b7-d7f70e4a9541",
+              "id": "10c34339-9998-483d-9ffa-e527bd6d82a0",
               "name": "List of entitlements children from an entitlement",
               "originalRequest": {
                 "url": {
@@ -1548,7 +1548,7 @@
       "description": "",
       "item": [
         {
-          "id": "92dc3692-1626-4435-b5f4-b415dcda7295",
+          "id": "00834578-c9ed-4389-a8be-52d5fdcddfc3",
           "name": "Human Account Deletion Approval Config",
           "request": {
             "name": "Human Account Deletion Approval Config",
@@ -1600,7 +1600,7 @@
           },
           "response": [
             {
-              "id": "d50f1dd9-a142-4d2c-8fbe-a2d3007815ad",
+              "id": "273426aa-8061-4137-863a-4c4a10399483",
               "name": "Responds with a AccountDeleteConfigDto for human account deletion approval config by sourceId.",
               "originalRequest": {
                 "url": {
@@ -1672,7 +1672,7 @@
           }
         },
         {
-          "id": "1d20e3ce-a7cb-405a-a989-40a324c85670",
+          "id": "94618b85-2570-4cff-b4e4-420364cea78c",
           "name": "Human Account Deletion Approval Config",
           "request": {
             "name": "Human Account Deletion Approval Config",
@@ -1737,7 +1737,7 @@
           },
           "response": [
             {
-              "id": "83457d04-c40f-4929-80ed-57f16f32900e",
+              "id": "843eb005-1c0b-49ff-a1a6-813782f77891",
               "name": "This response indicates the PATCH operation succeeded and the API returns the updated AccountDeleteConfigDto object.",
               "originalRequest": {
                 "url": {
@@ -1828,7 +1828,7 @@
       "description": "",
       "item": [
         {
-          "id": "e65efbdc-a297-4f0f-9e9e-c68f433aa966",
+          "id": "a9aa302f-b526-408d-878b-082c37a4f6be",
           "name": "Machine Account Deletion Approval Config",
           "request": {
             "name": "Machine Account Deletion Approval Config",
@@ -1880,7 +1880,7 @@
           },
           "response": [
             {
-              "id": "5826c6d2-f613-4d4b-bea6-39a8309af9d8",
+              "id": "241e1d02-fb48-43a8-9e92-ef99908d7b00",
               "name": "Responds with a AccountDeleteConfigDto for machine account deletion approval config by sourceId.",
               "originalRequest": {
                 "url": {
@@ -1952,7 +1952,7 @@
           }
         },
         {
-          "id": "c28cd65c-c4b4-4036-ad4c-ab0ace268efb",
+          "id": "7af9bac1-179f-4f07-a90e-214b2b6bea5a",
           "name": "Machine Account Deletion Approval Config",
           "request": {
             "name": "Machine Account Deletion Approval Config",
@@ -2017,7 +2017,7 @@
           },
           "response": [
             {
-              "id": "f0161cc2-6584-48f3-897a-5684e83be72a",
+              "id": "56a9841c-613f-486e-a976-3b2b56ac6bcf",
               "name": "This response indicates the PATCH operation succeeded and the API returns the updated AccountDeleteConfigDto object.",
               "originalRequest": {
                 "url": {
@@ -2108,7 +2108,7 @@
       "description": "",
       "item": [
         {
-          "id": "ae34639c-7924-466d-9596-a3e060c33c2b",
+          "id": "d2fe5874-deb7-4395-b9a7-e447eea6ff6e",
           "name": "Machine Subtype Approval Config",
           "request": {
             "name": "Machine Subtype Approval Config",
@@ -2159,7 +2159,7 @@
           },
           "response": [
             {
-              "id": "fad4299d-2ee1-409e-a617-dde425f3679e",
+              "id": "95f0359a-4390-4aa2-bd8c-5b2ff45ac9d8",
               "name": "Responds with a MachineAccountSubtypeConfigDto for machine account deletion approval config by subtypeId.",
               "originalRequest": {
                 "url": {
@@ -2230,7 +2230,7 @@
           }
         },
         {
-          "id": "dfa910bb-6f0a-47e5-99c6-81a0ebd6d051",
+          "id": "be573583-83ab-414f-8b23-6bb8e661589a",
           "name": "Machine Subtype Approval Config",
           "request": {
             "name": "Machine Subtype Approval Config",
@@ -2294,7 +2294,7 @@
           },
           "response": [
             {
-              "id": "db3d4fc4-beae-4b8d-96ff-0f7c42c1846d",
+              "id": "d5ede3cf-610d-4168-ad60-14cd8ea7f4ad",
               "name": "This response indicates the PATCH operation succeeded and the API returns the updated MachineAccountSubtypeConfigDto object.",
               "originalRequest": {
                 "url": {
@@ -2384,7 +2384,7 @@
       "description": "",
       "item": [
         {
-          "id": "fe8496d6-ddad-4c25-b8e7-959efb190849",
+          "id": "8c958bbd-b32a-46a0-846e-a38751ccc731",
           "name": "Get task status by id",
           "request": {
             "name": "Get task status by id",
@@ -2434,7 +2434,7 @@
           },
           "response": [
             {
-              "id": "0632b0a0-337d-4a56-9eea-53018a3f2701",
+              "id": "00a1142d-eae9-4571-813d-696bb530da7c",
               "name": "Responds with a TaskStatus for the task with the given task ID.",
               "originalRequest": {
                 "url": {
@@ -2504,7 +2504,7 @@
           }
         },
         {
-          "id": "8f12e440-1c53-4008-a943-4dda14e96611",
+          "id": "f5c21a2f-e104-4c3b-927c-4caf5a09b932",
           "name": "Update task status by id",
           "request": {
             "name": "Update task status by id",
@@ -2567,7 +2567,7 @@
           },
           "response": [
             {
-              "id": "4dcb8b64-417b-4634-9e16-dc0bf14e52f1",
+              "id": "4cfe1516-4c6b-4cc2-982c-ccfac68dbd2b",
               "name": "This response indicates the PATCH operation succeeded, and the API returns the updated task object.",
               "originalRequest": {
                 "url": {
@@ -2650,7 +2650,7 @@
           }
         },
         {
-          "id": "d2e1e45a-0197-4d1a-9f15-6f4805c0b9ab",
+          "id": "5c6d1096-3ac2-434c-9736-b4ae67e8256c",
           "name": "Retrieve task status list",
           "request": {
             "name": "Retrieve task status list",
@@ -2734,7 +2734,7 @@
           },
           "response": [
             {
-              "id": "a1c05d60-df24-4cb6-9457-f7631537af00",
+              "id": "919f2712-92b5-471e-93fb-6e5892b41f42",
               "name": "Responds with a TaskStatus for the task with the given task ID.",
               "originalRequest": {
                 "url": {
@@ -2838,7 +2838,7 @@
           }
         },
         {
-          "id": "b41d4b0b-2f53-433d-8efb-d1c127409dbf",
+          "id": "7259dfb5-ed6a-4768-9862-21bdc18b2b2e",
           "name": "Retrieve pending task status list",
           "request": {
             "name": "Retrieve pending task status list",
@@ -2905,7 +2905,7 @@
           },
           "response": [
             {
-              "id": "69862abb-d567-4ce0-80cd-61f6038c806f",
+              "id": "f4152c63-e38c-48d0-9e7a-b105b7bc922b",
               "name": "Responds with a list of TaskStatus for pending tasks.\n\nPossible Values: CLOUD_ACCOUNT_AGGREGATION, CLOUD_GROUP_AGGREGATION, CLOUD_PROCESS_UNCORRELATED_ACCOUNTS, CLOUD_REFRESH_ROLE, SOURCE_APPLICATION_DISCOVERY, AI_AGENT_AGGREGATION, CLOUD_ENTITLEMENT_IMPORT, CLOUD_UNCORRELATED_REFRESH, CLOUD_IDENTITY_AGGREGATION, CLOUD_ATTRIBUTE_SYNCHRONIZATION, IDENTITY_REFRESH, APPLICATION_DISCOVERY, MACHINE_IDENTITY_AGGREGATION, MACHINE_IDENTITY_DELETION, ACCOUNT_DELETION",
               "originalRequest": {
                 "url": {
@@ -2986,7 +2986,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "527e0176-71e2-4100-bf89-053792e39fbe",
+              "id": "31a58efa-bfe6-4167-a913-2f6c4d10d85d",
               "name": "No content - indicates the request was successful but there is no content to be returned in the response.",
               "originalRequest": {
                 "url": {
@@ -3063,7 +3063,7 @@
           }
         },
         {
-          "id": "29deb84e-0f91-491a-a13b-794ba91ca582",
+          "id": "bfad32f1-d546-482c-baa8-2ac6da4cb7ee",
           "name": "Retrieve pending task list headers",
           "request": {
             "name": "Retrieve pending task list headers",
@@ -3130,7 +3130,7 @@
           },
           "response": [
             {
-              "id": "1089eb34-936b-41bb-a257-5bf279ea4250",
+              "id": "dad9d001-6e07-42bf-b92d-72012024db87",
               "name": "Retrieve headers for a list of TaskStatus for pending tasks.",
               "originalRequest": {
                 "url": {
@@ -3201,7 +3201,7 @@
               "_postman_previewlanguage": "text"
             },
             {
-              "id": "053b859a-d06d-4100-81ab-ca0816ea3c2c",
+              "id": "ec7846e7-c527-415d-b38b-eef34423ba7a",
               "name": "No content - indicates the request was successful but there is no content to be returned in the response.",
               "originalRequest": {
                 "url": {
@@ -3388,7 +3388,7 @@
     }
   ],
   "info": {
-    "_postman_id": "1827ed13-7278-49fc-abfa-83d8c2645a85",
+    "_postman_id": "d9aaa1f0-0f4b-41da-8e2c-ea7d786297ce",
     "name": "Identity Security Cloud v2026 API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": {
