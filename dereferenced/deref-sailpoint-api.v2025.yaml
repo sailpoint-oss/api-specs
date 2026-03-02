@@ -1082,6 +1082,15 @@ tags:
       - [ServiceNow Service Desk](https://documentation.sailpoint.com/connectors/servicenow/sdim/help/integrating_servicenow_sdim/intro.html)
 
       - [Zendesk Service Desk](https://documentation.sailpoint.com/connectors/zendesk/help/integrating_zendesk_sd/introduction.html)
+  - name: Shared Signals Framework (SSF)
+    description: |
+      The SSF Transmitter Service is a security event notification system that monitors identity attribute changes
+      and automatically triggers session revocation events when specific lifecycle conditions are met.
+
+      Use this API to implement transmitter functionality so administrators can discover the transmitter and manage streams.
+      Transmitters send identity data and events from Identity Security Cloud to external receivers over the Secure Sync Framework (SSF).
+      The SSF configuration and JWKS endpoints support discovery and verification; the stream management endpoints support creating, updating, and managing streams and verifying receivers.
+      In Identity Security Cloud, administrators can use the "Connections" > "Shared Signals" area to view and manage transmitters and their streams.
   - name: SIM Integrations
     description: |
       Use this API to administer IdentityNow's Service Integration Module, or SIM integration with ServiceNow, so that it converts IdentityNow provisioning actions into tickets in ServiceNow.
@@ -22393,6 +22402,524 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /.well-known/ssf-configuration:
+    get:
+      operationId: getSSFConfiguration
+      security:
+        - {}
+      tags:
+        - Shared Signals Framework (SSF)
+      summary: Get SSF configuration
+      description: Returns the SSF transmitter discovery metadata (well-known configuration).
+      responses:
+        '200':
+          description: SSF transmitter configuration (issuer, jwks_uri, endpoints, authorization_schemes).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransmitterMetadata'
+              example:
+                spec_version: '1_0'
+                issuer: https://tenant.api.identitynow.com
+                jwks_uri: https://tenant.api.identitynow.com/ssf/jwks
+                delivery_methods_supported:
+                  - urn:ietf:rfc:8935
+                configuration_endpoint: https://tenant.api.identitynow.com/latest/ssf/streams
+                status_endpoint: https://tenant.api.identitynow.com/latest/ssf/streams/status
+                verification_endpoint: https://tenant.api.identitynow.com/latest/ssf/streams/verify
+                authorization_schemes:
+                  - spec_urn: urn:ietf:rfc:6749
+                  - spec_urn: urn:ietf:rfc:6750
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /ssf/jwks:
+    get:
+      operationId: getJWKSData
+      security:
+        - {}
+      tags:
+        - Shared Signals Framework (SSF)
+      summary: Get JWKS
+      description: Returns the transmitter's JSON Web Key Set (JWKS) for verifying signed delivery requests.
+      responses:
+        '200':
+          description: JSON Web Key Set (RFC 7517) containing the transmitter's public keys.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JWKS'
+              example:
+                keys:
+                  - alg: RS256
+                    e: AQAB
+                    kid: mrk-3db792b3d0a642dbbb5bb28b542929cd
+                    kty: RSA
+                    'n': xMPKL_ccvjTDQAJ60jg5kP9XJmEIpeSb1FIjzvAnM9RP-vSiY5iW2eK0-VLHYB_XbcDT8jzneUmX90mCfiwF_F4Mjh3f0D79ncrXDglnBLKnuqmvNcblUOuOyNFts3jQSBAqB_GR_dSjKLzbs1wP3K8EJqosQGfPNuh5HxFfU79v-uZFdtkYzf_xtu8phrO84VT_DLuFJyIxLOcY5MVJ6uHlmlKXSJbMO8xTKzvcz6TTZM8XrrT73GpTCdtmNVpCLz2v14XQb-6sNeya2v037ktrgdUWFLC63iIgNKzgNr88L7x3j5AeeOi1VX_2ZAxLrz4BUtJxxyWxVthrpDCYuQ
+                    use: sig
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /ssf/streams:
+    post:
+      operationId: createStream
+      security:
+        - userAuth:
+            - sp:ssf-transmitter-streams:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      tags:
+        - Shared Signals Framework (SSF)
+      summary: Create stream
+      description: |
+        An SSF stream is associated with the client ID of the OAuth 2.0 access token used to create the stream.
+        One SSF stream is allowed for each client ID.
+
+        You can create a maximum of 10 SSF stream configurations for one org.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateStreamRequest'
+            example:
+              delivery:
+                method: urn:ietf:rfc:8935
+                endpoint_url: https://receiver.example.com/ssf/events
+              events_requested:
+                - https://schemas.openid.net/secevent/caep/event-type/session-revoked
+              description: Production event stream for session revocation notifications
+      responses:
+        '201':
+          description: Stream created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StreamConfigResponse'
+              example:
+                stream_id: 550e8400-e29b-41d4-a716-446655440000
+                iss: https://tenant.sailpoint.com
+                aud: https://receiver.example.com
+                delivery:
+                  method: urn:ietf:rfc:8935
+                  endpoint_url: https://receiver.example.com/ssf/events
+                events_supported:
+                  - https://schemas.openid.net/secevent/caep/event-type/{event-type}
+                events_requested:
+                  - https://schemas.openid.net/secevent/caep/event-type/{event-type}
+                events_delivered:
+                  - https://schemas.openid.net/secevent/caep/event-type/{event-type}
+                description: Production event stream
+                inactivity_timeout: 3600
+                min_verification_interval: 300
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    get:
+      operationId: getStream
+      security:
+        - userAuth:
+            - sp:ssf-transmitter-streams:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      tags:
+        - Shared Signals Framework (SSF)
+      summary: Get stream(s)
+      description: |
+        Retrieves either a list of all SSF stream configurations or the individual configuration if specified by ID.
+
+        As stream configurations are tied to a client ID, you can only view the stream associated with the client ID
+        of the request OAuth 2.0 access token.
+
+        Query parameter `aud` (co filter) can be used to filter by audience.
+      parameters:
+        - in: query
+          name: stream_id
+          required: false
+          schema:
+            type: string
+          description: If provided, returns that stream; otherwise returns list of all streams.
+          example: 550e8400-e29b-41d4-a716-446655440000
+      responses:
+        '200':
+          description: Single stream (when stream_id is provided) or list of streams (when stream_id is omitted).
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/StreamConfigResponse'
+                  - type: array
+                    items:
+                      $ref: '#/components/schemas/StreamConfigResponse'
+              examples:
+                single:
+                  summary: Single stream (GET /ssf/streams?stream_id=...)
+                  value:
+                    stream_id: 550e8400-e29b-41d4-a716-446655440000
+                    iss: https://tenant.sailpoint.com
+                    aud: https://receiver.example.com
+                    delivery:
+                      method: urn:ietf:rfc:8935
+                      endpoint_url: https://receiver.example.com/ssf/events
+                    events_supported:
+                      - https://schemas.openid.net/secevent/caep/event-type/{event-type}
+                    events_requested:
+                      - https://schemas.openid.net/secevent/caep/event-type/{event-type}
+                    events_delivered:
+                      - https://schemas.openid.net/secevent/caep/event-type/{event-type}
+                    description: Production event stream
+                    inactivity_timeout: 3600
+                    min_verification_interval: 300
+                list:
+                  summary: List of streams (GET /ssf/streams)
+                  value:
+                    - stream_id: 550e8400-e29b-41d4-a716-446655440000
+                      iss: https://tenant.sailpoint.com
+                      aud: https://receiver.example.com
+                      delivery:
+                        method: urn:ietf:rfc:8935
+                        endpoint_url: https://receiver.example.com/ssf/events
+                      events_supported:
+                        - https://schemas.openid.net/secevent/caep/event-type/{event-type}
+                      events_requested:
+                        - https://schemas.openid.net/secevent/caep/event-type/{event-type}
+                      events_delivered:
+                        - https://schemas.openid.net/secevent/caep/event-type/{event-type}
+                      description: Production stream
+                      inactivity_timeout: 3600
+                      min_verification_interval: 300
+                    - stream_id: 660e8400-e29b-41d4-a716-446655440001
+                      iss: https://tenant.sailpoint.com
+                      aud: https://other-receiver.example.com
+                      delivery:
+                        method: urn:ietf:rfc:8935
+                        endpoint_url: https://other-receiver.example.com/events
+                      events_supported:
+                        - https://schemas.openid.net/secevent/caep/event-type/{event-type}
+                      events_requested:
+                        - https://schemas.openid.net/secevent/caep/event-type/{event-type}
+                      events_delivered:
+                        - https://schemas.openid.net/secevent/caep/event-type/{event-type}
+                      description: ''
+                      inactivity_timeout: 3600
+                      min_verification_interval: 300
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      operationId: updateStreamConfiguration
+      security:
+        - userAuth:
+            - sp:ssf-transmitter-streams:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      tags:
+        - Shared Signals Framework (SSF)
+      summary: Update stream configuration
+      description: |
+        Partially updates a stream's configuration (PATCH). Only provided fields are updated.
+
+        The associated stream with the client ID (through the request OAuth 2.0 access token) is updated.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateStreamConfigurationRequest'
+            example:
+              stream_id: 550e8400-e29b-41d4-a716-446655440000
+              description: Updated production event stream configuration
+      responses:
+        '200':
+          description: Updated stream configuration (same JSON shape as GET single stream, plus updatedAt).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateStreamConfigResponse'
+              example:
+                stream_id: 550e8400-e29b-41d4-a716-446655440000
+                iss: https://tenant.sailpoint.com
+                aud: https://receiver.example.com
+                delivery:
+                  method: urn:ietf:rfc:8935
+                  endpoint_url: https://receiver.example.com/ssf/events/v2
+                events_supported:
+                  - https://schemas.openid.net/secevent/caep/event-type/{event-type}
+                events_requested:
+                  - https://schemas.openid.net/secevent/caep/event-type/{event-type}
+                events_delivered:
+                  - https://schemas.openid.net/secevent/caep/event-type/{event-type}
+                description: Updated description
+                inactivity_timeout: 3600
+                min_verification_interval: 300
+                updatedAt: '2025-02-11T14:30:00Z'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      operationId: setStreamConfiguration
+      security:
+        - userAuth:
+            - sp:ssf-transmitter-streams:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      tags:
+        - Shared Signals Framework (SSF)
+      summary: Replace stream configuration
+      description: |
+        Replaces a stream's configuration (PUT). stream_id and delivery are required; full receiver-supplied properties.
+
+        The associated stream with the client ID (through the request OAuth 2.0 access token) is replaced.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReplaceStreamConfigurationRequest'
+            example:
+              stream_id: 550e8400-e29b-41d4-a716-446655440000
+              delivery:
+                method: urn:ietf:rfc:8935
+                endpoint_url: https://receiver.example.com/ssf/events
+              events_requested:
+                - https://schemas.openid.net/secevent/caep/event-type/session-revoked
+              description: Replaced stream configuration for production event delivery
+      responses:
+        '200':
+          description: Replaced stream configuration (same JSON shape as PATCH/GET single stream).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateStreamConfigResponse'
+              example:
+                stream_id: 550e8400-e29b-41d4-a716-446655440000
+                iss: https://tenant.sailpoint.com
+                aud: https://receiver.example.com
+                delivery:
+                  method: urn:ietf:rfc:8935
+                  endpoint_url: https://receiver.example.com/ssf/events
+                events_supported:
+                  - https://schemas.openid.net/secevent/caep/event-type/{event-type}
+                events_requested:
+                  - https://schemas.openid.net/secevent/caep/event-type/{event-type}
+                events_delivered:
+                  - https://schemas.openid.net/secevent/caep/event-type/{event-type}
+                description: Replaced config
+                inactivity_timeout: 3600
+                min_verification_interval: 300
+                updatedAt: '2025-02-11T14:35:00Z'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      operationId: deleteStream
+      security:
+        - userAuth:
+            - sp:ssf-transmitter-streams:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      tags:
+        - Shared Signals Framework (SSF)
+      summary: Delete stream
+      description: |
+        Deletes a stream by its ID. There is no request body; the stream is identified by the required
+        query parameter `stream_id`. On success the response has no body (204 No Content).
+
+        The associated stream with the client ID (through the request OAuth 2.0 access token) is deleted.
+      parameters:
+        - in: query
+          name: stream_id
+          required: true
+          schema:
+            type: string
+          description: ID of the stream to delete. Required; omitted or empty returns 400.
+          example: 550e8400-e29b-41d4-a716-446655440000
+      responses:
+        '204':
+          $ref: '#/components/responses/204'
+        '400':
+          description: Bad Request - e.g. missing or empty `stream_id` query parameter.
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          description: Not Found - no stream exists for the given `stream_id` (or not in this tenant).
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /ssf/streams/status:
+    get:
+      operationId: getStreamStatus
+      security:
+        - userAuth:
+            - sp:ssf-transmitter-streams:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      tags:
+        - Shared Signals Framework (SSF)
+      summary: Get stream status
+      description: Returns the status (enabled, paused, disabled) and optional reason for the stream associated with the client ID of the request's OAuth 2.0 access token. The stream_id query parameter is required.
+      parameters:
+        - in: query
+          name: stream_id
+          required: true
+          schema:
+            type: string
+          description: ID of the stream whose status to retrieve.
+          example: 550e8400-e29b-41d4-a716-446655440000
+      responses:
+        '200':
+          description: Stream status (enabled, paused, or disabled; reason may be set when status was updated).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StreamStatusResponse'
+              example:
+                stream_id: 550e8400-e29b-41d4-a716-446655440000
+                status: enabled
+                reason: ''
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      operationId: updateStreamStatus
+      security:
+        - userAuth:
+            - sp:ssf-transmitter-streams:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      tags:
+        - Shared Signals Framework (SSF)
+      summary: Update stream status
+      description: Updates the operational status (enabled, paused, disabled) with an optional reason for the stream associated with the client ID of the request's OAuth 2.0 access token.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateStreamStatusRequest'
+            example:
+              stream_id: 550e8400-e29b-41d4-a716-446655440000
+              status: paused
+              reason: manually paused
+      responses:
+        '200':
+          description: Updated stream status (same JSON shape as GET /ssf/streams/status).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StreamStatusResponse'
+              example:
+                stream_id: 550e8400-e29b-41d4-a716-446655440000
+                status: paused
+                reason: manually paused
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /ssf/streams/verify:
+    post:
+      operationId: sendStreamVerification
+      security:
+        - userAuth:
+            - sp:ssf-transmitter-streams:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      tags:
+        - Shared Signals Framework (SSF)
+      summary: Verify stream
+      description: Verifies an SSF stream by publishing a verification event requested by a security events provider.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerificationRequest'
+            example:
+              stream_id: 550e8400-e29b-41d4-a716-446655440000
+              state: verification-challenge-state-123
+      responses:
+        '204':
+          $ref: '#/components/responses/204'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
         '429':
           $ref: '#/components/responses/429'
         '500':
@@ -68638,6 +69165,353 @@ components:
             example:
               - b868cd40-ffa4-4337-9c07-1a51846cfa94
               - 63a07a7b-39a4-48aa-956d-50c827deba2a
+    AuthorizationScheme:
+      type: object
+      description: Authorization scheme supported by the transmitter.
+      properties:
+        spec_urn:
+          type: string
+          description: |
+            URN describing the authorization specification.
+            OAuth 2.0: `urn:ietf:rfc:6749`; Bearer token: `urn:ietf:rfc:6750`.
+          example: urn:ietf:rfc:6749
+    TransmitterMetadata:
+      type: object
+      description: SSF transmitter discovery metadata per the SSF specification.
+      properties:
+        spec_version:
+          type: string
+          description: Version of the SSF specification supported.
+          example: '1_0'
+        issuer:
+          type: string
+          description: Base URL of the transmitter (issuer).
+          example: https://tenant.api.identitynow.com
+        jwks_uri:
+          type: string
+          description: URL of the transmitter's JSON Web Key Set.
+          example: https://tenant.api.identitynow.com/ssf/jwks
+        delivery_methods_supported:
+          type: array
+          items:
+            type: string
+          description: Supported delivery methods (e.g. push URN).
+          example:
+            - urn:ietf:rfc:8935
+        configuration_endpoint:
+          type: string
+          description: Endpoint for stream configuration (create, read, update, replace, delete).
+          example: https://tenant.api.identitynow.com/latest/ssf/streams
+        status_endpoint:
+          type: string
+          description: Endpoint for reading and updating stream status.
+          example: https://tenant.api.identitynow.com/latest/ssf/streams/status
+        verification_endpoint:
+          type: string
+          description: Endpoint for receiver verification.
+          example: https://tenant.api.identitynow.com/latest/ssf/streams/verify
+        authorization_schemes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuthorizationScheme'
+          description: Supported authorization schemes (e.g. OAuth2, Bearer).
+    JWK:
+      type: object
+      description: A single JSON Web Key used for verifying signed delivery requests.
+      properties:
+        alg:
+          type: string
+          description: Algorithm intended for use with the key (e.g. RS256).
+          example: RS256
+        e:
+          type: string
+          description: RSA public exponent (Base64url encoded).
+          example: AQAB
+        kid:
+          type: string
+          description: Key ID - unique identifier for the key.
+          example: mrk-3db792b3d0a642dbbb5bb28b542929cd
+        kty:
+          type: string
+          description: Key type (e.g. RSA).
+          example: RSA
+        'n':
+          type: string
+          description: RSA modulus (Base64url encoded).
+          example: xMPKL_ccvjTDQAJ60jg5kP9XJmEIpeSb1FIjzvAnM9RP-vSiY5iW2eK0-VLHYB_XbcDT8jzneUmX90mCfiwF_F4Mjh3f0D79ncrXDglnBLKnuqmvNcblUOuOyNFts3jQSBAqB_GR_dSjKLzbs1wP3K8EJqosQGfPNuh5HxFfU79v-uZFdtkYzf_xtu8phrO84VT_DLuFJyIxLOcY5MVJ6uHlmlKXSJbMO8xTKzvcz6TTZM8XrrT73GpTCdtmNVpCLz2v14XQb-6sNeya2v037ktrgdUWFLC63iIgNKzgNr88L7x3j5AeeOi1VX_2ZAxLrz4BUtJxxyWxVthrpDCYuQ
+        use:
+          type: string
+          description: Intended use of the key (e.g. sig for signature verification).
+          example: sig
+    JWKS:
+      type: object
+      description: JSON Web Key Set containing the transmitter's public keys for verifying signed delivery requests.
+      required:
+        - keys
+      properties:
+        keys:
+          type: array
+          items:
+            $ref: '#/components/schemas/JWK'
+          description: Array of JSON Web Keys.
+          example:
+            - alg: RS256
+              e: AQAB
+              kid: mrk-3db792b3d0a642dbbb5bb28b542929cd
+              kty: RSA
+              'n': xMPKL_ccvjTDQAJ60jg5kP9XJmEIpeSb1FIjzvAnM9RP-vSiY5iW2eK0-VLHYB_XbcDT8jzneUmX90mCfiwF_F4Mjh3f0D79ncrXDglnBLKnuqmvNcblUOuOyNFts3jQSBAqB_GR_dSjKLzbs1wP3K8EJqosQGfPNuh5HxFfU79v-uZFdtkYzf_xtu8phrO84VT_DLuFJyIxLOcY5MVJ6uHlmlKXSJbMO8xTKzvcz6TTZM8XrrT73GpTCdtmNVpCLz2v14XQb-6sNeya2v037ktrgdUWFLC63iIgNKzgNr88L7x3j5AeeOi1VX_2ZAxLrz4BUtJxxyWxVthrpDCYuQ
+              use: sig
+    DeliveryResponse:
+      type: object
+      description: Delivery configuration returned in stream responses.
+      properties:
+        method:
+          type: string
+          description: Delivery method.
+          example: urn:ietf:rfc:8935
+        endpoint_url:
+          type: string
+          description: Receiver endpoint URL.
+          example: https://receiver.example.com/ssf/events
+    StreamConfigResponse:
+      type: object
+      description: Full stream configuration returned by create/get/update/replace.
+      properties:
+        stream_id:
+          type: string
+          description: Unique stream identifier.
+          example: 550e8400-e29b-41d4-a716-446655440000
+        iss:
+          type: string
+          description: Issuer (transmitter) URL.
+          example: https://tenant.sailpoint.com
+        aud:
+          type: string
+          description: Audience for the stream.
+          example: https://receiver.example.com
+        delivery:
+          $ref: '#/components/schemas/DeliveryResponse'
+        events_supported:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: |
+            Event types supported by the transmitter. Use CAEP event-type URIs in the form:
+            `https://schemas.openid.net/secevent/caep/event-type/{event-type}` (e.g. session-revoked).
+          example:
+            - https://schemas.openid.net/secevent/caep/event-type/{event-type}
+        events_requested:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: |
+            Event types requested by the receiver. Use CAEP event-type URIs in the form:
+            `https://schemas.openid.net/secevent/caep/event-type/{event-type}` (e.g. session revoke).
+          example:
+            - https://schemas.openid.net/secevent/caep/event-type/{event-type}
+        events_delivered:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: Event types currently being delivered (intersection of supported and requested).
+          example:
+            - https://schemas.openid.net/secevent/caep/event-type/{event-type}
+        description:
+          type: string
+          description: Optional stream description.
+          example: Production event stream
+        inactivity_timeout:
+          type: integer
+          format: int32
+          description: Inactivity timeout in seconds (optional).
+          example: 3600
+        min_verification_interval:
+          type: integer
+          format: int32
+          description: Minimum verification interval in seconds (optional).
+          example: 300
+    CreateStreamDeliveryRequest:
+      type: object
+      description: Full delivery configuration. method and endpoint_url are required.
+      required:
+        - method
+        - endpoint_url
+      properties:
+        method:
+          type: string
+          description: Delivery method (only push is supported).
+          example: urn:ietf:rfc:8935
+        endpoint_url:
+          type: string
+          format: uri
+          description: Receiver endpoint URL for push delivery.
+          example: https://receiver.example.com/ssf/events
+        authorization_header:
+          type: string
+          description: Authorization header value for delivery requests.
+          example: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...
+    ReplaceStreamConfigurationRequest:
+      type: object
+      description: Request body for PUT /ssf/streams (full replace).
+      required:
+        - stream_id
+        - delivery
+      properties:
+        stream_id:
+          type: string
+          description: ID of the stream to replace.
+          example: 550e8400-e29b-41d4-a716-446655440000
+        delivery:
+          allOf:
+            - $ref: '#/components/schemas/CreateStreamDeliveryRequest'
+            - description: Full delivery configuration required for PUT (replace). method and endpoint_url are required.
+        events_requested:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: Event types the receiver wants. Use CAEP event-type URIs.
+          example:
+            - https://schemas.openid.net/secevent/caep/event-type/session-revoked
+        description:
+          type: string
+          description: Optional human-readable description of the stream.
+          example: Production event stream
+    UpdateStreamConfigResponse:
+      type: object
+      description: Stream configuration response including updatedAt (for PATCH/PUT). Same JSON shape as GET single stream plus updatedAt.
+      allOf:
+        - $ref: '#/components/schemas/StreamConfigResponse'
+        - type: object
+          properties:
+            updatedAt:
+              type: string
+              format: date-time
+              description: Timestamp of the last configuration update.
+              example: '2025-02-11T14:30:00Z'
+    CreateStreamRequest:
+      type: object
+      description: Request body for POST /ssf/streams (create stream).
+      required:
+        - delivery
+      properties:
+        delivery:
+          $ref: '#/components/schemas/CreateStreamDeliveryRequest'
+        events_requested:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: |
+            Optional list of event types the receiver wants. Use CAEP event-type URIs in the form:
+            `https://schemas.openid.net/secevent/caep/event-type/{event-type}` (e.g. session revoke).
+          example:
+            - https://schemas.openid.net/secevent/caep/event-type/session-revoked
+        description:
+          type: string
+          description: Optional human-readable description of the stream.
+          example: Production event stream
+    DeliveryRequest:
+      type: object
+      description: Delivery configuration for PATCH /ssf/streams (partial update). All fields are optional; only provided fields are updated.
+      properties:
+        method:
+          type: string
+          description: Delivery method (optional for PATCH).
+          example: urn:ietf:rfc:8935
+        endpoint_url:
+          type: string
+          format: uri
+          description: Receiver endpoint URL (optional for PATCH).
+          example: https://receiver.example.com/ssf/events
+        authorization_header:
+          type: string
+          description: Optional authorization header value.
+          example: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...
+    UpdateStreamConfigurationRequest:
+      type: object
+      description: Request body for PATCH /ssf/streams (partial update).
+      required:
+        - stream_id
+      properties:
+        stream_id:
+          type: string
+          description: ID of the stream to update.
+          example: 550e8400-e29b-41d4-a716-446655440000
+        delivery:
+          $ref: '#/components/schemas/DeliveryRequest'
+        events_requested:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: Event types the receiver wants. Use CAEP event-type URIs.
+          example:
+            - https://schemas.openid.net/secevent/caep/event-type/session-revoked
+        description:
+          type: string
+          description: Optional human-readable description of the stream.
+          example: Updated production event stream configuration
+    StreamStatusResponse:
+      type: object
+      description: Stream status returned by GET/POST /ssf/streams/status.
+      properties:
+        stream_id:
+          type: string
+          description: Stream identifier.
+          example: 550e8400-e29b-41d4-a716-446655440000
+        status:
+          type: string
+          enum:
+            - enabled
+            - paused
+            - disabled
+          description: Operational status of the stream (enabled, paused, or disabled).
+          example: enabled
+        reason:
+          type: string
+          description: Optional reason for the current status (e.g. set when status is updated).
+          example: ''
+    UpdateStreamStatusRequest:
+      type: object
+      description: Request body for POST /ssf/streams/status.
+      required:
+        - stream_id
+        - status
+      properties:
+        stream_id:
+          type: string
+          description: ID of the stream whose status to update.
+          example: 550e8400-e29b-41d4-a716-446655440000
+        status:
+          type: string
+          enum:
+            - enabled
+            - paused
+            - disabled
+          description: Desired stream status.
+          example: paused
+        reason:
+          type: string
+          description: Optional reason for the status change.
+          example: manually paused
+    VerificationRequest:
+      type: object
+      description: Request body for POST /ssf/streams/verify (receiver verification).
+      required:
+        - stream_id
+      properties:
+        stream_id:
+          type: string
+          description: Stream ID for verification.
+          example: 550e8400-e29b-41d4-a716-446655440000
+        state:
+          type: string
+          description: Optional state value for verification challenge.
+          example: verification-challenge-state-123
     UsageType:
       type: string
       nullable: false
