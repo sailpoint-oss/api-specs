@@ -57,6 +57,8 @@ fs.readFile(args[2], 'utf8', (err, data) => {
       jsonObject.variable = JSON.parse(fs.readFileSync('postman-script/variable-v2025.json', 'utf8'));
     } else if (args[2].includes("v2026")) {
       jsonObject.variable = JSON.parse(fs.readFileSync('postman-script/variable-v2026.json', 'utf8'));
+    } else if (args[2].includes("oauth")) {
+      jsonObject.variable = JSON.parse(fs.readFileSync('postman-script/variable-auth.json', 'utf8'));
     } 
 
 
