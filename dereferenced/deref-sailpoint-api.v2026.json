@@ -45,6 +45,9 @@
   ],
   "tags": [
     {
+      "name": "Access Requests"
+    },
+    {
       "name": "Account Deletion Requests"
     },
     {
@@ -67,6 +70,111 @@
     }
   ],
   "paths": {
+    "/access-request-config": {
+      "get": {
+        "operationId": "getAccessRequestConfig",
+        "security": [
+          {
+            "userAuth": [
+              "idn:access-request-config:read"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN",
+          "USER"
+        ],
+        "summary": "Get access request configuration",
+        "tags": [
+          "Access Requests"
+        ],
+        "description": "This endpoint returns the current access-request configuration.",
+        "responses": {
+          "200": {
+            "description": "Access Request Configuration Details.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessRequestConfig"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "put": {
+        "operationId": "setAccessRequestConfig",
+        "security": [
+          {
+            "userAuth": [
+              "idn:access-request-config:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "summary": "Update access request configuration",
+        "tags": [
+          "Access Requests"
+        ],
+        "description": "This endpoint replaces the current access-request configuration.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccessRequestConfig"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Access Request Configuration Details.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessRequestConfig"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
     "/entitlements": {
       "get": {
         "operationId": "listEntitlements",
@@ -2250,6 +2358,44 @@
       }
     },
     "schemas": {
+      "AccessRequestConfig": {
+        "type": "object",
+        "title": "Access Request Config",
+        "properties": {
+          "approvalsMustBeExternal": {
+            "type": "boolean",
+            "description": "If this is true, approvals must be processed by an external system. Also, if this is true, it blocks Request Center access requests and returns an error for any user who isn't an org admin.",
+            "default": false,
+            "example": true
+          },
+          "autoApprovalEnabled": {
+            "type": "boolean",
+            "description": "If this is true and the requester and reviewer are the same, the request is automatically approved.",
+            "default": false,
+            "example": true
+          },
+          "reauthorizationEnabled": {
+            "type": "boolean",
+            "description": "If this is true, reauthorization will be enforced for appropriately configured access items. Enablement of this feature is currently in a limited state.",
+            "default": false,
+            "example": true
+          },
+          "requestOnBehalfOfConfig": {
+            "$ref": "#/components/schemas/RequestOnBehalfOfConfig",
+            "description": "Request On Behalf Of configuration."
+          },
+          "entitlementRequestConfig": {
+            "$ref": "#/components/schemas/EntitlementRequestConfig",
+            "description": "Entitlement request configuration."
+          },
+          "govGroupVisibilityEnabled": {
+            "type": "boolean",
+            "description": "If this is true, requesters and requested-for users will be able to see the names of governance group members when a request is awaiting the group's approval. Up to the first 10 members of the group will be listed.",
+            "default": false,
+            "example": true
+          }
+        }
+      },
       "AccountActionRequestDto": {
         "type": "object",
         "title": "Account Action Request Dto",
@@ -2447,6 +2593,22 @@
             "description": "Id of the deletion request",
             "type": "string",
             "example": "2d81808474683da6017468693c260196"
+          }
+        }
+      },
+      "AccountDeleteConfigDto": {
+        "type": "object",
+        "title": "Account Delete Config",
+        "description": "detailed information about account delete approval config",
+        "properties": {
+          "approvalRequired": {
+            "type": "boolean",
+            "default": false,
+            "example": true,
+            "description": "Specifies if an account deletion request requires approval."
+          },
+          "approvalConfig": {
+            "$ref": "#/components/schemas/ApprovalConfig"
           }
         }
       },
@@ -2768,6 +2930,116 @@
         "description": "An enumeration of the types of DTOs supported within the IdentityNow infrastructure.",
         "example": "IDENTITY"
       },
+      "EntitlementAccessRequestConfig": {
+        "type": "object",
+        "title": "Entitlement Access Request Config",
+        "properties": {
+          "approvalSchemes": {
+            "type": "array",
+            "description": "Ordered list of approval steps for the access request. Empty when no approval is required.",
+            "items": {
+              "$ref": "#/components/schemas/EntitlementApprovalScheme"
+            }
+          },
+          "requestCommentRequired": {
+            "type": "boolean",
+            "description": "If the requester must provide a comment during access request.",
+            "default": false,
+            "example": true
+          },
+          "denialCommentRequired": {
+            "type": "boolean",
+            "description": "If the reviewer must provide a comment when denying the access request.",
+            "default": false,
+            "example": false
+          },
+          "reauthorizationRequired": {
+            "type": "boolean",
+            "description": "Is Reauthorization Required",
+            "default": false,
+            "example": false
+          },
+          "requireEndDate": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, then remove date or sunset date is required in access request of the entitlement.",
+            "example": true
+          },
+          "maxPermittedAccessDuration": {
+            "nullable": true,
+            "type": "object",
+            "description": "The maximum duration for which the access is permitted.",
+            "properties": {
+              "value": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The numeric value of the duration.",
+                "example": 5
+              },
+              "timeUnit": {
+                "type": "string",
+                "description": "The time unit for the duration.",
+                "enum": [
+                  "HOURS",
+                  "DAYS",
+                  "WEEKS",
+                  "MONTHS"
+                ],
+                "example": "DAYS"
+              }
+            }
+          }
+        }
+      },
+      "EntitlementApprovalScheme": {
+        "type": "object",
+        "title": "Entitlement Approval Scheme",
+        "properties": {
+          "approverType": {
+            "type": "string",
+            "enum": [
+              "ENTITLEMENT_OWNER",
+              "SOURCE_OWNER",
+              "MANAGER",
+              "GOVERNANCE_GROUP",
+              "WORKFLOW"
+            ],
+            "description": "Describes the individual or group that is responsible for an approval step. Values are as follows.\n\n**ENTITLEMENT_OWNER**: Owner of the associated Entitlement\n\n**SOURCE_OWNER**: Owner of the associated Source\n\n**MANAGER**: Manager of the Identity for whom the request is being made\n\n**GOVERNANCE_GROUP**: A Governance Group, the ID of which is specified by the **approverId** field\n\n**WORKFLOW**: A Workflow, the ID of which is specified by the **approverId** field, Workflows are exclusive to other types of approvals and License required.     ",
+            "example": "GOVERNANCE_GROUP"
+          },
+          "approverId": {
+            "type": "string",
+            "nullable": true,
+            "description": "Id of the specific approver, used only when approverType is GOVERNANCE_GROUP or WORKFLOW",
+            "example": "e3eab852-8315-467f-9de7-70eda97f63c8"
+          }
+        }
+      },
+      "EntitlementRequestConfig": {
+        "type": "object",
+        "title": "Entitlement Request Config",
+        "properties": {
+          "accessRequestConfig": {
+            "$ref": "#/components/schemas/EntitlementAccessRequestConfig"
+          },
+          "revocationRequestConfig": {
+            "$ref": "#/components/schemas/EntitlementRevocationRequestConfig"
+          }
+        }
+      },
+      "EntitlementRevocationRequestConfig": {
+        "type": "object",
+        "title": "Entitlement Revocation Request Config",
+        "properties": {
+          "approvalSchemes": {
+            "type": "array",
+            "description": "Ordered list of approval steps for the access request. Empty when no approval is required.",
+            "items": {
+              "$ref": "#/components/schemas/EntitlementApprovalScheme"
+            }
+          }
+        }
+      },
       "MachineAccountSubTypeConfigDto": {
         "type": "object",
         "title": "Machine Account Subtype Approval Config",
@@ -2826,19 +3098,82 @@
           }
         }
       },
-      "AccountDeleteConfigDto": {
+      "RequestOnBehalfOfConfig": {
         "type": "object",
-        "title": "Account Delete Config",
-        "description": "detailed information about account delete approval config",
+        "title": "Request On Behalf Of Config",
         "properties": {
-          "approvalRequired": {
+          "allowRequestOnBehalfOfAnyoneByAnyone": {
             "type": "boolean",
+            "description": "If this is true, anyone can request access for anyone.",
             "default": false,
-            "example": true,
-            "description": "Specifies if an account deletion request requires approval."
+            "example": true
           },
-          "approvalConfig": {
-            "$ref": "#/components/schemas/ApprovalConfig"
+          "allowRequestOnBehalfOfEmployeeByManager": {
+            "type": "boolean",
+            "description": "If this is true, a manager can request access for his or her direct reports.",
+            "default": false,
+            "example": true
+          }
+        }
+      },
+      "LocaleOrigin": {
+        "type": "string",
+        "enum": [
+          "DEFAULT",
+          "REQUEST",
+          null
+        ],
+        "description": "An indicator of how the locale was selected. *DEFAULT* means the locale is the system default. *REQUEST* means the locale was selected from the request context (i.e., best match based on the *Accept-Language* header). Additional values may be added in the future without notice.",
+        "example": "DEFAULT",
+        "nullable": true
+      },
+      "ErrorMessageDto": {
+        "type": "object",
+        "title": "Error Message Dto",
+        "properties": {
+          "locale": {
+            "type": "string",
+            "description": "The locale for the message text, a BCP 47 language tag.",
+            "example": "en-US",
+            "nullable": true
+          },
+          "localeOrigin": {
+            "$ref": "#/components/schemas/LocaleOrigin"
+          },
+          "text": {
+            "type": "string",
+            "description": "Actual text of the error message in the indicated locale.",
+            "example": "The request was syntactically correct but its content is semantically invalid."
+          }
+        }
+      },
+      "ErrorResponseDto": {
+        "type": "object",
+        "title": "Error Response Dto",
+        "properties": {
+          "detailCode": {
+            "type": "string",
+            "description": "Fine-grained error code providing more detail of the error.",
+            "example": "400.1 Bad Request Content"
+          },
+          "trackingId": {
+            "type": "string",
+            "description": "Unique tracking id for the error.",
+            "example": "e7eab60924f64aa284175b9fa3309599"
+          },
+          "messages": {
+            "type": "array",
+            "description": "Generic localized reason for error",
+            "items": {
+              "$ref": "#/components/schemas/ErrorMessageDto"
+            }
+          },
+          "causes": {
+            "type": "array",
+            "description": "Plain-text descriptive reasons to provide additional detail to the text provided in the messages field",
+            "items": {
+              "$ref": "#/components/schemas/ErrorMessageDto"
+            }
           }
         }
       },
@@ -3169,67 +3504,6 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/PermissionDto"
-            }
-          }
-        }
-      },
-      "LocaleOrigin": {
-        "type": "string",
-        "enum": [
-          "DEFAULT",
-          "REQUEST",
-          null
-        ],
-        "description": "An indicator of how the locale was selected. *DEFAULT* means the locale is the system default. *REQUEST* means the locale was selected from the request context (i.e., best match based on the *Accept-Language* header). Additional values may be added in the future without notice.",
-        "example": "DEFAULT",
-        "nullable": true
-      },
-      "ErrorMessageDto": {
-        "type": "object",
-        "title": "Error Message Dto",
-        "properties": {
-          "locale": {
-            "type": "string",
-            "description": "The locale for the message text, a BCP 47 language tag.",
-            "example": "en-US",
-            "nullable": true
-          },
-          "localeOrigin": {
-            "$ref": "#/components/schemas/LocaleOrigin"
-          },
-          "text": {
-            "type": "string",
-            "description": "Actual text of the error message in the indicated locale.",
-            "example": "The request was syntactically correct but its content is semantically invalid."
-          }
-        }
-      },
-      "ErrorResponseDto": {
-        "type": "object",
-        "title": "Error Response Dto",
-        "properties": {
-          "detailCode": {
-            "type": "string",
-            "description": "Fine-grained error code providing more detail of the error.",
-            "example": "400.1 Bad Request Content"
-          },
-          "trackingId": {
-            "type": "string",
-            "description": "Unique tracking id for the error.",
-            "example": "e7eab60924f64aa284175b9fa3309599"
-          },
-          "messages": {
-            "type": "array",
-            "description": "Generic localized reason for error",
-            "items": {
-              "$ref": "#/components/schemas/ErrorMessageDto"
-            }
-          },
-          "causes": {
-            "type": "array",
-            "description": "Plain-text descriptive reasons to provide additional detail to the text provided in the messages field",
-            "items": {
-              "$ref": "#/components/schemas/ErrorMessageDto"
             }
           }
         }
@@ -3759,72 +4033,6 @@
         }
       }
     },
-    "parameters": {
-      "offset": {
-        "in": "query",
-        "name": "offset",
-        "description": "Offset into the full result set. Usually specified with *limit* to paginate through the results.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
-        "required": false,
-        "example": 0,
-        "schema": {
-          "type": "integer",
-          "format": "int32",
-          "minimum": 0,
-          "default": 0
-        }
-      },
-      "limit": {
-        "in": "query",
-        "name": "limit",
-        "description": "Max number of results to return.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
-        "required": false,
-        "example": 250,
-        "schema": {
-          "type": "integer",
-          "format": "int32",
-          "minimum": 0,
-          "maximum": 250,
-          "default": 250
-        }
-      },
-      "count": {
-        "in": "query",
-        "name": "count",
-        "description": "If *true* it will populate the *X-Total-Count* response header with the number of results that would be returned if *limit* and *offset* were ignored.\n\nSince requesting a total count can have a performance impact, it is recommended not to send **count=true** if that value will not be used.\n\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
-        "required": false,
-        "example": true,
-        "schema": {
-          "type": "boolean",
-          "default": false
-        }
-      },
-      "searchAfter": {
-        "in": "query",
-        "name": "searchAfter",
-        "description": "Used to begin the search window at the values specified.\n\nThis parameter consists of the last values of the sorted fields in the current record set.\n\nsearchAfter length must match the number of sorters.\n\nThis is used to expand the Elasticsearch limit of 10K records by shifting the 10K window to begin at this value.\n\nIt is recommended that you always include the ID of the object in addition to any other fields on this parameter in order to ensure you don't get duplicate results while paging.\n\nFor example, if you are sorting by name you will also want to include ID, for example searchAfter=Account Payable,2c91808375d8e80a0175e1f88a575221&sorters=name,id.\n\nIf the last entitlement ID in the search result is 2c91808375d8e80a0175e1f88a575221 and the last name is \"Account Payable\", then using that name and ID will start a new search after this entitlement.",
-        "required": false,
-        "example": "Account Payable,2c91808375d8e80a0175e1f88a575221",
-        "schema": {
-          "type": "string",
-          "format": "comma-separated"
-        },
-        "style": "form",
-        "explode": true
-      },
-      "sorters": {
-        "in": "query",
-        "name": "sorters",
-        "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **id, name, created, modified, type, attribute, value, source.id, requestable**",
-        "required": false,
-        "example": "name,id",
-        "schema": {
-          "type": "string",
-          "format": "comma-separated"
-        },
-        "style": "form",
-        "explode": true
-      }
-    },
     "responses": {
       "204": {
         "description": "No content - indicates the request was successful but there is no content to be returned in the response."
@@ -3948,6 +4156,72 @@
             }
           }
         }
+      }
+    },
+    "parameters": {
+      "offset": {
+        "in": "query",
+        "name": "offset",
+        "description": "Offset into the full result set. Usually specified with *limit* to paginate through the results.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+        "required": false,
+        "example": 0,
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "minimum": 0,
+          "default": 0
+        }
+      },
+      "limit": {
+        "in": "query",
+        "name": "limit",
+        "description": "Max number of results to return.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+        "required": false,
+        "example": 250,
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "minimum": 0,
+          "maximum": 250,
+          "default": 250
+        }
+      },
+      "count": {
+        "in": "query",
+        "name": "count",
+        "description": "If *true* it will populate the *X-Total-Count* response header with the number of results that would be returned if *limit* and *offset* were ignored.\n\nSince requesting a total count can have a performance impact, it is recommended not to send **count=true** if that value will not be used.\n\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+        "required": false,
+        "example": true,
+        "schema": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "searchAfter": {
+        "in": "query",
+        "name": "searchAfter",
+        "description": "Used to begin the search window at the values specified.\n\nThis parameter consists of the last values of the sorted fields in the current record set.\n\nsearchAfter length must match the number of sorters.\n\nThis is used to expand the Elasticsearch limit of 10K records by shifting the 10K window to begin at this value.\n\nIt is recommended that you always include the ID of the object in addition to any other fields on this parameter in order to ensure you don't get duplicate results while paging.\n\nFor example, if you are sorting by name you will also want to include ID, for example searchAfter=Account Payable,2c91808375d8e80a0175e1f88a575221&sorters=name,id.\n\nIf the last entitlement ID in the search result is 2c91808375d8e80a0175e1f88a575221 and the last name is \"Account Payable\", then using that name and ID will start a new search after this entitlement.",
+        "required": false,
+        "example": "Account Payable,2c91808375d8e80a0175e1f88a575221",
+        "schema": {
+          "type": "string",
+          "format": "comma-separated"
+        },
+        "style": "form",
+        "explode": true
+      },
+      "sorters": {
+        "in": "query",
+        "name": "sorters",
+        "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **id, name, created, modified, type, attribute, value, source.id, requestable**",
+        "required": false,
+        "example": "name,id",
+        "schema": {
+          "type": "string",
+          "format": "comma-separated"
+        },
+        "style": "form",
+        "explode": true
       }
     }
   }

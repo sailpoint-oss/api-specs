@@ -1039,12 +1039,20 @@
     "/access-request-config": {
       "get": {
         "operationId": "getAccessRequestConfig",
+        "deprecated": true,
+        "x-deprecated-description": "This endpoint has been deprecated as of 2026-02-26. Please use the [v2026 get-access-request-config](https://developer.sailpoint.com/docs/api/v2026/get-access-request-config) endpoint instead.\n",
         "security": [
           {
             "userAuth": [
               "idn:access-request-config:read"
             ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN",
+          "USER"
         ],
         "summary": "Get access request configuration",
         "tags": [
@@ -1081,6 +1089,8 @@
       },
       "put": {
         "operationId": "setAccessRequestConfig",
+        "deprecated": true,
+        "x-deprecated-description": "This endpoint has been deprecated as of 2026-02-26. Please use the [v2026 set-access-request-config](https://developer.sailpoint.com/docs/api/v2026/set-access-request-config) endpoint instead.\n",
         "security": [
           {
             "userAuth": [
