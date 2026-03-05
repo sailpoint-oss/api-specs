@@ -16,7 +16,7 @@ on:
       - idn/sailpoint-api.v2026.yaml
       - idn/v2026/**
       - nerm/**
-      - cloud-api-client-common/api-specs/src/main/yaml/sailpoint-oauth.yaml
+      - idn/oauth/**
   workflow_dispatch:
 
 permissions:
