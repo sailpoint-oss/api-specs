@@ -1,7 +1,7 @@
 ---
 get:
   summary: Get page contents translation
-  operationId: getPageContents
+  operationId: getPageContentTranslation
   description: This endpoint can retrieve page content translation data.
   tags:
     - page content translations
@@ -14,7 +14,7 @@ get:
       $ref: "../responses/500.yaml"
 post:
   summary: Create page content translation
-  operationId: createPageContent
+  operationId: createPageContentTranslation
   description: Create a page content translation record.
   tags:
     - page content translations
