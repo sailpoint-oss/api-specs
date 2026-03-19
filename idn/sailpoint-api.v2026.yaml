@@ -33,6 +33,7 @@ tags:
   - name: Entitlements
   - name: Human Account Deletion Approval Config
   - name: Machine Account Deletion Approval Config
+  - name: Machine Identities
   - name: Machine Subtype Approval Config
   - name: Notifications
   - name: Task Management
@@ -61,6 +62,10 @@ paths:
     $ref: ./v2026/paths/account-deletion-requests.yaml
   /account-requests/account/{accountId}/delete:
     $ref: ./v2026/paths/account-delete-request.yaml
+  /machine-identities:
+    $ref: ./v2026/paths/machine-identities.yaml
+  /machine-identities/{id}:
+    $ref: ./v2026/paths/machine-identity.yaml
   /source-subtypes/{subtypeId}/machine-config:
     $ref: ./v2026/paths/source-subtype-machine-config.yaml
   /sources/{sourceId}/approval-config/machine-account-delete:
