@@ -5,7 +5,7 @@
       "description": "",
       "item": [
         {
-          "id": "ac2e4c1b-d430-4d75-8b20-9f2c2f893d41",
+          "id": "75fc4167-231e-4ade-bf38-fcc1dd806068",
           "name": "Get access request configuration",
           "request": {
             "name": "Get access request configuration",
@@ -34,7 +34,7 @@
           },
           "response": [
             {
-              "id": "84bb6f3c-11b8-4fca-9f24-1b551cbb7c79",
+              "id": "2166cdbb-41e0-4bd8-b59a-6028cef67744",
               "name": "Access Request Configuration Details.",
               "originalRequest": {
                 "url": {
@@ -83,7 +83,7 @@
           }
         },
         {
-          "id": "77ef69da-1581-46f4-a2aa-c1c3fdeffba5",
+          "id": "61097599-e556-4940-b820-19f4f6247df3",
           "name": "Update access request configuration",
           "request": {
             "name": "Update access request configuration",
@@ -125,7 +125,7 @@
           },
           "response": [
             {
-              "id": "c99bc338-28b7-41f6-b4ec-039f3d60fa42",
+              "id": "0717363f-7de6-4b13-903b-6e85de601c75",
               "name": "Access Request Configuration Details.",
               "originalRequest": {
                 "url": {
@@ -193,7 +193,7 @@
       "description": "",
       "item": [
         {
-          "id": "79f9c3e5-633e-4f38-bf8e-c7337e2a680b",
+          "id": "b41db955-cd98-4fcc-82dd-832fb42a9b96",
           "name": "List of Account Deletion Requests",
           "request": {
             "name": "List of Account Deletion Requests",
@@ -269,7 +269,7 @@
           },
           "response": [
             {
-              "id": "acf47c7f-eaf8-482d-a065-d9d28b2afff0",
+              "id": "968e80dc-e87d-472d-876c-9677fac8dbe5",
               "name": "Account Action Request objects.",
               "originalRequest": {
                 "url": {
@@ -371,7 +371,7 @@
       "description": "",
       "item": [
         {
-          "id": "ecc6e5ff-0fef-48db-a52c-78b4167b6386",
+          "id": "6798e0be-ca46-4d2b-b61e-e5ffab887ace",
           "name": "Delete account",
           "request": {
             "name": "Delete account",
@@ -436,7 +436,7 @@
           },
           "response": [
             {
-              "id": "515fa192-e391-4e0b-a345-5ae3ea7d936f",
+              "id": "185baee8-6d58-4416-90d9-865419ebf897",
               "name": "Account deletion request details.",
               "originalRequest": {
                 "url": {
@@ -527,7 +527,7 @@
       "description": "",
       "item": [
         {
-          "id": "bc4fc755-25f2-4858-94c4-3981b0419acf",
+          "id": "8b0bdc10-d8d2-43b7-acd5-8d6e38de5682",
           "name": "Gets a list of entitlements.",
           "request": {
             "name": "Gets a list of entitlements.",
@@ -638,7 +638,7 @@
           },
           "response": [
             {
-              "id": "bb4e6501-937e-4e1a-aaab-e564e053e402",
+              "id": "95f66f83-785d-4a59-8774-f0f032bb3933",
               "name": "List of entitlements",
               "originalRequest": {
                 "url": {
@@ -758,7 +758,7 @@
                   "value": "application/json"
                 }
               ],
-              "body": "[\n  {\n    \"id\": \"2c91808874ff91550175097daaec161c\",\n    \"name\": \"Account Payable\",\n    \"attribute\": \"memberOf\",\n    \"value\": \"CN=Account Payable,OU=Finance,DC=xyz company\",\n    \"sourceSchemaObjectType\": \"group\",\n    \"description\": \"This entitlement allows users to access the accounts payable module of the organization's financial management system. Users can view, process, and approve invoices, manage vendor relationships, and perform other accounts payable-related tasks.\",\n    \"privilegeLevel\": {\n      \"direct\": \"HIGH\",\n      \"setBy\": \"SAILPOINT_MIGRATION\",\n      \"setByType\": \"OVERRIDE\",\n      \"inherited\": \"HIGH\",\n      \"effective\": \"HIGH\"\n    },\n    \"tags\": [\n      \"tag1\",\n      \"tag2\"\n    ],\n    \"cloudGoverned\": true,\n    \"requestable\": true,\n    \"owner\": {\n      \"id\": \"2c9180827ca885d7017ca8ce28a000eb\",\n      \"type\": \"IDENTITY\",\n      \"name\": \"john.doe\"\n    },\n    \"manuallyUpdatedFields\": {\n      \"DISPLAY_NAME\": true,\n      \"DESCRIPTION\": true\n    },\n    \"accessModelMetadata\": {\n      \"attributes\": [\n        {\n          \"key\": \"iscCsp\",\n          \"name\": \"CSP\",\n          \"multiselect\": true,\n          \"status\": \"active\",\n          \"type\": \"governance\",\n          \"objectTypes\": [\n            \"general\"\n          ],\n          \"description\": \"Indicates the type of deployment environment of an access item.\",\n          \"values\": [\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            },\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            }\n          ]\n        },\n        {\n          \"key\": \"iscCsp\",\n          \"name\": \"CSP\",\n          \"multiselect\": true,\n          \"status\": \"active\",\n          \"type\": \"governance\",\n          \"objectTypes\": [\n            \"general\"\n          ],\n          \"description\": \"Indicates the type of deployment environment of an access item.\",\n          \"values\": [\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            },\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            }\n          ]\n        }\n      ]\n    },\n    \"created\": \"2020-10-08T18:33:52.029Z\",\n    \"modified\": \"2020-10-08T18:33:52.029Z\",\n    \"source\": {\n      \"id\": \"2c9180827ca885d7017ca8ce28a000eb\",\n      \"type\": \"SOURCE\",\n      \"name\": \"ODS-AD-Source\"\n    },\n    \"attributes\": {\n      \"fieldName\": \"fieldValue\"\n    },\n    \"segments\": [\n      \"f7b1b8a3-5fed-4fd4-ad29-82014e137e19\",\n      \"29cb6c06-1da8-43ea-8be4-b3125f248f2a\"\n    ],\n    \"directPermissions\": [\n      {\n        \"rights\": [\n          \"SELECT\",\n          \"SELECT\"\n        ],\n        \"target\": \"SYS.GV_$TRANSACTION\"\n      },\n      {\n        \"rights\": [\n          \"SELECT\",\n          \"SELECT\"\n        ],\n        \"target\": \"SYS.GV_$TRANSACTION\"\n      }\n    ]\n  },\n  {\n    \"id\": \"2c91808874ff91550175097daaec161c\",\n    \"name\": \"Account Payable\",\n    \"attribute\": \"memberOf\",\n    \"value\": \"CN=Account Payable,OU=Finance,DC=xyz company\",\n    \"sourceSchemaObjectType\": \"group\",\n    \"description\": \"This entitlement allows users to access the accounts payable module of the organization's financial management system. Users can view, process, and approve invoices, manage vendor relationships, and perform other accounts payable-related tasks.\",\n    \"privilegeLevel\": {\n      \"direct\": \"HIGH\",\n      \"setBy\": \"SAILPOINT_MIGRATION\",\n      \"setByType\": \"OVERRIDE\",\n      \"inherited\": \"NONE\",\n      \"effective\": \"HIGH\"\n    },\n    \"tags\": [\n      \"tag1\",\n      \"tag2\"\n    ],\n    \"cloudGoverned\": true,\n    \"requestable\": true,\n    \"owner\": {\n      \"id\": \"2c9180827ca885d7017ca8ce28a000eb\",\n      \"type\": \"IDENTITY\",\n      \"name\": \"john.doe\"\n    },\n    \"manuallyUpdatedFields\": {\n      \"DISPLAY_NAME\": true,\n      \"DESCRIPTION\": true\n    },\n    \"accessModelMetadata\": {\n      \"attributes\": [\n        {\n          \"key\": \"iscCsp\",\n          \"name\": \"CSP\",\n          \"multiselect\": true,\n          \"status\": \"active\",\n          \"type\": \"governance\",\n          \"objectTypes\": [\n            \"general\"\n          ],\n          \"description\": \"Indicates the type of deployment environment of an access item.\",\n          \"values\": [\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            },\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            }\n          ]\n        },\n        {\n          \"key\": \"iscCsp\",\n          \"name\": \"CSP\",\n          \"multiselect\": true,\n          \"status\": \"active\",\n          \"type\": \"governance\",\n          \"objectTypes\": [\n            \"general\"\n          ],\n          \"description\": \"Indicates the type of deployment environment of an access item.\",\n          \"values\": [\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            },\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            }\n          ]\n        }\n      ]\n    },\n    \"created\": \"2020-10-08T18:33:52.029Z\",\n    \"modified\": \"2020-10-08T18:33:52.029Z\",\n    \"source\": {\n      \"id\": \"2c9180827ca885d7017ca8ce28a000eb\",\n      \"type\": \"SOURCE\",\n      \"name\": \"ODS-AD-Source\"\n    },\n    \"attributes\": {\n      \"fieldName\": \"fieldValue\"\n    },\n    \"segments\": [\n      \"f7b1b8a3-5fed-4fd4-ad29-82014e137e19\",\n      \"29cb6c06-1da8-43ea-8be4-b3125f248f2a\"\n    ],\n    \"directPermissions\": [\n      {\n        \"rights\": [\n          \"SELECT\",\n          \"SELECT\"\n        ],\n        \"target\": \"SYS.GV_$TRANSACTION\"\n      },\n      {\n        \"rights\": [\n          \"SELECT\",\n          \"SELECT\"\n        ],\n        \"target\": \"SYS.GV_$TRANSACTION\"\n      }\n    ]\n  }\n]",
+              "body": "[\n  {\n    \"id\": \"2c91808874ff91550175097daaec161c\",\n    \"name\": \"Account Payable\",\n    \"attribute\": \"memberOf\",\n    \"value\": \"CN=Account Payable,OU=Finance,DC=xyz company\",\n    \"sourceSchemaObjectType\": \"group\",\n    \"description\": \"This entitlement allows users to access the accounts payable module of the organization's financial management system. Users can view, process, and approve invoices, manage vendor relationships, and perform other accounts payable-related tasks.\",\n    \"privilegeLevel\": {\n      \"direct\": \"HIGH\",\n      \"setBy\": \"SAILPOINT_MIGRATION\",\n      \"setByType\": \"OVERRIDE\",\n      \"inherited\": \"LOW\",\n      \"effective\": \"HIGH\"\n    },\n    \"tags\": [\n      \"tag1\",\n      \"tag2\"\n    ],\n    \"cloudGoverned\": true,\n    \"requestable\": true,\n    \"owner\": {\n      \"id\": \"2c9180827ca885d7017ca8ce28a000eb\",\n      \"type\": \"IDENTITY\",\n      \"name\": \"john.doe\"\n    },\n    \"manuallyUpdatedFields\": {\n      \"DISPLAY_NAME\": true,\n      \"DESCRIPTION\": true\n    },\n    \"accessModelMetadata\": {\n      \"attributes\": [\n        {\n          \"key\": \"iscCsp\",\n          \"name\": \"CSP\",\n          \"multiselect\": true,\n          \"status\": \"active\",\n          \"type\": \"governance\",\n          \"objectTypes\": [\n            \"general\"\n          ],\n          \"description\": \"Indicates the type of deployment environment of an access item.\",\n          \"values\": [\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            },\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            }\n          ]\n        },\n        {\n          \"key\": \"iscCsp\",\n          \"name\": \"CSP\",\n          \"multiselect\": true,\n          \"status\": \"active\",\n          \"type\": \"governance\",\n          \"objectTypes\": [\n            \"general\"\n          ],\n          \"description\": \"Indicates the type of deployment environment of an access item.\",\n          \"values\": [\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            },\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            }\n          ]\n        }\n      ]\n    },\n    \"created\": \"2020-10-08T18:33:52.029Z\",\n    \"modified\": \"2020-10-08T18:33:52.029Z\",\n    \"source\": {\n      \"id\": \"2c9180827ca885d7017ca8ce28a000eb\",\n      \"type\": \"SOURCE\",\n      \"name\": \"ODS-AD-Source\"\n    },\n    \"attributes\": {\n      \"fieldName\": \"fieldValue\"\n    },\n    \"segments\": [\n      \"f7b1b8a3-5fed-4fd4-ad29-82014e137e19\",\n      \"29cb6c06-1da8-43ea-8be4-b3125f248f2a\"\n    ],\n    \"directPermissions\": [\n      {\n        \"rights\": [\n          \"SELECT\",\n          \"SELECT\"\n        ],\n        \"target\": \"SYS.GV_$TRANSACTION\"\n      },\n      {\n        \"rights\": [\n          \"SELECT\",\n          \"SELECT\"\n        ],\n        \"target\": \"SYS.GV_$TRANSACTION\"\n      }\n    ]\n  },\n  {\n    \"id\": \"2c91808874ff91550175097daaec161c\",\n    \"name\": \"Account Payable\",\n    \"attribute\": \"memberOf\",\n    \"value\": \"CN=Account Payable,OU=Finance,DC=xyz company\",\n    \"sourceSchemaObjectType\": \"group\",\n    \"description\": \"This entitlement allows users to access the accounts payable module of the organization's financial management system. Users can view, process, and approve invoices, manage vendor relationships, and perform other accounts payable-related tasks.\",\n    \"privilegeLevel\": {\n      \"direct\": \"HIGH\",\n      \"setBy\": \"SAILPOINT_MIGRATION\",\n      \"setByType\": \"OVERRIDE\",\n      \"inherited\": \"MEDIUM\",\n      \"effective\": \"HIGH\"\n    },\n    \"tags\": [\n      \"tag1\",\n      \"tag2\"\n    ],\n    \"cloudGoverned\": true,\n    \"requestable\": true,\n    \"owner\": {\n      \"id\": \"2c9180827ca885d7017ca8ce28a000eb\",\n      \"type\": \"IDENTITY\",\n      \"name\": \"john.doe\"\n    },\n    \"manuallyUpdatedFields\": {\n      \"DISPLAY_NAME\": true,\n      \"DESCRIPTION\": true\n    },\n    \"accessModelMetadata\": {\n      \"attributes\": [\n        {\n          \"key\": \"iscCsp\",\n          \"name\": \"CSP\",\n          \"multiselect\": true,\n          \"status\": \"active\",\n          \"type\": \"governance\",\n          \"objectTypes\": [\n            \"general\"\n          ],\n          \"description\": \"Indicates the type of deployment environment of an access item.\",\n          \"values\": [\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            },\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            }\n          ]\n        },\n        {\n          \"key\": \"iscCsp\",\n          \"name\": \"CSP\",\n          \"multiselect\": true,\n          \"status\": \"active\",\n          \"type\": \"governance\",\n          \"objectTypes\": [\n            \"general\"\n          ],\n          \"description\": \"Indicates the type of deployment environment of an access item.\",\n          \"values\": [\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            },\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            }\n          ]\n        }\n      ]\n    },\n    \"created\": \"2020-10-08T18:33:52.029Z\",\n    \"modified\": \"2020-10-08T18:33:52.029Z\",\n    \"source\": {\n      \"id\": \"2c9180827ca885d7017ca8ce28a000eb\",\n      \"type\": \"SOURCE\",\n      \"name\": \"ODS-AD-Source\"\n    },\n    \"attributes\": {\n      \"fieldName\": \"fieldValue\"\n    },\n    \"segments\": [\n      \"f7b1b8a3-5fed-4fd4-ad29-82014e137e19\",\n      \"29cb6c06-1da8-43ea-8be4-b3125f248f2a\"\n    ],\n    \"directPermissions\": [\n      {\n        \"rights\": [\n          \"SELECT\",\n          \"SELECT\"\n        ],\n        \"target\": \"SYS.GV_$TRANSACTION\"\n      },\n      {\n        \"rights\": [\n          \"SELECT\",\n          \"SELECT\"\n        ],\n        \"target\": \"SYS.GV_$TRANSACTION\"\n      }\n    ]\n  }\n]",
               "cookie": [],
               "_postman_previewlanguage": "json"
             }
@@ -769,7 +769,7 @@
           }
         },
         {
-          "id": "8d516cf0-c0f2-4d14-9a32-b6125c3d742f",
+          "id": "d593d418-19b7-4de9-9f71-6cc35f540cc7",
           "name": "Get entitlements for an account",
           "request": {
             "name": "Get entitlements for an account",
@@ -858,7 +858,7 @@
           },
           "response": [
             {
-              "id": "590f712e-1f6c-4f41-96bd-9b48b941a74f",
+              "id": "191ad5d8-40c6-4a19-b117-21a9e70b7121",
               "name": "List of entitlements for the account",
               "originalRequest": {
                 "url": {
@@ -962,7 +962,7 @@
                     "type": "text/plain"
                   },
                   "key": "total-count",
-                  "value": "4091"
+                  "value": "9690"
                 }
               ],
               "body": "[\n  {\n    \"sourceSchemaObjectType\": \"group\",\n    \"attribute\": \"memberOf\",\n    \"attributes\": {\n      \"GroupType\": \"Security\",\n      \"sAMAccountName\": \"Account Payable\",\n      \"GroupScope\": \"Global\",\n      \"objectguid\": \"{01a6e70b-9705-4155-a5c6-492a9bcc8c64}\",\n      \"objectSid\": \"S-1-5-21-3585869415-1648031554-2909195034-1633\",\n      \"cn\": \"Account Payable\",\n      \"msDS-PrincipalName\": \"AUTOMATIONAD\\\\Account Payable\"\n    },\n    \"value\": \"CN=Account Payable,OU=Finance,DC=xyz company\",\n    \"description\": \"This entitlement allows users to access the accounts payable module of the organization's financial management system. Users can view, process, and approve invoices, manage vendor relationships, and perform other accounts payable-related tasks.\",\n    \"privilegeLevel\": null,\n    \"cloudGoverned\": false,\n    \"source\": {\n      \"type\": \"SOURCE\",\n      \"id\": \"2c9180877504c40e0175097d5ce707c8\",\n      \"name\": \"EndToEnd-ADSource\"\n    },\n    \"owner\": {\n      \"id\": \"2a2fdacca5e345f18bf7970cfbb8fec2\",\n      \"name\": \"identity 1\",\n      \"type\": \"IDENTITY\"\n    },\n    \"segments\": [\n      \"1d126fe0-45e2-4aea-bc64-a07e9344ef26\"\n    ],\n    \"manuallyUpdatedFields\": {\n      \"DISPLAY_NAME\": true,\n      \"DESCRIPTION\": true\n    },\n    \"id\": \"2c91808c74ff913f0175097daa9d59cd\",\n    \"name\": \"Account Payable\",\n    \"created\": \"2020-10-08T18:33:52.029Z\",\n    \"modified\": \"2021-01-19T16:53:35.707Z\"\n  }\n]",
@@ -976,7 +976,7 @@
           }
         },
         {
-          "id": "4e39f55f-a3c4-444d-9b68-62dcd66fa019",
+          "id": "2a24fbe4-ca2c-444a-b144-f2ac1b16a20b",
           "name": "Bulk update an entitlement list",
           "request": {
             "name": "Bulk update an entitlement list",
@@ -1019,7 +1019,7 @@
           },
           "response": [
             {
-              "id": "669dd846-d645-4fca-9688-8fd25f2ba991",
+              "id": "186f9ab6-a68f-48d6-891f-982b98ea0a76",
               "name": "No content - indicates the request was successful but there is no content to be returned in the response.",
               "originalRequest": {
                 "url": {
@@ -1072,7 +1072,7 @@
           }
         },
         {
-          "id": "d573e8a1-b085-4d66-917e-ff6a7ec3348c",
+          "id": "e38ccbbf-6bf4-4295-a71c-6a8c841efc5c",
           "name": "Get an entitlement",
           "request": {
             "name": "Get an entitlement",
@@ -1113,7 +1113,7 @@
           },
           "response": [
             {
-              "id": "4bf5f82c-a2d6-4d92-8478-e7fb60887b5f",
+              "id": "93e7d391-0159-462e-9777-6676f6dcd3e0",
               "name": "An entitlement",
               "originalRequest": {
                 "url": {
@@ -1174,7 +1174,7 @@
           }
         },
         {
-          "id": "6ee583dc-6d3a-4ea7-b9a8-7052d77ada1c",
+          "id": "b39a5438-e151-4b2b-9b82-f8b2e5be5f32",
           "name": "Patch an entitlement",
           "request": {
             "name": "Patch an entitlement",
@@ -1228,7 +1228,7 @@
           },
           "response": [
             {
-              "id": "f614da92-de4e-4263-90fd-d52ea1b401f0",
+              "id": "4aa824c7-2df4-4e67-9d13-e40a2875dfbd",
               "name": "Responds with the entitlement as updated.",
               "originalRequest": {
                 "url": {
@@ -1302,7 +1302,7 @@
           }
         },
         {
-          "id": "e6d6bdbf-2322-49d8-a0ad-ebfd9e430d0d",
+          "id": "d19911f0-0385-4277-a858-2bd12fa12876",
           "name": "List of entitlements parents",
           "request": {
             "name": "List of entitlements parents",
@@ -1399,7 +1399,7 @@
           },
           "response": [
             {
-              "id": "8d804c2e-ccd2-47c4-86b5-6a3db76892ae",
+              "id": "b083c25a-5b2f-43f7-8757-ca2ce87e47f5",
               "name": "List of entitlements parents from an entitlement",
               "originalRequest": {
                 "url": {
@@ -1516,7 +1516,7 @@
           }
         },
         {
-          "id": "9645fc31-8a0d-4c14-885c-24da71cba584",
+          "id": "69c7c4c4-270d-4dd4-b566-a99ec7dfa1b6",
           "name": "List of entitlements children",
           "request": {
             "name": "List of entitlements children",
@@ -1613,7 +1613,7 @@
           },
           "response": [
             {
-              "id": "df982f72-beac-4363-b327-9a2da3a9dd19",
+              "id": "6b6ca0ea-56e2-4465-8017-f247453da10c",
               "name": "List of entitlements children from an entitlement",
               "originalRequest": {
                 "url": {
@@ -1736,7 +1736,7 @@
       "description": "",
       "item": [
         {
-          "id": "8d627c8b-0ab9-4b48-80a5-71ca4239cc83",
+          "id": "3a8c36ac-fba4-4f77-8e9a-f118494c3059",
           "name": "Human Account Deletion Approval Config",
           "request": {
             "name": "Human Account Deletion Approval Config",
@@ -1788,7 +1788,7 @@
           },
           "response": [
             {
-              "id": "aafa3990-4f8f-4036-980f-5552c5b6fb9b",
+              "id": "9a1448f2-7384-4b47-8952-02e553eafee2",
               "name": "Responds with a AccountDeleteConfigDto for human account deletion approval config by sourceId.",
               "originalRequest": {
                 "url": {
@@ -1860,7 +1860,7 @@
           }
         },
         {
-          "id": "1867cb98-83d2-40b2-8232-45d9dcb86958",
+          "id": "167646cb-c1c0-443e-bda9-a1aaf06613fc",
           "name": "Human Account Deletion Approval Config",
           "request": {
             "name": "Human Account Deletion Approval Config",
@@ -1925,7 +1925,7 @@
           },
           "response": [
             {
-              "id": "16e0c12a-6450-410f-bbe9-b908463ee714",
+              "id": "e4a8aa56-30f3-4c2e-a4c7-0be1b6394438",
               "name": "This response indicates the PATCH operation succeeded and the API returns the updated AccountDeleteConfigDto object.",
               "originalRequest": {
                 "url": {
@@ -2016,7 +2016,7 @@
       "description": "",
       "item": [
         {
-          "id": "1ca408fc-a4f2-4a94-a6b6-fa2b6870e2e3",
+          "id": "5a740cb5-f85f-4f33-8401-a6c13445dfbd",
           "name": "Machine Account Deletion Approval Config",
           "request": {
             "name": "Machine Account Deletion Approval Config",
@@ -2068,7 +2068,7 @@
           },
           "response": [
             {
-              "id": "971d507a-aa32-4be0-ace8-47f40ce2bd6b",
+              "id": "08097ede-e55b-4456-833b-c9b087f38a6d",
               "name": "Responds with a AccountDeleteConfigDto for machine account deletion approval config by sourceId.",
               "originalRequest": {
                 "url": {
@@ -2140,7 +2140,7 @@
           }
         },
         {
-          "id": "a4eb979a-a574-4c98-823a-793d4cda3489",
+          "id": "ff1b8f59-01fe-4c7f-b2e8-30dfcf65a375",
           "name": "Machine Account Deletion Approval Config",
           "request": {
             "name": "Machine Account Deletion Approval Config",
@@ -2205,7 +2205,7 @@
           },
           "response": [
             {
-              "id": "e7c2f7f8-db43-4839-a2ef-588b8ec59ecb",
+              "id": "37210c5c-dcc4-49b1-9c8e-bab7f4c49c68",
               "name": "This response indicates the PATCH operation succeeded and the API returns the updated AccountDeleteConfigDto object.",
               "originalRequest": {
                 "url": {
@@ -2296,7 +2296,7 @@
       "description": "",
       "item": [
         {
-          "id": "bd8663eb-02d4-42e2-a8da-eb7e0df58dff",
+          "id": "cad3235d-d990-44a7-bb1e-1556c42b3a89",
           "name": "List machine identities",
           "request": {
             "name": "List machine identities",
@@ -2380,7 +2380,7 @@
           },
           "response": [
             {
-              "id": "8d6e93a6-42b3-464c-bbb4-3225de6b4eba",
+              "id": "328188b0-dfb3-4f82-a975-24c2a9663d92",
               "name": "List of machine identities.",
               "originalRequest": {
                 "url": {
@@ -2484,7 +2484,7 @@
           }
         },
         {
-          "id": "0d0197e6-d5b4-4194-ab45-48b45474bbf5",
+          "id": "0771eb59-5f76-401d-bfd4-3ae1fe23efad",
           "name": "Create machine identities",
           "request": {
             "name": "Create machine identities",
@@ -2535,7 +2535,7 @@
           },
           "response": [
             {
-              "id": "dbcb4dda-4cea-46ee-9427-4b2e065df732",
+              "id": "b1059e8b-042e-4e39-87b3-40f637e020d8",
               "name": "Machine Identity created.",
               "originalRequest": {
                 "url": {
@@ -2606,7 +2606,7 @@
           }
         },
         {
-          "id": "8e14f9ea-70cd-4653-8cae-78e89efc162c",
+          "id": "7a168d0b-a281-4798-9940-4f6cb2fe4fd1",
           "name": "Machine identity details",
           "request": {
             "name": "Machine identity details",
@@ -2656,7 +2656,7 @@
           },
           "response": [
             {
-              "id": "f3aaf2a5-e54c-428e-bd3a-db47f57d73cf",
+              "id": "538a7f41-527e-494b-99b7-4967ac2bc448",
               "name": "A machine identity object",
               "originalRequest": {
                 "url": {
@@ -2726,7 +2726,7 @@
           }
         },
         {
-          "id": "7285d3cd-55ad-400c-8731-be5822cc2f09",
+          "id": "ab16a5ad-c4f2-4079-8ae7-962d89354ba8",
           "name": "Update a machine identity",
           "request": {
             "name": "Update a machine identity",
@@ -2789,7 +2789,7 @@
           },
           "response": [
             {
-              "id": "c0f267f5-4664-49d5-8737-6ae087400aad",
+              "id": "57f2cfe1-011a-41c3-aaa3-02d5fe948313",
               "name": "Updated Machine Identity object.",
               "originalRequest": {
                 "url": {
@@ -2872,7 +2872,7 @@
           }
         },
         {
-          "id": "849b2593-6a44-4904-b687-4f5ac1808b9d",
+          "id": "5db638dd-b8da-4d00-a164-2d642f3ef624",
           "name": "Delete machine identity",
           "request": {
             "name": "Delete machine identity",
@@ -2922,7 +2922,7 @@
           },
           "response": [
             {
-              "id": "b6b15abc-4736-4c5d-a444-3089decf90c8",
+              "id": "828581cd-cde5-41bf-9a27-bab745c02321",
               "name": "No content - indicates the request was successful but there is no content to be returned in the response.",
               "originalRequest": {
                 "url": {
@@ -2988,7 +2988,7 @@
       "description": "",
       "item": [
         {
-          "id": "718cfbc9-16af-44bb-a99c-119e7f24ab24",
+          "id": "0b8406a7-4a62-4a44-82d5-8a0e734045c9",
           "name": "Machine Subtype Approval Config",
           "request": {
             "name": "Machine Subtype Approval Config",
@@ -3039,7 +3039,7 @@
           },
           "response": [
             {
-              "id": "f0d1cae5-241c-4606-aae1-a3c17d311d84",
+              "id": "e9944fd7-8cb4-4405-be53-989c27b41b5a",
               "name": "Responds with a MachineAccountSubtypeConfigDto for machine account deletion approval config by subtypeId.",
               "originalRequest": {
                 "url": {
@@ -3110,7 +3110,7 @@
           }
         },
         {
-          "id": "08d989e5-6693-41c9-8abf-62fd05d06660",
+          "id": "053aba96-3153-4942-9cbc-81870a5dd091",
           "name": "Machine Subtype Approval Config",
           "request": {
             "name": "Machine Subtype Approval Config",
@@ -3174,7 +3174,7 @@
           },
           "response": [
             {
-              "id": "0d339c62-cc4f-43bb-8032-8c404c276c3d",
+              "id": "6cf9a20f-46d4-4fa7-ae91-7d73cc4f4ac5",
               "name": "This response indicates the PATCH operation succeeded and the API returns the updated MachineAccountSubtypeConfigDto object.",
               "originalRequest": {
                 "url": {
@@ -3264,7 +3264,7 @@
       "description": "",
       "item": [
         {
-          "id": "ae080b8e-9c9b-4dc5-a843-0824433a981f",
+          "id": "912fc62a-79ea-45d7-abfa-84d41ce39677",
           "name": "Get notification template variables",
           "request": {
             "name": "Get notification template variables",
@@ -3326,7 +3326,7 @@
           },
           "response": [
             {
-              "id": "6f04ccad-8431-4ec0-929c-24d2e97c1c54",
+              "id": "bda8aeb7-24e7-4843-8da6-8579579851fb",
               "name": "Global and template-specific variables for the given key and medium.",
               "originalRequest": {
                 "url": {
@@ -3414,7 +3414,7 @@
       "description": "",
       "item": [
         {
-          "id": "f2d432bc-c08f-4dfd-bec5-4df95bfe6a3f",
+          "id": "cffd43b8-f822-4f7a-9605-953b92b91655",
           "name": "Get task status by id",
           "request": {
             "name": "Get task status by id",
@@ -3464,7 +3464,7 @@
           },
           "response": [
             {
-              "id": "588f9f62-aca9-4a0e-b3eb-ec2aa76b70bb",
+              "id": "3bd05b30-5727-4dbe-9a9a-7c4ed45d52a2",
               "name": "Responds with a TaskStatus for the task with the given task ID.",
               "originalRequest": {
                 "url": {
@@ -3534,7 +3534,7 @@
           }
         },
         {
-          "id": "be6903a3-9c56-4110-aab0-2a68ef129d19",
+          "id": "eca9cc81-a9b8-4855-8532-b4a61c78f9da",
           "name": "Update task status by id",
           "request": {
             "name": "Update task status by id",
@@ -3597,7 +3597,7 @@
           },
           "response": [
             {
-              "id": "6100eb2a-3986-4ca8-9670-07237ed3b5e0",
+              "id": "700e0b62-1503-485a-90c2-234ff508352d",
               "name": "This response indicates the PATCH operation succeeded, and the API returns the updated task object.",
               "originalRequest": {
                 "url": {
@@ -3680,7 +3680,7 @@
           }
         },
         {
-          "id": "2e3347f4-6da7-498a-b646-d1e9646e2d15",
+          "id": "8d931134-ffc5-4991-b851-3b894344b0a2",
           "name": "Retrieve task status list",
           "request": {
             "name": "Retrieve task status list",
@@ -3764,7 +3764,7 @@
           },
           "response": [
             {
-              "id": "ec2a17b1-000f-48e0-af1f-fbf01652dd49",
+              "id": "b668a6d8-c469-4ee8-91e0-c1d394cba2aa",
               "name": "Responds with a TaskStatus for the task with the given task ID.",
               "originalRequest": {
                 "url": {
@@ -3868,7 +3868,7 @@
           }
         },
         {
-          "id": "f9929227-4da5-4200-9fc4-e2358e0b2b48",
+          "id": "f16de4ee-072d-4aac-b73a-986f51574f11",
           "name": "Retrieve pending task status list",
           "request": {
             "name": "Retrieve pending task status list",
@@ -3935,7 +3935,7 @@
           },
           "response": [
             {
-              "id": "7a2fc5e3-0fa6-4745-87a6-3fb3d21144a5",
+              "id": "ad5ce488-00de-4ab1-bf3f-2846add23316",
               "name": "Responds with a list of TaskStatus for pending tasks.\n\nPossible Values: CLOUD_ACCOUNT_AGGREGATION, CLOUD_GROUP_AGGREGATION, CLOUD_PROCESS_UNCORRELATED_ACCOUNTS, CLOUD_REFRESH_ROLE, SOURCE_APPLICATION_DISCOVERY, AI_AGENT_AGGREGATION, CLOUD_ENTITLEMENT_IMPORT, CLOUD_UNCORRELATED_REFRESH, CLOUD_IDENTITY_AGGREGATION, CLOUD_ATTRIBUTE_SYNCHRONIZATION, IDENTITY_REFRESH, APPLICATION_DISCOVERY, MACHINE_IDENTITY_AGGREGATION, MACHINE_IDENTITY_DELETION, ACCOUNT_DELETION",
               "originalRequest": {
                 "url": {
@@ -4016,7 +4016,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "7def8f71-ef3d-495f-92cf-fdb58fb9c13d",
+              "id": "157d7f43-e1f0-4f49-a659-2530e5672272",
               "name": "No content - indicates the request was successful but there is no content to be returned in the response.",
               "originalRequest": {
                 "url": {
@@ -4093,7 +4093,7 @@
           }
         },
         {
-          "id": "e30dccb7-80c2-4e07-97c5-a764b94490c3",
+          "id": "f0717802-e5fb-42c1-8f88-b4adc9d6a918",
           "name": "Retrieve pending task list headers",
           "request": {
             "name": "Retrieve pending task list headers",
@@ -4160,7 +4160,7 @@
           },
           "response": [
             {
-              "id": "5309129a-618f-4858-a6ff-b7ab99104924",
+              "id": "6ce38792-4604-418c-a5bc-35bb16e4808d",
               "name": "Retrieve headers for a list of TaskStatus for pending tasks.",
               "originalRequest": {
                 "url": {
@@ -4231,7 +4231,7 @@
               "_postman_previewlanguage": "text"
             },
             {
-              "id": "258ed4e9-b465-4746-9988-250538d669fa",
+              "id": "2125ee7a-ee6c-4527-b53a-e92bf83eabc9",
               "name": "No content - indicates the request was successful but there is no content to be returned in the response.",
               "originalRequest": {
                 "url": {
@@ -4418,7 +4418,7 @@
     }
   ],
   "info": {
-    "_postman_id": "0189f18c-a1d4-4e50-96dd-c4b817d84f7b",
+    "_postman_id": "044ba157-dd52-4f23-9457-24a8dc6c04e6",
     "name": "Identity Security Cloud v2026 API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": {

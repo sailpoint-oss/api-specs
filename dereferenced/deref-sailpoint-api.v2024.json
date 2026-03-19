@@ -668,7 +668,7 @@
           "Access Profiles"
         ],
         "summary": "Patch a specified access profile",
-        "description": "This API updates an existing Access Profile. The following fields are patchable:\n\n**name**\n\n**description**\n\n**enabled**\n\n**owner**\n\n**requestable**\n\n**accessRequestConfig**\n\n**revokeRequestConfig**\n\n**segments**\n\n**entitlements**\n\n**provisioningCriteria**\n\n**source** (must be updated with entitlements belonging to new source in the same API call)\n\nIf you need to change the `source` of the access profile, you can do so only if you update the `entitlements` in the same API call.  The new entitlements can only come from the target source that you want to change to.  Look for the example \"Replace Source\" in the examples dropdown.\n\nA user with SOURCE_SUBADMIN may only use this API to patch Access Profiles which are associated with Sources they are able to administer.\n>  The maximum supported length for the description field is 2000 characters. Longer descriptions will be preserved for existing access profiles, however, any new access profiles as well as any updates to existing descriptions will be limited to 2000 characters.\n\n> You can only add or replace **entitlements** that exist on the source that the access profile is attached to. You can use the **list entitlements** endpoint with the **filters** query parameter to get a list of available entitlements on the access profile's source.",
+        "description": "This API updates an existing Access Profile. The following fields are patchable:\n\n**name**\n\n**description**\n\n**enabled**\n\n**owner**\n\n**additionalOwners**\n\n**requestable**\n\n**accessRequestConfig**\n\n**revokeRequestConfig**\n\n**segments**\n\n**entitlements**\n\n**provisioningCriteria**\n\n**source** (must be updated with entitlements belonging to new source in the same API call)\n\nIf you need to change the `source` of the access profile, you can do so only if you update the `entitlements` in the same API call.  The new entitlements can only come from the target source that you want to change to.  Look for the example \"Replace Source\" in the examples dropdown.\n\nA user with SOURCE_SUBADMIN may only use this API to patch Access Profiles which are associated with Sources they are able to administer.\n>  The maximum supported length for the description field is 2000 characters. Longer descriptions will be preserved for existing access profiles, however, any new access profiles as well as any updates to existing descriptions will be limited to 2000 characters.\n\n> You can only add or replace **entitlements** that exist on the source that the access profile is attached to. You can use the **list entitlements** endpoint with the **filters** query parameter to get a list of available entitlements on the access profile's source.",
         "parameters": [
           {
             "name": "id",
@@ -21854,7 +21854,7 @@
           "Roles"
         ],
         "summary": "Patch a specified role",
-        "description": "This API updates an existing role using [JSON Patch](https://tools.ietf.org/html/rfc6902) syntax.\n\nThe following fields are patchable:\n\n* name\n* description\n* enabled\n* owner\n* accessProfiles\n* entitlements\n* membership\n* requestable\n* accessRequestConfig\n* revokeRequestConfig\n* segments\n* accessModelMetadata   \nA token with API, ORG_ADMIN, ROLE_ADMIN, or ROLE_SUBADMIN authority is required to call this API. In addition, a token with ROLE_SUBADMIN authority may only call this API if all access profiles included in the role are associated to Sources with management workgroups of which the ROLE_SUBADMIN is a member.\n\nThe maximum supported length for the description field is 2000 characters. Longer descriptions will be preserved for existing roles, however, any new roles as well as any updates to existing descriptions will be limited to 2000 characters.\n\nWhen you use this API to modify a role's membership identities, you can only modify up to a limit of 500 membership identities at a time.",
+        "description": "This API updates an existing role using [JSON Patch](https://tools.ietf.org/html/rfc6902) syntax.\n\nThe following fields are patchable:\n\n* name\n* description\n* enabled\n* owner\n* additionalOwners\n* accessProfiles\n* entitlements\n* membership\n* requestable\n* accessRequestConfig\n* revokeRequestConfig\n* segments\n* accessModelMetadata   \nA token with API, ORG_ADMIN, ROLE_ADMIN, or ROLE_SUBADMIN authority is required to call this API. In addition, a token with ROLE_SUBADMIN authority may only call this API if all access profiles included in the role are associated to Sources with management workgroups of which the ROLE_SUBADMIN is a member.\n\nThe maximum supported length for the description field is 2000 characters. Longer descriptions will be preserved for existing roles, however, any new roles as well as any updates to existing descriptions will be limited to 2000 characters.\n\nWhen you use this API to modify a role's membership identities, you can only modify up to a limit of 500 membership identities at a time.",
         "parameters": [
           {
             "name": "id",
@@ -68004,6 +68004,32 @@
           }
         }
       },
+      "AdditionalOwnerRef": {
+        "type": "object",
+        "description": "Reference to an additional owner (identity or governance group).",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "IDENTITY",
+              "GOVERNANCE_GROUP"
+            ],
+            "description": "Type of the additional owner; IDENTITY for an identity, GOVERNANCE_GROUP for a governance group.",
+            "example": "IDENTITY"
+          },
+          "id": {
+            "type": "string",
+            "description": "ID of the identity or governance group.",
+            "example": "2c9180a46faadee4016fb4e018c20639"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "description": "Display name. It may be left null or omitted on input. If set, it must match the current display name of the identity or governance group, otherwise a 400 Bad Request error may result.",
+            "example": "support"
+          }
+        }
+      },
       "AccessProfile": {
         "type": "object",
         "description": "Access profile.",
@@ -68155,8 +68181,9 @@
           "additionalOwners": {
             "type": "array",
             "nullable": true,
+            "description": "List of additional owner references beyond the primary owner. Each entry may be an identity (IDENTITY) or a governance group (GOVERNANCE_GROUP).",
             "items": {
-              "$ref": "#/components/schemas/OwnerReference"
+              "$ref": "#/components/schemas/AdditionalOwnerRef"
             }
           }
         },
@@ -82021,6 +82048,14 @@
           },
           "owner": {
             "$ref": "#/components/schemas/OwnerReference"
+          },
+          "additionalOwners": {
+            "type": "array",
+            "nullable": true,
+            "description": "List of additional owner references beyond the primary owner. Each entry may be an identity (IDENTITY) or a governance group (GOVERNANCE_GROUP).",
+            "items": {
+              "$ref": "#/components/schemas/AdditionalOwnerRef"
+            }
           },
           "accessProfiles": {
             "type": "array",
