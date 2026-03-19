@@ -63,6 +63,9 @@
       "name": "Machine Account Deletion Approval Config"
     },
     {
+      "name": "Machine Identities"
+    },
+    {
       "name": "Machine Subtype Approval Config"
     },
     {
@@ -1742,6 +1745,448 @@
                 }
               }
             }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/machine-identities": {
+      "get": {
+        "operationId": "listMachineIdentities",
+        "tags": [
+          "Machine Identities"
+        ],
+        "summary": "List machine identities",
+        "description": "This API returns a list of machine identities.",
+        "security": [
+          {
+            "userAuth": [
+              "idn:mis-identity:read",
+              "idn:mis-identity:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN",
+          "HELPDESK"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "filters",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "identityId eq \"2c9180858082150f0180893dbaf44201\"",
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in, sw*\n\n**displayName**: *eq, in, sw*\n\n**cisIdentityId**: *eq, in, sw*\n\n**nativeIdentity**: *eq, in, sw*\n\n**attributes**: *eq*\n\n**manuallyEdited**: *eq*\n\n**subtype**: *eq, in*\n\n**owners.primaryIdentity.id**: *eq, in, sw*\n\n**owners.primaryIdentity.name**: *eq, in, isnull, pr*\n\n**owners.secondaryIdentity.id**: *eq, in, sw*\n\n**owners.secondaryIdentity.name**: *eq, in, isnull, pr*\n\n**source.name**: *eq, in, sw*\n\n**source.id**: *eq, in*\n\n**entitlement.id**: *eq, in*\n\n**entitlement.name**: *eq, in, sw*"
+          },
+          {
+            "in": "query",
+            "name": "sorters",
+            "schema": {
+              "type": "string",
+              "format": "comma-separated"
+            },
+            "required": false,
+            "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **nativeIdentity, name, owners.primaryIdentity.name, source.name, created, modified**",
+            "example": "nativeIdentity"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          },
+          {
+            "$ref": "#/components/parameters/count"
+          },
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of machine identities.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MachineIdentityResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "post": {
+        "operationId": "createMachineIdentity",
+        "tags": [
+          "Machine Identities"
+        ],
+        "summary": "Create machine identities",
+        "security": [
+          {
+            "userAuth": [
+              "idn:mis-identity:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:mis-identity:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "description": "Use this API to create a machine identity.\nThe maximum supported length for the description field is 2000 characters.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MachineIdentityRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Machine Identity created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineIdentityResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ]
+      }
+    },
+    "/machine-identities/{id}": {
+      "get": {
+        "operationId": "getMachineIdentity",
+        "tags": [
+          "Machine Identities"
+        ],
+        "summary": "Machine identity details",
+        "description": "This API returns a single machine identity using the Machine Identity ID.",
+        "security": [
+          {
+            "userAuth": [
+              "idn:mis-identity:read"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN",
+          "HELPDESK"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listMachineIdentities",
+            "description": "Machine Identity ID",
+            "example": "ef38f94347e94562b5bb8424a56397d8"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A machine identity object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineIdentityResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "patch": {
+        "operationId": "updateMachineIdentity",
+        "tags": [
+          "Machine Identities"
+        ],
+        "summary": "Update a machine identity",
+        "description": "Use this API to update machine identity details.\n",
+        "security": [
+          {
+            "userAuth": [
+              "idn:mis-identity:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:mis-identity:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listMachineIdentities",
+            "description": "Machine Identity ID.",
+            "example": "ef38f94347e94562b5bb8424a56397d8"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "A JSON of updated values [JSON Patch](https://tools.ietf.org/html/rfc6902) standard.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "examples": {
+                "Add machine identity attribute": {
+                  "value": [
+                    {
+                      "op": "add",
+                      "path": "/attributes/securityRisk",
+                      "value": "medium"
+                    }
+                  ]
+                },
+                "Replace machine identity attribute": {
+                  "value": [
+                    {
+                      "op": "replace",
+                      "path": "/attributes/securityRisk",
+                      "value": "medium"
+                    }
+                  ]
+                },
+                "Remove machine identity attribute": {
+                  "value": [
+                    {
+                      "op": "remove",
+                      "path": "/attributes/securityRisk"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated Machine Identity object.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MachineIdentityResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteMachineIdentity",
+        "tags": [
+          "Machine Identities"
+        ],
+        "summary": "Delete machine identity",
+        "description": "The API returns successful response if the requested machine identity was deleted.",
+        "security": [
+          {
+            "userAuth": [
+              "idn:mis-identity:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:mis-identity:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listMachineIdentities",
+            "description": "Machine Identity ID",
+            "example": "ef38f94347e94562b5bb8424a56397d8"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/204"
           },
           "400": {
             "$ref": "#/components/responses/400"
@@ -4261,6 +4706,236 @@
             "example": "SailPoint Support"
           }
         }
+      },
+      "BaseCommonDto": {
+        "type": "object",
+        "title": "Base Common Dto",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "id": {
+            "description": "System-generated unique ID of the Object",
+            "type": "string",
+            "example": "id12345",
+            "readOnly": true
+          },
+          "name": {
+            "description": "Name of the Object",
+            "type": "string",
+            "example": "aName",
+            "nullable": true
+          },
+          "created": {
+            "description": "Creation date of the Object",
+            "type": "string",
+            "example": "2015-05-28T14:07:17Z",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "modified": {
+            "description": "Last modification date of the Object",
+            "type": "string",
+            "example": "2015-05-28T14:07:17Z",
+            "format": "date-time",
+            "readOnly": true
+          }
+        }
+      },
+      "MachineIdentity": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseCommonDto"
+          },
+          {
+            "type": "object",
+            "title": "MachineIdentityDto",
+            "required": [
+              "nativeIdentity",
+              "subtype"
+            ],
+            "properties": {
+              "nativeIdentity": {
+                "type": "string",
+                "description": "The native identity associated to the machine identity directly aggregated from a source",
+                "example": "abc:123:dddd"
+              },
+              "description": {
+                "type": "string",
+                "description": "Description of machine identity",
+                "example": ""
+              },
+              "attributes": {
+                "type": "object",
+                "description": "A map of custom machine identity attributes",
+                "example": "{\"Region\":\"EU\"}"
+              },
+              "subtype": {
+                "type": "string",
+                "description": "The subtype value associated to the machine identity",
+                "example": "Application"
+              },
+              "owners": {
+                "type": "object",
+                "description": "The owner configuration associated to the machine identity",
+                "required": [
+                  "primaryIdentity",
+                  "secondaryIdentities"
+                ],
+                "properties": {
+                  "primaryIdentity": {
+                    "type": "object",
+                    "description": "Defines the identity which is selected as the primary owner",
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/BaseReferenceDto"
+                      }
+                    ]
+                  },
+                  "secondaryIdentities": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/BaseReferenceDto"
+                    },
+                    "description": "Defines the identities which are selected as secondary owners"
+                  }
+                }
+              },
+              "sourceId": {
+                "type": "string",
+                "description": "The source id associated to the machine identity",
+                "example": "6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa"
+              },
+              "uuid": {
+                "type": "string",
+                "description": "The UUID associated to the machine identity directly aggregated from a source",
+                "example": "f5dd23fe-3414-42b7-bb1c-869400ad7a10"
+              }
+            }
+          }
+        ]
+      },
+      "MachineIdentityResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/MachineIdentity"
+          },
+          {
+            "type": "object",
+            "title": "Machine Identity Response",
+            "properties": {
+              "manuallyEdited": {
+                "type": "boolean",
+                "description": "Indicates if the machine identity has been manually edited",
+                "default": false,
+                "example": true
+              },
+              "manuallyCreated": {
+                "type": "boolean",
+                "description": "Indicates if the machine identity has been manually created",
+                "default": false,
+                "example": true
+              },
+              "source": {
+                "type": "object",
+                "description": "The source of the machine identity",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/BaseReferenceDto"
+                  },
+                  {
+                    "example": {
+                      "id": "6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa",
+                      "name": "Active Directory",
+                      "type": "SOURCE"
+                    }
+                  }
+                ]
+              },
+              "datasetId": {
+                "type": "string",
+                "description": "The dataset id associated to the source in which the identity was retrieved from",
+                "example": "8886e5e3-63d0-462f-a195-d98da885b8dc"
+              },
+              "userEntitlements": {
+                "type": "array",
+                "description": "The user entitlements associated to the machine identity",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "sourceId": {
+                      "type": "string",
+                      "description": "The source ID of the entitlement",
+                      "example": "5898b7c1-620c-49c6-cccc-cbf81eb4bddd"
+                    },
+                    "entitlementId": {
+                      "type": "string",
+                      "description": "The ID of the entitlement",
+                      "example": "6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa"
+                    },
+                    "displayName": {
+                      "type": "string",
+                      "description": "The display name of the entitlement",
+                      "example": "Entitlement Name"
+                    },
+                    "source": {
+                      "type": "object",
+                      "description": "The source of the entitlement",
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/BaseReferenceDto"
+                        },
+                        {
+                          "example": {
+                            "id": "5898b7c1-620c-49c6-cccc-cbf81eb4bddd",
+                            "name": "Test Source",
+                            "type": "SOURCE"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "MachineIdentityRequest": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/MachineIdentity"
+          },
+          {
+            "type": "object",
+            "title": "Machine Identity Request",
+            "properties": {
+              "userEntitlements": {
+                "type": "array",
+                "description": "The user entitlements associated to the machine identity",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "entitlementId",
+                    "sourceId"
+                  ],
+                  "properties": {
+                    "entitlementId": {
+                      "type": "string",
+                      "description": "The ID of the entitlement",
+                      "example": "6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa"
+                    },
+                    "sourceId": {
+                      "type": "string",
+                      "description": "The source ID of the entitlement",
+                      "example": "5898b7c1-620c-49c6-cccc-cbf81eb4bddd"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
       },
       "ApprovalConfig": {
         "type": "object",

@@ -5,7 +5,7 @@
       "description": "",
       "item": [
         {
-          "id": "fc2ef80a-96d4-4dce-878a-0e654b65d0db",
+          "id": "ac2e4c1b-d430-4d75-8b20-9f2c2f893d41",
           "name": "Get access request configuration",
           "request": {
             "name": "Get access request configuration",
@@ -34,7 +34,7 @@
           },
           "response": [
             {
-              "id": "09c0e2d9-faea-4567-8640-d22c7a6155cf",
+              "id": "84bb6f3c-11b8-4fca-9f24-1b551cbb7c79",
               "name": "Access Request Configuration Details.",
               "originalRequest": {
                 "url": {
@@ -83,7 +83,7 @@
           }
         },
         {
-          "id": "518388f3-4159-412f-b801-fdc1d4d20fbf",
+          "id": "77ef69da-1581-46f4-a2aa-c1c3fdeffba5",
           "name": "Update access request configuration",
           "request": {
             "name": "Update access request configuration",
@@ -125,7 +125,7 @@
           },
           "response": [
             {
-              "id": "dd3c8ef5-d885-4ec0-92c3-9a716e4e0835",
+              "id": "c99bc338-28b7-41f6-b4ec-039f3d60fa42",
               "name": "Access Request Configuration Details.",
               "originalRequest": {
                 "url": {
@@ -193,7 +193,7 @@
       "description": "",
       "item": [
         {
-          "id": "a5c52445-51dd-47c7-aeb3-62d2b7542ad2",
+          "id": "79f9c3e5-633e-4f38-bf8e-c7337e2a680b",
           "name": "List of Account Deletion Requests",
           "request": {
             "name": "List of Account Deletion Requests",
@@ -269,7 +269,7 @@
           },
           "response": [
             {
-              "id": "41a6d7b5-2afe-4a60-abb1-c5e038771762",
+              "id": "acf47c7f-eaf8-482d-a065-d9d28b2afff0",
               "name": "Account Action Request objects.",
               "originalRequest": {
                 "url": {
@@ -371,7 +371,7 @@
       "description": "",
       "item": [
         {
-          "id": "21632bf6-6d1e-4ed6-9f06-8e63175dafc6",
+          "id": "ecc6e5ff-0fef-48db-a52c-78b4167b6386",
           "name": "Delete account",
           "request": {
             "name": "Delete account",
@@ -436,7 +436,7 @@
           },
           "response": [
             {
-              "id": "aabf4984-fc2b-4bf8-8ce4-a2d9eb49d950",
+              "id": "515fa192-e391-4e0b-a345-5ae3ea7d936f",
               "name": "Account deletion request details.",
               "originalRequest": {
                 "url": {
@@ -527,7 +527,7 @@
       "description": "",
       "item": [
         {
-          "id": "d7c9cd09-1e02-4881-a9d1-c4693e366f94",
+          "id": "bc4fc755-25f2-4858-94c4-3981b0419acf",
           "name": "Gets a list of entitlements.",
           "request": {
             "name": "Gets a list of entitlements.",
@@ -638,7 +638,7 @@
           },
           "response": [
             {
-              "id": "75aba02c-675e-4d11-b6de-37f8ad967f85",
+              "id": "bb4e6501-937e-4e1a-aaab-e564e053e402",
               "name": "List of entitlements",
               "originalRequest": {
                 "url": {
@@ -758,7 +758,7 @@
                   "value": "application/json"
                 }
               ],
-              "body": "[\n  {\n    \"id\": \"2c91808874ff91550175097daaec161c\",\n    \"name\": \"Account Payable\",\n    \"attribute\": \"memberOf\",\n    \"value\": \"CN=Account Payable,OU=Finance,DC=xyz company\",\n    \"sourceSchemaObjectType\": \"group\",\n    \"description\": \"This entitlement allows users to access the accounts payable module of the organization's financial management system. Users can view, process, and approve invoices, manage vendor relationships, and perform other accounts payable-related tasks.\",\n    \"privilegeLevel\": {\n      \"direct\": \"HIGH\",\n      \"setBy\": \"SAILPOINT_MIGRATION\",\n      \"setByType\": \"OVERRIDE\",\n      \"inherited\": \"MEDIUM\",\n      \"effective\": \"HIGH\"\n    },\n    \"tags\": [\n      \"tag1\",\n      \"tag2\"\n    ],\n    \"cloudGoverned\": true,\n    \"requestable\": true,\n    \"owner\": {\n      \"id\": \"2c9180827ca885d7017ca8ce28a000eb\",\n      \"type\": \"IDENTITY\",\n      \"name\": \"john.doe\"\n    },\n    \"manuallyUpdatedFields\": {\n      \"DISPLAY_NAME\": true,\n      \"DESCRIPTION\": true\n    },\n    \"accessModelMetadata\": {\n      \"attributes\": [\n        {\n          \"key\": \"iscCsp\",\n          \"name\": \"CSP\",\n          \"multiselect\": true,\n          \"status\": \"active\",\n          \"type\": \"governance\",\n          \"objectTypes\": [\n            \"general\"\n          ],\n          \"description\": \"Indicates the type of deployment environment of an access item.\",\n          \"values\": [\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            },\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            }\n          ]\n        },\n        {\n          \"key\": \"iscCsp\",\n          \"name\": \"CSP\",\n          \"multiselect\": true,\n          \"status\": \"active\",\n          \"type\": \"governance\",\n          \"objectTypes\": [\n            \"general\"\n          ],\n          \"description\": \"Indicates the type of deployment environment of an access item.\",\n          \"values\": [\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            },\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            }\n          ]\n        }\n      ]\n    },\n    \"created\": \"2020-10-08T18:33:52.029Z\",\n    \"modified\": \"2020-10-08T18:33:52.029Z\",\n    \"source\": {\n      \"id\": \"2c9180827ca885d7017ca8ce28a000eb\",\n      \"type\": \"SOURCE\",\n      \"name\": \"ODS-AD-Source\"\n    },\n    \"attributes\": {\n      \"fieldName\": \"fieldValue\"\n    },\n    \"segments\": [\n      \"f7b1b8a3-5fed-4fd4-ad29-82014e137e19\",\n      \"29cb6c06-1da8-43ea-8be4-b3125f248f2a\"\n    ],\n    \"directPermissions\": [\n      {\n        \"rights\": [\n          \"SELECT\",\n          \"SELECT\"\n        ],\n        \"target\": \"SYS.GV_$TRANSACTION\"\n      },\n      {\n        \"rights\": [\n          \"SELECT\",\n          \"SELECT\"\n        ],\n        \"target\": \"SYS.GV_$TRANSACTION\"\n      }\n    ]\n  },\n  {\n    \"id\": \"2c91808874ff91550175097daaec161c\",\n    \"name\": \"Account Payable\",\n    \"attribute\": \"memberOf\",\n    \"value\": \"CN=Account Payable,OU=Finance,DC=xyz company\",\n    \"sourceSchemaObjectType\": \"group\",\n    \"description\": \"This entitlement allows users to access the accounts payable module of the organization's financial management system. Users can view, process, and approve invoices, manage vendor relationships, and perform other accounts payable-related tasks.\",\n    \"privilegeLevel\": {\n      \"direct\": \"HIGH\",\n      \"setBy\": \"SAILPOINT_MIGRATION\",\n      \"setByType\": \"OVERRIDE\",\n      \"inherited\": \"NONE\",\n      \"effective\": \"HIGH\"\n    },\n    \"tags\": [\n      \"tag1\",\n      \"tag2\"\n    ],\n    \"cloudGoverned\": true,\n    \"requestable\": true,\n    \"owner\": {\n      \"id\": \"2c9180827ca885d7017ca8ce28a000eb\",\n      \"type\": \"IDENTITY\",\n      \"name\": \"john.doe\"\n    },\n    \"manuallyUpdatedFields\": {\n      \"DISPLAY_NAME\": true,\n      \"DESCRIPTION\": true\n    },\n    \"accessModelMetadata\": {\n      \"attributes\": [\n        {\n          \"key\": \"iscCsp\",\n          \"name\": \"CSP\",\n          \"multiselect\": true,\n          \"status\": \"active\",\n          \"type\": \"governance\",\n          \"objectTypes\": [\n            \"general\"\n          ],\n          \"description\": \"Indicates the type of deployment environment of an access item.\",\n          \"values\": [\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            },\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            }\n          ]\n        },\n        {\n          \"key\": \"iscCsp\",\n          \"name\": \"CSP\",\n          \"multiselect\": true,\n          \"status\": \"active\",\n          \"type\": \"governance\",\n          \"objectTypes\": [\n            \"general\"\n          ],\n          \"description\": \"Indicates the type of deployment environment of an access item.\",\n          \"values\": [\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            },\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            }\n          ]\n        }\n      ]\n    },\n    \"created\": \"2020-10-08T18:33:52.029Z\",\n    \"modified\": \"2020-10-08T18:33:52.029Z\",\n    \"source\": {\n      \"id\": \"2c9180827ca885d7017ca8ce28a000eb\",\n      \"type\": \"SOURCE\",\n      \"name\": \"ODS-AD-Source\"\n    },\n    \"attributes\": {\n      \"fieldName\": \"fieldValue\"\n    },\n    \"segments\": [\n      \"f7b1b8a3-5fed-4fd4-ad29-82014e137e19\",\n      \"29cb6c06-1da8-43ea-8be4-b3125f248f2a\"\n    ],\n    \"directPermissions\": [\n      {\n        \"rights\": [\n          \"SELECT\",\n          \"SELECT\"\n        ],\n        \"target\": \"SYS.GV_$TRANSACTION\"\n      },\n      {\n        \"rights\": [\n          \"SELECT\",\n          \"SELECT\"\n        ],\n        \"target\": \"SYS.GV_$TRANSACTION\"\n      }\n    ]\n  }\n]",
+              "body": "[\n  {\n    \"id\": \"2c91808874ff91550175097daaec161c\",\n    \"name\": \"Account Payable\",\n    \"attribute\": \"memberOf\",\n    \"value\": \"CN=Account Payable,OU=Finance,DC=xyz company\",\n    \"sourceSchemaObjectType\": \"group\",\n    \"description\": \"This entitlement allows users to access the accounts payable module of the organization's financial management system. Users can view, process, and approve invoices, manage vendor relationships, and perform other accounts payable-related tasks.\",\n    \"privilegeLevel\": {\n      \"direct\": \"HIGH\",\n      \"setBy\": \"SAILPOINT_MIGRATION\",\n      \"setByType\": \"OVERRIDE\",\n      \"inherited\": \"HIGH\",\n      \"effective\": \"HIGH\"\n    },\n    \"tags\": [\n      \"tag1\",\n      \"tag2\"\n    ],\n    \"cloudGoverned\": true,\n    \"requestable\": true,\n    \"owner\": {\n      \"id\": \"2c9180827ca885d7017ca8ce28a000eb\",\n      \"type\": \"IDENTITY\",\n      \"name\": \"john.doe\"\n    },\n    \"manuallyUpdatedFields\": {\n      \"DISPLAY_NAME\": true,\n      \"DESCRIPTION\": true\n    },\n    \"accessModelMetadata\": {\n      \"attributes\": [\n        {\n          \"key\": \"iscCsp\",\n          \"name\": \"CSP\",\n          \"multiselect\": true,\n          \"status\": \"active\",\n          \"type\": \"governance\",\n          \"objectTypes\": [\n            \"general\"\n          ],\n          \"description\": \"Indicates the type of deployment environment of an access item.\",\n          \"values\": [\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            },\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            }\n          ]\n        },\n        {\n          \"key\": \"iscCsp\",\n          \"name\": \"CSP\",\n          \"multiselect\": true,\n          \"status\": \"active\",\n          \"type\": \"governance\",\n          \"objectTypes\": [\n            \"general\"\n          ],\n          \"description\": \"Indicates the type of deployment environment of an access item.\",\n          \"values\": [\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            },\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            }\n          ]\n        }\n      ]\n    },\n    \"created\": \"2020-10-08T18:33:52.029Z\",\n    \"modified\": \"2020-10-08T18:33:52.029Z\",\n    \"source\": {\n      \"id\": \"2c9180827ca885d7017ca8ce28a000eb\",\n      \"type\": \"SOURCE\",\n      \"name\": \"ODS-AD-Source\"\n    },\n    \"attributes\": {\n      \"fieldName\": \"fieldValue\"\n    },\n    \"segments\": [\n      \"f7b1b8a3-5fed-4fd4-ad29-82014e137e19\",\n      \"29cb6c06-1da8-43ea-8be4-b3125f248f2a\"\n    ],\n    \"directPermissions\": [\n      {\n        \"rights\": [\n          \"SELECT\",\n          \"SELECT\"\n        ],\n        \"target\": \"SYS.GV_$TRANSACTION\"\n      },\n      {\n        \"rights\": [\n          \"SELECT\",\n          \"SELECT\"\n        ],\n        \"target\": \"SYS.GV_$TRANSACTION\"\n      }\n    ]\n  },\n  {\n    \"id\": \"2c91808874ff91550175097daaec161c\",\n    \"name\": \"Account Payable\",\n    \"attribute\": \"memberOf\",\n    \"value\": \"CN=Account Payable,OU=Finance,DC=xyz company\",\n    \"sourceSchemaObjectType\": \"group\",\n    \"description\": \"This entitlement allows users to access the accounts payable module of the organization's financial management system. Users can view, process, and approve invoices, manage vendor relationships, and perform other accounts payable-related tasks.\",\n    \"privilegeLevel\": {\n      \"direct\": \"HIGH\",\n      \"setBy\": \"SAILPOINT_MIGRATION\",\n      \"setByType\": \"OVERRIDE\",\n      \"inherited\": \"NONE\",\n      \"effective\": \"HIGH\"\n    },\n    \"tags\": [\n      \"tag1\",\n      \"tag2\"\n    ],\n    \"cloudGoverned\": true,\n    \"requestable\": true,\n    \"owner\": {\n      \"id\": \"2c9180827ca885d7017ca8ce28a000eb\",\n      \"type\": \"IDENTITY\",\n      \"name\": \"john.doe\"\n    },\n    \"manuallyUpdatedFields\": {\n      \"DISPLAY_NAME\": true,\n      \"DESCRIPTION\": true\n    },\n    \"accessModelMetadata\": {\n      \"attributes\": [\n        {\n          \"key\": \"iscCsp\",\n          \"name\": \"CSP\",\n          \"multiselect\": true,\n          \"status\": \"active\",\n          \"type\": \"governance\",\n          \"objectTypes\": [\n            \"general\"\n          ],\n          \"description\": \"Indicates the type of deployment environment of an access item.\",\n          \"values\": [\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            },\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            }\n          ]\n        },\n        {\n          \"key\": \"iscCsp\",\n          \"name\": \"CSP\",\n          \"multiselect\": true,\n          \"status\": \"active\",\n          \"type\": \"governance\",\n          \"objectTypes\": [\n            \"general\"\n          ],\n          \"description\": \"Indicates the type of deployment environment of an access item.\",\n          \"values\": [\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            },\n            {\n              \"value\": \"development\",\n              \"name\": \"Development\",\n              \"status\": \"active\"\n            }\n          ]\n        }\n      ]\n    },\n    \"created\": \"2020-10-08T18:33:52.029Z\",\n    \"modified\": \"2020-10-08T18:33:52.029Z\",\n    \"source\": {\n      \"id\": \"2c9180827ca885d7017ca8ce28a000eb\",\n      \"type\": \"SOURCE\",\n      \"name\": \"ODS-AD-Source\"\n    },\n    \"attributes\": {\n      \"fieldName\": \"fieldValue\"\n    },\n    \"segments\": [\n      \"f7b1b8a3-5fed-4fd4-ad29-82014e137e19\",\n      \"29cb6c06-1da8-43ea-8be4-b3125f248f2a\"\n    ],\n    \"directPermissions\": [\n      {\n        \"rights\": [\n          \"SELECT\",\n          \"SELECT\"\n        ],\n        \"target\": \"SYS.GV_$TRANSACTION\"\n      },\n      {\n        \"rights\": [\n          \"SELECT\",\n          \"SELECT\"\n        ],\n        \"target\": \"SYS.GV_$TRANSACTION\"\n      }\n    ]\n  }\n]",
               "cookie": [],
               "_postman_previewlanguage": "json"
             }
@@ -769,7 +769,7 @@
           }
         },
         {
-          "id": "259d69ad-70a6-4942-92f8-bbb9a784b104",
+          "id": "8d516cf0-c0f2-4d14-9a32-b6125c3d742f",
           "name": "Get entitlements for an account",
           "request": {
             "name": "Get entitlements for an account",
@@ -858,7 +858,7 @@
           },
           "response": [
             {
-              "id": "90cdbe65-d70d-4e9b-9cb1-2003bdb784f0",
+              "id": "590f712e-1f6c-4f41-96bd-9b48b941a74f",
               "name": "List of entitlements for the account",
               "originalRequest": {
                 "url": {
@@ -962,7 +962,7 @@
                     "type": "text/plain"
                   },
                   "key": "total-count",
-                  "value": "8905"
+                  "value": "4091"
                 }
               ],
               "body": "[\n  {\n    \"sourceSchemaObjectType\": \"group\",\n    \"attribute\": \"memberOf\",\n    \"attributes\": {\n      \"GroupType\": \"Security\",\n      \"sAMAccountName\": \"Account Payable\",\n      \"GroupScope\": \"Global\",\n      \"objectguid\": \"{01a6e70b-9705-4155-a5c6-492a9bcc8c64}\",\n      \"objectSid\": \"S-1-5-21-3585869415-1648031554-2909195034-1633\",\n      \"cn\": \"Account Payable\",\n      \"msDS-PrincipalName\": \"AUTOMATIONAD\\\\Account Payable\"\n    },\n    \"value\": \"CN=Account Payable,OU=Finance,DC=xyz company\",\n    \"description\": \"This entitlement allows users to access the accounts payable module of the organization's financial management system. Users can view, process, and approve invoices, manage vendor relationships, and perform other accounts payable-related tasks.\",\n    \"privilegeLevel\": null,\n    \"cloudGoverned\": false,\n    \"source\": {\n      \"type\": \"SOURCE\",\n      \"id\": \"2c9180877504c40e0175097d5ce707c8\",\n      \"name\": \"EndToEnd-ADSource\"\n    },\n    \"owner\": {\n      \"id\": \"2a2fdacca5e345f18bf7970cfbb8fec2\",\n      \"name\": \"identity 1\",\n      \"type\": \"IDENTITY\"\n    },\n    \"segments\": [\n      \"1d126fe0-45e2-4aea-bc64-a07e9344ef26\"\n    ],\n    \"manuallyUpdatedFields\": {\n      \"DISPLAY_NAME\": true,\n      \"DESCRIPTION\": true\n    },\n    \"id\": \"2c91808c74ff913f0175097daa9d59cd\",\n    \"name\": \"Account Payable\",\n    \"created\": \"2020-10-08T18:33:52.029Z\",\n    \"modified\": \"2021-01-19T16:53:35.707Z\"\n  }\n]",
@@ -976,7 +976,7 @@
           }
         },
         {
-          "id": "43cd9a07-6d96-4227-8e30-2bbe6bd2597d",
+          "id": "4e39f55f-a3c4-444d-9b68-62dcd66fa019",
           "name": "Bulk update an entitlement list",
           "request": {
             "name": "Bulk update an entitlement list",
@@ -1019,7 +1019,7 @@
           },
           "response": [
             {
-              "id": "f39eb744-a308-417f-8666-ca5a07f3a87a",
+              "id": "669dd846-d645-4fca-9688-8fd25f2ba991",
               "name": "No content - indicates the request was successful but there is no content to be returned in the response.",
               "originalRequest": {
                 "url": {
@@ -1072,7 +1072,7 @@
           }
         },
         {
-          "id": "3fe0a22b-a30a-4b14-8fca-2044be359d0a",
+          "id": "d573e8a1-b085-4d66-917e-ff6a7ec3348c",
           "name": "Get an entitlement",
           "request": {
             "name": "Get an entitlement",
@@ -1113,7 +1113,7 @@
           },
           "response": [
             {
-              "id": "9e725e5d-3e23-4d89-8242-f28d8096123c",
+              "id": "4bf5f82c-a2d6-4d92-8478-e7fb60887b5f",
               "name": "An entitlement",
               "originalRequest": {
                 "url": {
@@ -1174,7 +1174,7 @@
           }
         },
         {
-          "id": "97c8ddc4-2c6e-484e-8ff8-04e0e010929d",
+          "id": "6ee583dc-6d3a-4ea7-b9a8-7052d77ada1c",
           "name": "Patch an entitlement",
           "request": {
             "name": "Patch an entitlement",
@@ -1228,7 +1228,7 @@
           },
           "response": [
             {
-              "id": "01d1a730-476c-4f83-8f0a-7be43a5ca62e",
+              "id": "f614da92-de4e-4263-90fd-d52ea1b401f0",
               "name": "Responds with the entitlement as updated.",
               "originalRequest": {
                 "url": {
@@ -1302,7 +1302,7 @@
           }
         },
         {
-          "id": "e1d4d0c1-c364-4e49-8093-028587a9f60c",
+          "id": "e6d6bdbf-2322-49d8-a0ad-ebfd9e430d0d",
           "name": "List of entitlements parents",
           "request": {
             "name": "List of entitlements parents",
@@ -1399,7 +1399,7 @@
           },
           "response": [
             {
-              "id": "91066640-7638-4c46-8254-69a9d211bcd6",
+              "id": "8d804c2e-ccd2-47c4-86b5-6a3db76892ae",
               "name": "List of entitlements parents from an entitlement",
               "originalRequest": {
                 "url": {
@@ -1516,7 +1516,7 @@
           }
         },
         {
-          "id": "790f41a0-0da3-457b-8d43-ef2f19b03662",
+          "id": "9645fc31-8a0d-4c14-885c-24da71cba584",
           "name": "List of entitlements children",
           "request": {
             "name": "List of entitlements children",
@@ -1613,7 +1613,7 @@
           },
           "response": [
             {
-              "id": "3bf223cf-ab0e-4bfe-a3e7-c70389d64c6d",
+              "id": "df982f72-beac-4363-b327-9a2da3a9dd19",
               "name": "List of entitlements children from an entitlement",
               "originalRequest": {
                 "url": {
@@ -1736,7 +1736,7 @@
       "description": "",
       "item": [
         {
-          "id": "e7361137-37c7-4f15-b6a1-1b5ca75d4799",
+          "id": "8d627c8b-0ab9-4b48-80a5-71ca4239cc83",
           "name": "Human Account Deletion Approval Config",
           "request": {
             "name": "Human Account Deletion Approval Config",
@@ -1788,7 +1788,7 @@
           },
           "response": [
             {
-              "id": "0d87a656-97e9-42e2-b27a-bbef74f35a6d",
+              "id": "aafa3990-4f8f-4036-980f-5552c5b6fb9b",
               "name": "Responds with a AccountDeleteConfigDto for human account deletion approval config by sourceId.",
               "originalRequest": {
                 "url": {
@@ -1860,7 +1860,7 @@
           }
         },
         {
-          "id": "ff9ad5bf-775b-4a44-98fd-addee778b9c3",
+          "id": "1867cb98-83d2-40b2-8232-45d9dcb86958",
           "name": "Human Account Deletion Approval Config",
           "request": {
             "name": "Human Account Deletion Approval Config",
@@ -1925,7 +1925,7 @@
           },
           "response": [
             {
-              "id": "9c4e28ac-7110-4198-bd8a-20921874c977",
+              "id": "16e0c12a-6450-410f-bbe9-b908463ee714",
               "name": "This response indicates the PATCH operation succeeded and the API returns the updated AccountDeleteConfigDto object.",
               "originalRequest": {
                 "url": {
@@ -2016,7 +2016,7 @@
       "description": "",
       "item": [
         {
-          "id": "7189acab-5fe7-4167-97b9-25675625bbe5",
+          "id": "1ca408fc-a4f2-4a94-a6b6-fa2b6870e2e3",
           "name": "Machine Account Deletion Approval Config",
           "request": {
             "name": "Machine Account Deletion Approval Config",
@@ -2068,7 +2068,7 @@
           },
           "response": [
             {
-              "id": "42690cae-eb98-4704-9573-dfe93d9ae27d",
+              "id": "971d507a-aa32-4be0-ace8-47f40ce2bd6b",
               "name": "Responds with a AccountDeleteConfigDto for machine account deletion approval config by sourceId.",
               "originalRequest": {
                 "url": {
@@ -2140,7 +2140,7 @@
           }
         },
         {
-          "id": "c16606ae-e8d8-4e37-b8c4-7a0d4443e1a7",
+          "id": "a4eb979a-a574-4c98-823a-793d4cda3489",
           "name": "Machine Account Deletion Approval Config",
           "request": {
             "name": "Machine Account Deletion Approval Config",
@@ -2205,7 +2205,7 @@
           },
           "response": [
             {
-              "id": "0f077f43-cd81-4287-bb33-fb85b54ef723",
+              "id": "e7c2f7f8-db43-4839-a2ef-588b8ec59ecb",
               "name": "This response indicates the PATCH operation succeeded and the API returns the updated AccountDeleteConfigDto object.",
               "originalRequest": {
                 "url": {
@@ -2292,11 +2292,703 @@
       ]
     },
     {
+      "name": "Machine Identities",
+      "description": "",
+      "item": [
+        {
+          "id": "bd8663eb-02d4-42e2-a8da-eb7e0df58dff",
+          "name": "List machine identities",
+          "request": {
+            "name": "List machine identities",
+            "description": {
+              "content": "This API returns a list of machine identities.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "machine-identities"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in, sw*\n\n**displayName**: *eq, in, sw*\n\n**cisIdentityId**: *eq, in, sw*\n\n**nativeIdentity**: *eq, in, sw*\n\n**attributes**: *eq*\n\n**manuallyEdited**: *eq*\n\n**subtype**: *eq, in*\n\n**owners.primaryIdentity.id**: *eq, in, sw*\n\n**owners.primaryIdentity.name**: *eq, in, isnull, pr*\n\n**owners.secondaryIdentity.id**: *eq, in, sw*\n\n**owners.secondaryIdentity.name**: *eq, in, isnull, pr*\n\n**source.name**: *eq, in, sw*\n\n**source.id**: *eq, in*\n\n**entitlement.id**: *eq, in*\n\n**entitlement.name**: *eq, in, sw*",
+                    "type": "text/plain"
+                  },
+                  "key": "filters",
+                  "value": "identityId eq \"2c9180858082150f0180893dbaf44201\""
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **nativeIdentity, name, owners.primaryIdentity.name, source.name, created, modified**",
+                    "type": "text/plain"
+                  },
+                  "key": "sorters",
+                  "value": "nativeIdentity"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "If *true* it will populate the *X-Total-Count* response header with the number of results that would be returned if *limit* and *offset* were ignored.\n\nSince requesting a total count can have a performance impact, it is recommended not to send **count=true** if that value will not be used.\n\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                    "type": "text/plain"
+                  },
+                  "key": "count",
+                  "value": "true"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Max number of results to return.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                    "type": "text/plain"
+                  },
+                  "key": "limit",
+                  "value": "250"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Offset into the full result set. Usually specified with *limit* to paginate through the results.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                    "type": "text/plain"
+                  },
+                  "key": "offset",
+                  "value": "0"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": true,
+                "description": {
+                  "content": "(Required) Use this header to enable this experimental API.",
+                  "type": "text/plain"
+                },
+                "key": "X-SailPoint-Experimental",
+                "value": "true"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "response": [
+            {
+              "id": "8d6e93a6-42b3-464c-bbb4-3225de6b4eba",
+              "name": "List of machine identities.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "machine-identities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in, sw*\n\n**displayName**: *eq, in, sw*\n\n**cisIdentityId**: *eq, in, sw*\n\n**nativeIdentity**: *eq, in, sw*\n\n**attributes**: *eq*\n\n**manuallyEdited**: *eq*\n\n**subtype**: *eq, in*\n\n**owners.primaryIdentity.id**: *eq, in, sw*\n\n**owners.primaryIdentity.name**: *eq, in, isnull, pr*\n\n**owners.secondaryIdentity.id**: *eq, in, sw*\n\n**owners.secondaryIdentity.name**: *eq, in, isnull, pr*\n\n**source.name**: *eq, in, sw*\n\n**source.id**: *eq, in*\n\n**entitlement.id**: *eq, in*\n\n**entitlement.name**: *eq, in, sw*",
+                        "type": "text/plain"
+                      },
+                      "key": "filters",
+                      "value": "identityId eq \"2c9180858082150f0180893dbaf44201\""
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **nativeIdentity, name, owners.primaryIdentity.name, source.name, created, modified**",
+                        "type": "text/plain"
+                      },
+                      "key": "sorters",
+                      "value": "nativeIdentity"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "If *true* it will populate the *X-Total-Count* response header with the number of results that would be returned if *limit* and *offset* were ignored.\n\nSince requesting a total count can have a performance impact, it is recommended not to send **count=true** if that value will not be used.\n\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                        "type": "text/plain"
+                      },
+                      "key": "count",
+                      "value": "true"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Max number of results to return.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                        "type": "text/plain"
+                      },
+                      "key": "limit",
+                      "value": "250"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Offset into the full result set. Usually specified with *limit* to paginate through the results.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+                        "type": "text/plain"
+                      },
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": true,
+                    "description": {
+                      "content": "(Required) Use this header to enable this experimental API.",
+                      "type": "text/plain"
+                    },
+                    "key": "X-SailPoint-Experimental",
+                    "value": "true"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"name\": \"aName\",\n    \"nativeIdentity\": \"abc:123:dddd\",\n    \"subtype\": \"Application\",\n    \"id\": \"id12345\",\n    \"created\": \"2015-05-28T14:07:17Z\",\n    \"modified\": \"2015-05-28T14:07:17Z\",\n    \"description\": \"\",\n    \"attributes\": {},\n    \"owners\": {\n      \"primaryIdentity\": {\n        \"type\": \"IDENTITY\",\n        \"id\": \"2c91808568c529c60168cca6f90c1313\",\n        \"name\": \"William Wilson\"\n      },\n      \"secondaryIdentities\": [\n        {\n          \"type\": \"IDENTITY\",\n          \"id\": \"2c91808568c529c60168cca6f90c1313\",\n          \"name\": \"William Wilson\"\n        },\n        {\n          \"type\": \"IDENTITY\",\n          \"id\": \"2c91808568c529c60168cca6f90c1313\",\n          \"name\": \"William Wilson\"\n        }\n      ]\n    },\n    \"sourceId\": \"6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa\",\n    \"uuid\": \"f5dd23fe-3414-42b7-bb1c-869400ad7a10\",\n    \"manuallyEdited\": true,\n    \"manuallyCreated\": true,\n    \"source\": {\n      \"name\": \"Active Directory\",\n      \"type\": \"SOURCE\"\n    },\n    \"datasetId\": \"8886e5e3-63d0-462f-a195-d98da885b8dc\",\n    \"userEntitlements\": [\n      {\n        \"sourceId\": \"5898b7c1-620c-49c6-cccc-cbf81eb4bddd\",\n        \"entitlementId\": \"6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa\",\n        \"displayName\": \"Entitlement Name\",\n        \"source\": {\n          \"name\": \"Test Source\",\n          \"type\": \"SOURCE\"\n        }\n      },\n      {\n        \"sourceId\": \"5898b7c1-620c-49c6-cccc-cbf81eb4bddd\",\n        \"entitlementId\": \"6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa\",\n        \"displayName\": \"Entitlement Name\",\n        \"source\": {\n          \"name\": \"Test Source\",\n          \"type\": \"SOURCE\"\n        }\n      }\n    ]\n  },\n  {\n    \"name\": \"aName\",\n    \"nativeIdentity\": \"abc:123:dddd\",\n    \"subtype\": \"Application\",\n    \"id\": \"id12345\",\n    \"created\": \"2015-05-28T14:07:17Z\",\n    \"modified\": \"2015-05-28T14:07:17Z\",\n    \"description\": \"\",\n    \"attributes\": {},\n    \"owners\": {\n      \"primaryIdentity\": {\n        \"type\": \"IDENTITY\",\n        \"id\": \"2c91808568c529c60168cca6f90c1313\",\n        \"name\": \"William Wilson\"\n      },\n      \"secondaryIdentities\": [\n        {\n          \"type\": \"IDENTITY\",\n          \"id\": \"2c91808568c529c60168cca6f90c1313\",\n          \"name\": \"William Wilson\"\n        },\n        {\n          \"type\": \"IDENTITY\",\n          \"id\": \"2c91808568c529c60168cca6f90c1313\",\n          \"name\": \"William Wilson\"\n        }\n      ]\n    },\n    \"sourceId\": \"6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa\",\n    \"uuid\": \"f5dd23fe-3414-42b7-bb1c-869400ad7a10\",\n    \"manuallyEdited\": true,\n    \"manuallyCreated\": true,\n    \"source\": {\n      \"name\": \"Active Directory\",\n      \"type\": \"SOURCE\"\n    },\n    \"datasetId\": \"8886e5e3-63d0-462f-a195-d98da885b8dc\",\n    \"userEntitlements\": [\n      {\n        \"sourceId\": \"5898b7c1-620c-49c6-cccc-cbf81eb4bddd\",\n        \"entitlementId\": \"6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa\",\n        \"displayName\": \"Entitlement Name\",\n        \"source\": {\n          \"name\": \"Test Source\",\n          \"type\": \"SOURCE\"\n        }\n      },\n      {\n        \"sourceId\": \"5898b7c1-620c-49c6-cccc-cbf81eb4bddd\",\n        \"entitlementId\": \"6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa\",\n        \"displayName\": \"Entitlement Name\",\n        \"source\": {\n          \"name\": \"Test Source\",\n          \"type\": \"SOURCE\"\n        }\n      }\n    ]\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0d0197e6-d5b4-4194-ab45-48b45474bbf5",
+          "name": "Create machine identities",
+          "request": {
+            "name": "Create machine identities",
+            "description": {
+              "content": "Use this API to create a machine identity.\nThe maximum supported length for the description field is 2000 characters.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "machine-identities"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": true,
+                "description": {
+                  "content": "(Required) Use this header to enable this experimental API.",
+                  "type": "text/plain"
+                },
+                "key": "X-SailPoint-Experimental",
+                "value": "true"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"aName\",\n  \"nativeIdentity\": \"abc:123:dddd\",\n  \"subtype\": \"Application\",\n  \"description\": \"\",\n  \"attributes\": {},\n  \"owners\": {\n    \"primaryIdentity\": {\n      \"type\": \"IDENTITY\",\n      \"id\": \"2c91808568c529c60168cca6f90c1313\",\n      \"name\": \"William Wilson\"\n    },\n    \"secondaryIdentities\": [\n      {\n        \"type\": \"IDENTITY\",\n        \"id\": \"2c91808568c529c60168cca6f90c1313\",\n        \"name\": \"William Wilson\"\n      },\n      {\n        \"type\": \"IDENTITY\",\n        \"id\": \"2c91808568c529c60168cca6f90c1313\",\n        \"name\": \"William Wilson\"\n      }\n    ]\n  },\n  \"sourceId\": \"6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa\",\n  \"uuid\": \"f5dd23fe-3414-42b7-bb1c-869400ad7a10\",\n  \"userEntitlements\": [\n    {\n      \"entitlementId\": \"6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa\",\n      \"sourceId\": \"5898b7c1-620c-49c6-cccc-cbf81eb4bddd\"\n    },\n    {\n      \"entitlementId\": \"6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa\",\n      \"sourceId\": \"5898b7c1-620c-49c6-cccc-cbf81eb4bddd\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "dbcb4dda-4cea-46ee-9427-4b2e065df732",
+              "name": "Machine Identity created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "machine-identities"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": true,
+                    "description": {
+                      "content": "(Required) Use this header to enable this experimental API.",
+                      "type": "text/plain"
+                    },
+                    "key": "X-SailPoint-Experimental",
+                    "value": "true"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"aName\",\n  \"nativeIdentity\": \"abc:123:dddd\",\n  \"subtype\": \"Application\",\n  \"description\": \"\",\n  \"attributes\": {},\n  \"owners\": {\n    \"primaryIdentity\": {\n      \"type\": \"IDENTITY\",\n      \"id\": \"2c91808568c529c60168cca6f90c1313\",\n      \"name\": \"William Wilson\"\n    },\n    \"secondaryIdentities\": [\n      {\n        \"type\": \"IDENTITY\",\n        \"id\": \"2c91808568c529c60168cca6f90c1313\",\n        \"name\": \"William Wilson\"\n      },\n      {\n        \"type\": \"IDENTITY\",\n        \"id\": \"2c91808568c529c60168cca6f90c1313\",\n        \"name\": \"William Wilson\"\n      }\n    ]\n  },\n  \"sourceId\": \"6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa\",\n  \"uuid\": \"f5dd23fe-3414-42b7-bb1c-869400ad7a10\",\n  \"userEntitlements\": [\n    {\n      \"entitlementId\": \"6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa\",\n      \"sourceId\": \"5898b7c1-620c-49c6-cccc-cbf81eb4bddd\"\n    },\n    {\n      \"entitlementId\": \"6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa\",\n      \"sourceId\": \"5898b7c1-620c-49c6-cccc-cbf81eb4bddd\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"aName\",\n  \"nativeIdentity\": \"abc:123:dddd\",\n  \"subtype\": \"Application\",\n  \"id\": \"id12345\",\n  \"created\": \"2015-05-28T14:07:17Z\",\n  \"modified\": \"2015-05-28T14:07:17Z\",\n  \"description\": \"\",\n  \"attributes\": {},\n  \"owners\": {\n    \"primaryIdentity\": {\n      \"type\": \"IDENTITY\",\n      \"id\": \"2c91808568c529c60168cca6f90c1313\",\n      \"name\": \"William Wilson\"\n    },\n    \"secondaryIdentities\": [\n      {\n        \"type\": \"IDENTITY\",\n        \"id\": \"2c91808568c529c60168cca6f90c1313\",\n        \"name\": \"William Wilson\"\n      },\n      {\n        \"type\": \"IDENTITY\",\n        \"id\": \"2c91808568c529c60168cca6f90c1313\",\n        \"name\": \"William Wilson\"\n      }\n    ]\n  },\n  \"sourceId\": \"6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa\",\n  \"uuid\": \"f5dd23fe-3414-42b7-bb1c-869400ad7a10\",\n  \"manuallyEdited\": true,\n  \"manuallyCreated\": true,\n  \"source\": {\n    \"name\": \"Active Directory\",\n    \"type\": \"SOURCE\"\n  },\n  \"datasetId\": \"8886e5e3-63d0-462f-a195-d98da885b8dc\",\n  \"userEntitlements\": [\n    {\n      \"sourceId\": \"5898b7c1-620c-49c6-cccc-cbf81eb4bddd\",\n      \"entitlementId\": \"6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa\",\n      \"displayName\": \"Entitlement Name\",\n      \"source\": {\n        \"name\": \"Test Source\",\n        \"type\": \"SOURCE\"\n      }\n    },\n    {\n      \"sourceId\": \"5898b7c1-620c-49c6-cccc-cbf81eb4bddd\",\n      \"entitlementId\": \"6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa\",\n      \"displayName\": \"Entitlement Name\",\n      \"source\": {\n        \"name\": \"Test Source\",\n        \"type\": \"SOURCE\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8e14f9ea-70cd-4653-8cae-78e89efc162c",
+          "name": "Machine identity details",
+          "request": {
+            "name": "Machine identity details",
+            "description": {
+              "content": "This API returns a single machine identity using the Machine Identity ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "machine-identities",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "value": "ef38f94347e94562b5bb8424a56397d8",
+                  "key": "id",
+                  "disabled": true,
+                  "description": {
+                    "content": "(Required) Machine Identity ID",
+                    "type": "text/plain"
+                  }
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": true,
+                "description": {
+                  "content": "(Required) Use this header to enable this experimental API.",
+                  "type": "text/plain"
+                },
+                "key": "X-SailPoint-Experimental",
+                "value": "true"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "response": [
+            {
+              "id": "f3aaf2a5-e54c-428e-bd3a-db47f57d73cf",
+              "name": "A machine identity object",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "machine-identities",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "(Required) Machine Identity ID",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "ef38f94347e94562b5bb8424a56397d8",
+                      "key": "id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": true,
+                    "description": {
+                      "content": "(Required) Use this header to enable this experimental API.",
+                      "type": "text/plain"
+                    },
+                    "key": "X-SailPoint-Experimental",
+                    "value": "true"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"aName\",\n  \"nativeIdentity\": \"abc:123:dddd\",\n  \"subtype\": \"Application\",\n  \"id\": \"id12345\",\n  \"created\": \"2015-05-28T14:07:17Z\",\n  \"modified\": \"2015-05-28T14:07:17Z\",\n  \"description\": \"\",\n  \"attributes\": {},\n  \"owners\": {\n    \"primaryIdentity\": {\n      \"type\": \"IDENTITY\",\n      \"id\": \"2c91808568c529c60168cca6f90c1313\",\n      \"name\": \"William Wilson\"\n    },\n    \"secondaryIdentities\": [\n      {\n        \"type\": \"IDENTITY\",\n        \"id\": \"2c91808568c529c60168cca6f90c1313\",\n        \"name\": \"William Wilson\"\n      },\n      {\n        \"type\": \"IDENTITY\",\n        \"id\": \"2c91808568c529c60168cca6f90c1313\",\n        \"name\": \"William Wilson\"\n      }\n    ]\n  },\n  \"sourceId\": \"6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa\",\n  \"uuid\": \"f5dd23fe-3414-42b7-bb1c-869400ad7a10\",\n  \"manuallyEdited\": true,\n  \"manuallyCreated\": true,\n  \"source\": {\n    \"name\": \"Active Directory\",\n    \"type\": \"SOURCE\"\n  },\n  \"datasetId\": \"8886e5e3-63d0-462f-a195-d98da885b8dc\",\n  \"userEntitlements\": [\n    {\n      \"sourceId\": \"5898b7c1-620c-49c6-cccc-cbf81eb4bddd\",\n      \"entitlementId\": \"6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa\",\n      \"displayName\": \"Entitlement Name\",\n      \"source\": {\n        \"name\": \"Test Source\",\n        \"type\": \"SOURCE\"\n      }\n    },\n    {\n      \"sourceId\": \"5898b7c1-620c-49c6-cccc-cbf81eb4bddd\",\n      \"entitlementId\": \"6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa\",\n      \"displayName\": \"Entitlement Name\",\n      \"source\": {\n        \"name\": \"Test Source\",\n        \"type\": \"SOURCE\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7285d3cd-55ad-400c-8731-be5822cc2f09",
+          "name": "Update a machine identity",
+          "request": {
+            "name": "Update a machine identity",
+            "description": {
+              "content": "Use this API to update machine identity details.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "machine-identities",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "value": "ef38f94347e94562b5bb8424a56397d8",
+                  "key": "id",
+                  "disabled": true,
+                  "description": {
+                    "content": "(Required) Machine Identity ID.",
+                    "type": "text/plain"
+                  }
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": true,
+                "description": {
+                  "content": "(Required) Use this header to enable this experimental API.",
+                  "type": "text/plain"
+                },
+                "key": "X-SailPoint-Experimental",
+                "value": "true"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json-patch+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"op\": \"add\",\n    \"path\": \"/attributes/securityRisk\",\n    \"value\": \"medium\"\n  }\n]",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c0f267f5-4664-49d5-8737-6ae087400aad",
+              "name": "Updated Machine Identity object.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "machine-identities",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "(Required) Machine Identity ID.",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "ef38f94347e94562b5bb8424a56397d8",
+                      "key": "id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": true,
+                    "description": {
+                      "content": "(Required) Use this header to enable this experimental API.",
+                      "type": "text/plain"
+                    },
+                    "key": "X-SailPoint-Experimental",
+                    "value": "true"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json-patch+json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"op\": \"add\",\n    \"path\": \"/attributes/securityRisk\",\n    \"value\": \"medium\"\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"aName\",\n  \"nativeIdentity\": \"abc:123:dddd\",\n  \"subtype\": \"Application\",\n  \"id\": \"id12345\",\n  \"created\": \"2015-05-28T14:07:17Z\",\n  \"modified\": \"2015-05-28T14:07:17Z\",\n  \"description\": \"\",\n  \"attributes\": {},\n  \"owners\": {\n    \"primaryIdentity\": {\n      \"type\": \"IDENTITY\",\n      \"id\": \"2c91808568c529c60168cca6f90c1313\",\n      \"name\": \"William Wilson\"\n    },\n    \"secondaryIdentities\": [\n      {\n        \"type\": \"IDENTITY\",\n        \"id\": \"2c91808568c529c60168cca6f90c1313\",\n        \"name\": \"William Wilson\"\n      },\n      {\n        \"type\": \"IDENTITY\",\n        \"id\": \"2c91808568c529c60168cca6f90c1313\",\n        \"name\": \"William Wilson\"\n      }\n    ]\n  },\n  \"sourceId\": \"6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa\",\n  \"uuid\": \"f5dd23fe-3414-42b7-bb1c-869400ad7a10\",\n  \"manuallyEdited\": true,\n  \"manuallyCreated\": true,\n  \"source\": {\n    \"name\": \"Active Directory\",\n    \"type\": \"SOURCE\"\n  },\n  \"datasetId\": \"8886e5e3-63d0-462f-a195-d98da885b8dc\",\n  \"userEntitlements\": [\n    {\n      \"sourceId\": \"5898b7c1-620c-49c6-cccc-cbf81eb4bddd\",\n      \"entitlementId\": \"6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa\",\n      \"displayName\": \"Entitlement Name\",\n      \"source\": {\n        \"name\": \"Test Source\",\n        \"type\": \"SOURCE\"\n      }\n    },\n    {\n      \"sourceId\": \"5898b7c1-620c-49c6-cccc-cbf81eb4bddd\",\n      \"entitlementId\": \"6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa\",\n      \"displayName\": \"Entitlement Name\",\n      \"source\": {\n        \"name\": \"Test Source\",\n        \"type\": \"SOURCE\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "849b2593-6a44-4904-b687-4f5ac1808b9d",
+          "name": "Delete machine identity",
+          "request": {
+            "name": "Delete machine identity",
+            "description": {
+              "content": "The API returns successful response if the requested machine identity was deleted.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "machine-identities",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "type": "any",
+                  "value": "ef38f94347e94562b5bb8424a56397d8",
+                  "key": "id",
+                  "disabled": true,
+                  "description": {
+                    "content": "(Required) Machine Identity ID",
+                    "type": "text/plain"
+                  }
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": true,
+                "description": {
+                  "content": "(Required) Use this header to enable this experimental API.",
+                  "type": "text/plain"
+                },
+                "key": "X-SailPoint-Experimental",
+                "value": "true"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "body": {}
+          },
+          "response": [
+            {
+              "id": "b6b15abc-4736-4c5d-a444-3089decf90c8",
+              "name": "No content - indicates the request was successful but there is no content to be returned in the response.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "machine-identities",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "(Required) Machine Identity ID",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "ef38f94347e94562b5bb8424a56397d8",
+                      "key": "id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": true,
+                    "description": {
+                      "content": "(Required) Use this header to enable this experimental API.",
+                      "type": "text/plain"
+                    },
+                    "key": "X-SailPoint-Experimental",
+                    "value": "true"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [],
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ]
+    },
+    {
       "name": "Machine Subtype Approval Config",
       "description": "",
       "item": [
         {
-          "id": "238859ef-501a-4f7b-a73c-c8d5b014e12b",
+          "id": "718cfbc9-16af-44bb-a99c-119e7f24ab24",
           "name": "Machine Subtype Approval Config",
           "request": {
             "name": "Machine Subtype Approval Config",
@@ -2347,7 +3039,7 @@
           },
           "response": [
             {
-              "id": "14dcb39a-9d93-4de7-b466-684d58228b18",
+              "id": "f0d1cae5-241c-4606-aae1-a3c17d311d84",
               "name": "Responds with a MachineAccountSubtypeConfigDto for machine account deletion approval config by subtypeId.",
               "originalRequest": {
                 "url": {
@@ -2418,7 +3110,7 @@
           }
         },
         {
-          "id": "18e00ee9-8bf1-4e66-971c-df176353bd99",
+          "id": "08d989e5-6693-41c9-8abf-62fd05d06660",
           "name": "Machine Subtype Approval Config",
           "request": {
             "name": "Machine Subtype Approval Config",
@@ -2482,7 +3174,7 @@
           },
           "response": [
             {
-              "id": "6db482dd-b3db-4844-8a00-9bfda04e85c9",
+              "id": "0d339c62-cc4f-43bb-8032-8c404c276c3d",
               "name": "This response indicates the PATCH operation succeeded and the API returns the updated MachineAccountSubtypeConfigDto object.",
               "originalRequest": {
                 "url": {
@@ -2572,7 +3264,7 @@
       "description": "",
       "item": [
         {
-          "id": "6752abaf-8f41-4175-94c4-bb21af76711c",
+          "id": "ae080b8e-9c9b-4dc5-a843-0824433a981f",
           "name": "Get notification template variables",
           "request": {
             "name": "Get notification template variables",
@@ -2634,7 +3326,7 @@
           },
           "response": [
             {
-              "id": "6efd5c1f-4d9e-4f15-923f-72875c37fb54",
+              "id": "6f04ccad-8431-4ec0-929c-24d2e97c1c54",
               "name": "Global and template-specific variables for the given key and medium.",
               "originalRequest": {
                 "url": {
@@ -2722,7 +3414,7 @@
       "description": "",
       "item": [
         {
-          "id": "2a9ede5e-05d4-4ba9-a424-738b18fdb51b",
+          "id": "f2d432bc-c08f-4dfd-bec5-4df95bfe6a3f",
           "name": "Get task status by id",
           "request": {
             "name": "Get task status by id",
@@ -2772,7 +3464,7 @@
           },
           "response": [
             {
-              "id": "eb831778-f234-4796-988b-6f7e15ed8ade",
+              "id": "588f9f62-aca9-4a0e-b3eb-ec2aa76b70bb",
               "name": "Responds with a TaskStatus for the task with the given task ID.",
               "originalRequest": {
                 "url": {
@@ -2842,7 +3534,7 @@
           }
         },
         {
-          "id": "93a8cb11-f7c1-4d12-a2c1-f39c6a878551",
+          "id": "be6903a3-9c56-4110-aab0-2a68ef129d19",
           "name": "Update task status by id",
           "request": {
             "name": "Update task status by id",
@@ -2905,7 +3597,7 @@
           },
           "response": [
             {
-              "id": "b636d035-fcd2-42ce-8ff3-8e75dca2bad3",
+              "id": "6100eb2a-3986-4ca8-9670-07237ed3b5e0",
               "name": "This response indicates the PATCH operation succeeded, and the API returns the updated task object.",
               "originalRequest": {
                 "url": {
@@ -2988,7 +3680,7 @@
           }
         },
         {
-          "id": "14b6f2a1-7c89-4f79-8c90-3b3af86f4738",
+          "id": "2e3347f4-6da7-498a-b646-d1e9646e2d15",
           "name": "Retrieve task status list",
           "request": {
             "name": "Retrieve task status list",
@@ -3072,7 +3764,7 @@
           },
           "response": [
             {
-              "id": "f83b18e2-dffd-4569-b39a-a0c5d2bfa69d",
+              "id": "ec2a17b1-000f-48e0-af1f-fbf01652dd49",
               "name": "Responds with a TaskStatus for the task with the given task ID.",
               "originalRequest": {
                 "url": {
@@ -3176,7 +3868,7 @@
           }
         },
         {
-          "id": "4972cf78-3af4-43c0-927a-0508712ef313",
+          "id": "f9929227-4da5-4200-9fc4-e2358e0b2b48",
           "name": "Retrieve pending task status list",
           "request": {
             "name": "Retrieve pending task status list",
@@ -3243,7 +3935,7 @@
           },
           "response": [
             {
-              "id": "46ae8ba7-6ca3-42b8-8c0e-a6e692fdf9fa",
+              "id": "7a2fc5e3-0fa6-4745-87a6-3fb3d21144a5",
               "name": "Responds with a list of TaskStatus for pending tasks.\n\nPossible Values: CLOUD_ACCOUNT_AGGREGATION, CLOUD_GROUP_AGGREGATION, CLOUD_PROCESS_UNCORRELATED_ACCOUNTS, CLOUD_REFRESH_ROLE, SOURCE_APPLICATION_DISCOVERY, AI_AGENT_AGGREGATION, CLOUD_ENTITLEMENT_IMPORT, CLOUD_UNCORRELATED_REFRESH, CLOUD_IDENTITY_AGGREGATION, CLOUD_ATTRIBUTE_SYNCHRONIZATION, IDENTITY_REFRESH, APPLICATION_DISCOVERY, MACHINE_IDENTITY_AGGREGATION, MACHINE_IDENTITY_DELETION, ACCOUNT_DELETION",
               "originalRequest": {
                 "url": {
@@ -3324,7 +4016,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "2a847b62-7f0b-48a8-8a21-8b08614e9a61",
+              "id": "7def8f71-ef3d-495f-92cf-fdb58fb9c13d",
               "name": "No content - indicates the request was successful but there is no content to be returned in the response.",
               "originalRequest": {
                 "url": {
@@ -3401,7 +4093,7 @@
           }
         },
         {
-          "id": "8b1828f6-0472-463f-809a-052663f72b1d",
+          "id": "e30dccb7-80c2-4e07-97c5-a764b94490c3",
           "name": "Retrieve pending task list headers",
           "request": {
             "name": "Retrieve pending task list headers",
@@ -3468,7 +4160,7 @@
           },
           "response": [
             {
-              "id": "9b5341b6-7b43-499f-992f-ee0407237e61",
+              "id": "5309129a-618f-4858-a6ff-b7ab99104924",
               "name": "Retrieve headers for a list of TaskStatus for pending tasks.",
               "originalRequest": {
                 "url": {
@@ -3539,7 +4231,7 @@
               "_postman_previewlanguage": "text"
             },
             {
-              "id": "acdaba26-1d32-4044-9d58-c1f064be45de",
+              "id": "258ed4e9-b465-4746-9988-250538d669fa",
               "name": "No content - indicates the request was successful but there is no content to be returned in the response.",
               "originalRequest": {
                 "url": {
@@ -3726,7 +4418,7 @@
     }
   ],
   "info": {
-    "_postman_id": "468243b0-840b-4790-92b4-313faea2ba62",
+    "_postman_id": "0189f18c-a1d4-4e50-96dd-c4b817d84f7b",
     "name": "Identity Security Cloud v2026 API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": {
