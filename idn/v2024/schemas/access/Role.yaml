@@ -29,6 +29,12 @@ properties:
         example: Urna amet cursus pellentesque nisl orci maximus lorem nisl euismod fusce morbi placerat adipiscing maecenas nisi tristique et metus et lacus sed morbi nunc nisl maximus magna arcu varius sollicitudin elementum enim maecenas nisi id ipsum tempus fusce diam ipsum tortor.
     owner:
         $ref: './OwnerReference.yaml'
+    additionalOwners:
+        type: array
+        nullable: true
+        description: List of additional owner references beyond the primary owner. Each entry may be an identity (IDENTITY) or a governance group (GOVERNANCE_GROUP).
+        items:
+            $ref: './AdditionalOwnerRef.yaml'
     accessProfiles:
         type: array
         items:

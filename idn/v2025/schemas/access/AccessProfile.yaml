@@ -138,8 +138,9 @@ properties:
   additionalOwners:
     type: array
     nullable: true
+    description: List of additional owner references beyond the primary owner. Each entry may be an identity (IDENTITY) or a governance group (GOVERNANCE_GROUP).
     items:
-      $ref: './OwnerReference.yaml'
+      $ref: './AdditionalOwnerRef.yaml'
 required:
   - owner
   - name
