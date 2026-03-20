@@ -33410,19 +33410,22 @@ paths:
       security:
         - userAuth:
             - sp:notification-mail-from-attributes:read
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
       operationId: getMailFromAttributes
       tags:
         - Notifications
       summary: Get mail from attributes
       description: Retrieve MAIL FROM attributes for a given AWS SES identity.
       parameters:
-        - in: query
-          name: id
+        - in: path
+          name: identity
           required: true
           schema:
             type: string
           description: Returns the MX and TXT record to be put in your DNS, as well as the MAIL FROM domain status
           example: bobsmith@sailpoint.com
+          x-sailpoint-resource-operation-id: listFromAddresses
         - name: X-SailPoint-Experimental
           in: header
           description: Use this header to enable this experimental API.
@@ -33948,7 +33951,9 @@ paths:
       tags:
         - Approvals
       summary: Put Approval Config
-      description: Upserts a singular approval configuration that matches the given configID and configScope. If id and scope are not provided, it will default to setting the tenant config.
+      description: |-
+        Upserts a singular approval configuration that matches the given configID and configScope. 
+        For example to update the approval configurations for all Access Request Approvals please use: '/generic-approvals/config/ACCESS_REQUEST_APPROVAL/APPROVAL_TYPE'
       parameters:
         - in: path
           name: id
@@ -36166,10 +36171,12 @@ paths:
       tags:
         - Notifications
       summary: Bulk delete notification templates
-      description: This lets you bulk delete templates that you previously created for your site. Since this is a beta feature, please contact support to enable usage.
+      description: This lets you bulk delete templates that you previously created for your site.
       security:
         - userAuth:
             - idn:notification-templates:delete
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
       requestBody:
         required: true
         content:
@@ -76345,28 +76352,40 @@ components:
         key:
           type: string
           nullable: true
+          description: The template key
         text:
           type: string
+          description: The main text content of the Slack message
+          example: You have a new approval request
         blocks:
           type: string
           nullable: true
+          description: JSON string of Slack Block Kit blocks for rich formatting
         attachments:
           type: string
+          description: JSON string of Slack attachments
+          example: '[]'
         notificationType:
           type: string
           nullable: true
+          description: The type of notification
         approvalId:
           type: string
           nullable: true
+          description: The approval request ID
         requestId:
           type: string
           nullable: true
+          description: The request ID
         requestedById:
           type: string
           nullable: true
+          description: The ID of the user who made the request
         isSubscription:
           type: boolean
           nullable: true
+          default: false
+          description: Whether this is a subscription notification
         autoApprovalData:
           type: object
           nullable: true
@@ -76374,18 +76393,23 @@ components:
             isAutoApproved:
               type: string
               nullable: true
+              description: Whether the request was auto-approved
             itemId:
               type: string
               nullable: true
+              description: The item ID
             itemType:
               type: string
               nullable: true
+              description: The item type
             autoApprovalMessageJSON:
               type: string
               nullable: true
+              description: JSON message for auto-approval
             autoApprovalTitle:
               type: string
               nullable: true
+              description: Title for auto-approval
         customFields:
           type: object
           nullable: true
@@ -76393,15 +76417,19 @@ components:
             requestType:
               type: string
               nullable: true
+              description: The type of request
             containsDeny:
               type: string
               nullable: true
+              description: Whether the request contains a deny action
             campaignId:
               type: string
               nullable: true
+              description: The campaign ID
             campaignStatus:
               type: string
               nullable: true
+              description: The campaign status
     TemplateTeams:
       type: object
       title: Template Teams
@@ -76410,29 +76438,40 @@ components:
         key:
           type: string
           nullable: true
+          description: The template key
         title:
           type: string
           nullable: true
+          description: The title of the Teams message
         text:
           type: string
+          description: The main text content of the Teams message
+          example: You have a new approval request
         messageJSON:
           type: string
           nullable: true
+          description: JSON string of the Teams adaptive card
         isSubscription:
           type: boolean
           nullable: true
+          default: false
+          description: Whether this is a subscription notification
         approvalId:
           type: string
           nullable: true
+          description: The approval request ID
         requestId:
           type: string
           nullable: true
+          description: The request ID
         requestedById:
           type: string
           nullable: true
+          description: The ID of the user who made the request
         notificationType:
           type: string
           nullable: true
+          description: The type of notification
         autoApprovalData:
           type: object
           nullable: true
@@ -76440,18 +76479,23 @@ components:
             isAutoApproved:
               type: string
               nullable: true
+              description: Whether the request was auto-approved
             itemId:
               type: string
               nullable: true
+              description: The item ID
             itemType:
               type: string
               nullable: true
+              description: The item type
             autoApprovalMessageJSON:
               type: string
               nullable: true
+              description: JSON message for auto-approval
             autoApprovalTitle:
               type: string
               nullable: true
+              description: Title for auto-approval
         customFields:
           type: object
           nullable: true
@@ -76459,15 +76503,19 @@ components:
             requestType:
               type: string
               nullable: true
+              description: The type of request
             containsDeny:
               type: string
               nullable: true
+              description: Whether the request contains a deny action
             campaignId:
               type: string
               nullable: true
+              description: The campaign ID
             campaignStatus:
               type: string
               nullable: true
+              description: The campaign status
     TemplateDtoDefault:
       type: object
       title: Template Dto Default
@@ -76485,8 +76533,6 @@ components:
           description: The message medium. More mediums may be added in the future.
           enum:
             - EMAIL
-            - PHONE
-            - SMS
             - SLACK
             - TEAMS
           example: EMAIL
@@ -76551,8 +76597,6 @@ components:
           description: The message medium. More mediums may be added in the future.
           enum:
             - EMAIL
-            - PHONE
-            - SMS
             - SLACK
             - TEAMS
           example: EMAIL
@@ -76607,11 +76651,13 @@ components:
           description: The time when this template was last modified. This is auto-generated.
           example: '2020-01-01T00:00:00.000000Z'
         slackTemplate:
-          type: string
-          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/TemplateSlack'
+            - nullable: true
         teamsTemplate:
-          type: string
-          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/TemplateTeams'
+            - nullable: true
       required:
         - key
         - medium
@@ -76623,13 +76669,15 @@ components:
         key:
           type: string
           example: cloud_manual_work_item_summary
+          description: The template key to delete
         medium:
           type: string
           enum:
             - EMAIL
-            - PHONE
-            - SMS
+            - SLACK
+            - TEAMS
           example: EMAIL
+          description: The notification medium (EMAIL, SLACK, or TEAMS)
         locale:
           type: string
           description: The locale for the message text, a BCP 47 language tag.
@@ -77215,10 +77263,10 @@ components:
           example: '2020-04-15T16:16:47.525Z'
     Medium:
       type: string
+      description: The notification medium (EMAIL, SLACK, or TEAMS)
+      example: EMAIL
       enum:
         - EMAIL
-        - SMS
-        - PHONE
         - SLACK
         - TEAMS
     PreferencesDto:
@@ -78936,9 +78984,38 @@ components:
             - EMAIL
             - SLACK
             - TEAMS
+          example: EMAIL
+        locale:
+          type: string
+          description: The locale for the message text.
+          example: en
         context:
           type: object
           description: A Json object that denotes the context specific to the template.
+          example:
+            numberOfPendingTasks: '4'
+            taskTasks: tasks
+        recipientEmailList:
+          type: array
+          items:
+            type: string
+          description: A list of override recipient email addresses for the test notification.
+          example:
+            - test@example.com
+        carbonCopy:
+          type: array
+          items:
+            type: string
+          description: A list of CC email addresses for the test notification.
+          example:
+            - cc@example.com
+        blindCarbonCopy:
+          type: array
+          items:
+            type: string
+          description: A list of BCC email addresses for the test notification.
+          example:
+            - bcc@example.com
     SimIntegrationDetails:
       type: object
       title: Sim Integration Details
@@ -83418,18 +83495,29 @@ components:
         id:
           type: string
           nullable: true
+          description: Unique identifier for the verified sender address
         email:
           type: string
           example: sender@example.com
+          description: The verified sender email address
         isVerifiedByDomain:
           type: boolean
+          default: false
           example: false
+          description: Whether the sender address is verified by domain
         verificationStatus:
           type: string
           enum:
             - PENDING
             - SUCCESS
             - FAILED
+            - NA
+          example: SUCCESS
+          description: The verification status of the sender address
+        region:
+          type: string
+          example: us-east-1
+          description: The AWS SES region the sender address is associated with
     DkimAttributes:
       type: object
       title: Dkim Attributes
@@ -83458,8 +83546,12 @@ components:
           description: The tokens to be added to a DNS for verification
         dkimVerificationStatus:
           type: string
-          example: Success
-          description: The current status if the domain /identity has been verified. Ie Success, Failed, Pending
+          example: SUCCESS
+          description: The current status if the domain /identity has been verified. Ie SUCCESS, FAILED, PENDING
+        region:
+          type: string
+          example: us-east-1
+          description: The AWS SES region the domain is associated with
       description: DKIM attributes for a domain or identity
     DomainAddress:
       type: object
@@ -83482,6 +83574,7 @@ components:
           example: sailpoint.com
           description: A domain address
         dkimEnabled:
+          type: boolean
           default: false
           example: true
           description: DKIM is enabled for this domain
@@ -83498,6 +83591,10 @@ components:
           type: string
           example: PENDING
           description: Status of DKIM authentication
+        region:
+          type: string
+          example: us-east-1
+          description: The AWS SES region the domain is associated with
       description: Domain status DTO containing everything required to verify via DKIM
     WorkgroupDto:
       type: object

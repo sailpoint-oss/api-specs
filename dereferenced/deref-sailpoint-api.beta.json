@@ -18688,13 +18688,16 @@
           "Notifications"
         ],
         "summary": "Bulk delete notification templates",
-        "description": "This lets you bulk delete templates that you previously created for your site. Since this is a beta feature, please contact support to enable usage.",
+        "description": "This lets you bulk delete templates that you previously created for your site.",
         "security": [
           {
             "userAuth": [
               "idn:notification-templates:delete"
             ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
         ],
         "requestBody": {
           "required": true,
@@ -62903,37 +62906,49 @@
         "properties": {
           "key": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "The template key"
           },
           "text": {
-            "type": "string"
+            "type": "string",
+            "description": "The main text content of the Slack message",
+            "example": "You have a new approval request"
           },
           "blocks": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "JSON string of Slack Block Kit blocks for rich formatting"
           },
           "attachments": {
-            "type": "string"
+            "type": "string",
+            "description": "JSON string of Slack attachments",
+            "example": "[]"
           },
           "notificationType": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "The type of notification"
           },
           "approvalId": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "The approval request ID"
           },
           "requestId": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "The request ID"
           },
           "requestedById": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "The ID of the user who made the request"
           },
           "isSubscription": {
             "type": "boolean",
-            "nullable": true
+            "nullable": true,
+            "default": false,
+            "description": "Whether this is a subscription notification"
           },
           "autoApprovalData": {
             "type": "object",
@@ -62941,23 +62956,28 @@
             "properties": {
               "isAutoApproved": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "Whether the request was auto-approved"
               },
               "itemId": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "The item ID"
               },
               "itemType": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "The item type"
               },
               "autoApprovalMessageJSON": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "JSON message for auto-approval"
               },
               "autoApprovalTitle": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "Title for auto-approval"
               }
             }
           },
@@ -62967,19 +62987,23 @@
             "properties": {
               "requestType": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "The type of request"
               },
               "containsDeny": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "Whether the request contains a deny action"
               },
               "campaignId": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "The campaign ID"
               },
               "campaignStatus": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "The campaign status"
               }
             }
           }
@@ -62992,38 +63016,49 @@
         "properties": {
           "key": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "The template key"
           },
           "title": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "The title of the Teams message"
           },
           "text": {
-            "type": "string"
+            "type": "string",
+            "description": "The main text content of the Teams message",
+            "example": "You have a new approval request"
           },
           "messageJSON": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "JSON string of the Teams adaptive card"
           },
           "isSubscription": {
             "type": "boolean",
-            "nullable": true
+            "nullable": true,
+            "default": false,
+            "description": "Whether this is a subscription notification"
           },
           "approvalId": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "The approval request ID"
           },
           "requestId": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "The request ID"
           },
           "requestedById": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "The ID of the user who made the request"
           },
           "notificationType": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "The type of notification"
           },
           "autoApprovalData": {
             "type": "object",
@@ -63031,23 +63066,28 @@
             "properties": {
               "isAutoApproved": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "Whether the request was auto-approved"
               },
               "itemId": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "The item ID"
               },
               "itemType": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "The item type"
               },
               "autoApprovalMessageJSON": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "JSON message for auto-approval"
               },
               "autoApprovalTitle": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "Title for auto-approval"
               }
             }
           },
@@ -63057,19 +63097,23 @@
             "properties": {
               "requestType": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "The type of request"
               },
               "containsDeny": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "Whether the request contains a deny action"
               },
               "campaignId": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "The campaign ID"
               },
               "campaignStatus": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "The campaign status"
               }
             }
           }
@@ -63094,8 +63138,6 @@
             "description": "The message medium. More mediums may be added in the future.",
             "enum": [
               "EMAIL",
-              "PHONE",
-              "SMS",
               "SLACK",
               "TEAMS"
             ],
@@ -63176,8 +63218,6 @@
             "description": "The message medium. More mediums may be added in the future.",
             "enum": [
               "EMAIL",
-              "PHONE",
-              "SMS",
               "SLACK",
               "TEAMS"
             ],
@@ -63245,12 +63285,24 @@
             "example": "2020-01-01T00:00:00.000000Z"
           },
           "slackTemplate": {
-            "type": "string",
-            "nullable": true
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TemplateSlack"
+              },
+              {
+                "nullable": true
+              }
+            ]
           },
           "teamsTemplate": {
-            "type": "string",
-            "nullable": true
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TemplateTeams"
+              },
+              {
+                "nullable": true
+              }
+            ]
           }
         },
         "required": [
@@ -63265,16 +63317,18 @@
         "properties": {
           "key": {
             "type": "string",
-            "example": "cloud_manual_work_item_summary"
+            "example": "cloud_manual_work_item_summary",
+            "description": "The template key to delete"
           },
           "medium": {
             "type": "string",
             "enum": [
               "EMAIL",
-              "PHONE",
-              "SMS"
+              "SLACK",
+              "TEAMS"
             ],
-            "example": "EMAIL"
+            "example": "EMAIL",
+            "description": "The notification medium (EMAIL, SLACK, or TEAMS)"
           },
           "locale": {
             "type": "string",
@@ -64950,10 +65004,10 @@
       },
       "Medium": {
         "type": "string",
+        "description": "The notification medium (EMAIL, SLACK, or TEAMS)",
+        "example": "EMAIL",
         "enum": [
           "EMAIL",
-          "SMS",
-          "PHONE",
           "SLACK",
           "TEAMS"
         ]
@@ -67681,11 +67735,51 @@
               "EMAIL",
               "SLACK",
               "TEAMS"
-            ]
+            ],
+            "example": "EMAIL"
+          },
+          "locale": {
+            "type": "string",
+            "description": "The locale for the message text.",
+            "example": "en"
           },
           "context": {
             "type": "object",
-            "description": "A Json object that denotes the context specific to the template."
+            "description": "A Json object that denotes the context specific to the template.",
+            "example": {
+              "numberOfPendingTasks": "4",
+              "taskTasks": "tasks"
+            }
+          },
+          "recipientEmailList": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "A list of override recipient email addresses for the test notification.",
+            "example": [
+              "test@example.com"
+            ]
+          },
+          "carbonCopy": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "A list of CC email addresses for the test notification.",
+            "example": [
+              "cc@example.com"
+            ]
+          },
+          "blindCarbonCopy": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "A list of BCC email addresses for the test notification.",
+            "example": [
+              "bcc@example.com"
+            ]
           }
         }
       },
@@ -76150,23 +76244,35 @@
         "properties": {
           "id": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "Unique identifier for the verified sender address"
           },
           "email": {
             "type": "string",
-            "example": "sender@example.com"
+            "example": "sender@example.com",
+            "description": "The verified sender email address"
           },
           "isVerifiedByDomain": {
             "type": "boolean",
-            "example": false
+            "default": false,
+            "example": false,
+            "description": "Whether the sender address is verified by domain"
           },
           "verificationStatus": {
             "type": "string",
             "enum": [
               "PENDING",
               "SUCCESS",
-              "FAILED"
-            ]
+              "FAILED",
+              "NA"
+            ],
+            "example": "SUCCESS",
+            "description": "The verification status of the sender address"
+          },
+          "region": {
+            "type": "string",
+            "example": "us-east-1",
+            "description": "The AWS SES region the sender address is associated with"
           }
         }
       },
@@ -76204,8 +76310,13 @@
           },
           "dkimVerificationStatus": {
             "type": "string",
-            "example": "Success",
-            "description": "The current status if the domain /identity has been verified. Ie Success, Failed, Pending"
+            "example": "SUCCESS",
+            "description": "The current status if the domain /identity has been verified. Ie SUCCESS, FAILED, PENDING"
+          },
+          "region": {
+            "type": "string",
+            "example": "us-east-1",
+            "description": "The AWS SES region the domain is associated with"
           }
         },
         "description": "DKIM attributes for a domain or identity"
@@ -76236,6 +76347,7 @@
             "description": "A domain address"
           },
           "dkimEnabled": {
+            "type": "boolean",
             "default": false,
             "example": true,
             "description": "DKIM is enabled for this domain"
@@ -76256,6 +76368,11 @@
             "type": "string",
             "example": "PENDING",
             "description": "Status of DKIM authentication"
+          },
+          "region": {
+            "type": "string",
+            "example": "us-east-1",
+            "description": "The AWS SES region the domain is associated with"
           }
         },
         "description": "Domain status DTO containing everything required to verify via DKIM"
