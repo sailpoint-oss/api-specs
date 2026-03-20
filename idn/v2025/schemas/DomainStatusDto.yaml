@@ -10,6 +10,7 @@ properties:
     example: sailpoint.com
     description: A domain address
   dkimEnabled:
+    type: boolean
     default: false
     example: true
     description: DKIM is enabled for this domain
@@ -23,4 +24,8 @@ properties:
     type: string
     example: PENDING
     description: Status of DKIM authentication
+  region:
+    type: string
+    example: us-east-1
+    description: The AWS SES region the domain is associated with
 description: Domain status DTO containing everything required to verify via DKIM

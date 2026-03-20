@@ -2,20 +2,23 @@ get:
   security:
   - userAuth:
     - sp:notification-mail-from-attributes:read
+  x-sailpoint-userLevels:
+  - ORG_ADMIN
   operationId: getMailFromAttributes
   tags:
   - Notifications
   summary: Get mail from attributes
   description: Retrieve MAIL FROM attributes for a given AWS SES identity.
   parameters:
-  - in: query
-    name: id
+  - in: path
+    name: identity
     required: true
     schema:
       type: string
     description: Returns the MX and TXT record to be put in your DNS, as well as the
       MAIL FROM domain status
     example: bobsmith@sailpoint.com
+    x-sailpoint-resource-operation-id: listFromAddresses
   - name: X-SailPoint-Experimental
     in: header
     description: Use this header to enable this experimental API.

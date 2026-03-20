@@ -12,6 +12,32 @@ properties:
       - EMAIL
       - SLACK
       - TEAMS
+    example: EMAIL
+  locale:
+    type: string
+    description: The locale for the message text.
+    example: "en"
   context:
     type: object
     description: A Json object that denotes the context specific to the template.
+    example:
+      numberOfPendingTasks: "4"
+      taskTasks: "tasks"
+  recipientEmailList:
+    type: array
+    items:
+      type: string
+    description: A list of override recipient email addresses for the test notification.
+    example: ["test@example.com"]
+  carbonCopy:
+    type: array
+    items:
+      type: string
+    description: A list of CC email addresses for the test notification.
+    example: ["cc@example.com"]
+  blindCarbonCopy:
+    type: array
+    items:
+      type: string
+    description: A list of BCC email addresses for the test notification.
+    example: ["bcc@example.com"]

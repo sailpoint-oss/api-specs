@@ -4,10 +4,12 @@ post:
   - Notifications
   summary: Bulk delete notification templates
   description: This lets you bulk delete templates that you previously created for
-    your site. Since this is a beta feature, please contact support to enable usage.
+    your site.
   security:
   - userAuth:
     - idn:notification-templates:delete
+  x-sailpoint-userLevels:
+  - ORG_ADMIN
   requestBody:
     required: true
     content:
