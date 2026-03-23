@@ -28,7 +28,35 @@ post:
     '401':
       $ref: '../responses/401.yaml'
     '403':
-      $ref: '../responses/403.yaml'
+      description: >
+        Forbidden. Returned when the user doesn't have access to this endpoint,
+        or when the quota of allowed invocations for the day has been exceeded.
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: '../schemas/ErrorResponseDto.yaml'
+              - type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message when quota is exceeded
+                required:
+                  - error
+          examples:
+            access_denied:
+              summary: An example of a 403 response when access is denied
+              value:
+                detailCode: "403 Forbidden"
+                trackingId: "b21b1f7ce4da4d639f2c62a57171b427"
+                messages:
+                  - locale: "en-US"
+                    localeOrigin: "DEFAULT"
+                    text: "The server understood the request but refuses to authorize it."
+            quota_exceeded:
+              summary: Quota exceeded - cannot execute more than one application discovery task within 24 hours
+              value:
+                error: "cannot execute more than one application discovery task within 24 hours"
     '404':
       $ref: '../responses/404.yaml'
     '429':

@@ -9,6 +9,10 @@ value:
     discoveredAt: "2023-07-01T12:00:00Z"
     createdAt: "2024-06-01T12:00:00Z"
     status: "ACTIVE"
+    riskScore: 1
+    isBusiness: false
+    totalSigninsCount: 1
+    riskLevel: "Low"
   - id: "app-456"
     name: "Sample Tracker"
     discoverySource: "Okta SaaS"
@@ -18,6 +22,10 @@ value:
     discoveredAt: "2023-08-15T08:00:00Z"
     createdAt: "2024-05-20T08:00:00Z"
     status: "ACTIVE"
+    riskScore: 1
+    isBusiness: false
+    totalSigninsCount: 1
+    riskLevel: "Low"
   - id: "app-789"
     name: "Demo Manager"
     discoverySource: "Okta SaaS"
@@ -27,3 +35,7 @@ value:
     discoveredAt: "2023-09-10T15:00:00Z"
     createdAt: "2024-07-03T15:00:00Z"
     status: "ACTIVE"
+    riskScore: 1
+    isBusiness: false
+    totalSigninsCount: 1
+    riskLevel: "Low"

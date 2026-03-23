@@ -28,6 +28,9 @@ value:
     installType: null
     environment: null
     riskScore: null
+    isBusiness: false
+    totalSigninsCount: 1
+    riskLevel: "Low"
     isPrivileged: false
     warrantyExpiration: null
     attributes: null
@@ -59,7 +62,10 @@ value:
     businessUnit: "R&D"
     installType: "SaaS"
     environment: "Production"
-    riskScore: "MEDIUM"
+    riskScore: 1
+    isBusiness: false
+    totalSigninsCount: 1
+    riskLevel: "Medium"
     isPrivileged: false
     warrantyExpiration: "2024-09-01T00:00:00.000+0000"
     attributes:
@@ -103,7 +109,10 @@ value:
     businessUnit: "Finance"
     installType: "On Premise"
     environment: "Production"
-    riskScore: "ANY"
+    riskScore: 1
+    isBusiness: false
+    totalSigninsCount: 1
+    riskLevel: "Low"
     isPrivileged: false
     warrantyExpiration: "2023-09-25T14:07:27.000+0000"
     attributes:

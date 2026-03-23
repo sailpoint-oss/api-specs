@@ -8,6 +8,9 @@ get:
   security:
     - userAuth:
         - 'idn:application-discovery:read'
+  x-sailpoint-userLevels:
+    - ORG_ADMIN
+    - SOURCE_ADMIN
   parameters:
     - name: "id"
       in: "path"
@@ -16,6 +19,7 @@ get:
         type: "string"
       description: Discovered application's ID. 
       example: "123e4567-e89b-12d3-a456-426655440000"
+      x-sailpoint-resource-operation-id: getDiscoveredApplications
   responses:
     '200':
       description: Returns the discovered application, along with its associated sources.
@@ -36,6 +40,10 @@ get:
               "f9b7e2ce-aced-4117-a95f-4ffad8b33989",
               "a3b159f2-5f09-43c9-b40e-a6f317aa5b8f"
             ]
+            riskScore: 1
+            isBusiness: false
+            totalSigninsCount: 1
+            riskLevel: "Low"
     '400':
       $ref: '../../v3/responses/400.yaml'
     '401':
@@ -60,6 +68,9 @@ patch:
   security:
     - userAuth:
         - 'idn:application-discovery:write'
+  x-sailpoint-userLevels:
+    - ORG_ADMIN
+    - SOURCE_ADMIN
   parameters:
     - name: "id"
       in: "path"
@@ -68,6 +79,7 @@ patch:
         type: "string"
       description: Discovered application's ID.
       example: "123e4567-e89b-12d3-a456-426655440000"
+      x-sailpoint-resource-operation-id: getDiscoveredApplications
   requestBody:
     content:
       application/json-patch+json:
@@ -138,6 +150,10 @@ patch:
               "f9b7e2ce-aced-4117-a95f-4ffad8b33989",
               "a3b159f2-5f09-43c9-b40e-a6f317aa5b8f"
             ]
+            riskScore: 1
+            isBusiness: false
+            totalSigninsCount: 1
+            riskLevel: "Low"
     '400':
       $ref: '../../v3/responses/400.yaml'
     '401':
