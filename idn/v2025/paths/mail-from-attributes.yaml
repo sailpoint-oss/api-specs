@@ -2,6 +2,8 @@ put:
   security:
   - userAuth:
     - sp:notification-mail-from-attributes:write
+  x-sailpoint-userLevels:
+    - ORG_ADMIN
   operationId: putMailFromAttributes
   tags:
   - Notifications
@@ -34,12 +36,3 @@ put:
       $ref: ../responses/429.yaml
     '500':
       $ref: ../responses/500.yaml
-  parameters:
-  - name: X-SailPoint-Experimental
-    in: header
-    description: Use this header to enable this experimental API.
-    example: true
-    schema:
-      type: string
-      default: true
-    required: true

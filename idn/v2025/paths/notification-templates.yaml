@@ -44,14 +44,6 @@ get:
       Sorting is supported for the following fields: **key, name, medium**
     example: key, -name
     required: false
-  - name: X-SailPoint-Experimental
-    in: header
-    description: Use this header to enable this experimental API.
-    example: true
-    schema:
-      type: string
-      default: true
-    required: true
   responses:
     '200':
       description: A list of template objects for your site
@@ -108,12 +100,3 @@ post:
       $ref: ../responses/429.yaml
     '500':
       $ref: ../responses/500.yaml
-  parameters:
-  - name: X-SailPoint-Experimental
-    in: header
-    description: Use this header to enable this experimental API.
-    example: true
-    schema:
-      type: string
-      default: true
-    required: true

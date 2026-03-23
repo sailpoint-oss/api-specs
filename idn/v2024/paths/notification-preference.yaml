@@ -8,11 +8,13 @@ get:
 
   security:
   - userAuth: [ idn:notification-preferences:read ]
+  x-sailpoint-userLevels:
+    - ORG_ADMIN
   parameters:
     - in: path
       name: key
       required: true
-      x-sailpoint-resource-operation-id: listNotificationPreferences
+      x-sailpoint-resource-operation-id: getNotificationPreferences
       example: cloud_manual_work_item_summary
       schema:
         type: string
@@ -46,12 +48,14 @@ put:
 
   security:
   - userAuth: [ idn:notification-preferences:create ]
+  x-sailpoint-userLevels:
+    - ORG_ADMIN
 
   parameters:
     - in: path
       name: key
       required: true
-      x-sailpoint-resource-operation-id: listNotificationPreferences
+      x-sailpoint-resource-operation-id: getNotificationPreferences
       example: cloud_manual_work_item_summary
       schema:
         type: string

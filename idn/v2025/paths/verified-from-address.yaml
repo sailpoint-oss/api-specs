@@ -1,4 +1,9 @@
 delete:
+  security:
+  - userAuth:
+    - idn:notification-templates:delete
+  x-sailpoint-userLevels:
+    - ORG_ADMIN
   operationId: deleteVerifiedFromAddress
   tags:
   - Notifications
@@ -7,18 +12,12 @@ delete:
   parameters:
   - in: path
     name: id
-    schema:
-      type: string
+    description: Unique identifier of the verified sender address to delete.
     required: true
     x-sailpoint-resource-operation-id: listFromAddresses
-  - name: X-SailPoint-Experimental
-    in: header
-    description: Use this header to enable this experimental API.
-    example: true
     schema:
       type: string
-      default: true
-    required: true
+      example: c17bea3a-574d-453c-9e04-4365fbf5af0b
   responses:
     '204':
       $ref: ../responses/204.yaml
