@@ -48576,10 +48576,12 @@ components:
         privileged:
           type: boolean
           description: True if the entitlement is privileged
+          default: false
           example: true
         cloudGoverned:
           type: boolean
           description: True if the entitlement is cloud governed
+          default: false
           example: true
         requestable:
           type: boolean
@@ -48605,6 +48607,12 @@ components:
               type: string
               description: The display name of the identity
               example: john.doe
+        additionalOwners:
+          type: array
+          nullable: true
+          description: List of additional owner references beyond the primary owner. Each entry may be an identity (IDENTITY) or a governance group (GOVERNANCE_GROUP).
+          items:
+            $ref: '#/components/schemas/AdditionalOwnerRef'
         manuallyUpdatedFields:
           type: object
           description: A map of entitlement fields that have been manually updated. The key is the field name in UPPER_SNAKE_CASE format, and the value is true or false to indicate if the field has been updated.
