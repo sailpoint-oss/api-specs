@@ -77,6 +77,12 @@ properties:
     allOf:
     - $ref: '../schemas/gov-entitlement/OwnerReferenceDto.yaml'
     - nullable: true
+  additionalOwners:
+    type: array
+    nullable: true
+    description: List of additional owner references beyond the primary owner. Each entry may be an identity (IDENTITY) or a governance group (GOVERNANCE_GROUP).
+    items:
+      $ref: '../../v3/schemas/access/AdditionalOwnerRef.yaml'
   directPermissions:
     type: array
     items:
