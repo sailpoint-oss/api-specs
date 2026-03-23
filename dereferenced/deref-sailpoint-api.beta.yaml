@@ -55995,6 +55995,7 @@ components:
           description: The verification status of the sender address
         region:
           type: string
+          nullable: true
           example: us-east-1
           description: The AWS SES region the sender address is associated with
     DkimAttributes:
