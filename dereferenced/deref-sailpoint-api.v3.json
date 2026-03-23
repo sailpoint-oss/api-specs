@@ -49056,6 +49056,34 @@
             "type": "string",
             "description": "The status of an application within the discovery source.\n\nBy default this field is set to \"ACTIVE\" when the application is discovered.\n\nIf an application has been deleted from within the discovery source, the status will be set to \"INACTIVE\".",
             "example": "ACTIVE"
+          },
+          "riskScore": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The risk score of the application ranging from 0-100, 100 being highest risk.",
+            "example": 1
+          },
+          "isBusiness": {
+            "type": "boolean",
+            "description": "Indicates whether the application is used for business purposes.",
+            "example": false,
+            "default": true
+          },
+          "totalSigninsCount": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The total number of sign-in accounts for the application.",
+            "example": 1
+          },
+          "riskLevel": {
+            "type": "string",
+            "enum": [
+              "High",
+              "Medium",
+              "Low"
+            ],
+            "description": "The risk level of the application.",
+            "example": "Low"
           }
         }
       },
@@ -49129,6 +49157,34 @@
               "e0cc5d7d-bf7f-4f81-b2af-8885b09d9923",
               "a0303682-5e4a-44f7-bdc2-6ce6112549c1"
             ]
+          },
+          "riskScore": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The risk score of the application ranging from 0-100, 100 being highest risk.",
+            "example": 1
+          },
+          "isBusiness": {
+            "type": "boolean",
+            "description": "Indicates whether the application is used for business purposes.",
+            "example": false,
+            "default": true
+          },
+          "totalSigninsCount": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The total number of sign-in accounts for the application.",
+            "example": 1
+          },
+          "riskLevel": {
+            "type": "string",
+            "enum": [
+              "High",
+              "Medium",
+              "Low"
+            ],
+            "description": "The risk level of the application.",
+            "example": "Low"
           }
         }
       }
@@ -53780,7 +53836,11 @@
             ],
             "discoveredAt": "2023-07-01T12:00:00Z",
             "createdAt": "2024-06-01T12:00:00Z",
-            "status": "ACTIVE"
+            "status": "ACTIVE",
+            "riskScore": 1,
+            "isBusiness": false,
+            "totalSigninsCount": 1,
+            "riskLevel": "Low"
           },
           {
             "id": "59310a1e-0d8f-42fa-95aa-b82b263de7f6",
@@ -53794,7 +53854,11 @@
             ],
             "discoveredAt": "2023-08-15T08:00:00Z",
             "createdAt": "2024-05-20T08:00:00Z",
-            "status": "ACTIVE"
+            "status": "ACTIVE",
+            "riskScore": 1,
+            "isBusiness": false,
+            "totalSigninsCount": 1,
+            "riskLevel": "Low"
           },
           {
             "id": "dfe675cb-f689-475f-99f1-49e348449867",
@@ -53808,7 +53872,11 @@
             ],
             "discoveredAt": "2023-09-10T15:00:00Z",
             "createdAt": "2024-07-03T15:00:00Z",
-            "status": "ACTIVE"
+            "status": "ACTIVE",
+            "riskScore": 1,
+            "isBusiness": false,
+            "totalSigninsCount": 1,
+            "riskLevel": "Low"
           }
         ]
       },
@@ -53830,7 +53898,11 @@
             "status": "ACTIVE",
             "associatedSources": [
               "e0cc5d7d-bf7f-4f81-b2af-8885b09d9923"
-            ]
+            ],
+            "riskScore": 1,
+            "isBusiness": false,
+            "totalSigninsCount": 1,
+            "riskLevel": "Low"
           },
           {
             "id": "b3a3a704-6a45-45ee-a501-bbc332388222",
@@ -53848,7 +53920,11 @@
             "associatedSources": [
               "a3b159f2-5f09-43c9-b40e-a6f317aa5b8f",
               "e0cc5d7d-bf7f-4f81-b2af-8885b09d9923"
-            ]
+            ],
+            "riskScore": 1,
+            "isBusiness": false,
+            "totalSigninsCount": 1,
+            "riskLevel": "Low"
           },
           {
             "id": "1d070458-faed-4a6c-8990-918ad70a06ee",
@@ -53867,7 +53943,11 @@
               "4e2d7605-833f-4c34-8d03-5b2c7d2f4f66",
               "f9b7e2ce-aced-4117-a95f-4ffad8b33989",
               "a3b159f2-5f09-43c9-b40e-a6f317aa5b8f"
-            ]
+            ],
+            "riskScore": 1,
+            "isBusiness": false,
+            "totalSigninsCount": 1,
+            "riskLevel": "Low"
           },
           {
             "id": "9be7c5a5-9f37-46ba-965a-e5b9453472c6",
@@ -53882,7 +53962,11 @@
             "discoveredAt": "2023-10-05T14:00:00Z",
             "createdAt": "2024-08-01T14:00:00Z",
             "status": "ACTIVE",
-            "associatedSources": []
+            "associatedSources": [],
+            "riskScore": 1,
+            "isBusiness": false,
+            "totalSigninsCount": 1,
+            "riskLevel": "Low"
           }
         ]
       }
