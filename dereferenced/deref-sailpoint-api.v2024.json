@@ -54197,6 +54197,23 @@
     },
     "/workgroups": {
       "get": {
+        "security": [
+          {
+            "userAuth": [
+              "idn:workgroup:read",
+              "idn:workgroup:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:workgroup:read",
+              "idn:workgroup:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
         "operationId": "listWorkgroups",
         "tags": [
           "Governance Groups"
@@ -54233,17 +54250,6 @@
             "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **name, created, modified, id, description**",
             "example": "name,-modified",
             "required": false
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "responses": {
@@ -54275,24 +54281,9 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        },
-        "security": [
-          {
-            "userAuth": [
-              "idn:workgroup:read",
-              "idn:workgroup:manage"
-            ]
-          },
-          {
-            "applicationAuth": [
-              "idn:workgroup:read",
-              "idn:workgroup:manage"
-            ]
-          }
-        ]
+        }
       },
       "post": {
-        "operationId": "createWorkgroup",
         "security": [
           {
             "userAuth": [
@@ -54305,6 +54296,10 @@
             ]
           }
         ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "operationId": "createWorkgroup",
         "tags": [
           "Governance Groups"
         ],
@@ -54346,24 +54341,28 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        },
-        "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          }
-        ]
+        }
       }
     },
     "/workgroups/{id}": {
       "get": {
+        "security": [
+          {
+            "userAuth": [
+              "idn:workgroup:read",
+              "idn:workgroup:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:workgroup:read",
+              "idn:workgroup:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
         "operationId": "getWorkgroup",
         "tags": [
           "Governance Groups"
@@ -54375,22 +54374,12 @@
             "in": "path",
             "name": "id",
             "required": true,
+            "x-sailpoint-resource-operation-id": "listWorkgroups",
             "schema": {
               "type": "string"
             },
             "description": "ID of the Governance Group",
             "example": "2c9180837ca6693d017ca8d097500149"
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "responses": {
@@ -54419,26 +54408,24 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        },
+        }
+      },
+      "delete": {
         "security": [
           {
             "userAuth": [
-              "idn:workgroup:read",
               "idn:workgroup:manage"
             ]
           },
           {
             "applicationAuth": [
-              "idn:workgroup:read",
               "idn:workgroup:manage"
             ]
           }
         ],
         "x-sailpoint-userLevels": [
           "ORG_ADMIN"
-        ]
-      },
-      "delete": {
+        ],
         "operationId": "deleteWorkgroup",
         "tags": [
           "Governance Groups"
@@ -54450,22 +54437,12 @@
             "in": "path",
             "name": "id",
             "required": true,
+            "x-sailpoint-resource-operation-id": "listWorkgroups",
             "schema": {
               "type": "string"
             },
             "description": "ID of the Governance Group",
             "example": "2c9180837ca6693d017ca8d097500149"
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "responses": {
@@ -54487,7 +54464,9 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        },
+        }
+      },
+      "patch": {
         "security": [
           {
             "userAuth": [
@@ -54502,9 +54481,7 @@
         ],
         "x-sailpoint-userLevels": [
           "ORG_ADMIN"
-        ]
-      },
-      "patch": {
+        ],
         "operationId": "patchWorkgroup",
         "tags": [
           "Governance Groups"
@@ -54516,22 +54493,12 @@
             "in": "path",
             "name": "id",
             "required": true,
+            "x-sailpoint-resource-operation-id": "listWorkgroups",
             "schema": {
               "type": "string"
             },
             "description": "ID of the Governance Group",
             "example": "2c9180837ca6693d017ca8d097500149"
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "requestBody": {
@@ -54584,7 +54551,11 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        },
+        }
+      }
+    },
+    "/workgroups/bulk-delete": {
+      "post": {
         "security": [
           {
             "userAuth": [
@@ -54599,16 +54570,12 @@
         ],
         "x-sailpoint-userLevels": [
           "ORG_ADMIN"
-        ]
-      }
-    },
-    "/workgroups/bulk-delete": {
-      "post": {
+        ],
         "operationId": "deleteWorkgroupsInBulk",
-        "summary": "Delete governance group(s)",
         "tags": [
           "Governance Groups"
         ],
+        "summary": "Delete governance group(s)",
         "description": "\nThis API initiates a bulk deletion of one or more Governance Groups.\n\n>  If any of the indicated Governance Groups have one or more connections associated with it,then those Governance Groups will be added in  **inUse** list of the response. Governance Group(s) marked as **inUse** can not be deleted.\n\n>  If any of the indicated Governance Groups is not does not exists in Organization,then those Governance Groups will be added in **notFound** list of the response. Governance Groups marked as **notFound** will not be deleted.\n\n>  If any of the indicated Governance Groups does not have any connections associated with it,then those Governance Groups will be added in **deleted** list of the response. A Governance Group marked as **deleted** will be deleted from current Organization.\n\n>  If the request contains any **inUse** or **notFound** Governance Group IDs then it skips only these Governance Groups for deletion and deletes the rest of Governance Groups which have no connections associated with it. \n\n>  **This API has limit number of Governance Groups can be deleted at one time. If the request contains more then 100 Governance Groups IDs to be deleted then the API will throw an exception.**",
         "requestBody": {
           "required": true,
@@ -54652,36 +54619,28 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        },
+        }
+      }
+    },
+    "/workgroups/{workgroupId}/connections": {
+      "get": {
         "security": [
           {
             "userAuth": [
+              "idn:workgroup:read",
               "idn:workgroup:manage"
             ]
           },
           {
             "applicationAuth": [
+              "idn:workgroup:read",
               "idn:workgroup:manage"
             ]
           }
         ],
-        "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          }
-        ]
-      }
-    },
-    "/workgroups/{workgroupId}/connections": {
-      "get": {
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
         "operationId": "listConnections",
         "tags": [
           "Governance Groups"
@@ -54694,6 +54653,7 @@
             "in": "path",
             "description": "ID of the Governance Group.",
             "required": true,
+            "x-sailpoint-resource-operation-id": "listWorkgroups",
             "schema": {
               "type": "string",
               "example": "2c91808a7813090a017814121919ecca"
@@ -54718,17 +54678,6 @@
             "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **name, created, modified**",
             "example": "name,-modified",
             "required": false
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "responses": {
@@ -54760,7 +54709,11 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        },
+        }
+      }
+    },
+    "/workgroups/{workgroupId}/members": {
+      "get": {
         "security": [
           {
             "userAuth": [
@@ -54774,11 +54727,10 @@
               "idn:workgroup:manage"
             ]
           }
-        ]
-      }
-    },
-    "/workgroups/{workgroupId}/members": {
-      "get": {
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
         "operationId": "listWorkgroupMembers",
         "tags": [
           "Governance Groups"
@@ -54791,6 +54743,7 @@
             "in": "path",
             "description": "ID of the Governance Group.",
             "required": true,
+            "x-sailpoint-resource-operation-id": "listWorkgroups",
             "schema": {
               "type": "string",
               "example": "2c91808a7813090a017814121919ecca"
@@ -54815,17 +54768,6 @@
             "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **name, created, modified**",
             "example": "name,-modified",
             "required": false
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "responses": {
@@ -54883,26 +54825,11 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        },
-        "security": [
-          {
-            "userAuth": [
-              "idn:workgroup:read",
-              "idn:workgroup:manage"
-            ]
-          },
-          {
-            "applicationAuth": [
-              "idn:workgroup:read",
-              "idn:workgroup:manage"
-            ]
-          }
-        ]
+        }
       }
     },
     "/workgroups/{workgroupId}/members/bulk-add": {
       "post": {
-        "operationId": "updateWorkgroupMembers",
         "security": [
           {
             "userAuth": [
@@ -54915,6 +54842,10 @@
             ]
           }
         ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "operationId": "updateWorkgroupMembers",
         "tags": [
           "Governance Groups"
         ],
@@ -54926,21 +54857,11 @@
             "in": "path",
             "description": "ID of the Governance Group.",
             "required": true,
+            "x-sailpoint-resource-operation-id": "listWorkgroups",
             "schema": {
               "type": "string",
               "example": "2c91808a7813090a017814121919ecca"
             }
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "requestBody": {
@@ -54985,7 +54906,6 @@
     },
     "/workgroups/{workgroupId}/members/bulk-delete": {
       "post": {
-        "operationId": "deleteWorkgroupMembers",
         "security": [
           {
             "userAuth": [
@@ -55001,6 +54921,7 @@
         "x-sailpoint-userLevels": [
           "ORG_ADMIN"
         ],
+        "operationId": "deleteWorkgroupMembers",
         "tags": [
           "Governance Groups"
         ],
@@ -55012,21 +54933,11 @@
             "in": "path",
             "description": "ID of the Governance Group.",
             "required": true,
+            "x-sailpoint-resource-operation-id": "listWorkgroups",
             "schema": {
               "type": "string",
               "example": "2c91808a7813090a017814121919ecca"
             }
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "requestBody": {

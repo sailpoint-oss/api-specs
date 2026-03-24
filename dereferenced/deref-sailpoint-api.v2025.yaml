@@ -43285,6 +43285,15 @@ paths:
           $ref: '#/components/responses/500'
   /workgroups:
     get:
+      security:
+        - userAuth:
+            - idn:workgroup:read
+            - idn:workgroup:manage
+        - applicationAuth:
+            - idn:workgroup:read
+            - idn:workgroup:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
       operationId: listWorkgroups
       tags:
         - Governance Groups
@@ -43321,14 +43330,6 @@ paths:
             Sorting is supported for the following fields: **name, created, modified, id, description**
           example: name,-modified
           required: false
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '200':
           description: List of Governance Groups
@@ -43348,20 +43349,15 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-      security:
-        - userAuth:
-            - idn:workgroup:read
-            - idn:workgroup:manage
-        - applicationAuth:
-            - idn:workgroup:read
-            - idn:workgroup:manage
     post:
-      operationId: createWorkgroup
       security:
         - userAuth:
             - idn:workgroup:manage
         - applicationAuth:
             - idn:workgroup:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      operationId: createWorkgroup
       tags:
         - Governance Groups
       summary: Create a new governance group.
@@ -43389,17 +43385,17 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
   /workgroups/{id}:
     get:
+      security:
+        - userAuth:
+            - idn:workgroup:read
+            - idn:workgroup:manage
+        - applicationAuth:
+            - idn:workgroup:read
+            - idn:workgroup:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
       operationId: getWorkgroup
       tags:
         - Governance Groups
@@ -43409,18 +43405,11 @@ paths:
         - in: path
           name: id
           required: true
+          x-sailpoint-resource-operation-id: listWorkgroups
           schema:
             type: string
           description: ID of the Governance Group
           example: 2c9180837ca6693d017ca8d097500149
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '200':
           description: A Governance Group
@@ -43438,16 +43427,14 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
+    delete:
       security:
         - userAuth:
-            - idn:workgroup:read
             - idn:workgroup:manage
         - applicationAuth:
-            - idn:workgroup:read
             - idn:workgroup:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
-    delete:
       operationId: deleteWorkgroup
       tags:
         - Governance Groups
@@ -43457,18 +43444,11 @@ paths:
         - in: path
           name: id
           required: true
+          x-sailpoint-resource-operation-id: listWorkgroups
           schema:
             type: string
           description: ID of the Governance Group
           example: 2c9180837ca6693d017ca8d097500149
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '204':
           $ref: '#/components/responses/204'
@@ -43482,6 +43462,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
+    patch:
       security:
         - userAuth:
             - idn:workgroup:manage
@@ -43489,7 +43470,6 @@ paths:
             - idn:workgroup:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
-    patch:
       operationId: patchWorkgroup
       tags:
         - Governance Groups
@@ -43503,18 +43483,11 @@ paths:
         - in: path
           name: id
           required: true
+          x-sailpoint-resource-operation-id: listWorkgroups
           schema:
             type: string
           description: ID of the Governance Group
           example: 2c9180837ca6693d017ca8d097500149
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       requestBody:
         content:
           application/json-patch+json:
@@ -43546,6 +43519,8 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
+  /workgroups/bulk-delete:
+    post:
       security:
         - userAuth:
             - idn:workgroup:manage
@@ -43553,12 +43528,10 @@ paths:
             - idn:workgroup:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
-  /workgroups/bulk-delete:
-    post:
       operationId: deleteWorkgroupsInBulk
-      summary: Delete governance group(s)
       tags:
         - Governance Groups
+      summary: Delete governance group(s)
       description: |-
 
         This API initiates a bulk deletion of one or more Governance Groups.
@@ -43599,22 +43572,17 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-      security:
-        - userAuth:
-            - idn:workgroup:manage
-        - applicationAuth:
-            - idn:workgroup:manage
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
   /workgroups/{workgroupId}/connections:
     get:
+      security:
+        - userAuth:
+            - idn:workgroup:read
+            - idn:workgroup:manage
+        - applicationAuth:
+            - idn:workgroup:read
+            - idn:workgroup:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
       operationId: listConnections
       tags:
         - Governance Groups
@@ -43625,6 +43593,7 @@ paths:
           in: path
           description: ID of the Governance Group.
           required: true
+          x-sailpoint-resource-operation-id: listWorkgroups
           schema:
             type: string
             example: 2c91808a7813090a017814121919ecca
@@ -43642,14 +43611,6 @@ paths:
             Sorting is supported for the following fields: **name, created, modified**
           example: name,-modified
           required: false
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '200':
           description: List all connections associated with a Governance Group.
@@ -43669,6 +43630,8 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
+  /workgroups/{workgroupId}/members:
+    get:
       security:
         - userAuth:
             - idn:workgroup:read
@@ -43676,8 +43639,8 @@ paths:
         - applicationAuth:
             - idn:workgroup:read
             - idn:workgroup:manage
-  /workgroups/{workgroupId}/members:
-    get:
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
       operationId: listWorkgroupMembers
       tags:
         - Governance Groups
@@ -43688,6 +43651,7 @@ paths:
           in: path
           description: ID of the Governance Group.
           required: true
+          x-sailpoint-resource-operation-id: listWorkgroups
           schema:
             type: string
             example: 2c91808a7813090a017814121919ecca
@@ -43705,14 +43669,6 @@ paths:
             Sorting is supported for the following fields: **name, created, modified**
           example: name,-modified
           required: false
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '200':
           description: List all members associated with a Governance Group.
@@ -43752,21 +43708,16 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-      security:
-        - userAuth:
-            - idn:workgroup:read
-            - idn:workgroup:manage
-        - applicationAuth:
-            - idn:workgroup:read
-            - idn:workgroup:manage
   /workgroups/{workgroupId}/members/bulk-add:
     post:
-      operationId: updateWorkgroupMembers
       security:
         - userAuth:
             - idn:workgroup:write
         - applicationAuth:
             - idn:workgroup:write
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      operationId: updateWorkgroupMembers
       tags:
         - Governance Groups
       summary: Add members to governance group
@@ -43781,17 +43732,10 @@ paths:
           in: path
           description: ID of the Governance Group.
           required: true
+          x-sailpoint-resource-operation-id: listWorkgroups
           schema:
             type: string
             example: 2c91808a7813090a017814121919ecca
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       requestBody:
         description: List of identities to be added to a Governance Group members list.
         required: true
@@ -43818,7 +43762,6 @@ paths:
           $ref: '#/components/responses/500'
   /workgroups/{workgroupId}/members/bulk-delete:
     post:
-      operationId: deleteWorkgroupMembers
       security:
         - userAuth:
             - idn:workgroup:write
@@ -43826,6 +43769,7 @@ paths:
             - idn:workgroup:write
       x-sailpoint-userLevels:
         - ORG_ADMIN
+      operationId: deleteWorkgroupMembers
       tags:
         - Governance Groups
       summary: Remove members from governance group
@@ -43839,17 +43783,10 @@ paths:
           in: path
           description: ID of the Governance Group.
           required: true
+          x-sailpoint-resource-operation-id: listWorkgroups
           schema:
             type: string
             example: 2c91808a7813090a017814121919ecca
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       requestBody:
         description: List of identities to be removed from  a Governance Group members list.
         required: true
