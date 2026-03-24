@@ -1,5 +1,5 @@
 get:
-  operationId: getAccountEntitlements
+  operationId: listEntitlementsByAccount
   tags:
     - Entitlements
   summary: Get entitlements for an account

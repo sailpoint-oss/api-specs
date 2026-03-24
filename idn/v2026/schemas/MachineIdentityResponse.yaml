@@ -1,4 +1,4 @@
-# The Identity DTO returned by the 2026 identities APIs
+# The Identity DTO returned by the v3 identities APIs
 allOf:
   - $ref: './MachineIdentity.yaml'
   - type: object

@@ -8,7 +8,7 @@ properties:
   name:
     type: string
     description: The entitlement name
-    example: "Account Payable"
+    example: "PayrollControls"
   attribute:
     type: string
     description: The entitlement attribute name
@@ -16,7 +16,7 @@ properties:
   value:
     type: string
     description: The value of the entitlement
-    example: "CN=Account Payable,OU=Finance,DC=xyz company"
+    example: "CN=PayrollControls,OU=Groups,OU=Demo,DC=seri,DC=sailpointdemo,DC=com"
   sourceSchemaObjectType:
     type: string
     description: The object type of the entitlement from the source schema
@@ -24,20 +24,13 @@ properties:
   description:
     type: string
     description: The description of the entitlement
-    example: "This entitlement allows users to access the accounts payable module of the organization's financial management system. Users can view, process, and approve invoices, manage vendor relationships, and perform other accounts payable-related tasks."
+    example: "Grants the ability to access and manage payroll-related controls and settings within the Corporate Active Directory system."
     nullable: true
-  privilegeLevel:
-    allOf:
-      - $ref: './EntitlementPrivilegeLevel.yaml'
-      - description: Privilege level of the entitlement
-        nullable: true
-  tags:
-    type: array
-    description: List of tags assigned to the entitlement
-    items:
-      type: string
-    example: ["tag1", "tag2"]
-    nullable: true
+  privileged:
+    type: boolean
+    description: True if the entitlement is privileged
+    default: false
+    example: true
   cloudGoverned:
     type: boolean
     description: True if the entitlement is cloud governed
@@ -67,6 +60,12 @@ properties:
         type: string
         description: The display name of the identity
         example: john.doe
+  additionalOwners:
+    type: array
+    nullable: true
+    description: List of additional owner references beyond the primary owner. Each entry may be an identity (IDENTITY) or a governance group (GOVERNANCE_GROUP).
+    items:
+      $ref: './access/AdditionalOwnerRef.yaml'
   manuallyUpdatedFields:
     type: object
     description: A map of entitlement fields that have been manually updated. The key is the field name in UPPER_SNAKE_CASE format, and the value is true or false to indicate if the field has been updated.
@@ -107,7 +106,7 @@ properties:
       name:
         type: string
         description: The source name
-        example: ODS-AD-Source
+        example: Corporate Active Directory
   attributes:
     type: object
     description: A map of free-form key-value pairs from the source system

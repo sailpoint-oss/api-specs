@@ -22,13 +22,13 @@ properties:
       [
         {
           "op": "replace",
-          "path": "/requestable",
+          "path": "/privileged",
           "value": false
         },
         {
           "op": "replace",
-          "path": "/privilegeOverride/level",
-          "value": "HIGH"
+          "path": "/requestable",
+          "value": false
         }
       ]
 required:

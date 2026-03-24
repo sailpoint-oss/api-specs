@@ -2,10 +2,18 @@ get:
   tags:
   - Task Management
   summary: Retrieve task status list
-  description: | 
-    Use this endpoint to get a list of statuses for **all** tasks, including completed, in-progress, terminated, and errored tasks. Types of tasks include account and entitlement aggregation and other general background processing tasks. Data for tasks older than 90 days will not be returned. For a list of **in-progress** tasks, apply the isnull filter to the Completion Status field.
+  description: |
+    Use this endpoint to get a list of statuses for **all** tasks, including completed, in-progress, terminated, and errored tasks. Types of tasks include account and entitlement aggregation and other general background processing tasks. Data for tasks older than 90 days will not be returned. For a list of **in-progress** tasks, use the [retrieve pending task status list](https://developer.sailpoint.com/docs/api/v2025/get-pending-tasks) endpoint or apply the isnull filter to the Completion Status field.
   operationId: getTaskStatusList
   parameters:
+  - name: X-SailPoint-Experimental
+    in: header
+    description: Use this header to enable this experimental API.
+    example: true
+    schema:
+      type: string
+      default: true
+    required: true
   - $ref: ../parameters/limit.yaml
   - $ref: ../parameters/offset.yaml
   - $ref: ../parameters/count.yaml
@@ -13,7 +21,7 @@ get:
     name: filters
     schema:
       type: string
-    example: type eq "CLOUD_ACCOUNT_AGGREGATION" and completionStatus isnull
+    example: completionStatus eq "Success"
     required: false
     description: 'Filter results using the standard syntax described in [V3 API Standard
       Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)
@@ -32,12 +40,9 @@ get:
 
 
       **type**: *eq, in*
-
-
-      **launcher**: *eq, in*
-
-
-      **Possible Values:** CLOUD_ACCOUNT_AGGREGATION, CLOUD_GROUP_AGGREGATION, CLOUD_PROCESS_UNCORRELATED_ACCOUNTS, CLOUD_REFRESH_ROLE, SOURCE_APPLICATION_DISCOVERY, AI_AGENT_AGGREGATION, CLOUD_ENTITLEMENT_IMPORT, CLOUD_UNCORRELATED_REFRESH, CLOUD_IDENTITY_AGGREGATION, CLOUD_ATTRIBUTE_SYNCHRONIZATION, IDENTITY_REFRESH, APPLICATION_DISCOVERY, MACHINE_IDENTITY_AGGREGATION, MACHINE_IDENTITY_DELETION, ACCOUNT_DELETION'
+    
+    
+      **Possible Values:** CLOUD_ACCOUNT_AGGREGATION, CLOUD_GROUP_AGGREGATION, CLOUD_PROCESS_UNCORRELATED_ACCOUNTS, CLOUD_REFRESH_ROLE, SOURCE_APPLICATION_DISCOVERY, AI_AGENT_AGGREGATION, APPLICATION_DISCOVERY, MACHINE_IDENTITY_AGGREGATION, MACHINE_IDENTITY_DELETION, ACCOUNT_DELETION'
   - in: query
     name: sorters
     schema:
@@ -50,14 +55,6 @@ get:
 
 
       Sorting is supported for the following fields: **created**'
-  - name: X-SailPoint-Experimental
-    in: header
-    description: Use this header to enable this experimental API.
-    example: true
-    schema:
-      type: string
-      default: true
-    required: true
   responses:
     '200':
       description: Responds with a TaskStatus for the task with the given task ID.

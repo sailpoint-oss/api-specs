@@ -4,13 +4,13 @@ allOf:
   - type: object
     title: MachineIdentityDto
     required:
-      - nativeIdentity
+      - businessApplication
       - subtype
     properties:
-      nativeIdentity:
+      businessApplication:
         type: string
-        description: The native identity associated to the machine identity directly aggregated from a source
-        example: 'abc:123:dddd'
+        description: The business application that the identity represents
+        example: 'ADService'
       description:
         type: string
         description: Description of machine identity
@@ -48,3 +48,7 @@ allOf:
         type: string
         description: The UUID associated to the machine identity directly aggregated from a source
         example: 'f5dd23fe-3414-42b7-bb1c-869400ad7a10'
+      nativeIdentity:
+        type: string
+        description: The native identity associated to the machine identity directly aggregated from a source
+        example: 'abc:123:dddd'

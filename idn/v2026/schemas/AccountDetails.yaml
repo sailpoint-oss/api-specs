@@ -1,72 +1,78 @@
+description: Account Details
 type: object
 title: Account Details
-description: Contains detailed information about an account, including identifiers, type, status, source, and ownership details.
 properties:
+  id:
+    description: unique id of this object
+    type: string
+    example: 2c91808474683da6017468693c260195
+  name:
+    type: string
   accountId:
     type: string
-    description: ID of account
-    example: 15e169acf21f4ae28e8a06198ce7f699
-  accountName:
-    type: string
-    description: Account name
-    example: walter.white
-  accountNativeIdentity:
-    type: string
-    description: Native identity of account
-    example: CN=Walter White,OU=BB,OU=org-data-service,DC=TestAutomationAD,DC=local
-  accountUuid:
-    type: string
-    description: UUID associated with account
-    example: {3bbeb846-e168-47d2-9e5d-bd46506c9280}
-  accountType:
-    type: string
-    nullable: false
-    description: Type of account
-    example: HUMAN
-  accountSubtypeId:
-    type: string
-    nullable: true
-    description: Sub Type ID of account
-    example: null
-  accountSubtype:
-    type: string
-    nullable: true
-    description: Subtype of account
-    example: null
+    example: 4191808474683da6017468693c260195
   description:
     type: string
-    nullable: true
-    description: Account Description
-    example: This is human account for identity walter.white
-  sourceId:
+  nativeIdentity:
     type: string
-    description: ID of source
-    example: ee03924d95034cd088cbd5af068f1772
-  sourceName:
+  uuid:
     type: string
-    description: Name of source
-    example: BB AD
-  hasEntitlements:
-    type: boolean
-    default: false
-    description: Indicates entitlements assigned to identity or not
-    example: true
+  displayName:
+    type: string
   disabled:
     type: boolean
-    default: false
-    description: Indicates account is enabled/disabled
-    example: false
   locked:
     type: boolean
-    default: false
-    description: Indicates account locked/unlocked
-    example: false
-  ownerIdentity:
-    nullable: true
-    allOf:
-      - $ref: './BaseReferenceDto.yaml'
-      - description: Owner identity reference.
-      - example:
-          type: IDENTITY
-          id: SailPoint Support
-          name: 85131bd73fdc423599e57f40b29f01fe
+  uncorrelated:
+    type: boolean
+  systemAccount:
+    type: boolean
+  authoritative:
+    type: boolean
+  supportsPasswordChange:
+    type: boolean
+  attributes:
+    type: object
+  application:
+    type: object
+  identity:
+    type: object
+  schema:
+    type: object
+  pendingAccessRequestIds:
+    type: array
+    items:
+      type: string
+  features:
+    type: array
+    items:
+      type: string
+      enum:
+        - AUTHENTICATE
+        - COMPOSITE
+        - DIRECT_PERMISSIONS
+        - DISCOVER_SCHEMA
+        - ENABLE
+        - MANAGER_LOOKUP
+        - NO_RANDOM_ACCESS
+        - PROXY
+        - SEARCH
+        - TEMPLATE
+        - UNLOCK
+        - UNSTRUCTURED_TARGETS
+        - SHAREPOINT_TARGET
+        - PROVISIONING
+        - GROUP_PROVISIONING
+        - SYNC_PROVISIONING
+        - PASSWORD
+        - CURRENT_PASSWORD
+        - ACCOUNT_ONLY_REQUEST
+        - ADDITIONAL_ACCOUNT_REQUEST
+        - NO_AGGREGATION
+        - GROUPS_HAVE_MEMBERS
+        - NO_PERMISSIONS_PROVISIONING
+        - NO_GROUP_PERMISSIONS_PROVISIONING
+        - NO_UNSTRUCTURED_TARGETS_PROVISIONING
+        - NO_DIRECT_PERMISSIONS_PROVISIONING
+  meta:
+    type: object

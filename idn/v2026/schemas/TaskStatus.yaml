@@ -107,7 +107,6 @@ properties:
   percentComplete:
     description: Current percentage completion of the task this TaskStatus represents
     type: integer
-    format: int32
     example: 100
   taskDefinitionSummary:
     $ref: './TaskDefinitionSummary.yaml'
