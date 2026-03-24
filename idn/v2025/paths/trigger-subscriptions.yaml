@@ -78,15 +78,8 @@ post:
         - sp:trigger-service-subscriptions:manage
     - applicationAuth:
         - sp:trigger-service-subscriptions:manage
-  parameters:
-    - name: X-SailPoint-Experimental
-      in: header
-      description: Use this header to enable this experimental API.
-      example: true
-      schema:
-        type: string
-        default: true
-      required: true
+  x-sailpoint-userLevels:
+    - ORG_ADMIN
 get:
   operationId: listSubscriptions
   tags:
@@ -124,14 +117,6 @@ get:
 
         Sorting is supported for the following fields: **triggerId, triggerName**
       example: triggerName
-    - name: X-SailPoint-Experimental
-      in: header
-      description: Use this header to enable this experimental API.
-      example: true
-      schema:
-        type: string
-        default: true
-      required: true
   responses:
     '200':
       description: List of subscriptions.
@@ -206,3 +191,5 @@ get:
     - applicationAuth:
         - sp:trigger-service-subscriptions:read
         - sp:trigger-service-subscriptions:manage
+  x-sailpoint-userLevels:
+    - ORG_ADMIN
