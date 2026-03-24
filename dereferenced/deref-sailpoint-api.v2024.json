@@ -52754,17 +52754,6 @@
             },
             "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **id, name**",
             "example": "name"
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "responses": {
@@ -52808,6 +52797,9 @@
               "sp:trigger-service-subscriptions:read"
             ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
         ]
       }
     },
@@ -52923,18 +52915,8 @@
             ]
           }
         ],
-        "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          }
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
         ]
       },
       "get": {
@@ -52974,17 +52956,6 @@
             },
             "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **triggerId, triggerName**",
             "example": "triggerName"
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "responses": {
@@ -53094,6 +53065,9 @@
               "sp:trigger-service-subscriptions:manage"
             ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
         ]
       }
     },
@@ -53116,17 +53090,6 @@
             "x-sailpoint-resource-operation-id": "listSubscriptions",
             "description": "Subscription ID",
             "example": "0f11f2a4-7c94-4bf3-a2bd-742580fe3bde"
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "requestBody": {
@@ -53232,6 +53195,9 @@
               "sp:trigger-service-subscriptions:manage"
             ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
         ]
       },
       "patch": {
@@ -53252,17 +53218,6 @@
             "x-sailpoint-resource-operation-id": "listSubscriptions",
             "description": "ID of the Subscription to patch",
             "example": "0f11f2a4-7c94-4bf3-a2bd-742580fe3bde"
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "requestBody": {
@@ -53316,6 +53271,9 @@
               "sp:trigger-service-subscriptions:manage"
             ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
         ]
       },
       "delete": {
@@ -53336,17 +53294,6 @@
             "x-sailpoint-resource-operation-id": "listSubscriptions",
             "description": "Subscription ID",
             "example": "0f11f2a4-7c94-4bf3-a2bd-742580fe3bde"
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "responses": {
@@ -53384,6 +53331,9 @@
               "sp:trigger-service-subscriptions:manage"
             ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
         ]
       }
     },
@@ -53459,18 +53409,8 @@
             ]
           }
         ],
-        "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          }
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
         ]
       }
     },
@@ -53512,17 +53452,6 @@
             },
             "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **triggerId, subscriptionName, created, completed**",
             "example": "created"
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "responses": {
@@ -53568,6 +53497,9 @@
               "sp:trigger-service-invocation-status:manage"
             ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
         ]
       }
     },
@@ -53590,17 +53522,6 @@
             "x-sailpoint-resource-operation-id": "listTriggerInvocationStatus",
             "description": "The ID of the invocation to complete.",
             "example": "0f11f2a4-7c94-4bf3-a2bd-742580fe3bde"
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "requestBody": {
@@ -53638,7 +53559,18 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": []
+          },
+          {
+            "applicationAuth": []
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ]
       }
     },
     "/trigger-invocations/test": {
@@ -53729,18 +53661,8 @@
             ]
           }
         ],
-        "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          }
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
         ]
       }
     },

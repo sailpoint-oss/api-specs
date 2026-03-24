@@ -37321,14 +37321,6 @@ paths:
 
             Sorting is supported for the following fields: **id, name**
           example: name
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '200':
           description: List of triggers.
@@ -37353,6 +37345,8 @@ paths:
             - sp:trigger-service-subscriptions:read
         - applicationAuth:
             - sp:trigger-service-subscriptions:read
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
   /trigger-subscriptions:
     post:
       operationId: createSubscription
@@ -37434,15 +37428,8 @@ paths:
             - sp:trigger-service-subscriptions:manage
         - applicationAuth:
             - sp:trigger-service-subscriptions:manage
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
     get:
       operationId: listSubscriptions
       tags:
@@ -37480,14 +37467,6 @@ paths:
 
             Sorting is supported for the following fields: **triggerId, triggerName**
           example: triggerName
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '200':
           description: List of subscriptions.
@@ -37562,6 +37541,8 @@ paths:
         - applicationAuth:
             - sp:trigger-service-subscriptions:read
             - sp:trigger-service-subscriptions:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
   /trigger-subscriptions/{id}:
     put:
       operationId: updateSubscription
@@ -37588,14 +37569,6 @@ paths:
           x-sailpoint-resource-operation-id: listSubscriptions
           description: Subscription ID
           example: 0f11f2a4-7c94-4bf3-a2bd-742580fe3bde
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       requestBody:
         required: true
         content:
@@ -37666,6 +37639,8 @@ paths:
             - sp:trigger-service-subscriptions:manage
         - applicationAuth:
             - sp:trigger-service-subscriptions:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
     patch:
       operationId: patchSubscription
       tags:
@@ -37684,14 +37659,6 @@ paths:
           x-sailpoint-resource-operation-id: listSubscriptions
           description: ID of the Subscription to patch
           example: 0f11f2a4-7c94-4bf3-a2bd-742580fe3bde
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       requestBody:
         required: true
         content:
@@ -37722,6 +37689,8 @@ paths:
             - sp:trigger-service-subscriptions:manage
         - applicationAuth:
             - sp:trigger-service-subscriptions:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
     delete:
       operationId: deleteSubscription
       tags:
@@ -37737,14 +37706,6 @@ paths:
           x-sailpoint-resource-operation-id: listSubscriptions
           description: Subscription ID
           example: 0f11f2a4-7c94-4bf3-a2bd-742580fe3bde
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '204':
           $ref: '#/components/responses/204'
@@ -37766,6 +37727,8 @@ paths:
             - sp:trigger-service-subscriptions:manage
         - applicationAuth:
             - sp:trigger-service-subscriptions:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
   /trigger-subscriptions/validate-filter:
     post:
       operationId: testSubscriptionFilter
@@ -37814,15 +37777,8 @@ paths:
             - sp:trigger-service-subscriptions:manage
         - applicationAuth:
             - sp:trigger-service-subscriptions:manage
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
   /trigger-invocations/status:
     get:
       operationId: listTriggerInvocationStatus
@@ -37862,14 +37818,6 @@ paths:
 
             Sorting is supported for the following fields: **triggerId, subscriptionName, created, completed**
           example: created
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '200':
           description: List of latest invocation statuses.
@@ -37896,6 +37844,8 @@ paths:
         - applicationAuth:
             - sp:trigger-service-invocation-status:read
             - sp:trigger-service-invocation-status:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
   /trigger-invocations/{id}/complete:
     post:
       operationId: completeTriggerInvocation
@@ -37912,14 +37862,6 @@ paths:
           x-sailpoint-resource-operation-id: listTriggerInvocationStatus
           description: The ID of the invocation to complete.
           example: 0f11f2a4-7c94-4bf3-a2bd-742580fe3bde
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       requestBody:
         required: true
         content:
@@ -37943,6 +37885,11 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
+      security:
+        - userAuth: []
+        - applicationAuth: []
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
   /trigger-invocations/test:
     post:
       operationId: startTestTriggerInvocation
@@ -37998,15 +37945,8 @@ paths:
             - sp:trigger-service-invocation-status:manage
         - applicationAuth:
             - sp:trigger-service-invocation-status:manage
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
   /ui-metadata/tenant:
     get:
       operationId: getTenantUiMetadata
