@@ -1,6 +1,6 @@
 get:
   tags:
-    - Machine Account Deletion Approval Config
+    - Sources
   summary: Machine Account Deletion Approval Config
   operationId: getMachineAccountDeletionApprovalConfigBySource
   description: Retrieves the machine account deletion approval configuration for a specific source. This endpoint returns details about the approval requirements, approvers, and comment settings that govern the deletion of machine accounts associated with the given source ID.
@@ -49,7 +49,7 @@ get:
 patch:
   operationId: updateMachineAccountDeletionApprovalConfig
   tags:
-    - Machine Account Deletion Approval Config
+    - Sources
   summary: Machine Account Deletion Approval Config
   description: |
     Use this endpoint to update the machine account deletion approval configuration for a specific source.

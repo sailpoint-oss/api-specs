@@ -1,6 +1,6 @@
 get:
   tags:
-    - Machine Subtype Approval Config
+    - Machine Accounts
   summary: Machine Subtype Approval Config
   description: This endpoint retrieves the approval configuration for machine account deletion at the machine subtype level. By providing a specific subtypeId in the path, clients can fetch the approval rules and settings (such as required approvers and comments policy) that govern account deletion for that particular machine subtype. The response includes a MachineAccountSubtypeConfigDto object detailing these configurations, enabling clients to understand or display the approval workflow required for deleting machine accounts of the given subtype.
     Use this endpoint to get machine subtype level approval config for account deletion.
@@ -51,7 +51,7 @@ get:
 patch:
   operationId: updateMachineAccountDeletionBySubTypeApprovalConfig
   tags:
-    - Machine Subtype Approval Config
+    - Machine Accounts
   summary: Machine Subtype Approval Config
   description: Updates the approval configuration for machine account deletion at the specified machine subtype level. This endpoint allows clients to modify approval rules and settings (such as required approvers and comments policy) for account deletion workflows associated with a given subtypeId. Use this to customize or enforce approval requirements for deleting machine accounts of a particular subtype.
   security:

@@ -442,7 +442,6 @@ tags:
       This service is responsible for creating segments that will determine how access is delegated to identities
       withing the organization.
   - name: Declassify Source
-  - name: Delete account
   - name: Dimensions
     description: "Use this API to implement and customize dynamic role functionality. With this functionality in place, administrators can create dimensions and configure them for use throughout Identity Security Cloud. Identity Security Cloud can use established criteria to automatically assign the dimensions to qualified users. This enables users to get all the access they need quickly and securely and administrators to spend their time on other tasks. Entitlements represent the most granular level of access in Identity Security Cloud.\nAccess profiles represent the next level and often group entitlements. Dimension represent access selectively based on the evaluation of contextual information that is available or provided. Each Dimension include context attributes and access selection expressions which map criteria to access right assignments. Each dimension can contain up to 5 context attributes. Dynamic Access Roles represent the broadest level of access and often group access profiles ,entitlements and dimensions.Each Dynamic Access Role may contain one or more Dimensions."
   - name: Discovered Applications
@@ -461,7 +460,6 @@ tags:
       A governance group is a group of users that can make governance decisions about access. If your organization has the Access Request or Certifications service, you can configure governance groups to review access requests or certifications. A governance group can determine whether specific access is appropriate for a user.
 
       Refer to [Creating and Managing Governance Groups](https://documentation.sailpoint.com/saas/help/common/users/governance_groups.html) for more information about how to build Governance Groups in the visual builder in the Identity Security Cloud UI.
-  - name: Human Account Deletion Approval Config
   - name: IAI Access Request Recommendations
   - name: IAI Common Access
   - name: IAI Message Catalogs
@@ -545,13 +543,11 @@ tags:
 
       Refer to [Setting Up Lifecycle States](https://documentation.sailpoint.com/saas/help/provisioning/lifecycle.html) for more information about lifecycle states.
   - name: Machine Account Classify
-  - name: Machine Account Deletion Approval Config
   - name: Machine Account Mappings
   - name: Machine Accounts
   - name: Machine Classification Config
   - name: Machine Identities
   - name: Machine Mapping Metadata
-  - name: Machine Subtype Approval Config
   - name: Managed Clients
     description: |
       Use this API to implement managed client functionality. 
@@ -1376,12 +1372,6 @@ paths:
     $ref: ./v2026/paths/machine-identities.yaml
   /machine-identities/{id}:
     $ref: ./v2026/paths/machine-identity.yaml
-  /source-subtypes/{subtypeId}/machine-config:
-    $ref: ./v2026/paths/source-subtype-machine-config.yaml
-  /sources/{sourceId}/approval-config/machine-account-delete:
-    $ref: ./v2026/paths/source-machine-config.yaml
-  /sources/{sourceId}/approval-config/account-delete:
-    $ref: ./v2026/paths/account-delete-config.yaml
   /notification-template-variables/{key}/{medium}:
     $ref: ./v2026/paths/notification-template-variables.yaml
   /access-profiles:
@@ -2412,6 +2402,12 @@ paths:
     $ref: ./v2026/paths/suggested-entitlement-descriptions.yaml
   /sources/{sourceId}/discover-applications:
     $ref: "./v2026/paths/discover-applications.yaml"
+  /source-subtypes/{subtypeId}/machine-config:
+    $ref: ./v2026/paths/source-subtype-machine-config.yaml
+  /sources/{sourceId}/approval-config/machine-account-delete:
+    $ref: ./v2026/paths/source-machine-config.yaml
+  /sources/{sourceId}/approval-config/account-delete:
+    $ref: ./v2026/paths/account-delete-config.yaml
   /discovered-applications:
     $ref: "./v2026/paths/discovered-applications.yaml"
   /manual-discover-applications-template:
