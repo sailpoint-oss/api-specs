@@ -445,7 +445,6 @@ tags:
       This service is responsible for creating segments that will determine how access is delegated to identities
       withing the organization.
   - name: Declassify Source
-  - name: Delete account
   - name: Dimensions
     description: |-
       Use this API to implement and customize dynamic role functionality. With this functionality in place, administrators can create dimensions and configure them for use throughout Identity Security Cloud. Identity Security Cloud can use established criteria to automatically assign the dimensions to qualified users. This enables users to get all the access they need quickly and securely and administrators to spend their time on other tasks. Entitlements represent the most granular level of access in Identity Security Cloud.
@@ -466,7 +465,6 @@ tags:
       A governance group is a group of users that can make governance decisions about access. If your organization has the Access Request or Certifications service, you can configure governance groups to review access requests or certifications. A governance group can determine whether specific access is appropriate for a user.
 
       Refer to [Creating and Managing Governance Groups](https://documentation.sailpoint.com/saas/help/common/users/governance_groups.html) for more information about how to build Governance Groups in the visual builder in the Identity Security Cloud UI.
-  - name: Human Account Deletion Approval Config
   - name: IAI Access Request Recommendations
   - name: IAI Common Access
   - name: IAI Message Catalogs
@@ -550,13 +548,11 @@ tags:
 
       Refer to [Setting Up Lifecycle States](https://documentation.sailpoint.com/saas/help/provisioning/lifecycle.html) for more information about lifecycle states.
   - name: Machine Account Classify
-  - name: Machine Account Deletion Approval Config
   - name: Machine Account Mappings
   - name: Machine Accounts
   - name: Machine Classification Config
   - name: Machine Identities
   - name: Machine Mapping Metadata
-  - name: Machine Subtype Approval Config
   - name: Managed Clients
     description: |
       Use this API to implement managed client functionality. 
@@ -2339,7 +2335,7 @@ paths:
     post:
       operationId: deleteAccountRequest
       tags:
-        - Delete account
+        - Account Deletion Requests
       summary: Delete account
       description: |-
         Initiates an account deletion request for the specified account.
@@ -2707,382 +2703,6 @@ paths:
       responses:
         '204':
           $ref: '#/components/responses/204'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
-  /source-subtypes/{subtypeId}/machine-config:
-    get:
-      tags:
-        - Machine Subtype Approval Config
-      summary: Machine Subtype Approval Config
-      description: This endpoint retrieves the approval configuration for machine account deletion at the machine subtype level. By providing a specific subtypeId in the path, clients can fetch the approval rules and settings (such as required approvers and comments policy) that govern account deletion for that particular machine subtype. The response includes a MachineAccountSubtypeConfigDto object detailing these configurations, enabling clients to understand or display the approval workflow required for deleting machine accounts of the given subtype. Use this endpoint to get machine subtype level approval config for account deletion.
-      operationId: getMachineAccountDeletionSubTypeApprovalConfig
-      security:
-        - userAuth:
-            - idn:source-subtypes:read
-            - idn:source-subtypes:management
-      x-sailpoint-userLevels:
-        - ORG_ADMIN
-        - SOURCE_ADMIN
-        - SOURCE_SUBADMIN
-        - API
-      parameters:
-        - in: header
-          name: X-SailPoint-Experimental
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
-        - in: path
-          name: subtypeId
-          schema:
-            type: string
-          description: machine subtype id.
-          required: true
-          example: ef38f94347e94562b5bb8424a56498d8
-          x-sailpoint-resource-operation-id: listMachineAccountSubtypes
-      responses:
-        '200':
-          description: Responds with a MachineAccountSubtypeConfigDto for machine account deletion approval config by subtypeId.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MachineAccountSubTypeConfigDto'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
-    patch:
-      operationId: updateMachineAccountDeletionBySubTypeApprovalConfig
-      tags:
-        - Machine Subtype Approval Config
-      summary: Machine Subtype Approval Config
-      description: Updates the approval configuration for machine account deletion at the specified machine subtype level. This endpoint allows clients to modify approval rules and settings (such as required approvers and comments policy) for account deletion workflows associated with a given subtypeId. Use this to customize or enforce approval requirements for deleting machine accounts of a particular subtype.
-      security:
-        - userAuth:
-            - idn:source-subtypes:delete
-            - idn:source-subtypes:update
-            - idn:source-subtypes:management
-      x-sailpoint-userLevels:
-        - ORG_ADMIN
-        - SOURCE_ADMIN
-        - SOURCE_SUBADMIN
-        - API
-      parameters:
-        - in: header
-          name: X-SailPoint-Experimental
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
-        - in: path
-          name: subtypeId
-          schema:
-            type: string
-          description: machine account subtype ID.
-          required: true
-          example: 00eebcf881994e419d72e757fd30dc0e
-          x-sailpoint-resource-operation-id: listMachineAccountSubtypes
-      requestBody:
-        required: true
-        description: The JSONPatch payload used to update the object.
-        content:
-          application/json-patch+json:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/JsonPatchOperation'
-              example:
-                - op: replace
-                  path: /machineAccountDelete/approvalConfig/approvers
-                  value: sourceOwner
-      responses:
-        '200':
-          description: This response indicates the PATCH operation succeeded and the API returns the updated MachineAccountSubtypeConfigDto object.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MachineAccountSubTypeConfigDto'
-              example:
-                subtypeId: 1419fc28-a8ed-4a07-9f5c-0cb5dfad6311
-                machineAccountCreate:
-                  accountCreateEnabled: true
-                  approvalRequired: true
-                  formId: 4f1bb61b-a0ab-4c0a-b9fb-20f44407b75a
-                  entitlementId: 858d2151-ff19-464b-ae0d-6938b3af2baf
-                  approvalConfig:
-                    approvers: sourceOwner, manager, workgroup:f76ff96a-0815-402a-be1a-18cdc693b79f
-                    comments: ALL
-                machineAccountDelete:
-                  approvalRequired: false
-                  approvalConfig:
-                    approvers: sourceOwner
-                    comments: REJECTION
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
-  /sources/{sourceId}/approval-config/machine-account-delete:
-    get:
-      tags:
-        - Machine Account Deletion Approval Config
-      summary: Machine Account Deletion Approval Config
-      operationId: getMachineAccountDeletionApprovalConfigBySource
-      description: Retrieves the machine account deletion approval configuration for a specific source. This endpoint returns details about the approval requirements, approvers, and comment settings that govern the deletion of machine accounts associated with the given source ID.
-      security:
-        - userAuth:
-            - idn:source-config:read
-            - idn:source-config:write
-      x-sailpoint-userLevels:
-        - ORG_ADMIN
-        - SOURCE_ADMIN
-        - SOURCE_SUBADMIN
-      parameters:
-        - in: header
-          name: X-SailPoint-Experimental
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
-        - in: path
-          name: sourceId
-          schema:
-            type: string
-          required: true
-          description: source id.
-          example: gt38f94347e94562b5bb8424a56498d8
-          x-sailpoint-resource-operation-id: listSources
-      responses:
-        '200':
-          description: Responds with a AccountDeleteConfigDto for machine account deletion approval config by sourceId.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountDeleteConfigDto'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
-    patch:
-      operationId: updateMachineAccountDeletionApprovalConfig
-      tags:
-        - Machine Account Deletion Approval Config
-      summary: Machine Account Deletion Approval Config
-      description: |
-        Use this endpoint to update the machine account deletion approval configuration for a specific source.
-        The update is performed using a JSON Patch payload, which allows partial modifications to the approval config.
-        This operation is typically used to change approval requirements, approvers, or comments settings for machine account deletion.
-        The endpoint expects the source ID as a path parameter and a valid JSON Patch array in the request body.
-      security:
-        - userAuth:
-            - idn:source-config:read
-            - idn:source-config:write
-      x-sailpoint-userLevels:
-        - ORG_ADMIN
-        - SOURCE_ADMIN
-        - SOURCE_SUBADMIN
-      parameters:
-        - in: header
-          name: X-SailPoint-Experimental
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
-        - in: path
-          name: sourceId
-          schema:
-            type: string
-          description: machine account source ID.
-          required: true
-          example: 00eebcf881994e419d72e757fd30dc0e
-          x-sailpoint-resource-operation-id: listSources
-      requestBody:
-        required: true
-        description: The JSONPatch payload used to update the object.
-        content:
-          application/json-patch+json:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/JsonPatchOperation'
-              example:
-                - op: replace
-                  path: /approvalConfig/comments
-                  value: ALL
-      responses:
-        '200':
-          description: This response indicates the PATCH operation succeeded and the API returns the updated AccountDeleteConfigDto object.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountDeleteConfigDto'
-              example:
-                approvalRequired: false
-                approvalConfig:
-                  approvers: sourceOwner
-                  comments: ALL
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
-  /sources/{sourceId}/approval-config/account-delete:
-    get:
-      tags:
-        - Human Account Deletion Approval Config
-      summary: Human Account Deletion Approval Config
-      description: |
-        The endpoint retrieves the approval configuration for deleting human accounts from a specified source. It returns details such as whether approval is required, who the approvers are, and any additional approval settings. This helps administrators understand and manage the approval workflow for human account deletions in their organization. The response is provided as an AccountDeleteConfigDto object.
-      operationId: getAccountDeleteApprovalConfig
-      security:
-        - userAuth:
-            - idn:source-config:read
-            - idn:source-config:write
-      x-sailpoint-userLevels:
-        - ORG_ADMIN
-        - SOURCE_ADMIN
-        - SOURCE_SUBADMIN
-      parameters:
-        - in: header
-          name: X-SailPoint-Experimental
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
-        - in: path
-          name: sourceId
-          schema:
-            type: string
-          required: true
-          description: The Source id
-          example: ha38f94347e94562b5bb8424a56498d8
-          x-sailpoint-resource-operation-id: listSources
-      responses:
-        '200':
-          description: Responds with a AccountDeleteConfigDto for human account deletion approval config by sourceId.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountDeleteConfigDto'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
-    patch:
-      operationId: updateAccountDeletionApprovalConfig
-      tags:
-        - Human Account Deletion Approval Config
-      summary: Human Account Deletion Approval Config
-      description: |
-        Updates the approval configuration for deleting human accounts for a specific source, identified by source ID. This endpoint allows administrators to modify settings such as whether approval is required, who the approvers are, and other approval-related options. The update is performed using a JSON Patch payload, and the response returns the updated AccountDeleteConfigDto object reflecting the new approval workflow configuration.
-      security:
-        - userAuth:
-            - idn:source-config:read
-            - idn:source-config:write
-      x-sailpoint-userLevels:
-        - ORG_ADMIN
-        - SOURCE_ADMIN
-        - SOURCE_SUBADMIN
-      parameters:
-        - in: header
-          name: X-SailPoint-Experimental
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
-        - name: sourceId
-          in: path
-          schema:
-            type: string
-          description: Human account source ID.
-          required: true
-          example: 00eebcf881994e419d72e757fd30dc0e
-          x-sailpoint-resource-operation-id: listSources
-      requestBody:
-        required: true
-        description: The JSONPatch payload used to update the object.
-        content:
-          application/json-patch+json:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/JsonPatchOperation'
-              example:
-                - op: replace
-                  path: /approvalConfig/comments
-                  value: ALL
-      responses:
-        '200':
-          description: This response indicates the PATCH operation succeeded and the API returns the updated AccountDeleteConfigDto object.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountDeleteConfigDto'
-              example:
-                approvalRequired: false
-                approvalConfig:
-                  approvers: sourceOwner
-                  comments: ALL
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -48772,6 +48392,382 @@ paths:
             type: string
             default: true
           required: true
+  /source-subtypes/{subtypeId}/machine-config:
+    get:
+      tags:
+        - Machine Accounts
+      summary: Machine Subtype Approval Config
+      description: This endpoint retrieves the approval configuration for machine account deletion at the machine subtype level. By providing a specific subtypeId in the path, clients can fetch the approval rules and settings (such as required approvers and comments policy) that govern account deletion for that particular machine subtype. The response includes a MachineAccountSubtypeConfigDto object detailing these configurations, enabling clients to understand or display the approval workflow required for deleting machine accounts of the given subtype. Use this endpoint to get machine subtype level approval config for account deletion.
+      operationId: getMachineAccountDeletionSubTypeApprovalConfig
+      security:
+        - userAuth:
+            - idn:source-subtypes:read
+            - idn:source-subtypes:management
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
+        - API
+      parameters:
+        - in: header
+          name: X-SailPoint-Experimental
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
+        - in: path
+          name: subtypeId
+          schema:
+            type: string
+          description: machine subtype id.
+          required: true
+          example: ef38f94347e94562b5bb8424a56498d8
+          x-sailpoint-resource-operation-id: listMachineAccountSubtypes
+      responses:
+        '200':
+          description: Responds with a MachineAccountSubtypeConfigDto for machine account deletion approval config by subtypeId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MachineAccountSubTypeConfigDto'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      operationId: updateMachineAccountDeletionBySubTypeApprovalConfig
+      tags:
+        - Machine Accounts
+      summary: Machine Subtype Approval Config
+      description: Updates the approval configuration for machine account deletion at the specified machine subtype level. This endpoint allows clients to modify approval rules and settings (such as required approvers and comments policy) for account deletion workflows associated with a given subtypeId. Use this to customize or enforce approval requirements for deleting machine accounts of a particular subtype.
+      security:
+        - userAuth:
+            - idn:source-subtypes:delete
+            - idn:source-subtypes:update
+            - idn:source-subtypes:management
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
+        - API
+      parameters:
+        - in: header
+          name: X-SailPoint-Experimental
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
+        - in: path
+          name: subtypeId
+          schema:
+            type: string
+          description: machine account subtype ID.
+          required: true
+          example: 00eebcf881994e419d72e757fd30dc0e
+          x-sailpoint-resource-operation-id: listMachineAccountSubtypes
+      requestBody:
+        required: true
+        description: The JSONPatch payload used to update the object.
+        content:
+          application/json-patch+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/JsonPatchOperation'
+              example:
+                - op: replace
+                  path: /machineAccountDelete/approvalConfig/approvers
+                  value: sourceOwner
+      responses:
+        '200':
+          description: This response indicates the PATCH operation succeeded and the API returns the updated MachineAccountSubtypeConfigDto object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MachineAccountSubTypeConfigDto'
+              example:
+                subtypeId: 1419fc28-a8ed-4a07-9f5c-0cb5dfad6311
+                machineAccountCreate:
+                  accountCreateEnabled: true
+                  approvalRequired: true
+                  formId: 4f1bb61b-a0ab-4c0a-b9fb-20f44407b75a
+                  entitlementId: 858d2151-ff19-464b-ae0d-6938b3af2baf
+                  approvalConfig:
+                    approvers: sourceOwner, manager, workgroup:f76ff96a-0815-402a-be1a-18cdc693b79f
+                    comments: ALL
+                machineAccountDelete:
+                  approvalRequired: false
+                  approvalConfig:
+                    approvers: sourceOwner
+                    comments: REJECTION
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /sources/{sourceId}/approval-config/machine-account-delete:
+    get:
+      tags:
+        - Sources
+      summary: Machine Account Deletion Approval Config
+      operationId: getMachineAccountDeletionApprovalConfigBySource
+      description: Retrieves the machine account deletion approval configuration for a specific source. This endpoint returns details about the approval requirements, approvers, and comment settings that govern the deletion of machine accounts associated with the given source ID.
+      security:
+        - userAuth:
+            - idn:source-config:read
+            - idn:source-config:write
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
+      parameters:
+        - in: header
+          name: X-SailPoint-Experimental
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
+        - in: path
+          name: sourceId
+          schema:
+            type: string
+          required: true
+          description: source id.
+          example: gt38f94347e94562b5bb8424a56498d8
+          x-sailpoint-resource-operation-id: listSources
+      responses:
+        '200':
+          description: Responds with a AccountDeleteConfigDto for machine account deletion approval config by sourceId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDeleteConfigDto'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      operationId: updateMachineAccountDeletionApprovalConfig
+      tags:
+        - Sources
+      summary: Machine Account Deletion Approval Config
+      description: |
+        Use this endpoint to update the machine account deletion approval configuration for a specific source.
+        The update is performed using a JSON Patch payload, which allows partial modifications to the approval config.
+        This operation is typically used to change approval requirements, approvers, or comments settings for machine account deletion.
+        The endpoint expects the source ID as a path parameter and a valid JSON Patch array in the request body.
+      security:
+        - userAuth:
+            - idn:source-config:read
+            - idn:source-config:write
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
+      parameters:
+        - in: header
+          name: X-SailPoint-Experimental
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
+        - in: path
+          name: sourceId
+          schema:
+            type: string
+          description: machine account source ID.
+          required: true
+          example: 00eebcf881994e419d72e757fd30dc0e
+          x-sailpoint-resource-operation-id: listSources
+      requestBody:
+        required: true
+        description: The JSONPatch payload used to update the object.
+        content:
+          application/json-patch+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/JsonPatchOperation'
+              example:
+                - op: replace
+                  path: /approvalConfig/comments
+                  value: ALL
+      responses:
+        '200':
+          description: This response indicates the PATCH operation succeeded and the API returns the updated AccountDeleteConfigDto object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDeleteConfigDto'
+              example:
+                approvalRequired: false
+                approvalConfig:
+                  approvers: sourceOwner
+                  comments: ALL
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /sources/{sourceId}/approval-config/account-delete:
+    get:
+      tags:
+        - Sources
+      summary: Human Account Deletion Approval Config
+      description: |
+        The endpoint retrieves the approval configuration for deleting human accounts from a specified source. It returns details such as whether approval is required, who the approvers are, and any additional approval settings. This helps administrators understand and manage the approval workflow for human account deletions in their organization. The response is provided as an AccountDeleteConfigDto object.
+      operationId: getAccountDeleteApprovalConfig
+      security:
+        - userAuth:
+            - idn:source-config:read
+            - idn:source-config:write
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
+      parameters:
+        - in: header
+          name: X-SailPoint-Experimental
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
+        - in: path
+          name: sourceId
+          schema:
+            type: string
+          required: true
+          description: The Source id
+          example: ha38f94347e94562b5bb8424a56498d8
+          x-sailpoint-resource-operation-id: listSources
+      responses:
+        '200':
+          description: Responds with a AccountDeleteConfigDto for human account deletion approval config by sourceId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDeleteConfigDto'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      operationId: updateAccountDeletionApprovalConfig
+      tags:
+        - Sources
+      summary: Human Account Deletion Approval Config
+      description: |
+        Updates the approval configuration for deleting human accounts for a specific source, identified by source ID. This endpoint allows administrators to modify settings such as whether approval is required, who the approvers are, and other approval-related options. The update is performed using a JSON Patch payload, and the response returns the updated AccountDeleteConfigDto object reflecting the new approval workflow configuration.
+      security:
+        - userAuth:
+            - idn:source-config:read
+            - idn:source-config:write
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
+      parameters:
+        - in: header
+          name: X-SailPoint-Experimental
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
+        - name: sourceId
+          in: path
+          schema:
+            type: string
+          description: Human account source ID.
+          required: true
+          example: 00eebcf881994e419d72e757fd30dc0e
+          x-sailpoint-resource-operation-id: listSources
+      requestBody:
+        required: true
+        description: The JSONPatch payload used to update the object.
+        content:
+          application/json-patch+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/JsonPatchOperation'
+              example:
+                - op: replace
+                  path: /approvalConfig/comments
+                  value: ALL
+      responses:
+        '200':
+          description: This response indicates the PATCH operation succeeded and the API returns the updated AccountDeleteConfigDto object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDeleteConfigDto'
+              example:
+                approvalRequired: false
+                approvalConfig:
+                  approvers: sourceOwner
+                  comments: ALL
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
   /discovered-applications:
     get:
       operationId: getDiscoveredApplications
@@ -55496,254 +55492,6 @@ components:
                     type: string
                     description: The source ID of the entitlement
                     example: 5898b7c1-620c-49c6-cccc-cbf81eb4bddd
-    ApprovalIdentity:
-      type: object
-      title: Approval Identity
-      properties:
-        email:
-          type: string
-          example: mail@mail.com
-          description: Email address.
-        identityID:
-          type: string
-          example: 17e633e7d57e481569df76323169deb6a
-          description: Identity ID.
-        members:
-          type: array
-          items:
-            type: object
-            properties:
-              email:
-                type: string
-                example: mail@mail.com
-                description: Email of the member.
-              id:
-                type: string
-                example: 17e633e7d57e481569df76323169deb6a
-                description: ID of the member.
-              name:
-                type: string
-                example: Bob Neil
-                description: Name of the member.
-              type:
-                type: string
-                example: IDENTITY
-                description: Type of the member.
-          description: List of members of a governance group. Will be omitted if the identity is not a governance group.
-        name:
-          type: string
-          example: Jim Bob
-          description: Name of the identity.
-        ownerOf:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-                example: string
-                description: ID of the object that is owned.
-              name:
-                type: string
-                example: Access Request App
-                description: Name of the object that is owned.
-              type:
-                type: string
-                example: APPLICATION
-                description: Type of the object that is owned.
-          description: List of owned items. For example, will show the items in which a ROLE_OWNER owns. Omitted if not an owner of anything.
-        serialOrder:
-          type: integer
-          example: 0
-          format: int64
-          description: The serial step of the identity in the approval. For example serialOrder 1 is the first identity to action in an approval request chain. Parallel approvals are set to 0.
-        type:
-          type: string
-          enum:
-            - IDENTITY
-            - MANAGER_OF
-            - GOVERNANCE_GROUP
-            - SOURCE_OWNER
-            - ROLE_OWNER
-            - ACCESS_PROFILE_OWNER
-            - ENTITLEMENT_OWNER
-            - APPLICATION_OWNER
-          example: IDENTITY
-          description: Type of identity.
-      description: Approval Identity Object
-    ApprovalConfig:
-      type: object
-      properties:
-        tenantId:
-          type: string
-          example: d3c10266-1a31-4acc-b01e-44a3d1c56615
-          description: Tenant ID of the approval configuration.
-        id:
-          type: string
-          example: 5804e7d6-e04b-400f-9fb8-dff894419a2f
-          description: |-
-            The ID defined by the scope field, where [[id]]:[[scope]] is the following
-            [[roleID]]:ROLE
-            [[entitlementID]]:ENTITLEMENT
-            [[accessProfileID]]:ACCESS_PROFILE
-            ENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE
-            ACCESS_REQUEST_APPROVAL:APPROVAL_TYPE
-            [[tenantID]]:TENANT
-            [[domainObjectID]]:DOMAIN_OBJECT
-        scope:
-          type: string
-          example: DOMAIN_OBJECT
-          description: |-
-            The scope of the field, where [[id]]:[[scope]] is the following
-            [[roleID]]:ROLE
-            [[entitlementID]]:ENTITLEMENT
-            [[accessProfileID]]:ACCESS_PROFILE
-            ENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE
-            ACCESS_REQUEST_APPROVAL:APPROVAL_TYPE
-            [[tenantID]]:TENANT
-            [[domainObjectID]]:DOMAIN_OBJECT
-        reminderConfig:
-          type: object
-          properties:
-            enabled:
-              type: boolean
-              example: false
-              description: Indicates if reminders are enabled.
-              default: false
-            daysUntilFirstReminder:
-              type: integer
-              example: 0
-              format: int64
-              description: Number of days until the first reminder.
-            reminderCronSchedule:
-              type: string
-              example: 1 1 1 1 1
-              description: Cron schedule for reminders.
-            maxReminders:
-              type: integer
-              example: 5
-              format: int64
-              description: Maximum number of reminders. Max is 20.
-          description: Configuration for reminders.
-        escalationConfig:
-          type: object
-          properties:
-            enabled:
-              type: boolean
-              example: true
-              description: Indicates if escalations are enabled.
-              default: false
-            daysUntilFirstEscalation:
-              type: integer
-              example: 2
-              format: int64
-              description: Number of days until the first escalation.
-            escalationCronSchedule:
-              type: string
-              example: '*/5 * * * *'
-              description: Cron schedule for escalations.
-            escalationChain:
-              type: array
-              items:
-                type: object
-                properties:
-                  chainId:
-                    type: string
-                    example: ef85d1a8-41ef-433a-8153-0b1f59e7b26a
-                    description: ID of the escalation chain.
-                  tier:
-                    type: integer
-                    example: 1
-                    format: int64
-                    description: Starting at 1 defines the order in which the identities will get assigned
-                  identityId:
-                    type: string
-                    example: fdfda352157d4cc79bb749953131b457
-                    description: Identity ID in the escalation chain.
-                  identityType:
-                    type: string
-                    example: IDENTITY
-                    description: Type of identity in the escalation chain.
-              description: Escalation chain configuration.
-          description: Configuration for escalations.
-        timeoutConfig:
-          type: object
-          properties:
-            enabled:
-              type: boolean
-              example: true
-              description: Indicates if timeout is enabled.
-              default: false
-            daysUntilTimeout:
-              type: integer
-              example: 2
-              format: int64
-              description: Number of days until approval request times out. Max value is 90.
-            timeoutResult:
-              type: string
-              enum:
-                - EXPIRED
-                - APPROVED
-              example: EXPIRED
-              description: Result of timeout.
-          description: TimeoutConfig contains configurations around when the approval request should expire.
-        cronTimezone:
-          type: object
-          properties:
-            location:
-              type: string
-              example: America/New_York
-              description: Timezone location for cron schedules.
-            offset:
-              type: string
-              example: ''
-              description: Timezone offset for cron schedules.
-          description: Timezone configuration for cron schedules.
-        serialChain:
-          type: array
-          items:
-            type: object
-            properties:
-              chainId:
-                type: string
-                example: 23dc206e-2a9e-4f98-93db-8d6e342cca18
-                description: ID of the serial chain.
-              tier:
-                type: integer
-                example: 1
-                format: int64
-                description: Starting at 1 defines the order in which the identities will get assigned
-              identityId:
-                type: string
-                example: 2c9180858090ea8801809a0465e829da
-                description: Identity ID in the serial chain.
-              identityType:
-                type: string
-                example: IDENTITY
-                description: Type of identity in the serial chain.
-          description: If the approval request has an approvalCriteria of SERIAL this chain will be used to determine the assignment order.
-        requiresComment:
-          type: string
-          enum:
-            - APPROVAL
-            - REJECTION
-            - ALL
-            - 'OFF'
-          example: ALL
-          description: Determines whether a comment is required when approving or rejecting the approval request.
-        fallbackApprover:
-          type: object
-          $ref: '#/components/schemas/ApprovalIdentity'
-          description: Configuration for fallback approver. Used if the user cannot be found for whatever reason and escalation config does not exist.
-        autoApprove:
-          type: string
-          enum:
-            - 'OFF'
-            - DIRECT
-            - INDIRECT
-          description: OFF will prevent the approval request from being assigned to the requester or requestee by assigning it to their manager instead. DIRECT will cause approval requests to be auto-approved when assigned directly and only to the requester. INDIRECT will auto-approve when the requester appears anywhere in the list of approvers, including in a governance group. This field will only be effective if requestedTarget.reauthRequired is set to false, otherwise the approval will have to be manually approved.
-          example: 'OFF'
-      description: Approval config Object
     OwnerReference:
       type: object
       nullable: true
@@ -76287,6 +76035,81 @@ components:
           example: PENDING
           description: The current status of the MAIL FROM verification
       description: MAIL FROM attributes for a domain / identity
+    ApprovalIdentity:
+      type: object
+      title: Approval Identity
+      properties:
+        email:
+          type: string
+          example: mail@mail.com
+          description: Email address.
+        identityID:
+          type: string
+          example: 17e633e7d57e481569df76323169deb6a
+          description: Identity ID.
+        members:
+          type: array
+          items:
+            type: object
+            properties:
+              email:
+                type: string
+                example: mail@mail.com
+                description: Email of the member.
+              id:
+                type: string
+                example: 17e633e7d57e481569df76323169deb6a
+                description: ID of the member.
+              name:
+                type: string
+                example: Bob Neil
+                description: Name of the member.
+              type:
+                type: string
+                example: IDENTITY
+                description: Type of the member.
+          description: List of members of a governance group. Will be omitted if the identity is not a governance group.
+        name:
+          type: string
+          example: Jim Bob
+          description: Name of the identity.
+        ownerOf:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                example: string
+                description: ID of the object that is owned.
+              name:
+                type: string
+                example: Access Request App
+                description: Name of the object that is owned.
+              type:
+                type: string
+                example: APPLICATION
+                description: Type of the object that is owned.
+          description: List of owned items. For example, will show the items in which a ROLE_OWNER owns. Omitted if not an owner of anything.
+        serialOrder:
+          type: integer
+          example: 0
+          format: int64
+          description: The serial step of the identity in the approval. For example serialOrder 1 is the first identity to action in an approval request chain. Parallel approvals are set to 0.
+        type:
+          type: string
+          enum:
+            - IDENTITY
+            - MANAGER_OF
+            - GOVERNANCE_GROUP
+            - SOURCE_OWNER
+            - ROLE_OWNER
+            - ACCESS_PROFILE_OWNER
+            - ENTITLEMENT_OWNER
+            - APPLICATION_OWNER
+          example: IDENTITY
+          description: Type of identity.
+      description: Approval Identity Object
     ApprovalName:
       type: object
       title: Approval Name
@@ -76314,6 +76137,179 @@ components:
           example: 100
           description: How many approvals are going to be in this batch. Defaults to 1 if not provided.
       description: Batch properties if an approval is sent via batching.
+    ApprovalConfig:
+      type: object
+      properties:
+        tenantId:
+          type: string
+          example: d3c10266-1a31-4acc-b01e-44a3d1c56615
+          description: Tenant ID of the approval configuration.
+        id:
+          type: string
+          example: 5804e7d6-e04b-400f-9fb8-dff894419a2f
+          description: |-
+            The ID defined by the scope field, where [[id]]:[[scope]] is the following
+            [[roleID]]:ROLE
+            [[entitlementID]]:ENTITLEMENT
+            [[accessProfileID]]:ACCESS_PROFILE
+            ENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE
+            ACCESS_REQUEST_APPROVAL:APPROVAL_TYPE
+            [[tenantID]]:TENANT
+            [[domainObjectID]]:DOMAIN_OBJECT
+        scope:
+          type: string
+          example: DOMAIN_OBJECT
+          description: |-
+            The scope of the field, where [[id]]:[[scope]] is the following
+            [[roleID]]:ROLE
+            [[entitlementID]]:ENTITLEMENT
+            [[accessProfileID]]:ACCESS_PROFILE
+            ENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE
+            ACCESS_REQUEST_APPROVAL:APPROVAL_TYPE
+            [[tenantID]]:TENANT
+            [[domainObjectID]]:DOMAIN_OBJECT
+        reminderConfig:
+          type: object
+          properties:
+            enabled:
+              type: boolean
+              example: false
+              description: Indicates if reminders are enabled.
+              default: false
+            daysUntilFirstReminder:
+              type: integer
+              example: 0
+              format: int64
+              description: Number of days until the first reminder.
+            reminderCronSchedule:
+              type: string
+              example: 1 1 1 1 1
+              description: Cron schedule for reminders.
+            maxReminders:
+              type: integer
+              example: 5
+              format: int64
+              description: Maximum number of reminders. Max is 20.
+          description: Configuration for reminders.
+        escalationConfig:
+          type: object
+          properties:
+            enabled:
+              type: boolean
+              example: true
+              description: Indicates if escalations are enabled.
+              default: false
+            daysUntilFirstEscalation:
+              type: integer
+              example: 2
+              format: int64
+              description: Number of days until the first escalation.
+            escalationCronSchedule:
+              type: string
+              example: '*/5 * * * *'
+              description: Cron schedule for escalations.
+            escalationChain:
+              type: array
+              items:
+                type: object
+                properties:
+                  chainId:
+                    type: string
+                    example: ef85d1a8-41ef-433a-8153-0b1f59e7b26a
+                    description: ID of the escalation chain.
+                  tier:
+                    type: integer
+                    example: 1
+                    format: int64
+                    description: Starting at 1 defines the order in which the identities will get assigned
+                  identityId:
+                    type: string
+                    example: fdfda352157d4cc79bb749953131b457
+                    description: Identity ID in the escalation chain.
+                  identityType:
+                    type: string
+                    example: IDENTITY
+                    description: Type of identity in the escalation chain.
+              description: Escalation chain configuration.
+          description: Configuration for escalations.
+        timeoutConfig:
+          type: object
+          properties:
+            enabled:
+              type: boolean
+              example: true
+              description: Indicates if timeout is enabled.
+              default: false
+            daysUntilTimeout:
+              type: integer
+              example: 2
+              format: int64
+              description: Number of days until approval request times out. Max value is 90.
+            timeoutResult:
+              type: string
+              enum:
+                - EXPIRED
+                - APPROVED
+              example: EXPIRED
+              description: Result of timeout.
+          description: TimeoutConfig contains configurations around when the approval request should expire.
+        cronTimezone:
+          type: object
+          properties:
+            location:
+              type: string
+              example: America/New_York
+              description: Timezone location for cron schedules.
+            offset:
+              type: string
+              example: ''
+              description: Timezone offset for cron schedules.
+          description: Timezone configuration for cron schedules.
+        serialChain:
+          type: array
+          items:
+            type: object
+            properties:
+              chainId:
+                type: string
+                example: 23dc206e-2a9e-4f98-93db-8d6e342cca18
+                description: ID of the serial chain.
+              tier:
+                type: integer
+                example: 1
+                format: int64
+                description: Starting at 1 defines the order in which the identities will get assigned
+              identityId:
+                type: string
+                example: 2c9180858090ea8801809a0465e829da
+                description: Identity ID in the serial chain.
+              identityType:
+                type: string
+                example: IDENTITY
+                description: Type of identity in the serial chain.
+          description: If the approval request has an approvalCriteria of SERIAL this chain will be used to determine the assignment order.
+        requiresComment:
+          type: string
+          enum:
+            - APPROVAL
+            - REJECTION
+            - ALL
+            - 'OFF'
+          example: ALL
+          description: Determines whether a comment is required when approving or rejecting the approval request.
+        fallbackApprover:
+          type: object
+          $ref: '#/components/schemas/ApprovalIdentity'
+          description: Configuration for fallback approver. Used if the user cannot be found for whatever reason and escalation config does not exist.
+        autoApprove:
+          type: string
+          enum:
+            - 'OFF'
+            - DIRECT
+            - INDIRECT
+          description: OFF will prevent the approval request from being assigned to the requester or requestee by assigning it to their manager instead. DIRECT will cause approval requests to be auto-approved when assigned directly and only to the requester. INDIRECT will auto-approve when the requester appears anywhere in the list of approvers, including in a governance group. This field will only be effective if requestedTarget.reauthRequired is set to false, otherwise the approval will have to be manually approved.
+          example: 'OFF'
+      description: Approval config Object
     ApprovalDescription:
       type: object
       title: Approval Description
