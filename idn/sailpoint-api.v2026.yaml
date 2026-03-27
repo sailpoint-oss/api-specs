@@ -1362,8 +1362,6 @@ paths:
     $ref: ./v2026/paths/task-status.yaml
   /task-status:
     $ref: ./v2026/paths/task-status-list.yaml
-  /task-status/pending-tasks:
-    $ref: ./v2026/paths/task-status-pending.yaml
   /account-requests/deletion:
     $ref: ./v2026/paths/account-deletion-requests.yaml
   /account-requests/account/{accountId}/delete:
