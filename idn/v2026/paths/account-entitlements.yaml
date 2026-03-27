@@ -37,7 +37,7 @@ get:
           schema:
             type: array
             items:
-              $ref: '../schemas/Entitlement.yaml'
+              $ref: '../schemas/EntitlementV2.yaml'
           example:
             [
               {

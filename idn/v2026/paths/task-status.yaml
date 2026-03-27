@@ -15,6 +15,14 @@ get:
     explode: false
     schema:
       type: string
+  - name: X-SailPoint-Experimental
+    in: header
+    description: Use this header to enable this experimental API.
+    example: true
+    schema:
+      type: string
+      default: true
+    required: true
   responses:
     '200':
       description: Responds with a TaskStatus for the task with the given task ID.
@@ -63,6 +71,14 @@ patch:
     explode: false
     schema:
       type: string
+  - name: X-SailPoint-Experimental
+    in: header
+    description: Use this header to enable this experimental API.
+    example: true
+    schema:
+      type: string
+      default: true
+    required: true
   requestBody:
     required: true
     description: The JSONPatch payload used to update the object.
