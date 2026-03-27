@@ -85,7 +85,7 @@ tags:
       For applications and entitlements, administrators can set access profiles to require approval from the access profile owner, the application owner, the source owner, the requesting user's manager, or a governance group for access to be granted or revoked.   
       For roles, administrators can also set roles to allow access requests and require approval from the role owner, the requesting user's manager, or a governance group for access to be granted or revoked.   
       If the administrator designates a governance group as the required approver, any governance group member can approve the requests.
-         
+
       When a user submits an access request, Identity Security Cloud sends the first required approver in the queue an email notification, based on the access request configuration's approval and reminder escalation configuration.
 
       In Approvals in Identity Security Cloud, required approvers can view pending access requests under the Requested tab and approve or deny them, or the approvers can reassign the requests to different reviewers for approval.   
@@ -2430,7 +2430,7 @@ paths:
 
             **cisIdentityId**: *eq, in, sw*
 
-            **businessApplication**: *eq, in, sw*
+            **nativeIdentity**: *eq, in, sw*
 
             **attributes**: *eq*
 
@@ -2462,8 +2462,8 @@ paths:
           description: |-
             Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)
 
-            Sorting is supported for the following fields: **businessApplication, name, owners.primaryIdentity.name, source.name, created, modified**
-          example: businessApplication
+            Sorting is supported for the following fields: **nativeIdentity, name, owners.primaryIdentity.name, source.name, created, modified**
+          example: nativeIdentity
         - name: X-SailPoint-Experimental
           in: header
           description: Use this header to enable this experimental API.
@@ -55365,13 +55365,13 @@ components:
         - type: object
           title: MachineIdentityDto
           required:
-            - businessApplication
+            - nativeIdentity
             - subtype
           properties:
-            businessApplication:
+            nativeIdentity:
               type: string
-              description: The business application that the identity represents
-              example: ADService
+              description: The native identity associated to the machine identity directly aggregated from a source
+              example: abc:123:dddd
             description:
               type: string
               description: Description of machine identity
@@ -55409,10 +55409,6 @@ components:
               type: string
               description: The UUID associated to the machine identity directly aggregated from a source
               example: f5dd23fe-3414-42b7-bb1c-869400ad7a10
-            nativeIdentity:
-              type: string
-              description: The native identity associated to the machine identity directly aggregated from a source
-              example: abc:123:dddd
     MachineIdentityResponse:
       allOf:
         - $ref: '#/components/schemas/MachineIdentity'
