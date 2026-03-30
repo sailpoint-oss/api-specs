@@ -34281,14 +34281,6 @@ paths:
             Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)
 
             Sorting is supported for the following fields: **id, name, nativeIdentity, ownerIdentity, uuid, description, machineIdentity.id, machineIdentity.name, subtype.technicalName, subtype.displayName, accessType, environment, manuallyCorrelated, enabled, locked, hasEntitlements, ownerIdentity.id, ownerIdentity.name, attributes, source.id, source.name, created, modified**
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '200':
           description: List of machine account objects
@@ -34334,14 +34326,6 @@ paths:
           x-sailpoint-resource-operation-id: listMachineAccounts
           description: Machine Account ID.
           example: ef38f94347e94562b5bb8424a56397d8
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '200':
           description: Machine Account object.
@@ -34386,14 +34370,6 @@ paths:
           x-sailpoint-resource-operation-id: listMachineAccounts
           description: Machine Account ID.
           example: ef38f94347e94562b5bb8424a56397d8
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       requestBody:
         required: true
         description: |-
