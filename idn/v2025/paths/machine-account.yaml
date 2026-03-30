@@ -21,14 +21,6 @@ get:
       x-sailpoint-resource-operation-id: listMachineAccounts
       description: Machine Account ID.
       example: ef38f94347e94562b5bb8424a56397d8
-    - name: X-SailPoint-Experimental
-      in: header
-      description: Use this header to enable this experimental API.
-      example: true
-      schema:
-        type: string
-        default: true
-      required: true
   responses:
     '200':
       description: Machine Account object.
@@ -73,14 +65,6 @@ patch:
       x-sailpoint-resource-operation-id: listMachineAccounts
       description: Machine Account ID.
       example: ef38f94347e94562b5bb8424a56397d8
-    - name: X-SailPoint-Experimental
-      in: header
-      description: Use this header to enable this experimental API.
-      example: true
-      schema:
-        type: string
-        default: true
-      required: true
   requestBody:
     required: true
     description: |-
