@@ -13763,7 +13763,6 @@ paths:
         - SOURCE_SUBADMIN
         - ROLE_ADMIN
         - ROLE_SUBADMIN
-        - HELPDESK
       summary: Perform search
       parameters:
         - $ref: '#/components/parameters/offset'
@@ -13986,7 +13985,6 @@ paths:
         - SOURCE_SUBADMIN
         - ROLE_ADMIN
         - ROLE_SUBADMIN
-        - HELPDESK
       summary: Get a document by id
       parameters:
         - $ref: '#/components/parameters/index'
