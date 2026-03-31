@@ -33890,8 +33890,10 @@ paths:
         url: https://documentation.sailpoint.com/saas/help/setup/identity_processing.html
       security:
         - userAuth:
+            - idn:identity:process
             - idn:identity:manage
         - applicationAuth:
+            - idn:identity:process
             - idn:identity:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN

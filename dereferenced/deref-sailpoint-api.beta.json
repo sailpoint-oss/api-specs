@@ -11820,14 +11820,20 @@
         "security": [
           {
             "userAuth": [
+              "idn:identity:process",
               "idn:identity:manage"
             ]
           },
           {
             "applicationAuth": [
+              "idn:identity:process",
               "idn:identity:manage"
             ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "HELPDESK"
         ],
         "requestBody": {
           "required": true,
