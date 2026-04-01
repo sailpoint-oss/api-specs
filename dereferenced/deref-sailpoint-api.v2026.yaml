@@ -2250,14 +2250,6 @@ paths:
         - SOURCE_SUBADMIN
         - USER
       parameters:
-        - in: header
-          name: X-SailPoint-Experimental
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
         - $ref: '#/components/parameters/count'
@@ -2374,14 +2366,6 @@ paths:
         - SOURCE_SUBADMIN
         - USER
       parameters:
-        - in: header
-          name: X-SailPoint-Experimental
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
         - in: path
           name: accountId
           schema:
@@ -48432,14 +48416,6 @@ paths:
         - SOURCE_SUBADMIN
         - API
       parameters:
-        - in: header
-          name: X-SailPoint-Experimental
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
         - in: path
           name: subtypeId
           schema:
@@ -48484,14 +48460,6 @@ paths:
         - SOURCE_SUBADMIN
         - API
       parameters:
-        - in: header
-          name: X-SailPoint-Experimental
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
         - in: path
           name: subtypeId
           schema:
@@ -48563,14 +48531,6 @@ paths:
         - SOURCE_ADMIN
         - SOURCE_SUBADMIN
       parameters:
-        - in: header
-          name: X-SailPoint-Experimental
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
         - in: path
           name: sourceId
           schema:
@@ -48617,14 +48577,6 @@ paths:
         - SOURCE_ADMIN
         - SOURCE_SUBADMIN
       parameters:
-        - in: header
-          name: X-SailPoint-Experimental
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
         - in: path
           name: sourceId
           schema:
@@ -48687,14 +48639,6 @@ paths:
         - SOURCE_ADMIN
         - SOURCE_SUBADMIN
       parameters:
-        - in: header
-          name: X-SailPoint-Experimental
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
         - in: path
           name: sourceId
           schema:
@@ -48738,14 +48682,6 @@ paths:
         - SOURCE_ADMIN
         - SOURCE_SUBADMIN
       parameters:
-        - in: header
-          name: X-SailPoint-Experimental
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
         - name: sourceId
           in: path
           schema:
