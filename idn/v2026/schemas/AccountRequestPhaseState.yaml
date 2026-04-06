@@ -6,5 +6,6 @@ enum:
   - REJECTED
   - PASSED
   - FAILED
+  - NOT_STARTED
 description: The current phase state of the account request, indicating its progress or outcome in the approval workflow.
 example: APPROVED

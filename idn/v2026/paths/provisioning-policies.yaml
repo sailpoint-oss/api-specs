@@ -22,6 +22,38 @@ get:
         type: string
       description: The Source id
       example: 2c9180835d191a86015d28455b4a2329
+    - name: offset
+      in: query
+      description: |-
+          Offset
+
+          Integer specifying the offset of the first result from the beginning of the collection. The standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#paginating-results).
+          The offset value is record-based, not page-based, and the index starts at 0.
+      schema:
+          type: integer
+          format: int64
+          default: 0
+          x-go-name: Offset
+      example: 0
+      required: false
+      x-go-name: Offset
+    - name: limit
+      in: query
+      description: |-
+        Limit
+              
+        Integer specifying the maximum number of records to return in a single API call. The standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#paginating-results).
+        If it is not specified, a default limit is used.
+      schema:
+        type: integer
+        format: int64
+        minimum: 0
+        maximum: 250
+        default: 250
+        x-go-name: Limit
+      example: 250
+      required: false
+      x-go-name: Limit
   responses:
     '200':
       description: List of ProvisioningPolicyDto objects

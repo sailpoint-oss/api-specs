@@ -39,7 +39,7 @@ post:
       content:
         application/json:
           schema:
-            $ref: ../schemas/AccountDeleteAsyncResult.yaml
+            $ref: ../schemas/AccountRequestAsyncResult.yaml
           example:
             accountRequestId: 2d81808474683da6017468693c260196
     '400':

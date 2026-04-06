@@ -543,7 +543,13 @@ tags:
 
       Refer to [Setting Up Lifecycle States](https://documentation.sailpoint.com/saas/help/provisioning/lifecycle.html) for more information about lifecycle states.
   - name: Machine Account Classify
+  - name: Machine Account Creation Request
+    description: |
+      Use this API to submit and retrieve machine account creation requests.
   - name: Machine Account Mappings
+  - name: Machine Account Subtypes
+    description: |
+      Use this API to get, update, and delete machine account subtype for sources.
   - name: Machine Accounts
   - name: Machine Classification Config
   - name: Machine Identities
@@ -1366,6 +1372,10 @@ paths:
     $ref: ./v2026/paths/account-deletion-requests.yaml
   /account-requests/account/{accountId}/delete:
     $ref: ./v2026/paths/account-delete-request.yaml
+  /account-requests/machine-account-create:
+    $ref: ./v2026/paths/machine-account-create-request.yaml
+  /account-requests/machine-account-create/{accountRequestId}:
+    $ref: ./v2026/paths/get-machine-account-create-request.yaml
   /machine-identities:
     $ref: ./v2026/paths/machine-identities.yaml
   /machine-identities/{id}:
@@ -2400,6 +2410,12 @@ paths:
     $ref: ./v2026/paths/suggested-entitlement-descriptions.yaml
   /sources/{sourceId}/discover-applications:
     $ref: "./v2026/paths/discover-applications.yaml"
+  /source-subtypes/bulk-retrieve:
+    $ref: ./v2026/paths/source-subtypes-bulk-retrieve.yaml
+  /source-subtypes/machine-account-create-access:
+    $ref: ./v2026/paths/source-subtypes-machine-account-create-access.yaml
+  /source-subtypes/{subtypeId}:
+    $ref: ./v2026/paths/machine-account-subtypes.yaml
   /source-subtypes/{subtypeId}/machine-config:
     $ref: ./v2026/paths/source-subtype-machine-config.yaml
   /sources/{sourceId}/approval-config/machine-account-delete:
@@ -2502,8 +2518,8 @@ components:
       $ref: "./v2026/schemas/AccessRequestConfig.yaml"
     AccountActionRequestDto:
       $ref: "./v2026/schemas/AccountActionRequestDto.yaml"
-    AccountDeleteAsyncResult:
-      $ref: "./v2026/schemas/AccountDeleteAsyncResult.yaml"
+    AccountRequestAsyncResult:
+      $ref: "./v2026/schemas/AccountRequestAsyncResult.yaml"
     AccountDeleteConfigDto:
       $ref: "./v2026/schemas/AccountDeleteConfigDto.yaml"
     AccountDeleteRequestInput:
@@ -2528,8 +2544,10 @@ components:
       $ref: "./v2026/schemas/EntitlementRequestConfig.yaml"
     EntitlementRevocationRequestConfig:
       $ref: "./v2026/schemas/EntitlementRevocationRequestConfig.yaml"
-    MachineAccountSubTypeConfigDto:
-      $ref: "./v2026/schemas/MachineAccountSubTypeConfigDto.yaml"
+    MachineAccountCreateRequestInput:
+      $ref: "./v2026/schemas/MachineAccountCreateRequestInput.yaml"
+    MachineAccountSubtypeConfigDto:
+      $ref: "./v2026/schemas/MachineAccountSubtypeConfigDto.yaml"
     RequestOnBehalfOfConfig:
       $ref: "./v2026/schemas/RequestOnBehalfOfConfig.yaml"
     TemplateMediumDto:

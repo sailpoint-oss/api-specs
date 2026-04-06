@@ -19,17 +19,29 @@ properties:
         type: boolean
         default: false
         example: true
-        description: Specifies if approval is needed before a machine account can be created for this subtype.
+        description: Specifies if approval is required for machine account creation requests for this subtype.
       formId:
         type: string
         example: 4f1bb61b-a0ab-4c0a-b9fb-20f44407b75a
-        description: formId
+        description: Id of the form linked to subtype.
       entitlementId:
         type: string
         example: 858d2151-ff19-464b-ae0d-6938b3af2baf
-        description: Configuration details specifying who can approve machine account creation requests and the types of comments allowed during the approval process.
+        description: Id of the system created entitlement entitlement upon enabling account creation for this subtype.
+      passwordSetting:
+        type: string
+        enum:
+          - DO_NOT_SET_PASSWORD
+          - SET_TO_EXISTING_ATTRIBUTE
+          - SET_TO_NEW_ATTRIBUTE
+        example: SET_TO_EXISTING_ATTRIBUTE
+        description: This is required before enabling the account creation to true. Default value will be null.
+      passwordAttribute:
+        type: string
+        example: accountName
+        description: Name of the account attribute from the source's schema or new custom attribute to use when password settings is enabled.
       approvalConfig:
-        $ref: ./ApprovalConfig.yaml
+        $ref: ../schemas/MachineSubtypeApprovalConfig.yaml
   machineAccountDelete:
     type: object
     description: Configuration options for machine account deletion, including whether approval is required, the list of authorized approvers, and the types of comments permitted during the approval workflow.
@@ -40,4 +52,4 @@ properties:
         example: true
         description: Indicates whether approval is required for an account deletion request.
       approvalConfig:
-        $ref: ./ApprovalConfig.yaml
+        $ref: ../schemas/MachineSubtypeApprovalConfig.yaml

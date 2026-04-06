@@ -39,10 +39,11 @@ get:
         UPDATE - This usage type relates to 'Update Account Profile', the provisioning template for the 'Update' connector operations. For example, this would be used for an attribute sync on a source.
         ENABLE - This usage type relates to 'Enable Account Profile', the provisioning template for the account to be enabled. For example, this could be used for a joiner on a source once the joiner's account is created. 
         DISABLE - This usage type relates to 'Disable Account Profile', the provisioning template for the account to be disabled. For example, this could be used when a leaver is removed temporarily from a source. 
-        You can use these four usage types for all your provisioning policy needs. 
+        You can use these four usage types for all your provisioning policy needs.
       example: CREATE
       schema:
         $ref: ../schemas/UsageType.yaml
+      x-sailpoint-resource-operation-id: listProvisioningPolicies
   responses:
     '200':
       description: The requested ProvisioningPolicyDto was successfully retrieved.
@@ -102,10 +103,11 @@ put:
         UPDATE - This usage type relates to 'Update Account Profile', the provisioning template for the 'Update' connector operations. For example, this would be used for an attribute sync on a source.
         ENABLE - This usage type relates to 'Enable Account Profile', the provisioning template for the account to be enabled. For example, this could be used for a joiner on a source once the joiner's account is created. 
         DISABLE - This usage type relates to 'Disable Account Profile', the provisioning template for the account to be disabled. For example, this could be used when a leaver is removed temporarily from a source. 
-        You can use these four usage types for all your provisioning policy needs. 
+        You can use these four usage types for all your provisioning policy needs.
       example: CREATE
       schema:
         $ref: ../schemas/UsageType.yaml
+      x-sailpoint-resource-operation-id: listProvisioningPolicies
   requestBody:
     required: true
     content:
@@ -171,10 +173,11 @@ patch:
         UPDATE - This usage type relates to 'Update Account Profile', the provisioning template for the 'Update' connector operations. For example, this would be used for an attribute sync on a source.
         ENABLE - This usage type relates to 'Enable Account Profile', the provisioning template for the account to be enabled. For example, this could be used for a joiner on a source once the joiner's account is created. 
         DISABLE - This usage type relates to 'Disable Account Profile', the provisioning template for the account to be disabled. For example, this could be used when a leaver is removed temporarily from a source. 
-        You can use these four usage types for all your provisioning policy needs. 
+        You can use these four usage types for all your provisioning policy needs.
       example: CREATE
       schema:
         $ref: ../schemas/UsageType.yaml
+      x-sailpoint-resource-operation-id: listProvisioningPolicies
   requestBody:
     required: true
     description: The JSONPatch payload used to update the schema.
@@ -252,10 +255,11 @@ delete:
         UPDATE - This usage type relates to 'Update Account Profile', the provisioning template for the 'Update' connector operations. For example, this would be used for an attribute sync on a source.
         ENABLE - This usage type relates to 'Enable Account Profile', the provisioning template for the account to be enabled. For example, this could be used for a joiner on a source once the joiner's account is created. 
         DISABLE - This usage type relates to 'Disable Account Profile', the provisioning template for the account to be disabled. For example, this could be used when a leaver is removed temporarily from a source. 
-        You can use these four usage types for all your provisioning policy needs. 
+        You can use these four usage types for all your provisioning policy needs.
       example: CREATE
       schema:
         $ref: ../schemas/UsageType.yaml
+      x-sailpoint-resource-operation-id: listProvisioningPolicies
   responses:
     '204':
       $ref: ../responses/204.yaml

@@ -73,7 +73,7 @@ patch:
   description: |-
     Update fields of a machine account subtype by source ID and technical name.
     Patchable fields include: `displayName`, `description`.
-  operationId: patchMachineAccountSubtype
+  operationId: patchMachineAccountSubtypeByTechnicalName
   tags:
     - Machine Accounts
   parameters:
@@ -158,7 +158,7 @@ patch:
 delete:
   summary: Delete subtype
   description: Delete a machine account subtype by source ID and technical name.
-  operationId: deleteMachineAccountSubtype
+  operationId: deleteMachineAccountSubtypeByTechnicalName
   tags:
     - Machine Accounts
   parameters:
