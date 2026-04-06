@@ -2,7 +2,7 @@ post:
   operationId: sendClassifyMachineAccount
   tags:
     - Machine Account Classify
-  summary: Classify a Single Machine Account
+  summary: Classify single machine account
   security:
     - userAuth:
         - idn:account:update

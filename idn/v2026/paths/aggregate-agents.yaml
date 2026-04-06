@@ -2,7 +2,7 @@ post:
   operationId: startMachineIdentityAggregation
   tags:
     - Machine Identities
-  summary: Start Machine Identity (AI Agent) Aggregation
+  summary: Start machine identity aggregation
   security:
     - userAuth:
         - 'idn:mis-agents:aggregate'
@@ -11,7 +11,7 @@ post:
     - SOURCE_ADMIN
     - SOURCE_SUBADMIN
     - HELPDESK
-  description: Use this API to aggregate machine identities (AI Agents).
+  description: Starts a machine identity (AI Agents) aggregation on the specified source.
   requestBody:
     required: true
     content:

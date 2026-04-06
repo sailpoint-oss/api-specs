@@ -83,7 +83,7 @@ post:
   operationId: createMachineIdentity
   tags:
     - Machine Identities
-  summary: Create machine identities
+  summary: Create machine identity
   security:
     - userAuth:
         - idn:mis-identity:manage
