@@ -548,7 +548,13 @@ tags:
 
       Refer to [Setting Up Lifecycle States](https://documentation.sailpoint.com/saas/help/provisioning/lifecycle.html) for more information about lifecycle states.
   - name: Machine Account Classify
+  - name: Machine Account Creation Request
+    description: |
+      Use this API to submit and retrieve machine account creation requests.
   - name: Machine Account Mappings
+  - name: Machine Account Subtypes
+    description: |
+      Use this API to get, update, and delete machine account subtype for sources.
   - name: Machine Accounts
   - name: Machine Classification Config
   - name: Machine Identities
@@ -2388,9 +2394,129 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AccountDeleteAsyncResult'
+                $ref: '#/components/schemas/AccountRequestAsyncResult'
               example:
                 accountRequestId: 2d81808474683da6017468693c260196
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /account-requests/machine-account-create:
+    post:
+      operationId: createMachineAccountRequest
+      tags:
+        - Machine Account Creation Request
+      summary: Submit Machine Account Creation Request
+      security:
+        - userAuth: []
+      x-sailpoint-userLevels:
+        - USER
+      parameters:
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
+      description: |
+        Initiates machine account creation request for the specified subtype.
+        This method validates the input data, processes the machine account creation request,
+        and generates an asynchronous result containing a tracking ID. 
+
+        >**NOTE: You can only request a machine accounts on subtype for which you have a create machine account entitlement provisioned.**
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MachineAccountCreateRequestInput'
+      responses:
+        '202':
+          description: Machine account creation request result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountRequestAsyncResult'
+              example:
+                accountRequestId: 2d81808474683da6017468693c260196
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /account-requests/machine-account-create/{accountRequestId}:
+    get:
+      operationId: getCreateMachineAccountRequest
+      tags:
+        - Machine Account Creation Request
+      summary: Get Machine Account Creation Request
+      description: Retrieves a account request details for machine account creation. This allows the user to view all details for given account request.
+      security:
+        - userAuth: []
+      x-sailpoint-userLevels:
+        - USER
+      parameters:
+        - in: header
+          name: X-SailPoint-Experimental
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
+        - in: path
+          name: accountRequestId
+          schema:
+            type: string
+          required: true
+          x-sailpoint-resource-operation-id: createMachineAccountRequest
+          description: Account Request ID
+          example: gt38f94347e94562b5bb8424a56498d8
+      responses:
+        '200':
+          description: Account Request Details object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountRequestDetailsDto'
+              example:
+                accountRequestId: 18104e7e499b4e23882d6323344ab6bc
+                requestType: CREATE_MACHINE_ACCOUNT
+                createdAt: '2026-01-14T08:08:27.195Z'
+                completedAt: '2026-01-14T08:38:45.932Z'
+                overallStatus: SUCCESS
+                requester:
+                  type: IDENTITY
+                  id: 85131bd73fdc423599e57f40b29f01fe
+                  name: SailPoint Support
+                approvalRequestId: 90a7b947-578b-4285-98dc-5d5d01c7b736
+                accountRequestPhases:
+                  - name: APPROVAL_PHASE
+                    state: APPROVED
+                    started: '2026-01-14T08:08:28.644090559Z'
+                    finished: '2026-01-14T08:38:42.707043142Z'
+                  - name: PROVISIONING_PHASE
+                    state: PASSED
+                    started: '2026-01-14T08:38:42.785577841Z'
+                    finished: '2026-01-14T08:38:45.932606296Z'
+                errorDetails: null
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -24806,6 +24932,38 @@ paths:
             type: string
           description: The Source id
           example: 2c9180835d191a86015d28455b4a2329
+        - name: offset
+          in: query
+          description: |-
+            Offset
+
+            Integer specifying the offset of the first result from the beginning of the collection. The standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#paginating-results).
+            The offset value is record-based, not page-based, and the index starts at 0.
+          schema:
+            type: integer
+            format: int64
+            default: 0
+            x-go-name: Offset
+          example: 0
+          required: false
+          x-go-name: Offset
+        - name: limit
+          in: query
+          description: |-
+            Limit
+                  
+            Integer specifying the maximum number of records to return in a single API call. The standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#paginating-results).
+            If it is not specified, a default limit is used.
+          schema:
+            type: integer
+            format: int64
+            minimum: 0
+            maximum: 250
+            default: 250
+            x-go-name: Limit
+          example: 250
+          required: false
+          x-go-name: Limit
       responses:
         '200':
           description: List of ProvisioningPolicyDto objects
@@ -24989,10 +25147,11 @@ paths:
             UPDATE - This usage type relates to 'Update Account Profile', the provisioning template for the 'Update' connector operations. For example, this would be used for an attribute sync on a source.
             ENABLE - This usage type relates to 'Enable Account Profile', the provisioning template for the account to be enabled. For example, this could be used for a joiner on a source once the joiner's account is created. 
             DISABLE - This usage type relates to 'Disable Account Profile', the provisioning template for the account to be disabled. For example, this could be used when a leaver is removed temporarily from a source. 
-            You can use these four usage types for all your provisioning policy needs. 
+            You can use these four usage types for all your provisioning policy needs.
           example: CREATE
           schema:
             $ref: '#/components/schemas/UsageType'
+          x-sailpoint-resource-operation-id: listProvisioningPolicies
       responses:
         '200':
           description: The requested ProvisioningPolicyDto was successfully retrieved.
@@ -25052,10 +25211,11 @@ paths:
             UPDATE - This usage type relates to 'Update Account Profile', the provisioning template for the 'Update' connector operations. For example, this would be used for an attribute sync on a source.
             ENABLE - This usage type relates to 'Enable Account Profile', the provisioning template for the account to be enabled. For example, this could be used for a joiner on a source once the joiner's account is created. 
             DISABLE - This usage type relates to 'Disable Account Profile', the provisioning template for the account to be disabled. For example, this could be used when a leaver is removed temporarily from a source. 
-            You can use these four usage types for all your provisioning policy needs. 
+            You can use these four usage types for all your provisioning policy needs.
           example: CREATE
           schema:
             $ref: '#/components/schemas/UsageType'
+          x-sailpoint-resource-operation-id: listProvisioningPolicies
       requestBody:
         required: true
         content:
@@ -25121,10 +25281,11 @@ paths:
             UPDATE - This usage type relates to 'Update Account Profile', the provisioning template for the 'Update' connector operations. For example, this would be used for an attribute sync on a source.
             ENABLE - This usage type relates to 'Enable Account Profile', the provisioning template for the account to be enabled. For example, this could be used for a joiner on a source once the joiner's account is created. 
             DISABLE - This usage type relates to 'Disable Account Profile', the provisioning template for the account to be disabled. For example, this could be used when a leaver is removed temporarily from a source. 
-            You can use these four usage types for all your provisioning policy needs. 
+            You can use these four usage types for all your provisioning policy needs.
           example: CREATE
           schema:
             $ref: '#/components/schemas/UsageType'
+          x-sailpoint-resource-operation-id: listProvisioningPolicies
       requestBody:
         required: true
         description: The JSONPatch payload used to update the schema.
@@ -25202,10 +25363,11 @@ paths:
             UPDATE - This usage type relates to 'Update Account Profile', the provisioning template for the 'Update' connector operations. For example, this would be used for an attribute sync on a source.
             ENABLE - This usage type relates to 'Enable Account Profile', the provisioning template for the account to be enabled. For example, this could be used for a joiner on a source once the joiner's account is created. 
             DISABLE - This usage type relates to 'Disable Account Profile', the provisioning template for the account to be disabled. For example, this could be used when a leaver is removed temporarily from a source. 
-            You can use these four usage types for all your provisioning policy needs. 
+            You can use these four usage types for all your provisioning policy needs.
           example: CREATE
           schema:
             $ref: '#/components/schemas/UsageType'
+          x-sailpoint-resource-operation-id: listProvisioningPolicies
       responses:
         '204':
           $ref: '#/components/responses/204'
@@ -36079,7 +36241,7 @@ paths:
       description: |-
         Update fields of a machine account subtype by source ID and technical name.
         Patchable fields include: `displayName`, `description`.
-      operationId: patchMachineAccountSubtype
+      operationId: patchMachineAccountSubtypeByTechnicalName
       tags:
         - Machine Accounts
       parameters:
@@ -36162,7 +36324,7 @@ paths:
     delete:
       summary: Delete subtype
       description: Delete a machine account subtype by source ID and technical name.
-      operationId: deleteMachineAccountSubtype
+      operationId: deleteMachineAccountSubtypeByTechnicalName
       tags:
         - Machine Accounts
       parameters:
@@ -48399,13 +48561,285 @@ paths:
             type: string
             default: true
           required: true
+  /source-subtypes/bulk-retrieve:
+    post:
+      tags:
+        - Machine Accounts
+      summary: Bulk Retrieve of Source Subtypes
+      description: This endpoint retrieves the subtypes for given subtypeIds.
+      operationId: loadBulkSourceSubtypes
+      security:
+        - userAuth:
+            - idn:sources:manage
+        - applicationAuth:
+            - idn:sources:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
+      parameters:
+        - in: header
+          name: X-SailPoint-Experimental
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkRetrieveSourceSubtypesRequest'
+      responses:
+        '200':
+          description: List of source subtypes.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SourceSubtypeWithSource'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /source-subtypes/machine-account-create-access:
+    get:
+      tags:
+        - Machine Account Creation Request
+      summary: Machine Account Create Access
+      description: |-
+        This endpoint retrieves the list of sources and subtypes for which logged in user has the entitlement to create a machine account.
+        The response includes a list of object detailing the source, subtype and entitlement details which enables the clients to understand if they can submit the request to create a machine account for the given subtype.
+      operationId: getMachineAccountCreateAccessInfo
+      security:
+        - userAuth: []
+      x-sailpoint-userLevels:
+        - USER
+        - API
+      parameters:
+        - in: header
+          name: X-SailPoint-Experimental
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
+        - name: offset
+          in: query
+          description: |-
+            Offset
+
+            Integer specifying the offset of the first result from the beginning of the collection. The standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#paginating-results).
+            The offset value is record-based, not page-based, and the index starts at 0.
+          schema:
+            type: integer
+            format: int64
+            default: 0
+            x-go-name: Offset
+          example: 0
+          required: false
+          x-go-name: Offset
+        - name: limit
+          in: query
+          description: |-
+            Limit
+
+            Integer specifying the maximum number of records to return in a single API call. The standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#paginating-results).
+            If it is not specified, a default limit is used.
+          schema:
+            type: integer
+            format: int64
+            minimum: 0
+            maximum: 250
+            default: 250
+            x-go-name: Limit
+          example: 250
+          required: false
+          x-go-name: Limit
+      responses:
+        '200':
+          description: List of source and the subtypes.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MachineAccountCreateAccessDto'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /source-subtypes/{subtypeId}:
+    get:
+      summary: Get subtype by ID
+      description: Get a machine account subtype by subtype ID.
+      operationId: getSourceSubtypeById
+      tags:
+        - Machine Account Subtypes
+      parameters:
+        - in: path
+          name: subtypeId
+          schema:
+            type: string
+          required: true
+          x-sailpoint-resource-operation-id: listMachineAccountSubtypes
+          description: The ID of the subtype.
+          example: 6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa
+      responses:
+        '200':
+          description: Machine account subtype object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SourceSubtypeWithSource'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - userAuth:
+            - idn:sources:read
+            - idn:sources:manage
+        - applicationAuth:
+            - idn:sources:read
+            - idn:sources:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
+    patch:
+      summary: Patch subtype by ID
+      description: |-
+        Update fields of a machine account subtype by subtype ID.
+        Patchable fields only include: `displayName`, `description`.
+      operationId: patchMachineAccountSubtype
+      tags:
+        - Machine Account Subtypes
+      parameters:
+        - in: path
+          name: subtypeId
+          description: The ID of the subtype.
+          required: true
+          x-sailpoint-resource-operation-id: listMachineAccountSubtypes
+          schema:
+            type: string
+            example: 6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa
+      requestBody:
+        required: true
+        description: A JSON of updated values [JSON Patch](https://tools.ietf.org/html/rfc6902) standard.
+        content:
+          application/json-patch+json:
+            schema:
+              type: array
+              items:
+                type: object
+            examples:
+              Update display name:
+                value:
+                  - op: replace
+                    path: /displayName
+                    value: Test New DisplayName
+      responses:
+        '200':
+          description: Updated machine account subtype.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SourceSubtypeWithSource'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - userAuth:
+            - idn:sources:manage
+        - applicationAuth:
+            - idn:sources:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
+    delete:
+      summary: Delete subtype by ID
+      description: |-
+        Delete a machine account subtype by subtype ID.
+
+        Note: If subtype has approval settings or entitlement for machine account creation enablement then it'll be also deleted.
+      operationId: deleteMachineAccountSubtype
+      tags:
+        - Machine Account Subtypes
+      parameters:
+        - in: path
+          name: subtypeId
+          description: The ID of the subtype.
+          required: true
+          x-sailpoint-resource-operation-id: listMachineAccountSubtypes
+          schema:
+            type: string
+            example: 6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa
+      responses:
+        '204':
+          description: Subtype deleted successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - userAuth:
+            - idn:sources:manage
+        - applicationAuth:
+            - idn:sources:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
   /source-subtypes/{subtypeId}/machine-config:
     get:
       tags:
         - Machine Accounts
       summary: Machine Subtype Approval Config
-      description: This endpoint retrieves the approval configuration for machine account deletion at the machine subtype level. By providing a specific subtypeId in the path, clients can fetch the approval rules and settings (such as required approvers and comments policy) that govern account deletion for that particular machine subtype. The response includes a MachineAccountSubtypeConfigDto object detailing these configurations, enabling clients to understand or display the approval workflow required for deleting machine accounts of the given subtype. Use this endpoint to get machine subtype level approval config for account deletion.
-      operationId: getMachineAccountDeletionSubTypeApprovalConfig
+      description: This endpoint retrieves the approval configuration for machine account creation and deletion at the machine subtype level. By providing a specific subtypeId in the path, clients can fetch the approval rules and settings (such as required approvers and comments policy) that govern account creation and deletion for that particular machine subtype. The response includes a MachineAccountSubtypeConfigDto object detailing these configurations, enabling clients to understand or display the approval workflow required for creating and deleting machine accounts of the given subtype. Use this endpoint to get machine subtype level approval config for account creation and deletion.
+      operationId: getMachineAccountSubtypeApprovalConfig
       security:
         - userAuth:
             - idn:source-subtypes:read
@@ -48434,11 +48868,11 @@ paths:
           x-sailpoint-resource-operation-id: listMachineAccountSubtypes
       responses:
         '200':
-          description: Responds with a MachineAccountSubtypeConfigDto for machine account deletion approval config by subtypeId.
+          description: Responds with a MachineAccountSubtypeConfigDto for machine account creation and deletion approval config by subtypeId.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MachineAccountSubTypeConfigDto'
+                $ref: '#/components/schemas/MachineAccountSubtypeConfigDto'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -48452,11 +48886,11 @@ paths:
         '500':
           $ref: '#/components/responses/500'
     patch:
-      operationId: updateMachineAccountDeletionBySubTypeApprovalConfig
+      operationId: updateMachineAccountSubtypeApprovalConfig
       tags:
         - Machine Accounts
       summary: Machine Subtype Approval Config
-      description: Updates the approval configuration for machine account deletion at the specified machine subtype level. This endpoint allows clients to modify approval rules and settings (such as required approvers and comments policy) for account deletion workflows associated with a given subtypeId. Use this to customize or enforce approval requirements for deleting machine accounts of a particular subtype.
+      description: Updates the approval configuration for machine account deletion at the specified machine subtype level. This endpoint allows clients to modify approval rules and settings (such as required approvers and comments policy) for account creation and deletion workflows associated with a given subtypeId. Use this to customize or enforce approval requirements for creating and deleting machine accounts of a particular subtype.
       security:
         - userAuth:
             - idn:source-subtypes:delete
@@ -48503,7 +48937,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MachineAccountSubTypeConfigDto'
+                $ref: '#/components/schemas/MachineAccountSubtypeConfigDto'
               example:
                 subtypeId: 1419fc28-a8ed-4a07-9f5c-0cb5dfad6311
                 machineAccountCreate:
@@ -51454,15 +51888,15 @@ components:
           type: string
           description: Detailed error information.
           example: Detailed error message.
-    AccountDeleteAsyncResult:
-      description: Asynchronous response containing a unique tracking ID for the account deletion request
+    AccountRequestAsyncResult:
+      description: Asynchronous response containing a unique tracking ID for the account request
       required:
         - accountRequestId
       type: object
-      title: Account Delete Async Result
+      title: Account Create/Delete Async Result
       properties:
         accountRequestId:
-          description: Id of the deletion request
+          description: Id of the account request
           type: string
           example: 2d81808474683da6017468693c260196
     AccountDeleteConfigDto:
@@ -51804,7 +52238,54 @@ components:
           description: Ordered list of approval steps for the access request. Empty when no approval is required.
           items:
             $ref: '#/components/schemas/EntitlementApprovalScheme'
-    MachineAccountSubTypeConfigDto:
+    MachineAccountCreateRequestInput:
+      type: object
+      title: Machine Account Create Request Input
+      description: Contains the required information for processing a user-initiated machine account creation request.
+      required:
+        - subtypeId
+        - ownerIdentityId
+      properties:
+        subtypeId:
+          type: string
+          description: Subtype ID for which machine account create is enabled and user have the entitlement to create the machine account.
+          example: 6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa
+        formId:
+          type: string
+          description: Form ID selected by user for the machine account create request.
+          example: f5dd23fe-3414-42b7-bb1c-869400ad7a10
+        ownerIdentityId:
+          type: string
+          description: Owner Identity ID. This identity will be assigned as an owner of the created machine account.
+          example: 18104e7e499b4e23882d6323344ab6bc
+        machineIdentityId:
+          type: string
+          nullable: true
+          description: Machine identity to correlate with the created machine account. If not provided, a new machine identity will be created.
+          example: 6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa
+        environment:
+          type: string
+          description: Environment type to use for the machine account.
+          example: Dev
+        description:
+          type: string
+          description: Description for the machine account.
+          example: Requesting machine account for tracking the inventory.
+        userInput:
+          type: object
+          description: Fields of the form linked to the subtype in approval settings.
+          example:
+            target: AD Source
+            description: Inventory tracking
+        entitlementIds:
+          type: array
+          description: List of entitlement IDs to provision for created machine account.
+          items:
+            type: string
+          example:
+            - 6d28b7c1620c49c6b6d5cbf81eb4b5fa
+            - 2c91808a7624751a01762f19d67c220e
+    MachineAccountSubtypeConfigDto:
       type: object
       title: Machine Account Subtype Approval Config
       description: Contains comprehensive configuration details for machine account subtype approval, including creation and deletion approval requirements, approver lists, form and entitlement references, and approval status options.
@@ -51826,17 +52307,29 @@ components:
               type: boolean
               default: false
               example: true
-              description: Specifies if approval is needed before a machine account can be created for this subtype.
+              description: Specifies if approval is required for machine account creation requests for this subtype.
             formId:
               type: string
               example: 4f1bb61b-a0ab-4c0a-b9fb-20f44407b75a
-              description: formId
+              description: Id of the form linked to subtype.
             entitlementId:
               type: string
               example: 858d2151-ff19-464b-ae0d-6938b3af2baf
-              description: Configuration details specifying who can approve machine account creation requests and the types of comments allowed during the approval process.
+              description: Id of the system created entitlement entitlement upon enabling account creation for this subtype.
+            passwordSetting:
+              type: string
+              enum:
+                - DO_NOT_SET_PASSWORD
+                - SET_TO_EXISTING_ATTRIBUTE
+                - SET_TO_NEW_ATTRIBUTE
+              example: SET_TO_EXISTING_ATTRIBUTE
+              description: This is required before enabling the account creation to true. Default value will be null.
+            passwordAttribute:
+              type: string
+              example: accountName
+              description: Name of the account attribute from the source's schema or new custom attribute to use when password settings is enabled.
             approvalConfig:
-              $ref: '#/components/schemas/ApprovalConfig'
+              $ref: '#/components/schemas/MachineSubtypeApprovalConfig'
         machineAccountDelete:
           type: object
           description: Configuration options for machine account deletion, including whether approval is required, the list of authorized approvers, and the types of comments permitted during the approval workflow.
@@ -51847,7 +52340,7 @@ components:
               example: true
               description: Indicates whether approval is required for an account deletion request.
             approvalConfig:
-              $ref: '#/components/schemas/ApprovalConfig'
+              $ref: '#/components/schemas/MachineSubtypeApprovalConfig'
     RequestOnBehalfOfConfig:
       type: object
       title: Request On Behalf Of Config
@@ -55131,6 +55624,7 @@ components:
         - REJECTED
         - PASSED
         - FAILED
+        - NOT_STARTED
       description: The current phase state of the account request, indicating its progress or outcome in the approval workflow.
       example: APPROVED
     ApproverReference:
@@ -55149,6 +55643,64 @@ components:
           type: string
           description: Display name of DtoType like IDENTITY, MACHINE_IDENTITY etc
           example: SailPoint Support
+    AccountRequestDetailsDto:
+      type: object
+      title: Create Machine Account Request Details Dto
+      description: Represents a request to create a machine account.
+      properties:
+        accountRequestId:
+          type: string
+          description: Account request ID.
+          example: 2d8180a46faadee4016fb4e018c20648
+        requestType:
+          type: string
+          description: Type of the account request.
+          example: CREATE_MACHINE_ACCOUNT
+        createdAt:
+          description: Machine account creation request creation date and time.
+          type: string
+          example: '2026-01-20T21:30:00Z'
+          format: date-time
+          readOnly: true
+        completedAt:
+          description: Machine account creation request completion date and time.
+          type: string
+          example: '2026-01-20T21:35:00Z'
+          format: date-time
+          readOnly: true
+          nullable: true
+        overallStatus:
+          type: string
+          description: Overall status of the creation request.
+          example: SUCCESS
+        requester:
+          allOf:
+            - $ref: '#/components/schemas/BaseReferenceDto'
+            - description: The identity who has requested this account request.
+              nullable: false
+              example:
+                type: IDENTITY
+                id: SailPoint Support
+                name: 85131bd73fdc423599e57f40b29f01fe
+        accountRequestPhases:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountRequestPhase'
+          description: List of account request phases.
+          example:
+            - name: APPROVAL_PHASE
+              state: APPROVED
+              started: '2026-01-14T08:08:28.644090559Z'
+              finished: '2026-01-14T08:38:42.707043142Z'
+            - name: PROVISIONING_PHASE
+              state: PASSED
+              started: '2026-01-14T08:38:42.785577841Z'
+              finished: '2026-01-14T08:38:45.932606296Z'
+        errorDetails:
+          nullable: true
+          type: string
+          description: Detailed error information.
+          example: Detailed error message.
     BaseCommonDto:
       type: object
       title: Base Common Dto
@@ -86532,6 +87084,135 @@ components:
           type: integer
           format: int32
           example: 100
+    BulkRetrieveSourceSubtypesRequest:
+      type: array
+      title: Bulk Retrieve Request for Source Subtypes
+      description: List of source subtype IDs.
+      minItems: 1
+      maxItems: 100
+      items:
+        type: string
+        description: Subtype ID.
+        example: 38453251-6be2-5f8f-df93-5ce19e295838
+      example:
+        - 38453251-6be2-5f8f-df93-5ce19e295838
+    SourceSubtypeWithSource:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the subtype.
+          example: 38453251-6be2-5f8f-df93-5ce19e295838
+        sourceId:
+          type: string
+          format: uuid
+          description: The ID of the source.
+          example: 6d0458373bec4b4b80460992b76016da
+          readOnly: true
+        technicalName:
+          type: string
+          description: Technical name of the subtype.
+          example: foo
+        displayName:
+          type: string
+          description: Display name of the subtype.
+          example: Mr Foo
+        description:
+          type: string
+          description: Description of the subtype.
+          example: fighters
+        created:
+          type: string
+          format: date-time
+          description: Creation timestamp.
+          example: '2025-07-28T16:13:42.801300Z'
+        modified:
+          type: string
+          format: date-time
+          description: Last modified timestamp.
+          example: '2025-07-28T16:13:42.750850Z'
+        type:
+          type: string
+          description: Type of the subtype. Either MACHINE OR null.
+          example: MACHINE
+        source:
+          type: object
+          description: Source reference of the subtype.
+          properties:
+            type:
+              type: string
+              enum:
+                - SOURCE
+              description: Type of the reference object.
+              example: SOURCE
+            id:
+              type: string
+              description: Unique identifier for the source.
+              example: 6d0458373bec4b4b80460992b76016da
+            name:
+              type: string
+              description: Name of the source.
+              example: Test Source
+    MachineAccountCreateAccessDto:
+      type: object
+      title: Machine Account Create Access Dto
+      description: A summary endpoint which returns list of sources and subtypes for which user has an entitlement to request machine accounts.
+      properties:
+        sourceId:
+          type: string
+          description: Source ID.
+          example: 1419fc28a8ed4a079f5c0cb5dfad6311
+        sourceName:
+          type: string
+          description: Source name.
+          example: Source name
+        subtypes:
+          type: array
+          description: List of subtypes for which the user has an entitlement to request machine accounts.
+          items:
+            type: object
+            properties:
+              subtypeId:
+                type: string
+                description: Subtype ID.
+                example: d7ae9ea3-507f-4d00-9d4f-b4464b344b88
+              entitlementId:
+                type: string
+                description: Entitlement ID.
+                example: a03caa629a624cee90f94048252034cf
+              subtypeDisplayName:
+                type: string
+                description: Subtype display name.
+                example: Subtype Display Name
+              subtypeTechnicalName:
+                type: string
+                description: Subtype technical name.
+                example: Subtype Technical Name
+    MachineSubtypeApprovalConfig:
+      type: object
+      title: Machine Subtype Approval Config Dto
+      properties:
+        approvers:
+          type: string
+          example: manager, workgroup:1419fc28-a8ed-4a07-9f5c-0cb5dfad6311
+          description: |-
+            Comma separated string of approvers.
+
+            Following are the options for approver types: manager, sourceOwner, accountOwner, workgroup:{workgroupId} (Governance group).
+
+            Approval request will be assigned based on the order of the approvers passed.
+
+            Multiple workgroups(governance groups) can be selected as an approver.
+
+            >**Note:** accountOwner approver type is only for machine account delete approval settings.
+        comments:
+          type: string
+          example: ALL
+          description: |-
+            Comment configurations for the approval request.
+
+            Following are the options for comments: ALL, OFF, APPROVAL, REJECT.
     SlimDiscoveredApplications:
       type: object
       description: Discovered applications
