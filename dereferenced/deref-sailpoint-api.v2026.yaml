@@ -2507,7 +2507,7 @@ paths:
       operationId: createMachineIdentity
       tags:
         - Machine Identities
-      summary: Create machine identities
+      summary: Create machine identity
       security:
         - userAuth:
             - idn:mis-identity:manage
@@ -2557,7 +2557,7 @@ paths:
       operationId: getMachineIdentity
       tags:
         - Machine Identities
-      summary: Machine identity details
+      summary: Get machine identity details
       description: This API returns a single machine identity using the Machine Identity ID.
       security:
         - userAuth:
@@ -2607,7 +2607,7 @@ paths:
       operationId: updateMachineIdentity
       tags:
         - Machine Identities
-      summary: Update a machine identity
+      summary: Update machine identity details
       description: |
         Use this API to update machine identity details.
       security:
@@ -34996,7 +34996,7 @@ paths:
       operationId: listMachineAccounts
       tags:
         - Machine Accounts
-      summary: Machine accounts list
+      summary: List machine accounts
       description: 'This returns a list of machine accounts.  '
       security:
         - userAuth:
@@ -35111,7 +35111,7 @@ paths:
       operationId: getMachineAccount
       tags:
         - Machine Accounts
-      summary: Machine account details
+      summary: Get machine account details
       description: 'Use this API to return the details for a single machine account by its ID.  '
       security:
         - userAuth:
@@ -35161,7 +35161,7 @@ paths:
       operationId: updateMachineAccount
       tags:
         - Machine Accounts
-      summary: Update a machine account
+      summary: Update machine account details
       description: |
         Use this API to update machine accounts details. 
       security:
@@ -35535,7 +35535,7 @@ paths:
       operationId: setMachineAccountMappings
       tags:
         - Machine Account Mappings
-      summary: Update Source's Machine Account Mappings
+      summary: Update source's machine account mappings
       description: Use this API to update Machine Account Attribute Mapping for a Source. A token with ORG_ADMIN, SOURCE_ADMIN, or SOURCE_SUBADMIN authority is required to call this API.
       security:
         - userAuth:
@@ -35772,7 +35772,7 @@ paths:
       operationId: startMachineIdentityAggregation
       tags:
         - Machine Identities
-      summary: Start Machine Identity (AI Agent) Aggregation
+      summary: Start machine identity aggregation
       security:
         - userAuth:
             - idn:mis-agents:aggregate
@@ -35781,7 +35781,7 @@ paths:
         - SOURCE_ADMIN
         - SOURCE_SUBADMIN
         - HELPDESK
-      description: Use this API to aggregate machine identities (AI Agents).
+      description: Starts a machine identity (AI Agents) aggregation on the specified source.
       requestBody:
         required: true
         content:
@@ -36279,7 +36279,7 @@ paths:
       operationId: sendClassifyMachineAccount
       tags:
         - Machine Account Classify
-      summary: Classify a Single Machine Account
+      summary: Classify single machine account
       security:
         - userAuth:
             - idn:account:update

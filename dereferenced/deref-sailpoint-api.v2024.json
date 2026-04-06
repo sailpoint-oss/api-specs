@@ -42946,7 +42946,7 @@
         "tags": [
           "Machine Accounts"
         ],
-        "summary": "Machine accounts list",
+        "summary": "List machine accounts",
         "description": "This returns a list of machine accounts.  ",
         "security": [
           {
@@ -43045,7 +43045,7 @@
         "tags": [
           "Machine Accounts"
         ],
-        "summary": "Machine account details",
+        "summary": "Get machine account details",
         "description": "Use this API to return the details for a single machine account by its ID.  ",
         "security": [
           {
@@ -43120,7 +43120,7 @@
         "tags": [
           "Machine Accounts"
         ],
-        "summary": "Update a machine account",
+        "summary": "Update machine account details",
         "description": "Use this API to update machine accounts details. \n",
         "security": [
           {
@@ -43676,7 +43676,7 @@
         "tags": [
           "Machine Account Mappings"
         ],
-        "summary": "Update Source's Machine Account Mappings",
+        "summary": "Update source's machine account mappings",
         "description": "Use this API to update Machine Account Attribute Mapping for a Source. A token with ORG_ADMIN, SOURCE_ADMIN, or SOURCE_SUBADMIN authority is required to call this API.",
         "security": [
           {
@@ -43759,7 +43759,7 @@
         "tags": [
           "Machine Account Classify"
         ],
-        "summary": "Classify a Single Machine Account",
+        "summary": "Classify single machine account",
         "security": [
           {
             "userAuth": [
@@ -43936,7 +43936,7 @@
         "tags": [
           "Machine Identities"
         ],
-        "summary": "Create machine identities",
+        "summary": "Create machine identity",
         "security": [
           {
             "userAuth": [
@@ -44014,7 +44014,7 @@
         "tags": [
           "Machine Identities"
         ],
-        "summary": "Machine identity details",
+        "summary": "Get machine identity details",
         "description": "This API returns a single machine identity using the Machine Identity ID.",
         "security": [
           {
@@ -44089,7 +44089,7 @@
         "tags": [
           "Machine Identities"
         ],
-        "summary": "Update a machine identity",
+        "summary": "Update machine identity details",
         "description": "Use this API to update machine identity details.\n",
         "security": [
           {
