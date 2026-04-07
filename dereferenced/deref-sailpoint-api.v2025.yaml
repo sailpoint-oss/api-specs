@@ -75821,6 +75821,11 @@ components:
             type: string
             description: The dataset Id of the source
             example: source:datasetId12345
+        disableOptimization:
+          type: boolean
+          description: Flag to disable optimization for the aggregation. Defaults to false when not provided. When set to true, it disables aggregation optimizations and may increase processing time.
+          example: false
+          default: false
     MachineIdentityAggregationResponse:
       type: object
       title: Machine Identity Aggregation Response
