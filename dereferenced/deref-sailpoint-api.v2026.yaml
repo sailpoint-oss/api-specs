@@ -2035,14 +2035,6 @@ paths:
           explode: false
           schema:
             type: string
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '200':
           description: Responds with a TaskStatus for the task with the given task ID.
@@ -2095,14 +2087,6 @@ paths:
           explode: false
           schema:
             type: string
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       requestBody:
         required: true
         description: The JSONPatch payload used to update the object.
@@ -2194,14 +2178,6 @@ paths:
             Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)
 
             Sorting is supported for the following fields: **created**
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '200':
           description: Responds with a TaskStatus for the task with the given task ID.
