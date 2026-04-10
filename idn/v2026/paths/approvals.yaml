@@ -11,8 +11,8 @@ get:
     - Approvals
   summary: Get approvals
   description: |-
-    Currently this endpoint only supports Entitlement Description Approvals.
-    Get a list of approvals. This endpoint is for generic approvals, unlike the access-request-approval endpoint, and does not include access-request-approvals. 
+    Gets a list of approvals. For lookups by access request ID please use the following:
+    /generic-approvals?filters=referenceType+eq+"accessRequestId"+and+referenceId+eq+"12345678901234567890123456789012"
     Absence of all query parameters for non admins will will default to mine=true. Admin will default to mine=false.
     Absence of all query parameters for admins will return all approvals in the org.
   parameters:
@@ -76,6 +76,14 @@ get:
         type: boolean
         default: false
       description: If set to true in the query, the approval requests returned will include approvers.
+      example: 'true'
+    - in: query
+      name: include-reassignment-history
+      required: false
+      schema:
+        type: boolean
+        default: false
+      description: If set to true in the query, the approval requests returned will include reassignment history.
       example: 'true'
     - in: query
       name: include-batch-info
@@ -142,7 +150,7 @@ get:
         **approverId**: *eq, ne, in, co, sw*
 
         **decisionDate**: *eq, ne, in, co, sw, gt, ge, lt, le*
-      example: filters=status eq PENDING
+      example: filters=status eq "PENDING" and type eq "ACCESS_REQUEST_APPROVAL"
     - $ref: ../parameters/limit.yaml
     - $ref: ../parameters/offset.yaml
   responses:

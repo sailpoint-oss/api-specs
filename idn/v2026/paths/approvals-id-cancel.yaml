@@ -1,30 +1,31 @@
 post:
   security:
-    - userAuth:
-        - idn:access-request-approvals:manage
+  - userAuth: [ sp:approvals:write ]
   x-sailpoint-userLevels:
-    - APPROVAL_OWNER
-  operationId: updateApprovalsReassign
+  - ORG_ADMIN
+  operationId: cancelApprovalById
   tags:
-    - Approvals
-  summary: Post Approvals Reassign
+  - Approvals
+  summary: Post Approval Cancel
   description: |-
-    Reassigns an approval request to another identity resulting in that identity being added as an authorized approver. This endpoint does not support access request IDs.
+    Cancels a specified approval requests on behalf of the caller. 
+    Note: This endpoint does not support access request IDs. To cancel access request approvals, please use the following:
+    /access-requests/cancel
   parameters:
     - in: path
       name: id
       required: true
       schema:
         type: string
-      description: Approval ID that correlates to an existing approval request that a user wants to reassign.
+      description: ID of the approval request to cancel.
       example: 38453251-6be2-5f8f-df93-5ce19e295837
       x-sailpoint-resource-operation-id: getApprovals
   requestBody:
-    required: true
+    required: false
     content:
       application/json:
         schema:
-          $ref: ../schemas/ApprovalReassignRequest.yaml
+          $ref: ../schemas/ApprovalCancelRequest.yaml
   responses:
     '204':
       $ref: ../responses/204.yaml

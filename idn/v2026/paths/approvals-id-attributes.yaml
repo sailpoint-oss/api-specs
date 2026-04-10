@@ -9,8 +9,7 @@ post:
     - Approvals
   summary: Post Approvals Attributes
   description: |-
-    Currently this endpoint only supports Entitlement Description Approvals.
-    Allows for the edit/addition/removal of the key/value pair additional attributes map for an existing approval request.
+    Allows for the edit/addition/removal of the key/value pair additional attributes map for an existing approval request. This endpoint does not support access request IDs.
   parameters:
     - in: path
       name: id
@@ -19,7 +18,7 @@ post:
         type: string
       description: Approval ID that correlates to an existing approval request that a user wants to change the attributes of.
       example: 38453251-6be2-5f8f-df93-5ce19e295837
-      x-sailpoint-resource-operation-id: updateApprovalsAttributes
+      x-sailpoint-resource-operation-id: getApprovals
   requestBody:
     required: true
     content:

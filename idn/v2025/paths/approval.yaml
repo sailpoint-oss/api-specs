@@ -11,8 +11,8 @@ get:
     - Approvals
   summary: Get an approval
   description: |-
-    Currently this endpoint only supports Entitlement Description Approvals.
-    Retrieve a single approval for a given approval ID. This endpoint is for generic approvals, different than the access-request-approval endpoint and does not include access-request-approvals.
+    Fetches an approval request by it's approval ID. For lookups by access request ID please use the following:
+    /generic-approvals?filters=referenceType+eq+"accessRequestId"+and+referenceId+eq+"12345678901234567890123456789012"
   parameters:
     - in: path
       name: id

@@ -9,9 +9,8 @@ post:
     - Approvals
   summary: Post Approvals Reject
   description: |-
-    Currently this endpoint only supports Entitlement Description Approvals.
-    Rejects a specified approval request on behalf of the caller.
-    If called by an admin and the admin is not listed as an approver, the approval request will be reassigned from a random approver to the admin user.
+    Rejects a specified approval request on behalf of the caller. This endpoint does not support access request IDs.
+    If called by an admin and the admin is not listed as an approver, the approval request will be reassigned from a random approver to the admin user and approved.
   parameters:
     - in: path
       name: id
@@ -20,7 +19,7 @@ post:
         type: string
       description: Approval ID that correlates to an existing approval request that a user wants to reject.
       example: 38453251-6be2-5f8f-df93-5ce19e295837
-      x-sailpoint-resource-operation-id: rejectApproval
+      x-sailpoint-resource-operation-id: getApprovals
   requestBody:
     required: false
     content:

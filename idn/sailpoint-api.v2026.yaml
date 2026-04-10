@@ -2128,6 +2128,8 @@ paths:
     $ref: ./v2026/paths/approvals-id-reassign.yaml
   /generic-approvals/{id}/reject:
     $ref: ./v2026/paths/approvals-id-reject.yaml
+  /generic-approvals/{id}/cancel:
+    $ref: ./v2026/paths/approvals-id-cancel.yaml
   /generic-approvals/config/{id}:
     $ref: ./v2026/paths/approvals-config-id.yaml
   /generic-approvals/config/{id}/{scope}:

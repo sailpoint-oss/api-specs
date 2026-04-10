@@ -28,12 +28,23 @@ put:
       ENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE
      
       ACCESS_REQUEST_APPROVAL:APPROVAL_TYPE
+
+      ACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE
+
+      ACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE
+
+      MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE
+
+      MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE
      
       [[tenantID]]:TENANT
                          
       [[domainObjectID]]:DOMAIN_OBJECT
-    example: 38453251-6be2-5f8f-df93-5ce19e295837
-    x-sailpoint-resource-operation-id: getApprovals
+    example: ACCESS_REQUEST_APPROVAL
+    x-sailpoint-resource-operation-id:
+      - listEntitlements
+      - listRoles
+      - listAccessProfiles
   - in: path
     name: scope
     required: true
@@ -57,11 +68,19 @@ put:
       ENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE
      
       ACCESS_REQUEST_APPROVAL:APPROVAL_TYPE
+
+      ACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE
+
+      ACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE
+
+      MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE
+
+      MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE
      
       [[tenantID]]:TENANT
                          
       [[domainObjectID]]:DOMAIN_OBJECT
-    example: DOMAIN_OBJECT
+    example: APPROVAL_TYPE
   requestBody:
     required: true
     content:
@@ -116,12 +135,23 @@ delete:
       ENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE
      
       ACCESS_REQUEST_APPROVAL:APPROVAL_TYPE
+
+      ACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE
+
+      ACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE
+
+      MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE
+
+      MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE
      
       [[tenantID]]:TENANT
      
       [[domainObjectID]]:DOMAIN_OBJECT
-    example: 38453251-6be2-5f8f-df93-5ce19e295837
-    x-sailpoint-resource-operation-id: getApprovals
+    example: ACCESS_REQUEST_APPROVAL
+    x-sailpoint-resource-operation-id:
+      - listEntitlements
+      - listRoles
+      - listAccessProfiles
   - in: path
     name: scope
     required: true
@@ -145,11 +175,19 @@ delete:
       ENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE
       
       ACCESS_REQUEST_APPROVAL:APPROVAL_TYPE
+
+      ACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE
+
+      ACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE
+
+      MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE
+
+      MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE
       
       [[tenantID]]:TENANT
       
       [[domainObjectID]]:DOMAIN_OBJECT
-    example: DOMAIN_OBJECT
+    example: APPROVAL_TYPE
     x-go-name: Type
   responses:
     '204':

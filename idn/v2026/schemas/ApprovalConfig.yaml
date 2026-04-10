@@ -1,47 +1,5 @@
 type: object
 properties:
-  tenantId:
-    type: string
-    example: "d3c10266-1a31-4acc-b01e-44a3d1c56615"
-    description: Tenant ID of the approval configuration.
-  id:
-    type: string
-    example: "5804e7d6-e04b-400f-9fb8-dff894419a2f"
-    description:
-      The ID defined by the scope field, where [[id]]:[[scope]] is the following
-
-      [[roleID]]:ROLE
-      
-      [[entitlementID]]:ENTITLEMENT
-      
-      [[accessProfileID]]:ACCESS_PROFILE
-      
-      ENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE
-      
-      ACCESS_REQUEST_APPROVAL:APPROVAL_TYPE
-      
-      [[tenantID]]:TENANT
-        
-      [[domainObjectID]]:DOMAIN_OBJECT
-  scope:
-    type: string
-    example: "DOMAIN_OBJECT"
-    description:
-      The scope of the field, where [[id]]:[[scope]] is the following
-
-      [[roleID]]:ROLE
-      
-      [[entitlementID]]:ENTITLEMENT
-      
-      [[accessProfileID]]:ACCESS_PROFILE
-      
-      ENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE
-      
-      ACCESS_REQUEST_APPROVAL:APPROVAL_TYPE
-      
-      [[tenantID]]:TENANT
-        
-      [[domainObjectID]]:DOMAIN_OBJECT
   reminderConfig:
     type: object
     properties:
@@ -175,6 +133,24 @@ properties:
     type: object
     $ref: '../schemas/ApprovalIdentity.yaml'
     description: Configuration for fallback approver. Used if the user cannot be found for whatever reason and escalation config does not exist.
+  machineIdentityManagerAssignment:
+    type: string
+    enum:
+      - "MANAGER_OF_REQUESTER"
+      - "MACHINE_IDENTITY_OWNER"
+      - "MANAGER_OF_MACHINE_IDENTITY_OWNER"
+      - "REQUESTED_TARGET_OWNER"
+      - "MANAGER_OF_REQUESTED_TARGET_OWNER"
+      - "ACCOUNT_OWNER"
+      - "MANAGER_OF_ACCOUNT_OWNER"
+    example: "MACHINE_IDENTITY_OWNER"
+    default: "MACHINE_IDENTITY_OWNER"
+    description: Specifies how to treat the identity type "MANAGER_OF" when the requestee is a machine identity.
+  circumventApprovalProcess:
+    type: boolean
+    example: false
+    default: false
+    description: When true, all approvals will be created with the status "PASSED".
   autoApprove:
     type: string
     enum:
@@ -185,5 +161,5 @@ properties:
       DIRECT will cause approval requests to be auto-approved when assigned directly and only to the requester.
       INDIRECT will auto-approve when the requester appears anywhere in the list of approvers, including in a governance group.
       This field will only be effective if requestedTarget.reauthRequired is set to false, otherwise the approval will have to be manually approved.
-    example: OFF
+    example: "OFF"
 description: Approval config Object

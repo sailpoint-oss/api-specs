@@ -7,8 +7,10 @@ post:
   tags:
   - Approvals
   summary: Post Bulk Cancel Approvals
-  description: >-
-    Bulk cancels specified approval requests on behalf of the caller
+  description: |-
+    Bulk cancels specified approval requests on behalf of the caller. 
+    Note: To bulk cancel access request approvals, please use the following:
+    /access-requests/bulk-cancel
   requestBody:
     required: true
     content:
