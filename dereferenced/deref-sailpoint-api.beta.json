@@ -44888,12 +44888,47 @@
     },
     "/form-instances": {
       "get": {
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
         "tags": [
           "Custom Forms"
         ],
         "summary": "List form instances by tenant.",
         "description": "No parameters required.",
         "operationId": "searchFormInstancesByTenant",
+        "parameters": [
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Offset\n\nInteger specifying the offset of the first result from the beginning of the collection. The standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#paginating-results).\nThe offset value is record-based, not page-based, and the index starts at 0.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0,
+              "x-go-name": "Offset"
+            },
+            "example": 0,
+            "required": false,
+            "x-go-name": "Offset"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Limit\n\nInteger specifying the maximum number of records to return in a single API call. The standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#paginating-results).\nIf it is not specified, a default limit is used.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "maximum": 50,
+              "minimum": 0,
+              "default": 50,
+              "x-go-name": "Limit"
+            },
+            "example": 50,
+            "required": false,
+            "x-go-name": "Limit"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Returns a list of form instances by tenant",
@@ -45057,6 +45092,9 @@
         ]
       },
       "post": {
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
         "tags": [
           "Custom Forms"
         ],

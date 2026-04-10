@@ -46404,6 +46404,38 @@ paths:
       description: Returns a list of form instances for the tenant. Optionally filter by form definition ID.
       operationId: searchFormInstancesByTenant
       parameters:
+        - name: offset
+          in: query
+          description: |-
+            Offset
+
+            Integer specifying the offset of the first result from the beginning of the collection. The standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#paginating-results).
+            The offset value is record-based, not page-based, and the index starts at 0.
+          schema:
+            type: integer
+            format: int64
+            default: 0
+            x-go-name: Offset
+          example: 0
+          required: false
+          x-go-name: Offset
+        - name: limit
+          in: query
+          description: |-
+            Limit
+
+            Integer specifying the maximum number of records to return in a single API call. The standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#paginating-results).
+            If it is not specified, a default limit is used.
+          schema:
+            type: integer
+            format: int64
+            maximum: 50
+            minimum: 0
+            default: 50
+            x-go-name: Limit
+          example: 50
+          required: false
+          x-go-name: Limit
         - in: query
           name: filters
           schema:
