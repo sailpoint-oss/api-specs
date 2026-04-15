@@ -48118,6 +48118,125 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
+  /suggested-entitlement-descriptions/auto-write-settings:
+    get:
+      tags:
+        - Suggested Entitlement Description
+      operationId: getAutoWriteSettings
+      summary: Get auto-write settings for SED
+      description: Get the current auto-write configuration for the tenant, including the enabled state and source include/exclude lists.
+      responses:
+        '200':
+          description: Current auto-write settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutoWriteSettingResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - userAuth:
+            - idn:sed:read
+        - applicationAuth:
+            - idn:sed:read
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
+    post:
+      tags:
+        - Suggested Entitlement Description
+      operationId: createAutoWriteSettings
+      summary: Create auto-write settings for SED
+      description: Create the initial auto-write settings for a tenant. Returns 409 Conflict if settings already exist. Use PATCH to update existing settings.
+      requestBody:
+        description: Auto-write settings to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AutoWriteSetting'
+        required: true
+      responses:
+        '201':
+          description: Auto-write settings created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutoWriteSettingResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '409':
+          $ref: '#/components/responses/409'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - userAuth:
+            - idn:sed:manage
+        - applicationAuth:
+            - idn:sed:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
+    patch:
+      tags:
+        - Suggested Entitlement Description
+      operationId: updateAutoWriteSettings
+      summary: Update auto-write settings for SED
+      description: Partially update the auto-write settings for a tenant using JSON Patch operations. Only the "replace" operation is supported. Returns 404 if no settings exist yet - use POST to create them first.
+      requestBody:
+        description: Patch operations for auto-write settings
+        content:
+          application/json-patch+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/AutoWriteSettingPatch'
+        required: true
+      responses:
+        '200':
+          description: Updated auto-write settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutoWriteSettingResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - userAuth:
+            - idn:sed:manage
+        - applicationAuth:
+            - idn:sed:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
   /suggested-entitlement-description-batches/{batchId}/stats:
     get:
       tags:
@@ -86647,6 +86766,82 @@ components:
           type: boolean
           default: false
           description: True if the requested access item exists and is available. False if the requested access item is either missing or deleted.
+          example: true
+    AutoWriteSetting:
+      description: Auto-Write Setting for SED
+      type: object
+      title: Auto-Write Setting
+      properties:
+        enabled:
+          description: Whether auto-write is currently enabled for the tenant
+          type: boolean
+          default: false
+          example: true
+        includedSourceIds:
+          description: Source IDs in the allowlist. Empty array means not in allowlist mode.
+          type: array
+          nullable: true
+          items:
+            type: string
+          example:
+            - 2c91808a7813090a017814552e526349
+            - 2c91808a7813090a017814552e52634a
+        excludedSourceIds:
+          description: Source IDs to exclude from auto-write. Always applied.
+          type: array
+          nullable: true
+          items:
+            type: string
+          example:
+            - 2c91808a7813090a017814552e526350
+    AutoWriteSettingResponse:
+      description: Auto-Write Setting response with timestamps
+      title: Auto-Write Setting Response
+      allOf:
+        - $ref: '#/components/schemas/AutoWriteSetting'
+        - type: object
+          properties:
+            createdAt:
+              description: When settings were first created
+              type: string
+              format: date-time
+              example: '2026-02-15T10:30:00Z'
+            updatedAt:
+              description: When settings were last modified
+              type: string
+              format: date-time
+              example: '2026-03-09T14:22:00Z'
+    AutoWriteSettingPatch:
+      description: Patch operation for Auto-Write Setting
+      type: object
+      title: Auto-Write Setting Patch
+      required:
+        - op
+        - path
+        - value
+      properties:
+        op:
+          description: The operation to perform. Only "replace" is supported.
+          type: string
+          enum:
+            - replace
+          example: replace
+        path:
+          description: 'The field to update. Allowed values: /enabled, /includedSourceIds, /excludedSourceIds'
+          type: string
+          example: /enabled
+        value:
+          description: The new value for the field
+          oneOf:
+            - type: boolean
+              title: boolean
+              example: true
+            - type: array
+              title: array
+              items:
+                type: string
+              example:
+                - 2c91808a7813090a017814552e526349
           example: true
     SedBatchStats:
       description: Sed Batch Stats
