@@ -36,3 +36,8 @@ properties:
         enum: ["true", "false"]
         description: Used for batch workflows for if multiple requests.
         example: "false"
+  disable_failure_email_notifications:
+    type: boolean
+    nullable: true
+    description: When honored at runtime, suppresses failure email notifications for this workflow's sessions.
+    example: false

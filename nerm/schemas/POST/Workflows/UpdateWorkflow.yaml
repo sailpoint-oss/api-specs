@@ -28,3 +28,8 @@ properties:
     type: string
     description: The status of the profiles the workflow will effect.
     example: active
+  disable_failure_email_notifications:
+    type: boolean
+    nullable: true
+    description: When honored at runtime, suppresses failure email notifications for this workflow's sessions.
+    example: false

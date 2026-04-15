@@ -32,3 +32,8 @@ properties:
         minimum: 1
         description: Used for login/password reset for when the password will expire.
         example: 1
+  disable_failure_email_notifications:
+    type: boolean
+    nullable: true
+    description: When honored at runtime, suppresses failure email notifications for this workflow's sessions.
+    example: false
