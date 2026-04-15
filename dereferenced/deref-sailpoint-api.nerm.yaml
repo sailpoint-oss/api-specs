@@ -7232,6 +7232,11 @@ components:
           type: string
           description: Name of the workflow
           example: my_workflow
+        disable_failure_email_notifications:
+          type: boolean
+          nullable: true
+          description: When honored at runtime, suppresses failure email notifications for this workflow's sessions.
+          example: false
     WorkflowSession:
       type: object
       properties:
@@ -7397,6 +7402,11 @@ components:
           type: string
           description: The status of the profiles the workflow will effect.
           example: active
+        disable_failure_email_notifications:
+          type: boolean
+          nullable: true
+          description: When honored at runtime, suppresses failure email notifications for this workflow's sessions.
+          example: false
     BatchWorkflow:
       type: object
       required:
@@ -7442,6 +7452,11 @@ components:
                 - 'false'
               description: Used for batch workflows for if multiple requests.
               example: 'false'
+        disable_failure_email_notifications:
+          type: boolean
+          nullable: true
+          description: When honored at runtime, suppresses failure email notifications for this workflow's sessions.
+          example: false
     AutomatedWorkflow:
       type: object
       required:
@@ -7471,6 +7486,11 @@ components:
           type: string
           description: Name of the workflow
           example: my_workflow
+        disable_failure_email_notifications:
+          type: boolean
+          nullable: true
+          description: When honored at runtime, suppresses failure email notifications for this workflow's sessions.
+          example: false
         condition_rules_attributes:
           type: array
           description: The ProfileTypeRule this workflow will be working with.
@@ -7584,6 +7604,11 @@ components:
               minimum: 1
               description: Used for login/password reset for when the password will expire.
               example: 1
+        disable_failure_email_notifications:
+          type: boolean
+          nullable: true
+          description: When honored at runtime, suppresses failure email notifications for this workflow's sessions.
+          example: false
     ApprovalAction:
       type: object
       required:
