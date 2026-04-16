@@ -12,17 +12,27 @@ properties:
       - EVENT
       - SCHEDULED
       - EXTERNAL
+      - AccessRequestTrigger
     example: EVENT
   deprecated:
     type: boolean
+    description: Whether the trigger is deprecated.
+    example: false
+    default: false
   deprecatedBy:
     type: string
     format: date-time
+    description: Date the trigger was deprecated, if applicable.
+    example: "2023-01-01T00:00:00Z"
   isSimulationEnabled:
     type: boolean
+    description: Whether the trigger can be simulated.
+    example: false
+    default: false
   outputSchema:
     type: object
     description: Example output schema
+    example: {}
   name:
     type: string
     description: Trigger Name

@@ -29,6 +29,8 @@ properties:
     - MANAGER
     - SOURCE_OWNER
     - SEARCH
+    - ROLE_COMPOSITION
+    - MACHINE_ACCOUNT
     description: The type of the campaign.
     example: MANAGER
   description:
