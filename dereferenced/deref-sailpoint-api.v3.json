@@ -27970,7 +27970,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq*",
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq*\n\n**name**: *eq*\n\n**type**: *eq*",
             "example": "id eq \"idn:identity-attributes-changed\""
           }
         ],
@@ -27981,6 +27981,11 @@
               "sp:workflow:manage"
             ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
         ],
         "responses": {
           "200": {
@@ -30210,13 +30215,15 @@
           },
           "email": {
             "type": "string",
-            "description": "The email of the reviewing identity.",
+            "nullable": true,
+            "description": "The email of the reviewing identity. This is only applicable to reviewers of the `IDENTITY` type.",
             "example": "reviewer@test.com"
           },
           "type": {
             "type": "string",
             "enum": [
-              "IDENTITY"
+              "IDENTITY",
+              "GOVERNANCE_GROUP"
             ],
             "description": "The type of the reviewing identity.",
             "example": "IDENTITY"
@@ -36671,7 +36678,9 @@
             "enum": [
               "MANAGER",
               "SOURCE_OWNER",
-              "SEARCH"
+              "SEARCH",
+              "ROLE_COMPOSITION",
+              "MACHINE_ACCOUNT"
             ],
             "description": "The type of the campaign.",
             "example": "MANAGER"
@@ -48781,23 +48790,33 @@
             "enum": [
               "EVENT",
               "SCHEDULED",
-              "EXTERNAL"
+              "EXTERNAL",
+              "AccessRequestTrigger"
             ],
             "example": "EVENT"
           },
           "deprecated": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Whether the trigger is deprecated.",
+            "example": false,
+            "default": false
           },
           "deprecatedBy": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "description": "Date the trigger was deprecated, if applicable.",
+            "example": "2023-01-01T00:00:00Z"
           },
           "isSimulationEnabled": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Whether the trigger can be simulated.",
+            "example": false,
+            "default": false
           },
           "outputSchema": {
             "type": "object",
-            "description": "Example output schema"
+            "description": "Example output schema",
+            "example": {}
           },
           "name": {
             "type": "string",

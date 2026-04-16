@@ -27717,11 +27717,19 @@ paths:
             Filtering is supported for the following fields and operators:
 
             **id**: *eq*
+
+            **name**: *eq*
+
+            **type**: *eq*
           example: id eq "idn:identity-attributes-changed"
       security:
         - userAuth:
             - sp:workflow:read
             - sp:workflow:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
       responses:
         '200':
           description: List of workflow triggers
@@ -51919,12 +51927,14 @@ components:
           example: Reviewer Name
         email:
           type: string
-          description: The email of the reviewing identity.
+          nullable: true
+          description: The email of the reviewing identity. This is only applicable to reviewers of the `IDENTITY` type.
           example: reviewer@test.com
         type:
           type: string
           enum:
             - IDENTITY
+            - GOVERNANCE_GROUP
           description: The type of the reviewing identity.
           example: IDENTITY
         created:
@@ -57770,6 +57780,8 @@ components:
             - MANAGER
             - SOURCE_OWNER
             - SEARCH
+            - ROLE_COMPOSITION
+            - MACHINE_ACCOUNT
           description: The type of the campaign.
           example: MANAGER
         description:
@@ -72220,17 +72232,27 @@ components:
             - EVENT
             - SCHEDULED
             - EXTERNAL
+            - AccessRequestTrigger
           example: EVENT
         deprecated:
           type: boolean
+          description: Whether the trigger is deprecated.
+          example: false
+          default: false
         deprecatedBy:
           type: string
           format: date-time
+          description: Date the trigger was deprecated, if applicable.
+          example: '2023-01-01T00:00:00Z'
         isSimulationEnabled:
           type: boolean
+          description: Whether the trigger can be simulated.
+          example: false
+          default: false
         outputSchema:
           type: object
           description: Example output schema
+          example: {}
         name:
           type: string
           description: Trigger Name

@@ -55686,7 +55686,9 @@
             "enum": [
               "MANAGER",
               "SOURCE_OWNER",
-              "SEARCH"
+              "SEARCH",
+              "ROLE_COMPOSITION",
+              "MACHINE_ACCOUNT"
             ],
             "description": "The type of the campaign.",
             "example": "MANAGER"
