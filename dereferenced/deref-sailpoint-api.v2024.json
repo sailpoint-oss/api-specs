@@ -58259,12 +58259,12 @@
             "schema": {
               "type": "integer",
               "format": "int64",
-              "maximum": 50,
+              "maximum": 250,
               "minimum": 0,
-              "default": 50,
+              "default": 250,
               "x-go-name": "Limit"
             },
-            "example": 50,
+            "example": 100,
             "required": false,
             "x-go-name": "Limit"
           },
@@ -58390,7 +58390,7 @@
             }
           },
           "429": {
-            "description": "Too many requests",
+            "description": "Too many requests. The list form instances operation is limited to 50 requests per 10 seconds per tenant; reduce call frequency or wait before retrying.",
             "content": {
               "application/json": {
                 "schema": {
@@ -58637,11 +58637,14 @@
     },
     "/form-instances/{formInstanceID}": {
       "get": {
+        "x-sailpoint-userLevels": [
+          "USER"
+        ],
         "tags": [
           "Custom Forms"
         ],
         "summary": "Returns a form instance.",
-        "description": "Parameter `{formInstanceID}` should match a form instance ID.",
+        "description": "Parameter `{formInstanceID}` should match a form instance ID.\n\nOnly the assigned recipient (`recipients[].id` when `type` is `IDENTITY`) may call this.",
         "operationId": "getFormInstanceByKey",
         "parameters": [
           {
@@ -58847,11 +58850,14 @@
         ]
       },
       "patch": {
+        "x-sailpoint-userLevels": [
+          "USER"
+        ],
         "tags": [
           "Custom Forms"
         ],
         "summary": "Patch a form instance.",
-        "description": "Parameter `{formInstanceID}` should match a form instance ID.",
+        "description": "Parameter `{formInstanceID}` should match a form instance ID.\n\nOnly the assigned recipient (`recipients[].id` when `type` is `IDENTITY`) may call this.",
         "operationId": "patchFormInstance",
         "parameters": [
           {
