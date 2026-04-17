@@ -32,11 +32,11 @@ get:
       schema:
         type: integer
         format: int64
-        maximum: 50
+        maximum: 250
         minimum: 0
-        default: 50
+        default: 250
         x-go-name: Limit
-      example: 50
+      example: 100
       required: false
       x-go-name: Limit
     - in: query
@@ -127,7 +127,7 @@ get:
                 type: string
                 x-go-name: TrackingID
     '429':
-      description: Too many requests
+      description: Too many requests. The list form instances operation is limited to 50 requests per 10 seconds per tenant; reduce call frequency or wait before retrying.
       content:
         application/json:
           schema:
