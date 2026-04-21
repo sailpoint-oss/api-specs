@@ -31384,7 +31384,7 @@ paths:
               - FULL
               - SLIM
           default: basic
-          example: detailLevel=FULL
+          example: FULL
         - name: filters
           in: query
           schema:
