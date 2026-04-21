@@ -5,7 +5,7 @@
       "description": "",
       "item": [
         {
-          "id": "3c75f01c-34a5-4fe5-b246-069119091ffd",
+          "id": "0005c9f6-717a-45d9-8b4a-77c83e8e9637",
           "name": "List delegations",
           "request": {
             "name": "List delegations",
@@ -89,7 +89,7 @@
           },
           "response": [
             {
-              "id": "a802e0c7-9091-419c-a960-1bb2d29c9f59",
+              "id": "6f04e651-2392-41fd-93e0-4658c1d008c1",
               "name": "Expected response to a valid request",
               "originalRequest": {
                 "url": {
@@ -161,6 +161,14 @@
                   {
                     "key": "Accept",
                     "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
                   }
                 ],
                 "method": "GET",
@@ -185,7 +193,7 @@
           }
         },
         {
-          "id": "acc1c13b-b30e-4d4d-9b3f-6b9394a506b2",
+          "id": "d8518c80-b14d-4446-b1ba-8d0a2af475e7",
           "name": "Create a delegation",
           "request": {
             "name": "Create a delegation",
@@ -227,7 +235,7 @@
           },
           "response": [
             {
-              "id": "70f1e923-c7e0-409d-a8c4-387e2c1900d4",
+              "id": "0d9a8c2f-7c43-4849-8159-5944ad3a1ec7",
               "name": "Expected response to a valid request",
               "originalRequest": {
                 "url": {
@@ -248,6 +256,14 @@
                   {
                     "key": "Accept",
                     "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
                   }
                 ],
                 "method": "POST",
@@ -281,7 +297,7 @@
           }
         },
         {
-          "id": "dd09ebd7-bb04-49ee-af25-6385f284c774",
+          "id": "79f40061-7a3c-46b2-a541-5ef94c82d0e9",
           "name": "Get a single delegation",
           "request": {
             "name": "Get a single delegation",
@@ -322,7 +338,7 @@
           },
           "response": [
             {
-              "id": "9abb7d5a-f4a6-4e76-a6e8-3e7c0fe67bf0",
+              "id": "5eb36602-0fbb-41a8-8e85-cf6ee364c038",
               "name": "Expected response to a valid request",
               "originalRequest": {
                 "url": {
@@ -351,6 +367,14 @@
                   {
                     "key": "Accept",
                     "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
                   }
                 ],
                 "method": "GET",
@@ -375,7 +399,7 @@
           }
         },
         {
-          "id": "ae607e5d-c114-48a7-b463-f839276e7828",
+          "id": "8bd6f2ee-68e0-421c-8f72-39862cfc092c",
           "name": "Update a delegation",
           "request": {
             "name": "Update a delegation",
@@ -429,7 +453,7 @@
           },
           "response": [
             {
-              "id": "0e027423-951c-4347-b29f-c5f14fbf07d7",
+              "id": "a961ebd6-a52e-4d5e-9fb3-e6d5ce6b8a06",
               "name": "Expected response to a valid request",
               "originalRequest": {
                 "url": {
@@ -462,6 +486,14 @@
                   {
                     "key": "Accept",
                     "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
                   }
                 ],
                 "method": "PATCH",
@@ -495,7 +527,7 @@
           }
         },
         {
-          "id": "9b2c0890-4239-45a2-8b10-784b0d12c5a6",
+          "id": "e86681ae-b2a6-42f3-b187-976a2d39a2c0",
           "name": "Delete a delegation",
           "request": {
             "name": "Delete a delegation",
@@ -536,7 +568,7 @@
           },
           "response": [
             {
-              "id": "ce29a02a-4fee-4a3a-bc7f-1ab6c4187956",
+              "id": "afc5f756-def2-4678-b339-4f2932cdd1de",
               "name": "The delegation record '<delegation_id>' has been destroyed.",
               "originalRequest": {
                 "url": {
@@ -561,6 +593,16 @@
                     }
                   ]
                 },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
                 "method": "DELETE",
                 "body": {}
               },
@@ -680,7 +722,7 @@
     }
   ],
   "info": {
-    "_postman_id": "df40dc2e-559c-43cf-9fdb-1e118e02f5ab",
+    "_postman_id": "dc2cf69a-7ff6-4648-8a80-236e481250d9",
     "name": "NERM API v2025",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": {
