@@ -507,6 +507,9 @@ tags:
       Use these APIs to configure JIT provisioning activation policy for the tenant.
       OAuth scopes: **idn:jit-policy:read** and **idn:jit-policy:manage** (get config), **idn:jit-policy:update** and **idn:jit-policy:manage** (update config). JIT activation workflow APIs use **idn:jit-activation-workflow:*** scopes (activate, extend, deactivate, manage, and **idn:jit-activation-workflow-internal:manage**).
       For REST contract details, use the JIT Access operations in this specification and the [SailPoint API documentation](https://developer.sailpoint.com/idn/api/).
+  - name: JIT Activations
+    description: |
+      Use this API to start and manage Just-In-Time (JIT) Privileged activation workflows for entitlement connections.
   - name: Lifecycle States
     description: |
       Use this API to implement and customize lifecycle state functionality.
@@ -1657,6 +1660,12 @@ paths:
     $ref: ./v2026/paths/identity-profile-default-config.yaml
   /identity-profiles/{identity-profile-id}/process-identities:
     $ref: ./v2026/paths/identity-profile-process-identities.yaml
+  /jit-activations/activate:
+    $ref: ./v2026/paths/jit-activations-activate.yaml
+  /jit-activations/deactivate:
+    $ref: ./v2026/paths/jit-activations-deactivate.yaml
+  /jit-activations/extend:
+    $ref: ./v2026/paths/jit-activations-extend.yaml
   /jit-activation-config/{configType}:
     $ref: ./v2026/paths/jit-activation-config.yaml
   /launchers:
