@@ -512,6 +512,9 @@ tags:
       Use these APIs to configure JIT provisioning activation policy for the tenant.
       OAuth scopes: **idn:jit-policy:read** and **idn:jit-policy:manage** (get config), **idn:jit-policy:update** and **idn:jit-policy:manage** (update config). JIT activation workflow APIs use **idn:jit-activation-workflow:*** scopes (activate, extend, deactivate, manage, and **idn:jit-activation-workflow-internal:manage**).
       For REST contract details, use the JIT Access operations in this specification and the [SailPoint API documentation](https://developer.sailpoint.com/idn/api/).
+  - name: JIT Activations
+    description: |
+      Use this API to start and manage Just-In-Time (JIT) Privileged activation workflows for entitlement connections.
   - name: Lifecycle States
     description: |
       Use this API to implement and customize lifecycle state functionality.
@@ -14002,6 +14005,138 @@ paths:
             - idn:identity-profile:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
+  /jit-activations/activate:
+    post:
+      operationId: startActivateWorkflow
+      tags:
+        - JIT Activations
+      summary: Start JIT activation workflow
+      description: |
+        Starts a JIT Privileged (JIT P) activation workflow for the given entitlement connection and duration.
+        The service performs quick validation; the workflow performs additional validation.
+
+        The response is returned with HTTP 202 Accepted while the workflow initializes.
+      security:
+        - userAuth:
+            - idn:jit-activation-workflow:activate
+            - idn:jit-activation-workflow:manage
+      x-sailpoint-userLevels:
+        - USER
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JitActivationActivateRequest'
+      responses:
+        '202':
+          description: |
+            Accepted. The activation workflow was accepted and is running.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JitActivationActivateResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /jit-activations/deactivate:
+    post:
+      operationId: startDeactivateWorkflow
+      tags:
+        - JIT Activations
+      summary: Deactivate JIT activation workflow
+      description: |
+        Sends a signal to a running JIT Privileged (JIT P) activation workflow to deactivate.
+
+        This request cannot be applied to a workflow that does not exist or whose execution has already completed.
+        The client receives an error response in those cases.
+
+        The response is returned with HTTP 202 Accepted after the signal is sent.
+      security:
+        - userAuth:
+            - idn:jit-activation-workflow:deactivate
+            - idn:jit-activation-workflow:manage
+      x-sailpoint-userLevels:
+        - USER
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JitActivationDeactivateRequest'
+      responses:
+        '202':
+          description: |
+            Accepted. The deactivation signal was sent to the workflow.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JitActivationDeactivateResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /jit-activations/extend:
+    post:
+      operationId: startExtendWorkflow
+      tags:
+        - JIT Activations
+      summary: Extend JIT activation workflow
+      description: |
+        Sends a signal to a running JIT Privileged (JIT P) activation workflow to extend the activation period
+        by the requested number of minutes.
+
+        This request cannot be applied to a workflow that does not exist or whose execution has already completed.
+        The client receives an error response in those cases.
+
+        The response is returned with HTTP 202 Accepted after the signal is sent.
+      security:
+        - userAuth:
+            - idn:jit-activation-workflow:extend
+            - idn:jit-activation-workflow:manage
+      x-sailpoint-userLevels:
+        - USER
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JitActivationExtendRequest'
+      responses:
+        '202':
+          description: |
+            Accepted. The extend signal was sent to the workflow.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JitActivationExtendResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
   /jit-activation-config/{configType}:
     get:
       operationId: getJitActivationConfig
@@ -59286,6 +59421,7 @@ components:
               - CLOUD_GOV_ADMIN
               - CLOUD_GOV_USER
               - HELPDESK
+              - INTERNAL
               - ORG_ADMIN
               - POLICY_ADMIN
               - REPORT_ADMIN
@@ -64116,6 +64252,153 @@ components:
         - warnings
         - errors
         - importedObjects
+    JitActivationActivateRequest:
+      type: object
+      title: JIT Activation Activate Request
+      required:
+        - connectionId
+        - activationPeriodMins
+      properties:
+        connectionId:
+          type: string
+          format: uuid
+          description: Entitlement connection identifier for the activation.
+          example: 757fb803-9024-5861-e510-83a56e4c5bd3
+        activationPeriodMins:
+          type: integer
+          format: int32
+          minimum: 1
+          description: Requested activation duration in minutes.
+          example: 120
+    ActivationWorkflowStatus:
+      type: string
+      description: JIT activation workflow status.
+      enum:
+        - CREATING
+        - ACTIVATING
+        - INVALID
+        - ERROR
+        - PROVISIONED
+        - DEPROVISIONING
+        - COMPLETED
+        - REVOKED
+      example: PROVISIONED
+    JitActivationActivateResponse:
+      type: object
+      title: JIT Activation Activate Response
+      required:
+        - id
+        - connectionId
+        - activationPeriodMins
+        - status
+        - startTime
+      properties:
+        id:
+          type: string
+          description: Workflow or business identifier for this activation.
+          example: jit-activation-abc123
+        connectionId:
+          type: string
+          format: uuid
+          description: Entitlement connection identifier for the activation.
+          example: 757fb803-9024-5861-e510-83a56e4c5bd3
+        activationPeriodMins:
+          type: integer
+          format: int32
+          description: Activation duration in minutes for this workflow.
+          example: 120
+        status:
+          $ref: '#/components/schemas/ActivationWorkflowStatus'
+        startTime:
+          type: string
+          format: date-time
+          description: Time when the activation workflow was started (ISO-8601).
+          example: '2025-10-11T21:23:15.000Z'
+    JitActivationDeactivateRequest:
+      type: object
+      title: JIT Activation Deactivate Request
+      required:
+        - connectionId
+      properties:
+        connectionId:
+          type: string
+          format: uuid
+          description: Entitlement connection identifier for the activation to deactivate.
+          example: 757fb803-9024-5861-e510-83a56e4c5bd3
+    JitActivationDeactivateResponse:
+      type: object
+      title: JIT Activation Deactivate Response
+      required:
+        - id
+        - connectionId
+        - status
+        - startTime
+      properties:
+        id:
+          type: string
+          description: Workflow or business identifier for this activation.
+          example: jit-activation-abc123
+        connectionId:
+          type: string
+          format: uuid
+          description: Entitlement connection identifier for the activation.
+          example: 757fb803-9024-5861-e510-83a56e4c5bd3
+        status:
+          $ref: '#/components/schemas/ActivationWorkflowStatus'
+        startTime:
+          type: string
+          format: date-time
+          description: Time associated with this deactivation request (ISO-8601).
+          example: '2025-10-11T21:23:15.000Z'
+    JitActivationExtendRequest:
+      type: object
+      title: JIT Activation Extend Request
+      required:
+        - connectionId
+        - activationPeriodExtensionMins
+      properties:
+        connectionId:
+          type: string
+          format: uuid
+          description: Entitlement connection identifier for the activation to extend.
+          example: 757fb803-9024-5861-e510-83a56e4c5bd3
+        activationPeriodExtensionMins:
+          type: integer
+          format: int32
+          minimum: 1
+          description: Number of minutes to extend the activation period.
+          example: 120
+    JitActivationExtendResponse:
+      type: object
+      title: JIT Activation Extend Response
+      required:
+        - id
+        - connectionId
+        - activationPeriodExtensionMins
+        - status
+        - startTime
+      properties:
+        id:
+          type: string
+          description: Workflow or business identifier for this activation.
+          example: jit-activation-abc123
+        connectionId:
+          type: string
+          format: uuid
+          description: Entitlement connection identifier for the activation.
+          example: 757fb803-9024-5861-e510-83a56e4c5bd3
+        activationPeriodExtensionMins:
+          type: integer
+          format: int32
+          description: Extension applied to the activation period, in minutes.
+          example: 120
+        status:
+          $ref: '#/components/schemas/ActivationWorkflowStatus'
+        startTime:
+          type: string
+          format: date-time
+          description: Time associated with this extend request (ISO-8601).
+          example: '2025-10-11T21:23:15.000Z'
     JITActivationConfigResponse:
       type: object
       required:
