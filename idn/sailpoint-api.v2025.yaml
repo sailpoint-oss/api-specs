@@ -2355,6 +2355,8 @@ paths:
     $ref: ./v2025/paths/role-change-propagation/role-propagation-ongoing.yaml
   /role-propagation/terminate:
     $ref: ./v2025/paths/role-change-propagation/role-propagation-terminate.yaml
+  /role-propagation-config:
+    $ref: ./v2025/paths/role-change-propagation/role-propagation-config.yaml
   /roles/{id}/entitlements:
     $ref: ./v2025/paths/role-entitlements.yaml
   /send-test-notification:
