@@ -51771,6 +51771,17 @@
         },
         "parameters": [
           {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listSources",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The Source id",
+            "example": "8c190e6787aa4ed9a90bd9d5344523fb"
+          },
+          {
             "name": "X-SailPoint-Experimental",
             "in": "header",
             "description": "Use this header to enable this experimental API.",
@@ -51890,6 +51901,17 @@
           }
         },
         "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listSources",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The Source id",
+            "example": "8c190e6787aa4ed9a90bd9d5344523fb"
+          },
           {
             "name": "X-SailPoint-Experimental",
             "in": "header",
@@ -52457,20 +52479,7 @@
         "tags": [
           "Tenant Context"
         ],
-        "description": "Returns a list of key-value pairs representing the current state of the tenant's context.\n",
-        "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          }
-        ],
+        "description": "Returns all key-value pairs representing the current state of the tenant's context.\nEach tenant is limited to a maximum of 100 key-value pairs.\n",
         "security": [
           {
             "userAuth": [
@@ -52540,19 +52549,6 @@
           "Tenant Context"
         ],
         "description": "Allows the user to make incremental updates to tenant context records using [JSON Patch](https://tools.ietf.org/html/rfc6902) syntax.\n\nThis endpoint is specifically designed to modify the `/Key/*` field, supporting operations such as `add`, `remove`, or `replace` to manage key-value pairs. \n\nNote that each tenant is limited to a maximum of 100 key-value pairs.\n",
-        "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          }
-        ],
         "security": [
           {
             "userAuth": [
@@ -91792,6 +91788,7 @@
           },
           "modified": {
             "description": "Last modification date of the task this TaskStatus represents",
+            "nullable": true,
             "type": "string",
             "format": "date-time",
             "example": "2020-07-11T21:23:15.000Z"
@@ -96250,7 +96247,6 @@
           "jobId",
           "status",
           "type",
-          "expiration",
           "created",
           "modified"
         ]

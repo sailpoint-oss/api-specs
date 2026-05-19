@@ -34636,10 +34636,16 @@ paths:
         - Approvals
       summary: Get approvals
       description: |-
-        Gets a list of approvals. For lookups by access request ID please use the following:
-        /generic-approvals?filters=referenceType+eq+"accessRequestId"+and+referenceId+eq+"12345678901234567890123456789012"
-        Absence of all query parameters for non admins will will default to mine=true. Admin will default to mine=false.
-        Absence of all query parameters for admins will return all approvals in the org.
+        Gets a list of approvals.
+
+        One of the following query parameters should be present: 'mine', 'approverId', 'requesterId', 'requesteeId'.
+
+        The absence of all query parameters for non admins will default to mine=true (which is the equivalent of 'approverId=${your_identity_id}') 
+        while admins will default to mine=false (which will show all approvals in the org).
+
+        For lookups by access request ID please use the following:
+
+        '/generic-approvals?mine=false&filters=referenceType+eq+"accessRequestId"+and+referenceId+eq+"12345678901234567890123456789012"'
       parameters:
         - in: query
           name: mine
@@ -34647,7 +34653,7 @@ paths:
           schema:
             type: boolean
             default: false
-          description: Returns the list of approvals for the current caller. Defaults to false if admin, true otherwise.
+          description: Determines whether to return the list of approvals assigned to the current caller or all approvals in the org. Defaults to false if admin, true otherwise (which is the equivalent of 'approverId=${your_identity_id}').
           example: 'true'
         - in: query
           name: requesterId
@@ -34730,8 +34736,6 @@ paths:
 
             **status**: *eq, ne, in, co, sw*
 
-            **referenceType**: *eq, ne, in, co, sw*
-
             **name**: *eq, ne, in, co, sw*
 
             **priority**: *eq, ne, in, co, sw*
@@ -34744,10 +34748,6 @@ paths:
 
             **batchId**: *eq, ne, in, co, sw*
 
-            **approvalId**: *eq, ne, in, co, sw*
-
-            **tenantId**: *eq, ne, in, co, sw*
-
             **createdDate**: *eq, ne, in, co, sw, gt, ge, lt, le*
 
             **dueDate**: *eq, ne, in, co, sw, gt, ge, lt, le*
@@ -34758,23 +34758,29 @@ paths:
 
             **referenceId**: *eq, ne, in, co, sw*
 
+            **referenceType**: *eq, ne, in, co, sw*
+
             **referenceName**: *eq, ne, in, co, sw*
-
-            **requestedTargetType**: *eq, ne, in, co, sw*
-
-            **requestedTargetRequestType**: *eq, ne, in, co, sw*
 
             **requestedTargetId**: *eq, ne, in, co, sw*
 
+            **requestedTargetType**: *eq, ne, in, co, sw*
+
+            **requestedTargetName**: *eq, ne, in, co, sw*
+
+            **requestedTargetRequestType**: *eq, ne, in, co, sw*
+
             **modifiedDate**: *eq, ne, in, co, sw, gt, ge, lt, le*
+
+            **decisionDate**: *eq, ne, in, co, sw, gt, ge, lt, le*
+
+            **approvalId**: *eq, ne, in, co, sw*
 
             **requesterId**: *eq, ne, in, co, sw*
 
             **requesteeId**: *eq, ne, in, co, sw*
 
             **approverId**: *eq, ne, in, co, sw*
-
-            **decisionDate**: *eq, ne, in, co, sw, gt, ge, lt, le*
           example: filters=status eq "PENDING" and type eq "ACCESS_REQUEST_APPROVAL"
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
@@ -37874,9 +37880,7 @@ paths:
       security:
         - userAuth:
             - sp:parameter-storage:read
-            - sp:parameter-storage:create
-            - sp:parameter-storage:update
-            - sp:parameter-storage:delete
+            - sp:parameter-storage:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
       x-audience:
@@ -37907,7 +37911,7 @@ paths:
         - Parameter Storage
       security:
         - userAuth:
-            - sp:parameter-storage:create
+            - sp:parameter-storage:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
       x-audience:
@@ -37978,6 +37982,7 @@ paths:
       security:
         - userAuth:
             - sp:parameter-storage:read
+            - sp:parameter-storage:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
       x-audience:
@@ -38020,6 +38025,7 @@ paths:
       security:
         - userAuth:
             - sp:parameter-storage:read
+            - sp:parameter-storage:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
       x-audience:
@@ -38060,7 +38066,7 @@ paths:
         - Parameter Storage
       security:
         - userAuth:
-            - sp:parameter-storage:update
+            - sp:parameter-storage:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
       x-audience:
@@ -38114,7 +38120,7 @@ paths:
         - Parameter Storage
       security:
         - userAuth:
-            - sp:parameter-storage:delete
+            - sp:parameter-storage:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
       x-audience:
@@ -38146,6 +38152,7 @@ paths:
       security:
         - userAuth:
             - sp:parameter-storage:read
+            - sp:parameter-storage:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
       x-audience:
@@ -38201,9 +38208,7 @@ paths:
       security:
         - userAuth:
             - sp:parameter-storage:read
-            - sp:parameter-storage:update
-            - sp:parameter-storage:create
-            - sp:parameter-storage:delete
+            - sp:parameter-storage:manage
       parameters:
         - name: Accept-Language
           in: header
@@ -42675,6 +42680,14 @@ paths:
         '500':
           $ref: '#/components/responses/500'
       parameters:
+        - in: path
+          name: id
+          required: true
+          x-sailpoint-resource-operation-id: listSources
+          schema:
+            type: string
+          description: The Source id
+          example: 8c190e6787aa4ed9a90bd9d5344523fb
         - name: X-SailPoint-Experimental
           in: header
           description: Use this header to enable this experimental API.
@@ -42752,6 +42765,14 @@ paths:
         '500':
           $ref: '#/components/responses/500'
       parameters:
+        - in: path
+          name: id
+          required: true
+          x-sailpoint-resource-operation-id: listSources
+          schema:
+            type: string
+          description: The Source id
+          example: 8c190e6787aa4ed9a90bd9d5344523fb
         - name: X-SailPoint-Experimental
           in: header
           description: Use this header to enable this experimental API.
@@ -42849,16 +42870,8 @@ paths:
       tags:
         - Tenant Context
       description: |
-        Returns a list of key-value pairs representing the current state of the tenant's context.
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
+        Returns all key-value pairs representing the current state of the tenant's context.
+        Each tenant is limited to a maximum of 100 key-value pairs.
       security:
         - userAuth:
             - idn:tenant-context:read
@@ -42906,15 +42919,6 @@ paths:
         This endpoint is specifically designed to modify the `/Key/*` field, supporting operations such as `add`, `remove`, or `replace` to manage key-value pairs. 
 
         Note that each tenant is limited to a maximum of 100 key-value pairs.
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       security:
         - userAuth:
             - idn:tenant-context:write
@@ -48581,6 +48585,232 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AutoWriteSettingResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - userAuth:
+            - idn:sed:manage
+        - applicationAuth:
+            - idn:sed:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
+  /entitlement-recommendations/pending-approvals:
+    get:
+      tags:
+        - Suggested Entitlement Description
+      operationId: listPendingEntitlementRecommendationApprovals
+      summary: List pending entitlement recommendation approvals
+      description: Returns a list of entitlement recommendations (SED and/or privilege) that are currently awaiting review or approval. Each record includes the recommendation type, entitlement details, and any AI-generated suggestions.
+      parameters:
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/limit'
+      responses:
+        '200':
+          description: A list of pending entitlement recommendation records.
+          headers:
+            X-Total-Count:
+              description: The total number of pending approval records available.
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EntitlementRecommendationRecord'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - userAuth:
+            - idn:sed:read
+        - applicationAuth:
+            - idn:sed:read
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
+  /privileged-recommendations:
+    get:
+      tags:
+        - Suggested Entitlement Description
+      operationId: listPrivilegedEntitlementRecommendations
+      summary: List privileged entitlement recommendations
+      description: Returns a list of privileged entitlement recommendation groups. Each group aggregates individual entitlement instances that share the same entitlement name and connector type, along with a recommendation score and instance count.
+      parameters:
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/limit'
+      responses:
+        '200':
+          description: A list of privileged recommendation groups.
+          headers:
+            X-Total-Count:
+              description: The total number of recommendation groups available.
+              schema:
+                type: integer
+            X-Total-Entitlements:
+              description: The total number of individual entitlement instances across all groups.
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PrivilegedRecommendationGroup'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - userAuth:
+            - idn:sed:read
+        - applicationAuth:
+            - idn:sed:read
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
+  /entitlement-recommendations/bulk-approve:
+    post:
+      tags:
+        - Suggested Entitlement Description
+      operationId: approveBulkEntitlementRecommendations
+      summary: Bulk approve entitlement recommendations
+      description: Approve multiple entitlement recommendations in a single request. Each item in the request must include the recommendation ID and, depending on the record type, either an approved description (SED items) or an approved privilege level (privilege items). Returns a per-item result indicating success or failure.
+      requestBody:
+        description: The list of recommendation items to approve.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkApproveEntitlementRecommendationRequest'
+        required: true
+      responses:
+        '200':
+          description: Per-item approval results.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BulkApproveEntitlementRecommendationResult'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - userAuth:
+            - idn:sed:manage
+        - applicationAuth:
+            - idn:sed:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
+  /entitlement-recommendations/assign:
+    post:
+      tags:
+        - Suggested Entitlement Description
+      operationId: submitEntitlementRecommendationsAssignment
+      summary: Assign entitlement recommendations for review
+      description: Assign a set of entitlement recommendation records to a reviewer. The assignee can be a specific identity, a governance group, or a role-based assignee such as source owner or entitlement owner. Returns a batch ID that can be used to track the assignment.
+      requestBody:
+        description: The recommendation IDs and the target assignee.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EntitlementRecommendationAssignRequest'
+        required: true
+      responses:
+        '202':
+          description: Assignment queued successfully. Returns the batch ID for tracking.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntitlementRecommendationAssignResult'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - userAuth:
+            - idn:sed:manage
+        - applicationAuth:
+            - idn:sed:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
+  /entitlement-recommendations/{id}:
+    patch:
+      tags:
+        - Suggested Entitlement Description
+      operationId: patchEntitlementRecommendation
+      summary: Update an entitlement recommendation
+      description: Partially update a single entitlement recommendation record by its ID. Use this endpoint to update the status, description, or privilege level of a specific SED or privilege recommendation.
+      parameters:
+        - in: path
+          name: id
+          x-sailpoint-resource-operation-id: listPendingEntitlementRecommendationApprovals
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: The unique identifier of the entitlement recommendation to update.
+          example: 79db50d4-723c-4aa0-a824-83c2205d82d1
+      requestBody:
+        description: The patch operations to apply to the entitlement recommendation record.
+        content:
+          application/json-patch+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/JsonPatchOperation'
+        required: true
+      responses:
+        '200':
+          description: The updated entitlement recommendation record.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntitlementRecommendationRecord'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -56107,6 +56337,7 @@ components:
           example: '2020-07-11T21:23:15.000Z'
         modified:
           description: Last modification date of the task this TaskStatus represents
+          nullable: true
           type: string
           format: date-time
           example: '2020-07-11T21:23:15.000Z'
@@ -64288,6 +64519,7 @@ components:
       title: JIT Activation Activate Response
       required:
         - id
+        - activationId
         - connectionId
         - activationPeriodMins
         - status
@@ -64297,6 +64529,11 @@ components:
           type: string
           description: Workflow or business identifier for this activation.
           example: jit-activation-abc123
+        activationId:
+          type: string
+          format: uuid
+          description: Persistent activation record identifier for this JIT activation.
+          example: 8a9b0c1d-2e3f-4a5b-6c7d-8e9f0a1b2c3d
         connectionId:
           type: string
           format: uuid
@@ -64330,6 +64567,7 @@ components:
       title: JIT Activation Deactivate Response
       required:
         - id
+        - activationId
         - connectionId
         - status
         - startTime
@@ -64338,6 +64576,11 @@ components:
           type: string
           description: Workflow or business identifier for this activation.
           example: jit-activation-abc123
+        activationId:
+          type: string
+          format: uuid
+          description: Persistent activation record identifier for this JIT activation.
+          example: 8a9b0c1d-2e3f-4a5b-6c7d-8e9f0a1b2c3d
         connectionId:
           type: string
           format: uuid
@@ -64373,6 +64616,7 @@ components:
       title: JIT Activation Extend Response
       required:
         - id
+        - activationId
         - connectionId
         - activationPeriodExtensionMins
         - status
@@ -64382,6 +64626,11 @@ components:
           type: string
           description: Workflow or business identifier for this activation.
           example: jit-activation-abc123
+        activationId:
+          type: string
+          format: uuid
+          description: Persistent activation record identifier for this JIT activation.
+          example: 8a9b0c1d-2e3f-4a5b-6c7d-8e9f0a1b2c3d
         connectionId:
           type: string
           format: uuid
@@ -77404,7 +77653,7 @@ components:
         identityID:
           type: string
           example: 17e633e7d57e481569df76323169deb6a
-          description: Identity ID.
+          description: Identity ID of the type of identity defined in the 'type' field.
         members:
           type: array
           items:
@@ -77458,15 +77707,44 @@ components:
           type: string
           enum:
             - IDENTITY
-            - MANAGER_OF
             - GOVERNANCE_GROUP
-            - SOURCE_OWNER
-            - ROLE_OWNER
+            - MANAGER_OF
+            - ACCOUNT_OWNER
+            - MACHINE_ACCOUNT_OWNER
+            - MACHINE_IDENTITY_OWNER
+            - MANAGER_OF_REQUESTED_TARGET_OWNER
+            - MANAGER_OF_MACHINE_IDENTITY_OWNER
+            - MANAGER_OF_ACCOUNT_OWNER
+            - MANAGER_OF_MACHINE_ACCOUNT_OWNER
+            - MANAGER_OF_REQUESTER
+            - MANAGER_OF_REQUESTER_OWNER
+            - MANAGER_OF_OWNER
             - ACCESS_PROFILE_OWNER
-            - ENTITLEMENT_OWNER
             - APPLICATION_OWNER
+            - ENTITLEMENT_OWNER
+            - ROLE_OWNER
+            - SOURCE_OWNER
+            - REQUESTED_TARGET_OWNER
+            - ACCESS_PROFILE_PRIMARY_OWNER
+            - APPLICATION_PRIMARY_OWNER
+            - ENTITLEMENT_PRIMARY_OWNER
+            - ROLE_PRIMARY_OWNER
+            - SOURCE_PRIMARY_OWNER
+            - REQUESTED_TARGET_PRIMARY_OWNER
+            - ACCESS_PROFILE_SECONDARY_OWNER_GROUP
+            - APPLICATION_SECONDARY_OWNER_GROUP
+            - ENTITLEMENT_SECONDARY_OWNER_GROUP
+            - ROLE_SECONDARY_OWNER_GROUP
+            - SOURCE_SECONDARY_OWNER_GROUP
+            - REQUESTED_TARGET_SECONDARY_OWNER_GROUP
+            - ACCESS_PROFILE_ALL_OWNER_GROUP
+            - APPLICATION_ALL_OWNER_GROUP
+            - ENTITLEMENT_ALL_OWNER_GROUP
+            - ROLE_ALL_OWNER_GROUP
+            - SOURCE_ALL_OWNER_GROUP
+            - REQUESTED_TARGET_ALL_OWNER_GROUP
           example: IDENTITY
-          description: Type of identity.
+          description: Type of identityID.
       description: Approval Identity Object
     ApprovalName:
       type: object
@@ -77543,10 +77821,6 @@ components:
               items:
                 type: object
                 properties:
-                  chainId:
-                    type: string
-                    example: ef85d1a8-41ef-433a-8153-0b1f59e7b26a
-                    description: ID of the escalation chain.
                   tier:
                     type: integer
                     example: 1
@@ -77555,11 +77829,34 @@ components:
                   identityId:
                     type: string
                     example: fdfda352157d4cc79bb749953131b457
-                    description: Identity ID in the escalation chain.
+                    description: Optional Identity ID of the type of identity defined in the 'identityType' field.
                   identityType:
                     type: string
+                    enum:
+                      - IDENTITY
+                      - MANAGER_OF
+                      - ACCOUNT_OWNER
+                      - MACHINE_ACCOUNT_OWNER
+                      - MACHINE_IDENTITY_OWNER
+                      - MANAGER_OF_REQUESTED_TARGET_OWNER
+                      - MANAGER_OF_MACHINE_IDENTITY_OWNER
+                      - MANAGER_OF_ACCOUNT_OWNER
+                      - MANAGER_OF_MACHINE_ACCOUNT_OWNER
+                      - MANAGER_OF_REQUESTER
+                      - MANAGER_OF_REQUESTER_OWNER
+                      - MANAGER_OF_OWNER
+                      - ACCESS_PROFILE_OWNER
+                      - APPLICATION_OWNER
+                      - ENTITLEMENT_OWNER
+                      - ROLE_OWNER
+                      - SOURCE_OWNER
+                      - ACCESS_PROFILE_PRIMARY_OWNER
+                      - APPLICATION_PRIMARY_OWNER
+                      - ENTITLEMENT_PRIMARY_OWNER
+                      - ROLE_PRIMARY_OWNER
+                      - SOURCE_PRIMARY_OWNER
                     example: IDENTITY
-                    description: Type of identity in the escalation chain.
+                    description: Type of identityId in the escalation chain.
               description: Escalation chain configuration.
           description: Configuration for escalations.
         timeoutConfig:
@@ -77600,10 +77897,6 @@ components:
           items:
             type: object
             properties:
-              chainId:
-                type: string
-                example: 23dc206e-2a9e-4f98-93db-8d6e342cca18
-                description: ID of the serial chain.
               tier:
                 type: integer
                 example: 1
@@ -77612,11 +77905,49 @@ components:
               identityId:
                 type: string
                 example: 2c9180858090ea8801809a0465e829da
-                description: Identity ID in the serial chain.
+                description: Optional Identity ID of the type of identity defined in the 'identityType' field.
               identityType:
                 type: string
+                enum:
+                  - IDENTITY
+                  - GOVERNANCE_GROUP
+                  - MANAGER_OF
+                  - ACCOUNT_OWNER
+                  - MACHINE_ACCOUNT_OWNER
+                  - MACHINE_IDENTITY_OWNER
+                  - MANAGER_OF_REQUESTED_TARGET_OWNER
+                  - MANAGER_OF_MACHINE_IDENTITY_OWNER
+                  - MANAGER_OF_ACCOUNT_OWNER
+                  - MANAGER_OF_MACHINE_ACCOUNT_OWNER
+                  - MANAGER_OF_REQUESTER
+                  - MANAGER_OF_REQUESTER_OWNER
+                  - MANAGER_OF_OWNER
+                  - ACCESS_PROFILE_OWNER
+                  - APPLICATION_OWNER
+                  - ENTITLEMENT_OWNER
+                  - ROLE_OWNER
+                  - SOURCE_OWNER
+                  - REQUESTED_TARGET_OWNER
+                  - ACCESS_PROFILE_PRIMARY_OWNER
+                  - APPLICATION_PRIMARY_OWNER
+                  - ENTITLEMENT_PRIMARY_OWNER
+                  - ROLE_PRIMARY_OWNER
+                  - SOURCE_PRIMARY_OWNER
+                  - REQUESTED_TARGET_PRIMARY_OWNER
+                  - ACCESS_PROFILE_SECONDARY_OWNER_GROUP
+                  - APPLICATION_SECONDARY_OWNER_GROUP
+                  - ENTITLEMENT_SECONDARY_OWNER_GROUP
+                  - ROLE_SECONDARY_OWNER_GROUP
+                  - SOURCE_SECONDARY_OWNER_GROUP
+                  - REQUESTED_TARGET_SECONDARY_OWNER_GROUP
+                  - ACCESS_PROFILE_ALL_OWNER_GROUP
+                  - APPLICATION_ALL_OWNER_GROUP
+                  - ENTITLEMENT_ALL_OWNER_GROUP
+                  - ROLE_ALL_OWNER_GROUP
+                  - SOURCE_ALL_OWNER_GROUP
+                  - REQUESTED_TARGET_ALL_OWNER_GROUP
                 example: IDENTITY
-                description: Type of identity in the serial chain.
+                description: Type of identityId in the serial chain.
           description: If the approval request has an approvalCriteria of SERIAL this chain will be used to determine the assignment order.
         requiresComment:
           type: string
@@ -77629,7 +77960,40 @@ components:
           description: Determines whether a comment is required when approving or rejecting the approval request.
         fallbackApprover:
           type: object
-          $ref: '#/components/schemas/ApprovalIdentity'
+          properties:
+            identityID:
+              type: string
+              example: fdfda352157d4cc79bb749953131b457
+              description: Optional Identity ID of the type of identity defined in the 'type' field.
+            type:
+              type: string
+              enum:
+                - IDENTITY
+                - MANAGER_OF
+                - ACCOUNT_OWNER
+                - MACHINE_ACCOUNT_OWNER
+                - MACHINE_IDENTITY_OWNER
+                - MANAGER_OF_REQUESTED_TARGET_OWNER
+                - MANAGER_OF_MACHINE_IDENTITY_OWNER
+                - MANAGER_OF_ACCOUNT_OWNER
+                - MANAGER_OF_MACHINE_ACCOUNT_OWNER
+                - MANAGER_OF_REQUESTER
+                - MANAGER_OF_REQUESTER_OWNER
+                - MANAGER_OF_OWNER
+                - ACCESS_PROFILE_OWNER
+                - APPLICATION_OWNER
+                - ENTITLEMENT_OWNER
+                - ROLE_OWNER
+                - SOURCE_OWNER
+                - REQUESTED_TARGET_OWNER
+                - ACCESS_PROFILE_PRIMARY_OWNER
+                - APPLICATION_PRIMARY_OWNER
+                - ENTITLEMENT_PRIMARY_OWNER
+                - ROLE_PRIMARY_OWNER
+                - SOURCE_PRIMARY_OWNER
+                - REQUESTED_TARGET_PRIMARY_OWNER
+              example: MANAGER_OF
+              description: Type of identityID for the fallback approver.
           description: Configuration for fallback approver. Used if the user cannot be found for whatever reason and escalation config does not exist.
         machineIdentityManagerAssignment:
           type: string
@@ -77642,7 +78006,7 @@ components:
             - ACCOUNT_OWNER
             - MANAGER_OF_ACCOUNT_OWNER
           example: MACHINE_IDENTITY_OWNER
-          default: MACHINE_IDENTITY_OWNER
+          default: MANAGER_OF_REQUESTER
           description: Specifies how to treat the identity type "MANAGER_OF" when the requestee is a machine identity.
         circumventApprovalProcess:
           type: boolean
@@ -81656,7 +82020,6 @@ components:
         - jobId
         - status
         - type
-        - expiration
         - created
         - modified
     SpConfigExportJob:
@@ -87522,6 +87885,315 @@ components:
               example:
                 - 2c91808a7813090a017814552e526349
           example: true
+    EntitlementRecommendationRecord:
+      description: A unified entitlement recommendation record representing either a SED (Suggested Entitlement Description) or a privilege recommendation.
+      type: object
+      title: Entitlement Recommendation Record
+      properties:
+        recordType:
+          description: The type of recommendation. "SED" indicates a suggested description recommendation; "privilege" indicates a privilege-level recommendation.
+          type: string
+          enum:
+            - SED
+            - privilege
+          example: SED
+        id:
+          description: The unique identifier for this recommendation record.
+          type: string
+          format: uuid
+          example: 79db50d4-723c-4aa0-a824-83c2205d82d1
+        attribute:
+          description: The entitlement attribute name (e.g. "groups").
+          type: string
+          nullable: true
+          example: groups
+        displayName:
+          description: The human-readable display name of the entitlement.
+          type: string
+          nullable: true
+          example: Schema Admins
+        name:
+          description: The internal name of the entitlement.
+          type: string
+          nullable: true
+          example: Schema Admins
+        sourceId:
+          description: The ID of the source that owns this entitlement.
+          type: string
+          example: 2c9180877a7c8e88017a7d1234567890
+        sourceName:
+          description: The display name of the source that owns this entitlement.
+          type: string
+          example: Active Directory
+        status:
+          description: The current review status of the recommendation.
+          type: string
+          example: suggested
+        type:
+          description: The entitlement type (e.g. "group").
+          type: string
+          nullable: true
+          example: group
+        value:
+          description: The entitlement value or identifier.
+          type: string
+          example: CN=Schema Admins,DC=example,DC=com
+        description:
+          description: The current description of the entitlement, if one exists.
+          type: string
+          nullable: true
+          example: Grants full control over the Active Directory schema.
+        suggestedDescription:
+          description: The AI-generated suggested description for the entitlement (SED records only).
+          type: string
+          nullable: true
+          example: Grants full administrative access to the domain.
+        privilege:
+          description: The current privilege level assigned to the entitlement.
+          type: string
+          nullable: true
+          example: high
+        suggestedPrivilege:
+          description: The AI-suggested privilege level for the entitlement (privilege records only).
+          type: string
+          nullable: true
+          example: high
+        approvedBy:
+          description: The ID of the identity who approved this recommendation.
+          type: string
+          nullable: true
+          example: 2c91808a7f3b2e8a017f3c3e5f6d0099
+        approvedType:
+          description: How the recommendation was approved (e.g. "direct").
+          type: string
+          nullable: true
+          example: direct
+        approvedWhen:
+          description: The timestamp when the recommendation was approved.
+          type: string
+          format: date-time
+          nullable: true
+          example: '2026-03-15T14:22:00Z'
+        llmBatchCreatedAt:
+          description: The timestamp when the LLM batch that generated this recommendation was created.
+          type: string
+          format: date-time
+          nullable: true
+          example: '2026-03-01T00:00:00Z'
+    PrivilegedRecommendationInstance:
+      description: An individual entitlement instance within a privileged recommendation group.
+      type: object
+      title: Privileged Recommendation Instance
+      properties:
+        id:
+          description: The unique identifier for this entitlement instance.
+          type: string
+          format: uuid
+          example: d6127d2c-bd62-4217-b187-e4b28f328080
+        attribute:
+          description: The entitlement attribute name.
+          type: string
+          example: memberOf
+        sourceId:
+          description: The ID of the source that owns this entitlement.
+          type: string
+          example: 2c9180877a7c8e88017a7d1234567890
+        sourceName:
+          description: The display name of the source.
+          type: string
+          example: AD Corp
+        type:
+          description: The entitlement type.
+          type: string
+          example: group
+        value:
+          description: The entitlement value or distinguished name.
+          type: string
+          example: CN=Domain Admins,CN=Users,DC=corp,DC=example,DC=com
+        status:
+          description: The current review status of this instance.
+          type: string
+          example: suggested
+        privilegeLevel:
+          description: The currently assigned privilege level, if any.
+          type: string
+          nullable: true
+          example: high
+        description:
+          description: The current description of the entitlement, if one exists.
+          type: string
+          nullable: true
+          example: Grants full administrative access to the domain.
+        recommendedAt:
+          description: The timestamp when this instance was recommended.
+          type: string
+          format: date-time
+          example: '2026-03-01T00:00:00Z'
+    PrivilegedRecommendationGroup:
+      description: A group of entitlement instances that share the same entitlement name and connector type, aggregated for privileged-access review.
+      type: object
+      title: Privileged Recommendation Group
+      properties:
+        entitlementName:
+          description: The name of the entitlement shared across all instances in this group.
+          type: string
+          example: Domain Admins
+        connectorType:
+          description: The connector type associated with all instances in this group.
+          type: string
+          example: Active Directory - Direct
+        recommendationScore:
+          description: A decimal string representing the confidence score of the privilege recommendation (0.0-1.0).
+          type: string
+          example: '.85'
+        orgCount:
+          description: The number of organizations in which this entitlement appears as privileged.
+          type: integer
+          format: int32
+          example: 8
+        instanceCount:
+          description: The total number of individual entitlement instances in this group.
+          type: integer
+          format: int32
+          example: 2
+        instances:
+          description: The individual entitlement instances belonging to this group.
+          type: array
+          items:
+            $ref: '#/components/schemas/PrivilegedRecommendationInstance'
+    BulkApproveEntitlementRecommendationItem:
+      description: A single item in a bulk entitlement recommendation approval request. The recordType is optional; the backend resolves the type by ID lookup when omitted. Description applies to SED items only; privilegeLevel is required for privilege items.
+      type: object
+      title: Bulk Approve Entitlement Recommendation Item
+      required:
+        - id
+      properties:
+        id:
+          description: The unique identifier of the recommendation record to approve.
+          type: string
+          format: uuid
+          example: 79db50d4-723c-4aa0-a824-83c2205d82d1
+        recordType:
+          description: The type of the recommendation. When omitted, the backend resolves the type by looking up the ID.
+          type: string
+          nullable: true
+          enum:
+            - SED
+            - privilege
+          example: SED
+        description:
+          description: The approved description text. Required for SED-type items; ignored for privilege items.
+          type: string
+          nullable: true
+          example: Provides access and permissions related to the Delinea Secret Server Cloud system.
+        privilegeLevel:
+          description: The approved privilege level. Required for privilege-type items; ignored for SED items.
+          type: string
+          nullable: true
+          example: high
+    BulkApproveEntitlementRecommendationRequest:
+      description: Request body for bulk-approving a set of entitlement recommendations.
+      type: object
+      title: Bulk Approve Entitlement Recommendation Request
+      required:
+        - items
+      properties:
+        items:
+          description: The list of recommendation items to approve.
+          type: array
+          items:
+            $ref: '#/components/schemas/BulkApproveEntitlementRecommendationItem'
+          example:
+            - id: 79db50d4-723c-4aa0-a824-83c2205d82d1
+              recordType: SED
+              description: Provides access and permissions related to the Delinea Secret Server Cloud system.
+            - id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+              recordType: privilege
+              privilegeLevel: high
+    BulkApproveEntitlementRecommendationResult:
+      description: The result for a single item in a bulk entitlement recommendation approval response.
+      type: object
+      title: Bulk Approve Entitlement Recommendation Result
+      properties:
+        id:
+          description: The unique identifier of the processed recommendation record.
+          type: string
+          format: uuid
+          example: 79db50d4-723c-4aa0-a824-83c2205d82d1
+        status:
+          description: The outcome of the approval for this item.
+          type: string
+          enum:
+            - SUCCESS
+            - FAILURE
+          example: SUCCESS
+        failedReason:
+          description: The reason for failure if status is FAILURE; null on success.
+          type: string
+          nullable: true
+          example: null
+    EntitlementRecommendationAssignee:
+      description: Describes the target assignee for entitlement recommendations.
+      title: Entitlement Recommendation Assignee
+      oneOf:
+        - description: Assign to a specific identity or governance group. The value field is required and must be the ID of the identity or governance group.
+          type: object
+          required:
+            - type
+            - value
+          properties:
+            type:
+              description: The type of assignee.
+              type: string
+              enum:
+                - IDENTITY
+                - GOVERNANCE_GROUP
+              example: IDENTITY
+            value:
+              description: The ID of the identity or governance group to assign to.
+              type: string
+              example: 2c91808a7f3b2e8a017f3c3e5f6d0099
+        - description: Assign to the source owner or entitlement owner role. No value field is required.
+          type: object
+          required:
+            - type
+          properties:
+            type:
+              description: The type of assignee.
+              type: string
+              enum:
+                - SOURCE_OWNER
+                - ENTITLEMENT_OWNER
+              example: SOURCE_OWNER
+    EntitlementRecommendationAssignRequest:
+      description: Request body for assigning a set of entitlement recommendations to a reviewer.
+      type: object
+      title: Entitlement Recommendation Assign Request
+      required:
+        - items
+        - assignee
+      properties:
+        items:
+          description: The list of recommendation record IDs to assign.
+          type: array
+          items:
+            type: string
+            format: uuid
+          example:
+            - 79db50d4-723c-4aa0-a824-83c2205d82d1
+            - a1b2c3d4-e5f6-7890-abcd-ef1234567890
+        assignee:
+          $ref: '#/components/schemas/EntitlementRecommendationAssignee'
+    EntitlementRecommendationAssignResult:
+      description: Response body returned when entitlement recommendations are successfully queued for assignment.
+      type: object
+      title: Entitlement Recommendation Assign Result
+      properties:
+        batchId:
+          description: The unique identifier of the assignment batch created by this request.
+          type: string
+          format: uuid
+          example: 770e8400-e29b-41d4-a716-446655440099
     SedBatchStats:
       description: Sed Batch Stats
       type: object

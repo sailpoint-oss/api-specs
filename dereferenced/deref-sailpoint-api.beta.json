@@ -58591,6 +58591,7 @@
           },
           "modified": {
             "description": "Last modification date of the task this TaskStatus represents",
+            "nullable": true,
             "type": "string",
             "format": "date-time",
             "example": "2020-07-11T21:23:15.000Z"
@@ -68466,7 +68467,6 @@
           "jobId",
           "status",
           "type",
-          "expiration",
           "created",
           "modified"
         ]

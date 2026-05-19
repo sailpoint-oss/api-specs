@@ -33458,10 +33458,16 @@ paths:
         - Approvals
       summary: Get approvals
       description: |-
-        Gets a list of approvals. For lookups by access request ID please use the following:
-        /generic-approvals?filters=referenceType+eq+"accessRequestId"+and+referenceId+eq+"12345678901234567890123456789012"
-        Absence of all query parameters for non admins will will default to mine=true. Admin will default to mine=false.
-        Absence of all query parameters for admins will return all approvals in the org.
+        Gets a list of approvals.
+
+        One of the following query parameters should be present: 'mine', 'approverId', 'requesterId', 'requesteeId'.
+
+        The absence of all query parameters for non admins will default to mine=true (which is the equivalent of 'approverId=${your_identity_id}') 
+        while admins will default to mine=false (which will show all approvals in the org).
+
+        For lookups by access request ID please use the following:
+
+        '/generic-approvals?mine=false&filters=referenceType+eq+"accessRequestId"+and+referenceId+eq+"12345678901234567890123456789012"'
       parameters:
         - in: query
           name: mine
@@ -33469,7 +33475,7 @@ paths:
           schema:
             type: boolean
             default: false
-          description: Returns the list of approvals for the current caller. Defaults to false if admin, true otherwise.
+          description: Determines whether to return the list of approvals assigned to the current caller or all approvals in the org. Defaults to false if admin, true otherwise (which is the equivalent of 'approverId=${your_identity_id}').
           example: 'true'
         - in: query
           name: requesterId
@@ -33552,8 +33558,6 @@ paths:
 
             **status**: *eq, ne, in, co, sw*
 
-            **referenceType**: *eq, ne, in, co, sw*
-
             **name**: *eq, ne, in, co, sw*
 
             **priority**: *eq, ne, in, co, sw*
@@ -33566,10 +33570,6 @@ paths:
 
             **batchId**: *eq, ne, in, co, sw*
 
-            **approvalId**: *eq, ne, in, co, sw*
-
-            **tenantId**: *eq, ne, in, co, sw*
-
             **createdDate**: *eq, ne, in, co, sw, gt, ge, lt, le*
 
             **dueDate**: *eq, ne, in, co, sw, gt, ge, lt, le*
@@ -33580,23 +33580,29 @@ paths:
 
             **referenceId**: *eq, ne, in, co, sw*
 
+            **referenceType**: *eq, ne, in, co, sw*
+
             **referenceName**: *eq, ne, in, co, sw*
-
-            **requestedTargetType**: *eq, ne, in, co, sw*
-
-            **requestedTargetRequestType**: *eq, ne, in, co, sw*
 
             **requestedTargetId**: *eq, ne, in, co, sw*
 
+            **requestedTargetType**: *eq, ne, in, co, sw*
+
+            **requestedTargetName**: *eq, ne, in, co, sw*
+
+            **requestedTargetRequestType**: *eq, ne, in, co, sw*
+
             **modifiedDate**: *eq, ne, in, co, sw, gt, ge, lt, le*
+
+            **decisionDate**: *eq, ne, in, co, sw, gt, ge, lt, le*
+
+            **approvalId**: *eq, ne, in, co, sw*
 
             **requesterId**: *eq, ne, in, co, sw*
 
             **requesteeId**: *eq, ne, in, co, sw*
 
             **approverId**: *eq, ne, in, co, sw*
-
-            **decisionDate**: *eq, ne, in, co, sw, gt, ge, lt, le*
           example: filters=status eq "PENDING" and type eq "ACCESS_REQUEST_APPROVAL"
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
@@ -36946,9 +36952,7 @@ paths:
       security:
         - userAuth:
             - sp:parameter-storage:read
-            - sp:parameter-storage:create
-            - sp:parameter-storage:update
-            - sp:parameter-storage:delete
+            - sp:parameter-storage:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
       x-audience:
@@ -36979,7 +36983,7 @@ paths:
         - Parameter Storage
       security:
         - userAuth:
-            - sp:parameter-storage:create
+            - sp:parameter-storage:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
       x-audience:
@@ -37050,6 +37054,7 @@ paths:
       security:
         - userAuth:
             - sp:parameter-storage:read
+            - sp:parameter-storage:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
       x-audience:
@@ -37092,6 +37097,7 @@ paths:
       security:
         - userAuth:
             - sp:parameter-storage:read
+            - sp:parameter-storage:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
       x-audience:
@@ -37132,7 +37138,7 @@ paths:
         - Parameter Storage
       security:
         - userAuth:
-            - sp:parameter-storage:update
+            - sp:parameter-storage:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
       x-audience:
@@ -37186,7 +37192,7 @@ paths:
         - Parameter Storage
       security:
         - userAuth:
-            - sp:parameter-storage:delete
+            - sp:parameter-storage:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
       x-audience:
@@ -37218,6 +37224,7 @@ paths:
       security:
         - userAuth:
             - sp:parameter-storage:read
+            - sp:parameter-storage:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
       x-audience:
@@ -37273,9 +37280,7 @@ paths:
       security:
         - userAuth:
             - sp:parameter-storage:read
-            - sp:parameter-storage:update
-            - sp:parameter-storage:create
-            - sp:parameter-storage:delete
+            - sp:parameter-storage:manage
       parameters:
         - name: Accept-Language
           in: header
@@ -41747,6 +41752,14 @@ paths:
         '500':
           $ref: '#/components/responses/500'
       parameters:
+        - in: path
+          name: id
+          required: true
+          x-sailpoint-resource-operation-id: listSources
+          schema:
+            type: string
+          description: The Source id
+          example: 8c190e6787aa4ed9a90bd9d5344523fb
         - name: X-SailPoint-Experimental
           in: header
           description: Use this header to enable this experimental API.
@@ -41824,6 +41837,14 @@ paths:
         '500':
           $ref: '#/components/responses/500'
       parameters:
+        - in: path
+          name: id
+          required: true
+          x-sailpoint-resource-operation-id: listSources
+          schema:
+            type: string
+          description: The Source id
+          example: 8c190e6787aa4ed9a90bd9d5344523fb
         - name: X-SailPoint-Experimental
           in: header
           description: Use this header to enable this experimental API.
@@ -42221,16 +42242,8 @@ paths:
       tags:
         - Tenant Context
       description: |
-        Returns a list of key-value pairs representing the current state of the tenant's context.
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
+        Returns all key-value pairs representing the current state of the tenant's context.
+        Each tenant is limited to a maximum of 100 key-value pairs.
       security:
         - userAuth:
             - idn:tenant-context:read
@@ -42278,15 +42291,6 @@ paths:
         This endpoint is specifically designed to modify the `/Key/*` field, supporting operations such as `add`, `remove`, or `replace` to manage key-value pairs. 
 
         Note that each tenant is limited to a maximum of 100 key-value pairs.
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       security:
         - userAuth:
             - idn:tenant-context:write
@@ -74647,6 +74651,7 @@ components:
           example: '2020-07-11T21:23:15.000Z'
         modified:
           description: Last modification date of the task this TaskStatus represents
+          nullable: true
           type: string
           format: date-time
           example: '2020-07-11T21:23:15.000Z'
@@ -74871,7 +74876,7 @@ components:
         identityID:
           type: string
           example: 17e633e7d57e481569df76323169deb6a
-          description: Identity ID.
+          description: Identity ID of the type of identity defined in the 'type' field.
         members:
           type: array
           items:
@@ -74925,15 +74930,44 @@ components:
           type: string
           enum:
             - IDENTITY
-            - MANAGER_OF
             - GOVERNANCE_GROUP
-            - SOURCE_OWNER
-            - ROLE_OWNER
+            - MANAGER_OF
+            - ACCOUNT_OWNER
+            - MACHINE_ACCOUNT_OWNER
+            - MACHINE_IDENTITY_OWNER
+            - MANAGER_OF_REQUESTED_TARGET_OWNER
+            - MANAGER_OF_MACHINE_IDENTITY_OWNER
+            - MANAGER_OF_ACCOUNT_OWNER
+            - MANAGER_OF_MACHINE_ACCOUNT_OWNER
+            - MANAGER_OF_REQUESTER
+            - MANAGER_OF_REQUESTER_OWNER
+            - MANAGER_OF_OWNER
             - ACCESS_PROFILE_OWNER
-            - ENTITLEMENT_OWNER
             - APPLICATION_OWNER
+            - ENTITLEMENT_OWNER
+            - ROLE_OWNER
+            - SOURCE_OWNER
+            - REQUESTED_TARGET_OWNER
+            - ACCESS_PROFILE_PRIMARY_OWNER
+            - APPLICATION_PRIMARY_OWNER
+            - ENTITLEMENT_PRIMARY_OWNER
+            - ROLE_PRIMARY_OWNER
+            - SOURCE_PRIMARY_OWNER
+            - REQUESTED_TARGET_PRIMARY_OWNER
+            - ACCESS_PROFILE_SECONDARY_OWNER_GROUP
+            - APPLICATION_SECONDARY_OWNER_GROUP
+            - ENTITLEMENT_SECONDARY_OWNER_GROUP
+            - ROLE_SECONDARY_OWNER_GROUP
+            - SOURCE_SECONDARY_OWNER_GROUP
+            - REQUESTED_TARGET_SECONDARY_OWNER_GROUP
+            - ACCESS_PROFILE_ALL_OWNER_GROUP
+            - APPLICATION_ALL_OWNER_GROUP
+            - ENTITLEMENT_ALL_OWNER_GROUP
+            - ROLE_ALL_OWNER_GROUP
+            - SOURCE_ALL_OWNER_GROUP
+            - REQUESTED_TARGET_ALL_OWNER_GROUP
           example: IDENTITY
-          description: Type of identity.
+          description: Type of identityID.
       description: Approval Identity Object
     ApprovalName:
       type: object
@@ -75010,10 +75044,6 @@ components:
               items:
                 type: object
                 properties:
-                  chainId:
-                    type: string
-                    example: ef85d1a8-41ef-433a-8153-0b1f59e7b26a
-                    description: ID of the escalation chain.
                   tier:
                     type: integer
                     example: 1
@@ -75022,11 +75052,34 @@ components:
                   identityId:
                     type: string
                     example: fdfda352157d4cc79bb749953131b457
-                    description: Identity ID in the escalation chain.
+                    description: Optional Identity ID of the type of identity defined in the 'identityType' field.
                   identityType:
                     type: string
+                    enum:
+                      - IDENTITY
+                      - MANAGER_OF
+                      - ACCOUNT_OWNER
+                      - MACHINE_ACCOUNT_OWNER
+                      - MACHINE_IDENTITY_OWNER
+                      - MANAGER_OF_REQUESTED_TARGET_OWNER
+                      - MANAGER_OF_MACHINE_IDENTITY_OWNER
+                      - MANAGER_OF_ACCOUNT_OWNER
+                      - MANAGER_OF_MACHINE_ACCOUNT_OWNER
+                      - MANAGER_OF_REQUESTER
+                      - MANAGER_OF_REQUESTER_OWNER
+                      - MANAGER_OF_OWNER
+                      - ACCESS_PROFILE_OWNER
+                      - APPLICATION_OWNER
+                      - ENTITLEMENT_OWNER
+                      - ROLE_OWNER
+                      - SOURCE_OWNER
+                      - ACCESS_PROFILE_PRIMARY_OWNER
+                      - APPLICATION_PRIMARY_OWNER
+                      - ENTITLEMENT_PRIMARY_OWNER
+                      - ROLE_PRIMARY_OWNER
+                      - SOURCE_PRIMARY_OWNER
                     example: IDENTITY
-                    description: Type of identity in the escalation chain.
+                    description: Type of identityId in the escalation chain.
               description: Escalation chain configuration.
           description: Configuration for escalations.
         timeoutConfig:
@@ -75067,10 +75120,6 @@ components:
           items:
             type: object
             properties:
-              chainId:
-                type: string
-                example: 23dc206e-2a9e-4f98-93db-8d6e342cca18
-                description: ID of the serial chain.
               tier:
                 type: integer
                 example: 1
@@ -75079,11 +75128,49 @@ components:
               identityId:
                 type: string
                 example: 2c9180858090ea8801809a0465e829da
-                description: Identity ID in the serial chain.
+                description: Optional Identity ID of the type of identity defined in the 'identityType' field.
               identityType:
                 type: string
+                enum:
+                  - IDENTITY
+                  - GOVERNANCE_GROUP
+                  - MANAGER_OF
+                  - ACCOUNT_OWNER
+                  - MACHINE_ACCOUNT_OWNER
+                  - MACHINE_IDENTITY_OWNER
+                  - MANAGER_OF_REQUESTED_TARGET_OWNER
+                  - MANAGER_OF_MACHINE_IDENTITY_OWNER
+                  - MANAGER_OF_ACCOUNT_OWNER
+                  - MANAGER_OF_MACHINE_ACCOUNT_OWNER
+                  - MANAGER_OF_REQUESTER
+                  - MANAGER_OF_REQUESTER_OWNER
+                  - MANAGER_OF_OWNER
+                  - ACCESS_PROFILE_OWNER
+                  - APPLICATION_OWNER
+                  - ENTITLEMENT_OWNER
+                  - ROLE_OWNER
+                  - SOURCE_OWNER
+                  - REQUESTED_TARGET_OWNER
+                  - ACCESS_PROFILE_PRIMARY_OWNER
+                  - APPLICATION_PRIMARY_OWNER
+                  - ENTITLEMENT_PRIMARY_OWNER
+                  - ROLE_PRIMARY_OWNER
+                  - SOURCE_PRIMARY_OWNER
+                  - REQUESTED_TARGET_PRIMARY_OWNER
+                  - ACCESS_PROFILE_SECONDARY_OWNER_GROUP
+                  - APPLICATION_SECONDARY_OWNER_GROUP
+                  - ENTITLEMENT_SECONDARY_OWNER_GROUP
+                  - ROLE_SECONDARY_OWNER_GROUP
+                  - SOURCE_SECONDARY_OWNER_GROUP
+                  - REQUESTED_TARGET_SECONDARY_OWNER_GROUP
+                  - ACCESS_PROFILE_ALL_OWNER_GROUP
+                  - APPLICATION_ALL_OWNER_GROUP
+                  - ENTITLEMENT_ALL_OWNER_GROUP
+                  - ROLE_ALL_OWNER_GROUP
+                  - SOURCE_ALL_OWNER_GROUP
+                  - REQUESTED_TARGET_ALL_OWNER_GROUP
                 example: IDENTITY
-                description: Type of identity in the serial chain.
+                description: Type of identityId in the serial chain.
           description: If the approval request has an approvalCriteria of SERIAL this chain will be used to determine the assignment order.
         requiresComment:
           type: string
@@ -75096,7 +75183,40 @@ components:
           description: Determines whether a comment is required when approving or rejecting the approval request.
         fallbackApprover:
           type: object
-          $ref: '#/components/schemas/ApprovalIdentity'
+          properties:
+            identityID:
+              type: string
+              example: fdfda352157d4cc79bb749953131b457
+              description: Optional Identity ID of the type of identity defined in the 'type' field.
+            type:
+              type: string
+              enum:
+                - IDENTITY
+                - MANAGER_OF
+                - ACCOUNT_OWNER
+                - MACHINE_ACCOUNT_OWNER
+                - MACHINE_IDENTITY_OWNER
+                - MANAGER_OF_REQUESTED_TARGET_OWNER
+                - MANAGER_OF_MACHINE_IDENTITY_OWNER
+                - MANAGER_OF_ACCOUNT_OWNER
+                - MANAGER_OF_MACHINE_ACCOUNT_OWNER
+                - MANAGER_OF_REQUESTER
+                - MANAGER_OF_REQUESTER_OWNER
+                - MANAGER_OF_OWNER
+                - ACCESS_PROFILE_OWNER
+                - APPLICATION_OWNER
+                - ENTITLEMENT_OWNER
+                - ROLE_OWNER
+                - SOURCE_OWNER
+                - REQUESTED_TARGET_OWNER
+                - ACCESS_PROFILE_PRIMARY_OWNER
+                - APPLICATION_PRIMARY_OWNER
+                - ENTITLEMENT_PRIMARY_OWNER
+                - ROLE_PRIMARY_OWNER
+                - SOURCE_PRIMARY_OWNER
+                - REQUESTED_TARGET_PRIMARY_OWNER
+              example: MANAGER_OF
+              description: Type of identityID for the fallback approver.
           description: Configuration for fallback approver. Used if the user cannot be found for whatever reason and escalation config does not exist.
         machineIdentityManagerAssignment:
           type: string
@@ -75109,7 +75229,7 @@ components:
             - ACCOUNT_OWNER
             - MANAGER_OF_ACCOUNT_OWNER
           example: MACHINE_IDENTITY_OWNER
-          default: MACHINE_IDENTITY_OWNER
+          default: MANAGER_OF_REQUESTER
           description: Specifies how to treat the identity type "MANAGER_OF" when the requestee is a machine identity.
         circumventApprovalProcess:
           type: boolean
@@ -79248,7 +79368,6 @@ components:
         - jobId
         - status
         - type
-        - expiration
         - created
         - modified
     SpConfigExportJob:
