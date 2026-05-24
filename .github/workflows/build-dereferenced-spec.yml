@@ -16,6 +16,7 @@ on:
       - idn/sailpoint-api.v2026.yaml
       - idn/v2026/**
       - nerm/**
+      - idn/oauth/**
   workflow_dispatch:
 
 permissions:
@@ -76,6 +77,10 @@ jobs:
           redocly bundle nerm/v2025/v2025.yaml --ext yaml -o dereferenced/deref-sailpoint-api.nerm.v2025.yaml
           redocly bundle nerm/v2025/v2025.yaml --ext json -o dereferenced/deref-sailpoint-api.nerm.v2025.json
 
+          # oauth
+          redocly bundle cloud-api-client-common/api-specs/src/main/yaml/sailpoint-oauth.yaml --ext yaml -o dereferenced/deref-sailpoint-api.oauth.yaml
+          redocly bundle cloud-api-client-common/api-specs/src/main/yaml/sailpoint-oauth.yaml --ext json -o dereferenced/deref-sailpoint-api.oauth.json
+
           # build postman collections
           openapi2postmanv2 -s dereferenced/deref-sailpoint-api.v3.yaml -o postman/collections/sailpoint-api-v3.json -p -c postman-script/openapi2postman-config.json
           openapi2postmanv2 -s dereferenced/deref-sailpoint-api.beta.yaml -o postman/collections/sailpoint-api-beta.json -p -c postman-script/openapi2postman-config.json
@@ -83,7 +88,8 @@ jobs:
           openapi2postmanv2 -s dereferenced/deref-sailpoint-api.nerm.v2025.yaml -o postman/collections/sailpoint-api-nerm-v2025.json -p -c postman-script/openapi2postman-config.json
           openapi2postmanv2 -s dereferenced/deref-sailpoint-api.v2024.yaml -o postman/collections/sailpoint-api-v2024.json -p -c postman-script/openapi2postman-config.json
           openapi2postmanv2 -s dereferenced/deref-sailpoint-api.v2025.yaml -o postman/collections/sailpoint-api-v2025.json -p -c postman-script/openapi2postman-config.json
-          openapi2postmanv2 -s dereferenced/deref-sailpoint-api.v2026.yaml -o postman/collections/sailpoint-api-v2026.json -p -c postman-script/openapi2postman-config.json 
+          openapi2postmanv2 -s dereferenced/deref-sailpoint-api.v2026.yaml -o postman/collections/sailpoint-api-v2026.json -p -c postman-script/openapi2postman-config.json
+          openapi2postmanv2 -s dereferenced/deref-sailpoint-api.oauth.yaml -o postman/collections/sailpoint-api-oauth.json -p -c postman-script/openapi2postman-config.json 
           
           # modify collections
           node postman-script/modify-collection.js postman/collections/sailpoint-api-v3.json
@@ -93,6 +99,7 @@ jobs:
           node postman-script/modify-collection.js postman/collections/sailpoint-api-v2026.json
           node postman-script/modify-collection.js postman/collections/sailpoint-api-nerm.json
           node postman-script/modify-collection.js postman/collections/sailpoint-api-nerm-v2025.json
+          node postman-script/modify-collection.js postman/collections/sailpoint-api-oauth.json
 
           
           cd postman-script/update-by-folder-ts
@@ -105,6 +112,7 @@ jobs:
           npm run v2026
           npm run nerm
           npm run nerm-v2025
+          npm run oauth
 
       - name: Configure Git
         run: |

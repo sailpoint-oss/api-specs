@@ -1,0 +1,758 @@
+{
+  "item": [
+    {
+      "name": "OAuth",
+      "description": "OAuth 2.0 and SAML endpoints for authentication and token management.",
+      "item": [
+        {
+          "id": "6e86c0e7-7ff1-408f-a3fa-aedbcd520d72",
+          "name": "Get OAuth authorization URL",
+          "request": {
+            "name": "Get OAuth authorization URL",
+            "description": {
+              "content": "Initiates the OAuth 2.0 authorization code flow. The client redirects the user to this endpoint to authenticate with Identity Security Cloud; after successful login, ISC redirects back to the application with an authorization code that can be exchanged for an access token at the token endpoint. PKCE (Proof Key for Code Exchange) is optionally supported: if code_challenge and code_challenge_method are present, sp-token will use them. For public API OAuth clients with authorization_code grant, PKCE is required when that feature is enabled. See [SailPoint Authentication - Authorization Code Flow](https://developer.sailpoint.com/docs/api/v2025/authentication/#request-access-token-with-authorization-code-grant-flow).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "oauth",
+                "authorize"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "(Required) The OAuth client ID (e.g. from a personal access token or API client).",
+                    "type": "text/plain"
+                  },
+                  "key": "client_id",
+                  "value": "b61429f5-203d-494c-94c3-04f54e17bc5c"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "(Required) Must be \"code\" for authorization code flow.",
+                    "type": "text/plain"
+                  },
+                  "key": "response_type",
+                  "value": "code"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "(Required) The application URL to redirect to after authorization (must match client redirectUris).",
+                    "type": "text/plain"
+                  },
+                  "key": "redirect_uri",
+                  "value": "https://myapp.example.com/oauth/redirect"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "PKCE code challenge (base64url-encoded). When present, sp-token will validate the code_verifier at the token endpoint.",
+                    "type": "text/plain"
+                  },
+                  "key": "code_challenge",
+                  "value": "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "PKCE code challenge method (S256 recommended). Required when code_challenge is present.",
+                    "type": "text/plain"
+                  },
+                  "key": "code_challenge_method",
+                  "value": "S256"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "response": [],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3fa0cd46-7508-4604-bdc1-53f2223d0a75",
+          "name": "Create OAuth access token",
+          "request": {
+            "name": "Create OAuth access token",
+            "description": {
+              "content": "Exchanges credentials or an authorization/refresh code for a JWT access token. Supports client_credentials (PAT or API client), authorization_code (exchange code from /oauth/authorize), and refresh_token grant types. See [SailPoint Authentication](https://developer.sailpoint.com/docs/api/v2025/authentication).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "oauth",
+                "token"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "(Required) The OAuth 2.0 grant type.",
+                    "type": "text/plain"
+                  },
+                  "key": "grant_type",
+                  "value": "client_credentials"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "(Required) The OAuth client ID.",
+                    "type": "text/plain"
+                  },
+                  "key": "client_id",
+                  "value": "magna consectetur"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "The OAuth client secret (required for client_credentials and refresh_token).",
+                    "type": "text/plain"
+                  },
+                  "key": "client_secret",
+                  "value": "eu"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Authorization code from /oauth/authorize (required for authorization_code).",
+                    "type": "text/plain"
+                  },
+                  "key": "code",
+                  "value": "enim in"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Redirect URI used in the authorization request (required for authorization_code).",
+                    "type": "text/plain"
+                  },
+                  "key": "redirect_uri",
+                  "value": "https://YTVhaKGcQyTlZogiMGzfJDWsdIwcL.zjgouSOCyZdsFiinBGN1Clo-46ZUop5QUBz"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Refresh token from a previous token response (required for refresh_token).",
+                    "type": "text/plain"
+                  },
+                  "key": "refresh_token",
+                  "value": "consectetur tempor c"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "PKCE code verifier (required when authorization request included code_challenge). Raw value that was used to generate the code_challenge.",
+                    "type": "text/plain"
+                  },
+                  "key": "code_verifier",
+                  "value": "Duis"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Optional scope (e.g. sp:scope:all).",
+                    "type": "text/plain"
+                  },
+                  "key": "scope",
+                  "value": "esse"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "1e2586ba-0d68-4efd-95cf-eb7abcd7e97b",
+              "name": "Token response with access_token (JWT), token_type, expires_in, and optionally refresh_token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "oauth",
+                    "token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "(Required) The OAuth 2.0 grant type.",
+                        "type": "text/plain"
+                      },
+                      "key": "grant_type",
+                      "value": "client_credentials"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "(Required) The OAuth client ID.",
+                        "type": "text/plain"
+                      },
+                      "key": "client_id",
+                      "value": "magna consectetur"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "The OAuth client secret (required for client_credentials and refresh_token).",
+                        "type": "text/plain"
+                      },
+                      "key": "client_secret",
+                      "value": "eu"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Authorization code from /oauth/authorize (required for authorization_code).",
+                        "type": "text/plain"
+                      },
+                      "key": "code",
+                      "value": "enim in"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Redirect URI used in the authorization request (required for authorization_code).",
+                        "type": "text/plain"
+                      },
+                      "key": "redirect_uri",
+                      "value": "https://YTVhaKGcQyTlZogiMGzfJDWsdIwcL.zjgouSOCyZdsFiinBGN1Clo-46ZUop5QUBz"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Refresh token from a previous token response (required for refresh_token).",
+                        "type": "text/plain"
+                      },
+                      "key": "refresh_token",
+                      "value": "consectetur tempor c"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "PKCE code verifier (required when authorization request included code_challenge). Raw value that was used to generate the code_challenge.",
+                        "type": "text/plain"
+                      },
+                      "key": "code_verifier",
+                      "value": "Duis"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Optional scope (e.g. sp:scope:all).",
+                        "type": "text/plain"
+                      },
+                      "key": "scope",
+                      "value": "esse"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"access_token\": \"qui amet\",\n  \"token_type\": \"bearer\",\n  \"expires_in\": 48164213,\n  \"refresh_token\": \"velit in\",\n  \"scope\": \"culpa dolor do\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8f27ac5a-00c0-49f7-a872-acd8ba9a2fe7",
+          "name": "Introspect OAuth token (RFC 7662)",
+          "request": {
+            "name": "Introspect OAuth token (RFC 7662)",
+            "description": {
+              "content": "Standard OAuth 2.0 token introspection (RFC 7662). Validates an access or refresh token and returns its claims and metadata. Send the token in the request body as the \"token\" parameter.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "oauth",
+                "introspect"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "(Required) The access_token or refresh_token to introspect (e.g. from the token endpoint response). In Postman, use {{accessToken}} or {{refreshToken}} if set from a previous token request.",
+                    "type": "text/plain"
+                  },
+                  "key": "token",
+                  "value": "Duis exercitation sed esse cillum"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Optional hint indicating the type of token being passed (RFC 7662).",
+                    "type": "text/plain"
+                  },
+                  "key": "token_type_hint",
+                  "value": "access_token"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "4a37ad4b-e755-41aa-b836-5c7e589cc2ee",
+              "name": "Token introspection result; when active is true, response includes tenant, identity, and authorization details.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "oauth",
+                    "introspect"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "(Required) The access_token or refresh_token to introspect (e.g. from the token endpoint response). In Postman, use {{accessToken}} or {{refreshToken}} if set from a previous token request.",
+                        "type": "text/plain"
+                      },
+                      "key": "token",
+                      "value": "Duis exercitation sed esse cillum"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Optional hint indicating the type of token being passed (RFC 7662).",
+                        "type": "text/plain"
+                      },
+                      "key": "token_type_hint",
+                      "value": "access_token"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"active\": true,\n  \"tenant_id\": \"urn:uuid:873b39aa-a18d-b46f-e571-bacc33fa66d5\",\n  \"sub\": \"adipisicing elit ut\",\n  \"pod\": \"commodo proident in\",\n  \"org\": \"nisi tempor minim nulla\",\n  \"identity_id\": \"aliquip deserunt proident sint\",\n  \"user_name\": \"Duis aliqua officia\",\n  \"iss\": \"https://ptWZwWjsJERNJFMQuhinDUrJpPWG.heGe700DFL5T+5NR0\",\n  \"strong_auth\": true,\n  \"authorities\": [\n    \"deserunt do\",\n    \"adipisicing non incididunt nostrud\"\n  ],\n  \"client_id\": \"Duis ad\",\n  \"encoded_scope\": [\n    \"ullamco\",\n    \"aute dolore\"\n  ],\n  \"strong_auth_supported\": false,\n  \"scope\": [\n    \"Duis tempor officia proident\",\n    \"commodo anim tempor\"\n  ],\n  \"exp\": -17256184,\n  \"jti\": \"45f4bbbc-2069-ae07-3ff1-78cead9deb61\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "da152e05-7829-42fa-b8e7-729df6e58721",
+          "name": "Revoke OAuth access or refresh token",
+          "request": {
+            "name": "Revoke OAuth access or refresh token",
+            "description": {
+              "content": "Revokes an OAuth 2.0 access token or refresh token. Present the token in the request body; the backing implementation places the token's JWT ID (jti) in a cache so that the gateway will no longer accept the access token for API calls, or so that the refresh token cannot be used to obtain new access tokens.\n**Availability:** This endpoint is coming soon and may not yet be exposed via the API Gateway.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "oauth",
+                "revoke"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "(Required) The access_token or refresh_token to revoke.",
+                    "type": "text/plain"
+                  },
+                  "key": "token",
+                  "value": "dolore elit"
+                },
+                {
+                  "disabled": true,
+                  "description": {
+                    "content": "Optional hint indicating the type of token being revoked (RFC 7009).",
+                    "type": "text/plain"
+                  },
+                  "key": "token_type_hint",
+                  "value": "refresh_token"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "83bc91f4-98ca-4f94-baf4-f0e95bccd4cb",
+              "name": "Token revoked successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "oauth",
+                    "revoke"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "(Required) The access_token or refresh_token to revoke.",
+                        "type": "text/plain"
+                      },
+                      "key": "token",
+                      "value": "dolore elit"
+                    },
+                    {
+                      "disabled": true,
+                      "description": {
+                        "content": "Optional hint indicating the type of token being revoked (RFC 7009).",
+                        "type": "text/plain"
+                      },
+                      "key": "token_type_hint",
+                      "value": "refresh_token"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [],
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9b79abc9-1c84-4582-adba-ab865f8769bd",
+          "name": "Get SAML metadata by alias",
+          "request": {
+            "name": "Get SAML metadata by alias",
+            "description": {
+              "content": "Returns SAML 2.0 metadata for the Identity Security Cloud service provider. The path uses the tenant in the form {tenant}-sp so the URL is https://{{tenant}}.api.{{domain}}.com/saml/metadata/alias/{{tenant}}-sp.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "saml",
+                "metadata",
+                "alias",
+                "{{tenant}}-sp"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/xml"
+              }
+            ],
+            "method": "GET",
+            "body": {}
+          },
+          "response": [
+            {
+              "id": "48f4ff58-3885-4917-b7f9-a1f56ddd1a7c",
+              "name": "SAML 2.0 metadata XML for the service provider.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "saml",
+                    "metadata",
+                    "alias",
+                    "{{tenant}}-sp"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/xml"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/xml"
+                }
+              ],
+              "body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<element>(string)</element>",
+              "cookie": [],
+              "_postman_previewlanguage": "xml"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "const domain = pm.environment.get('domain') ? pm.environment.get('domain') : pm.collectionVariables.get('domain')",
+          "const tokenUrl = 'https://' + pm.environment.get('tenant') + '.api.' + domain + '.com/oauth/token';",
+          "const clientId = pm.environment.get('clientId');",
+          "const clientSecret = pm.environment.get('clientSecret');",
+          "const scope = pm.environment.get('scope');",
+          "",
+          "const formdata = [{",
+          "        key: 'grant_type',",
+          "        value: 'client_credentials'",
+          "    },",
+          "    {",
+          "        key: 'client_id',",
+          "        value: clientId",
+          "    },",
+          "    {",
+          "        key: 'client_secret',",
+          "        value: clientSecret",
+          "    }",
+          "];",
+          "",
+          "if (scope) {",
+          "    formdata.push({",
+          "        key: 'scope',",
+          "        value: scope",
+          "    });",
+          "}",
+          "",
+          "const getTokenRequest = {",
+          "    method: 'POST',",
+          "    url: tokenUrl,",
+          "    body: {",
+          "        mode: 'formdata',",
+          "        formdata: formdata",
+          "    }",
+          "};",
+          "",
+          "",
+          "var moment = require('moment');",
+          "if (!pm.environment.has('tokenExpTime')) {",
+          "    pm.environment.set('tokenExpTime', moment());",
+          "}",
+          "",
+          "if (moment(pm.environment.get('tokenExpTime')) <= moment() || !pm.environment.get('tokenExpTime') || !pm.environment.get('accessToken')) {",
+          "    var time = moment();",
+          "    time.add(12, 'hours');",
+          "    pm.environment.set('tokenExpTime', time);",
+          "    pm.sendRequest(getTokenRequest, (err, response) => {",
+          "        const jsonResponse = response.json();",
+          "        if (response.code != 200) {",
+          "            throw new Error(`Unable to authenticate: ${JSON.stringify(jsonResponse)}`);",
+          "        }",
+          "        const newAccessToken = jsonResponse.access_token;",
+          "        pm.environment.set('accessToken', newAccessToken);",
+          "    });",
+          "",
+          "}",
+          "",
+          "const flag = pm.collectionVariables.get('experimentalEnabled');",
+          "",
+          "if (flag === 'true') {",
+          "    pm.request.addHeader({",
+          "        key: 'X-SailPoint-Experimental',",
+          "        value: 'true'",
+          "    });",
+          "}",
+          "",
+          "// Add custom User-Agent header to all requests",
+          "pm.request.addHeader({",
+          "    key: 'User-Agent',",
+          "    value: 'SailPointPostmanCollection'",
+          "});"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "domain",
+      "value": "identitynow",
+      "type": "string"
+    },
+    {
+      "key": "baseUrl",
+      "value": "https://{{tenant}}.api.{{domain}}.com",
+      "type": "string"
+    }
+  ],
+  "info": {
+    "_postman_id": "65f2643b-8da6-47f0-a824-b9b32879cba5",
+    "name": "SailPoint Identity Security Cloud - OAuth & SAML",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "OAuth 2.0 and SAML endpoints for authentication and token management. Use this spec to generate a Postman collection with correct URLs (tenant + domain, no version path).",
+      "type": "text/plain"
+    }
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{accessToken}}",
+        "type": "string"
+      }
+    ]
+  }
+}
