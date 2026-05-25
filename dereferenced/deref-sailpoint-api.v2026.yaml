@@ -507,6 +507,12 @@ tags:
       They can select an identity profile to view its settings, its mappings between identity attributes and correlating source account attributes, and its provisioning settings. 
 
       Refer to [Creating Identity Profiles](https://documentation.sailpoint.com/saas/help/setup/identity_profiles.html) for more information about identity profiles.
+  - name: Intelligence Package
+    description: |
+      Read-only HTTP API that returns the Intelligence Package (identity context)
+      for SecOps enrichment use cases (SIEM/SOAR connectors, MCP, browser
+      extension). Backed by Atlas internal-REST calls to MICE, Shelby List Accounts,
+      SDS Search, and identity-history.
   - name: JIT Access
     description: |
       Use these APIs to configure JIT provisioning activation policy for the tenant.
@@ -14005,6 +14011,303 @@ paths:
             - idn:identity-profile:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
+  /intelligence/identities:
+    get:
+      operationId: searchIntelIdentities
+      security:
+        - userAuth:
+            - sp:identity-sec-intel:read
+        - applicationAuth:
+            - sp:identity-sec-intel:read
+      x-required-right: sp:identity-sec-intel:read
+      x-sailpoint-userLevels:
+        - Any
+      tags:
+        - Intelligence Package
+      summary: Resolve one identity by filter
+      description: |
+        Requires tenant license idn:response-and-remediation.
+
+        Returns the Intelligence Package envelope for the identity that matches the SCIM-style filters expression.
+        Supported queryable fields are id and email only.
+
+        A single match returns HTTP 200 with IntelIdentityResponse.
+
+        Zero matches returns HTTP 404 with detailCode IDC_IDENTITY_NOT_FOUND. 
+
+        Multiple matches returns HTTP 409 with detailCode IDC_IDENTITY_AMBIGUOUS and candidates listing each match.
+      parameters:
+        - in: query
+          name: filters
+          required: true
+          schema:
+            type: string
+          examples:
+            byId:
+              value: id eq "00000000-0000-0000-0000-000000000000"
+            byEmail:
+              value: email eq "user@example.com"
+          description: |-
+            Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)
+
+            Filtering is supported for the following fields and operators:
+
+            **id**: *eq*
+
+            **email**: *eq*
+      responses:
+        '200':
+          description: One identity matched.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntelIdentityResponse'
+              examples:
+                human:
+                  value:
+                    id: 00000000-0000-0000-0000-000000000000
+                    type: HUMAN
+                    displayName: Pat Example
+                    subtype: Employee
+                    timestamps:
+                      createdAt: '2026-05-12T08:00:00Z'
+                      modifiedAt: '2026-05-12T09:15:30Z'
+                    human:
+                      alias: pat.example
+                      email: pat@example.com
+                      identityStatus: ENABLED
+                      isProtected: false
+                      isManager: false
+                    _links:
+                      access:
+                        href: /v2026/intelligence/identities/00000000-0000-0000-0000-000000000000/access
+                      accessHistory:
+                        href: /v2026/intelligence/identities/00000000-0000-0000-0000-000000000000/access-history
+                machine:
+                  value:
+                    id: e1feccee-a9d4-4909-8131-6ed67d79ff07
+                    type: MACHINE
+                    displayName: DEMO_AGENT1
+                    subtype: AI Agent
+                    timestamps:
+                      createdAt: '2026-03-31T08:20:53.031936Z'
+                      modifiedAt: '2026-03-31T08:20:52.969356Z'
+                    machine:
+                      nativeIdentity: DEMO_AGENT1
+                      sourceId: 8433902684054f09ae024c06cf5091c1
+                      source:
+                        id: 8433902684054f09ae024c06cf5091c1
+                        name: Snowflake SaaS - Suraj2
+                        type: SOURCE
+                      existsOnSource: true
+                      manuallyCreated: false
+                      manuallyEdited: false
+        '400':
+          description: Missing or invalid filters.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+              example:
+                detailCode: INVALID_REQUEST
+                message: filters must be supplied and non-empty
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          description: No identity matched the filter.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntelIdentityNotFoundBody'
+              example:
+                detailCode: IDC_IDENTITY_NOT_FOUND
+                message: no identity matched the supplied filter
+        '409':
+          description: Multiple identities matched the filter.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntelIdentityAmbiguousBody'
+              example:
+                detailCode: IDC_IDENTITY_AMBIGUOUS
+                message: multiple identities matched the supplied filter
+                candidates:
+                  - id: cand-1
+                    displayName: Pat A
+                  - id: cand-2
+                    displayName: Pat B
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          description: Upstream or internal failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+  /intelligence/identities/{identityID}/access:
+    get:
+      operationId: getIntelIdentityAccess
+      security:
+        - userAuth:
+            - sp:identity-sec-intel-access:read
+        - applicationAuth:
+            - sp:identity-sec-intel-access:read
+      x-required-right: sp:identity-sec-intel-access:read
+      x-sailpoint-userLevels:
+        - Any
+      tags:
+        - Intelligence Package
+      summary: Accounts merged with privileged data
+      description: |
+        Requires tenant license idn:response-and-remediation.
+
+        Client-facing pagination (limit, offset, count) is not supported on this route.
+        The service issues one Shelby List Accounts request at the upstream maximum page size
+        and one SDS Search request per identity.
+      parameters:
+        - $ref: '#/components/parameters/intelligence-identity-id-path'
+      responses:
+        '200':
+          description: Accounts response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntelIdentityAccessBody'
+              example:
+                accounts:
+                  - id: acc-1
+                    name: pat.example
+                    source:
+                      id: src-1
+                      name: Active Directory
+                    disabled: false
+                    locked: false
+                    uncorrelated: false
+                    authoritative: false
+                    systemAccount: false
+                    isMachine: false
+                    hasEntitlements: true
+                    manuallyCorrelated: false
+                    connectionType: direct
+                    nativeIdentity: CN=pat,OU=users
+                    created: '2026-01-01T00:00:00Z'
+                    modified: '2026-05-01T00:00:00Z'
+                privilegedAccessItems:
+                  - privileged: true
+                    displayName: Absence_Administrator
+                    name: Absence_Administrator
+                    standalone: true
+                    id: ent-1
+                    source:
+                      name: Workday
+                      id: src-2
+                    attribute: USER_BASED_SECURITY_GROUPS
+                    type: ENTITLEMENT
+                    value: Absence_Administrator
+        '400':
+          description: Invalid path parameter.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          description: Internal or upstream server failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+        4XX:
+          description: Upstream non-success passed through as-is.
+  /intelligence/identities/{identityID}/access-history:
+    get:
+      operationId: getIntelIdentityAccessHistory
+      security:
+        - userAuth:
+            - sp:identity-sec-intel-access-history:read
+        - applicationAuth:
+            - sp:identity-sec-intel-access-history:read
+      x-required-right: sp:identity-sec-intel-access-history:read
+      x-sailpoint-userLevels:
+        - Any
+      tags:
+        - Intelligence Package
+      summary: Return identity access-history events
+      description: |
+        Requires tenant license idn:response-and-remediation.
+
+        Events are relayed from identity-history; optional limit, offset, and count
+        are forwarded to the upstream when supplied.
+      parameters:
+        - $ref: '#/components/parameters/intelligence-identity-id-path'
+        - name: limit
+          in: query
+          required: false
+          description: Maximum number of historical events to return in this page of results.
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+          example: 100
+        - name: offset
+          in: query
+          required: false
+          description: Zero-based index of the first event row to return for pagination.
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+          example: 0
+        - name: count
+          in: query
+          required: false
+          description: When true, the service may include total count metadata alongside the result list.
+          schema:
+            type: boolean
+            default: false
+          example: false
+      responses:
+        '200':
+          description: Events relayed from identity-history.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntelIdentityAccessHistoryBody'
+              example:
+                events:
+                  - dateTime: '2026-05-04T12:00:00Z'
+                    eventType: ACCESS_GRANTED
+                    identityId: 00000000-0000-0000-0000-000000000000
+                  - dateTime: '2026-05-06T08:00:00Z'
+                    eventType: ACCESS_REVOKED
+                    identityId: 00000000-0000-0000-0000-000000000000
+        '400':
+          description: Invalid path or query parameters.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          description: Internal or upstream server failure.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+        4XX:
+          description: Upstream non-success passed through as-is.
   /jit-activations/activate:
     post:
       operationId: startActivateWorkflow
@@ -64491,6 +64794,534 @@ components:
         - warnings
         - errors
         - importedObjects
+    IntelIdentityTimestamps:
+      type: object
+      required:
+        - createdAt
+        - modifiedAt
+      properties:
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the identity record was first created in Identity Security Cloud.
+          example: '2024-01-15T10:30:00Z'
+        modifiedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the identity record was last modified in Identity Security Cloud.
+          example: '2024-06-20T14:45:00Z'
+    IntelHuman:
+      type: object
+      required:
+        - alias
+        - email
+        - identityStatus
+        - isProtected
+        - isManager
+      properties:
+        alias:
+          type: string
+          description: Primary login or account alias for the human identity.
+          example: jdoe
+        email:
+          type: string
+          format: email
+          description: Primary business email address for the human identity.
+          example: john.doe@example.com
+        identityStatus:
+          type: string
+          description: Current identity lifecycle status label from Identity Security Cloud.
+          example: Active
+        lifecycleState:
+          type: string
+          nullable: true
+          description: Lifecycle state name assigned through provisioning policy when present.
+          example: contractor
+        processingState:
+          type: string
+          nullable: true
+          description: Processing state for outstanding identity change operations when present.
+          example: pending
+        isProtected:
+          type: boolean
+          description: True when the identity is marked protected from automated changes.
+          example: false
+        manager:
+          type: string
+          nullable: true
+          description: Legacy manager identity identifier or display reference when assigned.
+          example: ef38f94347e94562b5bb8424a56397d9
+        managerId:
+          type: string
+          nullable: true
+          description: Manager identity identifier when correlated in Identity Security Cloud.
+          example: ef38f94347e94562b5bb8424a56397d9
+        managerName:
+          type: string
+          nullable: true
+          description: Manager display name when available from identity services.
+          example: Alex Manager
+        isManager:
+          type: boolean
+          description: True when the identity is flagged as a people manager in the organization.
+          example: true
+        lastRefreshAt:
+          type: string
+          nullable: true
+          format: date-time
+          description: Timestamp of the last successful identity refresh from sources when known.
+          example: '2024-05-01T08:00:00Z'
+    IntelMachineSource:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the correlated source in Identity Security Cloud.
+          example: 2c9180835d2e5168015d32f890301e89
+        name:
+          type: string
+          description: Display name of the source as configured in Identity Security Cloud.
+          example: Active Directory
+        type:
+          type: string
+          description: Connector or source type classification for the backing system.
+          example: LDAP
+    IntelMachine:
+      type: object
+      description: MACHINE-specific block; subtype is only on the top-level IntelIdentityResponse.
+      properties:
+        businessApplication:
+          type: string
+          description: Business application name associated with the non-human identity.
+          example: Payroll Bot
+        nativeIdentity:
+          type: string
+          description: Native identifier value on the authoritative source for the machine identity.
+          example: DEMO_AGENT1
+        uuid:
+          type: string
+          nullable: true
+          description: Optional globally unique identifier for the machine identity when assigned.
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        sourceId:
+          type: string
+          description: Identifier of the correlated source for this machine identity.
+          example: 8433902684054f09ae024c06cf5091c1
+        source:
+          type: object
+          description: Correlated source summary for the machine identity when available.
+          allOf:
+            - $ref: '#/components/schemas/IntelMachineSource'
+        datasetId:
+          type: string
+          description: Dataset identifier used by machine identity correlation logic.
+          example: dataset-001
+        existsOnSource:
+          type: boolean
+          description: True when a matching account still exists on the connected source.
+          default: false
+          example: true
+        manuallyCreated:
+          type: boolean
+          description: True when the machine identity was created through a manual administrative action.
+          default: false
+          example: false
+        manuallyEdited:
+          type: boolean
+          description: True when the machine identity attributes were manually edited after creation.
+          default: false
+          example: false
+        owners:
+          type: object
+          description: Structured owner references for the machine identity when populated by the service.
+          example: {}
+        userEntitlements:
+          type: array
+          description: Entitlements or fine-grained rights linked to the machine identity when available.
+          items:
+            type: object
+            description: Opaque entitlement payload element returned from upstream services.
+            example: {}
+    IntelHref:
+      type: object
+      required:
+        - href
+      properties:
+        href:
+          type: string
+          description: Target URI for the related Intelligence Package sub-resource or operation.
+          example: /v2026/intelligence/identities/ef38f94347e94562b5bb8424a56397d8/access
+    IntelIdentityLinks:
+      type: object
+      required:
+        - access
+        - accessHistory
+      properties:
+        access:
+          type: object
+          description: Hyperlink to the Intelligence Package access document for this identity.
+          allOf:
+            - $ref: '#/components/schemas/IntelHref'
+          example:
+            href: /v2026/intelligence/identities/ef38f94347e94562b5bb8424a56397d8/access
+        accessHistory:
+          type: object
+          description: Hyperlink to the Intelligence Package access history document for this identity.
+          allOf:
+            - $ref: '#/components/schemas/IntelHref'
+          example:
+            href: /v2026/intelligence/identities/ef38f94347e94562b5bb8424a56397d8/access-history
+    IntelIdentityResponse:
+      type: object
+      description: |
+        HUMAN responses include human, top-level subtype (NERM classification:
+        Employee, Non Employee, or Cannot Determine), and _links (access and accessHistory only).
+        MACHINE responses include machine and top-level subtype (connector subtype string);
+        _links is omitted.
+      required:
+        - id
+        - type
+        - timestamps
+      properties:
+        id:
+          type: string
+          description: Identity Security Cloud identifier for this identity.
+          example: ef38f94347e94562b5bb8424a56397d8
+        type:
+          type: string
+          enum:
+            - HUMAN
+            - MACHINE
+          description: Discriminator indicating whether this identity is human or machine backed.
+          example: HUMAN
+        displayName:
+          type: string
+          description: Preferred display name for the identity across administrative experiences.
+          example: Jane Example
+        description:
+          type: string
+          nullable: true
+          description: Optional free-text description assigned to the identity profile when present.
+          example: Contractor identity for example project work.
+        subtype:
+          type: string
+          nullable: true
+          description: |
+            For HUMAN identities, NERM classification (Employee, Non Employee, or Cannot Determine).
+            For MACHINE identities, connector subtype string from the authoritative source.
+          example: Employee
+        owners:
+          type: string
+          nullable: true
+          description: Serialized owner reference information when populated by upstream identity services.
+          example: governance-group-001
+        attributes:
+          type: object
+          additionalProperties: true
+          description: Arbitrary SCIM-style attribute bag returned for the identity context view.
+          example:
+            department: Engineering
+            region: US
+        timestamps:
+          type: object
+          description: Created and modified timestamps for the identity record in Identity Security Cloud.
+          allOf:
+            - $ref: '#/components/schemas/IntelIdentityTimestamps'
+        human:
+          type: object
+          description: Human identity extension payload when type is HUMAN.
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/IntelHuman'
+        machine:
+          type: object
+          description: Machine identity extension payload when type is MACHINE.
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/IntelMachine'
+        _links:
+          type: object
+          description: Hyperlinks to related Intelligence Package sub-resources; present for HUMAN only.
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/IntelIdentityLinks'
+    ErrorBody:
+      type: object
+      properties:
+        detailCode:
+          type: string
+          description: Machine-readable error code returned by the Intelligence Package service.
+          example: IDC_BAD_REQUEST
+        message:
+          type: string
+          description: Human-readable explanation of the error suitable for client logging.
+          example: The filters query parameter is required and cannot be empty.
+    IntelIdentityNotFoundBody:
+      type: object
+      required:
+        - detailCode
+      properties:
+        detailCode:
+          type: string
+          enum:
+            - IDC_IDENTITY_NOT_FOUND
+          description: Constant detail code indicating that no identity matched the supplied filter.
+          example: IDC_IDENTITY_NOT_FOUND
+        message:
+          type: string
+          description: Optional explanatory text describing why no identity was found.
+          example: No identity matched the supplied SCIM filter expression.
+    IntelIdentityAmbiguousCandidate:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+          description: Identity identifier for one of the ambiguous matching identities.
+          example: ef38f94347e94562b5bb8424a56397d8
+        displayName:
+          type: string
+          description: Display name for the ambiguous matching identity when available.
+          example: Jane Example
+    IntelIdentityAmbiguousBody:
+      type: object
+      required:
+        - detailCode
+        - candidates
+      properties:
+        detailCode:
+          type: string
+          enum:
+            - IDC_IDENTITY_AMBIGUOUS
+          description: Constant detail code indicating that more than one identity matched the filter.
+          example: IDC_IDENTITY_AMBIGUOUS
+        message:
+          type: string
+          description: Optional explanatory text describing why the filter was considered ambiguous.
+          example: Multiple identities matched the supplied SCIM filter expression.
+        candidates:
+          type: array
+          description: Collection of identities that matched the ambiguous filter expression.
+          items:
+            $ref: '#/components/schemas/IntelIdentityAmbiguousCandidate'
+          example:
+            - id: ef38f94347e94562b5bb8424a56397d8
+              displayName: Jane Example
+            - id: ef38f94347e94562b5bb8424a56397d9
+              displayName: J. Example
+    IntelAccessSourceWire:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Source identifier referenced by the account wire object.
+          example: 2c9180835d2e5168015d32f890301e89
+        name:
+          type: string
+          description: Human-readable source name shown in administrative consoles.
+          example: Active Directory
+    IntelAccessAccountWire:
+      type: object
+      required:
+        - id
+        - name
+        - disabled
+        - locked
+        - uncorrelated
+        - authoritative
+        - systemAccount
+        - isMachine
+        - hasEntitlements
+        - manuallyCorrelated
+        - connectionType
+        - created
+        - modified
+      properties:
+        id:
+          type: string
+          description: Unique account identifier in Identity Security Cloud.
+          example: 2c91808874ff91550175097daaec161c
+        name:
+          type: string
+          description: Account name or login value on the correlated source.
+          example: jdoe
+        source:
+          type: object
+          description: Source metadata for the account as returned by List Accounts wire format.
+          allOf:
+            - $ref: '#/components/schemas/IntelAccessSourceWire'
+        disabled:
+          type: boolean
+          description: True when the account is administratively disabled on the source.
+          example: false
+        locked:
+          type: boolean
+          description: True when the account is locked from interactive sign-in on the source.
+          example: false
+        uncorrelated:
+          type: boolean
+          description: True when the account is not correlated to an authoritative identity.
+          example: false
+        authoritative:
+          type: boolean
+          description: True when the account is treated as authoritative for attribute synchronization.
+          example: true
+        systemAccount:
+          type: boolean
+          description: True when the account represents a non-interactive or system principal.
+          example: false
+        isMachine:
+          type: boolean
+          description: True when the account belongs to a machine or service identity.
+          example: false
+        hasEntitlements:
+          type: boolean
+          description: True when the account currently has one or more entitlements assigned.
+          example: true
+        manuallyCorrelated:
+          type: boolean
+          description: True when an administrator manually correlated the account to an identity.
+          example: false
+        connectionType:
+          type: string
+          description: Connector connection type identifier for the backing source system.
+          example: direct
+        nativeIdentity:
+          type: string
+          nullable: true
+          description: Native identifier string on the source directory or application.
+          example: CN=jdoe,OU=Users,DC=example,DC=com
+        created:
+          type: string
+          format: date-time
+          description: Timestamp when the account record was created in Identity Security Cloud.
+          example: '2023-11-01T10:00:00Z'
+        modified:
+          type: string
+          format: date-time
+          description: Timestamp when the account record was last modified in Identity Security Cloud.
+          example: '2024-02-15T16:20:00Z'
+    IntelPrivilegedAccessItemWire:
+      type: object
+      required:
+        - privileged
+        - id
+        - type
+      properties:
+        privileged:
+          type: boolean
+          description: True when SDS Search classifies this item as privileged access for the identity.
+          example: true
+        displayName:
+          type: string
+          description: Display label for the privileged access item in administrative experiences.
+          example: Absence_Administrator
+        name:
+          type: string
+          description: Technical name of the privileged access item from SDS Search.
+          example: Absence_Administrator
+        standalone:
+          type: boolean
+          description: True when the privileged item is modeled as a standalone entitlement or access object.
+          default: false
+          example: true
+        id:
+          type: string
+          description: Identifier of the privileged access item returned by SDS Search.
+          example: ent-1
+        source:
+          type: object
+          description: Source metadata associated with the privileged access item when present.
+          properties:
+            name:
+              type: string
+              description: Human-readable source name for the privileged access item.
+              example: Workday
+            id:
+              type: string
+              description: Source identifier for the privileged access item.
+              example: src-2
+        attribute:
+          type: string
+          description: Source attribute name that carries the privileged value when applicable.
+          example: USER_BASED_SECURITY_GROUPS
+        type:
+          type: string
+          description: Object type classification from SDS Search (for example ENTITLEMENT).
+          example: ENTITLEMENT
+        value:
+          type: string
+          description: Privileged value on the source attribute when applicable.
+          example: Absence_Administrator
+    IntelIdentityAccessBody:
+      type: object
+      required:
+        - accounts
+        - privilegedAccessItems
+      properties:
+        accounts:
+          type: array
+          description: Accounts for the identity in camelCase wire format from Shelby List Accounts.
+          items:
+            $ref: '#/components/schemas/IntelAccessAccountWire'
+          example:
+            - id: acc-1
+              name: pat.example
+              source:
+                id: src-1
+                name: Active Directory
+              disabled: false
+              locked: false
+              uncorrelated: false
+              authoritative: false
+              systemAccount: false
+              isMachine: false
+              hasEntitlements: true
+              manuallyCorrelated: false
+              connectionType: direct
+              nativeIdentity: CN=pat,OU=users
+              created: '2026-01-01T00:00:00Z'
+              modified: '2026-05-01T00:00:00Z'
+        privilegedAccessItems:
+          type: array
+          description: Privileged access items for the identity returned by SDS Search.
+          items:
+            $ref: '#/components/schemas/IntelPrivilegedAccessItemWire'
+          example:
+            - privileged: true
+              displayName: Absence_Administrator
+              name: Absence_Administrator
+              standalone: true
+              id: ent-1
+              source:
+                name: Workday
+                id: src-2
+              attribute: USER_BASED_SECURITY_GROUPS
+              type: ENTITLEMENT
+              value: Absence_Administrator
+    IntelIdentityAccessHistoryBody:
+      type: object
+      required:
+        - events
+      properties:
+        events:
+          type: array
+          description: |
+            Each event is relayed from identity-history. Schema varies by event type;
+            consumers should treat unknown fields as opaque using additionalProperties.
+          items:
+            type: object
+            additionalProperties: true
+            description: Single historical access or lifecycle event payload from identity-history.
+            example:
+              id: evt-001
+              type: LOGIN
+              dateTime: '2024-05-01T12:00:00Z'
+          example:
+            - id: evt-001
+              type: LOGIN
+              dateTime: '2024-05-01T12:00:00Z'
     JitActivationActivateRequest:
       type: object
       title: JIT Activation Activate Request
@@ -90398,6 +91229,18 @@ components:
         minimum: 0
         maximum: 50
         default: 50
+    intelligence-identity-id-path:
+      name: identityID
+      in: path
+      required: true
+      description: Non-empty identity id path segment for Intelligence Package sub-resources.
+      x-sailpoint-resource-operation-id: listIdentities
+      example: ef38f94347e94562b5bb8424a56397d8
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 128
+        pattern: ^([0-9a-fA-F]{32}|[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$
     id:
       in: path
       name: id
