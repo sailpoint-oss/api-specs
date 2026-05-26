@@ -36019,6 +36019,224 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
+  /machine-accounts/bulk-update:
+    post:
+      operationId: updateMachineAccountsInBulk
+      tags:
+        - Machine Accounts
+      summary: Bulk update machine accounts
+      description: |-
+        Applies the same JSON Patch document to up to 100 machine accounts in one request.
+
+        The response uses HTTP 207 Multi-Status. Each array element reports the result for one requested ID in its **status** field (for example, 200 for success, 404 if the account was not found or is not accessible to the caller, 409 for a duplicate ID in the batch).
+
+        Callers without the **idn:mis-account:update** right may still update accounts they own. IDs the caller cannot operate on are reported as not found or failed in the per-row results.
+
+        Patchable fields include **description**, **subtype**, **environment**, **machineIdentity**, **ownerIdentity**, and **manuallyEdited** only.
+      security:
+        - userAuth:
+            - idn:mis-account:update
+        - applicationAuth:
+            - idn:mis-account:update
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
+      parameters:
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MisBulkUpdateRequest'
+      responses:
+        '207':
+          description: Per-account bulk update results.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MisBulkResponseList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /machine-accounts/bulk-enable:
+    post:
+      operationId: enableMachineAccountsInBulk
+      tags:
+        - Machine Accounts
+      summary: Bulk enable machine accounts
+      description: |-
+        Submits an asynchronous request to enable up to 100 machine accounts.
+
+        The response returns HTTP 202 Accepted with an **accountRequestId** task identifier. Use the account request APIs to track completion.
+
+        Callers without the **idn:mis-account:enable** right may still enable accounts they own. Non-owned IDs are excluded from the task.
+      security:
+        - userAuth:
+            - idn:mis-account:enable
+        - applicationAuth:
+            - idn:mis-account:enable
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
+      parameters:
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MisBulkRequest'
+      responses:
+        '202':
+          description: Bulk enable request accepted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountRequestAsyncResult'
+              example:
+                accountRequestId: 2d81808474683da6017468693c260196
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /machine-accounts/bulk-disable:
+    post:
+      operationId: disableMachineAccountsInBulk
+      tags:
+        - Machine Accounts
+      summary: Bulk disable machine accounts
+      description: |-
+        Submits an asynchronous request to disable up to 100 machine accounts.
+
+        The response returns HTTP 202 Accepted with an **accountRequestId** task identifier. Use the account request APIs to track completion.
+
+        Callers without the **idn:mis-account:disable** right may still disable accounts they own. Non-owned IDs are excluded from the task.
+      security:
+        - userAuth:
+            - idn:mis-account:disable
+        - applicationAuth:
+            - idn:mis-account:disable
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
+      parameters:
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MisBulkRequest'
+      responses:
+        '202':
+          description: Bulk disable request accepted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountRequestAsyncResult'
+              example:
+                accountRequestId: 2d81808474683da6017468693c260196
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /machine-accounts/bulk-reload:
+    post:
+      operationId: reloadMachineAccountsInBulk
+      tags:
+        - Machine Accounts
+      summary: Bulk reload machine accounts
+      description: |-
+        Queues a reload for up to 100 machine accounts in one request.
+
+        The response uses HTTP 207 Multi-Status. Each array element reports the result for one requested ID in its **status** field.
+
+        Callers without the **idn:mis-account:reload** right may still reload accounts they own.
+      security:
+        - userAuth:
+            - idn:mis-account:reload
+        - applicationAuth:
+            - idn:mis-account:reload
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
+      parameters:
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MisBulkRequest'
+      responses:
+        '207':
+          description: Per-account bulk reload results.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MisBulkResponseList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
   /sources/{sourceId}/machine-classification-config:
     get:
       operationId: getMachineClassificationConfig
@@ -53444,6 +53662,80 @@ components:
               description: Indicates whether approval is required for an account deletion request.
             approvalConfig:
               $ref: '#/components/schemas/MachineSubtypeApprovalConfig'
+    MisBulkRequest:
+      type: object
+      title: Machine Identity Security Bulk Request
+      description: Request body listing machine identity or machine account IDs for a bulk operation.
+      properties:
+        ids:
+          type: array
+          description: Machine identity or machine account IDs to include in the bulk operation.
+          maxItems: 100
+          items:
+            type: string
+            maxLength: 128
+          example:
+            - ef38f94347e94562b5bb8424a56397d8
+            - 2c91808a7813090a017814121919ecca
+      required:
+        - ids
+    MisBulkResponse:
+      type: object
+      title: Machine Identity Security Bulk Response Item
+      description: Per-ID result for a machine identity or machine account bulk operation.
+      properties:
+        id:
+          description: Machine identity or machine account ID from the request.
+          type: string
+          example: ef38f94347e94562b5bb8424a56397d8
+        status:
+          type: integer
+          format: int32
+          description: HTTP status code for this ID. For example, 200 indicates success, 404 indicates the resource was not found or is not accessible to the caller, and 409 indicates a conflict such as a duplicate ID in the batch.
+          example: 200
+        message:
+          description: Human-readable detail for this result.
+          type: string
+          example: Updated successfully.
+      required:
+        - id
+        - status
+    MisBulkResponseList:
+      type: array
+      title: Machine Identity Security Bulk Response List
+      description: Per-ID results returned with HTTP 207 Multi-Status for bulk machine identity or machine account operations.
+      items:
+        $ref: '#/components/schemas/MisBulkResponse'
+      example:
+        - id: ef38f94347e94562b5bb8424a56397d8
+          status: 200
+          message: Updated successfully.
+    MisBulkUpdateRequest:
+      type: object
+      title: Machine Identity Security Bulk Update Request
+      description: Request body for applying the same JSON Patch document to multiple machine identities or machine accounts.
+      properties:
+        ids:
+          type: array
+          description: Machine identity or machine account IDs to update.
+          maxItems: 100
+          items:
+            type: string
+            maxLength: 128
+          example:
+            - ef38f94347e94562b5bb8424a56397d8
+        jsonPatch:
+          type: array
+          description: JSON Patch operations to apply to each ID in the request (RFC 6902).
+          items:
+            $ref: '#/components/schemas/JsonPatchOperation'
+          example:
+            - op: replace
+              path: /description
+              value: Updated description
+      required:
+        - ids
+        - jsonPatch
     RequestOnBehalfOfConfig:
       type: object
       title: Request On Behalf Of Config
