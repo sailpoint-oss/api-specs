@@ -31722,15 +31722,29 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/UserLevelRequest'
-            example:
-              name: Identity And Access Management
-              description: This is a description of the custom user level.
-              owner:
-                id: 29b9da8273b441239238bc041c386817
-                name: John Doe
-              rightSets:
-                - idn:ui-identity-manage-example
-                - idn:ui-identity-manage-child-one-example
+            examples:
+              identity:
+                summary: Identity custom user level
+                value:
+                  name: Identity And Access Management
+                  description: This is a description of the custom user level.
+                  owner:
+                    id: 29b9da8273b441239238bc041c386817
+                    name: John Doe
+                  rightSets:
+                    - idn:ui-identity-manage-example
+                    - idn:ui-identity-manage-child-one-example
+              governanceGroups:
+                summary: Governance groups custom user level
+                value:
+                  name: Governance Group Membership Management
+                  description: This is a description of the governance group custom user level.
+                  owner:
+                    id: 29b9da8273b441239238bc041c386817
+                    name: John Doe
+                  rightSets:
+                    - idn:ui-workgroup-management
+                    - idn:workgroup-membership-manage
       responses:
         '200':
           description: The user level summary.
@@ -32170,11 +32184,21 @@ paths:
           application/json-patch+json:
             schema:
               $ref: '#/components/schemas/JsonPatch'
-            example:
-              - op: replace
-                path: /rightSets
+            examples:
+              identity:
+                summary: Identity custom user level patch
                 value:
-                  - idn:ui-identity-manage-example
+                  - op: replace
+                    path: /rightSets
+                    value:
+                      - idn:ui-identity-manage-example
+              governanceGroups:
+                summary: Governance groups custom user level patch
+                value:
+                  - op: replace
+                    path: /rightSets
+                    value:
+                      - idn:ui-workgroup-management
       responses:
         '200':
           description: Successfully updated the user level.
