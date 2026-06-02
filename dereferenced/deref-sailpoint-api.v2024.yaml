@@ -10416,8 +10416,6 @@ paths:
       security:
         - userAuth:
             - idn:identity-lifecycle-state:manage
-        - applicationAuth:
-            - idn:identity-lifecycle-state:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
       parameters:
@@ -68040,9 +68038,9 @@ components:
             - sourceId: 2c91808c791a94e501792388b0d62659
               systemId: '1556'
             - sourceId: 2_2c91808c791a94e501792388b0d62659
-              systemId: '2_1556'
+              systemId: 2_1556
             - sourceId: 3_2c91808c791a94e501792388b0d62659
-              systemId: '3_1556'
+              systemId: 3_1556
         armAuth:
           type: string
           description: ARM authentication string
