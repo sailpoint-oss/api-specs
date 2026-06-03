@@ -36051,224 +36051,6 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /machine-accounts/bulk-update:
-    post:
-      operationId: updateMachineAccountsInBulk
-      tags:
-        - Machine Accounts
-      summary: Bulk update machine accounts
-      description: |-
-        Applies the same JSON Patch document to up to 100 machine accounts in one request.
-
-        The response uses HTTP 207 Multi-Status. Each array element reports the result for one requested ID in its **status** field (for example, 200 for success, 404 if the account was not found or is not accessible to the caller, 409 for a duplicate ID in the batch).
-
-        Callers without the **idn:mis-account:update** right may still update accounts they own. IDs the caller cannot operate on are reported as not found or failed in the per-row results.
-
-        Patchable fields include **description**, **subtype**, **environment**, **machineIdentity**, **ownerIdentity**, and **manuallyEdited** only.
-      security:
-        - userAuth:
-            - idn:mis-account:update
-        - applicationAuth:
-            - idn:mis-account:update
-      x-sailpoint-userLevels:
-        - ORG_ADMIN
-        - SOURCE_ADMIN
-        - SOURCE_SUBADMIN
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/MisBulkUpdateRequest'
-      responses:
-        '207':
-          description: Per-account bulk update results.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MisBulkResponseList'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
-  /machine-accounts/bulk-enable:
-    post:
-      operationId: enableMachineAccountsInBulk
-      tags:
-        - Machine Accounts
-      summary: Bulk enable machine accounts
-      description: |-
-        Submits an asynchronous request to enable up to 100 machine accounts.
-
-        The response returns HTTP 202 Accepted with an **accountRequestId** task identifier. Use the account request APIs to track completion.
-
-        Callers without the **idn:mis-account:enable** right may still enable accounts they own. Non-owned IDs are excluded from the task.
-      security:
-        - userAuth:
-            - idn:mis-account:enable
-        - applicationAuth:
-            - idn:mis-account:enable
-      x-sailpoint-userLevels:
-        - ORG_ADMIN
-        - SOURCE_ADMIN
-        - SOURCE_SUBADMIN
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/MisBulkRequest'
-      responses:
-        '202':
-          description: Bulk enable request accepted.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountRequestAsyncResult'
-              example:
-                accountRequestId: 2d81808474683da6017468693c260196
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
-  /machine-accounts/bulk-disable:
-    post:
-      operationId: disableMachineAccountsInBulk
-      tags:
-        - Machine Accounts
-      summary: Bulk disable machine accounts
-      description: |-
-        Submits an asynchronous request to disable up to 100 machine accounts.
-
-        The response returns HTTP 202 Accepted with an **accountRequestId** task identifier. Use the account request APIs to track completion.
-
-        Callers without the **idn:mis-account:disable** right may still disable accounts they own. Non-owned IDs are excluded from the task.
-      security:
-        - userAuth:
-            - idn:mis-account:disable
-        - applicationAuth:
-            - idn:mis-account:disable
-      x-sailpoint-userLevels:
-        - ORG_ADMIN
-        - SOURCE_ADMIN
-        - SOURCE_SUBADMIN
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/MisBulkRequest'
-      responses:
-        '202':
-          description: Bulk disable request accepted.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountRequestAsyncResult'
-              example:
-                accountRequestId: 2d81808474683da6017468693c260196
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
-  /machine-accounts/bulk-reload:
-    post:
-      operationId: reloadMachineAccountsInBulk
-      tags:
-        - Machine Accounts
-      summary: Bulk reload machine accounts
-      description: |-
-        Queues a reload for up to 100 machine accounts in one request.
-
-        The response uses HTTP 207 Multi-Status. Each array element reports the result for one requested ID in its **status** field.
-
-        Callers without the **idn:mis-account:reload** right may still reload accounts they own.
-      security:
-        - userAuth:
-            - idn:mis-account:reload
-        - applicationAuth:
-            - idn:mis-account:reload
-      x-sailpoint-userLevels:
-        - ORG_ADMIN
-        - SOURCE_ADMIN
-        - SOURCE_SUBADMIN
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/MisBulkRequest'
-      responses:
-        '207':
-          description: Per-account bulk reload results.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MisBulkResponseList'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
   /sources/{sourceId}/machine-classification-config:
     get:
       operationId: getMachineClassificationConfig
@@ -52586,11 +52368,11 @@ x-webhooks:
             schema:
               $ref: '#/components/schemas/AccessRequestDynamicApprover'
       responses:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: ../schemas/trigger/example-input/AccessRequestDynamicApprovalResponse.yaml
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessRequestDynamicApprovalResponse'
   AccessRequestSubmitted:
     post:
       summary: Access request submitted
@@ -52610,11 +52392,12 @@ x-webhooks:
             schema:
               $ref: '#/components/schemas/AccessRequestPreApproval'
       responses:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: ../schemas/trigger/example-input/AccessRequestSubmittedResponse.yaml
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessRequestSubmittedResponse'
   AccountAggregationCompleted:
     post:
       summary: Account aggregation completed
@@ -66671,59 +66454,6 @@ components:
           type: string
           format: date-time
           example: '2025-08-06T07:35:28.722300Z'
-      components:
-        schemas:
-          HealthIndicatorCategory:
-            description: Health indicator category data with errors and warnings
-            type: object
-            properties:
-              errors:
-                description: List of error events for this category
-                type: array
-                items:
-                  $ref: '#/components/schemas/HealthEvent'
-              warnings:
-                description: List of warning events for this category
-                type: array
-                items:
-                  $ref: '#/components/schemas/HealthEvent'
-          HealthEvent:
-            description: Individual error or warning event
-            type: object
-            properties:
-              detailedMessage:
-                description: Description of the issue
-                type: string
-                example: CPU utilization is high
-              uuid:
-                description: Unique identifier for the health event
-                type: string
-                example: '5'
-              url:
-                description: Optional URL associated with the issue
-                type: string
-                nullable: true
-                example: https://example.com:80/
-              timestamp:
-                description: Time when the event occurred
-                type: string
-                format: date-time
-                example: '2025-03-25T14:46:58.605Z'
-              lastNotifiedTimeStamp:
-                description: Last time notification was sent for this issue
-                type: string
-                format: date-time
-                example: '2025-08-06T06:53:22.206956Z'
-              cpuUtilizationPercentage:
-                description: CPU usage percentage
-                type: number
-                nullable: true
-                example: 80
-              freeSpacePercentage:
-                description: Free memory percentage
-                type: number
-                nullable: true
-                example: 8
     ManagedClusterTypes:
       type: string
       description: |
@@ -90908,7 +90638,7 @@ components:
               container: false
               and: false
               children: null
-    selector:
+    AppAccessProfileSelector:
       type: object
       properties:
         applicationId:
@@ -91068,7 +90798,7 @@ components:
               type: array
               nullable: true
               items:
-                $ref: '#/components/schemas/selector'
+                $ref: '#/components/schemas/AppAccessProfileSelector'
     UserApp:
       type: object
       properties:
@@ -91418,6 +91148,49 @@ components:
           type: string
           example: '2024-01-15T12:00:00Z'
           description: The date and time when the privilege criteria configuration was last modified.
+    AccessRequestDynamicApprovalResponse:
+      title: Access Request Dynamic Approval Response
+      type: object
+      required:
+        - id
+        - type
+        - name
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the approver to add to the approval process. If there is none, send an empty value "".
+          example: 2c91808b6ef1d43e016efba0ce470906
+        type:
+          type: string
+          description: Type of approver to add to the approval process. If there is none, send an empty value "".
+          enum:
+            - IDENTITY
+            - GOVERNANCE_GROUP
+          example: IDENTITY
+        name:
+          type: string
+          description: Name of the approver to add to the approval process. If there is none, send an empty value "".
+          example: Adam Adams
+    AccessRequestSubmittedResponse:
+      title: Access Request Submitted Response
+      type: object
+      required:
+        - approved
+        - comment
+        - approver
+      properties:
+        approved:
+          type: boolean
+          description: Approval or denial of the request by the subscribing service.
+          example: true
+        comment:
+          type: string
+          description: Comment from the subscribing service approving or denying the request.
+          example: This access has passed preliminary approval.
+        approver:
+          type: string
+          description: Name of the subscribing service approving the request.  This doesn't normally have to be the name of an existing identity in ISC, but it does if you have an active subscription to the [Access Request Decision trigger](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/access-request-decision). If you don't provide the `username` of an existing identity in your tenant, your Access Request Decision subscriptions will never trigger.
+          example: AcmeCorpExternalIntegration
     FormSubmitted:
       title: Form Submitted
       type: object
