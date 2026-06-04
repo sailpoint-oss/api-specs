@@ -64639,6 +64639,12 @@ components:
           format: date-time
           description: Date that the assignment was added
           example: '2025-07-11T18:45:37.098Z'
+        startDate:
+          type: string
+          format: date-time
+          nullable: true
+          description: Date when assignment will be active, if requested with a future date. If null, assignment is active immediately
+          example: '2026-01-22T19:15:00.000Z'
         removeDate:
           type: string
           format: date-time
@@ -64817,6 +64823,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/RoleTargetDto'
+        startDate:
+          type: string
+          format: date-time
+          nullable: true
+          description: Date when assignment will be active, if access was requested with a future start date. If null, assignment is active immediately
+          example: '2026-07-10T18:45:37.098Z'
         removeDate:
           type: string
           format: date-time
