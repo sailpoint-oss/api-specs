@@ -23140,6 +23140,9 @@ components:
             - MANAGER
             - GOVERNANCE_GROUP
             - WORKFLOW
+            - ALL_OWNERS
+            - ADDITIONAL_OWNER
+            - ADDITIONAL_GOVERNANCE_GROUP
           description: |-
             Describes the individual or group that is responsible for an approval step. These are the possible values:
             **APP_OWNER**: The owner of the Application
@@ -23152,12 +23155,18 @@ components:
 
             **GOVERNANCE_GROUP**: A Governance Group, the ID of which is specified by the **approverId** field
 
-            **WORKFLOW**: A Workflow, the ID of which is specified by the **approverId** field. Workflow is exclusive to other types of approvals and License required.   
+            **WORKFLOW**: A Workflow, the ID of which is specified by the **approverId** field. Workflow is exclusive to other types of approvals and License required.
+
+            **ALL_OWNERS**: All owners of the Access Profile, including the primary owner and any secondary owners
+
+            **ADDITIONAL_OWNER**: An additional owner of the Access Profile, the ID of which is specified by the **approverId** field
+
+            **ADDITIONAL_GOVERNANCE_GROUP**: An additional Governance Group, the ID of which is specified by the **approverId** field
           example: GOVERNANCE_GROUP
         approverId:
           type: string
           nullable: true
-          description: Id of the specific approver, used when approverType is GOVERNANCE_GROUP or WORKFLOW.
+          description: Id of the specific approver, used when approverType is GOVERNANCE_GROUP, WORKFLOW, or ADDITIONAL_GOVERNANCE_GROUP.
           example: 46c79819-a69f-49a2-becb-12c971ae66c6
     Requestability:
       type: object
@@ -31139,8 +31148,13 @@ components:
         - EQUALS
         - NOT_EQUALS
         - CONTAINS
+        - DOES_NOT_CONTAIN
         - STARTS_WITH
         - ENDS_WITH
+        - GREATER_THAN
+        - LESS_THAN
+        - GREATER_THAN_EQUALS
+        - LESS_THAN_EQUALS
         - AND
         - OR
       description: An operation
@@ -31182,7 +31196,8 @@ components:
           $ref: '#/components/schemas/RoleCriteriaKey'
         stringValue:
           type: string
-          description: String value to test the Identity attribute, Account attribute, or Entitlement specified in the key w/r/t the specified operation. If this criteria is a leaf node, that is, if the operation is one of EQUALS, NOT_EQUALS, CONTAINS, STARTS_WITH, or ENDS_WITH, this field is required. Otherwise, specifying it is an error.
+          nullable: true
+          description: String value to test the Identity attribute, Account attribute, or Entitlement specified in the key w/r/t the specified operation. If this criteria is a leaf node, that is, if the operation is one of EQUALS, NOT_EQUALS, CONTAINS, DOES_NOT_CONTAIN, STARTS_WITH, or ENDS_WITH, this field is required. Otherwise, specifying it is an error.
           example: carlee.cert1c9f9b6fd@mailinator.com
     RoleCriteriaLevel2:
       type: object
@@ -31196,7 +31211,7 @@ components:
         stringValue:
           type: string
           nullable: true
-          description: String value to test the Identity attribute, Account attribute, or Entitlement specified in the key w/r/t the specified operation. If this criteria is a leaf node, that is, if the operation is one of EQUALS, NOT_EQUALS, CONTAINS, STARTS_WITH, or ENDS_WITH, this field is required. Otherwise, specifying it is an error.
+          description: String value to test the Identity attribute, Account attribute, or Entitlement specified in the key w/r/t the specified operation. If this criteria is a leaf node, that is, if the operation is one of EQUALS, NOT_EQUALS, CONTAINS, DOES_NOT_CONTAIN, STARTS_WITH, or ENDS_WITH, this field is required. Otherwise, specifying it is an error.
           example: carlee.cert1c9f9b6fd@mailinator.com
         children:
           type: array
@@ -31216,7 +31231,7 @@ components:
         stringValue:
           type: string
           nullable: true
-          description: String value to test the Identity attribute, Account attribute, or Entitlement specified in the key w/r/t the specified operation. If this criteria is a leaf node, that is, if the operation is one of EQUALS, NOT_EQUALS, CONTAINS, STARTS_WITH, or ENDS_WITH, this field is required. Otherwise, specifying it is an error.
+          description: String value to test the Identity attribute, Account attribute, or Entitlement specified in the key w/r/t the specified operation. If this criteria is a leaf node, that is, if the operation is one of EQUALS, NOT_EQUALS, CONTAINS, DOES_NOT_CONTAIN, STARTS_WITH, or ENDS_WITH, this field is required. Otherwise, specifying it is an error.
           example: carlee.cert1c9f9b6fd@mailinator.com
         children:
           type: array
@@ -31272,6 +31287,9 @@ components:
             - MANAGER
             - GOVERNANCE_GROUP
             - WORKFLOW
+            - ALL_OWNERS
+            - ADDITIONAL_OWNER
+            - ADDITIONAL_GOVERNANCE_GROUP
           description: |-
             Describes the individual or group that is responsible for an approval step. Values are as follows.
 
@@ -31281,12 +31299,18 @@ components:
 
             **GOVERNANCE_GROUP**: A Governance Group, the ID of which is specified by the **approverId** field
 
-            **WORKFLOW**: A Workflow, the ID of which is specified by the **approverId** field. Workflow is exclusive to other types of approvals and License required. 
+            **WORKFLOW**: A Workflow, the ID of which is specified by the **approverId** field. Workflow is exclusive to other types of approvals and License required.
+
+            **ALL_OWNERS**: All owners of the Role, including the primary owner and any secondary owners
+
+            **ADDITIONAL_OWNER**: An additional owner of the Role, the ID of which is specified by the **approverId** field
+
+            **ADDITIONAL_GOVERNANCE_GROUP**: An additional Governance Group, the ID of which is specified by the **approverId** field
           example: GOVERNANCE_GROUP
         approverId:
           type: string
           nullable: true
-          description: Id of the specific approver, used when approverType is GOVERNANCE_GROUP or WORKFLOW.
+          description: Id of the specific approver, used when approverType is GOVERNANCE_GROUP, WORKFLOW, or ADDITIONAL_GOVERNANCE_GROUP.
           example: 46c79819-a69f-49a2-becb-12c971ae66c6
     RequestabilityForRole:
       type: object
@@ -31322,6 +31346,11 @@ components:
           description: List describing the steps in approving the request
           items:
             $ref: '#/components/schemas/ApprovalSchemeForRole'
+        formDefinitionId:
+          type: string
+          nullable: true
+          description: The ID of the form definition used for the access request. If specified, the form is presented to the requester during the access request process.
+          example: 78258e80-e9e2-4e1a-a11f-ce0b7c62f25d
     RevocabilityForRole:
       type: object
       properties:
@@ -31470,6 +31499,11 @@ components:
                 - value: secret
                   name: Secret
                   status: active
+        privilegeLevel:
+          type: string
+          nullable: true
+          description: The privilege level of the role, if applicable.
+          example: High
       required:
         - name
         - owner

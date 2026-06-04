@@ -67493,15 +67493,18 @@
               "SOURCE_OWNER",
               "MANAGER",
               "GOVERNANCE_GROUP",
-              "WORKFLOW"
+              "WORKFLOW",
+              "ALL_OWNERS",
+              "ADDITIONAL_OWNER",
+              "ADDITIONAL_GOVERNANCE_GROUP"
             ],
-            "description": "Describes the individual or group that is responsible for an approval step. These are the possible values:\n**APP_OWNER**: The owner of the Application\n\n**OWNER**: Owner of the associated Access Profile or Role\n\n**SOURCE_OWNER**: Owner of the Source associated with an Access Profile\n\n**MANAGER**: Manager of the Identity making the request\n\n**GOVERNANCE_GROUP**: A Governance Group, the ID of which is specified by the **approverId** field\n\n**WORKFLOW**: A Workflow, the ID of which is specified by the **approverId** field. Workflow is exclusive to other types of approvals and License required. ",
+            "description": "Describes the individual or group that is responsible for an approval step. These are the possible values:\n**APP_OWNER**: The owner of the Application\n\n**OWNER**: Owner of the associated Access Profile or Role\n\n**SOURCE_OWNER**: Owner of the Source associated with an Access Profile\n\n**MANAGER**: Manager of the Identity making the request\n\n**GOVERNANCE_GROUP**: A Governance Group, the ID of which is specified by the **approverId** field\n\n**WORKFLOW**: A Workflow, the ID of which is specified by the **approverId** field. Workflow is exclusive to other types of approvals and License required.\n\n**ALL_OWNERS**: All owners of the Access Profile, including the primary owner and any secondary owners\n\n**ADDITIONAL_OWNER**: An additional owner of the Access Profile, the ID of which is specified by the **approverId** field\n\n**ADDITIONAL_GOVERNANCE_GROUP**: An additional Governance Group, the ID of which is specified by the **approverId** field",
             "example": "GOVERNANCE_GROUP"
           },
           "approverId": {
             "type": "string",
             "nullable": true,
-            "description": "Id of the specific approver, used when approverType is GOVERNANCE_GROUP or WORKFLOW.",
+            "description": "Id of the specific approver, used when approverType is GOVERNANCE_GROUP, WORKFLOW, or ADDITIONAL_GOVERNANCE_GROUP.",
             "example": "46c79819-a69f-49a2-becb-12c971ae66c6"
           }
         }
@@ -81527,8 +81530,13 @@
           "EQUALS",
           "NOT_EQUALS",
           "CONTAINS",
+          "DOES_NOT_CONTAIN",
           "STARTS_WITH",
           "ENDS_WITH",
+          "GREATER_THAN",
+          "LESS_THAN",
+          "GREATER_THAN_EQUALS",
+          "LESS_THAN_EQUALS",
           "AND",
           "OR"
         ],
@@ -81582,7 +81590,8 @@
           },
           "stringValue": {
             "type": "string",
-            "description": "String value to test the Identity attribute, Account attribute, or Entitlement specified in the key w/r/t the specified operation. If this criteria is a leaf node, that is, if the operation is one of EQUALS, NOT_EQUALS, CONTAINS, STARTS_WITH, or ENDS_WITH, this field is required. Otherwise, specifying it is an error.",
+            "nullable": true,
+            "description": "String value to test the Identity attribute, Account attribute, or Entitlement specified in the key w/r/t the specified operation. If this criteria is a leaf node, that is, if the operation is one of EQUALS, NOT_EQUALS, CONTAINS, DOES_NOT_CONTAIN, STARTS_WITH, or ENDS_WITH, this field is required. Otherwise, specifying it is an error.",
             "example": "carlee.cert1c9f9b6fd@mailinator.com"
           }
         }
@@ -81601,7 +81610,7 @@
           "stringValue": {
             "type": "string",
             "nullable": true,
-            "description": "String value to test the Identity attribute, Account attribute, or Entitlement specified in the key w/r/t the specified operation. If this criteria is a leaf node, that is, if the operation is one of EQUALS, NOT_EQUALS, CONTAINS, STARTS_WITH, or ENDS_WITH, this field is required. Otherwise, specifying it is an error.",
+            "description": "String value to test the Identity attribute, Account attribute, or Entitlement specified in the key w/r/t the specified operation. If this criteria is a leaf node, that is, if the operation is one of EQUALS, NOT_EQUALS, CONTAINS, DOES_NOT_CONTAIN, STARTS_WITH, or ENDS_WITH, this field is required. Otherwise, specifying it is an error.",
             "example": "carlee.cert1c9f9b6fd@mailinator.com"
           },
           "children": {
@@ -81628,7 +81637,7 @@
           "stringValue": {
             "type": "string",
             "nullable": true,
-            "description": "String value to test the Identity attribute, Account attribute, or Entitlement specified in the key w/r/t the specified operation. If this criteria is a leaf node, that is, if the operation is one of EQUALS, NOT_EQUALS, CONTAINS, STARTS_WITH, or ENDS_WITH, this field is required. Otherwise, specifying it is an error.",
+            "description": "String value to test the Identity attribute, Account attribute, or Entitlement specified in the key w/r/t the specified operation. If this criteria is a leaf node, that is, if the operation is one of EQUALS, NOT_EQUALS, CONTAINS, DOES_NOT_CONTAIN, STARTS_WITH, or ENDS_WITH, this field is required. Otherwise, specifying it is an error.",
             "example": "carlee.cert1c9f9b6fd@mailinator.com"
           },
           "children": {
@@ -81700,15 +81709,18 @@
               "OWNER",
               "MANAGER",
               "GOVERNANCE_GROUP",
-              "WORKFLOW"
+              "WORKFLOW",
+              "ALL_OWNERS",
+              "ADDITIONAL_OWNER",
+              "ADDITIONAL_GOVERNANCE_GROUP"
             ],
-            "description": "Describes the individual or group that is responsible for an approval step. Values are as follows.\n\n**OWNER**: Owner of the associated Role\n\n**MANAGER**: Manager of the Identity making the request\n\n**GOVERNANCE_GROUP**: A Governance Group, the ID of which is specified by the **approverId** field\n\n**WORKFLOW**: A Workflow, the ID of which is specified by the **approverId** field. Workflow is exclusive to other types of approvals and License required.     ",
+            "description": "Describes the individual or group that is responsible for an approval step. Values are as follows.\n\n**OWNER**: Owner of the associated Role\n\n**MANAGER**: Manager of the Identity making the request\n\n**GOVERNANCE_GROUP**: A Governance Group, the ID of which is specified by the **approverId** field\n\n**WORKFLOW**: A Workflow, the ID of which is specified by the **approverId** field. Workflow is exclusive to other types of approvals and License required.\n\n**ALL_OWNERS**: All owners of the Role, including the primary owner and any secondary owners\n\n**ADDITIONAL_OWNER**: An additional owner of the Role, the ID of which is specified by the **approverId** field\n\n**ADDITIONAL_GOVERNANCE_GROUP**: An additional Governance Group, the ID of which is specified by the **approverId** field",
             "example": "GOVERNANCE_GROUP"
           },
           "approverId": {
             "type": "string",
             "nullable": true,
-            "description": "Id of the specific approver, used when approverType is GOVERNANCE_GROUP or WORKFLOW.",
+            "description": "Id of the specific approver, used when approverType is GOVERNANCE_GROUP, WORKFLOW, or ADDITIONAL_GOVERNANCE_GROUP.",
             "example": "46c79819-a69f-49a2-becb-12c971ae66c6"
           }
         }
@@ -81741,7 +81753,6 @@
             "type": "boolean",
             "description": "Indicates whether the requester of the containing object must provide access end date.",
             "example": true,
-            "nullable": true,
             "default": false
           },
           "maxPermittedAccessDuration": {
@@ -81754,6 +81765,12 @@
             "items": {
               "$ref": "#/components/schemas/ApprovalSchemeForRole"
             }
+          },
+          "formDefinitionId": {
+            "type": "string",
+            "nullable": true,
+            "description": "The ID of the form definition used for the access request. If specified, the form is presented to the requester during the access request process.",
+            "example": "78258e80-e9e2-4e1a-a11f-ce0b7c62f25d"
           }
         }
       },
@@ -81950,6 +81967,12 @@
                 ]
               }
             ]
+          },
+          "privilegeLevel": {
+            "type": "string",
+            "nullable": true,
+            "description": "The privilege level of the role, if applicable.",
+            "example": "High"
           }
         },
         "required": [
