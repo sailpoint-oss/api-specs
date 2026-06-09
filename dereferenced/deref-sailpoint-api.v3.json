@@ -1248,7 +1248,7 @@
               "type": "string"
             },
             "example": "accountActivityItemId eq \"2c918086771c86df0177401efcdf54c0\"",
-            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**accessRequestId**: *eq, ge, gt, le, lt, ne, sw*\n\n**accountActivityItemId**: *eq, in, ge, gt, le, ne, sw*\n\n**created**: *eq, ge, gt, le, lt, ne*",
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**accessRequestId**: *eq, ge, gt, le, lt, ne, in, sw*\n\n**accountActivityItemId**: *eq, in, ge, gt, le, ne, sw*\n\n**created**: *eq, ge, gt, le, lt, ne*",
             "required": false
           },
           {
@@ -34107,6 +34107,13 @@
             "description": "Description associated to the requested object.",
             "example": "This is the Engineering role that engineers are granted.",
             "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the role access is scheduled for provisioning.",
+            "example": "2019-10-21T00:00:00.000Z"
           },
           "removeDate": {
             "type": "string",

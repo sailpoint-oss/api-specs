@@ -1799,7 +1799,7 @@ paths:
 
             Filtering is supported for the following fields and operators:
 
-            **accessRequestId**: *eq, ge, gt, le, lt, ne, sw*
+            **accessRequestId**: *eq, ge, gt, le, lt, ne, in, sw*
 
             **accountActivityItemId**: *eq, in, ge, gt, le, ne, sw*
 
@@ -24897,6 +24897,12 @@ components:
           description: Description associated to the requested object.
           example: This is the Engineering role that engineers are granted.
           nullable: true
+        startDate:
+          type: string
+          format: date-time
+          nullable: true
+          description: When the role access is scheduled for provisioning.
+          example: '2019-10-21T00:00:00.000Z'
         removeDate:
           type: string
           format: date-time

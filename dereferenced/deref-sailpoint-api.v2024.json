@@ -1784,7 +1784,7 @@
               "type": "string"
             },
             "example": "accountActivityItemId eq \"2c918086771c86df0177401efcdf54c0\"",
-            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**accountActivityItemId**: *eq, in, ge, gt, le, lt, ne, isnull, sw*\n\n**accessRequestId**: *in*\n\n**status**: *in, eq, ne*\n\n**created**: *eq, in, ge, gt, le, lt, ne, isnull, sw*",
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**accountActivityItemId**: *eq, in, ge, gt, le, lt, ne, isnull, sw*\n\n**accessRequestId**: *in, eq, ne, ge, gt, le, lt, sw*\n\n**status**: *in, eq, ne*\n\n**created**: *eq, in, ge, gt, le, lt, ne, isnull, sw*",
             "required": false
           },
           {
@@ -70097,6 +70097,13 @@
             "example": "This is the Engineering role that engineers are granted.",
             "nullable": true
           },
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the role access is scheduled for provisioning.",
+            "example": "2019-10-21T00:00:00.000Z"
+          },
           "removeDate": {
             "type": "string",
             "format": "date-time",
@@ -70310,6 +70317,13 @@
             "description": "Description associated to the requested object.",
             "example": "This is the Engineering role that engineers are granted.",
             "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the role access is scheduled for provisioning.",
+            "example": "2019-10-21T00:00:00.000Z"
           },
           "removeDate": {
             "type": "string",

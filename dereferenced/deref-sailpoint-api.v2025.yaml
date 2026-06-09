@@ -2437,7 +2437,7 @@ paths:
 
             **accountActivityItemId**: *eq, in, ge, gt, le, lt, ne, isnull, sw*
 
-            **accessRequestId**: *in*
+            **accessRequestId**: *in, eq, ne, ge, gt, le, lt, sw*
 
             **status**: *in, eq, ne*
 
@@ -55579,6 +55579,12 @@ components:
           description: Description associated to the requested object.
           example: This is the Engineering role that engineers are granted.
           nullable: true
+        startDate:
+          type: string
+          format: date-time
+          nullable: true
+          description: When the role access is scheduled for provisioning.
+          example: '2019-10-21T00:00:00.000Z'
         removeDate:
           type: string
           format: date-time
@@ -55727,6 +55733,12 @@ components:
           description: Description associated to the requested object.
           example: This is the Engineering role that engineers are granted.
           nullable: true
+        startDate:
+          type: string
+          format: date-time
+          nullable: true
+          description: When the role access is scheduled for provisioning.
+          example: '2019-10-21T00:00:00.000Z'
         removeDate:
           type: string
           format: date-time
