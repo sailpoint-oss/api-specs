@@ -5,6 +5,8 @@ on:
     branches:
       - main
     paths:
+      - idn/sailpoint-api.root.yaml
+      - idn/apis/**
       - idn/sailpoint-api.v3.yaml
       - idn/v3/**
       - idn/sailpoint-api.beta.yaml
@@ -50,6 +52,10 @@ jobs:
       - name: Dereference API Specification and build Postman collection
         run: |
 
+          # idn (combined versioned spec)
+          redocly bundle idn/sailpoint-api.root.yaml --ext yaml -o dereferenced/deref-sailpoint-api.yaml
+          redocly bundle idn/sailpoint-api.root.yaml --ext json -o dereferenced/deref-sailpoint-api.json
+
           # v3
           redocly bundle idn/sailpoint-api.v3.yaml --ext json -o dereferenced/deref-sailpoint-api.v3.json
           redocly bundle idn/sailpoint-api.v3.yaml --ext yaml -o dereferenced/deref-sailpoint-api.v3.yaml
@@ -77,6 +83,7 @@ jobs:
           redocly bundle nerm/v2025/v2025.yaml --ext json -o dereferenced/deref-sailpoint-api.nerm.v2025.json
 
           # build postman collections
+          openapi2postmanv2 -s dereferenced/deref-sailpoint-api.yaml -o postman/collections/sailpoint-api-isc.json -p -c postman-script/openapi2postman-config.json
           openapi2postmanv2 -s dereferenced/deref-sailpoint-api.v3.yaml -o postman/collections/sailpoint-api-v3.json -p -c postman-script/openapi2postman-config.json
           openapi2postmanv2 -s dereferenced/deref-sailpoint-api.beta.yaml -o postman/collections/sailpoint-api-beta.json -p -c postman-script/openapi2postman-config.json
           openapi2postmanv2 -s dereferenced/deref-sailpoint-api.nerm.yaml -o postman/collections/sailpoint-api-nerm.json -p -c postman-script/openapi2postman-config.json
@@ -86,6 +93,7 @@ jobs:
           openapi2postmanv2 -s dereferenced/deref-sailpoint-api.v2026.yaml -o postman/collections/sailpoint-api-v2026.json -p -c postman-script/openapi2postman-config.json 
           
           # modify collections
+          node postman-script/modify-collection.js postman/collections/sailpoint-api-isc.json
           node postman-script/modify-collection.js postman/collections/sailpoint-api-v3.json
           node postman-script/modify-collection.js postman/collections/sailpoint-api-beta.json
           node postman-script/modify-collection.js postman/collections/sailpoint-api-v2024.json
@@ -98,6 +106,7 @@ jobs:
           cd postman-script/update-by-folder-ts
           echo "POSTMAN_API_KEY=${{ secrets.POSTMAN_API_KEY }}" > .env
           npm ci
+          npm run isc
           npm run v3
           npm run beta
           npm run v2024
