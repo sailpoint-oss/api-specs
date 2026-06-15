@@ -2995,6 +2995,8 @@ paths:
 
             **recommendation.method**: *eq, in, isnull*
 
+            **recommendation.type**: *eq, in, isnull*
+
             **created**: *eq, ge, gt, le, lt*
 
             **modified**: *eq, ge, gt, le, lt*
@@ -56293,6 +56295,7 @@ components:
           enum:
             - HUMAN
             - MACHINE
+            - AGENT
           description: Recommended type of account.
           example: MACHINE
         method:
