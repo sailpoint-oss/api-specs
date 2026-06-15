@@ -49,8 +49,12 @@ jobs:
         run: |
           npm install -g @redocly/cli
           npm install -g openapi-to-postmanv2
+          npm install --prefix scripts
       - name: Dereference API Specification and build Postman collection
         run: |
+
+          # idn (rebuild sailpoint-api.root.yaml from apis/ partitions, then bundle to sailpoint-api.yaml)
+          node scripts/build-idn-root-spec.js
 
           # idn (combined versioned spec)
           redocly bundle idn/sailpoint-api.root.yaml --ext yaml -o dereferenced/deref-sailpoint-api.yaml
