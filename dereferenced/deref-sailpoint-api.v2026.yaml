@@ -26102,6 +26102,225 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
+  /sources/{sourceId}/datasets:
+    get:
+      operationId: getSourceDatasets
+      security:
+        - userAuth:
+            - idn:sources:read
+            - idn:sources:manage
+        - applicationAuth:
+            - idn:sources:read
+            - idn:sources:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
+      tags:
+        - Sources
+      summary: List datasets on source
+      description: |
+        Use this API to list datasets for the specified source in Identity Security Cloud (ISC).
+      parameters:
+        - in: path
+          name: sourceId
+          required: true
+          x-sailpoint-resource-operation-id: listSources
+          schema:
+            type: string
+          description: Source ID.
+          example: 2c9180835d191a86015d28455b4a2329
+      responses:
+        '200':
+          description: The datasets were successfully retrieved.
+          content:
+            application/json:
+              schema:
+                type: array
+                maxItems: 250
+                items:
+                  $ref: '#/components/schemas/SourceDataset'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /sources/{sourceId}/datasets/{datasetId}:
+    get:
+      operationId: getSourceDataset
+      security:
+        - userAuth:
+            - idn:sources:read
+            - idn:sources:manage
+        - applicationAuth:
+            - idn:sources:read
+            - idn:sources:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
+      tags:
+        - Sources
+      summary: Get source dataset by id
+      description: |
+        Use this API to get a dataset by id for the specified source in Identity Security Cloud (ISC).
+      parameters:
+        - in: path
+          name: sourceId
+          required: true
+          x-sailpoint-resource-operation-id: listSources
+          schema:
+            type: string
+          description: Source ID.
+          example: 2c9180835d191a86015d28455b4a2329
+        - in: path
+          name: datasetId
+          required: true
+          x-sailpoint-resource-operation-id: getSourceDatasets
+          schema:
+            type: string
+          description: Dataset ID.
+          example: cmdb-servicenow:applications
+      responses:
+        '200':
+          description: The requested dataset was successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SourceDataset'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /sources/{sourceId}/resources:
+    get:
+      operationId: getSourceResources
+      security:
+        - userAuth:
+            - idn:sources:read
+            - idn:source-schema:read
+            - idn:sources:manage
+            - idn:source-schema:manage
+        - applicationAuth:
+            - idn:sources:read
+            - idn:source-schema:read
+            - idn:sources:manage
+            - idn:source-schema:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
+      tags:
+        - Sources
+      summary: List resources for a source
+      description: |
+        Use this API to list resources defined on the specified source in Identity Security Cloud (ISC).
+      parameters:
+        - in: path
+          name: sourceId
+          required: true
+          x-sailpoint-resource-operation-id: listSources
+          schema:
+            type: string
+          description: Source ID.
+          example: 2c9180835d191a86015d28455b4a2329
+      responses:
+        '200':
+          description: The source resources were successfully retrieved.
+          content:
+            application/json:
+              schema:
+                type: array
+                maxItems: 250
+                items:
+                  $ref: '#/components/schemas/SourceDatasetResource'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /sources/{sourceId}/resources/{resourceId}:
+    get:
+      operationId: getSourceResource
+      security:
+        - userAuth:
+            - idn:sources:read
+            - idn:source-schema:read
+            - idn:sources:manage
+            - idn:source-schema:manage
+        - applicationAuth:
+            - idn:sources:read
+            - idn:source-schema:read
+            - idn:sources:manage
+            - idn:source-schema:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
+      tags:
+        - Sources
+      summary: Get source resource by id
+      description: |
+        Use this API to get a resource by id on the specified source in Identity Security Cloud (ISC).
+        The response includes the full CIS schema for the resource.
+      parameters:
+        - in: path
+          name: sourceId
+          required: true
+          x-sailpoint-resource-operation-id: listSources
+          schema:
+            type: string
+          description: Source ID.
+          example: 2c9180835d191a86015d28455b4a2329
+        - in: path
+          name: resourceId
+          required: true
+          x-sailpoint-resource-operation-id: getSourceResources
+          schema:
+            type: string
+          description: Resource ID (CIS schema object type for the source).
+          example: account
+      responses:
+        '200':
+          description: The requested source resource was successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SourceDatasetResource'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
   /sources/{sourceId}/schemas:
     get:
       operationId: getSourceSchemas
@@ -73954,6 +74173,42 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/FieldDetailsDto'
+    SourceDataset:
+      type: object
+      title: Source Dataset
+      description: Dataset instance for a source. Fields are read from source-persisted dataset rows in Diana (name/description reflect the source's stored snapshot); aggregationEnabled is stored per source instance.
+      properties:
+        id:
+          type: string
+          description: Dataset identifier.
+          example: cmdb-servicenow:applications
+        name:
+          type: string
+          description: Display name of the dataset.
+          example: Applications
+        description:
+          type: string
+          description: Description of the dataset.
+          example: CMDB application records for this source.
+        aggregationEnabled:
+          type: boolean
+          default: false
+          description: Whether aggregation is enabled for this dataset on the source.
+          example: true
+        resources:
+          type: array
+          description: Simplified resource references associated with this dataset.
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Resource identifier.
+                example: aws:iam-role
+              name:
+                type: string
+                description: Display name of the resource.
+                example: Role
     AttributeDefinitionType:
       type: string
       enum:
@@ -74094,6 +74349,34 @@ components:
           description: The date the Schema was last modified.
           format: date-time
           example: '2019-12-31T20:22:28.104Z'
+    SourceDatasetResource:
+      type: object
+      title: Source Dataset Resource
+      description: Resource definition for a source. The resource is reconstructed from source schema data (resourceId/resourceType in schema config and schema objectType as name).
+      properties:
+        id:
+          type: string
+          description: Resource identifier from source schema config.
+          example: aws:iam-role
+        name:
+          type: string
+          description: Display name of the resource.
+          example: Account
+        features:
+          type: array
+          description: Feature identifiers supported by this resource.
+          items:
+            type: string
+          example:
+            - Create
+            - Delete
+        type:
+          type: string
+          description: Resource type from source schema config.
+          example: std:resource
+        schema:
+          $ref: '#/components/schemas/Schema'
+          description: CIS schema for the resource.
     Schedule-3:
       type: object
       required:
