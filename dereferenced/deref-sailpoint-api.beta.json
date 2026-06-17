@@ -12553,10 +12553,16 @@
             "userAuth": [
               "idn:identity-profile:read"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-profile:read"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
-          "ORG_ADMIN"
+          "ORG_ADMIN",
+          "API"
         ]
       },
       "post": {
@@ -12608,10 +12614,16 @@
             "userAuth": [
               "idn:identity-profile:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-profile:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
-          "ORG_ADMIN"
+          "ORG_ADMIN",
+          "API"
         ]
       }
     },
@@ -12667,7 +12679,16 @@
             "userAuth": [
               "idn:identity-profile:delete"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-profile:delete"
+            ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "API"
         ]
       }
     },
@@ -12861,7 +12882,16 @@
             "userAuth": [
               "idn:identity-profile:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-profile:manage"
+            ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "API"
         ]
       }
     },
@@ -12923,10 +12953,17 @@
               "idn:identity-profile:read",
               "idn:identity-profile:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-profile:read",
+              "idn:identity-profile:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
-          "ORG_ADMIN"
+          "ORG_ADMIN",
+          "API"
         ]
       },
       "delete": {
@@ -12986,10 +13023,16 @@
             "userAuth": [
               "idn:identity-profile:delete"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-profile:delete"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
-          "ORG_ADMIN"
+          "ORG_ADMIN",
+          "API"
         ]
       },
       "patch": {
@@ -13084,10 +13127,16 @@
             "userAuth": [
               "idn:identity-profile:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-profile:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
-          "ORG_ADMIN"
+          "ORG_ADMIN",
+          "API"
         ]
       }
     },
@@ -13148,7 +13197,16 @@
             "userAuth": [
               "idn:identity-profile:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-profile:manage"
+            ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "API"
         ]
       }
     },
@@ -13208,7 +13266,17 @@
               "idn:identity-profile:read",
               "idn:identity-profile:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-profile:read",
+              "idn:identity-profile:manage"
+            ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "API"
         ]
       }
     },

@@ -8126,10 +8126,11 @@ paths:
             - idn:identity-profile:read
       x-sailpoint-userLevels:
         - ORG_ADMIN
+        - API
     post:
       operationId: createIdentityProfile
       summary: Create identity profile
-      description: 'Creates an identity profile.    '
+      description: Creates an identity profile.
       tags:
         - Identity Profiles
       requestBody:
@@ -8158,8 +8159,11 @@ paths:
       security:
         - userAuth:
             - idn:identity-profile:manage
+        - applicationAuth:
+            - idn:identity-profile:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
+        - API
   /identity-profiles/bulk-delete:
     post:
       operationId: deleteIdentityProfiles
@@ -8200,8 +8204,11 @@ paths:
       security:
         - userAuth:
             - idn:identity-profile:manage
+        - applicationAuth:
+            - idn:identity-profile:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
+        - API
   /identity-profiles/export:
     get:
       operationId: exportIdentityProfiles
@@ -8336,8 +8343,11 @@ paths:
       security:
         - userAuth:
             - idn:identity-profile:manage
+        - applicationAuth:
+            - idn:identity-profile:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
+        - API
   /identity-profiles/{identity-profile-id}:
     get:
       operationId: getIdentityProfile
@@ -8381,6 +8391,7 @@ paths:
             - idn:identity-profile:read
       x-sailpoint-userLevels:
         - ORG_ADMIN
+        - API
     delete:
       operationId: deleteIdentityProfile
       tags:
@@ -8422,8 +8433,11 @@ paths:
       security:
         - userAuth:
             - idn:identity-profile:manage
+        - applicationAuth:
+            - idn:identity-profile:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
+        - API
     patch:
       operationId: updateIdentityProfile
       tags:
@@ -8494,8 +8508,11 @@ paths:
       security:
         - userAuth:
             - idn:identity-profile:manage
+        - applicationAuth:
+            - idn:identity-profile:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
+        - API
   /identity-profiles/{identity-profile-id}/default-identity-attribute-config:
     get:
       operationId: getDefaultIdentityAttributeConfig
@@ -8535,8 +8552,11 @@ paths:
       security:
         - userAuth:
             - idn:identity-profile:manage
+        - applicationAuth:
+            - idn:identity-profile:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
+        - API
   /identity-profiles/{identity-profile-id}/process-identities:
     post:
       operationId: syncIdentityProfile
@@ -8581,8 +8601,11 @@ paths:
       security:
         - userAuth:
             - idn:identity-profile:manage
+        - applicationAuth:
+            - idn:identity-profile:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
+        - API
   /managed-clients:
     get:
       tags:
