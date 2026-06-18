@@ -1,23 +1,25 @@
 name: "Push IDN API Specs to Developer Portal"
 
 on:
-  push:
+  workflow_run:
+    workflows: ["Build Bundled Specifications"]
+    types:
+      - completed
     branches:
       - main
-    paths:
-      - idn/**
   workflow_dispatch:
 
 jobs:
   push_idn_spec_workflow:
     name: Push API spec changes
     runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     steps:
       # Checkout the master branch request to run rsync
       - name: Checkout PR branch
         uses: actions/checkout@v6
         with:
-          ref: ${{ github.ref }}
+          ref: main
 
       # Checkout the main branch of api-specs
       - name: Checkout API Specs Repo
