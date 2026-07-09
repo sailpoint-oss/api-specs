@@ -1,14 +1,14 @@
 name: "Trigger Developer Portal Build"
 
-# The developer.sailpoint.com portal no longer stores API specs in git — it
-# fetches them from this repo at build time. Instead of committing specs into
-# the portal, we fire a repository_dispatch event that triggers a fresh
-# build + deploy of the portal, which pulls the latest specs from main.
 #
-# Timing mirrors the old push workflows:
-#   - idn: gated on "Build Bundled Specifications" so the bundled
-#     idn/sailpoint-api.yaml exists before the portal build consumes it.
-#   - iiq / nerm: fire on push to main under their respective paths.
+# Triggers:
+#   - idn & nerm: gated on "Build Bundled Specifications" via workflow_run.
+#     That workflow runs on idn/** and nerm/** changes and commits the bundled
+#     idn/sailpoint-api.yaml back to main, which the portal consumes — so we
+#     wait for it to finish before dispatching, rather than racing it on the
+#     raw push. (A direct idn/** push path would dispatch too early.)
+#   - iiq: not part of "Build Bundled Specifications", so it needs its own
+#     push trigger.
 
 on:
   workflow_run:
@@ -22,7 +22,6 @@ on:
       - main
     paths:
       - iiq/**
-      - nerm/**
   workflow_dispatch:
 
 jobs:
