@@ -179,3 +179,9 @@ properties:
         - WEEKS
         - MONTHS
         example: DAYS
+  jitDetails:
+    type: array
+    nullable: true
+    description: JIT (Just-In-Time) details for the requested access item, if applicable.
+    items:
+      $ref: ./entitlementstatesnapshotjitdetail.yaml

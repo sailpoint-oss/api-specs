@@ -162,3 +162,9 @@ properties:
     type: string
     description: The privilege level of the requested access item, if applicable.
     example: High
+  jitDetails:
+    type: array
+    nullable: true
+    description: JIT (Just-In-Time) details for the requested access item, if applicable.
+    items:
+      $ref: ./entitlementstatesnapshotjitdetail.yaml
