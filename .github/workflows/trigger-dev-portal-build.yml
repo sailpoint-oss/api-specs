@@ -1,0 +1,59 @@
+name: "Trigger Developer Portal Build"
+
+# The developer.sailpoint.com portal no longer stores API specs in git — it
+# fetches them from this repo at build time. Instead of committing specs into
+# the portal, we fire a repository_dispatch event that triggers a fresh
+# build + deploy of the portal, which pulls the latest specs from main.
+#
+# Timing mirrors the old push workflows:
+#   - idn: gated on "Build Bundled Specifications" so the bundled
+#     idn/sailpoint-api.yaml exists before the portal build consumes it.
+#   - iiq / nerm: fire on push to main under their respective paths.
+
+on:
+  workflow_run:
+    workflows: ["Build Bundled Specifications"]
+    types:
+      - completed
+    branches:
+      - main
+  push:
+    branches:
+      - main
+    paths:
+      - iiq/**
+      - nerm/**
+  workflow_dispatch:
+
+jobs:
+  trigger_dev_portal_build:
+    name: Dispatch build to developer portal
+    runs-on: ubuntu-latest
+    # For workflow_run, only proceed on a successful upstream run.
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Dispatch build to developer.sailpoint.com
+        run: |
+          curl -sSf -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.DEVREL_SERVICE_TOKEN }}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/sailpoint-oss/developer.sailpoint.com/dispatches \
+            -d '{"event_type":"api-specs-updated"}'
+
+  trigger_dev_portal_build-failure:
+    runs-on: ubuntu-latest
+    if: ${{ always() && (needs.trigger_dev_portal_build.result == 'failure' || needs.trigger_dev_portal_build.result == 'timed_out') }}
+    needs:
+      - trigger_dev_portal_build
+    steps:
+      - name: Invoke GithubNotificationsFunction Lambda
+        run: |
+          curl -X POST \
+            -H "Content-Type: application/json" \
+            -d '{
+              "workflowName": "${{ github.job }}",
+              "repositoryName": "${{ github.event.repository.name }}",
+              "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            }' \
+            "${{ secrets.NOTIFICATIONS_FUNCTION_URL }}"
