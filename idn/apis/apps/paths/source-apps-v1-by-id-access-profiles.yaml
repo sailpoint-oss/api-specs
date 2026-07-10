@@ -6,8 +6,6 @@ get:
   security:
   - userAuth:
     - idn:app-roles:manage
-  - applicationAuth:
-    - idn:app-roles:manage
   description: This API returns the list of access profiles for the specified source app
   parameters:
   - name: id

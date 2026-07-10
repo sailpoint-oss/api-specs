@@ -8,9 +8,6 @@ get:
     - userAuth:
         - idn:app-roles:read
         - idn:app-roles:manage
-    - applicationAuth:
-        - idn:app-roles:read
-        - idn:app-roles:manage
   parameters:
     - name: id
       in: path
@@ -58,8 +55,6 @@ patch:
     Name, description and owner can't be empty or null.
   security:
     - userAuth:
-        - idn:app-roles:manage
-    - applicationAuth:
         - idn:app-roles:manage
   parameters:
     - name: id
@@ -160,8 +155,6 @@ delete:
   operationId: deleteSourceApp
   security:
     - userAuth:
-        - idn:app-roles:manage
-    - applicationAuth:
         - idn:app-roles:manage
   tags:
     - Apps

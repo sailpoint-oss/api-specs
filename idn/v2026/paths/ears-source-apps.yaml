@@ -7,9 +7,6 @@ get:
     - userAuth:
         - idn:app-roles:read
         - idn:app-roles:manage
-    - applicationAuth:
-        - idn:app-roles:read
-        - idn:app-roles:manage
   description: This API returns the list of source apps available for access request.
   parameters:
     - $ref: ../parameters/limit.yaml
@@ -85,8 +82,6 @@ post:
   description: This endpoint creates a source app using the given source app payload
   security:
     - userAuth:
-        - idn:app-roles:manage
-    - applicationAuth:
         - idn:app-roles:manage
   parameters:
     - name: X-SailPoint-Experimental

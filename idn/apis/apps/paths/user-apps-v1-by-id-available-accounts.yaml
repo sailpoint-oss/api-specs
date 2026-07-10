@@ -7,9 +7,6 @@ get:
   - userAuth:
     - idn:app-roles:read
     - idn:app-roles:manage
-  - applicationAuth:
-    - idn:app-roles:read
-    - idn:app-roles:manage
   description: >-
     This API returns the list of available accounts for the specified user app. The user app needs to belong lo logged
     in user.

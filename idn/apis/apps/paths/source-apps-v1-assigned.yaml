@@ -7,9 +7,6 @@ get:
   - userAuth:
     - idn:app-roles:read
     - idn:app-roles:manage
-  - applicationAuth:
-    - idn:app-roles:read
-    - idn:app-roles:manage
   description: This API returns the list of source apps assigned for logged in user.
   parameters:
   - $ref: ../../shared/parameters/limit.yaml

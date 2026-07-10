@@ -6,8 +6,6 @@ get:
   security:
   - userAuth:
     - idn:app-roles:manage
-  - applicationAuth:
-    - idn:app-roles:manage
   description: |-
     This API returns the list of all user apps with specified filters.
     This API must be used with **filters** query parameter.
