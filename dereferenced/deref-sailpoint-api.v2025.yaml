@@ -48853,9 +48853,6 @@ paths:
         - userAuth:
             - idn:app-roles:read
             - idn:app-roles:manage
-        - applicationAuth:
-            - idn:app-roles:read
-            - idn:app-roles:manage
       description: This API returns the list of source apps assigned for logged in user.
       parameters:
         - $ref: '#/components/parameters/limit'
@@ -48933,9 +48930,6 @@ paths:
         - userAuth:
             - idn:app-roles:read
             - idn:app-roles:manage
-        - applicationAuth:
-            - idn:app-roles:read
-            - idn:app-roles:manage
       description: This API returns the list of source apps available for access request.
       parameters:
         - $ref: '#/components/parameters/limit'
@@ -49011,8 +49005,6 @@ paths:
       description: This endpoint creates a source app using the given source app payload
       security:
         - userAuth:
-            - idn:app-roles:manage
-        - applicationAuth:
             - idn:app-roles:manage
       parameters:
         - name: X-SailPoint-Experimental
@@ -49387,9 +49379,6 @@ paths:
         - userAuth:
             - idn:app-roles:read
             - idn:app-roles:manage
-        - applicationAuth:
-            - idn:app-roles:read
-            - idn:app-roles:manage
       description: This API returns the list of user apps assigned to logged in user
       parameters:
         - $ref: '#/components/parameters/limit'
@@ -49452,8 +49441,6 @@ paths:
       summary: List all user apps
       security:
         - userAuth:
-            - idn:app-roles:manage
-        - applicationAuth:
             - idn:app-roles:manage
       description: |-
         This API returns the list of all user apps with specified filters.

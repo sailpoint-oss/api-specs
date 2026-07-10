@@ -61466,12 +61466,6 @@
               "idn:app-roles:read",
               "idn:app-roles:manage"
             ]
-          },
-          {
-            "applicationAuth": [
-              "idn:app-roles:read",
-              "idn:app-roles:manage"
-            ]
           }
         ],
         "parameters": [
@@ -61539,11 +61533,6 @@
         "security": [
           {
             "userAuth": [
-              "idn:app-roles:manage"
-            ]
-          },
-          {
-            "applicationAuth": [
               "idn:app-roles:manage"
             ]
           }
@@ -61710,11 +61699,6 @@
             "userAuth": [
               "idn:app-roles:manage"
             ]
-          },
-          {
-            "applicationAuth": [
-              "idn:app-roles:manage"
-            ]
           }
         ],
         "tags": [
@@ -61788,11 +61772,6 @@
             "userAuth": [
               "idn:app-roles:manage"
             ]
-          },
-          {
-            "applicationAuth": [
-              "idn:app-roles:manage"
-            ]
           }
         ],
         "parameters": [
@@ -61852,12 +61831,6 @@
         "security": [
           {
             "userAuth": [
-              "idn:app-roles:read",
-              "idn:app-roles:manage"
-            ]
-          },
-          {
-            "applicationAuth": [
               "idn:app-roles:read",
               "idn:app-roles:manage"
             ]
@@ -61956,12 +61929,6 @@
               "idn:app-roles:read",
               "idn:app-roles:manage"
             ]
-          },
-          {
-            "applicationAuth": [
-              "idn:app-roles:read",
-              "idn:app-roles:manage"
-            ]
           }
         ],
         "description": "This API returns the list of source apps available for access request.",
@@ -62053,11 +62020,6 @@
         "security": [
           {
             "userAuth": [
-              "idn:app-roles:manage"
-            ]
-          },
-          {
-            "applicationAuth": [
               "idn:app-roles:manage"
             ]
           }
@@ -62232,11 +62194,6 @@
             "userAuth": [
               "idn:app-roles:manage"
             ]
-          },
-          {
-            "applicationAuth": [
-              "idn:app-roles:manage"
-            ]
           }
         ],
         "description": "This API returns the list of access profiles for the specified source app",
@@ -62324,11 +62281,6 @@
         "security": [
           {
             "userAuth": [
-              "idn:app-roles:manage"
-            ]
-          },
-          {
-            "applicationAuth": [
               "idn:app-roles:manage"
             ]
           }
@@ -62517,12 +62469,6 @@
               "idn:app-roles:read",
               "idn:app-roles:manage"
             ]
-          },
-          {
-            "applicationAuth": [
-              "idn:app-roles:read",
-              "idn:app-roles:manage"
-            ]
           }
         ],
         "description": "This API returns the list of available accounts for the specified user app. The user app needs to belong lo logged in user.",
@@ -62598,12 +62544,6 @@
         "security": [
           {
             "userAuth": [
-              "idn:app-roles:read",
-              "idn:app-roles:manage"
-            ]
-          },
-          {
-            "applicationAuth": [
               "idn:app-roles:read",
               "idn:app-roles:manage"
             ]
@@ -62686,11 +62626,6 @@
         "security": [
           {
             "userAuth": [
-              "idn:app-roles:manage"
-            ]
-          },
-          {
-            "applicationAuth": [
               "idn:app-roles:manage"
             ]
           }
