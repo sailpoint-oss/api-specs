@@ -33,6 +33,14 @@ paths:
     $ref: ./paths/machine-identities-v1.yaml
   /machine-identities/v1/{id}:
     $ref: ./paths/machine-identities-v1-by-id.yaml
+  /machine-identities/v2:
+    $ref: ./paths/machine-identities-v2.yaml
+  /machine-identities/v2/{id}:
+    $ref: ./paths/machine-identities-v2-by-id.yaml
+  /sources/v1/{sourceId}/resources/{resourceId}/correlation-configs:
+    $ref: ./paths/sources-v1-by-sourceid-ownership-correlation-configs.yaml
+  /sources/v1/{sourceId}/resources/{resourceId}/correlation-configs/{configId}:
+    $ref: ./paths/sources-v1-by-sourceid-ownership-correlation-configs-by-configid.yaml
   /sources/v1/{sourceId}/aggregate-agents:
     $ref: ./paths/sources-v1-by-sourceid-aggregate-agents.yaml
   /machine-identity-user-entitlements/v1:
