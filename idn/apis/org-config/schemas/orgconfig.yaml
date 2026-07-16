@@ -15,6 +15,7 @@ properties:
   lcsChangeHonorsSourceEnableFeature:
     type: boolean
     description: Flag to determine whether the LCS_CHANGE_HONORS_SOURCE_ENABLE_FEATURE flag is enabled for the current org.
+    default: false
     example: false
   armCustomerId:
     type: string
@@ -51,7 +52,14 @@ properties:
   iaiEnableCertificationRecommendations:
     type: boolean
     description: Flag to determine whether IAI Certification Recommendations are enabled for the current org
+    default: true
     example: true
+  aiAgentDeleteRequestEnabled:
+    type: boolean
+    nullable: true
+    description: Org opt-in flag that enables AI Agent delete-at-source lifecycle requests for the current org.
+    default: false
+    example: false
   sodReportConfigs:
     type: array
     items:
