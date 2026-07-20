@@ -52,7 +52,7 @@ tags:
       identity is a member of the HR department. 
 
       If an administrator has used [Update Public Identity
-      Config](https://developer.sailpoint.com/docs/api/v2025/update-public-identity-config/) to make the "department"
+      Config](https://developer.sailpoint.com/docs/api/update-public-identity-config-v-1) to make the "department"
       attribute public, the approver can see the department and make a decision without requesting any more information.
 paths:
   /public-identities-config/v1:

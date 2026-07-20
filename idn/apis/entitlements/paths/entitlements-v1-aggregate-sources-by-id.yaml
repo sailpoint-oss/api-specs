@@ -6,7 +6,7 @@ post:
   operationId: importEntitlementsBySourceV1
   description: >-
     Starts an entitlement aggregation on the specified source. Though this endpoint has been deprecated, you can find
-    its Beta equivalent [here](https://developer.sailpoint.com/docs/api/beta/import-entitlements).
+    its Beta equivalent [here](https://developer.sailpoint.com/docs/api/import-entitlements-v-1).
 
 
     If the target source is a direct connection, then the request body must be empty. You will also need to make sure

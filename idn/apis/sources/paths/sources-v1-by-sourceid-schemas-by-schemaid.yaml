@@ -142,7 +142,7 @@ patch:
     - `isEntitlement: true`
 
     - Must define a schema for the group and [add it to the
-    source](https://developer.sailpoint.com/idn/api/v3/create-source-schema) before updating the `isGroup` flag.  For
+    source](https://developer.sailpoint.com/docs/api/create-source-schema-v-1) before updating the `isGroup` flag.  For
     example, here is the `group` account attribute referencing a schema that defines the group:
 
     ```json

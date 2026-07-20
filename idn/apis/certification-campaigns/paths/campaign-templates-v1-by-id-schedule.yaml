@@ -25,7 +25,7 @@ get:
     '200':
       description: >-
         Current schedule for the campaign template. See the [Set Campaign Template Schedule endpoint
-        documentation](https://developer.sailpoint.com/docs/api/v3/set-campaign-template-schedule) for more examples.
+        documentation](https://developer.sailpoint.com/docs/api/set-campaign-template-schedule-v-1) for more examples.
       content:
         application/json:
           schema:

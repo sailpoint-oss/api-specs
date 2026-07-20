@@ -39,10 +39,10 @@ post:
     a new access request. This can
 
     be accomplished by using the [List Access Request
-    Status](https://developer.sailpoint.com/idn/api/v3/list-access-request-status) or the [Pending Access Request
-    Approvals](https://developer.sailpoint.com/idn/api/v3/list-pending-approvals) APIs. You can also
+    Status](https://developer.sailpoint.com/docs/api/list-access-request-status-v-1) or the [Pending Access Request
+    Approvals](https://developer.sailpoint.com/docs/api/list-pending-approvals-v-1) APIs. You can also
 
-    use the [Search API](https://developer.sailpoint.com/idn/api/v3/search) to check the existing access items an
+    use the [Search API](https://developer.sailpoint.com/docs/api/search) to check the existing access items an
     identity has before submitting
 
     an access request to ensure that you aren't requesting access that is already granted. If you use this API to
@@ -61,7 +61,7 @@ post:
     * Can be requested for multiple identities in a single request.
 
     * Supports self request and request on behalf of other users. Refer to the [Get Access Request
-    Configuration](https://developer.sailpoint.com/idn/api/v3/get-access-request-config) endpoint for request
+    Configuration](https://developer.sailpoint.com/docs/api/get-access-request-config-v-2) endpoint for request
     configuration options.  
 
     * Allows any authenticated token (except API) to call this endpoint to request to grant access to themselves.

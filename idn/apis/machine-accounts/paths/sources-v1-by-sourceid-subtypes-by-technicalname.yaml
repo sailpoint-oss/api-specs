@@ -4,7 +4,7 @@ get:
   deprecated: true
   x-deprecated-description: >
     This API has been deprecated, please refer to [Retrieve all
-    subtypes](https://developer.sailpoint.com/docs/api/v2026/list-source-subtypes) for the latest API.
+    subtypes](https://developer.sailpoint.com/docs/api/list-source-subtypes-v-1) for the latest API.
   operationId: getMachineAccountSubtypeByTechnicalNameV1
   tags:
   - Machine Accounts
@@ -80,7 +80,7 @@ patch:
   deprecated: true
   x-deprecated-description: >
     This API has been deprecated, please refer to [Patch subtype by
-    ID](https://developer.sailpoint.com/docs/api/v2026/patch-machine-account-subtype) for the latest API.
+    ID](https://developer.sailpoint.com/docs/api/patch-machine-account-subtype-v-1) for the latest API.
   operationId: patchMachineAccountSubtypeByTechnicalNameV1
   tags:
   - Machine Accounts
@@ -167,7 +167,7 @@ delete:
   deprecated: true
   x-deprecated-description: >
     This API has been deprecated, please refer to [Delete subtype by
-    ID](https://developer.sailpoint.com/docs/api/v2026/delete-machine-account-subtype) for the latest API.
+    ID](https://developer.sailpoint.com/docs/api/delete-machine-account-subtype-v-1) for the latest API.
   operationId: deleteMachineAccountSubtypeByTechnicalNameV1
   tags:
   - Machine Accounts
