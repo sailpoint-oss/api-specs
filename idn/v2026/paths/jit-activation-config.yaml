@@ -26,6 +26,14 @@ get:
       description: |
         Configuration kind to read. Only **policy** (JIT activation policy) is supported today.
       example: policy
+    - name: X-SailPoint-Experimental
+      in: header
+      description: Use this header to enable this experimental API.
+      example: true
+      schema:
+        type: string
+        default: true
+      required: true
   responses:
     '200':
       description: Current JIT activation policy configuration, including limits, entitlements in scope, and notification-related fields.
@@ -73,6 +81,14 @@ patch:
       description: |
         Configuration kind to update. Only **policy** (JIT activation policy) is supported today.
       example: policy
+    - name: X-SailPoint-Experimental
+      in: header
+      description: Use this header to enable this experimental API.
+      example: true
+      schema:
+        type: string
+        default: true
+      required: true
   requestBody:
     required: true
     content:

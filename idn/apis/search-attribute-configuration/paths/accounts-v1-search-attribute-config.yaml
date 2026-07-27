@@ -43,15 +43,6 @@ post:
       $ref: ../../shared/responses/429.yaml
     '500':
       $ref: ../../shared/responses/500.yaml
-  parameters:
-  - name: X-SailPoint-Experimental
-    in: header
-    description: Use this header to enable this experimental API.
-    example: true
-    schema:
-      type: string
-      default: true
-    required: true
 get:
   operationId: getSearchAttributeConfigV1
   tags:
@@ -67,14 +58,6 @@ get:
   parameters:
   - $ref: ../../shared/parameters/limit.yaml
   - $ref: ../../shared/parameters/offset.yaml
-  - name: X-SailPoint-Experimental
-    in: header
-    description: Use this header to enable this experimental API.
-    example: true
-    schema:
-      type: string
-      default: true
-    required: true
   responses:
     '200':
       description: List of attribute configurations in ISC.

@@ -7,6 +7,15 @@ post:
     Approve multiple entitlement recommendations in a single request. Each item in the request must include the
     recommendation ID and, depending on the record type, either an approved description (SED items) or an approved
     privilege level (privilege items). Returns a per-item result indicating success or failure.
+  parameters:
+  - name: X-SailPoint-Experimental
+    in: header
+    description: Use this header to enable this experimental API.
+    example: true
+    schema:
+      type: string
+      default: true
+    required: true
   requestBody:
     description: The list of recommendation items to approve.
     content:

@@ -24,6 +24,14 @@ get:
     description: Source ID
     example: ef38f94347e94562b5bb8424a56397d8
     x-sailpoint-resource-operation-id: listSourcesV1
+  - name: X-SailPoint-Experimental
+    in: header
+    description: Use this header to enable this experimental API.
+    example: true
+    schema:
+      type: string
+      default: true
+    required: true
   responses:
     '200':
       description: A Config Object
@@ -69,6 +77,14 @@ put:
     description: Source ID.
     example: ef38f94347e94562b5bb8424a56397d8
     x-sailpoint-resource-operation-id: listSourcesV1
+  - name: X-SailPoint-Experimental
+    in: header
+    description: Use this header to enable this experimental API.
+    example: true
+    schema:
+      type: string
+      default: true
+    required: true
   requestBody:
     required: true
     content:
@@ -120,6 +136,14 @@ delete:
     description: Source ID.
     example: ef38f94347e94562b5bb8424a56397d8
     x-sailpoint-resource-operation-id: listSourcesV1
+  - name: X-SailPoint-Experimental
+    in: header
+    description: Use this header to enable this experimental API.
+    example: true
+    schema:
+      type: string
+      default: true
+    required: true
   responses:
     '200':
       $ref: ../../shared/responses/204.yaml

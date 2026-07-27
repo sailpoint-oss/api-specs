@@ -86,14 +86,6 @@ get:
       type: string
     description: The Source id
     example: 8c190e6787aa4ed9a90bd9d5344523fb
-  - name: X-SailPoint-Experimental
-    in: header
-    description: Use this header to enable this experimental API.
-    example: true
-    schema:
-      type: string
-      default: true
-    required: true
 put:
   security:
   - userAuth:
@@ -179,11 +171,3 @@ put:
       type: string
     description: The Source id
     example: 8c190e6787aa4ed9a90bd9d5344523fb
-  - name: X-SailPoint-Experimental
-    in: header
-    description: Use this header to enable this experimental API.
-    example: true
-    schema:
-      type: string
-      default: true
-    required: true
