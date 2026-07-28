@@ -17,6 +17,7 @@ enum:
   - EDIT_GROUP
   - UNLOCK
   - CHANGE_PASSWORD
+  - CREATE_MACHINE_ACCOUNT
 example: CREATE
 description: >-
   The type of provisioning policy usage. 
@@ -39,4 +40,7 @@ description: >-
   DISABLE - This usage type relates to 'Disable Account Profile', the provisioning template for the account to be
   disabled. For example, this could be used when a leaver is removed temporarily from a source.
   
+  CREATE_MACHINE_ACCOUNT - This usage type can be used to create the provisioning template for a source subtype which will be
+  used in creating a machine account.
+
   You can use these usage types for all your provisioning policy needs. 

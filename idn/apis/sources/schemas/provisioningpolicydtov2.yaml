@@ -22,7 +22,7 @@ properties:
     description: the description of the provisioning policy
     example: this provisioning policy creates access based on an identity going inactive
   usageType:
-    $ref: ./usagetype.yaml
+    $ref: ./usagetypev2.yaml
   fields:
     type: array
     items:
