@@ -9,12 +9,15 @@ get:
     response.
   security:
   - userAuth:
-    - sp:workflow:read
+    - sp:workflow-execution:read
     - sp:workflow:manage
+  x-sailpoint-userLevels:
+  - ORG_ADMIN
   parameters:
   - name: id
     in: path
     description: Workflow execution ID.
+    x-sailpoint-resource-operation-id: getWorkflowExecutionsV1
     required: true
     style: simple
     explode: false

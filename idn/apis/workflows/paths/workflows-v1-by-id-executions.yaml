@@ -25,7 +25,7 @@ get:
   deprecated: true
   security:
   - userAuth:
-    - sp:workflow:read
+    - sp:workflow-execution:read
     - sp:workflow:manage
   x-sailpoint-userLevels:
   - ORG_ADMIN

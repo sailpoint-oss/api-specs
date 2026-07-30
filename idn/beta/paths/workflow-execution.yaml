@@ -8,7 +8,7 @@ get:
     - ORG_ADMIN
   security:
     - userAuth:
-        - sp:workflow:read
+        - sp:workflow-execution:read
         - sp:workflow:manage
   parameters:
     - name: id

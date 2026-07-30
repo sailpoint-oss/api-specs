@@ -1,5 +1,5 @@
 get:
-  operationId: getWorkflowExecutionHistoryV2
+  operationId: getWorkflowExecutionHistoryV2ForV1
   tags:
   - Workflows
   summary: Get updated workflow execution history
@@ -9,7 +9,7 @@ get:
     that has been archived, you will receive a 404 Not Found.
   security:
   - userAuth:
-    - sp:workflow:read
+    - sp:workflow-execution:read
     - sp:workflow:manage
   x-sailpoint-userLevels:
   - ORG_ADMIN
