@@ -28721,7 +28721,7 @@ paths:
       deprecated: true
       security:
         - userAuth:
-            - sp:workflow:read
+            - sp:workflow-execution:read
             - sp:workflow:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
@@ -28786,7 +28786,7 @@ paths:
         - ORG_ADMIN
       security:
         - userAuth:
-            - sp:workflow:read
+            - sp:workflow-execution:read
             - sp:workflow:manage
       parameters:
         - name: id
@@ -28829,7 +28829,7 @@ paths:
       deprecated: true
       security:
         - userAuth:
-            - sp:workflow:read
+            - sp:workflow-execution:read
             - sp:workflow:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
@@ -28846,6 +28846,8 @@ paths:
           schema:
             type: string
             example: c17bea3a-574d-453c-9e04-4365fbf5af0b
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
       responses:
         '200':
           description: List of workflow execution events for the given workflow execution

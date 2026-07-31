@@ -2015,19 +2015,6 @@
           "ORG_ADMIN",
           "SOURCE_ADMIN",
           "SOURCE_SUBADMIN"
-        ],
-        "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          }
         ]
       }
     },
@@ -8400,20 +8387,7 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        },
-        "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          }
-        ]
+        }
       }
     },
     "/auth-profiles/v1/{id}": {
@@ -8463,17 +8437,6 @@
         },
         "parameters": [
           {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          },
-          {
             "name": "id",
             "in": "path",
             "description": "ID of the Auth Profile to patch.",
@@ -8504,17 +8467,6 @@
               "type": "string",
               "example": "2c91808a7813090a017814121919ecca"
             }
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "requestBody": {
@@ -12698,6 +12650,17 @@
             "description": "Source ID.",
             "example": "ef38f94347e94562b5bb8424a56397d8",
             "x-sailpoint-resource-operation-id": "listSourcesV1"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -12775,6 +12738,17 @@
             "description": "Source ID.",
             "example": "ef38f94347e94562b5bb8424a56397d8",
             "x-sailpoint-resource-operation-id": "listSourcesV1"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -12836,6 +12810,17 @@
             "description": "Source ID.",
             "example": "ef38f94347e94562b5bb8424a56397d8",
             "x-sailpoint-resource-operation-id": "listSourcesV1"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -25596,6 +25581,19 @@
         ],
         "summary": "Create segment",
         "description": "This API creates a segment. \n>**Note:** Segment definitions may take time to propagate to all identities.",
+        "parameters": [
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -25669,6 +25667,17 @@
             "description": "Source ID.",
             "example": "ef38f94347e94562b5bb8424a56397d8",
             "x-sailpoint-resource-operation-id": "listSourcesV1"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -35068,17 +35077,6 @@
             "x-sailpoint-resource-operation-id": "listIdentitiesV1",
             "description": "Identity Id",
             "example": "ef38f94347e94562b5bb8424a56397d8"
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "responses": {
@@ -39113,6 +39111,17 @@
             },
             "description": "Configuration kind to read. Only **policy** (JIT activation policy) is supported today.\n",
             "example": "policy"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -39177,6 +39186,17 @@
             },
             "description": "Configuration kind to update. Only **policy** (JIT activation policy) is supported today.\n",
             "example": "policy"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
           }
         ],
         "requestBody": {
@@ -39244,6 +39264,19 @@
         "x-sailpoint-userLevels": [
           "USER"
         ],
+        "parameters": [
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -39301,6 +39334,19 @@
         ],
         "x-sailpoint-userLevels": [
           "USER"
+        ],
+        "parameters": [
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
         ],
         "requestBody": {
           "required": true,
@@ -39362,6 +39408,19 @@
         ],
         "x-sailpoint-userLevels": [
           "USER"
+        ],
+        "parameters": [
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
         ],
         "requestBody": {
           "required": true,
@@ -40638,6 +40697,17 @@
           },
           {
             "$ref": "#/components/parameters/classificationmode"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -40990,6 +41060,17 @@
             "description": "Source ID",
             "example": "ef38f94347e94562b5bb8424a56397d8",
             "x-sailpoint-resource-operation-id": "listSourcesV1"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -41063,6 +41144,17 @@
             "description": "Source ID.",
             "example": "ef38f94347e94562b5bb8424a56397d8",
             "x-sailpoint-resource-operation-id": "listSourcesV1"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
           }
         ],
         "requestBody": {
@@ -41141,6 +41233,17 @@
             "description": "source ID.",
             "example": "ef38f94347e94562b5bb8424a56397d8",
             "x-sailpoint-resource-operation-id": "listSourcesV1"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -43063,6 +43166,17 @@
             "description": "Source ID",
             "example": "ef38f94347e94562b5bb8424a56397d8",
             "x-sailpoint-resource-operation-id": "listSourcesV1"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -43131,6 +43245,17 @@
             "description": "Source ID.",
             "example": "ef38f94347e94562b5bb8424a56397d8",
             "x-sailpoint-resource-operation-id": "listSourcesV1"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
           }
         ],
         "requestBody": {
@@ -43209,6 +43334,17 @@
             "description": "Source ID.",
             "example": "ef38f94347e94562b5bb8424a56397d8",
             "x-sailpoint-resource-operation-id": "listSourcesV1"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -51500,17 +51636,6 @@
         },
         "parameters": [
           {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          },
-          {
             "$ref": "#/components/parameters/limit50"
           },
           {
@@ -57167,17 +57292,6 @@
             "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **name, attribute, value, created, modified**",
             "example": "name,-modified",
             "required": false
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "responses": {
@@ -59286,20 +59400,7 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        },
-        "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          }
-        ]
+        }
       },
       "get": {
         "operationId": "getSearchAttributeConfigV1",
@@ -59325,17 +59426,6 @@
           },
           {
             "$ref": "#/components/parameters/offset"
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "responses": {
@@ -59399,17 +59489,6 @@
               "type": "string",
               "example": "newMailAttribute"
             }
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "responses": {
@@ -59470,17 +59549,6 @@
               "type": "string",
               "example": "newMailAttribute"
             }
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "responses": {
@@ -59531,17 +59599,6 @@
               "type": "string",
               "example": "promotedMailAttribute"
             }
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "requestBody": {
@@ -68949,17 +69006,6 @@
             },
             "description": "The Source id",
             "example": "8c190e6787aa4ed9a90bd9d5344523fb"
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ]
       },
@@ -69080,17 +69126,6 @@
             },
             "description": "The Source id",
             "example": "8c190e6787aa4ed9a90bd9d5344523fb"
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ]
       }
@@ -70318,6 +70353,17 @@
           },
           {
             "$ref": "#/components/parameters/limit"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -70391,6 +70437,17 @@
           },
           {
             "$ref": "#/components/parameters/limit"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -70464,6 +70521,19 @@
         "operationId": "approveBulkEntitlementRecommendationsV1",
         "summary": "Bulk approve entitlement recommendations",
         "description": "Approve multiple entitlement recommendations in a single request. Each item in the request must include the recommendation ID and, depending on the record type, either an approved description (SED items) or an approved privilege level (privilege items). Returns a per-item result indicating success or failure.",
+        "parameters": [
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ],
         "requestBody": {
           "description": "The list of recommendation items to approve.",
           "content": {
@@ -70532,6 +70602,19 @@
         "operationId": "submitEntitlementRecommendationsAssignmentV1",
         "summary": "Assign entitlement recommendations for review",
         "description": "Assign a set of entitlement recommendation records to a reviewer. The assignee can be a specific identity, a governance group, or a role-based assignee such as source owner or entitlement owner. Returns a batch ID that can be used to track the assignment.",
+        "parameters": [
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ],
         "requestBody": {
           "description": "The recommendation IDs and the target assignee.",
           "content": {
@@ -70609,6 +70692,17 @@
             "required": true,
             "description": "The unique identifier of the entitlement recommendation to update.",
             "example": "79db50d4-723c-4aa0-a824-83c2205d82d1"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
           }
         ],
         "requestBody": {
@@ -76340,7 +76434,7 @@
         "security": [
           {
             "userAuth": [
-              "sp:workflow:read",
+              "sp:workflow-execution:read",
               "sp:workflow:manage"
             ]
           }
@@ -76427,16 +76521,20 @@
         "security": [
           {
             "userAuth": [
-              "sp:workflow:read",
+              "sp:workflow-execution:read",
               "sp:workflow:manage"
             ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
         ],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "description": "Workflow execution ID.",
+            "x-sailpoint-resource-operation-id": "getWorkflowExecutionsV1",
             "required": true,
             "style": "simple",
             "explode": false,
@@ -76491,16 +76589,22 @@
         "security": [
           {
             "userAuth": [
-              "sp:workflow:read",
+              "sp:workflow-execution:read",
               "sp:workflow:manage"
             ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_SUBADMIN",
+          "SOURCE_ADMIN"
         ],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "description": "Id of the workflow execution",
+            "x-sailpoint-resource-operation-id": "getWorkflowExecutionV1",
             "required": true,
             "style": "simple",
             "explode": false,
@@ -76508,6 +76612,12 @@
               "type": "string",
               "example": "c17bea3a-574d-453c-9e04-4365fbf5af0b"
             }
+          },
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
           }
         ],
         "responses": {
@@ -76547,7 +76657,7 @@
     },
     "/workflow-executions/v1/{id}/history-v2": {
       "get": {
-        "operationId": "getWorkflowExecutionHistoryV2",
+        "operationId": "getWorkflowExecutionHistoryV2ForV1",
         "tags": [
           "Workflows"
         ],
@@ -76556,7 +76666,7 @@
         "security": [
           {
             "userAuth": [
-              "sp:workflow:read",
+              "sp:workflow-execution:read",
               "sp:workflow:manage"
             ]
           }
@@ -99880,6 +99990,23 @@
           }
         }
       },
+      "intelprivilegelevel": {
+        "type": "object",
+        "description": "Effective privilege level for the privileged access item. Set to HIGH, MEDIUM, or LOW based on\nthe tenant's privilege classification configuration, including connector criteria, custom criteria,\nmanual overrides, or a single configured privilege level. Use NONE when no privilege level is\nassigned. Entitlements previously marked with privileged=true are classified as HIGH.\n",
+        "properties": {
+          "effective": {
+            "type": "string",
+            "description": "Effective privilege level for the privileged access item.\n",
+            "enum": [
+              "HIGH",
+              "MEDIUM",
+              "LOW",
+              "NONE"
+            ],
+            "example": "HIGH"
+          }
+        }
+      },
       "intelprivilegedaccessitemwire": {
         "type": "object",
         "required": [
@@ -99892,6 +100019,10 @@
             "type": "boolean",
             "description": "True when this item is classified as privileged access for the identity.",
             "example": true
+          },
+          "privilegeLevel": {
+            "description": "Effective privilege classification for the privileged access item.",
+            "$ref": "#/components/schemas/intelprivilegelevel"
           },
           "id": {
             "type": "string",
@@ -116170,11 +116301,10 @@
           "UPDATE_IDENTITY",
           "EDIT_GROUP",
           "UNLOCK",
-          "CHANGE_PASSWORD",
-          "CREATE_MACHINE_ACCOUNT"
+          "CHANGE_PASSWORD"
         ],
         "example": "CREATE",
-        "description": "The type of provisioning policy usage. \nIn IdentityNow, a source can support various provisioning operations. For example, when a joiner is added to a source, this may trigger both CREATE and UPDATE provisioning operations.  Each usage type is considered a provisioning policy.  A source can have any number of these provisioning policies defined. \nThese are the common usage types: \nCREATE - This usage type relates to 'Create Account Profile', the provisioning template for the account to be created. For example, this would be used for a joiner on a source.  \nUPDATE - This usage type relates to 'Update Account Profile', the provisioning template for the 'Update' connector operations. For example, this would be used for an attribute sync on a source.\nENABLE - This usage type relates to 'Enable Account Profile', the provisioning template for the account to be enabled. For example, this could be used for a joiner on a source once the joiner's account is created. \nDISABLE - This usage type relates to 'Disable Account Profile', the provisioning template for the account to be disabled. For example, this could be used when a leaver is removed temporarily from a source.\nCREATE_MACHINE_ACCOUNT - This usage type can be used to create the provisioning template for a source subtype which will be used in creating a machine account.\nYou can use these usage types for all your provisioning policy needs. "
+        "description": "The type of provisioning policy usage. \nIn IdentityNow, a source can support various provisioning operations. For example, when a joiner is added to a source, this may trigger both CREATE and UPDATE provisioning operations.  Each usage type is considered a provisioning policy.  A source can have any number of these provisioning policies defined. \nThese are the common usage types: \nCREATE - This usage type relates to 'Create Account Profile', the provisioning template for the account to be created. For example, this would be used for a joiner on a source.  \nUPDATE - This usage type relates to 'Update Account Profile', the provisioning template for the 'Update' connector operations. For example, this would be used for an attribute sync on a source.\nENABLE - This usage type relates to 'Enable Account Profile', the provisioning template for the account to be enabled. For example, this could be used for a joiner on a source once the joiner's account is created. \nDISABLE - This usage type relates to 'Disable Account Profile', the provisioning template for the account to be disabled. For example, this could be used when a leaver is removed temporarily from a source.\nYou can use these usage types for all your provisioning policy needs. "
       },
       "fielddetailsdto": {
         "type": "object",
@@ -116262,6 +116392,31 @@
             }
           }
         }
+      },
+      "usagetypev2": {
+        "type": "string",
+        "nullable": false,
+        "enum": [
+          "CREATE",
+          "UPDATE",
+          "ENABLE",
+          "DISABLE",
+          "DELETE",
+          "ASSIGN",
+          "UNASSIGN",
+          "CREATE_GROUP",
+          "UPDATE_GROUP",
+          "DELETE_GROUP",
+          "REGISTER",
+          "CREATE_IDENTITY",
+          "UPDATE_IDENTITY",
+          "EDIT_GROUP",
+          "UNLOCK",
+          "CHANGE_PASSWORD",
+          "CREATE_MACHINE_ACCOUNT"
+        ],
+        "example": "CREATE",
+        "description": "The type of provisioning policy usage. \nIn IdentityNow, a source can support various provisioning operations. For example, when a joiner is added to a source, this may trigger both CREATE and UPDATE provisioning operations.  Each usage type is considered a provisioning policy.  A source can have any number of these provisioning policies defined. \nThese are the common usage types: \nCREATE - This usage type relates to 'Create Account Profile', the provisioning template for the account to be created. For example, this would be used for a joiner on a source.  \nUPDATE - This usage type relates to 'Update Account Profile', the provisioning template for the 'Update' connector operations. For example, this would be used for an attribute sync on a source.\nENABLE - This usage type relates to 'Enable Account Profile', the provisioning template for the account to be enabled. For example, this could be used for a joiner on a source once the joiner's account is created. \nDISABLE - This usage type relates to 'Disable Account Profile', the provisioning template for the account to be disabled. For example, this could be used when a leaver is removed temporarily from a source.\nCREATE_MACHINE_ACCOUNT - This usage type can be used to create the provisioning template for a source subtype which will be used in creating a machine account.\nYou can use these usage types for all your provisioning policy needs. "
       },
       "fielddetailsdtov2": {
         "type": "object",
@@ -116351,7 +116506,7 @@
             "example": "this provisioning policy creates access based on an identity going inactive"
           },
           "usageType": {
-            "$ref": "#/components/schemas/usagetype"
+            "$ref": "#/components/schemas/usagetypev2"
           },
           "fields": {
             "type": "array",

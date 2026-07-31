@@ -27579,7 +27579,7 @@
         "security": [
           {
             "userAuth": [
-              "sp:workflow:read",
+              "sp:workflow-execution:read",
               "sp:workflow:manage"
             ]
           }
@@ -27669,7 +27669,7 @@
         "security": [
           {
             "userAuth": [
-              "sp:workflow:read",
+              "sp:workflow-execution:read",
               "sp:workflow:manage"
             ]
           }
@@ -27735,7 +27735,7 @@
         "security": [
           {
             "userAuth": [
-              "sp:workflow:read",
+              "sp:workflow-execution:read",
               "sp:workflow:manage"
             ]
           }
@@ -27758,6 +27758,12 @@
               "type": "string",
               "example": "c17bea3a-574d-453c-9e04-4365fbf5af0b"
             }
+          },
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
           }
         ],
         "responses": {

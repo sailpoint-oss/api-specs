@@ -9834,6 +9834,15 @@ paths:
       description: |-
         This API creates a segment. 
         >**Note:** Segment definitions may take time to propagate to all identities.
+      parameters:
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
       requestBody:
         required: true
         content:
@@ -15190,6 +15199,14 @@ paths:
           x-sailpoint-resource-operation-id: listPasswordPolicies
           description: The ID of password policy to retrieve.
           example: ff808081838d9e9d01838da6a03e0005
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
       responses:
         '200':
           description: Reference to the password policy.
@@ -15261,6 +15278,14 @@ paths:
           x-sailpoint-resource-operation-id: listPasswordPolicies
           description: The ID of password policy to update.
           example: ff808081838d9e9d01838da6a03e0007
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
       requestBody:
         required: true
         content:
@@ -15370,6 +15395,14 @@ paths:
           x-sailpoint-resource-operation-id: listPasswordPolicies
           description: The ID of password policy to delete.
           example: ff808081838d9e9d01838da6a03e0002
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
       responses:
         '204':
           $ref: '#/components/responses/204'
@@ -15397,6 +15430,15 @@ paths:
             - idn:password-policy:write
       x-sailpoint-userLevels:
         - ORG_ADMIN
+      parameters:
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
       requestBody:
         required: true
         content:
@@ -15471,6 +15513,14 @@ paths:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
         - $ref: '#/components/parameters/count'
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
       responses:
         '200':
           description: List of all Password Policies.
@@ -16035,14 +16085,6 @@ paths:
         - ORG_ADMIN
         - USER
       parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
         - in: path
           name: identityId
           schema:
@@ -25158,7 +25200,7 @@ paths:
       deprecated: true
       security:
         - userAuth:
-            - sp:workflow:read
+            - sp:workflow-execution:read
             - sp:workflow:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
@@ -25221,12 +25263,15 @@ paths:
       description: Use this API to get a single workflow execution. Workflow executions are available for up to 90 days before being archived. If you attempt to access a workflow execution that has been archived, you will receive a "404 Not Found" response.
       security:
         - userAuth:
-            - sp:workflow:read
+            - sp:workflow-execution:read
             - sp:workflow:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
       parameters:
         - name: id
           in: path
           description: Workflow execution ID.
+          x-sailpoint-resource-operation-id: getWorkflowExecutions
           required: true
           style: simple
           explode: false
@@ -25262,18 +25307,25 @@ paths:
       description: Get a detailed history of a single workflow execution.  Workflow executions are available for up to 90 days before being archived.  If you attempt to access a workflow execution that has been archived, you will receive a 404 Not Found.
       security:
         - userAuth:
-            - sp:workflow:read
+            - sp:workflow-execution:read
             - sp:workflow:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_SUBADMIN
+        - SOURCE_ADMIN
       parameters:
         - name: id
           in: path
           description: Id of the workflow execution
+          x-sailpoint-resource-operation-id: getWorkflowExecution
           required: true
           style: simple
           explode: false
           schema:
             type: string
             example: c17bea3a-574d-453c-9e04-4365fbf5af0b
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
       responses:
         '200':
           description: List of workflow execution events for the given workflow execution
@@ -25917,15 +25969,6 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
     get:
       operationId: getSearchAttributeConfig
       tags:
@@ -25941,14 +25984,6 @@ paths:
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '200':
           description: List of attribute configurations in ISC.
@@ -25989,14 +26024,6 @@ paths:
           schema:
             type: string
             example: newMailAttribute
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '200':
           description: Specific attribute configuration in IdentityNow.
@@ -26035,14 +26062,6 @@ paths:
           schema:
             type: string
             example: newMailAttribute
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '204':
           $ref: '#/components/responses/204'
@@ -26078,14 +26097,6 @@ paths:
           schema:
             type: string
             example: promotedMailAttribute
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       requestBody:
         content:
           application/json-patch+json:
@@ -26594,15 +26605,6 @@ paths:
         - ORG_ADMIN
         - SOURCE_ADMIN
         - SOURCE_SUBADMIN
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
   /ai-access-request-recommendations:
     get:
       operationId: getAccessRequestRecommendations
@@ -27241,15 +27243,6 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
   /auth-profiles/{id}:
     get:
       operationId: getProfileConfig
@@ -27280,14 +27273,6 @@ paths:
         '500':
           $ref: '#/components/responses/500'
       parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
         - name: id
           in: path
           description: ID of the Auth Profile to patch.
@@ -27313,14 +27298,6 @@ paths:
           schema:
             type: string
             example: 2c91808a7813090a017814121919ecca
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       requestBody:
         content:
           application/json-patch+json:
@@ -30921,6 +30898,14 @@ paths:
           description: Source ID
           example: ef38f94347e94562b5bb8424a56397d8
           x-sailpoint-resource-operation-id: listSources
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
       responses:
         '200':
           description: A Config Object
@@ -30964,6 +30949,14 @@ paths:
           description: Source ID.
           example: ef38f94347e94562b5bb8424a56397d8
           x-sailpoint-resource-operation-id: listSources
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
       requestBody:
         required: true
         content:
@@ -31015,6 +31008,14 @@ paths:
           description: Source ID.
           example: ef38f94347e94562b5bb8424a56397d8
           x-sailpoint-resource-operation-id: listSources
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
       responses:
         '200':
           $ref: '#/components/responses/204'
@@ -31059,6 +31060,14 @@ paths:
           description: Source ID
           example: ef38f94347e94562b5bb8424a56397d8
           x-sailpoint-resource-operation-id: listSources
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
       responses:
         '200':
           description: An array of Attribute Mapping Objects
@@ -31108,6 +31117,14 @@ paths:
           description: Source ID.
           example: ef38f94347e94562b5bb8424a56397d8
           x-sailpoint-resource-operation-id: listSources
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
       requestBody:
         required: true
         content:
@@ -31159,6 +31176,14 @@ paths:
           description: source ID.
           example: ef38f94347e94562b5bb8424a56397d8
           x-sailpoint-resource-operation-id: listSources
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
       responses:
         '200':
           $ref: '#/components/responses/204'
@@ -31255,6 +31280,14 @@ paths:
           x-sailpoint-resource-operation-id: listAccounts
           example: ef38f94347e94562b5bb8424a56397d8
         - $ref: '#/components/parameters/ClassificationMode'
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
       responses:
         '200':
           description: Account classified as Machine.
@@ -31837,15 +31870,6 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
     patch:
       operationId: patchOrgConfig
       tags:
@@ -31889,15 +31913,6 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
   /org-config/valid-time-zones:
     get:
       operationId: getValidTimeZones
@@ -31943,14 +31958,6 @@ paths:
         '500':
           $ref: '#/components/responses/500'
       parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
         - $ref: '#/components/parameters/limit50'
         - $ref: '#/components/parameters/offset'
         - $ref: '#/components/parameters/count'
@@ -35601,14 +35608,6 @@ paths:
             Sorting is supported for the following fields: **name, attribute, value, created, modified**
           example: name,-modified
           required: false
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '200':
           description: List of Entitlements
@@ -36713,14 +36712,6 @@ paths:
             type: string
           description: The Source id
           example: 8c190e6787aa4ed9a90bd9d5344523fb
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
     put:
       security:
         - userAuth:
@@ -36798,14 +36789,6 @@ paths:
             type: string
           description: The Source id
           example: 8c190e6787aa4ed9a90bd9d5344523fb
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
   /sources/{sourceId}/load-entitlements:
     post:
       tags:
