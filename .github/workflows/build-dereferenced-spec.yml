@@ -47,7 +47,12 @@ jobs:
           node-version: "24"
       - name: Install redocly and postman
         run: |
-          npm install -g @redocly/cli
+          # Pinned: redocly 2.40.0 began rejecting multi-line flow collections
+          # whose closing bracket is not indented past its key. Hundreds of
+          # `example:` blocks under idn/<version>/schemas/ and nerm/ hit this,
+          # which fails the bundle for v3/beta/v2024/v2025/v2026. Unpin once the
+          # source YAML indentation is fixed.
+          npm install -g @redocly/cli@2.39.0
           npm install -g openapi-to-postmanv2
           npm install --prefix scripts
       - name: Dereference API Specification and build Postman collection
