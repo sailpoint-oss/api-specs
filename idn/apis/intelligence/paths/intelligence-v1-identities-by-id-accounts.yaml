@@ -14,6 +14,7 @@ get:
   description: |
     Continuation endpoint for the parent response's `accounts.next` link.
     Returns one page of account rows for the supplied limit and offset values.
+    Pass `count=true` to receive `X-Total-Count` (including `0` on empty pages).
     Requires tenant license idn:response-and-remediation.
   parameters:
   - $ref: ../parameters/intelligence-identity-id-path.yaml
@@ -38,9 +39,16 @@ get:
       minimum: 0
       default: 0
     example: 0
+  - $ref: ../../shared/parameters/count.yaml
   responses:
     '200':
       description: One page of accounts.
+      headers:
+        X-Total-Count:
+          description: Total number of accounts for this identity; present only when `count=true` was sent (including `0` on empty pages).
+          schema:
+            type: integer
+            minimum: 0
       content:
         application/json:
           schema:

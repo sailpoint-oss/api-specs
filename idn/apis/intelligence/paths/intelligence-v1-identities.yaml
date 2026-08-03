@@ -17,8 +17,11 @@ get:
     Resolves exactly one identity by SCIM-style filters expression and returns the Intelligence envelope.
     Supported queryable fields are id and email only.
     The response embeds the first page of accounts, rare access, access-history access items, and
-    access-history certifications. Paged slices include a next link only when more results exist.
-    The privilegedAccess slice contains the full result and is not paged.
+    access-history certifications. Each paged slice includes `totalCount` from upstream
+    `X-Total-Count` when `items` is non-empty, and carries a `next` continuation URL when
+    `totalCount` exceeds the items returned on this page. Empty slices render as `items: []` with no
+    `totalCount`. The privilegedAccess slice contains the full result and is not paged; it never
+    carries `next` or `totalCount`.
     The outliers slice is omitted when the tenant lacks the IDA-outliers license.
   parameters:
   - in: query

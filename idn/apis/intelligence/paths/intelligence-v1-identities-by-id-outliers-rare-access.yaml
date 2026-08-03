@@ -14,9 +14,10 @@ get:
   description: |
     Continuation endpoint for the parent response's `outliers.rareAccess.next` link.
     Resolves the identity's first outlier, then returns one page of rare access
-    items for the supplied limit and offset values. An identity with no outlier
-    returns an empty array. Requires tenant license idn:response-and-remediation
-    and the IDA-outliers license.
+    items for the supplied limit and offset values. Pass `count=true` to receive
+    `X-Total-Count` (including `0` on empty pages). An identity with no outlier
+    returns an empty array with `X-Total-Count: 0` when `count=true`. Requires
+    tenant license idn:response-and-remediation and the IDA-outliers license.
   parameters:
   - $ref: ../parameters/intelligence-identity-id-path.yaml
   - name: limit
@@ -40,9 +41,16 @@ get:
       minimum: 0
       default: 0
     example: 0
+  - $ref: ../../shared/parameters/count.yaml
   responses:
     '200':
       description: One page of rare access items.
+      headers:
+        X-Total-Count:
+          description: Total number of rare-access items for the resolved outlier; present only when `count=true` was sent (including `0` on empty pages).
+          schema:
+            type: integer
+            minimum: 0
       content:
         application/json:
           schema:
