@@ -225,7 +225,7 @@
     },
     {
       "name": "Intelligence",
-      "description": "Read-only HTTP API that returns the Intelligence (identity context)\nfor SecOps enrichment use cases (SIEM/SOAR connectors, MCP, browser\nextension). Backed by Atlas internal-REST calls to MICE, Shelby List Accounts,\nSDS Search, IDA-outliers, and identity-history.\n"
+      "description": "Read-only HTTP API that returns the Intelligence (identity context)\nfor SecOps enrichment use cases (SIEM/SOAR connectors, MCP, browser\nextension). Backed by Atlas internal-REST calls to MICE, Shelby List Accounts,\nSDS Search, IDA-outliers, and identity-history.\n\n## Pagination\n\nThe aggregated Human GET embeds the first **10** items per paged slice. Each upstream paged call\nsends `count=true` and reads `X-Total-Count`. Parent slices expose `totalCount` when `items` is\nnon-empty and set `next` when `totalCount > offset + len(items)` (aggregate offset is always 0).\nEmpty slices render as `items: []` with no `totalCount`. `privilegedAccess` is never paged and\ncarries no `totalCount`.\n\nHuman child routes (`/accounts`, `/outliers/rare-access`, `/access-history/*`) follow the\nSailPoint V3 pattern: pass `count=true` to receive `X-Total-Count` (including `0` on empty\npages). When `count` is omitted, upstream count work is skipped and the header is omitted.\n"
     },
     {
       "name": "JIT Access",
@@ -38559,7 +38559,7 @@
           "Intelligence"
         ],
         "summary": "Get identity by filter",
-        "description": "Requires tenant license idn:response-and-remediation.\n\nResolves exactly one identity by SCIM-style filters expression and returns the Intelligence envelope.\nSupported queryable fields are id and email only.\nThe response embeds the first page of accounts, rare access, access-history access items, and\naccess-history certifications. Paged slices include a next link only when more results exist.\nThe privilegedAccess slice contains the full result and is not paged.\nThe outliers slice is omitted when the tenant lacks the IDA-outliers license.\n",
+        "description": "Requires tenant license idn:response-and-remediation.\n\nResolves exactly one identity by SCIM-style filters expression and returns the Intelligence envelope.\nSupported queryable fields are id and email only.\nThe response embeds the first page of accounts, rare access, access-history access items, and\naccess-history certifications. Each paged slice includes `totalCount` from upstream\n`X-Total-Count` when `items` is non-empty, and carries a `next` continuation URL when\n`totalCount` exceeds the items returned on this page. Empty slices render as `items: []` with no\n`totalCount`. The privilegedAccess slice contains the full result and is not paged; it never\ncarries `next` or `totalCount`.\nThe outliers slice is omitted when the tenant lacks the IDA-outliers license.\n",
         "parameters": [
           {
             "in": "query",
@@ -38644,7 +38644,7 @@
           "Intelligence"
         ],
         "summary": "List identity accounts",
-        "description": "Continuation endpoint for the parent response's `accounts.next` link.\nReturns one page of account rows for the supplied limit and offset values.\nRequires tenant license idn:response-and-remediation.\n",
+        "description": "Continuation endpoint for the parent response's `accounts.next` link.\nReturns one page of account rows for the supplied limit and offset values.\nPass `count=true` to receive `X-Total-Count` (including `0` on empty pages).\nRequires tenant license idn:response-and-remediation.\n",
         "parameters": [
           {
             "$ref": "#/components/parameters/intelligence-identity-id-path"
@@ -38675,11 +38675,23 @@
               "default": 0
             },
             "example": 0
+          },
+          {
+            "$ref": "#/components/parameters/count"
           }
         ],
         "responses": {
           "200": {
             "description": "One page of accounts.",
+            "headers": {
+              "X-Total-Count": {
+                "description": "Total number of accounts for this identity; present only when `count=true` was sent (including `0` on empty pages).",
+                "schema": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -38765,7 +38777,7 @@
           "Intelligence"
         ],
         "summary": "List identity rare access",
-        "description": "Continuation endpoint for the parent response's `outliers.rareAccess.next` link.\nResolves the identity's first outlier, then returns one page of rare access\nitems for the supplied limit and offset values. An identity with no outlier\nreturns an empty array. Requires tenant license idn:response-and-remediation\nand the IDA-outliers license.\n",
+        "description": "Continuation endpoint for the parent response's `outliers.rareAccess.next` link.\nResolves the identity's first outlier, then returns one page of rare access\nitems for the supplied limit and offset values. Pass `count=true` to receive\n`X-Total-Count` (including `0` on empty pages). An identity with no outlier\nreturns an empty array with `X-Total-Count: 0` when `count=true`. Requires\ntenant license idn:response-and-remediation and the IDA-outliers license.\n",
         "parameters": [
           {
             "$ref": "#/components/parameters/intelligence-identity-id-path"
@@ -38796,11 +38808,23 @@
               "default": 0
             },
             "example": 0
+          },
+          {
+            "$ref": "#/components/parameters/count"
           }
         ],
         "responses": {
           "200": {
             "description": "One page of rare access items.",
+            "headers": {
+              "X-Total-Count": {
+                "description": "Total number of rare-access items for the resolved outlier; present only when `count=true` was sent (including `0` on empty pages).",
+                "schema": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -38877,7 +38901,7 @@
           "Intelligence"
         ],
         "summary": "List identity access item history",
-        "description": "Continuation endpoint for the parent response's `accessHistory.accessItems.next` link.\nReturns one page of access-item history events for the supplied limit and offset values.\nUnsupported event types and per-record decode failures are dropped server-side.\nRequires tenant license idn:response-and-remediation.\n",
+        "description": "Continuation endpoint for the parent response's `accessHistory.accessItems.next` link.\nReturns one page of access-item history events for the supplied limit and offset values.\nPass `count=true` to receive `X-Total-Count` (including `0` on empty pages).\nUnsupported event types and per-record decode failures are dropped server-side.\nRequires tenant license idn:response-and-remediation.\n",
         "parameters": [
           {
             "$ref": "#/components/parameters/intelligence-identity-id-path"
@@ -38908,11 +38932,23 @@
               "default": 0
             },
             "example": 0
+          },
+          {
+            "$ref": "#/components/parameters/count"
           }
         ],
         "responses": {
           "200": {
             "description": "One page of access-item history events.",
+            "headers": {
+              "X-Total-Count": {
+                "description": "Total number of access-item history events for this identity; present only when `count=true` was sent (including `0` on empty pages).",
+                "schema": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -38991,7 +39027,7 @@
           "Intelligence"
         ],
         "summary": "List identity certification history",
-        "description": "Continuation endpoint for the parent response's `accessHistory.certifications.next` link.\nReturns one page of certification history events for the supplied limit and offset values.\nPer-record decode failures are dropped server-side.\nRequires tenant license idn:response-and-remediation.\n",
+        "description": "Continuation endpoint for the parent response's `accessHistory.certifications.next` link.\nReturns one page of certification history events for the supplied limit and offset values.\nPass `count=true` to receive `X-Total-Count` (including `0` on empty pages).\nPer-record decode failures are dropped server-side.\nRequires tenant license idn:response-and-remediation.\n",
         "parameters": [
           {
             "$ref": "#/components/parameters/intelligence-identity-id-path"
@@ -39022,11 +39058,23 @@
               "default": 0
             },
             "example": 0
+          },
+          {
+            "$ref": "#/components/parameters/count"
           }
         ],
         "responses": {
           "200": {
             "description": "One page of certification history events.",
+            "headers": {
+              "X-Total-Count": {
+                "description": "Total number of certification history events for this identity; present only when `count=true` was sent (including `0` on empty pages).",
+                "schema": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -99982,11 +100030,18 @@
               "$ref": "#/components/schemas/intelaccessaccountwire"
             }
           },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 1,
+            "description": "Total number of accounts for this identity; omitted when `items` is empty.",
+            "example": 42
+          },
           "next": {
             "type": "string",
             "format": "uri",
-            "description": "Absolute URL to the next accounts page; present only when more results exist.",
-            "example": "https://tenant.example.api.cloud.sailpoint.com/intelligence/identities/v1/ef38f94347e94562b5bb8424a56397d8/accounts?limit=10&offset=10"
+            "description": "Absolute URL to the next accounts page; present when totalCount exceeds the items returned on this page.",
+            "example": "https://tenant.example.api.cloud.sailpoint.com/intelligence/identities/v1/ef38f94347e94562b5bb8424a56397d8/accounts?limit=10&offset=10&count=true"
           }
         }
       },
@@ -100146,11 +100201,18 @@
               "$ref": "#/components/schemas/inteloutlieraccessitem"
             }
           },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 1,
+            "description": "Total number of rare-access items for the resolved outlier; omitted when `items` is empty.",
+            "example": 15
+          },
           "next": {
             "type": "string",
             "format": "uri",
-            "description": "Absolute URL to the next rareAccess page; present only when more results exist.",
-            "example": "https://tenant.example.api.cloud.sailpoint.com/intelligence/identities/v1/ef38f94347e94562b5bb8424a56397d8/outliers/rare-access?limit=10&offset=10"
+            "description": "Absolute URL to the next rareAccess page; present when totalCount exceeds the items returned on this page.",
+            "example": "https://tenant.example.api.cloud.sailpoint.com/intelligence/identities/v1/ef38f94347e94562b5bb8424a56397d8/outliers/rare-access?limit=10&offset=10&count=true"
           }
         }
       },
@@ -100211,11 +100273,18 @@
               "$ref": "#/components/schemas/intelaccessitemhistoryevent"
             }
           },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 1,
+            "description": "Total number of events in this category; omitted when `items` is empty.",
+            "example": 128
+          },
           "next": {
             "type": "string",
             "format": "uri",
-            "description": "Absolute URL to the next access-items page; present only when more results exist.",
-            "example": "https://tenant.example.api.cloud.sailpoint.com/intelligence/identities/v1/ef38f94347e94562b5bb8424a56397d8/access-history/access-items?limit=10&offset=10"
+            "description": "Absolute URL to the next access-items page; present when totalCount exceeds the items returned on this page.",
+            "example": "https://tenant.example.api.cloud.sailpoint.com/intelligence/identities/v1/ef38f94347e94562b5bb8424a56397d8/access-history/access-items?limit=10&offset=10&count=true"
           }
         }
       },
@@ -100273,11 +100342,18 @@
               "$ref": "#/components/schemas/intelcertificationhistoryevent"
             }
           },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 1,
+            "description": "Total number of events in this category; omitted when `items` is empty.",
+            "example": 6
+          },
           "next": {
             "type": "string",
             "format": "uri",
-            "description": "Absolute URL to the next certifications page; present only when more results exist.",
-            "example": "https://tenant.example.api.cloud.sailpoint.com/intelligence/identities/v1/ef38f94347e94562b5bb8424a56397d8/access-history/certifications?limit=10&offset=10"
+            "description": "Absolute URL to the next certifications page; present when totalCount exceeds the items returned on this page.",
+            "example": "https://tenant.example.api.cloud.sailpoint.com/intelligence/identities/v1/ef38f94347e94562b5bb8424a56397d8/access-history/certifications?limit=10&offset=10&count=true"
           }
         }
       },
