@@ -653,7 +653,7 @@
               "type": "string"
             },
             "example": "type eq \"JIT\"",
-            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**identity.id**: *eq, in*\n\n**identity.name**: *eq, in, co*\n\n**source.id**: *eq, in*\n\n**source.name**: *eq, in, co*\n\n**account.id**: *eq, in*\n\n**account.name**: *eq, in, co*\n\n**entitlement.id**: *eq, in*\n\n**entitlement.attribute**: *eq, in, co*\n\n**entitlement.value**: *eq, in, co*\n\n**entitlement.privilegeLevel.effective**: *eq, in, co*\n\n**type**: *eq, in*\n\n**state.value**: *eq, in, co*\n\n**standalone**: *eq, in*\n\n**jit.activation**: *gt, lt, ge, le*\n\n**jit.provision**: *gt, lt, ge, le*\n\n**jit.deactivation**: *gt, lt, ge, le*\n\n**jit.deprovision**: *gt, lt, ge, le*\n\n**jit.expiration**: *gt, lt, ge, le*\n"
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**identity.id**: *eq, in*\n\n**identity.name**: *eq, in, co*\n\n**source.id**: *eq, in*\n\n**source.name**: *eq, in, co*\n\n**account.id**: *eq, in*\n\n**account.name**: *eq, in, co*\n\n**entitlement.id**: *eq, in*\n\n**entitlement.attribute**: *eq, in, co*\n\n**entitlement.value**: *eq, in, co*\n\n**entitlement.privilegeLevel.effective**: *eq, in, co*\n\n**type**: *eq, in*\n\n**state.value**: *eq, in, co*\n\n**standalone**: *eq, in*\n\n**jit.activation**: *gt, lt, ge, le*\n\n**jit.provision**: *gt, lt, ge, le*\n\n**jit.deactivation**: *gt, lt, ge, le*\n\n**jit.deprovision**: *gt, lt, ge, le*\n\n**jit.expiration**: *gt, lt, ge, le*\n\n**jit.lastActivationId**: *gt, lt, ge, le*\n\n**jit.errorLastActivation**: *gt, lt, ge, le*\n"
           },
           {
             "in": "query",
@@ -663,7 +663,7 @@
               "type": "string"
             },
             "example": "-type,id",
-            "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **id, identity.id, identity.name, source.id, source.name, account.id, account.name, entitlement.id, entitlement.displayName, entitlement.attribute, entitlement.privilegeLevel.effective, type, state.value, standalone, jit.activation, jit.provision, jit.deactivation, jit.deprovision, jit.expiration**\n\nPrefix a field with `-` for descending order.\n"
+            "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **id, identity.id, identity.name, source.id, source.name, account.id, account.name, entitlement.id, entitlement.displayName, entitlement.attribute, entitlement.privilegeLevel.effective, type, state.value, standalone, jit.activation, jit.provision, jit.deactivation, jit.deprovision, jit.expiration, jit.lastActivationId, jit.errorLastActivation**\n\nPrefix a field with `-` for descending order.\n"
           }
         ],
         "responses": {
