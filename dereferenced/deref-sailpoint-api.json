@@ -263,6 +263,10 @@
       "name": "Machine Identities"
     },
     {
+      "name": "Machine Identity Lifecycle Actions",
+      "description": "Experimental APIs for machine identity lifecycle requests (`ACTIVATE`, `DEACTIVATE`), including\napproval and provisioning status. Pass the `X-SailPoint-Experimental` header on every request.\n\nRead and cancel by `requestId` return **403** for authorization denials\n(`FORBIDDEN.lifecycle-request-access-denied`) and non-`AI_AGENT` rows\n(`FORBIDDEN.unsupported-type`). Unknown ids and target-type mismatches return **404**\n(`NOT_FOUND.detailed`).\n"
+    },
+    {
       "name": "Managed Clients",
       "description": "Use this API to implement managed client functionality. \nWith this functionality in place, administrators can modify and delete existing managed clients, create new ones, and view and make changes to their log configurations.\n"
     },
@@ -6680,7 +6684,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "The id of the object the config applies to, for example one of the following: [(approvalID), (roleID), (entitlementID), (accessProfileID), \"ENTITLEMENT_DESCRIPTIONS\", \"ACCESS_REQUEST_APPROVAL\", \"ACCOUNT_CREATE_APPROVAL_REQUEST\", \"ACCOUNT_DELETE_APPROVAL_REQUEST\", \"MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST\", \"MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST\", (tenantID)]",
+            "description": "The id of the object the config applies to, for example one of the following: [(approvalID), (roleID), (entitlementID), (accessProfileID), \"ENTITLEMENT_DESCRIPTIONS\", \"ACCESS_REQUEST_APPROVAL\", \"ACCOUNT_CREATE_APPROVAL_REQUEST\", \"ACCOUNT_DELETE_APPROVAL_REQUEST\", \"MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST\", \"MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST\", \"AGENT_ACTIVATE_APPROVAL\", \"AGENT_DEACTIVATE_APPROVAL\", (tenantID)]",
             "example": 1.2345678901234567e+31,
             "x-sailpoint-resource-operation-id": "getApprovalsV1"
           }
@@ -6740,12 +6744,12 @@
             "schema": {
               "type": "string"
             },
-            "description": "The ID defined by the scope field, where [[id]]:[[scope]] is the following\n[[roleID]]:ROLE\n[[entitlementID]]:ENTITLEMENT\n[[accessProfileID]]:ACCESS_PROFILE\nENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE\nACCESS_REQUEST_APPROVAL:APPROVAL_TYPE\nACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE\nACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE\nMACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE\nMACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE\n[[tenantID]]:TENANT\n[[domainObjectID]]:DOMAIN_OBJECT",
+            "description": "The ID defined by the scope field, where [[id]]:[[scope]] is the following\n[[roleID]]:ROLE\n[[entitlementID]]:ENTITLEMENT\n[[accessProfileID]]:ACCESS_PROFILE\nENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE\nACCESS_REQUEST_APPROVAL:APPROVAL_TYPE\nACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE\nACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE\nMACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE\nMACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE\nAGENT_ACTIVATE_APPROVAL:APPROVAL_TYPE\nAGENT_DEACTIVATE_APPROVAL:APPROVAL_TYPE\n[[tenantID]]:TENANT\n[[domainObjectID]]:DOMAIN_OBJECT",
             "example": "ACCESS_REQUEST_APPROVAL",
             "x-sailpoint-resource-operation-id": [
-              "listEntitlements",
-              "listRoles",
-              "listAccessProfiles"
+              "listEntitlementsV1",
+              "listRolesV1",
+              "listAccessProfilesV1"
             ]
           },
           {
@@ -6763,7 +6767,7 @@
                 "TENANT"
               ]
             },
-            "description": "The scope of the field, where [[id]]:[[scope]] is the following\n[[roleID]]:ROLE\n[[entitlementID]]:ENTITLEMENT\n[[accessProfileID]]:ACCESS_PROFILE\nENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE\nACCESS_REQUEST_APPROVAL:APPROVAL_TYPE\nACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE\nACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE\nMACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE\nMACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE\n[[tenantID]]:TENANT\n[[domainObjectID]]:DOMAIN_OBJECT",
+            "description": "The scope of the field, where [[id]]:[[scope]] is the following\n[[roleID]]:ROLE\n[[entitlementID]]:ENTITLEMENT\n[[accessProfileID]]:ACCESS_PROFILE\nENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE\nACCESS_REQUEST_APPROVAL:APPROVAL_TYPE\nACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE\nACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE\nMACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE\nMACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE\nAGENT_ACTIVATE_APPROVAL:APPROVAL_TYPE\nAGENT_DEACTIVATE_APPROVAL:APPROVAL_TYPE\n[[tenantID]]:TENANT\n[[domainObjectID]]:DOMAIN_OBJECT",
             "example": "APPROVAL_TYPE"
           }
         ],
@@ -6833,12 +6837,12 @@
             "schema": {
               "type": "string"
             },
-            "description": "The ID defined by the scope field, where [[id]]:[[scope]] is the following\n[[roleID]]:ROLE\n[[entitlementID]]:ENTITLEMENT\n[[accessProfileID]]:ACCESS_PROFILE\nENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE\nACCESS_REQUEST_APPROVAL:APPROVAL_TYPE\nACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE\nACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE\nMACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE\nMACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE\n[[tenantID]]:TENANT\n[[domainObjectID]]:DOMAIN_OBJECT",
+            "description": "The ID defined by the scope field, where [[id]]:[[scope]] is the following\n[[roleID]]:ROLE\n[[entitlementID]]:ENTITLEMENT\n[[accessProfileID]]:ACCESS_PROFILE\nENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE\nACCESS_REQUEST_APPROVAL:APPROVAL_TYPE\nACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE\nACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE\nMACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE\nMACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE\nAGENT_ACTIVATE_APPROVAL:APPROVAL_TYPE\nAGENT_DEACTIVATE_APPROVAL:APPROVAL_TYPE\n[[tenantID]]:TENANT\n[[domainObjectID]]:DOMAIN_OBJECT",
             "example": "ACCESS_REQUEST_APPROVAL",
             "x-sailpoint-resource-operation-id": [
-              "listEntitlements",
-              "listRoles",
-              "listAccessProfiles"
+              "listEntitlementsV1",
+              "listRolesV1",
+              "listAccessProfilesV1"
             ]
           },
           {
@@ -6856,7 +6860,7 @@
                 "TENANT"
               ]
             },
-            "description": "The scope of the field, where [[id]]:[[scope]] is the following\n[[roleID]]:ROLE\n[[entitlementID]]:ENTITLEMENT\n[[accessProfileID]]:ACCESS_PROFILE\nENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE\nACCESS_REQUEST_APPROVAL:APPROVAL_TYPE\nACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE\nACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE\nMACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE\nMACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE\n[[tenantID]]:TENANT\n[[domainObjectID]]:DOMAIN_OBJECT",
+            "description": "The scope of the field, where [[id]]:[[scope]] is the following\n[[roleID]]:ROLE\n[[entitlementID]]:ENTITLEMENT\n[[accessProfileID]]:ACCESS_PROFILE\nENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE\nACCESS_REQUEST_APPROVAL:APPROVAL_TYPE\nACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE\nACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE\nMACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE\nMACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE\nAGENT_ACTIVATE_APPROVAL:APPROVAL_TYPE\nAGENT_DEACTIVATE_APPROVAL:APPROVAL_TYPE\n[[tenantID]]:TENANT\n[[domainObjectID]]:DOMAIN_OBJECT",
             "example": "APPROVAL_TYPE",
             "x-go-name": "Type"
           }
@@ -44806,6 +44810,402 @@
                   "items": {
                     "$ref": "#/components/schemas/machineidentityuserentitlementresponse"
                   }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/machine-identities/v1/{id}/lifecycle-actions": {
+      "post": {
+        "operationId": "submitMachineIdentityLifecycleActionV1",
+        "tags": [
+          "Machine Identity Lifecycle Actions"
+        ],
+        "summary": "Submit machine identity lifecycle action",
+        "description": "Creates a lifecycle request for the target machine identity and returns the created lifecycle\nsnapshot.\n\nThe response includes the generated `requestId`, which is used by\nhttps://developer.sailpoint.com/docs/api/list-machine-identity-lifecycle-actions-v-1,\nhttps://developer.sailpoint.com/docs/api/get-machine-identity-lifecycle-action-v-1, and\nhttps://developer.sailpoint.com/docs/api/cancel-machine-identity-lifecycle-action-v-1\n\nAuthorization is enforced in the service layer. Callers must have the\n`idn:machine-identity-lifecycle-action:manage` scope or role-context access to the target machine\nidentity (organization admin, source admin, scoped source sub-admin, or effective owner).\n\nSupported actions are `DEACTIVATE`, `ACTIVATE`.\n",
+        "security": [
+          {
+            "userAuth": [
+              "idn:mis-identity:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN",
+          "USER"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listMachineIdentitiesV1",
+            "description": "Machine identity ID.",
+            "example": "1c9c8e1f-2f5f-4f77-9f7e-5d37e4fb3ef0"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/lifecycleactionsubmitrequest"
+              },
+              "examples": {
+                "Deactivate machine identity": {
+                  "value": {
+                    "action": "DEACTIVATE",
+                    "comments": [
+                      {
+                        "comment": "Suspending agent until security review completes"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted. The lifecycle request was created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/lifecycleactionsubmitresponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/machine-identities/v1/lifecycle-actions": {
+      "get": {
+        "operationId": "listMachineIdentityLifecycleActionsV1",
+        "tags": [
+          "Machine Identity Lifecycle Actions"
+        ],
+        "summary": "List lifecycle actions",
+        "description": "Lists lifecycle requests visible to the requester identity in the current request context.\n\nResults are automatically scoped to the calling identity. If requester identity context is\nmissing, an empty list is returned.\n\nWhen `limit` is omitted, this endpoint applies a default limit of 50.\n",
+        "security": [
+          {
+            "userAuth": [
+              "sp:scopes:all"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN",
+          "USER"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "filters",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**resourceType**: *eq, in*\n\n**operationType**: *eq, in*\n\n**status**: *eq, in*\n\n**completed**: *eq*\n\n**targetId**: *eq*\n\n**targetName**: *eq, sw*\n\n**sourceId**: *eq*\n\n**created**: *gt, ge, lt, le*",
+            "example": "status in (\"RECEIVED\",\"COMPLETED\")"
+          },
+          {
+            "in": "query",
+            "name": "sorters",
+            "schema": {
+              "type": "string",
+              "format": "comma-separated"
+            },
+            "required": false,
+            "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **created, modified, status**\n\nDefault sort is **-created** (newest first).",
+            "example": "-created"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Max number of results to return. When omitted, the default limit is 50. The maximum allowed limit is 250.\n\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+            "required": false,
+            "example": 50,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 0,
+              "maximum": 250,
+              "default": 50
+            }
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          },
+          {
+            "$ref": "#/components/parameters/count"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of lifecycle action requests for the requester.",
+            "headers": {
+              "X-Total-Count": {
+                "description": "The total result count (returned when count=true is passed).",
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "Cache-Control": {
+                "description": "Response cache directive for requester-scoped polling.",
+                "schema": {
+                  "type": "string",
+                  "example": "private, max-age=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/lifecycleactionrequest"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/machine-identities/v1/lifecycle-actions/{requestId}": {
+      "get": {
+        "operationId": "getMachineIdentityLifecycleActionV1",
+        "tags": [
+          "Machine Identity Lifecycle Actions"
+        ],
+        "summary": "Get lifecycle action by requestId",
+        "description": "Returns one lifecycle request snapshot by `requestId`. Used for request-level inspection,\nincluding cancel acceptance and subsequent status changes.\n\nThe original requester is always allowed to read their request. Otherwise, callers must have\nthe `idn:machine-identity-lifecycle-action:manage` scope **and** role-context access to the target\nmachine identity (organization admin, source admin, scoped source sub-admin, or effective owner).\n\n**403 Forbidden**\n\n- `FORBIDDEN.lifecycle-request-access-denied` - caller is not the submitter and lacks both the\n  `idn:machine-identity-lifecycle-action:manage` scope and target role-context (response includes `requestId` as a parameter).\n- `FORBIDDEN.unsupported-type` - the persisted lifecycle row is not scoped to `AI_AGENT`\n  (`targetType` on read-by-request-id paths).\n\n**404 Not Found**\n\n- `NOT_FOUND.detailed` - unknown `requestId`, or persisted `targetType` does not match the\n  target machine identity's subtype-to-resource-type mapping.\n",
+        "security": [
+          {
+            "userAuth": [
+              "idn:mis-identity:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN",
+          "USER"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "requestId",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listMachineIdentityLifecycleActionsV1",
+            "description": "Lifecycle request identifier.",
+            "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lifecycle action request snapshot.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/lifecycleactionrequest"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/machine-identities/v1/lifecycle-actions/{requestId}/cancel": {
+      "post": {
+        "operationId": "cancelMachineIdentityLifecycleActionV1",
+        "tags": [
+          "Machine Identity Lifecycle Actions"
+        ],
+        "summary": "Cancel lifecycle action",
+        "description": "Attempts to cancel a lifecycle request before provisioning starts.\n\nThe path `requestId` is authoritative for lookup and authorization. The request body is\noptional and may carry cancel metadata such as `comment`. Any `requestId` value in the body is\nignored.\n\nWorkflow cancel signaling is attempted before the request is persisted as `CANCELING`. If\nsignaling fails, the service returns **503** (`DOWNSTREAM_SERVICE_UNAVAILABLE`, cause\n`workflow-signal-failed`) and the lifecycle request status is unchanged.\n\nInvalid cancel states are returned as **400** (`INVALID_REQUEST_IN_CURRENT_STATE` variants).\n\nCancel authorization matches https://developer.sailpoint.com/docs/api/get-machine-identity-lifecycle-action-v-1:\nthe original submitter is always allowed; otherwise callers must have the\n`idn:machine-identity-lifecycle-action:manage` scope **and** target role-context access.\n\n**403 Forbidden**\n\n- `FORBIDDEN.lifecycle-request-access-denied` - caller is not the submitter and lacks both the\n  `idn:machine-identity-lifecycle-action:manage` scope and target role-context.\n- `FORBIDDEN.unsupported-type` - the persisted lifecycle row is not scoped to `AI_AGENT`.\n\n**404 Not Found**\n\n- `NOT_FOUND.detailed` - unknown `requestId`, or persisted `targetType`/target-identity subtype\n  mismatch.\n",
+        "security": [
+          {
+            "userAuth": [
+              "idn:mis-identity:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN",
+          "USER"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "requestId",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listMachineIdentityLifecycleActionsV1",
+            "description": "Lifecycle request identifier.",
+            "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/cancellifecycleactionrequest"
+              },
+              "examples": {
+                "Cancel with comment": {
+                  "value": {
+                    "comment": "Cancelling - will resubmit after maintenance window"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted. The lifecycle request cancel was accepted.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cancellifecycleactionresponse"
                 }
               }
             }
@@ -103283,6 +103683,502 @@
             "format": "date-time",
             "example": "2015-05-28T14:07:17Z",
             "readOnly": true
+          }
+        }
+      },
+      "lifecycleaction": {
+        "type": "string",
+        "description": "Lifecycle action requested against a machine identity.",
+        "enum": [
+          "DEACTIVATE",
+          "ACTIVATE"
+        ],
+        "example": "DEACTIVATE"
+      },
+      "lifecycleactionsubmitcomment": {
+        "type": "object",
+        "title": "Lifecycle Action Submit Comment",
+        "required": [
+          "comment"
+        ],
+        "properties": {
+          "comment": {
+            "type": "string",
+            "description": "Free-text comment submitted with the lifecycle action request.",
+            "maxLength": 1000,
+            "example": "Suspending agent until security review completes"
+          }
+        }
+      },
+      "lifecycleactionsubmitrequest": {
+        "type": "object",
+        "title": "Lifecycle Action Submit Request",
+        "required": [
+          "action"
+        ],
+        "properties": {
+          "action": {
+            "$ref": "#/components/schemas/lifecycleaction"
+          },
+          "comments": {
+            "type": "array",
+            "description": "Optional submit-time comments. At most 10 comments are allowed per request; each comment must be non-empty and at most 1000 characters.",
+            "maxItems": 10,
+            "items": {
+              "$ref": "#/components/schemas/lifecycleactionsubmitcomment"
+            }
+          }
+        }
+      },
+      "lifecycleactionsubmitresponse": {
+        "type": "object",
+        "title": "Lifecycle Action Submit Response",
+        "required": [
+          "requestId",
+          "status",
+          "action",
+          "targetId",
+          "createdAt"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique identifier for the created lifecycle request.",
+            "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+          },
+          "status": {
+            "type": "string",
+            "description": "Initial lifecycle request status.",
+            "example": "RECEIVED"
+          },
+          "action": {
+            "$ref": "#/components/schemas/lifecycleaction"
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Internal machine identity UUID for the lifecycle target.",
+            "example": "1c9c8e1f-2f5f-4f77-9f7e-5d37e4fb3ef0"
+          },
+          "resourceId": {
+            "type": "string",
+            "description": "Connector resource id for the lifecycle target, when present.",
+            "example": "aws:bedrock:agent-42"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time when the lifecycle request was created (ISO-8601).",
+            "example": "2026-05-26T19:00:00Z"
+          }
+        }
+      },
+      "lifecyclestatus": {
+        "type": "string",
+        "description": "Detailed lifecycle request status stored on the lifecycle action request.",
+        "enum": [
+          "RECEIVED",
+          "PENDING_APPROVAL",
+          "APPROVED",
+          "REJECTED",
+          "PROVISIONING",
+          "COMPLETED",
+          "FAILED",
+          "CANCELING",
+          "CANCELED"
+        ],
+        "example": "RECEIVED"
+      },
+      "lifecycleapproverref": {
+        "type": "object",
+        "title": "Lifecycle Approver Reference",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Approver reference type.",
+            "example": "IDENTITY"
+          },
+          "id": {
+            "type": "string",
+            "description": "Identifier of the approver.",
+            "example": "2c9180858082150f0180893dbaf44201"
+          },
+          "name": {
+            "type": "string",
+            "description": "Display name of the approver.",
+            "example": "Alex Approver"
+          }
+        }
+      },
+      "lifecyclerequesterref": {
+        "type": "object",
+        "title": "Lifecycle Requester Reference",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Requester reference type.",
+            "example": "IDENTITY"
+          },
+          "id": {
+            "type": "string",
+            "description": "Identifier of the requester.",
+            "example": "2c9180858082150f0180893dbaf44201"
+          },
+          "name": {
+            "type": "string",
+            "description": "Display name of the requester.",
+            "example": "Pat Manager"
+          }
+        }
+      },
+      "lifecyclecommentauthorref": {
+        "type": "object",
+        "title": "Lifecycle Comment Author Reference",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Author category for the comment.",
+            "enum": [
+              "IDENTITY",
+              "WORKGROUP",
+              "API_TOKEN",
+              "SYSTEM"
+            ],
+            "example": "IDENTITY"
+          },
+          "id": {
+            "type": "string",
+            "description": "Identifier of the comment author.",
+            "example": "2c9180858082150f0180893dbaf44201"
+          },
+          "name": {
+            "type": "string",
+            "description": "Display name of the comment author.",
+            "example": "Pat Manager"
+          }
+        }
+      },
+      "lifecyclecomment": {
+        "type": "object",
+        "title": "Lifecycle Comment",
+        "properties": {
+          "commentId": {
+            "type": "string",
+            "description": "Server-assigned comment identifier.",
+            "example": "cmt-001"
+          },
+          "author": {
+            "$ref": "#/components/schemas/lifecyclecommentauthorref"
+          },
+          "comment": {
+            "type": "string",
+            "description": "Free-text comment body.",
+            "example": "Suspending agent until security review completes"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time when the comment was created (ISO-8601).",
+            "example": "2026-05-26T19:00:00Z"
+          }
+        }
+      },
+      "lifecycleresourcesummary": {
+        "type": "object",
+        "title": "Lifecycle Resource Summary",
+        "description": "Cached resource context for the lifecycle target.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Internal machine identity UUID for the lifecycle target.",
+            "example": "1c9c8e1f-2f5f-4f77-9f7e-5d37e4fb3ef0"
+          },
+          "resourceId": {
+            "type": "string",
+            "description": "Connector resource id for the lifecycle target.",
+            "example": "aws:bedrock:agent-42"
+          },
+          "name": {
+            "type": "string",
+            "description": "Display name of the lifecycle target.",
+            "example": "Support Agent"
+          },
+          "sourceId": {
+            "type": "string",
+            "description": "Source identifier for the lifecycle target.",
+            "example": "6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa"
+          },
+          "sourceName": {
+            "type": "string",
+            "description": "Source name for the lifecycle target.",
+            "example": "AWS Bedrock"
+          },
+          "subtype": {
+            "type": "string",
+            "description": "Machine identity subtype for the lifecycle target.",
+            "example": "AI_AGENT"
+          }
+        }
+      },
+      "lifecycleownerref": {
+        "type": "object",
+        "title": "Lifecycle Owner Reference",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Owner reference type.",
+            "enum": [
+              "IDENTITY",
+              "WORKGROUP"
+            ],
+            "example": "IDENTITY"
+          },
+          "id": {
+            "type": "string",
+            "description": "Identifier of the owner.",
+            "example": "2c9180858082150f0180893dbaf44201"
+          },
+          "name": {
+            "type": "string",
+            "description": "Display name of the owner.",
+            "example": "Pat Manager"
+          }
+        }
+      },
+      "lifecycleprovisioningstatus": {
+        "type": "string",
+        "description": "Provisioning execution status for the downstream workflow window.",
+        "enum": [
+          "NOT_STARTED",
+          "IN_PROGRESS",
+          "COMPLETED",
+          "FAILED"
+        ],
+        "example": "NOT_STARTED"
+      },
+      "lifecycleprovisioning": {
+        "type": "object",
+        "title": "Lifecycle Provisioning",
+        "description": "Provisioning execution window for the lifecycle request.",
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/lifecycleprovisioningstatus"
+          },
+          "started": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time when provisioning started (ISO-8601).",
+            "example": "2026-05-26T19:05:00Z"
+          },
+          "ended": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time when provisioning ended (ISO-8601).",
+            "example": "2026-05-26T19:10:00Z"
+          }
+        }
+      },
+      "lifecycleactionrequestdetails": {
+        "type": "object",
+        "title": "Lifecycle Action Request Details",
+        "description": "Nested lifecycle execution context stored on the lifecycle request.",
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/lifecyclestatus"
+          },
+          "action": {
+            "$ref": "#/components/schemas/lifecycleaction"
+          },
+          "approver": {
+            "$ref": "#/components/schemas/lifecycleapproverref"
+          },
+          "approvedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time when the request was approved (ISO-8601).",
+            "example": "2026-05-26T19:02:00Z"
+          },
+          "canceller": {
+            "$ref": "#/components/schemas/lifecyclerequesterref"
+          },
+          "canceledAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time when the request was canceled (ISO-8601).",
+            "example": "2026-05-26T19:03:00Z"
+          },
+          "cancelComment": {
+            "type": "string",
+            "description": "Comment provided when the request was canceled.",
+            "example": "Cancelling - will resubmit after maintenance window"
+          },
+          "comments": {
+            "type": "array",
+            "description": "Append-only comment thread for the lifecycle request.",
+            "items": {
+              "$ref": "#/components/schemas/lifecyclecomment"
+            }
+          },
+          "failurePhase": {
+            "type": "string",
+            "description": "Workflow phase where the request failed, when applicable.",
+            "example": "WORKFLOW_START"
+          },
+          "failureReason": {
+            "type": "string",
+            "description": "Failure reason for the lifecycle request, when applicable.",
+            "example": "Operation can't be performed on AgentAlias when Agent is in Not Prepared state."
+          },
+          "resource": {
+            "$ref": "#/components/schemas/lifecycleresourcesummary"
+          },
+          "resourceOwners": {
+            "type": "array",
+            "description": "Cached resource owners for the lifecycle target.",
+            "items": {
+              "$ref": "#/components/schemas/lifecycleownerref"
+            }
+          },
+          "sourceOwner": {
+            "$ref": "#/components/schemas/lifecycleownerref"
+          },
+          "requester": {
+            "$ref": "#/components/schemas/lifecyclerequesterref"
+          },
+          "approvalRequestId": {
+            "type": "string",
+            "description": "Approvals identifier when the request was submitted.",
+            "example": "a0220198-4b01-444b-8ac3-7a8a147a3791"
+          },
+          "approvalSettingsId": {
+            "type": "string",
+            "description": "Approval settings identifier used for the request.",
+            "example": "approval-settings-001"
+          },
+          "provisioning": {
+            "$ref": "#/components/schemas/lifecycleprovisioning"
+          }
+        }
+      },
+      "lifecycleactionrequest": {
+        "type": "object",
+        "title": "Lifecycle Action Request",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Lifecycle request identifier.",
+            "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+          },
+          "tenantId": {
+            "type": "string",
+            "description": "Tenant identifier for the lifecycle request.",
+            "example": "tenant-001"
+          },
+          "statusType": {
+            "type": "string",
+            "description": "Generic request status type discriminator.",
+            "example": "LIFECYCLE_ACTIONS_REQUEST"
+          },
+          "requestedBy": {
+            "type": "string",
+            "description": "Identity id of the principal that submitted the request.",
+            "example": "2c9180858082150f0180893dbaf44201"
+          },
+          "targetType": {
+            "type": "string",
+            "description": "Resource type targeted by the lifecycle request.",
+            "enum": [
+              "AI_AGENT"
+            ],
+            "example": "AI_AGENT"
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Internal machine identity UUID for the lifecycle target.",
+            "example": "1c9c8e1f-2f5f-4f77-9f7e-5d37e4fb3ef0"
+          },
+          "operationType": {
+            "$ref": "#/components/schemas/lifecycleaction"
+          },
+          "workflowId": {
+            "type": "string",
+            "description": "Temporal workflow identifier for the lifecycle request.",
+            "example": "sp:resource-lifecycle:AI_AGENT:a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+          },
+          "completed": {
+            "type": "boolean",
+            "description": "Indicates whether the lifecycle request has reached a terminal state.",
+            "default": false,
+            "example": false
+          },
+          "details": {
+            "$ref": "#/components/schemas/lifecycleactionrequestdetails"
+          },
+          "created": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time when the lifecycle request was created (ISO-8601).",
+            "example": "2026-05-26T19:00:00Z"
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time when the lifecycle request was last modified (ISO-8601).",
+            "example": "2026-05-26T19:05:00Z"
+          }
+        }
+      },
+      "cancellifecycleactionrequest": {
+        "type": "object",
+        "title": "Cancel Lifecycle Action Request",
+        "description": "Optional cancel metadata. The path `requestId`.",
+        "properties": {
+          "comment": {
+            "type": "string",
+            "description": "Optional cancel comment appended to the lifecycle request comment thread.",
+            "maxLength": 1000,
+            "example": "Cancelling - will resubmit after maintenance window"
+          }
+        }
+      },
+      "cancellifecycleactionresponse": {
+        "type": "object",
+        "title": "Cancel Lifecycle Action Response",
+        "required": [
+          "requestId",
+          "status",
+          "action",
+          "targetId"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Lifecycle request identifier.",
+            "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+          },
+          "status": {
+            "type": "string",
+            "description": "Updated lifecycle request status after cancel acceptance.",
+            "example": "CANCELING"
+          },
+          "action": {
+            "$ref": "#/components/schemas/lifecycleaction"
+          },
+          "targetId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Internal machine identity UUID for the lifecycle target.",
+            "example": "1c9c8e1f-2f5f-4f77-9f7e-5d37e4fb3ef0"
+          },
+          "resourceId": {
+            "type": "string",
+            "description": "Connector resource id for the lifecycle target, when present.",
+            "example": "aws:bedrock:agent-42"
           }
         }
       },
