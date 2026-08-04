@@ -32005,6 +32005,16 @@
             "type": "string",
             "description": "The status of the Attribute value.",
             "example": "active"
+          },
+          "type": {
+            "type": "string",
+            "nullable": true,
+            "enum": [
+              "static",
+              "adhoc"
+            ],
+            "description": "Indicates how this Attribute value was created. **static** values are pre-defined and created directly through this API. **adhoc** values are created dynamically through an internal service-to-service flow when the parent Attribute has *isAdhoc* set to *true*, and cannot be created directly through the public create-value API.",
+            "example": "static"
           }
         }
       },
@@ -32025,6 +32035,13 @@
             "type": "boolean",
             "default": false,
             "description": "Indicates whether the attribute can have multiple values.",
+            "example": false
+          },
+          "isAdhoc": {
+            "type": "boolean",
+            "nullable": true,
+            "default": false,
+            "description": "Indicates whether this Attribute supports ad-hoc (dynamically created) values, in addition to pre-defined static values. Ad-hoc values are created dynamically through an internal service-to-service flow rather than through the public create-value API. This field can be set when creating an Attribute; if omitted, it defaults to *false*.",
             "example": false
           },
           "status": {
