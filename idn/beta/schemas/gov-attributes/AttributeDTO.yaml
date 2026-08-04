@@ -16,6 +16,16 @@ properties:
     description: >-
       Indicates whether the attribute can have multiple values.
     example: false
+  isAdhoc:
+    type: "boolean"
+    nullable: true
+    default: false
+    description: >-
+      Indicates whether this Attribute supports ad-hoc (dynamically created) values, in addition to
+      pre-defined static values. Ad-hoc values are created dynamically through an internal
+      service-to-service flow rather than through the public create-value API. This field can be set
+      when creating an Attribute; if omitted, it defaults to *false*.
+    example: false
   status:
     type: "string"
     description: >-

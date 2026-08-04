@@ -46,7 +46,7 @@ patch:
   summary: Update access model metadata attribute
   description: |
     Update an existing Access Model Metadata Attribute.  
-    The following fields are patchable: **name**, **description**, **multiselect**, **values**
+    The following fields are patchable: **name**, **description**, **multiselect**, **isAdhoc**, **values**
   operationId: updateAccessModelMetadataAttribute
   tags:
     - Access Model Metadata
