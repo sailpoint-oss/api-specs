@@ -19,7 +19,7 @@ get:
       The id of the object the config applies to, for example one of the following: [(approvalID), (roleID),
       (entitlementID), (accessProfileID), "ENTITLEMENT_DESCRIPTIONS", "ACCESS_REQUEST_APPROVAL",
       "ACCOUNT_CREATE_APPROVAL_REQUEST", "ACCOUNT_DELETE_APPROVAL_REQUEST", "MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST",
-      "MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST", (tenantID)]
+      "MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST", "AGENT_ACTIVATE_APPROVAL", "AGENT_DEACTIVATE_APPROVAL", (tenantID)]
     example: 1.2345678901234566e+31
     x-sailpoint-resource-operation-id: getApprovalsV1
   responses:
