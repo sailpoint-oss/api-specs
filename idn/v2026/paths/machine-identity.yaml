@@ -3,7 +3,12 @@ get:
   tags:
     - Machine Identities
   summary: Get machine identity details
-  description: This API returns a single machine identity using the Machine Identity ID.
+  description: |-
+    This API returns a single machine identity using the Machine Identity ID.
+
+    When Business Applications is enabled for the tenant, the response includes enriched
+    `businessApplicationRefs` and top-level `effectiveSanctionedStatus`. When Business Applications is not
+    enabled, those fields are null.
   security:
     - userAuth:
         - idn:mis-identity:read
@@ -54,7 +59,13 @@ patch:
     - Machine Identities
   summary: Update machine identity details
   description: |
-    Use this API to update machine identity details.
+    Use this API to update machine identity details using a JSON Patch payload.
+
+    When Business Applications is enabled for the tenant, `/businessApplicationRefs` may be replaced with
+    at most one MANUAL Business Application reference, or cleared with an empty array.
+    Patching `/businessApplicationRefs` when Business Applications is not enabled returns `400`. Existing
+    `AUTOMATIC` correlations cannot be overridden (`400` / `ILLEGAL_UPDATE_ATTEMPT`). Unknown BA id returns
+    `404`. `sanctionedStatus` and `effectiveSanctionedStatus` are read-only.
   security:
     - userAuth:
         - idn:mis-identity:manage
@@ -103,6 +114,18 @@ patch:
             value:
               - op: remove
                 path: /attributes/securityRisk
+          Replace business application refs:
+            value:
+              - op: replace
+                path: /businessApplicationRefs
+                value:
+                  - type: BUSINESS_APPLICATION
+                    id: bff06019-d858-412e-a343-168849c64bb5
+          Clear business application refs:
+            value:
+              - op: replace
+                path: /businessApplicationRefs
+                value: []
   responses:
     '200':
       description: Updated Machine Identity object.

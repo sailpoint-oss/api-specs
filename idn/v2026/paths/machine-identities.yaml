@@ -3,7 +3,12 @@ get:
   tags:
     - Machine Identities
   summary: List machine identities
-  description: This API returns a list of machine identities.
+  description: |-
+    This API returns a list of machine identities.
+
+    When Business Applications is enabled for the tenant, each response includes enriched
+    `businessApplicationRefs` and top-level `effectiveSanctionedStatus`. When Business Applications is not
+    enabled, those fields are null.
   security:
     - userAuth:
         - idn:mis-identity:read
@@ -54,6 +59,12 @@ get:
         **entitlement.id**: *eq, in*
 
         **entitlement.name**: *eq, in, sw*
+
+        **businessApplicationRefs.id**: *eq*
+
+        **effectiveSanctionedStatus**: *eq*
+
+        Business Application filters require Business Applications to be enabled for the tenant. Filter values are case-sensitive. When Business Applications is not enabled, these filters are not allowed and return `400`.
     - in: query
       name: sorters
       schema:
@@ -112,6 +123,13 @@ post:
   description: |-
     Use this API to create a machine identity.
     The maximum supported length for the description field is 2000 characters.
+
+    When Business Applications is enabled for the tenant, callers may optionally include a single
+    `businessApplicationRefs` entry (`type`=`BUSINESS_APPLICATION`, `id`=BA UUID).
+    The assignment is stored as a `MANUAL` correlation. `correlationType` may be omitted or `MANUAL`;
+    `AUTOMATIC` is rejected (`400`). Unknown BA id returns `404`. More than one ref returns `400`.
+    When Business Applications is not enabled, supplying `businessApplicationRefs` returns `400`.
+    `sanctionedStatus` and `effectiveSanctionedStatus` are read-only and ignored on input.
   requestBody:
     required: true
     content:

@@ -80,6 +80,15 @@ get:
 
 
         **risk.severity**: *eq, in*
+
+
+        **businessApplicationRefs.id**: *eq*
+
+
+        **effectiveSanctionedStatus**: *eq*
+
+
+        Business Application filters require Business Applications to be enabled for the tenant. Filter values are case-sensitive. When Business Applications is not enabled, these filters are not allowed and return `400`.
     - in: query
       name: sorters
       schema:
@@ -127,6 +136,14 @@ post:
     Use this API to create a machine identity. Additional owners may be either up to ten human (IDENTITY)
     references or exactly one GOVERNANCE_GROUP reference - not both. The maximum supported length for the
     description field is 2000 characters.
+
+
+    When Business Applications is enabled for the tenant, callers may optionally include a single
+    `businessApplicationRefs` entry (`type`=`BUSINESS_APPLICATION`, `id`=BA UUID).
+    The assignment is stored as a `MANUAL` correlation. `correlationType` may be omitted or `MANUAL`;
+    `AUTOMATIC` is rejected (`400`). Unknown BA id returns `404`. More than one ref returns `400`.
+    When Business Applications is not enabled, supplying `businessApplicationRefs` returns `400`.
+    `sanctionedStatus` and `effectiveSanctionedStatus` are read-only and ignored on input.
   security:
     - userAuth:
         - idn:mis-identity:manage

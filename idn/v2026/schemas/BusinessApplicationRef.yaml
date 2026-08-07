@@ -28,7 +28,7 @@ properties:
     example: Cursor
   sanctionedStatus:
     allOf:
-      - $ref: ./sanctionedstatus.yaml
+      - $ref: './SanctionedStatus.yaml'
     readOnly: true
     description: |-
       Sanctioned status of the linked Business Application.
@@ -36,7 +36,7 @@ properties:
     example: SANCTIONED
   correlationType:
     allOf:
-      - $ref: ./correlationtype.yaml
+      - $ref: './CorrelationType.yaml'
     description: |-
       Correlation type for this reference.
       On write: omit or `MANUAL` (default). `AUTOMATIC` is rejected (`400`).

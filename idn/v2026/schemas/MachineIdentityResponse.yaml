@@ -16,6 +16,17 @@ allOf:
           Indicates if the machine identity has been manually created
         default: false
         example: true
+      effectiveSanctionedStatus:
+        allOf:
+          - $ref: './SanctionedStatus.yaml'
+        readOnly: true
+        nullable: true
+        description: |-
+          Derived sanctioned status from linked Business Applications; `UNKNOWN` when no refs are present.
+          Available when Business Applications is enabled for the tenant; null when it is not enabled.
+          Read-only on create and patch input.
+        example: SANCTIONED
+
       source:
         type: object
         description: The source of the machine identity

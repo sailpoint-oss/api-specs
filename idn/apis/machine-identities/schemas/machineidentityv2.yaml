@@ -86,12 +86,24 @@ allOf:
       businessApplicationRefs:
         type: array
         nullable: true
-        description: Optional Business Application references associated with this machine identity.
+        maxItems: 1
+        description: |-
+          Optional Business Application references associated with this machine identity.
+          Available when Business Applications is enabled for the tenant.
+          On create and patch, at most one reference is allowed and is persisted as a `MANUAL` correlation.
+          When Business Applications is not enabled, this field is null on responses and is rejected (`400`) if supplied on write.
         items:
           $ref: ./businessapplicationref.yaml
       effectiveSanctionedStatus:
-        description: Derived sanctioned status from linked Business Applications; UNKNOWN when no refs are present.
-        $ref: ./sanctionedstatus.yaml
+        allOf:
+          - $ref: ./sanctionedstatus.yaml
+        readOnly: true
+        nullable: true
+        description: |-
+          Derived sanctioned status from linked Business Applications; `UNKNOWN` when no refs are present.
+          Available when Business Applications is enabled for the tenant; null when it is not enabled.
+          Read-only on create and patch input.
+        example: SANCTIONED
       risk:
         type: object
         readOnly: true
