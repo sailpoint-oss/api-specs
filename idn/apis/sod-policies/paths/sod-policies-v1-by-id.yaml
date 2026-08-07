@@ -3,6 +3,9 @@ get:
   - userAuth:
     - idn:sod-policy:read
     - idn:sod-policy:manage
+  x-sailpoint-userLevels:
+  - ORG_ADMIN
+  - SOD_POLICY_ADMIN
   operationId: getSodPolicyV1
   tags:
   - SOD Policies
@@ -113,6 +116,9 @@ put:
   security:
   - userAuth:
     - idn:sod-policy:manage
+  x-sailpoint-userLevels:
+  - ORG_ADMIN
+  - SOD_POLICY_ADMIN
   operationId: putSodPolicyV1
   tags:
   - SOD Policies
@@ -288,6 +294,9 @@ delete:
   security:
   - userAuth:
     - idn:sod-policy:manage
+  x-sailpoint-userLevels:
+  - ORG_ADMIN
+  - SOD_POLICY_ADMIN
   operationId: deleteSodPolicyV1
   tags:
   - SOD Policies
@@ -334,6 +343,9 @@ patch:
   security:
   - userAuth:
     - idn:sod-policy:manage
+  x-sailpoint-userLevels:
+  - ORG_ADMIN
+  - SOD_POLICY_ADMIN
   operationId: patchSodPolicyV1
   tags:
   - SOD Policies
@@ -385,6 +397,12 @@ patch:
       * scheduled
 
       * conflictingAccessCriteria
+
+      * level
+
+      * secondaryOwnerRefs
+
+      * allowedControls
     content:
       application/json-patch+json:
         schema:

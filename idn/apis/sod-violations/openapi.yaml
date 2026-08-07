@@ -74,6 +74,16 @@ paths:
     $ref: ./paths/sod-violations-v1-predict.yaml
   /sod-violations/v1/check:
     $ref: ./paths/sod-violations-v1-check.yaml
+  /violations/v1:
+    $ref: ./paths/violations-v1.yaml
+  /my-violations/v1:
+    $ref: ./paths/my-violations-v1.yaml
+  /violations/v1/{id}:
+    $ref: ./paths/violations-v1-by-id.yaml
+  /violations/v1/{id}/controls:
+    $ref: ./paths/violations-v1-by-id-controls.yaml
+  /violations/v1/{id}/reassign:
+    $ref: ./paths/violations-v1-by-id-reassign.yaml
 security:
   - userAuth:
       - sp:scopes:all

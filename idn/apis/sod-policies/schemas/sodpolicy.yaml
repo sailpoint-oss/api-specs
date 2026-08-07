@@ -46,6 +46,65 @@ properties:
         type: string
         description: Owner's name.
         example: Support
+  secondaryOwnerRefs:
+    type: array
+    description: Additional owners of the SOD policy.(Max 10). Applicable only to Conflicting Access Based policies.
+    example:
+      - type: IDENTITY
+        id: 2c9180a46faadee4016fb4e018c20639
+        name: Support
+    items:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Secondary Owner Type
+          enum:
+            - IDENTITY
+            - GOVERNANCE_GROUP
+          example: IDENTITY
+        id:
+          type: string
+          description: Secondary Owner ID
+          example: 2c9180a46faadee4016fb4e018c20639
+        name:
+          type: string
+          description: Secondary Owner Name
+          example: Support
+  allowedControls:
+    type: array
+    description: Compensating or other controls allowed for this policy.(Max 10). Applicable only to Conflicting Access Based policies.
+    example:
+      - type: COMPENSATING_CONTROL
+        id: 2c9180a46faadee4016fb4e018c20639
+        name: Mitigating Control 1
+    items:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Control reference type.
+          enum:
+            - COMPENSATING_CONTROL
+          example: COMPENSATING_CONTROL
+        id:
+          type: string
+          description: Control reference ID.
+          example: 2c9180a46faadee4016fb4e018
+        name:
+          type: string
+          description: Control reference name.
+          example: Mitigating Control 1
+  level:
+    type: string
+    description: Policy severity or priority level. Applicable only to Conflicting Access Based policies. If not specified, default will be HIGH.
+    nullable: true
+    enum:
+      - CRITICAL
+      - HIGH
+      - MEDIUM
+      - LOW
+    example: HIGH
   externalPolicyReference:
     type: string
     description: Optional External Policy Reference

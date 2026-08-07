@@ -2,6 +2,9 @@ post:
   security:
   - userAuth:
     - idn:sod-policy:manage
+  x-sailpoint-userLevels:
+  - ORG_ADMIN
+  - SOD_POLICY_ADMIN
   operationId: createSodPolicyV1
   tags:
   - SOD Policies
@@ -170,6 +173,9 @@ get:
   - userAuth:
     - idn:sod-policy:read
     - idn:sod-policy:manage
+  x-sailpoint-userLevels:
+  - ORG_ADMIN
+  - SOD_POLICY_ADMIN
   operationId: listSodPoliciesV1
   tags:
   - SOD Policies
@@ -196,10 +202,22 @@ get:
       **id**: *eq, in*
 
 
-      **name**: *eq, in*
+      **name**: *eq, in, sw, co*
 
 
       **state**: *eq, in*
+
+
+      **level**: *eq, in*
+
+
+      **type**: *eq*
+
+
+      **description**: *eq, co, sw*
+
+
+      **ownerRef.name**: *eq, sw*
     example: id eq "bc693f07e7b645539626c25954c58554"
     required: false
   - in: query
@@ -214,7 +232,7 @@ get:
       Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)
 
 
-      Sorting is supported for the following fields: **id, name, created, modified, description**
+      Sorting is supported for the following fields: **id, name, created, modified, description, ownerRef.name**
   responses:
     '200':
       description: List of all SOD policies.

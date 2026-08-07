@@ -1365,6 +1365,14 @@ x-webhooks:
     $ref: './v2026/webhooks/provisioning-completed.yaml'
   ScheduledSearch:
     $ref: './v2026/webhooks/scheduled-search.yaml'
+  SODViolationCreated:
+    $ref: './v2026/webhooks/sod-violation-created.yaml'
+  SODViolationReopened:
+    $ref: './v2026/webhooks/sod-violation-reopened.yaml'
+  SODViolationMitigated:
+    $ref: './v2026/webhooks/sod-violation-mitigated.yaml'
+  SODViolationClosed:
+    $ref: './v2026/webhooks/sod-violation-closed.yaml'
   SourceCreated:
     $ref: './v2026/webhooks/source-created.yaml'
   SourceDeleted:
