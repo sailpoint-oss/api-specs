@@ -2964,7 +2964,12 @@ paths:
       tags:
         - Machine Identities
       summary: List machine identities
-      description: This API returns a list of machine identities.
+      description: |-
+        This API returns a list of machine identities.
+
+        When Business Applications is enabled for the tenant, each response includes enriched
+        `businessApplicationRefs` and top-level `effectiveSanctionedStatus`. When Business Applications is not
+        enabled, those fields are null.
       security:
         - userAuth:
             - idn:mis-identity:read
@@ -3015,6 +3020,12 @@ paths:
             **entitlement.id**: *eq, in*
 
             **entitlement.name**: *eq, in, sw*
+
+            **businessApplicationRefs.id**: *eq*
+
+            **effectiveSanctionedStatus**: *eq*
+
+            Business Application filters require Business Applications to be enabled for the tenant. Filter values are case-sensitive. When Business Applications is not enabled, these filters are not allowed and return `400`.
         - in: query
           name: sorters
           schema:
@@ -3073,6 +3084,13 @@ paths:
       description: |-
         Use this API to create a machine identity.
         The maximum supported length for the description field is 2000 characters.
+
+        When Business Applications is enabled for the tenant, callers may optionally include a single
+        `businessApplicationRefs` entry (`type`=`BUSINESS_APPLICATION`, `id`=BA UUID).
+        The assignment is stored as a `MANUAL` correlation. `correlationType` may be omitted or `MANUAL`;
+        `AUTOMATIC` is rejected (`400`). Unknown BA id returns `404`. More than one ref returns `400`.
+        When Business Applications is not enabled, supplying `businessApplicationRefs` returns `400`.
+        `sanctionedStatus` and `effectiveSanctionedStatus` are read-only and ignored on input.
       requestBody:
         required: true
         content:
@@ -3113,7 +3131,12 @@ paths:
       tags:
         - Machine Identities
       summary: Get machine identity details
-      description: This API returns a single machine identity using the Machine Identity ID.
+      description: |-
+        This API returns a single machine identity using the Machine Identity ID.
+
+        When Business Applications is enabled for the tenant, the response includes enriched
+        `businessApplicationRefs` and top-level `effectiveSanctionedStatus`. When Business Applications is not
+        enabled, those fields are null.
       security:
         - userAuth:
             - idn:mis-identity:read
@@ -3164,7 +3187,13 @@ paths:
         - Machine Identities
       summary: Update machine identity details
       description: |
-        Use this API to update machine identity details.
+        Use this API to update machine identity details using a JSON Patch payload.
+
+        When Business Applications is enabled for the tenant, `/businessApplicationRefs` may be replaced with
+        at most one MANUAL Business Application reference, or cleared with an empty array.
+        Patching `/businessApplicationRefs` when Business Applications is not enabled returns `400`. Existing
+        `AUTOMATIC` correlations cannot be overridden (`400` / `ILLEGAL_UPDATE_ATTEMPT`). Unknown BA id returns
+        `404`. `sanctionedStatus` and `effectiveSanctionedStatus` are read-only.
       security:
         - userAuth:
             - idn:mis-identity:manage
@@ -3213,6 +3242,18 @@ paths:
                 value:
                   - op: remove
                     path: /attributes/securityRisk
+              Replace business application refs:
+                value:
+                  - op: replace
+                    path: /businessApplicationRefs
+                    value:
+                      - type: BUSINESS_APPLICATION
+                        id: bff06019-d858-412e-a343-168849c64bb5
+              Clear business application refs:
+                value:
+                  - op: replace
+                    path: /businessApplicationRefs
+                    value: []
       responses:
         '200':
           description: Updated Machine Identity object.
@@ -58427,6 +58468,72 @@ components:
           example: '2015-05-28T14:07:17Z'
           format: date-time
           readOnly: true
+    SanctionedStatus:
+      type: string
+      title: Sanctioned Status
+      description: |-
+        Sanctioned status for a Business Application or the derived effective status on a machine identity.
+        Values are case-sensitive.
+      enum:
+        - SANCTIONED
+        - UNSANCTIONED
+        - UNKNOWN
+      example: SANCTIONED
+    CorrelationType:
+      type: string
+      title: Correlation Type
+      description: |-
+        Whether the Business Application reference was manually assigned or automatically correlated.
+        On write (create/patch), omit or send `MANUAL` (default). `AUTOMATIC` is rejected with `400 Bad Request`.
+      enum:
+        - MANUAL
+        - AUTOMATIC
+      example: MANUAL
+    BusinessApplicationRef:
+      type: object
+      title: Business Application Ref
+      description: |-
+        Reference to a Business Application associated with a machine identity.
+        Available when Business Applications is enabled for the tenant.
+        At most one Business Application reference is supported per machine identity on create and patch.
+      required:
+        - type
+        - id
+      properties:
+        type:
+          type: string
+          description: Reference type. Must be `BUSINESS_APPLICATION`.
+          enum:
+            - BUSINESS_APPLICATION
+          example: BUSINESS_APPLICATION
+        id:
+          type: string
+          format: uuid
+          description: Existing Business Application id in the tenant.
+          example: 2ee5e239-e68c-4d69-93fb-6c7ce4576190
+        name:
+          type: string
+          nullable: true
+          description: |-
+            Business Application display name.
+            Ignored on write; responses are enriched from the Business Application.
+          example: Cursor
+        sanctionedStatus:
+          allOf:
+            - $ref: '#/components/schemas/SanctionedStatus'
+          readOnly: true
+          description: |-
+            Sanctioned status of the linked Business Application.
+            Ignored on write; responses are enriched from the Business Application.
+          example: SANCTIONED
+        correlationType:
+          allOf:
+            - $ref: '#/components/schemas/CorrelationType'
+          description: |-
+            Correlation type for this reference.
+            On write: omit or `MANUAL` (default). `AUTOMATIC` is rejected (`400`).
+            On response: may be `MANUAL` or `AUTOMATIC`.
+          example: MANUAL
     MachineIdentity:
       allOf:
         - $ref: '#/components/schemas/BaseCommonDto'
@@ -58477,6 +58584,17 @@ components:
               type: string
               description: The UUID associated to the machine identity directly aggregated from a source
               example: f5dd23fe-3414-42b7-bb1c-869400ad7a10
+            businessApplicationRefs:
+              type: array
+              nullable: true
+              maxItems: 1
+              description: |-
+                Optional Business Application references associated with this machine identity.
+                Available when Business Applications is enabled for the tenant.
+                On create and patch, at most one reference is allowed and is persisted as a `MANUAL` correlation.
+                When Business Applications is not enabled, this field is null on responses and is rejected (`400`) if supplied on write.
+              items:
+                $ref: '#/components/schemas/BusinessApplicationRef'
     MachineIdentityResponse:
       allOf:
         - $ref: '#/components/schemas/MachineIdentity'
@@ -58493,6 +58611,16 @@ components:
               description: Indicates if the machine identity has been manually created
               default: false
               example: true
+            effectiveSanctionedStatus:
+              allOf:
+                - $ref: '#/components/schemas/SanctionedStatus'
+              readOnly: true
+              nullable: true
+              description: |-
+                Derived sanctioned status from linked Business Applications; `UNKNOWN` when no refs are present.
+                Available when Business Applications is enabled for the tenant; null when it is not enabled.
+                Read-only on create and patch input.
+              example: SANCTIONED
             source:
               type: object
               description: The source of the machine identity

@@ -43903,7 +43903,7 @@
               "type": "string"
             },
             "example": "identityId eq \"2c9180858082150f0180893dbaf44201\"",
-            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in, sw*\n\n**displayName**: *eq, in, sw*\n\n**nativeIdentity**: *eq, in, sw*\n\n**attributes**: *eq*\n\n**manuallyEdited**: *eq*\n\n**subtype**: *eq, in*\n\n**owners.primaryIdentity.id**: *eq, in, sw*\n\n**owners.primaryIdentity.name**: *eq, in, isnull, pr*\n\n**owners.secondaryIdentity.id**: *eq, in, sw*\n\n**owners.secondaryIdentity.name**: *eq, in, isnull, pr*\n\n**owners.secondaryGovernanceGroup.id**: *eq, in*\n\n**owners.secondaryGovernanceGroup.name**: *eq, in, isnull, pr*\n\n**source.id**: *eq, in*\n\n**source.name**: *eq, in, sw*\n\n**entitlement.id**: *eq, in*\n\n**entitlement.name**: *eq, in, sw*\n\n**risk.severity**: *eq, in*"
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in, sw*\n\n**displayName**: *eq, in, sw*\n\n**nativeIdentity**: *eq, in, sw*\n\n**attributes**: *eq*\n\n**manuallyEdited**: *eq*\n\n**subtype**: *eq, in*\n\n**owners.primaryIdentity.id**: *eq, in, sw*\n\n**owners.primaryIdentity.name**: *eq, in, isnull, pr*\n\n**owners.secondaryIdentity.id**: *eq, in, sw*\n\n**owners.secondaryIdentity.name**: *eq, in, isnull, pr*\n\n**owners.secondaryGovernanceGroup.id**: *eq, in*\n\n**owners.secondaryGovernanceGroup.name**: *eq, in, isnull, pr*\n\n**source.id**: *eq, in*\n\n**source.name**: *eq, in, sw*\n\n**entitlement.id**: *eq, in*\n\n**entitlement.name**: *eq, in, sw*\n\n**risk.severity**: *eq, in*\n\n**businessApplicationRefs.id**: *eq*\n\n**effectiveSanctionedStatus**: *eq*\n\nBusiness Application filters require Business Applications to be enabled for the tenant. Filter values are case-sensitive. When Business Applications is not enabled, these filters are not allowed and return `400`."
           },
           {
             "in": "query",
@@ -43966,7 +43966,7 @@
           "Machine Identities"
         ],
         "summary": "Create machine identity",
-        "description": "Use this API to create a machine identity. Additional owners may be either up to ten human (IDENTITY) references or exactly one GOVERNANCE_GROUP reference - not both. The maximum supported length for the description field is 2000 characters.",
+        "description": "Use this API to create a machine identity. Additional owners may be either up to ten human (IDENTITY) references or exactly one GOVERNANCE_GROUP reference - not both. The maximum supported length for the description field is 2000 characters.\n\nWhen Business Applications is enabled for the tenant, callers may optionally include a single `businessApplicationRefs` entry (`type`=`BUSINESS_APPLICATION`, `id`=BA UUID). The assignment is stored as a `MANUAL` correlation. `correlationType` may be omitted or `MANUAL`; `AUTOMATIC` is rejected (`400`). Unknown BA id returns `404`. More than one ref returns `400`. When Business Applications is not enabled, supplying `businessApplicationRefs` returns `400`. `sanctionedStatus` and `effectiveSanctionedStatus` are read-only and ignored on input.",
         "security": [
           {
             "userAuth": [
@@ -44102,7 +44102,7 @@
           "Machine Identities"
         ],
         "summary": "Partial update of machine identity",
-        "description": "Use this API to selectively update machine identity details using a JSONPatch payload.\n\nPatchable fields include **name**, **description**, **nativeIdentity**, **subtype**, **environment**, **attributes**, **owners**, **userEntitlements**, and **manuallyEdited** only.\n",
+        "description": "Use this API to selectively update machine identity details using a JSONPatch payload.\n\nPatchable fields include **name**, **description**, **nativeIdentity**, **subtype**, **environment**, **attributes**, **owners**, **userEntitlements**, **manuallyEdited**, and **businessApplicationRefs** (when Business Applications is enabled for the tenant).\n\n\nWhen Business Applications is enabled for the tenant, `/businessApplicationRefs` may be replaced with at most one MANUAL Business Application\nreference, or cleared with an empty array. Patching `/businessApplicationRefs` when Business Applications is not enabled returns `400`.\nExisting `AUTOMATIC` correlations cannot be overridden (`400` / `ILLEGAL_UPDATE_ATTEMPT`). Unknown BA id returns `404`.\n",
         "security": [
           {
             "userAuth": [
@@ -44166,6 +44166,29 @@
                     {
                       "op": "remove",
                       "path": "/attributes/securityRisk"
+                    }
+                  ]
+                },
+                "Replace business application refs": {
+                  "value": [
+                    {
+                      "op": "replace",
+                      "path": "/businessApplicationRefs",
+                      "value": [
+                        {
+                          "type": "BUSINESS_APPLICATION",
+                          "id": "bff06019-d858-412e-a343-168849c64bb5"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "Clear business application refs": {
+                  "value": [
+                    {
+                      "op": "replace",
+                      "path": "/businessApplicationRefs",
+                      "value": []
                     }
                   ]
                 }
@@ -103078,7 +103101,7 @@
       "sanctionedstatus": {
         "type": "string",
         "title": "Sanctioned Status",
-        "description": "Sanctioned status for a Business Application or derived machine identity effective status.",
+        "description": "Sanctioned status for a Business Application or the derived effective status on a machine identity.\nValues are case-sensitive.",
         "enum": [
           "SANCTIONED",
           "UNSANCTIONED",
@@ -103086,37 +103109,62 @@
         ],
         "example": "SANCTIONED"
       },
+      "correlationtype": {
+        "type": "string",
+        "title": "Correlation Type",
+        "description": "Whether the Business Application reference was manually assigned or automatically correlated.\nOn write (create/patch), omit or send `MANUAL` (default). `AUTOMATIC` is rejected with `400 Bad Request`.",
+        "enum": [
+          "MANUAL",
+          "AUTOMATIC"
+        ],
+        "example": "MANUAL"
+      },
       "businessapplicationref": {
         "type": "object",
         "title": "Business Application Ref",
-        "description": "Reference to a Business Application associated with a machine identity.",
+        "description": "Reference to a Business Application associated with a machine identity.\nAvailable when Business Applications is enabled for the tenant.\nAt most one Business Application reference is supported per machine identity on create and patch.",
+        "required": [
+          "type",
+          "id"
+        ],
         "properties": {
           "type": {
             "type": "string",
-            "description": "Reference type.",
+            "description": "Reference type. Must be `BUSINESS_APPLICATION`.",
+            "enum": [
+              "BUSINESS_APPLICATION"
+            ],
             "example": "BUSINESS_APPLICATION"
           },
           "id": {
             "type": "string",
-            "description": "Business Application ID.",
-            "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+            "format": "uuid",
+            "description": "Existing Business Application id in the tenant.",
+            "example": "2ee5e239-e68c-4d69-93fb-6c7ce4576190"
           },
           "name": {
             "type": "string",
             "nullable": true,
-            "description": "Business Application display name.",
+            "description": "Business Application display name.\nIgnored on write; responses are enriched from the Business Application.",
             "example": "Cursor"
           },
           "sanctionedStatus": {
-            "$ref": "#/components/schemas/sanctionedstatus"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/sanctionedstatus"
+              }
+            ],
+            "readOnly": true,
+            "description": "Sanctioned status of the linked Business Application.\nIgnored on write; responses are enriched from the Business Application.",
+            "example": "SANCTIONED"
           },
           "correlationType": {
-            "type": "string",
-            "description": "Whether the Business Application reference was manually assigned or automatically correlated.",
-            "enum": [
-              "MANUAL",
-              "AUTOMATIC"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/correlationtype"
+              }
             ],
+            "description": "Correlation type for this reference.\nOn write: omit or `MANUAL` (default). `AUTOMATIC` is rejected (`400`).\nOn response: may be `MANUAL` or `AUTOMATIC`.",
             "example": "MANUAL"
           }
         }
@@ -103239,14 +103287,22 @@
               "businessApplicationRefs": {
                 "type": "array",
                 "nullable": true,
-                "description": "Optional Business Application references associated with this machine identity.",
+                "maxItems": 1,
+                "description": "Optional Business Application references associated with this machine identity.\nAvailable when Business Applications is enabled for the tenant.\nOn create and patch, at most one reference is allowed and is persisted as a `MANUAL` correlation.\nWhen Business Applications is not enabled, this field is null on responses and is rejected (`400`) if supplied on write.",
                 "items": {
                   "$ref": "#/components/schemas/businessapplicationref"
                 }
               },
               "effectiveSanctionedStatus": {
-                "description": "Derived sanctioned status from linked Business Applications; UNKNOWN when no refs are present.",
-                "$ref": "#/components/schemas/sanctionedstatus"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/sanctionedstatus"
+                  }
+                ],
+                "readOnly": true,
+                "nullable": true,
+                "description": "Derived sanctioned status from linked Business Applications; `UNKNOWN` when no refs are present.\nAvailable when Business Applications is enabled for the tenant; null when it is not enabled.\nRead-only on create and patch input.",
+                "example": "SANCTIONED"
               },
               "risk": {
                 "type": "object",
