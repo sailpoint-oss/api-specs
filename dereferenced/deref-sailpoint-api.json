@@ -397,6 +397,10 @@
       "description": "Use this API to administer IdentityNow's Service Integration Module, or SIM integration with ServiceNow, so that it converts IdentityNow provisioning actions into tickets in ServiceNow.\n\nServiceNow is a software platform that supports IT service management and automates common business processes for requesting and fulfilling service requests across a business enterprise.\n\nYou must have an IdentityNow ServiceNow ServiceDesk license to use this integration. Contact your Customer Success Manager for more information.\n\nService Desk integration for IdentityNow and in deprecation - not available for new implementation, as of July 21st, 2021. As per SailPoint's [support policy](https://community.sailpoint.com/t5/Connector-Directory/SailPoint-Support-Policy-for-Connectivity/ta-p/79422), all existing SailPoint IdentityNow customers using this legacy integration will be supported until July 2022.\n"
     },
     {
+      "name": "SOD Controls",
+      "description": "Use this API to create, list, retrieve, update, and delete compensating controls associated with separation-of-duties policies. Requires policy violation management license.\n"
+    },
+    {
       "name": "SOD Policies",
       "description": "Use this API to implement and manage \"separation of duties\" (SOD) policies. \nWith SOD policy functionality in place, administrators can organize the access in their tenants to prevent individuals from gaining conflicting or excessive access. \n\n\"Separation of duties\" refers to the concept that people shouldn't have conflicting sets of access - all their access should be configured in a way that protects your organization's assets and data.  \nFor example, people who record monetary transactions shouldn't be able to issue payment for those transactions.\nAny changes to major system configurations should be approved by someone other than the person requesting the change. \n\nOrganizations can use \"separation of duties\" (SOD) policies to enforce and track their internal security rules throughout their tenants.\nThese SOD policies limit each user's involvement in important processes and protects the organization from individuals gaining excessive access. \n\nTo create SOD policies in Identity Security Cloud, administrators use 'Search' and then access 'Policies'.\nTo create a policy, they must configure two lists of access items. Each access item can only be added to one of the two lists.\nThey can search for the entitlements they want to add to these access lists.\n\n>Note: You can have a maximum of 500 policies of any type (including general policies) in your organization. In each access-based SOD policy, you can have a maximum of 50 entitlements in each access list.  \n\nOnce a SOD policy is in place, if an identity has access items on both lists, a SOD violation will trigger. \nThese violations are included in SOD violation reports that other users will see in emails at regular intervals if they're subscribed to the SOD policy.\nThe other users can then better help to enforce these SOD policies. \n\nTo create a subscription to a SOD policy in Identity Security Cloud, administrators use 'Search' and then access 'Layers'.\nThey can create a subscription to the policy and schedule it to run at a regular interval. \n\nRefer to [Managing Policies](https://documentation.sailpoint.com/saas/help/sod/manage-policies.html) for more information about SOD policies. \n\nRefer to [Subscribe to a SOD Policy](https://documentation.sailpoint.com/saas/help/sod/policy-violations.html#subscribe-to-an-sod-policy) for more information about SOD policy subscriptions.\n"
     },
@@ -62461,6 +62465,515 @@
         ]
       }
     },
+    "/controls/v1": {
+      "get": {
+        "operationId": "listControlsV1",
+        "tags": [
+          "SOD Controls"
+        ],
+        "summary": "List Compensating Controls",
+        "description": "Returns a list of compensating controls associated with separation-of-duties policies.",
+        "security": [
+          {
+            "userAuth": [
+              "idn:sod-control:read"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOD_CONTROL_ADMIN",
+          "SOD_POLICY_ADMIN"
+        ],
+        "parameters": [
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          },
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          },
+          {
+            "$ref": "#/components/parameters/count"
+          },
+          {
+            "in": "query",
+            "name": "filters",
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in*\n\n**name**: *eq, in, sw, co*\n\n**type**: *eq*\n\n**owner**: *eq, in*\n\n**description**: *eq, in, sw, co*\n\n**action**: *eq, in*",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "example": "type eq \"Mitigation\" and name co \"payroll\""
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **name**\n\nPrefix a field with - for descending order, for example -name. If no sort is provided, results default to name ascending.",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "example": "-name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of compensating controls",
+            "headers": {
+              "X-Total-Count": {
+                "description": "Total number of matching controls (only present when `count=true`).\n",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/compensatingcontrolresponse"
+                  }
+                },
+                "example": [
+                  {
+                    "id": "3e078865-55ed-43cf-b83c-85c58d2016e6",
+                    "name": "Example Name",
+                    "description": "a description",
+                    "owner": {
+                      "id": "943a7c57da334d07ba2454bf7fcf144f",
+                      "type": "IDENTITY",
+                      "name": "John Doe"
+                    },
+                    "secondaryOwners": [],
+                    "type": "MITIGATION",
+                    "action": "action",
+                    "expiration": "720h",
+                    "justificationRequired": true,
+                    "workflowID": "3e07886555ed43cfb83c85c58d2016e6"
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "post": {
+        "operationId": "createControlV1",
+        "tags": [
+          "SOD Controls"
+        ],
+        "summary": "Create Compensating Control",
+        "description": "Creates a compensating control associated with separation-of-duties policies.",
+        "security": [
+          {
+            "userAuth": [
+              "idn:sod-control:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOD_CONTROL_ADMIN"
+        ],
+        "parameters": [
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Data needed to create a Compensating Control",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/compensatingcontrolcreate"
+              },
+              "example": {
+                "name": "a name",
+                "description": "a description",
+                "owner": {
+                  "id": "3e07886555ed43cfb83c85c58d2016e6",
+                  "type": "IDENTITY"
+                },
+                "secondaryOwners": [
+                  {
+                    "id": "943a7c57da334d07ba2454bf7fcf144f",
+                    "type": "GOVERNANCE_GROUP"
+                  }
+                ],
+                "type": "Mitigation",
+                "action": "Workflow",
+                "expiration": "20d",
+                "justificationRequired": true,
+                "workflowID": "3e07886555ed43cfb83c85c58d2016e6"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Compensating Control successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/compensatingcontrolresponse"
+                },
+                "example": {
+                  "id": "3e078865-55ed-43cf-b83c-85c58d2016e6",
+                  "name": "Example Name",
+                  "description": "a description",
+                  "owner": {
+                    "id": "943a7c57da334d07ba2454bf7fcf144f",
+                    "type": "IDENTITY",
+                    "name": "John Doe"
+                  },
+                  "secondaryOwners": [],
+                  "type": "MITIGATION",
+                  "action": "action",
+                  "expiration": "720h",
+                  "justificationRequired": true,
+                  "workflowID": "3e07886555ed43cfb83c85c58d2016e6"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/controls/v1/{id}": {
+      "get": {
+        "operationId": "getControlV1",
+        "tags": [
+          "SOD Controls"
+        ],
+        "summary": "Get compensating control by ID",
+        "description": "Returns a single compensating control by ID.",
+        "security": [
+          {
+            "userAuth": [
+              "idn:sod-control:read"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOD_CONTROL_ADMIN",
+          "SOD_POLICY_ADMIN"
+        ],
+        "parameters": [
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listControlsV1",
+            "description": "The ID of the compensating control to fetch",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "3e078865-55ed-43cf-b83c-85c58d2016e6"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Single compensating control",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/compensatingcontrolresponse"
+                },
+                "example": {
+                  "id": "3e078865-55ed-43cf-b83c-85c58d2016e6",
+                  "name": "Example Name",
+                  "description": "a description",
+                  "owner": {
+                    "id": "943a7c57da334d07ba2454bf7fcf144f",
+                    "type": "IDENTITY",
+                    "name": "John Doe"
+                  },
+                  "secondaryOwners": [],
+                  "type": "MITIGATION",
+                  "action": "action",
+                  "expiration": "720h",
+                  "justificationRequired": true,
+                  "workflowID": "3e07886555ed43cfb83c85c58d2016e6"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "put": {
+        "operationId": "putControlV1",
+        "tags": [
+          "SOD Controls"
+        ],
+        "summary": "Put Compensating Control",
+        "description": "Updates the specified compensating control.",
+        "security": [
+          {
+            "userAuth": [
+              "idn:sod-control:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOD_CONTROL_ADMIN"
+        ],
+        "parameters": [
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listControlsV1",
+            "description": "The unique identifier of the Compensating Control to be updated.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "3e078865-55ed-43cf-b83c-85c58d2016e6"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Data needed to put a Compensating Control",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/compensatingcontrolupdate"
+              },
+              "example": {
+                "name": "a name",
+                "description": "a description",
+                "owner": {
+                  "id": "3e07886555ed43cfb83c85c58d2016e6",
+                  "type": "IDENTITY"
+                },
+                "secondaryOwners": [
+                  {
+                    "id": "943a7c57da334d07ba2454bf7fcf144f",
+                    "type": "GOVERNANCE_GROUP"
+                  }
+                ],
+                "type": "Mitigation",
+                "action": "Workflow",
+                "expiration": "20d",
+                "justificationRequired": true,
+                "workflowID": "3e07886555ed43cfb83c85c58d2016e6"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Compensating Control successfully patched",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/compensatingcontrolresponse"
+                },
+                "example": {
+                  "id": "3e078865-55ed-43cf-b83c-85c58d2016e6",
+                  "name": "Example Name",
+                  "description": "a description",
+                  "owner": {
+                    "id": "943a7c57da334d07ba2454bf7fcf144f",
+                    "type": "IDENTITY",
+                    "name": "John Doe"
+                  },
+                  "secondaryOwners": [],
+                  "type": "MITIGATION",
+                  "action": "action",
+                  "expiration": "720h",
+                  "justificationRequired": true,
+                  "workflowID": "3e07886555ed43cfb83c85c58d2016e6"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteControlV1",
+        "tags": [
+          "SOD Controls"
+        ],
+        "summary": "Delete compensating control by ID",
+        "description": "Deletes the specified compensating control from the data store.",
+        "security": [
+          {
+            "userAuth": [
+              "idn:sod-control:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "parameters": [
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listControlsV1",
+            "description": "the ID (UUID) of the compensating control to delete.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "3e078865-55ed-43cf-b83c-85c58d2016e6"
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/204"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
     "/sod-policies/v1": {
       "post": {
         "security": [
@@ -62469,6 +62982,10 @@
               "idn:sod-policy:manage"
             ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOD_POLICY_ADMIN"
         ],
         "operationId": "createSodPolicyV1",
         "tags": [
@@ -62694,6 +63211,10 @@
             ]
           }
         ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOD_POLICY_ADMIN"
+        ],
         "operationId": "listSodPoliciesV1",
         "tags": [
           "SOD Policies"
@@ -62716,7 +63237,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in*\n\n**name**: *eq, in*\n\n**state**: *eq, in*",
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in*\n\n**name**: *eq, in, sw, co*\n\n**state**: *eq, in*\n\n**level**: *eq, in*\n\n**type**: *eq*\n\n**description**: *eq, co, sw*\n\n**ownerRef.name**: *eq, sw*",
             "example": "id eq \"bc693f07e7b645539626c25954c58554\"",
             "required": false
           },
@@ -62729,7 +63250,7 @@
               "format": "comma-separated"
             },
             "example": "id,name",
-            "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **id, name, created, modified, description**"
+            "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **id, name, created, modified, description, ownerRef.name**"
           }
         ],
         "responses": {
@@ -62859,6 +63380,10 @@
               "idn:sod-policy:manage"
             ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOD_POLICY_ADMIN"
         ],
         "operationId": "getSodPolicyV1",
         "tags": [
@@ -63007,6 +63532,10 @@
               "idn:sod-policy:manage"
             ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOD_POLICY_ADMIN"
         ],
         "operationId": "putSodPolicyV1",
         "tags": [
@@ -63245,6 +63774,10 @@
             ]
           }
         ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOD_POLICY_ADMIN"
+        ],
         "operationId": "deleteSodPolicyV1",
         "tags": [
           "SOD Policies"
@@ -63307,6 +63840,10 @@
             ]
           }
         ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOD_POLICY_ADMIN"
+        ],
         "operationId": "patchSodPolicyV1",
         "tags": [
           "SOD Policies"
@@ -63328,7 +63865,7 @@
         ],
         "requestBody": {
           "required": true,
-          "description": "A list of SOD Policy update operations according to the [JSON Patch](https://tools.ietf.org/html/rfc6902) standard.\n\nThe following fields are patchable:\n* name\n* description\n* ownerRef\n* externalPolicyReference\n* compensatingControls\n* correctionAdvice\n* state\n* tags\n* violationOwnerAssignmentConfig\n* scheduled\n* conflictingAccessCriteria\n",
+          "description": "A list of SOD Policy update operations according to the [JSON Patch](https://tools.ietf.org/html/rfc6902) standard.\n\nThe following fields are patchable:\n* name\n* description\n* ownerRef\n* externalPolicyReference\n* compensatingControls\n* correctionAdvice\n* state\n* tags\n* violationOwnerAssignmentConfig\n* scheduled\n* conflictingAccessCriteria\n* level\n* secondaryOwnerRefs\n* allowedControls\n",
           "content": {
             "application/json-patch+json": {
               "schema": {
@@ -64372,6 +64909,462 @@
                 }
               }
             }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/violations/v1": {
+      "get": {
+        "security": [
+          {
+            "userAuth": [
+              "idn:sod-violation:read"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "operationId": "listViolationsV1",
+        "tags": [
+          "SOD Violations"
+        ],
+        "summary": "List Policy Violations",
+        "description": "Returns a paged list of policy violations for the current tenant. Requires the read scope (idn:sod-violation:read).\nThis endpoint uses the standard collection parameters defined in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters/).\nThis endpoint supports standard V3 collection parameters: `limit`, `offset`, `count`, `filters`, and `sorters`.\nEmbedded references in each violation (`owner`, `target`, `policy`, and references inside `appliedControls`) follow the `ReferenceResponse` schema: `id` and `type` are always present; `name` is included when display metadata resolves.\nFilters and sorters are validated against a fixed whitelist of fields to ensure safe queries and to align with underlying database indexes.\n",
+        "parameters": [
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          },
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          },
+          {
+            "$ref": "#/components/parameters/count"
+          },
+          {
+            "in": "query",
+            "name": "filters",
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**status**: *eq, in*\n\n**policyId**: *eq*\n\n**ownerId**: *eq*\n\n**level**: *eq, in*\n\n**policyName**: *eq, in, sw, co*\n\n**ownerName**: *eq, in, sw, co*\n\n**targetName**: *eq, in, sw, co*\n\n**targetId**: *eq, in*",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "example": "status in (\"Open\",\"Mitigated\") and level eq \"High\" and policyId eq \"bc693f07-e7b6-4553-9626-c25954c58554\" and ownerId eq \"de305d54-75b4-431b-adb2-eb6b9e546014\""
+          },
+          {
+            "in": "query",
+            "name": "sorters",
+            "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **level**\n\nPrefix a field with - for descending order, for example -level. If no sorters are provided, results default to created descending, then id descending.",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "example": "-level"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of policy violations",
+            "headers": {
+              "X-Total-Count": {
+                "description": "Total number of matching violations (only present when `count=true`).\n",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/policyviolationresponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/my-violations/v1": {
+      "get": {
+        "security": [
+          {
+            "userAuth": [
+              "idn:sod-violation:read"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "Any"
+        ],
+        "operationId": "listMyViolationsV1",
+        "tags": [
+          "SOD Violations"
+        ],
+        "summary": "List My Policy Violations",
+        "description": "Returns a paged list of policy violations where the current user is the owner (directly assigned or via a governance group they belong to). No permission scope is required; caller identity is required.\nSupports the same collection parameters as GET /violations (limit, offset, count, filters, sorters), including the same filter field whitelist and processing (normalization, pruning of not-yet-persisted name predicates). The owner filter is implicit (current user); **do not** use `ownerId` in filters for this endpoint.\nEmbedded references in each violation follow `ReferenceResponse` (`id`, `type`, and optional `name` when metadata resolves).\n",
+        "parameters": [
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          },
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          },
+          {
+            "$ref": "#/components/parameters/count"
+          },
+          {
+            "in": "query",
+            "name": "filters",
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**status**: *eq, in*\n\n**policyId**: *eq*\n\n**level**: *eq, in*\n\n**policyName**: *eq, in, sw, co*\n\n**ownerName**: *eq, in, sw, co*\n\n**targetName**: *eq, in, sw, co*\n\n**targetId**: *eq, in*",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "example": "status in (\"Open\",\"Mitigated\") and level eq \"High\""
+          },
+          {
+            "in": "query",
+            "name": "sorters",
+            "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **level**\n\nPrefix a field with - for descending order, for example -level. If omitted, default ordering matches GET /violations (created descending, then id descending).",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "example": "-level"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of policy violations owned by the caller",
+            "headers": {
+              "X-Total-Count": {
+                "description": "Total matching violations (when count=true).",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/policyviolationresponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/violations/v1/{id}": {
+      "get": {
+        "security": [
+          {
+            "userAuth": [
+              "idn:sod-violation:read"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "Any"
+        ],
+        "operationId": "getViolationV1",
+        "tags": [
+          "SOD Violations"
+        ],
+        "summary": "Get policy violation by ID",
+        "description": "Returns a single policy violation by ID for the current tenant. Access is allowed if the caller has the read scope (`idn:sod-violation:read`) or is an owner of the violation (direct or via governance group). Returns 403 Forbidden if the violation exists but the caller has neither the read scope nor ownership. Returns 404 Not Found if the violation does not exist for the tenant.\nEmbedded references (`owner`, `target`, `policy`, and references inside `appliedControls`) use `ReferenceResponse`: `id` and `type` are always present; `name` is included when display metadata resolves.\n",
+        "parameters": [
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listViolationsV1",
+            "description": "The ID of the policy violation to fetch",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "3e078865-55ed-43cf-b83c-85c58d2016e6"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The policy violation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/policyviolationresponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/violations/v1/{id}/controls": {
+      "post": {
+        "security": [
+          {
+            "userAuth": [
+              "idn:sod-violation:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "Any"
+        ],
+        "operationId": "startApplyControlV1",
+        "tags": [
+          "SOD Violations"
+        ],
+        "summary": "Apply control to violation",
+        "description": "Applies a compensating control to the specified policy violation. Callers without the `idn:sod-violation:manage` scope may only apply a control to violations they own (directly, or via a governance group they belong to).",
+        "parameters": [
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listViolationsV1",
+            "description": "The ID of the policy violation to fetch",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "3e078865-55ed-43cf-b83c-85c58d2016e6"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Data needed to apply a control to a Policy Violation",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/appliedcontrolcreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Control successfully applied to Policy Violation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/appliedcontrol"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/violations/v1/{id}/reassign": {
+      "post": {
+        "security": [
+          {
+            "userAuth": [
+              "idn:sod-violation:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "Any"
+        ],
+        "operationId": "moveViolationV1",
+        "tags": [
+          "SOD Violations"
+        ],
+        "summary": "Reassign policy violation",
+        "description": "Reassigns the specified policy violation to a new owner. Callers without the `idn:sod-violation:manage` scope may only reassign violations they own (directly, or via a governance group they belong to).",
+        "parameters": [
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listViolationsV1",
+            "description": "The ID of the policy violation to fetch",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "3e078865-55ed-43cf-b83c-85c58d2016e6"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Data needed to reassign a Policy Violation",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/violationreassigninput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The violation was reassigned to the new owner; returns the updated violation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/policyviolationresponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "The requested assignee was already the owner of the violation, so no change was made."
           },
           "400": {
             "$ref": "#/components/responses/400"
@@ -116281,6 +117274,273 @@
           }
         ]
       },
+      "reference-2": {
+        "type": "object",
+        "description": "Reference to an identity or governance group returned in a response.",
+        "required": [
+          "id",
+          "type"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Opaque identifier in the exact form required by the owning service (case, dashes, etc. must be preserved).\n",
+            "example": "943a7c57da334d07ba2454bf7fcf144f"
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of object being referenced.",
+            "example": "IDENTITY"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "description": "Human-readable name for the referenced identity or governance group when known. Omitted when unknown; null is allowed in the schema when clients send or receive explicit nulls.\n",
+            "example": "John Doe"
+          }
+        }
+      },
+      "compensatingcontrolresponse": {
+        "type": "object",
+        "required": [
+          "owner",
+          "justificationRequired"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The system-generated unique identifier of the compensating control.",
+            "example": "3e078865-55ed-43cf-b83c-85c58d2016e6",
+            "readOnly": true
+          },
+          "name": {
+            "type": "string",
+            "description": "The display name of the compensating control.",
+            "example": "Example Name",
+            "readOnly": true
+          },
+          "description": {
+            "type": "string",
+            "description": "A human-readable description of the compensating control.",
+            "example": "a description",
+            "readOnly": true
+          },
+          "owner": {
+            "$ref": "#/components/schemas/reference-2"
+          },
+          "secondaryOwners": {
+            "type": "array",
+            "description": "References to additional identities or governance groups that share ownership of the compensating control.",
+            "example": [
+              {
+                "id": "943a7c57da334d07ba2454bf7fcf144f",
+                "type": "IDENTITY",
+                "name": "John Doe"
+              }
+            ],
+            "items": {
+              "$ref": "#/components/schemas/reference-2"
+            },
+            "readOnly": true
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of compensating control that determines how a violation is addressed.",
+            "example": "MITIGATION",
+            "readOnly": true
+          },
+          "action": {
+            "type": "string",
+            "description": "The action performed when the compensating control is applied.",
+            "example": "action",
+            "readOnly": true
+          },
+          "expiration": {
+            "type": "string",
+            "description": "The duration after which the applied control expires, expressed as a duration string.",
+            "example": "720h",
+            "readOnly": true
+          },
+          "justificationRequired": {
+            "type": "boolean",
+            "description": "Indicates whether a justification is required when applying this control.",
+            "example": true,
+            "readOnly": true
+          },
+          "workflowID": {
+            "type": "string",
+            "description": "Opaque workflow definition identifier in the exact form required by the owning service.\n",
+            "example": "3e07886555ed43cfb83c85c58d2016e6",
+            "readOnly": true
+          }
+        }
+      },
+      "referenceinput": {
+        "type": "object",
+        "description": "Reference to an identity or governance group supplied on a request body.",
+        "required": [
+          "id",
+          "type"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "maxLength": 2048,
+            "description": "Opaque identifier in the exact form required by the owning service (case, dashes, etc. must be preserved).\n",
+            "example": "3e07886555ed43cfb83c85c58d2016e6"
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of object being referenced.",
+            "enum": [
+              "IDENTITY",
+              "GOVERNANCE_GROUP"
+            ],
+            "example": "IDENTITY"
+          }
+        }
+      },
+      "compensatingcontrolcreate": {
+        "type": "object",
+        "required": [
+          "name",
+          "owner",
+          "type"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "The display name of the compensating control.",
+            "example": "a name"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 1024,
+            "description": "A human-readable description of the compensating control.",
+            "example": "a description"
+          },
+          "owner": {
+            "$ref": "#/components/schemas/referenceinput"
+          },
+          "secondaryOwners": {
+            "type": "array",
+            "maxItems": 10,
+            "description": "References to additional identities or governance groups that share ownership of the compensating control (maximum 10).",
+            "example": [
+              {
+                "id": "943a7c57da334d07ba2454bf7fcf144f",
+                "type": "GOVERNANCE_GROUP"
+              }
+            ],
+            "items": {
+              "$ref": "#/components/schemas/referenceinput"
+            }
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of compensating control that determines how a violation is addressed.",
+            "enum": [
+              "Mitigation",
+              "Remediation"
+            ],
+            "example": "Mitigation"
+          },
+          "action": {
+            "type": "string",
+            "description": "The action performed when the compensating control is applied.",
+            "enum": [
+              "Workflow",
+              "Certification"
+            ],
+            "example": "Workflow"
+          },
+          "expiration": {
+            "type": "string",
+            "description": "The duration after which the applied control expires, expressed as a duration string.",
+            "example": "20d"
+          },
+          "justificationRequired": {
+            "type": "boolean",
+            "default": false,
+            "description": "Indicates whether a justification is required when applying this control.",
+            "example": true
+          },
+          "workflowID": {
+            "type": "string",
+            "example": "3e07886555ed43cfb83c85c58d2016e6",
+            "description": "Workflow definition ID used when the control action is a workflow."
+          }
+        }
+      },
+      "compensatingcontrolupdate": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "The display name of the compensating control.",
+            "example": "a name"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 1024,
+            "description": "A human-readable description of the compensating control.",
+            "example": "a description"
+          },
+          "owner": {
+            "$ref": "#/components/schemas/referenceinput"
+          },
+          "secondaryOwners": {
+            "type": "array",
+            "maxItems": 10,
+            "description": "References to additional identities or governance groups that share ownership of the compensating control (maximum 10).",
+            "example": [
+              {
+                "id": "943a7c57da334d07ba2454bf7fcf144f",
+                "type": "GOVERNANCE_GROUP"
+              }
+            ],
+            "items": {
+              "$ref": "#/components/schemas/referenceinput"
+            }
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of compensating control that determines how a violation is addressed.",
+            "enum": [
+              "Mitigation",
+              "Remediation"
+            ],
+            "example": "Mitigation"
+          },
+          "action": {
+            "type": "string",
+            "description": "The action performed when the compensating control is applied.",
+            "enum": [
+              "Workflow",
+              "Certification"
+            ],
+            "example": "Workflow"
+          },
+          "expiration": {
+            "type": "string",
+            "description": "The duration after which the applied control expires, expressed as a duration string.",
+            "example": "20d"
+          },
+          "justificationRequired": {
+            "type": "boolean",
+            "default": false,
+            "description": "Indicates whether a justification is required when applying this control.",
+            "example": true
+          },
+          "workflowID": {
+            "type": "string",
+            "example": "3e07886555ed43cfb83c85c58d2016e6",
+            "description": "Workflow definition ID used when the control action is a workflow."
+          }
+        }
+      },
       "violationownerassignmentconfig": {
         "type": "object",
         "title": "Violation Owner Assignment Config",
@@ -116449,6 +117709,87 @@
                 "example": "Support"
               }
             }
+          },
+          "secondaryOwnerRefs": {
+            "type": "array",
+            "description": "Additional owners of the SOD policy.(Max 10). Applicable only to Conflicting Access Based policies.",
+            "example": [
+              {
+                "type": "IDENTITY",
+                "id": "2c9180a46faadee4016fb4e018c20639",
+                "name": "Support"
+              }
+            ],
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "Secondary Owner Type",
+                  "enum": [
+                    "IDENTITY",
+                    "GOVERNANCE_GROUP"
+                  ],
+                  "example": "IDENTITY"
+                },
+                "id": {
+                  "type": "string",
+                  "description": "Secondary Owner ID",
+                  "example": "2c9180a46faadee4016fb4e018c20639"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Secondary Owner Name",
+                  "example": "Support"
+                }
+              }
+            }
+          },
+          "allowedControls": {
+            "type": "array",
+            "description": "Compensating or other controls allowed for this policy.(Max 10). Applicable only to Conflicting Access Based policies.",
+            "example": [
+              {
+                "type": "COMPENSATING_CONTROL",
+                "id": "2c9180a46faadee4016fb4e018c20639",
+                "name": "Mitigating Control 1"
+              }
+            ],
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "Control reference type.",
+                  "enum": [
+                    "COMPENSATING_CONTROL"
+                  ],
+                  "example": "COMPENSATING_CONTROL"
+                },
+                "id": {
+                  "type": "string",
+                  "description": "Control reference ID.",
+                  "example": "2c9180a46faadee4016fb4e018"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Control reference name.",
+                  "example": "Mitigating Control 1"
+                }
+              }
+            }
+          },
+          "level": {
+            "type": "string",
+            "description": "Policy severity or priority level. Applicable only to Conflicting Access Based policies. If not specified, default will be HIGH.",
+            "nullable": true,
+            "enum": [
+              "CRITICAL",
+              "HIGH",
+              "MEDIUM",
+              "LOW"
+            ],
+            "example": "HIGH"
           },
           "externalPolicyReference": {
             "type": "string",
@@ -116861,6 +118202,394 @@
             "readOnly": true,
             "description": "The date-time when this request was created.",
             "example": "2020-01-01T00:00:00.000000Z"
+          }
+        }
+      },
+      "referenceresponse": {
+        "type": "object",
+        "description": "Response reference: required id and type; optional name when display metadata resolves (omitted if not).\nFor request bodies use ReferenceInput (id and type only).\n",
+        "required": [
+          "id",
+          "type"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier of the referenced object.",
+            "example": "3e07886555ed43cfb83c85c58d2016e6"
+          },
+          "name": {
+            "type": "string",
+            "readOnly": true,
+            "description": "Optional display name when metadata resolves. Omitted when unknown or not resolvable.",
+            "example": "John Doe"
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of the referenced object.",
+            "example": "IDENTITY"
+          }
+        }
+      },
+      "conflictingitemsourceref": {
+        "type": "object",
+        "description": "Reference to the source system or object (for example the application backing an entitlement).\nOn GET, when the conflicting item type is ENTITLEMENT, hydration may populate these fields from\nthe entitlement service payload's `source` object.\n",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Source resource identifier when known.",
+            "example": "2c9180825a6c1adc015a71c9db2101a1"
+          },
+          "name": {
+            "type": "string",
+            "description": "Display name of the source.",
+            "example": "Active Directory"
+          },
+          "type": {
+            "type": "string",
+            "description": "Source type classification (for example application or connector type).",
+            "example": "DIRECT_CONNECT"
+          },
+          "description": {
+            "type": "string",
+            "description": "Human-readable description of the source.",
+            "example": "Corporate Active Directory source."
+          }
+        }
+      },
+      "conflictingitem": {
+        "type": "object",
+        "description": "A single access item that contributes to a separation-of-duties conflict.",
+        "required": [
+          "id",
+          "type"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier of the conflicting access item.",
+            "example": "3e07886555ed43cfb83c85c58d2016e6"
+          },
+          "name": {
+            "type": "string",
+            "description": "The display name of the conflicting access item.",
+            "example": "Administrator"
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of access object represented by the conflicting item.",
+            "enum": [
+              "ENTITLEMENT",
+              "ACCESS_PROFILE",
+              "ROLE"
+            ],
+            "example": "ENTITLEMENT"
+          },
+          "sourceRef": {
+            "$ref": "#/components/schemas/conflictingitemsourceref"
+          },
+          "description": {
+            "type": "string",
+            "description": "Optional human-readable description of the conflicting item.",
+            "example": "Grants administrative access to the payroll application."
+          }
+        }
+      },
+      "accesscriteria-2": {
+        "type": "object",
+        "description": "A named set of conflicting access items that together define one side of a separation-of-duties conflict.",
+        "required": [
+          "name",
+          "conflictingItems"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the access criteria grouping.",
+            "example": "money-in"
+          },
+          "conflictingItems": {
+            "type": "array",
+            "minItems": 1,
+            "description": "The list of access items that make up this side of the conflict.",
+            "example": [
+              {
+                "id": "2c9180866166b5b0016167c32ef31a66",
+                "name": "Administrator",
+                "type": "ENTITLEMENT"
+              }
+            ],
+            "items": {
+              "$ref": "#/components/schemas/conflictingitem"
+            }
+          }
+        }
+      },
+      "appliedcontrolstatus": {
+        "type": "string",
+        "description": "The processing status of a compensating control that has been applied to a policy violation.",
+        "enum": [
+          "Pending",
+          "Active",
+          "Completed",
+          "Canceled",
+          "Failed"
+        ],
+        "example": "Pending",
+        "readOnly": true
+      },
+      "appliedcontrol": {
+        "type": "object",
+        "description": "A compensating control that has been applied to a policy violation.",
+        "required": [
+          "id",
+          "violation",
+          "control",
+          "applier",
+          "appliedDate",
+          "expiration"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The system-generated unique identifier of the applied control record.",
+            "example": "3e07886555ed43cfb83c85c58d2016e6"
+          },
+          "violation": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The unique identifier of the policy violation the control was applied to.",
+            "example": "99fbef9738c146e9b526b6147f57a0e2"
+          },
+          "control": {
+            "$ref": "#/components/schemas/referenceresponse"
+          },
+          "applier": {
+            "$ref": "#/components/schemas/referenceresponse"
+          },
+          "appliedDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date and time when the control was applied to the violation.",
+            "example": "2025-01-01T00:00:00-05:00",
+            "readOnly": true
+          },
+          "expiration": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date and time when the applied control expires.",
+            "example": "2025-01-01T02:00:00-05:00",
+            "readOnly": true
+          },
+          "comments": {
+            "type": "string",
+            "description": "Optional comments captured when the control was applied.",
+            "example": "Some comments about the applied control"
+          },
+          "status": {
+            "$ref": "#/components/schemas/appliedcontrolstatus",
+            "readOnly": true
+          },
+          "workflowId": {
+            "type": "string",
+            "description": "The identifier of the workflow triggered when the control was applied.",
+            "example": "82044924-daff-4b0b-9dcb-17e64de4d25b"
+          }
+        }
+      },
+      "policyviolationstatus": {
+        "type": "string",
+        "description": "The current status of a policy violation.",
+        "enum": [
+          "Open",
+          "Mitigated",
+          "Remediated",
+          "Closed"
+        ],
+        "example": "Open",
+        "readOnly": true
+      },
+      "policyviolationrisklevel": {
+        "type": "string",
+        "description": "The risk level assigned to a policy violation.",
+        "enum": [
+          "Low",
+          "Medium",
+          "High",
+          "Critical"
+        ],
+        "example": "High",
+        "readOnly": true
+      },
+      "policyviolationresponse": {
+        "type": "object",
+        "description": "A separation-of-duties policy violation for an identity.",
+        "required": [
+          "id",
+          "owner",
+          "created",
+          "modified",
+          "conflictingCriteria",
+          "appliedControls",
+          "target",
+          "policy",
+          "status",
+          "level",
+          "expiration"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The system-generated unique identifier of the policy violation.",
+            "example": "3e078865-55ed-43cf-b83c-85c58d2016e6",
+            "readOnly": true
+          },
+          "name": {
+            "type": "string",
+            "description": "The display name of the policy violation.",
+            "example": "Policy Violation 123",
+            "readOnly": true
+          },
+          "created": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date and time when the policy violation was created.",
+            "example": "2025-01-01T00:00:00-05:00",
+            "readOnly": true
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date and time when the policy violation was last modified.",
+            "example": "2025-01-01T02:00:00-05:00",
+            "readOnly": true
+          },
+          "lastEvaluatedDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date and time when the policy violation was last evaluated by the policy engine.",
+            "example": "2025-01-01T01:00:00-05:00",
+            "readOnly": true
+          },
+          "owner": {
+            "$ref": "#/components/schemas/referenceresponse"
+          },
+          "conflictingCriteria": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/accesscriteria-2"
+            },
+            "readOnly": true,
+            "description": "List of conflicting criteria. Each conflicting item supports optional description and optional\nsourceRef (id, name, type, description); for ENTITLEMENT items, sourceRef may be populated from\nthe entitlement's source on GET via hydration.\n",
+            "example": [
+              {
+                "name": "money-in",
+                "conflictingItems": [
+                  {
+                    "id": "2c9180866166b5b0016167c32ef31a66",
+                    "name": "Administrator",
+                    "type": "ENTITLEMENT"
+                  }
+                ]
+              }
+            ]
+          },
+          "appliedControls": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/appliedcontrol"
+            },
+            "readOnly": true,
+            "description": "List of compensating controls that have been applied to this policy violation.",
+            "example": [
+              {
+                "id": "3e07886555ed43cfb83c85c58d2016e6",
+                "violation": "99fbef9738c146e9b526b6147f57a0e2",
+                "status": "Active"
+              }
+            ]
+          },
+          "expiration": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "example": "2026-01-01T02:00:00-05:00",
+            "readOnly": true,
+            "description": "Expiration on the active applied compensating control row (latest applied_date, tie-break id). Always returned; null when there is no active control or that row has no expiration."
+          },
+          "target": {
+            "$ref": "#/components/schemas/referenceresponse"
+          },
+          "policy": {
+            "$ref": "#/components/schemas/referenceresponse"
+          },
+          "status": {
+            "$ref": "#/components/schemas/policyviolationstatus"
+          },
+          "level": {
+            "$ref": "#/components/schemas/policyviolationrisklevel"
+          }
+        }
+      },
+      "appliedcontrolcreate": {
+        "type": "object",
+        "description": "Data needed to apply a compensating control to a policy violation.",
+        "required": [
+          "control"
+        ],
+        "properties": {
+          "control": {
+            "type": "string",
+            "description": "The unique identifier of the compensating control to apply.",
+            "example": "3e07886555ed43cfb83c85c58d2016e6"
+          },
+          "comments": {
+            "type": "string",
+            "description": "Optional comments to capture when applying the control.",
+            "example": "Some comments about the applied control"
+          }
+        }
+      },
+      "reassigninput": {
+        "type": "object",
+        "description": "The identity or governance group to which a policy violation is reassigned.",
+        "required": [
+          "assigneeId",
+          "assigneeType"
+        ],
+        "properties": {
+          "assigneeId": {
+            "type": "string",
+            "description": "The unique identifier of the identity or governance group receiving the violation.",
+            "example": "3e07886555ed43cfb83c85c58d2016e6"
+          },
+          "assigneeType": {
+            "type": "string",
+            "description": "The type of assignee receiving the violation.",
+            "enum": [
+              "IDENTITY",
+              "GOVERNANCE_GROUP"
+            ],
+            "example": "IDENTITY"
+          }
+        }
+      },
+      "violationreassigninput": {
+        "type": "object",
+        "description": "Data needed to reassign a policy violation to a new owner.",
+        "required": [
+          "reassignTo"
+        ],
+        "properties": {
+          "reassignTo": {
+            "$ref": "#/components/schemas/reassigninput"
+          },
+          "comments": {
+            "type": "string",
+            "description": "Optional comments explaining the reassignment.",
+            "example": "some comments about the reassignment"
           }
         }
       },
@@ -118483,7 +120212,7 @@
           }
         }
       },
-      "reference-2": {
+      "reference-2-2": {
         "title": "reference",
         "type": "object",
         "required": [
@@ -118839,7 +120568,7 @@
                 "$ref": "#/components/schemas/randomnumeric"
               },
               {
-                "$ref": "#/components/schemas/reference-2"
+                "$ref": "#/components/schemas/reference-2-2"
               },
               {
                 "$ref": "#/components/schemas/replaceall"

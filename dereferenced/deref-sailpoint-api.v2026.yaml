@@ -53962,6 +53962,83 @@ x-webhooks:
           application/json:
             schema:
               $ref: '#/components/schemas/SavedSearchComplete'
+  SODViolationCreated:
+    post:
+      summary: SOD Violation Created
+      operationId: sodViolationCreatedEvent
+      x-displayName: SODViolationCreated
+      description: This event trigger fires once the new violation gets created. This is a `FIRE_AND_FORGET` event trigger. You can have a maximum of 50 subscriptions for this trigger.
+      tags:
+        - Triggers
+      security:
+        - userAuth:
+            - sp:trigger-service-subscriptions:manage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SODViolationCreatedPayload'
+  SODViolationReopened:
+    post:
+      summary: SOD Violation Reopened
+      operationId: sodViolationReopenedEvent
+      x-displayName: SODViolationReopened
+      description: |-
+        This event trigger fires when a mitigated SOD violation returns to an open state. This is a `FIRE_AND_FORGET` event trigger. You can have a maximum of 50 subscriptions for this trigger. 
+        It is emitted in these situations:
+        - **Conflicting criteria updated** — conflicting access criteria change such that the violation is no longer considered mitigated and moves from **Mitigated** to **Open**.
+        - **Applied control expired** — the compensating control that mitigated the violation expires, moving the violation from **Mitigated** to **Open**.
+        The payload includes **previousStatus**, **currentStatus**, and **reason** to distinguish these cases (`Conflicting Criteria Updated` or `Applied Control Expired`).
+      tags:
+        - Triggers
+      security:
+        - userAuth:
+            - sp:trigger-service-subscriptions:manage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SODViolationReopenedPayload'
+  SODViolationMitigated:
+    post:
+      summary: SOD Violation Mitigated
+      operationId: sodViolationMitigatedEvent
+      x-displayName: SODViolationMitigated
+      description: |-
+        This event trigger fires when compensating controls are applied to an SOD violation such that the violation is mitigated. This is a `FIRE_AND_FORGET` event trigger. You can have a maximum of 50 subscriptions for this trigger. 
+        The payload includes the violation in **Mitigated** state and **appliedControls** listing the active control application(s) (including applier, control reference, expiration, and optional workflow correlation).
+      tags:
+        - Triggers
+      security:
+        - userAuth:
+            - sp:trigger-service-subscriptions:manage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SODViolationMitigatedPayload'
+  SODViolationClosed:
+    post:
+      summary: SOD Violation Closed
+      operationId: sodViolationClosedEvent
+      x-displayName: SODViolationClosed
+      description: |-
+        This event trigger fires once the violation no longer applies and its status is updated to **Closed**. This is a `FIRE_AND_FORGET` event trigger. You can have a maximum of 50 subscriptions for this trigger. 
+        **previousStatus** indicates whether the violation was **Open** or **Mitigated** immediately before closure; **currentStatus** is **Closed**.
+      tags:
+        - Triggers
+      security:
+        - userAuth:
+            - sp:trigger-service-subscriptions:manage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SODViolationClosedPayload'
   SourceCreated:
     post:
       summary: Source created
@@ -92839,6 +92916,417 @@ components:
           description: Dissimilarity score that determines whether the identity is an outlier, ranging from `0.0` to `1.0`. The higher the score, the more likely the identity is an outlier.
           format: decimal
           example: 0.82
+    SODViolationCreatedPayload:
+      type: object
+      title: SOD Violation Created Payload
+      description: JSON body delivered for the **SODViolationCreated** webhook.
+      properties:
+        created:
+          type: string
+          format: date-time
+          description: When the violation record was created.
+          example: '2026-03-04T22:51:24.535433Z'
+        id:
+          type: string
+          description: Violation ID.
+          example: 230bb065e18641f9bd6985ea9cf2e1a4
+        lastEvaluatedDate:
+          type: string
+          format: date-time
+          description: When the violation was last evaluated.
+          example: '2026-03-04T22:51:22.158Z'
+        level:
+          type: string
+          description: Violation severity level.
+          example: High
+        name:
+          type: string
+          description: Human-readable violation name.
+          example: Violation for 01ea1d94-5db1-4444-a235-6f71c22b3449 - Target 2c9180888380236101838062022f00ea
+        owner:
+          type: object
+          description: Owner of the violation (e.g. assigned identity).
+          properties:
+            id:
+              type: string
+              description: Owner ID.
+              example: 2c918088837fe14901838062029a04bf
+            type:
+              type: string
+              description: DTO type of the owner reference.
+              example: IDENTITY
+              enum:
+                - IDENTITY
+                - GOVERNANCE_GROUP
+        policy:
+          type: object
+          description: SOD policy associated with the violation.
+          properties:
+            id:
+              type: string
+              description: Policy ID.
+              example: 01ea1d94-5db1-4444-a235-6f71c22b3449
+            type:
+              type: string
+              description: Policy type (always **SOD** for this webhook).
+              enum:
+                - SOD
+              example: SOD
+        status:
+          type: string
+          description: Violation lifecycle status.
+          example: Open
+        target:
+          type: object
+          description: Identity or entity the violation applies to.
+          properties:
+            id:
+              type: string
+              description: Target ID.
+              example: 2c9180888380236101838062022f00ea
+            type:
+              type: string
+              description: DTO type of the target reference.
+              enum:
+                - IDENTITY
+              example: IDENTITY
+    SODViolationReopenedPayload:
+      type: object
+      title: SOD Violation Reopened Payload
+      description: JSON body delivered for the **SODViolationReopened** webhook.
+      properties:
+        created:
+          type: string
+          format: date-time
+          description: When the violation record was created.
+          example: '2026-03-04T22:51:24.535433Z'
+        modified:
+          type: string
+          format: date-time
+          description: When the violation was last modified.
+          example: '2026-03-05T22:51:24.535433Z'
+        id:
+          type: string
+          description: Violation ID.
+          example: 230bb065e18641f9bd6985ea9cf2e1a4
+        lastEvaluatedDate:
+          type: string
+          format: date-time
+          description: When the violation was last evaluated.
+          example: '2026-03-05T22:51:22.158Z'
+        level:
+          type: string
+          description: Violation severity level.
+          example: High
+        name:
+          type: string
+          description: Human-readable violation name.
+          example: Violation for 01ea1d94-5db1-4444-a235-6f71c22b3449 - Target 2c9180888380236101838062022f00ea
+        owner:
+          type: object
+          description: Owner of the violation (e.g. assigned identity).
+          properties:
+            id:
+              type: string
+              description: Owner ID.
+              example: 2c918088837fe14901838062029a04bf
+            type:
+              type: string
+              description: DTO type of the owner reference.
+              enum:
+                - IDENTITY
+                - GOVERNANCE_GROUP
+              example: IDENTITY
+        policy:
+          type: object
+          description: SOD policy associated with the violation.
+          properties:
+            id:
+              type: string
+              description: Policy ID.
+              example: 01ea1d94-5db1-4444-a235-6f71c22b3449
+            type:
+              type: string
+              description: Policy type (always **SOD** for this webhook).
+              example: SOD
+              enum:
+                - SOD
+        previousStatus:
+          type: string
+          description: Violation status before the reopen.
+          example: Mitigated
+        currentStatus:
+          type: string
+          description: Violation status after the reopen.
+          example: Open
+        target:
+          type: object
+          description: Identity or entity the violation applies to.
+          properties:
+            id:
+              type: string
+              description: Target ID.
+              example: 2c9180888380236101838062022f00ea
+            type:
+              type: string
+              enum:
+                - IDENTITY
+              example: IDENTITY
+              description: DTO type of the target reference.
+        reason:
+          type: string
+          description: Why the violation was reopened.
+          enum:
+            - Conflicting Criteria Updated
+            - Applied Control Expired
+          example: Conflicting Criteria Updated
+    ViolationAppliedControlStatus:
+      type: string
+      title: Violation Applied Control Status
+      description: Lifecycle status of a compensating control application on a violation. **Pending** - not yet in effect; **Active** - currently mitigating the violation; **Completed** - finished successfully; **Canceled** - withdrawn before completion; **Failed** - could not be completed successfully.
+      enum:
+        - Pending
+        - Active
+        - Completed
+        - Canceled
+        - Failed
+      example: Active
+    SODViolationMitigatedPayload:
+      type: object
+      title: SOD Violation Mitigated Payload
+      description: JSON body delivered for the **SODViolationMitigated** webhook.
+      properties:
+        appliedControls:
+          type: array
+          description: Controls applied to mitigate the violation. For now this lists the currently active application(s).
+          items:
+            type: object
+            properties:
+              appliedDate:
+                type: string
+                format: date-time
+                description: When the control was applied.
+                example: '2026-03-05T22:51:24.535433Z'
+              applier:
+                type: object
+                description: Identity that applied the control.
+                properties:
+                  id:
+                    type: string
+                    description: Applier ID.
+                    example: 2c918088837fe14901838062029a04bf
+                  type:
+                    type: string
+                    description: DTO type of the applier reference.
+                    example: IDENTITY
+                    enum:
+                      - IDENTITY
+              comments:
+                type: string
+                description: Optional comments from the applier.
+                nullable: true
+                example: Applied compensating control to mitigate violation while awaiting access review.
+              control:
+                type: object
+                description: Reference to the compensating control definition.
+                properties:
+                  id:
+                    type: string
+                    description: Control ID.
+                    example: 01ea1d945db14444a2356f71c22b3449
+                  type:
+                    type: string
+                    description: Control type (always **COMPENSATING_CONTROL** for this webhook).
+                    example: COMPENSATING_CONTROL
+                    enum:
+                      - COMPENSATING_CONTROL
+              expiration:
+                type: string
+                format: date-time
+                description: When this application of the control expires.
+                example: '2026-04-05T22:51:24.535433Z'
+              id:
+                type: string
+                description: ID of the control application record.
+                example: 230bb065e18641f9bd6985ea9cf2e1a4
+              status:
+                $ref: '#/components/schemas/ViolationAppliedControlStatus'
+              violation:
+                type: string
+                description: ID of the violation this application belongs to.
+                example: 230bb065e18641f9bd6985ea9cf2e1a4
+              workflowId:
+                type: string
+                description: Optional workflow correlation ID.
+                nullable: true
+                example: 2c918088837fe14901838062029a04bf
+        created:
+          type: string
+          format: date-time
+          description: When the violation record was created.
+          example: '2026-03-04T22:51:24.535433Z'
+        expiration:
+          type: string
+          format: date-time
+          description: Violation-level expiration (may be a sentinel when not set).
+          example: '2026-04-04T22:51:24.535433Z'
+        id:
+          type: string
+          description: Violation ID.
+          example: 230bb065e18641f9bd6985ea9cf2e1a4
+        lastEvaluatedDate:
+          type: string
+          format: date-time
+          description: When the violation was last evaluated.
+          example: '2026-03-05T22:51:22.158Z'
+        level:
+          type: string
+          description: Violation severity level.
+          example: High
+        modified:
+          type: string
+          format: date-time
+          description: When the violation was last modified.
+          example: '2026-03-05T22:51:24.535433Z'
+        name:
+          type: string
+          description: Human-readable violation name.
+          example: Violation for 01ea1d94-5db1-4444-a235-6f71c22b3449 - Target 2c9180888380236101838062022f00ea
+        owner:
+          type: object
+          description: Owner of the violation.
+          properties:
+            id:
+              type: string
+              description: Owner ID.
+              example: 2c918088837fe14901838062029a04bf
+            type:
+              type: string
+              description: DTO type of the owner reference.
+              enum:
+                - IDENTITY
+                - GOVERNANCE_GROUP
+              example: IDENTITY
+        policy:
+          type: object
+          description: SOD policy associated with the violation.
+          properties:
+            id:
+              type: string
+              description: Policy ID.
+              example: 01ea1d94-5db1-4444-a235-6f71c22b3449
+            type:
+              type: string
+              description: Policy type (always **SOD** for this webhook).
+              enum:
+                - SOD
+              example: SOD
+        status:
+          type: string
+          description: Violation lifecycle status after mitigation.
+          example: Mitigated
+        target:
+          type: object
+          description: Identity or entity the violation applies to.
+          properties:
+            id:
+              type: string
+              description: Target ID.
+              example: 2c9180888380236101838062022f00ea
+            type:
+              type: string
+              description: DTO type of the target reference.
+              enum:
+                - IDENTITY
+              example: IDENTITY
+    SODViolationClosedPayload:
+      type: object
+      title: SOD Violation Closed Payload
+      description: JSON body delivered for the **SODViolationClosed** webhook.
+      properties:
+        created:
+          type: string
+          format: date-time
+          description: When the violation record was created.
+          example: '2026-03-04T22:51:24.535433Z'
+        modified:
+          type: string
+          format: date-time
+          description: When the violation was last modified.
+          example: '2026-03-04T22:51:24.535433Z'
+        id:
+          type: string
+          description: Violation ID.
+          example: 230bb065e18641f9bd6985ea9cf2e1a4
+        lastEvaluatedDate:
+          type: string
+          format: date-time
+          description: When the violation was last evaluated.
+          example: '2026-03-04T22:51:22.158Z'
+        level:
+          type: string
+          description: Violation severity level.
+          example: High
+        name:
+          type: string
+          description: Human-readable violation name.
+          example: Violation for 01ea1d94-5db1-4444-a235-6f71c22b3449 - Target 2c9180888380236101838062022f00ea
+        owner:
+          type: object
+          description: Owner of the violation (e.g. assigned identity).
+          properties:
+            id:
+              type: string
+              description: Owner ID.
+              example: 2c918088837fe14901838062029a04bf
+            type:
+              type: string
+              description: Owner type.
+              enum:
+                - IDENTITY
+                - GOVERNANCE_GROUP
+              example: IDENTITY
+        policy:
+          type: object
+          description: SOD policy associated with the violation.
+          properties:
+            id:
+              type: string
+              description: Policy ID.
+              example: 01ea1d945db14444a2356f71c22b3449
+            type:
+              type: string
+              description: Policy type (always **SOD** for this webhook).
+              enum:
+                - SOD
+              example: SOD
+        previousStatus:
+          type: string
+          description: Violation status before closure (**Open** or **Mitigated**).
+          enum:
+            - Open
+            - Mitigated
+          example: Mitigated
+        currentStatus:
+          type: string
+          description: Violation status after the event (always **Closed** for this webhook).
+          enum:
+            - Closed
+          example: Closed
+        target:
+          type: object
+          description: Identity or entity the violation applied to.
+          properties:
+            id:
+              type: string
+              description: Target ID.
+              example: 2c9180888380236101838062022f00ea
+            type:
+              type: string
+              description: Target type.
+              enum:
+                - IDENTITY
+              example: IDENTITY
   responses:
     '202':
       description: Accepted - Returned if the request was successfully accepted into the system.
