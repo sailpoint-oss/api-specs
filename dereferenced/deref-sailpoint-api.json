@@ -346,6 +346,10 @@
       "description": "Use this API to implement public identity configuration functionality. \nWith this functionality in place, administrators can make up to 5 identity attributes publicly visible so other non-administrator users can see the relevant information they need to make decisions. \nThis can be helpful for approvers making approvals, certification reviewers, managers viewing their direct reports' access, and source owners viewing their tasks.\n\nBy default, non-administrators can select an identity and view the following attributes: email, lifecycle state, and manager. \nHowever, it may be helpful for a non-administrator reviewer to see other identity attributes like department, region, title, etc.\nAdministrators can use this API to make those necessary identity attributes public to non-administrators. \n\nFor example, a non-administrator deciding whether to approve another identity's request for access to the Workday application, whose access may be restricted to members of the HR department, would want to know whether the identity is a member of the HR department. \nIf an administrator has used [Update Public Identity Config](https://developer.sailpoint.com/docs/api/update-public-identity-config-v-1) to make the \"department\" attribute public, the approver can see the department and make a decision without requesting any more information.\n"
     },
     {
+      "name": "Public Machine Identities",
+      "description": "Use this API to list machine identities with a reduced, public-safe payload for catalog and request workflows.\nResponses always include `id`, `name`, and `description`. When your tenant returns enriched public machine identity data, responses also include `subtype` and the primary `owner` (`id`, `name`, and `email`). When those enriched fields are not enabled for your tenant, `subtype` and `owner` are omitted or null and requests that filter or sort on `subtype` or filter on `owner.id`/`owner` return `400 Bad Request`.\n"
+    },
+    {
       "name": "Reports Data Extraction",
       "description": "Use this API to implement reports lifecycle managing and monitoring.\nWith this functionality in place, users can run reports, view their results, and cancel reports in progress. \nThis can be potentially helpful for auditing purposes. \n"
     },
@@ -55278,6 +55282,115 @@
           },
           "403": {
             "$ref": "#/components/responses/403"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/public-machine-identities/v1": {
+      "get": {
+        "operationId": "listPublicMachineIdentitiesV1",
+        "tags": [
+          "Public Machine Identities"
+        ],
+        "summary": "List public machine identities",
+        "description": "Get a list of machine identities with a reduced public payload (`id`, `name`, `description`, and optionally `subtype` and the primary `owner`). Any authenticated user with the default scope can call this endpoint; it does not require the `idn:mis-identity:read` scope.",
+        "security": [
+          {
+            "userAuth": [
+              "sp:scopes:default"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "USER"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          },
+          {
+            "$ref": "#/components/parameters/count"
+          },
+          {
+            "in": "query",
+            "name": "filters",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in*\n\n**name**: *eq, sw*\n\n**subtype**: *eq*\n\n**owner.id**: *eq*\n\n**owner**: *eq*\n\n`subtype`, **owner.id**, and **owner** are only available when your tenant returns enriched public machine identity data; otherwise requests using those filters return `400 Bad Request`. **owner** is rewritten to **owner.id** when filtering.",
+            "example": "name eq \"Production API Agent\""
+          },
+          {
+            "in": "query",
+            "name": "sorters",
+            "schema": {
+              "type": "string",
+              "format": "comma-separated"
+            },
+            "required": false,
+            "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **id, name, subtype**\n\nSorting on `subtype` is only available when your tenant returns enriched public machine identity data; otherwise the request returns `400 Bad Request`.",
+            "example": "name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of public machine identity objects.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/publicmachineidentity"
+                  }
+                },
+                "example": [
+                  {
+                    "id": "2c9180857182305e0171993735622948",
+                    "name": "Production API Agent",
+                    "description": "Agent used for nightly reconciliation jobs.",
+                    "subtype": "AI Agent",
+                    "owner": {
+                      "id": "2c9180a46faadee4016fb4e018c20639",
+                      "name": "Thomas Edison",
+                      "email": "thomas.edison@acme-solar.com"
+                    }
+                  },
+                  {
+                    "id": "2c9180a46faadee4016fb4e018c20639",
+                    "name": "Finance Integration App",
+                    "description": "Application identity for finance data sync.",
+                    "subtype": "Application",
+                    "owner": {
+                      "id": "2c918086676d3e0601677611dbde220f",
+                      "name": "Mister Manager",
+                      "email": "mister.manager@acme-solar.com"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -112441,6 +112554,62 @@
           "modifiedBy": {
             "description": "The identity who last modified this configuration.",
             "$ref": "#/components/schemas/identityreference"
+          }
+        }
+      },
+      "publicmachineidentityowner": {
+        "type": "object",
+        "title": "Public Machine Identity Owner",
+        "description": "Primary owner of a machine identity exposed by the public list endpoint.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Identity id of the primary owner.",
+            "example": "2c9180857182305e0171993735622948"
+          },
+          "name": {
+            "type": "string",
+            "description": "Human-readable display name of the primary owner.",
+            "example": "Alison Ferguso"
+          },
+          "email": {
+            "nullable": true,
+            "type": "string",
+            "description": "Email address of the primary owner.",
+            "example": "alison.ferguso@acme-solar.com"
+          }
+        }
+      },
+      "publicmachineidentity": {
+        "type": "object",
+        "title": "Public Machine Identity",
+        "description": "Reduced machine identity details for public catalog and request workflows.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Machine identity id.",
+            "example": "2c9180857182305e0171993735622948"
+          },
+          "name": {
+            "type": "string",
+            "description": "Human-readable display name of the machine identity.",
+            "example": "Production API Agent"
+          },
+          "description": {
+            "nullable": true,
+            "type": "string",
+            "description": "Description of the machine identity.",
+            "example": "Agent used for nightly reconciliation jobs."
+          },
+          "subtype": {
+            "nullable": true,
+            "type": "string",
+            "description": "Machine identity subtype. Present when your tenant returns enriched public machine identity data; otherwise omitted or null.",
+            "example": "AI Agent"
+          },
+          "owner": {
+            "$ref": "#/components/schemas/publicmachineidentityowner",
+            "description": "Primary owner of the machine identity. Present when your tenant returns enriched public machine identity data and a primary owner is configured; otherwise omitted or null."
           }
         }
       },
