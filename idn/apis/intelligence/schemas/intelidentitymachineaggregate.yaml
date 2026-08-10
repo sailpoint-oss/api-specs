@@ -4,7 +4,7 @@ description: |
   (no machine wrapper). Omits human-only fields and slices (email, alias, privilegedAccess, outliers,
   accessHistory). Top-level sourceId is omitted; use source.id when present. matchConfidence is
   present for opaque prefix resolution (exact or partial); omitted for direct id eq and exact opaque
-  matches.
+  matches. The identityGraph deep link is omitted when the tenant lacks the idg:base license.
 required:
   - id
   - type

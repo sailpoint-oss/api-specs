@@ -34,6 +34,14 @@ tags:
       extension). Backed by Atlas internal-REST calls to MICE, Shelby List Accounts,
       SDS Search, IDA-outliers, and identity-history.
 
+      ## License-based segmentation
+
+      - **`idn:response-and-remediation`** (required): enforced on all `/intelligence/*` routes.
+      - **`IDA-outliers`** (optional): governs the Human `outliers.rareAccess` slice only. When the
+        tenant lacks this license, the `outliers` key is omitted.
+      - **`idg:base`** (optional): governs the root-level `identityGraph` deep link on aggregate
+        responses. When the tenant lacks this license, `identityGraph` is omitted.
+
       ## Pagination
 
       The aggregated Human GET embeds the first **10** items per paged slice. Each upstream paged call
