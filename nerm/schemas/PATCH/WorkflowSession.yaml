@@ -12,7 +12,7 @@ properties:
     example: 33f072dd-13b4-41e1-8ea0-16f2a59b57c8
   requester_type:
     type: string
-    enum: [User, NeprofileUser, NeaccessUser]
+    enum: [User, NeprofileUser, NeaccessUser, NeaccessRegistrant]
     description: The requester type.
     example: User
   profile_id:
