@@ -27,7 +27,7 @@ properties:
   type:
     description: The type of audit event
     type: string
-    enum: [AuditableProfileCreate, AuditableProfileUpdate, AuditableProfileDestroy, AuditableBulkProfileUpdate, AuditableProfileContributorAdd, AuditableProfileContributorRemove, AuditableProfileContributorRoleAdd, AuditableProfileContributorRoleRemove, AuditableProfileOwnerUpdate, AuditableProfileWorkflowEvent, AuditableWorkflowActionSkippedEvent, AuditableWorkflowApprovedEvent, AuditableWorkflowApprovedEvent, AuditableWorkflowAssignedEvent, AuditableWorkflowAutoAssignedEvent, AuditableWorkflowBatchCompleteEvent, AuditableWorkflowClosedEvent, AuditableWorkflowDuplicateCheckStartEvent, AuditableWorkflowDuplicateResolutionEvent, AuditableWorkflowFailedEvent, AuditableWorkflowIdentityProofedEvent, AuditableWorkflowInvitationSentEvent, AuditableWorkflowLdapProvidedEvent, AuditableWorkflowNotificationSentEvent, AuditableWorkflowPendingApprovalEvent, AuditableWorkflowPendingAssignmentEvent, AuditableWorkflowPendingFulfillmentEvent, AuditableWorkflowFulfilledEvent, AuditableWorkflowPendingIdentityProofEvent, AuditableWorkflowPendingLdapEvent, AuditableWorkflowPendingRequestEvent, AuditableWorkflowPendingReviewEvent, AuditableWorkflowProfileCreatedEvent, AuditableWorkflowProfileSelectEvent, AuditableWorkflowProfileUpdatedEvent, AuditableWorkflowRejectedEvent, AuditableWorkflowRequestMadeEvent, AuditableWorkflowRestApiEvent, AuditableWorkflowReviewedEvent, AuditableWorkflowRunningWorkflowEvent, AuditableWorkflowSoapApiEvent, AuditableWorkflowStatusChangedEvent, AuditableWorkflowStoredProcedureEvent, AuditableWorkflowUnassignEvent, AuditableWorkflowWaitingForWorkflowEvent, AuditableWorkflowWorkflowChangedEvent, ActiveRecordCreate, ActiveRecordUpdate, ActiveRecordDestroy, AuditableApiEvent]
+    enum: [AuditableProfileCreate, AuditableProfileUpdate, AuditableProfileDestroy, AuditableBulkProfileUpdate, AuditableProfileContributorAdd, AuditableProfileContributorRemove, AuditableProfileContributorRoleAdd, AuditableProfileContributorRoleRemove, AuditableProfileOwnerUpdate, AuditableProfileWorkflowEvent, AuditableWorkflowActionSkippedEvent, AuditableWorkflowApprovedEvent, AuditableWorkflowApprovedEvent, AuditableWorkflowAssignedEvent, AuditableWorkflowAutoAssignedEvent, AuditableWorkflowBatchCompleteEvent, AuditableWorkflowClosedEvent, AuditableWorkflowDuplicateCheckStartEvent, AuditableWorkflowDuplicateResolutionEvent, AuditableWorkflowFailedEvent, AuditableWorkflowIdentityProofedEvent, AuditableWorkflowInvitationSentEvent, AuditableWorkflowLdapProvidedEvent, AuditableWorkflowNotificationSentEvent, AuditableWorkflowPendingApprovalEvent, AuditableWorkflowPendingAssignmentEvent, AuditableWorkflowPendingFulfillmentEvent, AuditableWorkflowFulfilledEvent, AuditableWorkflowPendingIdentityProofEvent, AuditableWorkflowPendingLdapEvent, AuditableWorkflowPendingRequestEvent, AuditableWorkflowPendingReviewEvent, AuditableWorkflowProfileCreatedEvent, AuditableWorkflowProfileSelectEvent, AuditableWorkflowProfileUpdatedEvent, AuditableWorkflowRejectedEvent, AuditableWorkflowRequestMadeEvent, AuditableWorkflowRestApiEvent, AuditableWorkflowReviewedEvent, AuditableWorkflowRunningWorkflowEvent, AuditableWorkflowSoapApiEvent, AuditableWorkflowStatusChangedEvent, AuditableWorkflowStoredProcedureEvent, AuditableWorkflowUnassignEvent, AuditableWorkflowWaitingForWorkflowEvent, AuditableWorkflowWorkflowChangedEvent, AuditableWorkflowVersionCreatedEvent, AuditableWorkflowVersionForkedEvent, AuditableWorkflowVersionDeprecatedEvent, AuditableWorkflowVersionDeletedEvent, AuditableWorkflowStepCreatedEvent, AuditableWorkflowStepUpdatedEvent, ActiveRecordCreate, ActiveRecordUpdate, ActiveRecordDestroy, AuditableApiEvent]
     example: AuditableProfileCreate
   subject_id: 
     description: Identifier of the subject
@@ -60,3 +60,26 @@ properties:
         type: string
         example: 7d8c53ca-e99d-485c-9524-ea3849e82c79
         format: uuid
+      workflow_version_id:
+        description: The workflow version a change belongs to. Can be used for both Workflow configurations and Workflow Session events. 
+        type: string
+        example: e309339f-551f-48ab-b4f6-58d93123911f
+        format: uuid
+      version:
+        description: The workflow version SHA.
+        type: string
+        example: aadf95e45846365fa4b4c60f02c76ecffe718ee5
+      step_id:
+        description: The id of the workflow action or condition the step event refers to.
+        type: string
+        example: 2f4b24c6-d420-4eee-b860-5ad24c743185
+        format: uuid
+      step_label:
+        description: The name associated to an action configuration.
+        type: string
+        example: RequestAction
+      source:
+        description: What triggered the versioning change.
+        type: string
+        enum: [ui, import, fork, cleanup_worker, delete_worker]
+        example: ui
