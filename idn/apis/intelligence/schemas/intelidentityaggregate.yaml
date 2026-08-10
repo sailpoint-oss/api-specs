@@ -1,7 +1,7 @@
 type: object
 description: |
-  Flat identity response with identity attributes hoisted to the top level.
-  The accounts, privilegedAccess, and accessHistory slices are always present.
+  Human identity response (type Human). Identity attributes are hoisted to the top level.
+  The accounts, privilegedAccess, and accessHistory slices are always present (empty slices use items []).
   The outliers slice is omitted when the tenant lacks the IDA-outliers license.
 required:
   - id
@@ -17,9 +17,9 @@ properties:
   type:
     type: string
     enum:
-      - HUMAN
+      - Human
     description: Identity type for the matched record.
-    example: HUMAN
+    example: Human
   displayName:
     type: string
     description: Preferred display name for the identity across administrative experiences.
@@ -38,11 +38,6 @@ properties:
       - Non Employee
       - Cannot Determine
     example: Employee
-  owners:
-    type: string
-    nullable: true
-    description: Serialized owner reference information when populated by upstream identity services.
-    example: governance-group-001
   attributes:
     type: object
     additionalProperties: true
@@ -78,6 +73,11 @@ properties:
     default: false
     description: True when the identity is flagged as a people manager in the organization.
     example: false
+  identityGraph:
+    type: object
+    description: Omitted when the tenant lacks the idg:base license.
+    allOf:
+      - $ref: ./intelidentitygraphlink.yaml
   accounts:
     type: object
     description: First page of accounts for the identity.

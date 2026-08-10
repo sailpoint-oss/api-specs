@@ -1,0 +1,15 @@
+type: object
+required:
+  - href
+description: |
+  Deep link into Identity Graph UI for the resolved identity at the aggregate root.
+  Omitted when the tenant lacks the idg:base license.
+properties:
+  href:
+    type: string
+    format: uri
+    description: |
+      Absolute URL to the Identity Graph view. Omitted when the tenant lacks idg:base or when
+      the IDN UI host cannot be resolved from sp-tenant. Query parameters include entity and id
+      for the resolved identity.
+    example: https://tenant.example.api.cloud.sailpoint.com/ui/identity-graph?entity=identity&id=ef38f94347e94562b5bb8424a56397d8

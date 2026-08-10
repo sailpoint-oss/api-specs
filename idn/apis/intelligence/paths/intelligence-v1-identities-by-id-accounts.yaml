@@ -12,9 +12,10 @@ get:
   - Intelligence
   summary: List identity accounts
   description: |
-    Continuation endpoint for the parent response's `accounts.next` link.
+    Continuation endpoint for a Human identity's `accounts.next` link.
     Returns one page of account rows for the supplied limit and offset values.
     Pass `count=true` to receive `X-Total-Count` (including `0` on empty pages).
+    Not applicable to non-human identities (NHI accounts are returned on the NHI aggregate only).
     Requires tenant license idn:response-and-remediation.
   parameters:
   - $ref: ../parameters/intelligence-identity-id-path.yaml
@@ -79,7 +80,11 @@ get:
     '401':
       $ref: ../../shared/responses/401.yaml
     '403':
-      $ref: ../../shared/responses/403.yaml
+      description: Unauthorized access
+      content:
+        application/json:
+          schema:
+            $ref: ../../shared/schemas/errorresponsedto.yaml
     '429':
       $ref: ../../shared/responses/429.yaml
     '500':

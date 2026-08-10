@@ -17,6 +17,8 @@ get:
     Pass `count=true` to receive `X-Total-Count` (including `0` on empty pages).
     Unsupported event types and per-record decode failures are dropped server-side.
     Requires tenant license idn:response-and-remediation.
+
+    Not applicable to non-human identities.
   parameters:
   - $ref: ../parameters/intelligence-identity-id-path.yaml
   - name: limit
@@ -73,7 +75,11 @@ get:
     '401':
       $ref: ../../shared/responses/401.yaml
     '403':
-      $ref: ../../shared/responses/403.yaml
+      description: Unauthorized access
+      content:
+        application/json:
+          schema:
+            $ref: ../../shared/schemas/errorresponsedto.yaml
     '429':
       $ref: ../../shared/responses/429.yaml
     '500':
