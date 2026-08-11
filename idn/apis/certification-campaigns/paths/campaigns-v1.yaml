@@ -98,10 +98,14 @@ post:
   - Certification Campaigns
   summary: Create a campaign
   description: |
-    Use this API to create a certification campaign with the information provided in the request body.    
+    Use this API to create a certification campaign with the information provided in the request body.
+
+    When the request body references a campaign filter (`filter.type: CAMPAIGN_FILTER`), the token must include both
+    `idn:campaign:manage` and `idn:campaign-filter:read`.
   security:
   - userAuth:
     - idn:campaign:manage
+    - idn:campaign-filter:read
   x-sailpoint-userLevels:
   - ORG_ADMIN
   - CERT_ADMIN

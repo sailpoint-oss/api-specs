@@ -6,11 +6,16 @@ post:
   security:
   - userAuth:
     - idn:campaign-template:manage
+    - idn:campaign-filter:read
   x-sailpoint-userLevels:
   - ORG_ADMIN
   - CERT_ADMIN
   description: >
     Use this API to generate a new certification campaign from a campaign template.
+
+
+    When the template campaign references a campaign filter (`filter.type: CAMPAIGN_FILTER`), the token must include
+    both `idn:campaign-template:manage` and `idn:campaign-filter:read`.
 
 
     The campaign object contained in the template has special formatting applied to its name and description

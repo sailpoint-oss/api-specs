@@ -8,7 +8,7 @@ get:
     schedule set.
   security:
   - userAuth:
-    - idn:campaign-temlates:read
+    - idn:campaign-template:read
   x-sailpoint-userLevels:
   - ORG_ADMIN
   - CERT_ADMIN
