@@ -11,7 +11,10 @@ get:
   summary: Get access request configuration
   tags:
     - Access Requests
-  description: This endpoint returns the current access-request configuration.
+  description: |-
+    This endpoint returns the current access-request configuration.
+
+    To manage approval configurations, use the [Put approval config](https://developer.sailpoint.com/docs/api/put-approvals-config-v-1/) endpoint.
   parameters:
     - name: X-SailPoint-Experimental
       in: header
@@ -48,7 +51,10 @@ put:
   summary: Update access request configuration
   tags:
     - Access Requests
-  description: This endpoint replaces the current access-request configuration.
+  description: |-
+    This endpoint replaces the current access-request configuration.
+
+    To manage approval configurations, use the [Put approval config](https://developer.sailpoint.com/docs/api/put-approvals-config-v-1/) endpoint.
   parameters:
     - name: X-SailPoint-Experimental
       in: header

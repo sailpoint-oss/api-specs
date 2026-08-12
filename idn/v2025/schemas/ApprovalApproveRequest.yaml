@@ -13,4 +13,8 @@ properties:
     type: string
     description: Comment associated with the request.
     example: "comment"
+  overrideApproverID:
+    type: string
+    description: Optional field for ServiceNow Administrators to specify which member of a governance group to override/approve on behalf of.
+    example: "12345678901234567890123456789012"
 description: Approval Approve Request

@@ -17,29 +17,24 @@ put:
     required: true
     schema:
       type: string
-    description: The ID defined by the scope field, where [[id]]:[[scope]] is the following
+    description: |
+      The ID defined by the scope field, where id/scope is the following:
 
-      [[roleID]]:ROLE
-                         
-      [[entitlementID]]:ENTITLEMENT
-     
-      [[accessProfileID]]:ACCESS_PROFILE
-     
-      ENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE
-     
-      ACCESS_REQUEST_APPROVAL:APPROVAL_TYPE
+      * `{accountID}`/`ACCOUNT`
+      * `{roleID}`/`ROLE`
+      * `{entitlementID}`/`ENTITLEMENT`
+      * `{accessProfileID}`/`ACCESS_PROFILE`
+      * `{domainObjectID}`/`DOMAIN_OBJECT`
+      * `ENTITLEMENT_DESCRIPTIONS`/`APPROVAL_TYPE`
+      * `ACCESS_REQUEST_APPROVAL`/`APPROVAL_TYPE`
+      * `ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+      * `MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+      * `MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+      * `AGENT_ACTIVATE_APPROVAL`/`APPROVAL_TYPE`
+      * `AGENT_DEACTIVATE_APPROVAL`/`APPROVAL_TYPE`
+      * `{tenantID}`/`TENANT`
 
-      ACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE
-
-      ACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE
-
-      MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE
-
-      MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE
-     
-      [[tenantID]]:TENANT
-                         
-      [[domainObjectID]]:DOMAIN_OBJECT
+      Replace placeholders such as `{roleID}` with the actual resource ID.
     example: ACCESS_REQUEST_APPROVAL
     x-sailpoint-resource-operation-id:
       - listEntitlements
@@ -52,34 +47,30 @@ put:
       type: string
       enum:
       - DOMAIN_OBJECT
+      - ACCOUNT
       - ROLE
       - ACCESS_PROFILE
       - ENTITLEMENT
       - APPROVAL_TYPE
       - TENANT
-    description: The scope of the field, where [[id]]:[[scope]] is the following
+    description: |
+      The scope that defines the type of id, where id/scope is the following:
 
-      [[roleID]]:ROLE
-                         
-      [[entitlementID]]:ENTITLEMENT
-     
-      [[accessProfileID]]:ACCESS_PROFILE
-     
-      ENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE
-     
-      ACCESS_REQUEST_APPROVAL:APPROVAL_TYPE
+      * `{accountID}`/`ACCOUNT`
+      * `{roleID}`/`ROLE`
+      * `{entitlementID}`/`ENTITLEMENT`
+      * `{accessProfileID}`/`ACCESS_PROFILE`
+      * `{domainObjectID}`/`DOMAIN_OBJECT`
+      * `ENTITLEMENT_DESCRIPTIONS`/`APPROVAL_TYPE`
+      * `ACCESS_REQUEST_APPROVAL`/`APPROVAL_TYPE`
+      * `ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+      * `MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+      * `MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+      * `AGENT_ACTIVATE_APPROVAL`/`APPROVAL_TYPE`
+      * `AGENT_DEACTIVATE_APPROVAL`/`APPROVAL_TYPE`
+      * `{tenantID}`/`TENANT`
 
-      ACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE
-
-      ACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE
-
-      MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE
-
-      MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE
-     
-      [[tenantID]]:TENANT
-                         
-      [[domainObjectID]]:DOMAIN_OBJECT
+      Replace placeholders such as `{roleID}` with the actual resource ID.
     example: APPROVAL_TYPE
   requestBody:
     required: true
@@ -124,29 +115,24 @@ delete:
     required: true
     schema:
       type: string
-    description: The ID defined by the scope field, where [[id]]:[[scope]] is the following
+    description: |
+      The ID defined by the scope field, where id/scope is the following:
 
-      [[roleID]]:ROLE
-                   
-      [[entitlementID]]:ENTITLEMENT
-     
-      [[accessProfileID]]:ACCESS_PROFILE
-     
-      ENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE
-     
-      ACCESS_REQUEST_APPROVAL:APPROVAL_TYPE
+      * `{accountID}`/`ACCOUNT`
+      * `{roleID}`/`ROLE`
+      * `{entitlementID}`/`ENTITLEMENT`
+      * `{accessProfileID}`/`ACCESS_PROFILE`
+      * `{domainObjectID}`/`DOMAIN_OBJECT`
+      * `ENTITLEMENT_DESCRIPTIONS`/`APPROVAL_TYPE`
+      * `ACCESS_REQUEST_APPROVAL`/`APPROVAL_TYPE`
+      * `ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+      * `MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+      * `MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+      * `AGENT_ACTIVATE_APPROVAL`/`APPROVAL_TYPE`
+      * `AGENT_DEACTIVATE_APPROVAL`/`APPROVAL_TYPE`
+      * `{tenantID}`/`TENANT`
 
-      ACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE
-
-      ACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE
-
-      MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE
-
-      MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE
-     
-      [[tenantID]]:TENANT
-     
-      [[domainObjectID]]:DOMAIN_OBJECT
+      Replace placeholders such as `{roleID}` with the actual resource ID.
     example: ACCESS_REQUEST_APPROVAL
     x-sailpoint-resource-operation-id:
       - listEntitlements
@@ -159,34 +145,30 @@ delete:
       type: string
       enum:
       - DOMAIN_OBJECT
+      - ACCOUNT
       - ROLE
       - ACCESS_PROFILE
       - ENTITLEMENT
       - APPROVAL_TYPE
       - TENANT
-    description:  The scope of the field, where [[id]]:[[scope]] is the following
+    description: |
+      The scope that defines the type of id, where id/scope is the following:
 
-      [[roleID]]:ROLE
-                    
-      [[entitlementID]]:ENTITLEMENT
-      
-      [[accessProfileID]]:ACCESS_PROFILE
-      
-      ENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE
-      
-      ACCESS_REQUEST_APPROVAL:APPROVAL_TYPE
+      * `{accountID}`/`ACCOUNT`
+      * `{roleID}`/`ROLE`
+      * `{entitlementID}`/`ENTITLEMENT`
+      * `{accessProfileID}`/`ACCESS_PROFILE`
+      * `{domainObjectID}`/`DOMAIN_OBJECT`
+      * `ENTITLEMENT_DESCRIPTIONS`/`APPROVAL_TYPE`
+      * `ACCESS_REQUEST_APPROVAL`/`APPROVAL_TYPE`
+      * `ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+      * `MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+      * `MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+      * `AGENT_ACTIVATE_APPROVAL`/`APPROVAL_TYPE`
+      * `AGENT_DEACTIVATE_APPROVAL`/`APPROVAL_TYPE`
+      * `{tenantID}`/`TENANT`
 
-      ACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE
-
-      ACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE
-
-      MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE
-
-      MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE
-      
-      [[tenantID]]:TENANT
-      
-      [[domainObjectID]]:DOMAIN_OBJECT
+      Replace placeholders such as `{roleID}` with the actual resource ID.
     example: APPROVAL_TYPE
     x-go-name: Type
   responses:
