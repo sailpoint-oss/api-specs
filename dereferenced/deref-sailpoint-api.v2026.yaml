@@ -1337,7 +1337,10 @@ paths:
       summary: Get access request configuration
       tags:
         - Access Requests
-      description: This endpoint returns the current access-request configuration.
+      description: |-
+        This endpoint returns the current access-request configuration.
+
+        To manage approval configurations, use the [Put approval config](https://developer.sailpoint.com/docs/api/put-approvals-config-v-1/) endpoint.
       parameters:
         - name: X-SailPoint-Experimental
           in: header
@@ -1374,7 +1377,10 @@ paths:
       summary: Update access request configuration
       tags:
         - Access Requests
-      description: This endpoint replaces the current access-request configuration.
+      description: |-
+        This endpoint replaces the current access-request configuration.
+
+        To manage approval configurations, use the [Put approval config](https://developer.sailpoint.com/docs/api/put-approvals-config-v-1/) endpoint.
       parameters:
         - name: X-SailPoint-Experimental
           in: header
@@ -36403,8 +36409,25 @@ paths:
           required: true
           schema:
             type: string
-          description: 'The id of the object the config applies to, for example one of the following: [(approvalID), (roleID), (entitlementID), (accessProfileID), "ENTITLEMENT_DESCRIPTIONS", "ACCESS_REQUEST_APPROVAL", "ACCOUNT_CREATE_APPROVAL_REQUEST", "ACCOUNT_DELETE_APPROVAL_REQUEST", "MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST", "MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST", (tenantID)]'
-          example: 1.2345678901234567e+31
+          description: |
+            The ID defined by the scope field, where id/scope is the following:
+
+            * `{accountID}`/`ACCOUNT`
+            * `{roleID}`/`ROLE`
+            * `{entitlementID}`/`ENTITLEMENT`
+            * `{accessProfileID}`/`ACCESS_PROFILE`
+            * `{domainObjectID}`/`DOMAIN_OBJECT`
+            * `ENTITLEMENT_DESCRIPTIONS`/`APPROVAL_TYPE`
+            * `ACCESS_REQUEST_APPROVAL`/`APPROVAL_TYPE`
+            * `ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+            * `MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+            * `MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+            * `AGENT_ACTIVATE_APPROVAL`/`APPROVAL_TYPE`
+            * `AGENT_DEACTIVATE_APPROVAL`/`APPROVAL_TYPE`
+            * `{tenantID}`/`TENANT`
+
+            Replace placeholders such as `{roleID}` with the actual resource ID.
+          example: ACCESS_REQUEST_APPROVAL
           x-sailpoint-resource-operation-id: getApprovals
       responses:
         '200':
@@ -36443,19 +36466,24 @@ paths:
           required: true
           schema:
             type: string
-          description: |-
-            The ID defined by the scope field, where [[id]]:[[scope]] is the following
-            [[roleID]]:ROLE
-            [[entitlementID]]:ENTITLEMENT
-            [[accessProfileID]]:ACCESS_PROFILE
-            ENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE
-            ACCESS_REQUEST_APPROVAL:APPROVAL_TYPE
-            ACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE
-            ACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE
-            MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE
-            MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE
-            [[tenantID]]:TENANT
-            [[domainObjectID]]:DOMAIN_OBJECT
+          description: |
+            The ID defined by the scope field, where id/scope is the following:
+
+            * `{accountID}`/`ACCOUNT`
+            * `{roleID}`/`ROLE`
+            * `{entitlementID}`/`ENTITLEMENT`
+            * `{accessProfileID}`/`ACCESS_PROFILE`
+            * `{domainObjectID}`/`DOMAIN_OBJECT`
+            * `ENTITLEMENT_DESCRIPTIONS`/`APPROVAL_TYPE`
+            * `ACCESS_REQUEST_APPROVAL`/`APPROVAL_TYPE`
+            * `ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+            * `MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+            * `MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+            * `AGENT_ACTIVATE_APPROVAL`/`APPROVAL_TYPE`
+            * `AGENT_DEACTIVATE_APPROVAL`/`APPROVAL_TYPE`
+            * `{tenantID}`/`TENANT`
+
+            Replace placeholders such as `{roleID}` with the actual resource ID.
           example: ACCESS_REQUEST_APPROVAL
           x-sailpoint-resource-operation-id:
             - listEntitlements
@@ -36468,24 +36496,30 @@ paths:
             type: string
             enum:
               - DOMAIN_OBJECT
+              - ACCOUNT
               - ROLE
               - ACCESS_PROFILE
               - ENTITLEMENT
               - APPROVAL_TYPE
               - TENANT
-          description: |-
-            The scope of the field, where [[id]]:[[scope]] is the following
-            [[roleID]]:ROLE
-            [[entitlementID]]:ENTITLEMENT
-            [[accessProfileID]]:ACCESS_PROFILE
-            ENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE
-            ACCESS_REQUEST_APPROVAL:APPROVAL_TYPE
-            ACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE
-            ACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE
-            MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE
-            MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE
-            [[tenantID]]:TENANT
-            [[domainObjectID]]:DOMAIN_OBJECT
+          description: |
+            The scope that defines the type of id, where id/scope is the following:
+
+            * `{accountID}`/`ACCOUNT`
+            * `{roleID}`/`ROLE`
+            * `{entitlementID}`/`ENTITLEMENT`
+            * `{accessProfileID}`/`ACCESS_PROFILE`
+            * `{domainObjectID}`/`DOMAIN_OBJECT`
+            * `ENTITLEMENT_DESCRIPTIONS`/`APPROVAL_TYPE`
+            * `ACCESS_REQUEST_APPROVAL`/`APPROVAL_TYPE`
+            * `ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+            * `MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+            * `MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+            * `AGENT_ACTIVATE_APPROVAL`/`APPROVAL_TYPE`
+            * `AGENT_DEACTIVATE_APPROVAL`/`APPROVAL_TYPE`
+            * `{tenantID}`/`TENANT`
+
+            Replace placeholders such as `{roleID}` with the actual resource ID.
           example: APPROVAL_TYPE
       requestBody:
         required: true
@@ -36531,19 +36565,24 @@ paths:
           required: true
           schema:
             type: string
-          description: |-
-            The ID defined by the scope field, where [[id]]:[[scope]] is the following
-            [[roleID]]:ROLE
-            [[entitlementID]]:ENTITLEMENT
-            [[accessProfileID]]:ACCESS_PROFILE
-            ENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE
-            ACCESS_REQUEST_APPROVAL:APPROVAL_TYPE
-            ACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE
-            ACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE
-            MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE
-            MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE
-            [[tenantID]]:TENANT
-            [[domainObjectID]]:DOMAIN_OBJECT
+          description: |
+            The ID defined by the scope field, where id/scope is the following:
+
+            * `{accountID}`/`ACCOUNT`
+            * `{roleID}`/`ROLE`
+            * `{entitlementID}`/`ENTITLEMENT`
+            * `{accessProfileID}`/`ACCESS_PROFILE`
+            * `{domainObjectID}`/`DOMAIN_OBJECT`
+            * `ENTITLEMENT_DESCRIPTIONS`/`APPROVAL_TYPE`
+            * `ACCESS_REQUEST_APPROVAL`/`APPROVAL_TYPE`
+            * `ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+            * `MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+            * `MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+            * `AGENT_ACTIVATE_APPROVAL`/`APPROVAL_TYPE`
+            * `AGENT_DEACTIVATE_APPROVAL`/`APPROVAL_TYPE`
+            * `{tenantID}`/`TENANT`
+
+            Replace placeholders such as `{roleID}` with the actual resource ID.
           example: ACCESS_REQUEST_APPROVAL
           x-sailpoint-resource-operation-id:
             - listEntitlements
@@ -36556,24 +36595,30 @@ paths:
             type: string
             enum:
               - DOMAIN_OBJECT
+              - ACCOUNT
               - ROLE
               - ACCESS_PROFILE
               - ENTITLEMENT
               - APPROVAL_TYPE
               - TENANT
-          description: |-
-            The scope of the field, where [[id]]:[[scope]] is the following
-            [[roleID]]:ROLE
-            [[entitlementID]]:ENTITLEMENT
-            [[accessProfileID]]:ACCESS_PROFILE
-            ENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE
-            ACCESS_REQUEST_APPROVAL:APPROVAL_TYPE
-            ACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE
-            ACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE
-            MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST:APPROVAL_TYPE
-            MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST:APPROVAL_TYPE
-            [[tenantID]]:TENANT
-            [[domainObjectID]]:DOMAIN_OBJECT
+          description: |
+            The scope that defines the type of id, where id/scope is the following:
+
+            * `{accountID}`/`ACCOUNT`
+            * `{roleID}`/`ROLE`
+            * `{entitlementID}`/`ENTITLEMENT`
+            * `{accessProfileID}`/`ACCESS_PROFILE`
+            * `{domainObjectID}`/`DOMAIN_OBJECT`
+            * `ENTITLEMENT_DESCRIPTIONS`/`APPROVAL_TYPE`
+            * `ACCESS_REQUEST_APPROVAL`/`APPROVAL_TYPE`
+            * `ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+            * `MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+            * `MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+            * `AGENT_ACTIVATE_APPROVAL`/`APPROVAL_TYPE`
+            * `AGENT_DEACTIVATE_APPROVAL`/`APPROVAL_TYPE`
+            * `{tenantID}`/`TENANT`
+
+            Replace placeholders such as `{roleID}` with the actual resource ID.
           example: APPROVAL_TYPE
           x-go-name: Type
       responses:
@@ -80438,18 +80483,27 @@ components:
             - ENTITLEMENT_PRIMARY_OWNER
             - ROLE_PRIMARY_OWNER
             - SOURCE_PRIMARY_OWNER
+            - ACCOUNT_PRIMARY_OWNER
+            - MACHINE_ACCOUNT_PRIMARY_OWNER
+            - MACHINE_IDENTITY_PRIMARY_OWNER
             - REQUESTED_TARGET_PRIMARY_OWNER
             - ACCESS_PROFILE_SECONDARY_OWNER_GROUP
             - APPLICATION_SECONDARY_OWNER_GROUP
             - ENTITLEMENT_SECONDARY_OWNER_GROUP
             - ROLE_SECONDARY_OWNER_GROUP
             - SOURCE_SECONDARY_OWNER_GROUP
+            - ACCOUNT_SECONDARY_OWNER_GROUP
+            - MACHINE_ACCOUNT_SECONDARY_OWNER_GROUP
+            - MACHINE_IDENTITY_SECONDARY_OWNER_GROUP
             - REQUESTED_TARGET_SECONDARY_OWNER_GROUP
             - ACCESS_PROFILE_ALL_OWNER_GROUP
             - APPLICATION_ALL_OWNER_GROUP
             - ENTITLEMENT_ALL_OWNER_GROUP
             - ROLE_ALL_OWNER_GROUP
             - SOURCE_ALL_OWNER_GROUP
+            - ACCOUNT_ALL_OWNER_GROUP
+            - MACHINE_ACCOUNT_ALL_OWNER_GROUP
+            - MACHINE_IDENTITY_ALL_OWNER_GROUP
             - REQUESTED_TARGET_ALL_OWNER_GROUP
           example: IDENTITY
           description: Type of identityID.
@@ -80499,8 +80553,11 @@ components:
               description: Number of days until the first reminder.
             reminderCronSchedule:
               type: string
-              example: 1 1 1 1 1
+              example: '@every 24h'
               description: Cron schedule for reminders.
+              externalDocs:
+                description: Predefined schedules and cron expression format
+                url: https://pkg.go.dev/github.com/robfig/cron#hdr-Predefined_schedules
             maxReminders:
               type: integer
               example: 5
@@ -80522,18 +80579,16 @@ components:
               description: Number of days until the first escalation.
             escalationCronSchedule:
               type: string
-              example: '*/5 * * * *'
+              example: '@every 72h'
               description: Cron schedule for escalations.
+              externalDocs:
+                description: Predefined schedules and cron expression format
+                url: https://pkg.go.dev/github.com/robfig/cron#hdr-Predefined_schedules
             escalationChain:
               type: array
               items:
                 type: object
                 properties:
-                  tier:
-                    type: integer
-                    example: 1
-                    format: int64
-                    description: Starting at 1 defines the order in which the identities will get assigned
                   identityId:
                     type: string
                     example: fdfda352157d4cc79bb749953131b457
@@ -80542,6 +80597,7 @@ components:
                     type: string
                     enum:
                       - IDENTITY
+                      - GOVERNANCE_GROUP
                       - MANAGER_OF
                       - ACCOUNT_OWNER
                       - MACHINE_ACCOUNT_OWNER
@@ -80558,11 +80614,34 @@ components:
                       - ENTITLEMENT_OWNER
                       - ROLE_OWNER
                       - SOURCE_OWNER
+                      - REQUESTED_TARGET_OWNER
                       - ACCESS_PROFILE_PRIMARY_OWNER
                       - APPLICATION_PRIMARY_OWNER
                       - ENTITLEMENT_PRIMARY_OWNER
                       - ROLE_PRIMARY_OWNER
                       - SOURCE_PRIMARY_OWNER
+                      - ACCOUNT_PRIMARY_OWNER
+                      - MACHINE_ACCOUNT_PRIMARY_OWNER
+                      - MACHINE_IDENTITY_PRIMARY_OWNER
+                      - REQUESTED_TARGET_PRIMARY_OWNER
+                      - ACCESS_PROFILE_SECONDARY_OWNER_GROUP
+                      - APPLICATION_SECONDARY_OWNER_GROUP
+                      - ENTITLEMENT_SECONDARY_OWNER_GROUP
+                      - ROLE_SECONDARY_OWNER_GROUP
+                      - SOURCE_SECONDARY_OWNER_GROUP
+                      - ACCOUNT_SECONDARY_OWNER_GROUP
+                      - MACHINE_ACCOUNT_SECONDARY_OWNER_GROUP
+                      - MACHINE_IDENTITY_SECONDARY_OWNER_GROUP
+                      - REQUESTED_TARGET_SECONDARY_OWNER_GROUP
+                      - ACCESS_PROFILE_ALL_OWNER_GROUP
+                      - APPLICATION_ALL_OWNER_GROUP
+                      - ENTITLEMENT_ALL_OWNER_GROUP
+                      - ROLE_ALL_OWNER_GROUP
+                      - SOURCE_ALL_OWNER_GROUP
+                      - ACCOUNT_ALL_OWNER_GROUP
+                      - MACHINE_ACCOUNT_ALL_OWNER_GROUP
+                      - MACHINE_IDENTITY_ALL_OWNER_GROUP
+                      - REQUESTED_TARGET_ALL_OWNER_GROUP
                     example: IDENTITY
                     description: Type of identityId in the escalation chain.
               description: Escalation chain configuration.
@@ -80605,11 +80684,6 @@ components:
           items:
             type: object
             properties:
-              tier:
-                type: integer
-                example: 1
-                format: int64
-                description: Starting at 1 defines the order in which the identities will get assigned
               identityId:
                 type: string
                 example: 2c9180858090ea8801809a0465e829da
@@ -80641,18 +80715,27 @@ components:
                   - ENTITLEMENT_PRIMARY_OWNER
                   - ROLE_PRIMARY_OWNER
                   - SOURCE_PRIMARY_OWNER
+                  - ACCOUNT_PRIMARY_OWNER
+                  - MACHINE_ACCOUNT_PRIMARY_OWNER
+                  - MACHINE_IDENTITY_PRIMARY_OWNER
                   - REQUESTED_TARGET_PRIMARY_OWNER
                   - ACCESS_PROFILE_SECONDARY_OWNER_GROUP
                   - APPLICATION_SECONDARY_OWNER_GROUP
                   - ENTITLEMENT_SECONDARY_OWNER_GROUP
                   - ROLE_SECONDARY_OWNER_GROUP
                   - SOURCE_SECONDARY_OWNER_GROUP
+                  - ACCOUNT_SECONDARY_OWNER_GROUP
+                  - MACHINE_ACCOUNT_SECONDARY_OWNER_GROUP
+                  - MACHINE_IDENTITY_SECONDARY_OWNER_GROUP
                   - REQUESTED_TARGET_SECONDARY_OWNER_GROUP
                   - ACCESS_PROFILE_ALL_OWNER_GROUP
                   - APPLICATION_ALL_OWNER_GROUP
                   - ENTITLEMENT_ALL_OWNER_GROUP
                   - ROLE_ALL_OWNER_GROUP
                   - SOURCE_ALL_OWNER_GROUP
+                  - ACCOUNT_ALL_OWNER_GROUP
+                  - MACHINE_ACCOUNT_ALL_OWNER_GROUP
+                  - MACHINE_IDENTITY_ALL_OWNER_GROUP
                   - REQUESTED_TARGET_ALL_OWNER_GROUP
                 example: IDENTITY
                 description: Type of identityId in the serial chain.
@@ -80677,6 +80760,7 @@ components:
               type: string
               enum:
                 - IDENTITY
+                - GOVERNANCE_GROUP
                 - MANAGER_OF
                 - ACCOUNT_OWNER
                 - MACHINE_ACCOUNT_OWNER
@@ -80699,7 +80783,28 @@ components:
                 - ENTITLEMENT_PRIMARY_OWNER
                 - ROLE_PRIMARY_OWNER
                 - SOURCE_PRIMARY_OWNER
+                - ACCOUNT_PRIMARY_OWNER
+                - MACHINE_ACCOUNT_PRIMARY_OWNER
+                - MACHINE_IDENTITY_PRIMARY_OWNER
                 - REQUESTED_TARGET_PRIMARY_OWNER
+                - ACCESS_PROFILE_SECONDARY_OWNER_GROUP
+                - APPLICATION_SECONDARY_OWNER_GROUP
+                - ENTITLEMENT_SECONDARY_OWNER_GROUP
+                - ROLE_SECONDARY_OWNER_GROUP
+                - SOURCE_SECONDARY_OWNER_GROUP
+                - ACCOUNT_SECONDARY_OWNER_GROUP
+                - MACHINE_ACCOUNT_SECONDARY_OWNER_GROUP
+                - MACHINE_IDENTITY_SECONDARY_OWNER_GROUP
+                - REQUESTED_TARGET_SECONDARY_OWNER_GROUP
+                - ACCESS_PROFILE_ALL_OWNER_GROUP
+                - APPLICATION_ALL_OWNER_GROUP
+                - ENTITLEMENT_ALL_OWNER_GROUP
+                - ROLE_ALL_OWNER_GROUP
+                - SOURCE_ALL_OWNER_GROUP
+                - ACCOUNT_ALL_OWNER_GROUP
+                - MACHINE_ACCOUNT_ALL_OWNER_GROUP
+                - MACHINE_IDENTITY_ALL_OWNER_GROUP
+                - REQUESTED_TARGET_ALL_OWNER_GROUP
               example: MANAGER_OF
               description: Type of identityID for the fallback approver.
           description: Configuration for fallback approver. Used if the user cannot be found for whatever reason and escalation config does not exist.
@@ -80720,14 +80825,18 @@ components:
           type: boolean
           example: false
           default: false
-          description: When true, all approvals will be created with the status "PASSED".
+          description: When true, all approvals will be created with the status "PASSED" effectively skipping the approval process. Note this field should only be used for Machine Account or Machine related approvals.
         autoApprove:
           type: string
           enum:
             - 'OFF'
             - DIRECT
             - INDIRECT
-          description: OFF will prevent the approval request from being assigned to the requester or requestee by assigning it to their manager instead. DIRECT will cause approval requests to be auto-approved when assigned directly and only to the requester. INDIRECT will auto-approve when the requester appears anywhere in the list of approvers, including in a governance group. This field will only be effective if requestedTarget.reauthRequired is set to false, otherwise the approval will have to be manually approved.
+          description: |-
+            OFF will prevent the approval request from being assigned to the requester or requestee by assigning it to their manager instead.
+            DIRECT when the requester != requestee this will cause steps assigned directly to the requester to be auto-approved.
+            INDIRECT when the requester != requestee this will cause steps assigned to the requester or a group containing the requester to be auto-approved.
+            This field will only be effective if requestedTarget.reauthRequired is set to false, otherwise the approval will have to be manually approved.
           example: 'OFF'
       description: Approval config Object
     ApprovalDescription:
@@ -81094,6 +81203,10 @@ components:
           type: string
           description: Comment associated with the request.
           example: comment
+        overrideApproverID:
+          type: string
+          description: Optional field for ServiceNow Administrators to specify which member of a governance group to override/approve on behalf of.
+          example: '12345678901234567890123456789012'
       description: Approval Approve Request
     ApprovalAttributesRequest:
       type: object
@@ -81152,6 +81265,10 @@ components:
           type: string
           description: Comment associated with the reject request.
           example: string
+        overrideApproverID:
+          type: string
+          description: Optional field for ServiceNow Administrators to specify which member of a governance group to override/reject on behalf of.
+          example: '12345678901234567890123456789012'
       description: Request body for rejecting an approval request.
     ApprovalCancelRequest:
       type: object
