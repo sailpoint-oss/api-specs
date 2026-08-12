@@ -111,6 +111,10 @@
       "description": "Use this API to implement and customize branding functionality. \nWith this functionality in place, administrators can get and manage existing branding items, and they can also create new branding items and configure them for use throughout Identity Security Cloud. \nThe Branding APIs provide administrators with a way to customize branding items. \nThis customization includes details like their colors, logos, and other information. \nRefer to [Certifications](https://documentation.sailpoint.com/saas/user-help/certs/reviewing/index.html) for more information about certifications.\n"
     },
     {
+      "name": "Business Applications",
+      "description": "A Business Application groups machine identities (for example AI agents or applications) under a common owner and sanctioned status. Business Applications can be defined out-of-the-box, discovered from a source, or created by an administrator. Signatures on a Business Application drive automatic correlation of machine identities to it; sanctioned status is independent metadata that machine identities inherit once linked."
+    },
+    {
       "name": "Certification Campaign Filters",
       "description": "Use this API to implement the certification campaign filter functionality. These filters can be used to create a certification campaign that includes a subset of your entitlements or users to certify.\n\nFor example, if for a certification campaign an organization wants to certify only specific users or entitlements, then those can be included/excluded on the basis of campaign filters.\n\nFor more information about creating a campaign filter, refer to [Creating a Campaign Filter](https://documentation.sailpoint.com/saas/help/certs/campaign_filters.html#creating-a-campaign-filter)\n\nYou can create campaign filters using any of the following criteria types:\n\n- Access Profile : This criteria type includes or excludes access profiles from a campaign.\n\n- Account Attribute : This criteria type includes or excludes certification items that match a specified value in an account attribute.\n\n- Entitlement : This criteria type includes or excludes entitlements from a campaign.\n\n- Identity : This criteria type includes or excludes specific identities from your campaign.\n\n- Identity Attribute : This criteria type includes or excludes identities based on whether they have an identity attribute that matches criteria you've chosen.\n\n- Role : This criteria type includes or excludes roles, as opposed to identities.\n\n- Source : This criteria type includes or excludes entitlements from a source you select.\n\nFor more information about these criteria types, refer to [Types of Campaign Filters](https://documentation.sailpoint.com/saas/help/certs/campaign_filters.html#types-of-campaign-filters)\n\nOnce the campaign filter is created, it can be linked while creating the campaign. The generated campaign will have the items to review as per the campaign filter.\n\nFor example, An inclusion campaign filter is created with a source of Source 1, an operation of Equals, and an entitlement of Entitlement 1. When this filter is selected, only users who have Entitlement 1 are included in the campaign, and only Entitlement 1 is shown in the certification.\n"
     },
@@ -8981,6 +8985,553 @@
           },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/business-applications/v1": {
+      "get": {
+        "operationId": "listBusinessApplicationsV1",
+        "tags": [
+          "Business Applications"
+        ],
+        "summary": "List Business Applications",
+        "description": "Returns the list of Business Applications defined for the requesting tenant. Requires the `idn:business-application:read` right and the Machine Identity Security product to be enabled for the tenant.",
+        "security": [
+          {
+            "userAuth": [
+              "idn:business-application:read"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "filters",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "sanctionedStatus eq \"SANCTIONED\"",
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq*\n\n**name**: *eq, co*\n\n**vendor**: *eq, co*\n\n**signatures.type**: *eq, co*\n\n**signatures.name**: *eq, co*\n\n**source.name**: *eq, co*\n\n**sanctionedStatus**: *eq*"
+          },
+          {
+            "in": "query",
+            "name": "sorters",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "comma-separated"
+            },
+            "example": "name",
+            "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **id, name, sanctionedStatus**"
+          },
+          {
+            "$ref": "#/components/parameters/count"
+          },
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of Business Application objects.",
+            "headers": {
+              "X-Total-Count": {
+                "description": "Included when `count=true`.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/businessapplication"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "post": {
+        "operationId": "createBusinessApplicationV1",
+        "tags": [
+          "Business Applications"
+        ],
+        "summary": "Create Business Application",
+        "description": "Creates a custom Business Application. Requires the `idn:business-application:create` right, the Machine Identity Security product to be enabled, and the custom Business Application feature to be enabled for the tenant. The `name` must be unique within the tenant, and any provided `signatures` must not already be assigned to another Business Application.",
+        "security": [
+          {
+            "userAuth": [
+              "idn:business-application:create"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/businessapplication"
+              },
+              "example": {
+                "name": "Cursor",
+                "description": "AI coding assistant used by the platform engineering team.",
+                "vendor": "Cursor",
+                "sanctionedStatus": "SANCTIONED",
+                "owner": {
+                  "type": "IDENTITY",
+                  "id": "2c91808568c529c60168cca6f90c1313",
+                  "name": "William Wilson"
+                },
+                "signatures": [
+                  {
+                    "type": "AI Agent",
+                    "name": "cursor"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The created Business Application.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/businessapplication"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client Error - Returned if the request body is invalid, for example a missing or blank `name`, an unrecognized signature `type`, or a duplicate `(type, name)` signature pair within the request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorresponsedto"
+                },
+                "examples": {
+                  "Missing name": {
+                    "value": {
+                      "detailCode": "400.1.0 Required Data Missing Or Empty",
+                      "trackingId": "b21b1f7ce4da4d639f2c62a57171b427",
+                      "messages": [
+                        {
+                          "locale": "en-US",
+                          "localeOrigin": "DEFAULT",
+                          "text": "Required field 'name' was missing or empty."
+                        }
+                      ]
+                    }
+                  },
+                  "Invalid signature type": {
+                    "value": {
+                      "detailCode": "400.1.0 Required Data Missing Or Empty",
+                      "trackingId": "b21b1f7ce4da4d639f2c62a57171b427",
+                      "messages": [
+                        {
+                          "locale": "en-US",
+                          "localeOrigin": "DEFAULT",
+                          "text": "Invalid signature type: Robot"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "description": "Conflict - Returned if the `name` is already in use by another Business Application in the tenant, or if a requested signature is already assigned to another Business Application.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorresponsedto"
+                },
+                "examples": {
+                  "Name already in use": {
+                    "value": {
+                      "detailCode": "400.1.409 Reference Conflict",
+                      "trackingId": "b21b1f7ce4da4d639f2c62a57171b427",
+                      "messages": [
+                        {
+                          "locale": "en-US",
+                          "localeOrigin": "DEFAULT",
+                          "text": "Business Application with name \"Cursor\" already exists."
+                        }
+                      ]
+                    }
+                  },
+                  "Signature already assigned": {
+                    "value": {
+                      "detailCode": "400.1.409 Reference Conflict",
+                      "trackingId": "b21b1f7ce4da4d639f2c62a57171b427",
+                      "messages": [
+                        {
+                          "locale": "en-US",
+                          "localeOrigin": "DEFAULT",
+                          "text": "Signature(s) is already associated with \"another Business Application\" \"[AI_AGENT|cursor]\"."
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/business-applications/v1/{id}": {
+      "get": {
+        "operationId": "getBusinessApplicationV1",
+        "tags": [
+          "Business Applications"
+        ],
+        "summary": "Get Business Application",
+        "description": "Returns a single Business Application by ID for the requesting tenant. Requires the `idn:business-application:read` right and the Machine Identity Security product to be enabled.",
+        "security": [
+          {
+            "userAuth": [
+              "idn:business-application:read"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listBusinessApplicationsV1",
+            "description": "Business Application ID.",
+            "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A Business Application object.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/businessapplication"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "description": "Not Found - Returned if no Business Application exists for the given ID.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorresponsedto"
+                },
+                "examples": {
+                  "404": {
+                    "value": {
+                      "detailCode": "400.1.404 Referenced Object Not Found",
+                      "trackingId": "b21b1f7ce4da4d639f2c62a57171b427",
+                      "messages": [
+                        {
+                          "locale": "en-US",
+                          "localeOrigin": "DEFAULT",
+                          "text": "Referenced 'BusinessApplication' with id 'a1b2c3d4-e5f6-7890-abcd-ef1234567890' not found."
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "patch": {
+        "operationId": "updateBusinessApplicationV1",
+        "tags": [
+          "Business Applications"
+        ],
+        "summary": "Update Business Application",
+        "description": "Updates a Business Application using the [JSON Patch](https://tools.ietf.org/html/rfc6902) standard. Requires the `idn:business-application:update` right and the Machine Identity Security product to be enabled. Patchable fields: `name`, `description`, `owner`, `additionalOwners`, `sanctionedStatus`, and `signatures`. Modifying `signatures` additionally requires the custom Business Application feature to be enabled.",
+        "security": [
+          {
+            "userAuth": [
+              "idn:business-application:update"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listBusinessApplicationsV1",
+            "description": "Business Application ID.",
+            "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "A JSON array of patch operations per RFC 6902.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/jsonpatchoperation"
+                }
+              },
+              "examples": {
+                "Replace sanctioned status": {
+                  "value": [
+                    {
+                      "op": "replace",
+                      "path": "/sanctionedStatus",
+                      "value": "SANCTIONED"
+                    }
+                  ]
+                },
+                "Replace description": {
+                  "value": [
+                    {
+                      "op": "replace",
+                      "path": "/description",
+                      "value": "Updated description."
+                    }
+                  ]
+                },
+                "Replace owner": {
+                  "value": [
+                    {
+                      "op": "replace",
+                      "path": "/owner",
+                      "value": {
+                        "type": "IDENTITY",
+                        "id": "2c91808568c529c60168cca6f90c1313",
+                        "name": "William Wilson"
+                      }
+                    }
+                  ]
+                },
+                "Replace signatures": {
+                  "value": [
+                    {
+                      "op": "replace",
+                      "path": "/signatures",
+                      "value": [
+                        {
+                          "type": "AI Agent",
+                          "name": "cursor"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            },
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/jsonpatchoperation"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The updated Business Application.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/businessapplication"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Client Error - Returned if the patch is malformed, targets a non-patchable field, clears the required `name`, or specifies an invalid signature.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorresponsedto"
+                },
+                "examples": {
+                  "Blank name": {
+                    "value": {
+                      "detailCode": "400.1.0 Required Data Missing Or Empty",
+                      "trackingId": "b21b1f7ce4da4d639f2c62a57171b427",
+                      "messages": [
+                        {
+                          "locale": "en-US",
+                          "localeOrigin": "DEFAULT",
+                          "text": "Required field 'name' was missing or empty."
+                        }
+                      ]
+                    }
+                  },
+                  "Non-patchable field": {
+                    "value": {
+                      "detailCode": "400.1 Bad Request Content",
+                      "trackingId": "b21b1f7ce4da4d639f2c62a57171b427",
+                      "messages": [
+                        {
+                          "locale": "en-US",
+                          "localeOrigin": "DEFAULT",
+                          "text": "Field 'origin' is not patchable."
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "description": "Not Found - Returned if no Business Application exists for the given ID.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorresponsedto"
+                },
+                "examples": {
+                  "404": {
+                    "value": {
+                      "detailCode": "400.1.404 Referenced Object Not Found",
+                      "trackingId": "b21b1f7ce4da4d639f2c62a57171b427",
+                      "messages": [
+                        {
+                          "locale": "en-US",
+                          "localeOrigin": "DEFAULT",
+                          "text": "Referenced 'BusinessApplication' with id 'a1b2c3d4-e5f6-7890-abcd-ef1234567890' not found."
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict - Returned if the new `name` is already in use by another Business Application in the tenant, or if a requested signature is already assigned to another Business Application.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorresponsedto"
+                },
+                "examples": {
+                  "Name already in use": {
+                    "value": {
+                      "detailCode": "400.1.409 Reference Conflict",
+                      "trackingId": "b21b1f7ce4da4d639f2c62a57171b427",
+                      "messages": [
+                        {
+                          "locale": "en-US",
+                          "localeOrigin": "DEFAULT",
+                          "text": "Business Application with name \"Cursor\" already exists."
+                        }
+                      ]
+                    }
+                  },
+                  "Signature already assigned": {
+                    "value": {
+                      "detailCode": "400.1.409 Reference Conflict",
+                      "trackingId": "b21b1f7ce4da4d639f2c62a57171b427",
+                      "messages": [
+                        {
+                          "locale": "en-US",
+                          "localeOrigin": "DEFAULT",
+                          "text": "Signature(s) is already associated with \"another Business Application\" \"[AI_AGENT|cursor]\"."
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -88463,6 +89014,177 @@
           }
         }
       },
+      "businessapplicationsignature": {
+        "type": "object",
+        "title": "Business Application Signature",
+        "description": "A `(type, name)` rule used to automatically correlate machine identities to this Business Application. A signature matches a machine identity when the identity's `subtype` equals `type` and its `connector_attributes.spBusinessApplication` equals `name`. Each `(type, name)` pair is unique across all Business Applications in the tenant; assigning a signature already owned by another Business Application returns a 409 conflict. Modifying signatures requires the custom Business Application feature to be enabled.",
+        "required": [
+          "type",
+          "name"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Signature type, matched against the machine identity's subtype. Kept consistent with the machine identity subtype values.",
+            "enum": [
+              "AI Agent",
+              "Application"
+            ],
+            "example": "AI Agent"
+          },
+          "name": {
+            "type": "string",
+            "description": "Connector signature value to match against the machine identity's `spBusinessApplication` connector attribute.",
+            "example": "cursor"
+          }
+        }
+      },
+      "sanctionedstatus": {
+        "type": "string",
+        "title": "Sanctioned Status",
+        "description": "Indicates whether a Business Application is sanctioned for use within the organization. Machine identities linked to a Business Application inherit this value. Defaults to `UNKNOWN` when not explicitly set.",
+        "enum": [
+          "SANCTIONED",
+          "UNSANCTIONED",
+          "UNKNOWN"
+        ],
+        "example": "SANCTIONED"
+      },
+      "businessapplicationorigin": {
+        "type": "string",
+        "title": "Business Application Origin",
+        "description": "How the Business Application entered the tenant catalog. Read-only; assigned by the service on creation and immutable thereafter.",
+        "enum": [
+          "OOTB",
+          "CUSTOM"
+        ],
+        "example": "CUSTOM"
+      },
+      "businessapplication": {
+        "type": "object",
+        "title": "Business Application",
+        "description": "A Business Application groups machine identities (for example AI agents or applications) under a common owner and sanctioned status, either discovered from a source or defined by an administrator.",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "readOnly": true,
+            "description": "Business Application ID. Assigned by the service on create.",
+            "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+          },
+          "name": {
+            "type": "string",
+            "description": "Human-readable display name. Must be unique within the tenant.",
+            "example": "Cursor"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "description": "Free-text description of the Business Application.",
+            "example": "AI coding assistant used by the platform engineering team."
+          },
+          "vendor": {
+            "type": "string",
+            "nullable": true,
+            "description": "Vendor or publisher of the Business Application.",
+            "example": "Cursor"
+          },
+          "signatures": {
+            "type": "array",
+            "description": "Signatures used to automatically correlate machine identities to this Business Application. Modifying this field requires the custom Business Application feature to be enabled.",
+            "items": {
+              "$ref": "#/components/schemas/businessapplicationsignature"
+            }
+          },
+          "owner": {
+            "type": "object",
+            "nullable": true,
+            "description": "Primary owner of the Business Application.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/basereferencedto"
+              },
+              {
+                "example": {
+                  "type": "IDENTITY",
+                  "id": "2c91808568c529c60168cca6f90c1313",
+                  "name": "William Wilson"
+                }
+              }
+            ]
+          },
+          "additionalOwners": {
+            "type": "array",
+            "nullable": true,
+            "description": "Additional (secondary) owners of the Business Application.",
+            "items": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/basereferencedto"
+                },
+                {
+                  "example": {
+                    "type": "IDENTITY",
+                    "id": "5898b7c1-620c-49c6-cccc-cbf81eb4bddd",
+                    "name": "Jane Doe"
+                  }
+                }
+              ]
+            }
+          },
+          "sanctionedStatus": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/sanctionedstatus"
+              }
+            ],
+            "description": "Sanctioned status of the Business Application. Defaults to `UNKNOWN`."
+          },
+          "origin": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/businessapplicationorigin"
+              }
+            ],
+            "readOnly": true
+          },
+          "source": {
+            "type": "object",
+            "nullable": true,
+            "readOnly": true,
+            "description": "Discovery source of the Business Application. `null` for out-of-the-box or administrator-defined Business Applications that were not discovered from a source.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/basereferencedto"
+              },
+              {
+                "example": {
+                  "type": "SOURCE",
+                  "id": "6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa",
+                  "name": "Active Directory"
+                }
+              }
+            ]
+          },
+          "created": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "description": "Time the Business Application was created.",
+            "example": "2026-01-15T13:45:12.312Z"
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "description": "Time the Business Application was last modified.",
+            "example": "2026-02-20T09:31:47.882Z"
+          }
+        }
+      },
       "criteriatype": {
         "type": "string",
         "enum": [
@@ -104956,7 +105678,7 @@
           }
         }
       },
-      "sanctionedstatus": {
+      "sanctionedstatus-2": {
         "type": "string",
         "title": "Sanctioned Status",
         "description": "Sanctioned status for a Business Application or the derived effective status on a machine identity.\nValues are case-sensitive.",
@@ -105009,7 +105731,7 @@
           "sanctionedStatus": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/sanctionedstatus"
+                "$ref": "#/components/schemas/sanctionedstatus-2"
               }
             ],
             "readOnly": true,
@@ -105154,7 +105876,7 @@
               "effectiveSanctionedStatus": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/sanctionedstatus"
+                    "$ref": "#/components/schemas/sanctionedstatus-2"
                   }
                 ],
                 "readOnly": true,
