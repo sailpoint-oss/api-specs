@@ -229,7 +229,7 @@
     },
     {
       "name": "Intelligence",
-      "description": "Read-only HTTP API that returns the Intelligence (identity context)\nfor SecOps enrichment use cases (SIEM/SOAR connectors, MCP, browser\nextension). Backed by Atlas internal-REST calls to MICE, Shelby List Accounts,\nSDS Search, IDA-outliers, and identity-history.\n\n## License-based segmentation\n\n- **`idn:response-and-remediation`** (required): enforced on all `/intelligence/*` routes.\n- **`IDA-outliers`** (optional): governs the Human `outliers.rareAccess` slice only. When the\n  tenant lacks this license, the `outliers` key is omitted.\n- **`idg:base`** (optional): governs the root-level `identityGraph` deep link on aggregate\n  responses. When the tenant lacks this license, `identityGraph` is omitted.\n\n## Pagination\n\nThe aggregated Human GET embeds the first **10** items per paged slice. Each upstream paged call\nsends `count=true` and reads `X-Total-Count`. Parent slices expose `totalCount` when `items` is\nnon-empty and set `next` when `totalCount > offset + len(items)` (aggregate offset is always 0).\nEmpty slices render as `items: []` with no `totalCount`. `privilegedAccess` is never paged and\ncarries no `totalCount`.\n\nHuman child routes (`/accounts`, `/outliers/rare-access`, `/access-history/*`) follow the\nSailPoint V3 pattern: pass `count=true` to receive `X-Total-Count` (including `0` on empty\npages). When `count` is omitted, upstream count work is skipped and the header is omitted.\n"
+      "description": "HTTP API that returns the Intelligence (identity context) for SecOps enrichment\nuse cases (SIEM/SOAR connectors, MCP, browser extension), and accepts asynchronous\nresponse actions for remediation. Identity reads are backed by Atlas internal-REST\ncalls to MICE, Shelby List Accounts, SDS Search, IDA-outliers, and identity-history.\n\n## License-based segmentation\n\n- **`idn:response-and-remediation`** (required): enforced on all `/intelligence/*` routes.\n- **`IDA-outliers`** (optional): governs the Human `outliers.rareAccess` slice only. When the\n  tenant lacks this license, the `outliers` key is omitted.\n- **`idg:base`** (optional): governs the root-level `identityGraph` deep link on aggregate\n  responses. When the tenant lacks this license, `identityGraph` is omitted.\n\n## Pagination\n\nThe aggregated Human GET embeds the first **10** items per paged slice. Each upstream paged call\nsends `count=true` and reads `X-Total-Count`. Parent slices expose `totalCount` when `items` is\nnon-empty and set `next` when `totalCount > offset + len(items)` (aggregate offset is always 0).\nEmpty slices render as `items: []` with no `totalCount`. `privilegedAccess` is never paged and\ncarries no `totalCount`.\n\nHuman child routes (`/accounts`, `/outliers/rare-access`, `/access-history/*`) follow the\nSailPoint V3 pattern: pass `count=true` to receive `X-Total-Count` (including `0` on empty\npages). When `count` is omitted, upstream count work is skipped and the header is omitted.\n"
     },
     {
       "name": "JIT Access",
@@ -39737,6 +39737,220 @@
           },
           "403": {
             "description": "Unauthorized access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorresponsedto"
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "description": "Internal or upstream server failure.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorresponsedto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/intelligence/v1/response-actions": {
+      "post": {
+        "operationId": "createResponseActionV1",
+        "security": [
+          {
+            "userAuth": [
+              "sp:identity-sec-intel:write"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "sp:identity-sec-intel:write"
+            ]
+          }
+        ],
+        "x-required-right": "sp:identity-sec-intel:write",
+        "x-sailpoint-userLevels": [
+          "Any"
+        ],
+        "tags": [
+          "Intelligence"
+        ],
+        "summary": "Create a response action",
+        "description": "Requires tenant license idn:response-and-remediation.\n\nCreates a response action: the request is validated, a requestId (the correlation id) is\nminted, the action is recorded as SUBMITTED, and an event is published that triggers the\ncorrelated workflow(s).\n\nReturns HTTP 202 with the requestId, an initial SUBMITTED status, and a statusUrl. Poll\nGET /intelligence/v1/response-actions/{requestId}/status for progress.\n",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/response-action-create-request"
+              },
+              "examples": {
+                "disableIdentity": {
+                  "summary": "Disable an identity",
+                  "value": {
+                    "actionType": "DISABLE_IDENTITY",
+                    "identityType": "HUMAN",
+                    "identityId": "2c918085842e69ae018428c919680149",
+                    "context": {
+                      "source": "CROWDSTRIKE",
+                      "externalAlertId": "CS-FALCON-12345",
+                      "reason": "Malware detected on endpoint DESKTOP-A1B2C3",
+                      "operator": "soc-analyst@customer.com"
+                    }
+                  }
+                },
+                "disableAccount": {
+                  "summary": "Disable one or more accounts",
+                  "value": {
+                    "actionType": "DISABLE_ACCOUNT",
+                    "identityType": "HUMAN",
+                    "identityId": "2c918085842e69ae018428c919680149",
+                    "accountIds": [
+                      "2c918085abc000000000000000000001"
+                    ],
+                    "context": {
+                      "source": "CROWDSTRIKE",
+                      "externalAlertId": "CS-FALCON-12345",
+                      "reason": "Contain compromised account",
+                      "operator": "soc-analyst@customer.com"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "The response action was accepted and is being processed asynchronously.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response-action-accepted"
+                },
+                "example": {
+                  "requestId": "3f1e6c9a-8b2d-4e5f-9a1b-2c3d4e5f6a7b",
+                  "status": "SUBMITTED",
+                  "statusUrl": "/intelligence/v1/response-actions/3f1e6c9a-8b2d-4e5f-9a1b-2c3d4e5f6a7b/status"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or invalid request body.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorresponsedto"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "description": "Internal or upstream server failure.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorresponsedto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/intelligence/v1/response-actions/{id}/status": {
+      "get": {
+        "operationId": "getResponseActionStatusV1",
+        "security": [
+          {
+            "userAuth": [
+              "sp:identity-sec-intel:read"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "sp:identity-sec-intel:read"
+            ]
+          }
+        ],
+        "x-required-right": "sp:identity-sec-intel:read",
+        "x-sailpoint-userLevels": [
+          "Any"
+        ],
+        "tags": [
+          "Intelligence"
+        ],
+        "summary": "Get response action status",
+        "description": "Requires tenant license idn:response-and-remediation.\n\nReturns the current aggregate status of a previously submitted response action, identified by\nthe requestId returned from POST /intelligence/v1/response-actions.\n\nSupported actionType values: DISABLE_IDENTITY, DISABLE_ACCOUNT.\n",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The requestId of the response action to look up.",
+            "x-sailpoint-resource-operation-id": "createResponseActionV1",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "example": "3f1e6c9a-8b2d-4e5f-9a1b-2c3d4e5f6a7b"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The current status of the response action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/response-action-status"
+                },
+                "example": {
+                  "requestId": "3f1e6c9a-8b2d-4e5f-9a1b-2c3d4e5f6a7b",
+                  "actionType": "DISABLE_ACCOUNT",
+                  "status": "SUBMITTED",
+                  "submittedAt": "2026-08-07T10:15:30Z",
+                  "updatedAt": "2026-08-07T10:15:30Z"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid path parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorresponsedto"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "description": "No response action exists for the supplied requestId.",
             "content": {
               "application/json": {
                 "schema": {
@@ -103520,6 +103734,204 @@
             }
           }
         ]
+      },
+      "response-action-context": {
+        "type": "object",
+        "description": "External source metadata captured for audit and traceability.",
+        "required": [
+          "source"
+        ],
+        "properties": {
+          "source": {
+            "type": "string",
+            "description": "External system that initiated the action.",
+            "enum": [
+              "CROWDSTRIKE",
+              "SENTINEL",
+              "SPLUNK",
+              "CUSTOM"
+            ],
+            "maxLength": 128,
+            "example": "CROWDSTRIKE"
+          },
+          "externalAlertId": {
+            "type": "string",
+            "description": "External alert or case identifier.",
+            "maxLength": 256,
+            "example": "CS-FALCON-12345"
+          },
+          "reason": {
+            "type": "string",
+            "description": "Human-readable reason for the action.",
+            "maxLength": 1024,
+            "example": "Contain compromised account"
+          },
+          "operator": {
+            "type": "string",
+            "description": "Operator or analyst who initiated the action.",
+            "maxLength": 256,
+            "example": "soc-analyst@customer.com"
+          }
+        }
+      },
+      "response-action-create-request": {
+        "type": "object",
+        "required": [
+          "actionType",
+          "identityType",
+          "identityId",
+          "context"
+        ],
+        "description": "Request body for creating a response action.",
+        "properties": {
+          "actionType": {
+            "type": "string",
+            "description": "Which response action to run.",
+            "enum": [
+              "DISABLE_IDENTITY",
+              "DISABLE_ACCOUNT"
+            ],
+            "example": "DISABLE_ACCOUNT"
+          },
+          "identityType": {
+            "type": "string",
+            "description": "Subject type of the response action. v1 supports HUMAN.",
+            "enum": [
+              "HUMAN"
+            ],
+            "example": "HUMAN"
+          },
+          "identityId": {
+            "type": "string",
+            "description": "ISC identity id, resolved by the caller from a prior intelligence query.",
+            "example": "2c918085842e69ae018428c919680149"
+          },
+          "accountIds": {
+            "type": "array",
+            "description": "One or more account ids. Required for DISABLE_ACCOUNT (1-50 after trim/dedupe); must be\nomitted for DISABLE_IDENTITY. A single account is sent as a one-element array.\n",
+            "minItems": 1,
+            "maxItems": 50,
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "2c918085abc000000000000000000001"
+            ]
+          },
+          "context": {
+            "$ref": "#/components/schemas/response-action-context"
+          }
+        },
+        "oneOf": [
+          {
+            "properties": {
+              "actionType": {
+                "enum": [
+                  "DISABLE_IDENTITY"
+                ]
+              }
+            },
+            "not": {
+              "required": [
+                "accountIds"
+              ]
+            }
+          },
+          {
+            "properties": {
+              "actionType": {
+                "enum": [
+                  "DISABLE_ACCOUNT"
+                ]
+              }
+            },
+            "required": [
+              "accountIds"
+            ]
+          }
+        ]
+      },
+      "response-action-accepted": {
+        "type": "object",
+        "description": "Acknowledgement returned when a response action is accepted for asynchronous processing.",
+        "required": [
+          "requestId",
+          "status",
+          "statusUrl"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string",
+            "description": "Tracking handle and correlation id for the response action.",
+            "example": "3f1e6c9a-8b2d-4e5f-9a1b-2c3d4e5f6a7b"
+          },
+          "status": {
+            "type": "string",
+            "description": "Aggregate status of the response action. SUBMITTED at creation (registered; no correlated workflow execution observed yet).",
+            "enum": [
+              "SUBMITTED",
+              "IN_PROGRESS",
+              "COMPLETED",
+              "FAILED"
+            ],
+            "example": "SUBMITTED"
+          },
+          "statusUrl": {
+            "type": "string",
+            "description": "Relative URL to poll for the current status of the response action.",
+            "example": "/intelligence/v1/response-actions/3f1e6c9a-8b2d-4e5f-9a1b-2c3d4e5f6a7b/status"
+          }
+        }
+      },
+      "response-action-status": {
+        "type": "object",
+        "description": "Current tracked status of a response action. Target fields from the create request\n(identityType, identityId, accountIds, context) are not echoed here; they travel on the\naction event used to start the workflow(s).\n",
+        "required": [
+          "requestId",
+          "actionType",
+          "status",
+          "submittedAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string",
+            "description": "Tracking handle and correlation id for the response action.",
+            "example": "3f1e6c9a-8b2d-4e5f-9a1b-2c3d4e5f6a7b"
+          },
+          "actionType": {
+            "type": "string",
+            "description": "The action that was requested.",
+            "enum": [
+              "DISABLE_IDENTITY",
+              "DISABLE_ACCOUNT"
+            ],
+            "example": "DISABLE_ACCOUNT"
+          },
+          "status": {
+            "type": "string",
+            "description": "Aggregate status across the correlated workflow execution(s):\nSUBMITTED (registered, no execution yet), IN_PROGRESS (any still non-terminal),\nCOMPLETED (all terminal and at least one succeeded), or FAILED (all terminal and none succeeded).\n",
+            "enum": [
+              "SUBMITTED",
+              "IN_PROGRESS",
+              "COMPLETED",
+              "FAILED"
+            ],
+            "example": "SUBMITTED"
+          },
+          "submittedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the response action was accepted.",
+            "example": "2026-08-07T10:15:30Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the response action status last changed.",
+            "example": "2026-08-07T10:18:02Z"
+          }
+        }
       },
       "jitactivationconfigresponse": {
         "type": "object",
