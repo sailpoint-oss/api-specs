@@ -29,10 +29,10 @@ servers:
 tags:
   - name: Intelligence
     description: |
-      Read-only HTTP API that returns the Intelligence (identity context)
-      for SecOps enrichment use cases (SIEM/SOAR connectors, MCP, browser
-      extension). Backed by Atlas internal-REST calls to MICE, Shelby List Accounts,
-      SDS Search, IDA-outliers, and identity-history.
+      HTTP API that returns the Intelligence (identity context) for SecOps enrichment
+      use cases (SIEM/SOAR connectors, MCP, browser extension), and accepts asynchronous
+      response actions for remediation. Identity reads are backed by Atlas internal-REST
+      calls to MICE, Shelby List Accounts, SDS Search, IDA-outliers, and identity-history.
 
       ## License-based segmentation
 
@@ -64,6 +64,10 @@ paths:
     $ref: ./paths/intelligence-v1-identities-by-id-access-history-access-items.yaml
   /intelligence/v1/identities/{id}/access-history/certifications:
     $ref: ./paths/intelligence-v1-identities-by-id-access-history-certifications.yaml
+  /intelligence/v1/response-actions:
+    $ref: ./paths/intelligence-v1-response-actions.yaml
+  /intelligence/v1/response-actions/{id}/status:
+    $ref: ./paths/intelligence-v1-response-actions-by-id-status.yaml
 security:
   - userAuth:
       - sp:scopes:all
