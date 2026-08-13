@@ -44710,6 +44710,174 @@
         }
       }
     },
+    "/machine-identities/v1/{id}/anomalies": {
+      "get": {
+        "operationId": "listMachineIdentityAnomaliesV1",
+        "tags": [
+          "Machine Identities"
+        ],
+        "summary": "List machine identity anomalies",
+        "description": "Returns a paginated list of anomalies detected for the specified machine identity (agent).\n\nSet **count=true** to populate the *X-Total-Count* response header with the total number of anomalies for the agent. Combine **limit=0** with **count=true** to retrieve only the count with an empty result body.",
+        "security": [
+          {
+            "userAuth": [
+              "idn:mis-identity:read"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listMachineIdentitiesV1",
+            "description": "Machine identity (agent) ID.",
+            "example": "ef38f94347e94562b5bb8424a56397d8"
+          },
+          {
+            "in": "query",
+            "name": "sorters",
+            "schema": {
+              "type": "string",
+              "format": "comma-separated"
+            },
+            "required": false,
+            "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **detectedAt**\n\nThe default sort is **-detectedAt** (most recent first).",
+            "example": "-detectedAt"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          },
+          {
+            "$ref": "#/components/parameters/count"
+          },
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of anomalies for the machine identity.",
+            "headers": {
+              "X-Total-Count": {
+                "description": "Total number of anomalies for the agent. Only returned when **count=true** is specified on the request.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/anomaly"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/machine-identities/v1/anomaly-summaries/unsanctioned": {
+      "get": {
+        "operationId": "getUnsanctionedAnomalySummaryV1",
+        "tags": [
+          "Machine Identities"
+        ],
+        "summary": "Get unsanctioned application anomaly summary",
+        "description": "Returns aggregate counts (distinct agents, distinct owners, and total events) for anomalies of type **unsanctioned_app** across the tenant. Powers the Unsanctioned Agents card on the Agent Registry page.",
+        "security": [
+          {
+            "userAuth": [
+              "idn:mis-identity:read"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "parameters": [
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Unsanctioned application anomaly summary.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/unsanctionedsummary"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
     "/machine-identities/v2": {
       "get": {
         "operationId": "listMachineIdentitiesV2",
@@ -105982,6 +106150,237 @@
             }
           }
         ]
+      },
+      "anomalyevidencetimestamp": {
+        "type": "object",
+        "title": "Anomaly Evidence Timestamp",
+        "description": "Timestamp block for an anomaly's evidence.",
+        "properties": {
+          "at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Point-in-time the evidence was captured.",
+            "example": "2026-07-13T10:14:00Z"
+          },
+          "from": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Start of the aggregation window for time-window detections (SIEM); null for point-in-time detections (SENTINEL).",
+            "example": "2026-07-13T09:00:00Z"
+          }
+        }
+      },
+      "anomalybaseline": {
+        "type": "object",
+        "title": "Anomaly Baseline",
+        "description": "Peer-group baseline for time-series anomaly detections (SIEM source only). Contains the windowed data points and deviation thresholds used to render the anomaly chart.",
+        "properties": {
+          "uiFeatureName": {
+            "type": "string",
+            "description": "Name of the feature the baseline describes.",
+            "example": "outbound_volume"
+          },
+          "windowSize": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of data points in the window.",
+            "example": 7
+          },
+          "values": {
+            "type": "array",
+            "description": "Observed values across the window.",
+            "example": [
+              3,
+              5,
+              4,
+              6,
+              5,
+              7,
+              5
+            ],
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "rawValue": {
+            "type": "array",
+            "description": "Raw observed values across the window.",
+            "example": [
+              "3",
+              "5",
+              "4",
+              "6",
+              "5",
+              "7",
+              "5"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "upperBound": {
+            "type": "array",
+            "description": "Upper deviation threshold per data point.",
+            "example": [
+              8,
+              8.2,
+              8.1,
+              8.5,
+              8.3,
+              8.6,
+              8.4
+            ],
+            "items": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          "lowerBound": {
+            "type": "array",
+            "description": "Lower deviation threshold per data point.",
+            "example": [
+              1,
+              1.2,
+              1.1,
+              1.5,
+              1.3,
+              1.6,
+              1.4
+            ],
+            "items": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          "minimumValue": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Minimum value in the window.",
+            "example": 0
+          },
+          "fprValue": {
+            "type": "number",
+            "format": "double",
+            "description": "False-positive-rate threshold value.",
+            "example": 0.01
+          }
+        }
+      },
+      "anomalyevidence": {
+        "type": "object",
+        "title": "Anomaly Evidence",
+        "description": "Detection evidence associated with an anomaly. SENTINEL detections populate the agent attribute fields; SIEM detections instead include a baseline with windowed time-series data.",
+        "properties": {
+          "source": {
+            "type": "string",
+            "description": "Evidence source system.",
+            "example": "SENTINEL"
+          },
+          "timestamp": {
+            "description": "Timestamp details for when the evidence was captured.",
+            "$ref": "#/components/schemas/anomalyevidencetimestamp"
+          },
+          "agentAttributeType": {
+            "type": "string",
+            "nullable": true,
+            "description": "Attribute type captured for SENTINEL detections; null for SIEM detections.",
+            "example": "shell_exec"
+          },
+          "agentAttributeValue": {
+            "type": "string",
+            "nullable": true,
+            "description": "Attribute value captured for SENTINEL detections; null for SIEM detections.",
+            "example": "curl external.example.com"
+          },
+          "baseline": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/anomalybaseline"
+              }
+            ],
+            "nullable": true,
+            "description": "Peer-group baseline for SIEM detections; null for SENTINEL detections."
+          }
+        }
+      },
+      "anomaly": {
+        "type": "object",
+        "title": "Anomaly",
+        "description": "A single anomaly detected for a machine identity by Agent Behavior Monitoring.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Anomaly identifier.",
+            "example": "rule-anom-001"
+          },
+          "anomalyType": {
+            "type": "string",
+            "description": "Category of the detected anomaly.",
+            "example": "unsanctioned_app"
+          },
+          "description": {
+            "type": "string",
+            "description": "Human-readable description of the anomaly.",
+            "example": "Agent accessed an unsanctioned application."
+          },
+          "ruleId": {
+            "type": "string",
+            "description": "Identifier of the detection rule that produced the anomaly.",
+            "example": "rule-tool-usage"
+          },
+          "dataSources": {
+            "type": "array",
+            "description": "Source systems that contributed to the detection.",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "SENTINEL"
+            ]
+          },
+          "detectedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date-time the anomaly was detected.",
+            "example": "2026-07-13T10:14:00Z"
+          },
+          "evidence": {
+            "description": "Detection evidence associated with the anomaly.",
+            "$ref": "#/components/schemas/anomalyevidence"
+          }
+        }
+      },
+      "unsanctionedsummary": {
+        "type": "object",
+        "title": "Unsanctioned Application Anomaly Summary",
+        "description": "Aggregate counts of machine identities flagged with unsanctioned-application anomalies, used to power the Unsanctioned Agents card.",
+        "properties": {
+          "anomalyType": {
+            "type": "string",
+            "description": "The anomaly type these counts describe. Always unsanctioned_app for this endpoint.",
+            "example": "unsanctioned_app"
+          },
+          "agentCount": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Number of distinct agents with at least one unsanctioned-application anomaly.",
+            "example": 23
+          },
+          "userCount": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Number of distinct owners (users) associated with unsanctioned-application anomalies.",
+            "example": 254
+          },
+          "eventCount": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Total number of unsanctioned-application anomaly records.",
+            "example": 97
+          }
+        }
       },
       "machineidentityownersv2": {
         "type": "object",
