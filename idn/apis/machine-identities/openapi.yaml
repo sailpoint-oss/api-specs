@@ -33,6 +33,10 @@ paths:
     $ref: ./paths/machine-identities-v1.yaml
   /machine-identities/v1/{id}:
     $ref: ./paths/machine-identities-v1-by-id.yaml
+  /machine-identities/v1/{id}/anomalies:
+    $ref: ./paths/machine-identities-v1-by-id-anomalies.yaml
+  /machine-identities/v1/anomaly-summaries/unsanctioned:
+    $ref: ./paths/anomaly-summaries-v1-unsanctioned.yaml
   /machine-identities/v2:
     $ref: ./paths/machine-identities-v2.yaml
   /machine-identities/v2/{id}:
