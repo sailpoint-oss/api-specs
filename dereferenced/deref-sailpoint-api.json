@@ -2051,7 +2051,7 @@
         "tags": [
           "Access Request Approvals"
         ],
-        "description": "This endpoint returns a list of pending approvals. See \"owner-id\" query parameter below for authorization info.",
+        "description": "This endpoint returns a list of pending approvals. See \"owner-id\" query parameter below for authorization info.\nFor access requests for machines, each approval will include `identityType` as `MACHINE` and `requestedFor` with `type: MACHINE_IDENTITY` and the machine id. Approvals without a stored identity type are returned as `HUMAN` / `IDENTITY`.\n",
         "parameters": [
           {
             "in": "query",
@@ -2133,13 +2133,16 @@
         "tags": [
           "Access Request Approvals"
         ],
-        "description": "This endpoint returns list of completed approvals. See *owner-id* query parameter below for authorization info.",
+        "description": "This endpoint returns list of completed approvals. See *owner-id* query parameter below for authorization info. For access requests for machines, each approval will include 'identityType' as 'MACHINE' and 'requestedFor' with 'type: MACHINE_IDENTITY' and the machine id. Approvals without a stored identity type are returned as 'HUMAN' / 'IDENTITY'.\n",
         "security": [
           {
             "userAuth": [
               "idn:access-request-approvals:read"
             ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
         ],
         "parameters": [
           {
@@ -2912,13 +2915,30 @@
         "tags": [
           "Access Requests"
         ],
-        "description": "Use this API to submit an access request in Identity Security Cloud (ISC), where it follows any ISC approval processes.\n\n>**Security:** idn:access-request:manage is for ORG_ADMIN level. idn:access-request-self:manage is for USER level.\n\n:::info\nThe ability to request access using this API is constrained by the Access Request Segments defined in the API token's user context.\n:::\n\nAccess requests are processed asynchronously by ISC. A successful response from this endpoint means that the request\nhas been submitted to ISC and is queued for processing. Because this endpoint is asynchronous, it does not return an error\nif you submit duplicate access requests in quick succession or submit an access request for access that is already in progress, approved, or rejected.\n\nIt is best practice to check for any existing access requests that reference the same access items before submitting a new access request. This can\nbe accomplished by using the [List Access Request Status](https://developer.sailpoint.com/docs/api/list-access-request-status-v-1) or the [Pending Access Request Approvals](https://developer.sailpoint.com/docs/api/list-pending-approvals-v-1) APIs. You can also\nuse the [Search API](https://developer.sailpoint.com/docs/api/search) to check the existing access items an identity has before submitting\nan access request to ensure that you aren't requesting access that is already granted. If you use this API to request access that an identity already has, \nwithout changing the account details or end date information from the existing assignment, \nthe API will cancel the request as a duplicate.\n\nThere are two types of access request:\n\n__GRANT_ACCESS__\n* Can be requested for multiple identities in a single request.\n* Supports self request and request on behalf of other users. Refer to the [Get Access Request Configuration](https://developer.sailpoint.com/docs/api/get-access-request-config-v-2) endpoint for request configuration options.  \n* Allows any authenticated token (except API) to call this endpoint to request to grant access to themselves. Depending on the configuration, a user can request access for others.\n* Roles, access profiles and entitlements can be requested.\n* You can specify a `startDate` to set or alter a sunrise date-time on an assignment. The startDate must be a future date-time, in the UTC timezone. Additionally, if the user already has the access assigned with a sunrise date and its yet to be provisioned, you can also submit a request without a `startDate` to request immediate provisioning after approval.\n* If a `startDate` is specified, then the requested role, access profile, or entitlement will be provisioned on that date and time.\n* You can specify a `removeDate` to set or alter a sunset date-time on an assignment. The removeDate must be a future date-time, in the UTC timezone. Additionally, if the user already has the access assigned with a sunset date, you can also submit a request without a `removeDate` to request removal of the sunset date and time.\n* If a `removeDate` is specified, then the requested role, access profile, or entitlement will be removed on that date and time.\n* Now supports an alternate field 'requestedForWithRequestedItems' for users to specify account selections while requesting items where they have more than one account on the source.\n\n:::caution\n\nIf any entitlements are being requested, then the maximum number of entitlements that can be requested is 25, and the maximum number of identities that can be requested for is 10. If you exceed these limits, the request will fail with a 400 error. If you are not requesting any entitlements, then there are no limits.\n\n:::\n\n__REVOKE_ACCESS__\n* Can only be requested for a single identity at a time.\n* You cannot use an access request to revoke access from an identity if that access has been granted by role membership or by birthright provisioning. \n* Does not support self request. Only manager can request to revoke access for their directly managed employees.\n* If a `removeDate` is specified, then the requested role, access profile, or entitlement will be removed on that date and time.\n* Roles, access profiles, and entitlements can be requested for revocation.\n* Revoke requests for entitlements are limited to 1 entitlement per access request currently.\n* You cannot specify a 'startDate' in a REVOKE_ACCESS request, as startDate is only applicable for GRANT_ACCESS requests to indicate when the access should be provisioned, and it does not make sense in the context of revoking access.\n* You can specify a `removeDate` to add or alter a sunset date and time on an assignment. The `removeDate` must be a future date-time, in the UTC timezone. If the user already has the access assigned with a sunset date and time, the removeDate must be a date-time earlier than the existing sunset date and time. \n* Allows a manager to request to revoke access for direct employees. A user with ORG_ADMIN authority can also request to revoke access from anyone.\n* Now supports REVOKE_ACCESS requests for identities with multiple accounts on a single source, with the help of 'assignmentId' and 'nativeIdentity' fields. These fields should be used within the 'requestedItems' section for the revoke requests. \n* Usage of 'requestedForWithRequestedItems' field is not supported for revoke requests.\n",
+        "description": "Use this API to submit an access request in Identity Security Cloud (ISC), where it follows any ISC approval processes.\n\n>**Security:** idn:access-request:manage is for ORG_ADMIN level. idn:access-request-self:manage is for USER level.\n\n:::info\nThe ability to request access using this API is constrained by the Access Request Segments defined in the API token's user context.\n:::\n\nAccess requests are processed asynchronously by ISC. A successful response from this endpoint means that the request\nhas been submitted to ISC and is queued for processing. Because this endpoint is asynchronous, it does not return an error\nif you submit duplicate access requests in quick succession or submit an access request for access that is already in progress, approved, or rejected.\n\nIt is best practice to check for any existing access requests that reference the same access items before submitting a new access request. This can\nbe accomplished by using the [List Access Request Status](https://developer.sailpoint.com/docs/api/list-access-request-status-v-1) or the [Pending Access Request Approvals](https://developer.sailpoint.com/docs/api/list-pending-approvals-v-1) APIs. You can also\nuse the [Search API](https://developer.sailpoint.com/docs/api/search) to check the existing access items an identity has before submitting\nan access request to ensure that you aren't requesting access that is already granted. If you use this API to request access that an identity already has, \nwithout changing the account details or end date information from the existing assignment, \nthe API will cancel the request as a duplicate.\n\nThere are two types of access request:\n\n__GRANT_ACCESS__\n* Can be requested for multiple identities in a single request.\n* Supports self request and request on behalf of other users. Refer to the [Get Access Request Configuration](https://developer.sailpoint.com/docs/api/get-access-request-config-v-2) endpoint for request configuration options.  \n* Allows any authenticated token (except API) to call this endpoint to request to grant access to themselves. Depending on the configuration, a user can request access for others.\n* Roles, access profiles and entitlements can be requested.\n* You can specify a `startDate` to set or alter a sunrise date-time on an assignment. The startDate must be a future date-time, in the UTC timezone. Additionally, if the user already has the access assigned with a sunrise date and its yet to be provisioned, you can also submit a request without a `startDate` to request immediate provisioning after approval.\n* If a `startDate` is specified, then the requested role, access profile, or entitlement will be provisioned on that date and time.\n* You can specify a `removeDate` to set or alter a sunset date-time on an assignment. The removeDate must be a future date-time, in the UTC timezone. Additionally, if the user already has the access assigned with a sunset date, you can also submit a request without a `removeDate` to request removal of the sunset date and time.\n* If a `removeDate` is specified, then the requested role, access profile, or entitlement will be removed on that date and time.\n* Now supports an alternate field 'requestedForWithRequestedItems' for users to specify account selections while requesting items where they have more than one account on the source.\n\n__MACHINE IDENTITY ACCESS REQUESTS__\n* Machine identity access requests reuse this same endpoint. They must use `requestedForWithRequestedItems` with `identityType: MACHINE` on each entry. Do not use the flat `requestedFor` / `requestedItems` shape for machines. Mixed human and machine identities in one request are not supported.\n* Request `identityType` uses `HUMAN` / `MACHINE`. List, status, and approval responses use `IDENTITY` / `MACHINE_IDENTITY` on `requestedFor.type` for the same distinction.\n\nPrerequisites and authorization:\n* The organization must have Machine Identity Security licensed; otherwise the request is rejected with 403.\n* Access request config v2 `machineIdentityAccessRequestEnabled` must be true (default true); otherwise 403.\n* Request-on-behalf-of for machines is controlled by `allowRequestOnBehalfOfForMachineIdentity` and `allowRequestForMachineByOwner` on the access request configuration. See those schema fields for the authorization cascade (open ROBO, owner/admin ROBO, then admin-only fallback).\n\nConstraints for machine requests:\n* Only `ENTITLEMENT` items are supported (roles and access profiles are rejected).\n* GRANT_ACCESS and MODIFY_ACCESS requests require `accountSelection` to be provided with `accountUuid` and/or `nativeIdentity`  that match a real machine account for that machine identity on the selected source. Prefer values returned by the accounts-selection API.\n* MODIFY_ACCESS requests additionally require each item to have `startDate` and/or `removeDate` to denote date modifications.\n* REVOKE_ACCESS must target exactly one machine identity. Per entitlement item, provide `nativeIdentity` (or it may be auto-resolved when the machine has exactly one account on the entitlement source). Do not send `accountSelection` on machine revoke.\n* Multi-machine GRANT_ACCESS is allowed within existing recipient limits; multi-machine REVOKE_ACCESS is not.\n\n:::caution\n\nIf any entitlements are being requested, then the maximum number of entitlements that can be requested is 25, and the maximum number of identities that can be requested for is 10. If you exceed these limits, the request will fail with a 400 error. If you are not requesting any entitlements, then there are no limits.\n\n:::\n\n__REVOKE_ACCESS__\n* Can only be requested for a single identity at a time.\n* You cannot use an access request to revoke access from an identity if that access has been granted by role membership or by birthright provisioning. \n* Does not support self request. Only manager can request to revoke access for their directly managed employees.\n* If a `removeDate` is specified, then the requested role, access profile, or entitlement will be removed on that date and time.\n* Roles, access profiles, and entitlements can be requested for revocation.\n* Revoke requests for entitlements are limited to 1 entitlement per access request currently.\n* You cannot specify a 'startDate' in a REVOKE_ACCESS request, as startDate is only applicable for GRANT_ACCESS requests to indicate when the access should be provisioned, and it does not make sense in the context of revoking access.\n* You can specify a `removeDate` to add or alter a sunset date and time on an assignment. The `removeDate` must be a future date-time, in the UTC timezone. If the user already has the access assigned with a sunset date and time, the removeDate must be a date-time earlier than the existing sunset date and time. \n* Allows a manager to request to revoke access for direct employees. A user with ORG_ADMIN authority can also request to revoke access from anyone.\n* Now supports REVOKE_ACCESS requests for identities with multiple accounts on a single source, with the help of 'assignmentId' and 'nativeIdentity' fields. These fields should be used within the 'requestedItems' section for the revoke requests. \n* For human identities, usage of 'requestedForWithRequestedItems' is not supported for revoke requests. Machine identity revoke requests must use 'requestedForWithRequestedItems' with `identityType: MACHINE` as described above.\n",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/accessrequest"
+              },
+              "examples": {
+                "GRANT_ACCESS for Humans": {
+                  "$ref": "#/components/examples/create-human-grant"
+                },
+                "GRANT_ACCESS for Humans with account selection": {
+                  "$ref": "#/components/examples/create-human-grant-nested"
+                },
+                "GRANT_ACCESS for Machines": {
+                  "$ref": "#/components/examples/create-machine-grant"
+                },
+                "REVOKE_ACCESS for Humans": {
+                  "$ref": "#/components/examples/create-human-revoke"
+                },
+                "REVOKE_ACCESS for Machines": {
+                  "$ref": "#/components/examples/create-machine-revoke"
+                }
               }
             }
           }
@@ -3143,13 +3163,21 @@
         "tags": [
           "Access Requests"
         ],
-        "description": "Use this API to fetch account information for an identity against the items in an access request.\n\nUsed to fetch accountSelection for the AccessRequest prior to submitting for async processing.\n",
+        "description": "Use this API to fetch account information for an identity against the items in an access request.\n\nUsed to fetch accountSelection for the AccessRequest prior to submitting for async processing.\n\n__Machine identities__\n\n* Must use `requestedForWithRequestedItems` with `identityType: MACHINE` on each entry.\n\n* Fields `requestedFor` / `requestedItems` are not supported and should be omitted.\n\n* Only `ENTITLEMENT` items are supported.\n\n* Mixed human and machine identities in one request are not supported.\n\n* Response identities use `type: MACHINE_IDENTITY`. Use the returned account `accountUuid` / `nativeIdentity`\nvalues when submitting the access request; invalid or mismatched account details are rejected on create.\n\n* If the machine has no account on a requested source, the item may be returned with\n`accountsSelectionBlocked: true` and `accountsSelectionBlockedReason: NO_ACCOUNT_ON_SOURCE` (empty accounts on the\nresponse in that blocked case is expected).\n\n* Same licensing, `machineIdentityAccessRequestEnabled`, and request-on-behalf-of rules as create access request\napply.\n",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/accountsselectionrequest"
+              },
+              "examples": {
+                "Humans": {
+                  "$ref": "#/components/examples/accounts-selection-human-grant"
+                },
+                "Machines": {
+                  "$ref": "#/components/examples/accounts-selection-machine-grant"
+                }
               }
             }
           }
@@ -3213,7 +3241,7 @@
           "Access Requests"
         ],
         "summary": "Access request status",
-        "description": "Use this API to return a list of access request statuses based on the specified query parameters.\nIf an access request was made for access that an identity already has, the API ignores the access request.  These ignored requests do not display in the list of access request statuses.\nAny user with any user level can get the status of their own access requests. A user with ORG_ADMIN is required to call this API to get a list of statuses for other users.",
+        "description": "Use this API to return a list of access request statuses based on the specified query parameters.\nIf an access request was made for access that an identity already has, the API ignores the access request.  These ignored requests do not display in the list of access request statuses.\nAny user with any user level can get the status of their own access requests. A user with ORG_ADMIN is required to call this API to get a list of statuses for other users. For access requests for machines, each status item will include `identityType` as `MACHINE` and `requestedFor` with `type: MACHINE_IDENTITY` and the machine id. Requests without a stored identity type are returned as `HUMAN` / `IDENTITY`.",
         "parameters": [
           {
             "in": "query",
@@ -82216,9 +82244,10 @@
         "properties": {
           "type": {
             "type": "string",
-            "description": "DTO type of identity the access item is requested for.",
+            "description": "DTO type of identity the access item is requested for.\n`IDENTITY` for human identities.\n`MACHINE_IDENTITY` for machine identities. When `MACHINE_IDENTITY`, `id` is the machine identity id.\n",
             "enum": [
-              "IDENTITY"
+              "IDENTITY",
+              "MACHINE_IDENTITY"
             ],
             "example": "IDENTITY"
           },
@@ -82670,6 +82699,15 @@
             "$ref": "#/components/schemas/accessrequesttype",
             "description": "If the access-request was for granting or revoking access."
           },
+          "identityType": {
+            "type": "string",
+            "enum": [
+              "HUMAN",
+              "MACHINE"
+            ],
+            "description": "Type of identity the access was requested for. Requests without a stored identity type are returned as `HUMAN`.\n",
+            "example": "HUMAN"
+          },
           "requester": {
             "$ref": "#/components/schemas/accessitemrequester"
           },
@@ -82927,17 +82965,27 @@
             "$ref": "#/components/schemas/accessrequesttype",
             "description": "If the access-request was for granting or revoking access."
           },
+          "identityType": {
+            "type": "string",
+            "enum": [
+              "HUMAN",
+              "MACHINE"
+            ],
+            "description": "Type of identity the access was requested for. Requests without a stored identity type are returned as `HUMAN`.\n",
+            "example": "HUMAN"
+          },
           "requester": {
             "$ref": "#/components/schemas/accessitemrequester"
           },
           "requestedFor": {
             "type": "object",
-            "description": "Identity access was requested for.",
+            "description": "Identity access was requested for. For machine identity requests, `type` is `MACHINE_IDENTITY` and `id` is the machine identity id.",
             "properties": {
               "type": {
                 "type": "string",
                 "enum": [
-                  "IDENTITY"
+                  "IDENTITY",
+                  "MACHINE_IDENTITY"
                 ],
                 "description": "Type of the object to which this reference applies",
                 "example": "IDENTITY"
@@ -83231,6 +83279,18 @@
             "description": "If this is true, a manager can request access for his or her direct reports.",
             "default": false,
             "example": true
+          },
+          "allowRequestOnBehalfOfForMachineIdentity": {
+            "type": "boolean",
+            "description": "If this is true, anyone can request access on behalf of machine identities. Machine access request authorization is evaluated as follows: 1. If this flag is true, any requester is allowed. 2. Else if `allowRequestForMachineByOwner` is true, the requester must be an admin or a primary/secondary owner of every requested machine identity. 3. Else admins are still allowed; non-admins receive 403.\n",
+            "default": true,
+            "example": true
+          },
+          "allowRequestForMachineByOwner": {
+            "type": "boolean",
+            "description": "When `allowRequestOnBehalfOfForMachineIdentity` is false and this flag is true, only admins and primary/secondary owners of the requested machine identities may submit machine access requests. Defaults to false (opt-in).\n",
+            "default": false,
+            "example": false
           }
         }
       },
@@ -83456,6 +83516,18 @@
             "description": "If this is true, a manager can request access for his or her direct reports.",
             "default": false,
             "example": true
+          },
+          "allowRequestOnBehalfOfForMachineIdentity": {
+            "type": "boolean",
+            "description": "If this is true, anyone can request access on behalf of machine identities. Machine access request authorization is evaluated as follows: 1. If this flag is true, any requester is allowed. 2. Else if `allowRequestForMachineByOwner` is true, the requester must be an admin or a primary/secondary owner of every requested machine identity. 3. Else admins are still allowed; non-admins receive 403.\n",
+            "default": true,
+            "example": true
+          },
+          "allowRequestForMachineByOwner": {
+            "type": "boolean",
+            "description": "When `allowRequestOnBehalfOfForMachineIdentity` is false and this flag is true, only admins and primary/secondary owners of the requested machine identities may submit machine access requests. Defaults to false (opt-in).\n",
+            "default": false,
+            "example": false
           }
         }
       },
@@ -83499,6 +83571,12 @@
             "type": "boolean",
             "description": "If this is true, requesters and requested-for users will be able to see the names of governance group members when a request is awaiting the group's approval. Up to the first 10 members of the group will be listed.",
             "default": false,
+            "example": true
+          },
+          "machineIdentityAccessRequestEnabled": {
+            "type": "boolean",
+            "description": "If this is false, machine identity access requests and machine accounts-selection are rejected with 403 (for example, \"Machine identity access request is disabled in access request configuration.\"). Defaults to true. Exposed on access-request-config v2 only.\n",
+            "default": true,
             "example": true
           }
         }
@@ -83578,13 +83656,13 @@
           "accountUuid": {
             "type": "string",
             "nullable": true,
-            "description": "The uuid for the account, available under the 'objectguid' attribute",
+            "description": "The uuid for the account on the source, available under the 'objectguid' attribute * Corresponds to the account's unique identifier as returned by accounts-selection or the accounts APIs. * For machine identity GRANT_ACCESS / MODIFY_ACCESS, provide `accountUuid` and/or `nativeIdentity`. Submitted values must match a real machine account for the requested machine identity on the selected source.",
             "example": "{fab7119e-004f-4822-9c33-b8d570d6c6a6}"
           },
           "nativeIdentity": {
             "type": "string",
             "nullable": false,
-            "description": "The 'distinguishedName' attribute for the account",
+            "description": "The 'distinguishedName' attribute for the account. * For machine identity GRANT_ACCESS / MODIFY_ACCESS, provide `accountUuid` and/or `nativeIdentity`. Submitted values must match a real machine account for the requested machine identity on the selected source.",
             "example": "CN=Glen 067da3248e914,OU=YOUROU,OU=org-data-service,DC=YOURDC,DC=local"
           }
         }
@@ -83618,7 +83696,7 @@
               "ROLE",
               "ENTITLEMENT"
             ],
-            "description": "The type of the item being requested.",
+            "description": "The type of the item being requested.\n* Machine identity access requests support `ENTITLEMENT` only.\n",
             "example": "ACCESS_PROFILE"
           },
           "id": {
@@ -83648,13 +83726,13 @@
           },
           "startDate": {
             "type": "string",
-            "description": "The date and time the role or access profile or entitlement is/will be provisioned to the specified identity. Also known as the sunrise date.\n* Specify a date-time in the future.\n* This date-time can be used to indicate date-time when access item will be provisioned on the identity account. A GRANT_ACCESS request can use startDate to specify when to schedule provisioning of access item for an identity/account & a MODIFY_ACCESS request can use startDate to change the provisioning date-time of already assigned access item. But REVOKE_ACCESS request can not have startDate field. You can change the sunrise date in requests for yourself or others you are authorized to request for.\n* If the startDate is in the past, then the provisioning will be processed as soon as possible, but no guarantees can be made about when the provisioning will occur. If the startDate is in the future, then the provisioning will be scheduled to occur on that date and time. If no startDate is provided, then the provisioning will be processed as soon as possible.\n",
+            "description": "The date and time the role or access profile or entitlement is/will be provisioned to the specified identity. Also known as the sunrise date.\n* Specify a date-time in the future.\n* This date-time can be used to indicate date-time when access item will be provisioned on the identity account. A GRANT_ACCESS request can use startDate to specify when to schedule provisioning of access item for an identity/account & a MODIFY_ACCESS request can use startDate to change the provisioning date-time of already assigned access item. But REVOKE_ACCESS request can not have startDate field. You can change the sunrise date in requests for yourself or others you are authorized to request for.\n* If the startDate is in the past, then the provisioning will be processed as soon as possible, but no guarantees can be made about when the provisioning will occur. If the startDate is in the future, then the provisioning will be scheduled to occur on that date and time. If no startDate is provided, then the provisioning will be processed as soon as possible.\n* For machine identity MODIFY_ACCESS, each requested item must include `startDate` and/or `removeDate`.\n",
             "format": "date-time",
             "example": "2020-06-12T21:22:23.000Z"
           },
           "removeDate": {
             "type": "string",
-            "description": "The date and time the role or access profile or entitlement is no longer assigned to the specified identity. Also known as the expiration date.\n* Specify a date-time in the future.\n* The current SLA for the deprovisioning is 24 hours.\n* This date-time can be used to change the duration of an existing access item assignment for the specified identity. A GRANT_ACCESS request can extend duration or even remove an expiration date, and either a  GRANT_ACCESS or REVOKE_ACCESS request can reduce duration or add an expiration date where one has not previously been present. You can change the expiration date in requests for yourself or others you are authorized to request for.\n",
+            "description": "The date and time the role or access profile or entitlement is no longer assigned to the specified identity. Also known as the expiration date.\n* Specify a date-time in the future.\n* The current SLA for the deprovisioning is 24 hours.\n* This date-time can be used to change the duration of an existing access item assignment for the specified identity. A GRANT_ACCESS request can extend duration or even remove an expiration date, and either a  GRANT_ACCESS or REVOKE_ACCESS request can reduce duration or add an expiration date where one has not previously been present. You can change the expiration date in requests for yourself or others you are authorized to request for.\n* For machine identity MODIFY_ACCESS, each requested item must include `startDate` and/or `removeDate`.\n",
             "format": "date-time",
             "example": "2020-07-11T21:23:15.000Z"
           },
@@ -83664,7 +83742,13 @@
               "$ref": "#/components/schemas/sourceitemref"
             },
             "nullable": true,
-            "description": "The accounts where the access item will be provisioned to\n* Includes selections performed by the user in the event of multiple accounts existing on the same source\n* Also includes details for sources where user only has one account\n"
+            "description": "The accounts where the access item will be provisioned to.\n\n* Includes selections performed by the user in the event of multiple accounts existing on the same source.\n\n* Also includes details for sources where user only has one account.\n\n* For machine identity GRANT_ACCESS and MODIFY_ACCESS: required. Provide exactly one source entry and exactly one\naccount on that source. `accountUuid` and/or `nativeIdentity` must match a real machine account for the requested\nmachine identity on that source. Prefer values returned by the accounts-selection API.\n\n* For machine identity REVOKE_ACCESS: not supported. Use `nativeIdentity` on the item instead.\n"
+          },
+          "nativeIdentity": {
+            "type": "string",
+            "nullable": true,
+            "description": "The unique identifier for an account on the identity, designated as the account ID attribute in the source's account schema.\n* For machine identity REVOKE_ACCESS: required per entitlement item (or auto-resolved when the machine has exactly one account on the entitlement source). Must match a machine account on that source. Do not send `accountSelection` on machine revoke. Human REVOKE_ACCESS cannot use this nested item schema; use flat `requestedItems` instead.\n",
+            "example": "CN=User db3377de14bf,OU=YOURCONTAINER, DC=YOURDOMAIN"
           }
         },
         "required": [
@@ -83678,8 +83762,18 @@
           "identityId": {
             "type": "string",
             "nullable": false,
-            "description": "The identity id for which the access is requested",
+            "description": "The identity id the access is requested for. * `HUMAN` (default): the human identity id. * `MACHINE`: the machine identity id (hyphenated RFC-4122 UUID, not the correlated human identity).\n",
             "example": "cb89bc2f1ee6445fbea12224c526ba3a"
+          },
+          "identityType": {
+            "type": "string",
+            "enum": [
+              "HUMAN",
+              "MACHINE"
+            ],
+            "default": "HUMAN",
+            "description": "Type of identity the access is requested for.\n* `HUMAN` (default) - standard human identity access request.\n* `MACHINE` - machine identity access request. When `MACHINE`, all entries in the request must also be `MACHINE` (mixed human and machine identities in one request are not supported), and only `ENTITLEMENT` items are allowed.\n",
+            "example": "HUMAN"
           },
           "requestedItems": {
             "description": "the details for the access items that are requested for the identity",
@@ -83700,7 +83794,7 @@
         "title": "Access Request",
         "properties": {
           "requestedFor": {
-            "description": "A list of Identity IDs for whom the Access is requested. If it's a Revoke request, there can only be one Identity ID.",
+            "description": "A list of Identity IDs for whom the Access is requested. If it's a Revoke request, there can only be one Identity ID.\n* Used for human identity requests with the 'requestedItems' field.\n* Must be omitted (do not send an empty array) when using `requestedForWithRequestedItems`\n  (including all machine identity requests).",
             "type": "array",
             "items": {
               "type": "string"
@@ -83711,6 +83805,7 @@
             "$ref": "#/components/schemas/accessrequesttype"
           },
           "requestedItems": {
+            "description": "* Used for human identity requests with the 'requestedFor' field.\n* Must be omitted (do not send an empty array) when using `requestedForWithRequestedItems`.",
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/accessrequestitem"
@@ -83733,18 +83828,14 @@
             "description": "Arbitrary key-value pairs. They will never be processed by the IdentityNow system but will be returned on associated APIs such as /account-activities."
           },
           "requestedForWithRequestedItems": {
-            "description": "Additional submit data structure with requestedFor containing requestedItems allowing distinction for each request item and Identity.\n* Can only be used when 'requestedFor' and 'requestedItems' are not separately provided\n* Adds ability to specify which account the user wants the access on, in case they have multiple accounts on a source\n* Allows the ability to request items with different start dates\n* Allows the ability to request items with different remove dates\n* Also allows different combinations of request items and identities in the same request\n* Only for use in GRANT_ACCESS type requests\n",
+            "description": "Additional submit data structure with requestedFor containing requestedItems allowing distinction for each request item and Identity.\n* Can only be used when 'requestedFor' and 'requestedItems' are not separately provided\n* Adds ability to specify which account the user wants the access on, in case they have multiple accounts on a source.\n* Allows the ability to request items with different start dates and remove dates.\n* Also allows different combinations of request items and identities in the same request.\n* For human identities, primarily used with GRANT_ACCESS (and related multi-account flows). Human REVOKE_ACCESS continues to use the flat `requestedFor` / `requestedItems` shape.\n* Required for machine identity access requests. Set `identityType: MACHINE` on each entry. Machine requests support GRANT_ACCESS, MODIFY_ACCESS, and REVOKE_ACCESS with the constraints documented on the create endpoint and item schemas (entitlement-only; grant/modify account selection; revoke nativeIdentity).\n",
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/requestedfordtoref"
             },
             "nullable": true
           }
-        },
-        "required": [
-          "requestedFor",
-          "requestedItems"
-        ]
+        }
       },
       "requesteditemdetails": {
         "type": "object",
@@ -83947,9 +84038,10 @@
       "accountsselectionrequest": {
         "type": "object",
         "title": "Accounts Selection Request",
+        "description": "Prefetch account selections for an access request before submit. Machine identity accounts-selection must use `requestedForWithRequestedItems` with `identityType: MACHINE` on each entry and only `ENTITLEMENT` items. Flat `requestedFor` / `requestedItems` must be omitted (do not send an empty array) for machine requests.\n",
         "properties": {
           "requestedFor": {
-            "description": "A list of Identity IDs for whom the Access is requested.",
+            "description": "A list of Identity IDs for whom the Access is requested.\n* Must be omitted (do not send an empty array) when using `requestedForWithRequestedItems`\n  (including all machine identity requests).",
             "type": "array",
             "items": {
               "type": "string"
@@ -83960,6 +84052,7 @@
             "$ref": "#/components/schemas/accessrequesttype"
           },
           "requestedItems": {
+            "description": "Access items requested.\n* Must be omitted (do not send an empty array) when using `requestedForWithRequestedItems`.\n",
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/accessrequestitem"
@@ -83980,13 +84073,17 @@
               "requestedAppId": "2c91808f7892918f0178b78da4a305a1",
               "requestedAppName": "test-app"
             },
-            "description": "Arbitrary key-value pairs. They will never be processed by the IdentityNow system but will be returned on associated APIs such as /account-activities.  "
+            "description": "Arbitrary key-value pairs. They will never be processed by the IdentityNow system but will be returned on associated APIs such as /account-activities."
+          },
+          "requestedForWithRequestedItems": {
+            "description": "Nested payload pairing each identity with its requested items.\n* Required for machine identity accounts-selection. Set `identityType: MACHINE` on each entry.\n* Machine requests support `ENTITLEMENT` items only and do not allow mixed human and machine identities.\n* When present, `requestedFor` and `requestedItems` must be omitted (do not send an empty array).",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/requestedfordtoref"
+            },
+            "nullable": true
           }
-        },
-        "required": [
-          "requestedFor",
-          "requestedItems"
-        ]
+        }
       },
       "accountinforef": {
         "type": "object",
@@ -84056,12 +84153,12 @@
           "accountsSelectionBlocked": {
             "type": "boolean",
             "default": false,
-            "description": "This field indicates if account selections are not allowed for this requested item.\n* If true, this field indicates that account selections will not be available for this item and user combination. In this case, no account selections should be provided in the access request for this item and user combination, irrespective of whether the user has single or multiple accounts on a source.\n* An example is where a user is requesting an access profile that is already assigned to one of their accounts.\n",
+            "description": "This field indicates if account selections are not allowed for this requested item.\n* If true, this field indicates that account selections will not be available for this item and identity combination. In this case, no account selections should be provided in the access request for this item and identity combination, irrespective of whether the identity has single or multiple accounts on a source.\n* An example is where a user is requesting an access profile that is already assigned to one of their accounts.\n* For machine identities, this can be true with reason `NO_ACCOUNT_ON_SOURCE` when the machine has no account on a requested source. Empty `sources[].accounts` on the accounts-selection response is valid in that blocked case; submitting empty accounts on create is not valid.\n",
             "example": false
           },
           "accountsSelectionBlockedReason": {
             "type": "string",
-            "description": "If account selections are not allowed for an item, this field will denote the reason.",
+            "description": "If account selections are not allowed for an item, this field will denote the reason.\n* `ACCESS_PROFILE_ALREADY_ASSIGNED_TO_AN_ACCOUNT` - access profile already assigned on an account.\n* `NO_ACCOUNT_ON_SOURCE` - no account found on at least one requested source (only for machine identities).\n",
             "nullable": true,
             "example": "ACCESS_PROFILE_ALREADY_ASSIGNED_TO_AN_ACCOUNT"
           },
@@ -84112,11 +84209,11 @@
           },
           "type": {
             "$ref": "#/components/schemas/dtotype",
-            "description": "DTO type",
+            "description": "DTO type of the requested-for identity. * `IDENTITY` for human identities. * `MACHINE_IDENTITY` for machine identities.\n",
             "example": "IDENTITY"
           },
           "id": {
-            "description": "The identity id for the user",
+            "description": "The identity id for the requested-for identity. * `IDENTITY`: the human identity id. * `MACHINE_IDENTITY`: the machine identity id (not the correlated human identity).\n",
             "type": "string",
             "example": "70016590f2df4b879bdb1313a9e4e19e"
           },
@@ -84571,12 +84668,13 @@
           },
           "requestedFor": {
             "type": "object",
-            "description": "Identity access was requested for.",
+            "description": "Identity access was requested for. For machine identity requests, `type` is `MACHINE_IDENTITY` and `id` is the machine identity id.",
             "properties": {
               "type": {
                 "type": "string",
                 "enum": [
-                  "IDENTITY"
+                  "IDENTITY",
+                  "MACHINE_IDENTITY"
                 ],
                 "description": "Type of the object to which this reference applies",
                 "example": "IDENTITY"
@@ -84592,6 +84690,15 @@
                 "example": "William Wilson"
               }
             }
+          },
+          "identityType": {
+            "type": "string",
+            "enum": [
+              "HUMAN",
+              "MACHINE"
+            ],
+            "description": "Type of identity the access was requested for. Legacy requests without a stored identity type are returned as `HUMAN`.\n",
+            "example": "HUMAN"
           },
           "requesterComment": {
             "allOf": [
@@ -84692,7 +84799,7 @@
             "items": {
               "$ref": "#/components/schemas/requestedaccountref"
             },
-            "description": "The accounts selected by the user for the access to be provisioned on, in case they have multiple accounts on one or more sources."
+            "description": "The accounts selected for the access to be provisioned on, in case the requested-for identity has multiple accounts on one or more sources."
           },
           "privilegeLevel": {
             "nullable": true,
@@ -84800,12 +84907,13 @@
           },
           "requestedFor": {
             "type": "object",
-            "description": "Identity access was requested for.",
+            "description": "Identity access was requested for. For machine identity requests, `type` is `MACHINE_IDENTITY` and `id` is the machine identity id.",
             "properties": {
               "type": {
                 "type": "string",
                 "enum": [
-                  "IDENTITY"
+                  "IDENTITY",
+                  "MACHINE_IDENTITY"
                 ],
                 "description": "Type of the object to which this reference applies",
                 "example": "IDENTITY"
@@ -84821,6 +84929,15 @@
                 "example": "William Wilson"
               }
             }
+          },
+          "identityType": {
+            "type": "string",
+            "enum": [
+              "HUMAN",
+              "MACHINE"
+            ],
+            "description": "Type of identity the access was requested for. Requests without a stored identity type are returned as `HUMAN`.\n",
+            "example": "HUMAN"
           },
           "requesterComment": {
             "allOf": [
@@ -133448,6 +133565,152 @@
       }
     },
     "examples": {
+      "create-human-grant": {
+        "description": "GRANT_ACCESS for a human identity using the flat requestedFor / requestedItems shape (default when account selection is not needed).",
+        "value": {
+          "requestType": "GRANT_ACCESS",
+          "requestedFor": [
+            "2c918084660f45d6016617daa9210584"
+          ],
+          "requestedItems": [
+            {
+              "type": "ACCESS_PROFILE",
+              "id": "2c9180835d2e5168015d32f890ca1581",
+              "comment": "Requesting access profile for John Doe"
+            }
+          ]
+        }
+      },
+      "create-human-grant-nested": {
+        "description": "GRANT_ACCESS for a human identity using requestedForWithRequestedItems, with accountSelection and optional sunrise/sunset dates on the item.",
+        "value": {
+          "requestType": "GRANT_ACCESS",
+          "requestedForWithRequestedItems": [
+            {
+              "identityId": "2c918084660f45d6016617daa9210584",
+              "identityType": "HUMAN",
+              "requestedItems": [
+                {
+                  "type": "ACCESS_PROFILE",
+                  "id": "2c9180835d2e5168015d32f890ca1581",
+                  "comment": "Requesting access profile for John Doe",
+                  "startDate": "2027-01-15T21:22:23.000Z",
+                  "removeDate": "2027-07-11T21:23:15.000Z",
+                  "accountSelection": [
+                    {
+                      "sourceId": "cb89bc2f1ee6445fbea12224c526ba3a",
+                      "accounts": [
+                        {
+                          "accountUuid": "{fab7119e-004f-4822-9c33-b8d570d6c6a6}",
+                          "nativeIdentity": "CN=Glen 067da3248e914,OU=YOUROU,OU=org-data-service,DC=YOURDC,DC=local"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "create-machine-grant": {
+        "description": "GRANT_ACCESS for a machine identity using requestedForWithRequestedItems.",
+        "value": {
+          "requestType": "GRANT_ACCESS",
+          "requestedForWithRequestedItems": [
+            {
+              "identityId": "a1111111-bc6d-4ff3-8365-c2d44f2c68d6",
+              "identityType": "MACHINE",
+              "requestedItems": [
+                {
+                  "id": "2c9180835d2e5168015d32f890ca1581",
+                  "type": "ENTITLEMENT",
+                  "accountSelection": [
+                    {
+                      "sourceId": "cb89bc2f1ee6445fbea12224c526ba3a",
+                      "accounts": [
+                        {
+                          "accountUuid": "{fab7119e-004f-4822-9c33-b8d570d6c6a6}",
+                          "nativeIdentity": "CN=Glen 067da3248e914,OU=YOUROU,OU=org-data-service,DC=YOURDC,DC=local"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "create-human-revoke": {
+        "description": "REVOKE_ACCESS for a human identity using the flat requestedFor / requestedItems shape. Comment is required. Human revoke cannot use requestedForWithRequestedItems.",
+        "value": {
+          "requestType": "REVOKE_ACCESS",
+          "requestedFor": [
+            "2c918084660f45d6016617daa9210584"
+          ],
+          "requestedItems": [
+            {
+              "type": "ACCESS_PROFILE",
+              "id": "2c9180835d2e5168015d32f890ca1581",
+              "comment": "I no longer need this access profile."
+            }
+          ]
+        }
+      },
+      "create-machine-revoke": {
+        "description": "REVOKE_ACCESS for a machine identity using requestedForWithRequestedItems and nativeIdentity.",
+        "value": {
+          "requestType": "REVOKE_ACCESS",
+          "requestedForWithRequestedItems": [
+            {
+              "identityId": "a1111111-bc6d-4ff3-8365-c2d44f2c68d6",
+              "identityType": "MACHINE",
+              "requestedItems": [
+                {
+                  "id": "2c9180835d2e5168015d32f890ca1581",
+                  "type": "ENTITLEMENT",
+                  "comment": "Revoking entitlement from machine identity",
+                  "nativeIdentity": "CN=Glen 067da3248e914,OU=YOUROU,OU=org-data-service,DC=YOURDC,DC=local"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "accounts-selection-human-grant": {
+        "description": "Accounts-selection for a human identity using the flat requestedFor / requestedItems shape.",
+        "value": {
+          "requestType": "GRANT_ACCESS",
+          "requestedFor": [
+            "2c918084660f45d6016617daa9210584"
+          ],
+          "requestedItems": [
+            {
+              "type": "ACCESS_PROFILE",
+              "id": "2c9180835d2e5168015d32f890ca1581"
+            }
+          ]
+        }
+      },
+      "accounts-selection-machine-grant": {
+        "description": "Accounts-selection for a machine identity using requestedForWithRequestedItems.",
+        "value": {
+          "requestType": "GRANT_ACCESS",
+          "requestedForWithRequestedItems": [
+            {
+              "identityId": "a1111111-bc6d-4ff3-8365-c2d44f2c68d6",
+              "identityType": "MACHINE",
+              "requestedItems": [
+                {
+                  "id": "2c9180835d2e5168015d32f890ca1581",
+                  "type": "ENTITLEMENT"
+                }
+              ]
+            }
+          ]
+        }
+      },
       "slimdiscoveredapplications": {
         "description": "List of discovered applications",
         "value": [
