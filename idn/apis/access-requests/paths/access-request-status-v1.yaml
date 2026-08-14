@@ -16,6 +16,9 @@ get:
 
     Any user with any user level can get the status of their own access requests. A user with ORG_ADMIN is required to
     call this API to get a list of statuses for other users.
+    For access requests for machines, each status item will include `identityType` as `MACHINE` and
+    `requestedFor` with `type: MACHINE_IDENTITY` and the machine id. Requests without a stored
+    identity type are returned as `HUMAN` / `IDENTITY`.
   parameters:
   - in: query
     name: requested-for

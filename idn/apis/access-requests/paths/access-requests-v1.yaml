@@ -88,6 +88,44 @@ post:
     requesting items where they have more than one account on the source.
 
 
+    __MACHINE IDENTITY ACCESS REQUESTS__
+
+    * Machine identity access requests reuse this same endpoint. They must use `requestedForWithRequestedItems` with
+    `identityType: MACHINE` on each entry. Do not use the flat `requestedFor` / `requestedItems` shape for machines.
+    Mixed human and machine identities in one request are not supported.
+
+    * Request `identityType` uses `HUMAN` / `MACHINE`. List, status, and approval responses use `IDENTITY` /
+    `MACHINE_IDENTITY` on `requestedFor.type` for the same distinction.
+
+
+    Prerequisites and authorization:
+
+    * The organization must have Machine Identity Security licensed; otherwise the request is rejected with 403.
+
+    * Access request config v2 `machineIdentityAccessRequestEnabled` must be true (default true); otherwise 403.
+
+    * Request-on-behalf-of for machines is controlled by `allowRequestOnBehalfOfForMachineIdentity` and
+    `allowRequestForMachineByOwner` on the access request configuration. See those schema fields for the authorization
+    cascade (open ROBO, owner/admin ROBO, then admin-only fallback).
+
+
+    Constraints for machine requests:
+
+    * Only `ENTITLEMENT` items are supported (roles and access profiles are rejected).
+
+    * GRANT_ACCESS and MODIFY_ACCESS requests require `accountSelection` to be provided with `accountUuid` and/or `nativeIdentity` 
+    that match a real machine account for that machine identity on the
+    selected source. Prefer values returned by the accounts-selection API.
+
+    * MODIFY_ACCESS requests additionally require each item to have `startDate` and/or `removeDate` to denote date modifications.
+
+    * REVOKE_ACCESS must target exactly one machine identity. Per entitlement item, provide `nativeIdentity` (or it may
+    be auto-resolved when the machine has exactly one account on the entitlement source). Do not send `accountSelection`
+    on machine revoke.
+
+    * Multi-machine GRANT_ACCESS is allowed within existing recipient limits; multi-machine REVOKE_ACCESS is not.
+
+
     :::caution
 
 
@@ -130,13 +168,25 @@ post:
     'assignmentId' and 'nativeIdentity' fields. These fields should be used within the 'requestedItems' section for the
     revoke requests. 
 
-    * Usage of 'requestedForWithRequestedItems' field is not supported for revoke requests.
+    * For human identities, usage of 'requestedForWithRequestedItems' is not supported for revoke requests. Machine
+    identity revoke requests must use 'requestedForWithRequestedItems' with `identityType: MACHINE` as described above.
   requestBody:
     required: true
     content:
       application/json:
         schema:
           $ref: ../schemas/accessrequest.yaml
+        examples:
+          GRANT_ACCESS for Humans:
+            $ref: ../examples/create-human-grant.yaml
+          GRANT_ACCESS for Humans with account selection:
+            $ref: ../examples/create-human-grant-nested.yaml
+          GRANT_ACCESS for Machines:
+            $ref: ../examples/create-machine-grant.yaml
+          REVOKE_ACCESS for Humans:
+            $ref: ../examples/create-human-revoke.yaml
+          REVOKE_ACCESS for Machines:
+            $ref: ../examples/create-machine-revoke.yaml
   responses:
     '202':
       description: Access Request Response.

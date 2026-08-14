@@ -8,7 +8,12 @@ get:
   summary: Pending access request approvals list
   tags:
   - Access Request Approvals
-  description: This endpoint returns a list of pending approvals. See "owner-id" query parameter below for authorization info.
+  description: >
+    This endpoint returns a list of pending approvals. See "owner-id" query parameter below for authorization info.
+    
+    For access requests for machines, each approval will include `identityType` as `MACHINE` and
+    `requestedFor` with `type: MACHINE_IDENTITY` and the machine id. Approvals without a stored
+    identity type are returned as `HUMAN` / `IDENTITY`.
   parameters:
   - in: query
     name: owner-id

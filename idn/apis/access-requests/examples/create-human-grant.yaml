@@ -1,0 +1,11 @@
+description: >-
+  GRANT_ACCESS for a human identity using the flat requestedFor / requestedItems
+  shape (default when account selection is not needed).
+value:
+  requestType: GRANT_ACCESS
+  requestedFor:
+    - 2c918084660f45d6016617daa9210584
+  requestedItems:
+    - type: ACCESS_PROFILE
+      id: 2c9180835d2e5168015d32f890ca1581
+      comment: Requesting access profile for John Doe

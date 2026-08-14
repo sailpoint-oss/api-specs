@@ -3,10 +3,16 @@ get:
   summary: Completed access request approvals list
   tags:
   - Access Request Approvals
-  description: This endpoint returns list of completed approvals. See *owner-id* query parameter below for authorization info.
+  description: >
+    This endpoint returns list of completed approvals. See *owner-id* query parameter below for authorization info.
+    For access requests for machines, each approval will include 'identityType' as 'MACHINE' and
+    'requestedFor' with 'type: MACHINE_IDENTITY' and the machine id. Approvals without a stored
+    identity type are returned as 'HUMAN' / 'IDENTITY'.
   security:
   - userAuth:
     - idn:access-request-approvals:read
+  x-sailpoint-userLevels:
+    - ORG_ADMIN
   parameters:
   - in: query
     name: owner-id

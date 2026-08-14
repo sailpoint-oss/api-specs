@@ -4,9 +4,15 @@ description: Identity the access item is requested for.
 properties:
   type:
     type: string
-    description: DTO type of identity the access item is requested for.
+    description: >
+      DTO type of identity the access item is requested for.
+      
+      `IDENTITY` for human identities.
+      
+      `MACHINE_IDENTITY` for machine identities. When `MACHINE_IDENTITY`, `id` is the machine identity id.
     enum:
       - IDENTITY
+      - MACHINE_IDENTITY
     example: IDENTITY
   id:
     type: string

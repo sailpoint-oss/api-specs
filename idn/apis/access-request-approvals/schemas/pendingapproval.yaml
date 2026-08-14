@@ -31,6 +31,14 @@ properties:
   requestType:
     $ref: ./accessrequesttype.yaml
     description: If the access-request was for granting or revoking access.
+  identityType:
+    type: string
+    enum:
+      - HUMAN
+      - MACHINE
+    description: >
+      Type of identity the access was requested for. Requests without a stored identity type are returned as `HUMAN`.
+    example: HUMAN
   requester:
     $ref: ./accessitemrequester.yaml
   requestedFor:

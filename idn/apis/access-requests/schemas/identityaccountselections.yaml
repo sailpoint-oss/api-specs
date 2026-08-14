@@ -12,10 +12,16 @@ properties:
     default: false
   type:
     $ref: ../../shared/schemas/dtotype.yaml
-    description: DTO type
+    description: >
+      DTO type of the requested-for identity.
+      * `IDENTITY` for human identities.
+      * `MACHINE_IDENTITY` for machine identities.
     example: IDENTITY
   id:
-    description: The identity id for the user
+    description: >
+      The identity id for the requested-for identity.
+      * `IDENTITY`: the human identity id.
+      * `MACHINE_IDENTITY`: the machine identity id (not the correlated human identity).
     type: string
     example: 70016590f2df4b879bdb1313a9e4e19e
   name:

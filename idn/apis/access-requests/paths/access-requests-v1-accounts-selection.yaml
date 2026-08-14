@@ -13,12 +13,38 @@ post:
     Use this API to fetch account information for an identity against the items in an access request.
 
     Used to fetch accountSelection for the AccessRequest prior to submitting for async processing.
+
+    __Machine identities__
+
+    * Must use `requestedForWithRequestedItems` with `identityType: MACHINE` on each entry.
+    
+    * Fields `requestedFor` / `requestedItems` are not supported and should be omitted.
+    
+    * Only `ENTITLEMENT` items are supported.
+    
+    * Mixed human and machine identities in one request are not supported.
+    
+    * Response identities use `type: MACHINE_IDENTITY`. Use the returned account `accountUuid` / `nativeIdentity`
+    values when submitting the access request; invalid or mismatched account details are rejected on create.
+    
+    * If the machine has no account on a requested source, the item may be returned with
+    `accountsSelectionBlocked: true` and `accountsSelectionBlockedReason: NO_ACCOUNT_ON_SOURCE` (empty accounts on the
+    response in that blocked case is expected).
+
+    * Same licensing, `machineIdentityAccessRequestEnabled`, and request-on-behalf-of rules as create access request
+    apply.
+
   requestBody:
     required: true
     content:
       application/json:
         schema:
           $ref: ../schemas/accountsselectionrequest.yaml
+        examples:
+          Humans:
+            $ref: ../examples/accounts-selection-human-grant.yaml
+          Machines:
+            $ref: ../examples/accounts-selection-machine-grant.yaml
   responses:
     '200':
       description: Accounts Selection Response
