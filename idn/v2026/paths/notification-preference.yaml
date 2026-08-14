@@ -1,5 +1,5 @@
 get:
-  operationId: getNotificationPreferencesV1
+  operationId: getNotificationPreference
   tags:
   - Notifications
   summary: Get notification preferences by key
@@ -15,12 +15,12 @@ get:
   parameters:
   - in: path
     name: key
+    required: true
+    x-sailpoint-resource-operation-id: listNotificationPreferences
     schema:
       type: string
-    required: true
-    x-sailpoint-resource-operation-id: listNotificationPreferencesV1
     description: The notification key.
-    example: approval_completed_notification
+    example: access_request_reviewer
   - in: query
     name: filterUnavailableMediums
     required: false
@@ -29,7 +29,7 @@ get:
       default: false
     description: >-
       When `true`, excludes SLACK and TEAMS from the returned mediums if they are not configured for
-      the tenant.
+      the tenant. EMAIL and INBOX are always retained.
     example: true
   responses:
     '200':
@@ -37,21 +37,21 @@ get:
       content:
         application/json:
           schema:
-            $ref: ../schemas/preferencesdto.yaml
+            $ref: ../schemas/PreferencesDto.yaml
     '400':
-      $ref: ../../shared/responses/400.yaml
+      $ref: ../responses/400.yaml
     '401':
-      $ref: ../../shared/responses/401.yaml
+      $ref: ../responses/401.yaml
     '403':
-      $ref: ../../shared/responses/403.yaml
+      $ref: ../responses/403.yaml
     '404':
-      $ref: ../../shared/responses/404.yaml
+      $ref: ../responses/404.yaml
     '429':
-      $ref: ../../shared/responses/429.yaml
+      $ref: ../responses/429.yaml
     '500':
-      $ref: ../../shared/responses/500.yaml
+      $ref: ../responses/500.yaml
 put:
-  operationId: setNotificationPreferencesV1
+  operationId: putNotificationPreference
   tags:
   - Notifications
   summary: Set notification preferences by key
@@ -61,8 +61,7 @@ put:
     optional; if provided, it must match the key in the path or a 400 is returned. Each of `ccList`
     and `bccList` supports a maximum of five entries, and the same recipient cannot appear in both
     lists. CC/BCC configuration requires EMAIL to be enabled in `mediums` and is only allowed for
-    templates which support it (i.e., templates which contain sensitive data like reset tokens do
-    not allow for carbon copy emails to be configured).
+    templates that support it.
   security:
   - userAuth:
     - idn:notification-preferences:create
@@ -71,20 +70,20 @@ put:
   parameters:
   - in: path
     name: key
+    required: true
+    x-sailpoint-resource-operation-id: listNotificationPreferences
     schema:
       type: string
-    required: true
-    x-sailpoint-resource-operation-id: listNotificationPreferencesV1
     description: The notification key.
-    example: approval_completed_notification
+    example: access_request_reviewer
   requestBody:
     required: true
     content:
       application/json:
         schema:
-          $ref: ../schemas/preferencesdto.yaml
+          $ref: ../schemas/PreferencesDto.yaml
         example:
-          key: approval_completed_notification
+          key: access_request_reviewer
           mediums:
           - EMAIL
           ccList:
@@ -100,16 +99,16 @@ put:
       content:
         application/json:
           schema:
-            $ref: ../schemas/preferencesdto.yaml
+            $ref: ../schemas/PreferencesDto.yaml
     '400':
-      $ref: ../../shared/responses/400.yaml
+      $ref: ../responses/400.yaml
     '401':
-      $ref: ../../shared/responses/401.yaml
+      $ref: ../responses/401.yaml
     '403':
-      $ref: ../../shared/responses/403.yaml
+      $ref: ../responses/403.yaml
     '404':
-      $ref: ../../shared/responses/404.yaml
+      $ref: ../responses/404.yaml
     '429':
-      $ref: ../../shared/responses/429.yaml
+      $ref: ../responses/429.yaml
     '500':
-      $ref: ../../shared/responses/500.yaml
+      $ref: ../responses/500.yaml

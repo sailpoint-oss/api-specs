@@ -45,6 +45,8 @@ paths:
     $ref: ./paths/notification-templates-v1-bulk-delete.yaml
   /notification-template-context/v1:
     $ref: ./paths/notification-template-context-v1.yaml
+  /notification-preferences/v1:
+    $ref: ./paths/notification-preferences-v1.yaml
   /notification-preferences/v1/{key}:
     $ref: ./paths/notification-preferences-v1-by-key.yaml
   /send-test-notification/v1:

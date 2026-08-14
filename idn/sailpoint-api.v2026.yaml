@@ -2278,8 +2278,10 @@ paths:
     $ref: ./v2026/paths/peer-group-strategies.yaml
   /notification-template-context:
     $ref: ./v2026/paths/notification-template-context.yaml
-  /notification-preferences/{key}:
+  /notification-preferences:
     $ref: ./v2026/paths/notification-preferences.yaml
+  /notification-preferences/{key}:
+    $ref: ./v2026/paths/notification-preference.yaml
   /reassignment-configurations/types:
     $ref: ./v2026/paths/reassignment-configuration-types.yaml
   /reassignment-configurations:

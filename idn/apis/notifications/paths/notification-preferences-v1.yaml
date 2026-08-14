@@ -1,20 +1,21 @@
 get:
-  operationId: listNotificationPreferences
+  operationId: listNotificationPreferencesV1
   tags:
   - Notifications
   summary: List notification preferences for tenant
   description: >-
     Returns a list of notification preferences for the current tenant, including preferred mediums
-    and optional CC/BCC email recipients for each notification key.
+    and optional CC/BCC email recipients for each notification key. Supports standard V3 filtering,
+    sorting, and offset/limit pagination.
   security:
-  - userAuth:
-    - idn:notification-preferences:read
+    - userAuth:
+      - idn:notification-preferences:read
   x-sailpoint-userLevels:
   - ORG_ADMIN
   parameters:
-  - $ref: ../parameters/limit.yaml
-  - $ref: ../parameters/offset.yaml
-  - $ref: ../parameters/count.yaml
+  - $ref: ../../shared/parameters/limit.yaml
+  - $ref: ../../shared/parameters/offset.yaml
+  - $ref: ../../shared/parameters/count.yaml
   - in: query
     name: filters
     required: false
@@ -51,7 +52,7 @@ get:
           schema:
             type: array
             items:
-              $ref: ../schemas/PreferencesDto.yaml
+              $ref: ../schemas/preferencesdto.yaml
       headers:
         X-Total-Count:
           description: The total result count (returned only if the *count* parameter is specified as *true*).
@@ -59,12 +60,12 @@ get:
             type: integer
           example: 25
     '400':
-      $ref: ../responses/400.yaml
+      $ref: ../../shared/responses/400.yaml
     '401':
-      $ref: ../responses/401.yaml
+      $ref: ../../shared/responses/401.yaml
     '403':
-      $ref: ../responses/403.yaml
+      $ref: ../../shared/responses/403.yaml
     '429':
-      $ref: ../responses/429.yaml
+      $ref: ../../shared/responses/429.yaml
     '500':
-      $ref: ../responses/500.yaml
+      $ref: ../../shared/responses/500.yaml
