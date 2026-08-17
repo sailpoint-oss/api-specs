@@ -453,7 +453,7 @@
     },
     {
       "name": "Triggers",
-      "description": "Event Triggers provide real-time updates to changes in Identity Security Cloud so you can take action as soon as an event occurs, rather than poll an API endpoint for updates. Identity Security Cloud provides a user interface within the admin console to create and manage trigger subscriptions.  These endpoints allow for programatically creating and managing trigger subscriptions.\n\nThere are two types of event triggers:\n  * `FIRE_AND_FORGET`: This trigger type will send a payload to each subscriber without needing a response.  Each trigger of this type has a limit of **50 subscriptions**.\n  * `REQUEST_RESPONSE`: This trigger type will send a payload to a subscriber and expect a response back.  Each trigger of this type may only have **one subscription**.\n\n## Available Event Triggers\nProduction ready event triggers that are available in all tenants.\n\n| Name | ID | Type | Trigger condition |\n|-|-|-|-|\n| [Access Request Dynamic Approval](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/access-request-dynamic-approval/) | idn:access-request-dynamic-approver | REQUEST_RESPONSE |After an access request is submitted. Expects the subscriber to respond with the ID of an identity or workgroup to add to the approval workflow. |\n| [Access Request Decision](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/access-request-decision/) | idn:access-request-post-approval | FIRE_AND_FORGET | After an access request is approved. |\n| [Access Request Submitted](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/access-request-submitted/) | idn:access-request-pre-approval | REQUEST_RESPONSE | After an access request is submitted. Expects the subscriber to respond with an approval decision. |\n| [Account Aggregation Completed](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/account-aggregation-completed/) | idn:account-aggregation-completed | FIRE_AND_FORGET | After an account aggregation completed, terminated, failed. |\n| Account Attributes Changed | idn:account-attributes-changed | FIRE_AND_FORGET | After an account aggregation, and one or more account attributes have changed. |\n| Account Correlated | idn:account-correlated | FIRE_AND_FORGET | After an account is added to an identity. |\n| Accounts Collected for Aggregation |  idn:aggregation-accounts-collected | FIRE_AND_FORGET | New, changed, and deleted accounts have been gathered during an aggregation and are being processed. |\n| Campaign Activated | idn:campaign-activated | FIRE_AND_FORGET | After a campaign is activated. |\n| Campaign Ended | idn:campaign-ended | FIRE_AND_FORGET | After a campaign ends. |\n| Campaign Generated | idn:campaign-generated | FIRE_AND_FORGET | After a campaign finishes generating. |\n| Certification Signed Off | idn:certification-signed-off | FIRE_AND_FORGET | After a certification is signed off by its reviewer. |\n| [Identity Attributes Changed](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/account-aggregation-completed/) | idn:identity-attributes-changed | FIRE_AND_FORGET | After One or more identity attributes changed. |\n| [Identity Created](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/identity-created/) | idn:identity-created | FIRE_AND_FORGET | After an identity is created. |\n| [Provisioning Action Completed](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/provisioning-completed/) |  idn:post-provisioning | FIRE_AND_FORGET | After a provisioning action completed on a source. |\n| [Scheduled Search](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/scheduled-search/) |  idn:saved-search-complete | FIRE_AND_FORGET | After a scheduled search completed. |\n| [Source Created](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/source-created/) | idn:source-created | FIRE_AND_FORGET | After a source is created. |\n| [Source Deleted](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/source-deleted/) | idn:source-deleted | FIRE_AND_FORGET | After a source is deleted. |\n| [Source Updated](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/source-updated/) | idn:source-updated | FIRE_AND_FORGET | After configuration changes have been made to a source. |\n| [VA Cluster Status Change](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/va-cluster-status-change/) | idn:va-cluster-status-change | FIRE_AND_FORGET | After the status of a VA cluster has changed. |\n"
+      "description": "Event Triggers provide real-time updates to changes in Identity Security Cloud so you can take action as soon as an event occurs, rather than poll an API endpoint for updates. Identity Security Cloud provides a user interface within the admin console to create and manage trigger subscriptions.  These endpoints allow for programatically creating and managing trigger subscriptions.\n\nThere are two types of event triggers:\n  * `FIRE_AND_FORGET`: This trigger type will send a payload to each subscriber without needing a response.  Each trigger of this type has a limit of **50 subscriptions**.\n  * `REQUEST_RESPONSE`: This trigger type will send a payload to a subscriber and expect a response back.  Each trigger of this type may only have **one subscription**.\n\n## Available Event Triggers\nProduction ready event triggers that are available in all tenants.\n\n| Name | ID | Type | Trigger condition |\n|-|-|-|-|\n| [Access Request Dynamic Approval](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/access-request-dynamic-approval/) | idn:access-request-dynamic-approver | REQUEST_RESPONSE |After an access request is submitted. Expects the subscriber to respond with the ID of an identity or workgroup to add to the approval workflow. |\n| [Access Request Decision](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/access-request-decision/) | idn:access-request-post-approval | FIRE_AND_FORGET | After an access request is approved. |\n| [Access Request Submitted](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/access-request-submitted/) | idn:access-request-pre-approval | REQUEST_RESPONSE | After an access request is submitted. Expects the subscriber to respond with an approval decision. |\n| [Account Aggregation Completed](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/account-aggregation-completed/) | idn:account-aggregation-completed | FIRE_AND_FORGET | After an account aggregation completed, terminated, failed. |\n| Account Attributes Changed | idn:account-attributes-changed | FIRE_AND_FORGET | After an account aggregation, and one or more account attributes have changed. |\n| Account Correlated | idn:account-correlated | FIRE_AND_FORGET | After an account is added to an identity. |\n| Accounts Collected for Aggregation |  idn:aggregation-accounts-collected | FIRE_AND_FORGET | New, changed, and deleted accounts have been gathered during an aggregation and are being processed. |\n| Campaign Activated | idn:campaign-activated | FIRE_AND_FORGET | After a campaign is activated. |\n| Campaign Ended | idn:campaign-ended | FIRE_AND_FORGET | After a campaign ends. |\n| Campaign Generated | idn:campaign-generated | FIRE_AND_FORGET | After a campaign finishes generating. |\n| Certification Signed Off | idn:certification-signed-off | FIRE_AND_FORGET | After a certification is signed off by its reviewer. |\n| [Identity Attributes Changed](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/account-aggregation-completed/) | idn:identity-attributes-changed | FIRE_AND_FORGET | After One or more identity attributes changed. |\n| [Identity Created](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/identity-created/) | idn:identity-created | FIRE_AND_FORGET | After an identity is created. |\n| [Provisioning Action Completed](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/provisioning-completed/) |  idn:post-provisioning | FIRE_AND_FORGET | After a provisioning action completed on a source. |\n| [Scheduled Search](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/scheduled-search/) |  idn:saved-search-complete | FIRE_AND_FORGET | After a scheduled search completed. |\n| [Source Created](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/source-created/) | idn:source-created | FIRE_AND_FORGET | After a source is created. |\n| [Source Deleted](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/source-deleted/) | idn:source-deleted | FIRE_AND_FORGET | After a source is deleted. |\n| [Source Updated](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/source-updated/) | idn:source-updated | FIRE_AND_FORGET | After configuration changes have been made to a source. |\n| [VA Cluster Status Change](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/va-cluster-status-change/) | idn:va-cluster-status-change | FIRE_AND_FORGET | After the status of a VA cluster has changed. |\nAccess request pre-approval and dynamic approver trigger inputs may include a `form` object on each entry in `requestedItems` when that item has associated form data. The post-approval trigger includes `form` on each entry in `requestedItemsStatus`.\n"
     },
     {
       "name": "UI Metadata",
@@ -1404,7 +1404,7 @@
           "Access Profiles"
         ],
         "summary": "Create access profile",
-        "description": "Create an access profile.\nA user with `ROLE_SUBADMIN` or `SOURCE_SUBADMIN` authority must be associated with the access profile's source.\nThe maximum supported length for the description field is 2000 characters. Longer descriptions will be preserved for existing access profiles. However, any new access profiles as well as any updates to existing descriptions are limited to 2000 characters.\n>**Note:** To use this endpoint, you need all the listed scopes.",
+        "description": "Create an access profile.\nSet `accessRequestConfig.formDefinitionId` to associate an optional custom form with access profile access requests.\nA user with `ROLE_SUBADMIN` or `SOURCE_SUBADMIN` authority must be associated with the access profile's source.\nThe maximum supported length for the description field is 2000 characters. Longer descriptions will be preserved for existing access profiles. However, any new access profiles as well as any updates to existing descriptions are limited to 2000 characters.\n>**Note:** To use this endpoint, you need all the listed scopes.",
         "requestBody": {
           "required": true,
           "content": {
@@ -1468,7 +1468,7 @@
           "Access Profiles"
         ],
         "summary": "Get an access profile",
-        "description": "This API returns an Access Profile by its ID.",
+        "description": "This API returns an Access Profile by its ID.\nThe `accessRequestConfig.formDefinitionId` field associates an optional custom form with access profile access requests.",
         "parameters": [
           {
             "in": "path",
@@ -1530,7 +1530,7 @@
           "Access Profiles"
         ],
         "summary": "Patch a specified access profile",
-        "description": "This API updates an existing Access Profile. The following fields are patchable:\n\n**name**\n\n**description**\n\n**enabled**\n\n**owner**\n\n**additionalOwners**\n\n**requestable**\n\n**accessRequestConfig**\n\n**revokeRequestConfig**\n\n**segments**\n\n**entitlements**\n\n**provisioningCriteria**\n\n**source** (must be updated with entitlements belonging to new source in the same API call)\n\nIf you need to change the `source` of the access profile, you can do so only if you update the `entitlements` in the same API call.  The new entitlements can only come from the target source that you want to change to.  Look for the example \"Replace Source\" in the examples dropdown.\n\nA user with SOURCE_SUBADMIN may only use this API to patch Access Profiles which are associated with Sources they are able to administer.\n>  The maximum supported length for the description field is 2000 characters. Longer descriptions will be preserved for existing access profiles, however, any new access profiles as well as any updates to existing descriptions will be limited to 2000 characters.\n\n> You can only add or replace **entitlements** that exist on the source that the access profile is attached to. You can use the **list entitlements** endpoint with the **filters** query parameter to get a list of available entitlements on the access profile's source.",
+        "description": "This API updates an existing Access Profile. The following fields are patchable:\n\n**name**\n\n**description**\n\n**enabled**\n\n**owner**\n\n**additionalOwners**\n\n**requestable**\n\n**accessRequestConfig**\n\n**revokeRequestConfig**\n\n**segments**\n\n**entitlements**\n\n**provisioningCriteria**\n\n**source** (must be updated with entitlements belonging to new source in the same API call)\n\nIf you need to change the `source` of the access profile, you can do so only if you update the `entitlements` in the same API call.  The new entitlements can only come from the target source that you want to change to.  Look for the example \"Replace Source\" in the examples dropdown.\n\nSet `accessRequestConfig.formDefinitionId` to associate an optional custom form with access profile access requests.\n\nA user with SOURCE_SUBADMIN may only use this API to patch Access Profiles which are associated with Sources they are able to administer.\n>  The maximum supported length for the description field is 2000 characters. Longer descriptions will be preserved for existing access profiles, however, any new access profiles as well as any updates to existing descriptions will be limited to 2000 characters.\n\n> You can only add or replace **entitlements** that exist on the source that the access profile is attached to. You can use the **list entitlements** endpoint with the **filters** query parameter to get a list of available entitlements on the access profile's source.",
         "parameters": [
           {
             "name": "id",
@@ -1631,6 +1631,16 @@
                           "name": "DevRel"
                         }
                       ]
+                    }
+                  ]
+                },
+                "Set Form Definition": {
+                  "description": "Set accessRequestConfig.formDefinitionId",
+                  "value": [
+                    {
+                      "op": "add",
+                      "path": "/accessRequestConfig/formDefinitionId",
+                      "value": "78258e80-e9e2-4e1a-a11f-ce0b7c62f25d"
                     }
                   ]
                 }
@@ -2051,7 +2061,7 @@
         "tags": [
           "Access Request Approvals"
         ],
-        "description": "This endpoint returns a list of pending approvals. See \"owner-id\" query parameter below for authorization info.\nFor access requests for machines, each approval will include `identityType` as `MACHINE` and `requestedFor` with `type: MACHINE_IDENTITY` and the machine id. Approvals without a stored identity type are returned as `HUMAN` / `IDENTITY`.\n",
+        "description": "This endpoint returns a list of pending approvals. See \"owner-id\" query parameter below for authorization info.\nFor access requests for machines, each approval will include `identityType` as `MACHINE` and `requestedFor` with `type: MACHINE_IDENTITY` and the machine id. Approvals without a stored identity type are returned as `HUMAN` / `IDENTITY`.\nWhen a requested object has an associated form, each approval may include a `form` object with the form definition ID, instance ID, and answers (`formData`).\n",
         "parameters": [
           {
             "in": "query",
@@ -2133,7 +2143,7 @@
         "tags": [
           "Access Request Approvals"
         ],
-        "description": "This endpoint returns list of completed approvals. See *owner-id* query parameter below for authorization info. For access requests for machines, each approval will include 'identityType' as 'MACHINE' and 'requestedFor' with 'type: MACHINE_IDENTITY' and the machine id. Approvals without a stored identity type are returned as 'HUMAN' / 'IDENTITY'.\n",
+        "description": "This endpoint returns list of completed approvals. See *owner-id* query parameter below for authorization info. For access requests for machines, each approval will include 'identityType' as 'MACHINE' and 'requestedFor' with 'type: MACHINE_IDENTITY' and the machine id. Approvals without a stored identity type are returned as 'HUMAN' / 'IDENTITY'.\nWhen a requested object has an associated form, each approval may include a `form` object with the form definition ID, instance ID, and answers (`formData`).\n",
         "security": [
           {
             "userAuth": [
@@ -2915,7 +2925,7 @@
         "tags": [
           "Access Requests"
         ],
-        "description": "Use this API to submit an access request in Identity Security Cloud (ISC), where it follows any ISC approval processes.\n\n>**Security:** idn:access-request:manage is for ORG_ADMIN level. idn:access-request-self:manage is for USER level.\n\n:::info\nThe ability to request access using this API is constrained by the Access Request Segments defined in the API token's user context.\n:::\n\nAccess requests are processed asynchronously by ISC. A successful response from this endpoint means that the request\nhas been submitted to ISC and is queued for processing. Because this endpoint is asynchronous, it does not return an error\nif you submit duplicate access requests in quick succession or submit an access request for access that is already in progress, approved, or rejected.\n\nIt is best practice to check for any existing access requests that reference the same access items before submitting a new access request. This can\nbe accomplished by using the [List Access Request Status](https://developer.sailpoint.com/docs/api/list-access-request-status-v-1) or the [Pending Access Request Approvals](https://developer.sailpoint.com/docs/api/list-pending-approvals-v-1) APIs. You can also\nuse the [Search API](https://developer.sailpoint.com/docs/api/search) to check the existing access items an identity has before submitting\nan access request to ensure that you aren't requesting access that is already granted. If you use this API to request access that an identity already has, \nwithout changing the account details or end date information from the existing assignment, \nthe API will cancel the request as a duplicate.\n\nThere are two types of access request:\n\n__GRANT_ACCESS__\n* Can be requested for multiple identities in a single request.\n* Supports self request and request on behalf of other users. Refer to the [Get Access Request Configuration](https://developer.sailpoint.com/docs/api/get-access-request-config-v-2) endpoint for request configuration options.  \n* Allows any authenticated token (except API) to call this endpoint to request to grant access to themselves. Depending on the configuration, a user can request access for others.\n* Roles, access profiles and entitlements can be requested.\n* You can specify a `startDate` to set or alter a sunrise date-time on an assignment. The startDate must be a future date-time, in the UTC timezone. Additionally, if the user already has the access assigned with a sunrise date and its yet to be provisioned, you can also submit a request without a `startDate` to request immediate provisioning after approval.\n* If a `startDate` is specified, then the requested role, access profile, or entitlement will be provisioned on that date and time.\n* You can specify a `removeDate` to set or alter a sunset date-time on an assignment. The removeDate must be a future date-time, in the UTC timezone. Additionally, if the user already has the access assigned with a sunset date, you can also submit a request without a `removeDate` to request removal of the sunset date and time.\n* If a `removeDate` is specified, then the requested role, access profile, or entitlement will be removed on that date and time.\n* Now supports an alternate field 'requestedForWithRequestedItems' for users to specify account selections while requesting items where they have more than one account on the source.\n\n__MACHINE IDENTITY ACCESS REQUESTS__\n* Machine identity access requests reuse this same endpoint. They must use `requestedForWithRequestedItems` with `identityType: MACHINE` on each entry. Do not use the flat `requestedFor` / `requestedItems` shape for machines. Mixed human and machine identities in one request are not supported.\n* Request `identityType` uses `HUMAN` / `MACHINE`. List, status, and approval responses use `IDENTITY` / `MACHINE_IDENTITY` on `requestedFor.type` for the same distinction.\n\nPrerequisites and authorization:\n* The organization must have Machine Identity Security licensed; otherwise the request is rejected with 403.\n* Access request config v2 `machineIdentityAccessRequestEnabled` must be true (default true); otherwise 403.\n* Request-on-behalf-of for machines is controlled by `allowRequestOnBehalfOfForMachineIdentity` and `allowRequestForMachineByOwner` on the access request configuration. See those schema fields for the authorization cascade (open ROBO, owner/admin ROBO, then admin-only fallback).\n\nConstraints for machine requests:\n* Only `ENTITLEMENT` items are supported (roles and access profiles are rejected).\n* GRANT_ACCESS and MODIFY_ACCESS requests require `accountSelection` to be provided with `accountUuid` and/or `nativeIdentity`  that match a real machine account for that machine identity on the selected source. Prefer values returned by the accounts-selection API.\n* MODIFY_ACCESS requests additionally require each item to have `startDate` and/or `removeDate` to denote date modifications.\n* REVOKE_ACCESS must target exactly one machine identity. Per entitlement item, provide `nativeIdentity` (or it may be auto-resolved when the machine has exactly one account on the entitlement source). Do not send `accountSelection` on machine revoke.\n* Multi-machine GRANT_ACCESS is allowed within existing recipient limits; multi-machine REVOKE_ACCESS is not.\n\n:::caution\n\nIf any entitlements are being requested, then the maximum number of entitlements that can be requested is 25, and the maximum number of identities that can be requested for is 10. If you exceed these limits, the request will fail with a 400 error. If you are not requesting any entitlements, then there are no limits.\n\n:::\n\n__REVOKE_ACCESS__\n* Can only be requested for a single identity at a time.\n* You cannot use an access request to revoke access from an identity if that access has been granted by role membership or by birthright provisioning. \n* Does not support self request. Only manager can request to revoke access for their directly managed employees.\n* If a `removeDate` is specified, then the requested role, access profile, or entitlement will be removed on that date and time.\n* Roles, access profiles, and entitlements can be requested for revocation.\n* Revoke requests for entitlements are limited to 1 entitlement per access request currently.\n* You cannot specify a 'startDate' in a REVOKE_ACCESS request, as startDate is only applicable for GRANT_ACCESS requests to indicate when the access should be provisioned, and it does not make sense in the context of revoking access.\n* You can specify a `removeDate` to add or alter a sunset date and time on an assignment. The `removeDate` must be a future date-time, in the UTC timezone. If the user already has the access assigned with a sunset date and time, the removeDate must be a date-time earlier than the existing sunset date and time. \n* Allows a manager to request to revoke access for direct employees. A user with ORG_ADMIN authority can also request to revoke access from anyone.\n* Now supports REVOKE_ACCESS requests for identities with multiple accounts on a single source, with the help of 'assignmentId' and 'nativeIdentity' fields. These fields should be used within the 'requestedItems' section for the revoke requests. \n* For human identities, usage of 'requestedForWithRequestedItems' is not supported for revoke requests. Machine identity revoke requests must use 'requestedForWithRequestedItems' with `identityType: MACHINE` as described above.\n",
+        "description": "Use this API to submit an access request in Identity Security Cloud (ISC), where it follows any ISC approval processes.\n\n>**Security:** idn:access-request:manage is for ORG_ADMIN level. idn:access-request-self:manage is for USER level.\n\n:::info\nThe ability to request access using this API is constrained by the Access Request Segments defined in the API token's user context.\n:::\n\nAccess requests are processed asynchronously by ISC. A successful response from this endpoint means that the request\nhas been submitted to ISC and is queued for processing. Because this endpoint is asynchronous, it does not return an error\nif you submit duplicate access requests in quick succession or submit an access request for access that is already in progress, approved, or rejected.\n\nIt is best practice to check for any existing access requests that reference the same access items before submitting a new access request. This can\nbe accomplished by using the [List Access Request Status](https://developer.sailpoint.com/docs/api/list-access-request-status-v-1) or the [Pending Access Request Approvals](https://developer.sailpoint.com/docs/api/list-pending-approvals-v-1) APIs. You can also\nuse the [Search API](https://developer.sailpoint.com/docs/api/search) to check the existing access items an identity has before submitting\nan access request to ensure that you aren't requesting access that is already granted. If you use this API to request access that an identity already has, \nwithout changing the account details or end date information from the existing assignment, \nthe API will cancel the request as a duplicate.\n\nThere are two types of access request:\n\n__GRANT_ACCESS__\n* Can be requested for multiple identities in a single request.\n* Supports self request and request on behalf of other users. Refer to the [Get Access Request Configuration](https://developer.sailpoint.com/docs/api/get-access-request-config-v-2) endpoint for request configuration options.  \n* Allows any authenticated token (except API) to call this endpoint to request to grant access to themselves. Depending on the configuration, a user can request access for others.\n* Roles, access profiles and entitlements can be requested.\n* You can specify a `startDate` to set or alter a sunrise date-time on an assignment. The startDate must be a future date-time, in the UTC timezone. Additionally, if the user already has the access assigned with a sunrise date and its yet to be provisioned, you can also submit a request without a `startDate` to request immediate provisioning after approval.\n* If a `startDate` is specified, then the requested role, access profile, or entitlement will be provisioned on that date and time.\n* You can specify a `removeDate` to set or alter a sunset date-time on an assignment. The removeDate must be a future date-time, in the UTC timezone. Additionally, if the user already has the access assigned with a sunset date, you can also submit a request without a `removeDate` to request removal of the sunset date and time.\n* If a `removeDate` is specified, then the requested role, access profile, or entitlement will be removed on that date and time.\n* Now supports an alternate field 'requestedForWithRequestedItems' for users to specify account selections while requesting items where they have more than one account on the source.\n\n__MACHINE IDENTITY ACCESS REQUESTS__\n* Machine identity access requests reuse this same endpoint. They must use `requestedForWithRequestedItems` with `identityType: MACHINE` on each entry. Do not use the flat `requestedFor` / `requestedItems` shape for machines. Mixed human and machine identities in one request are not supported.\n* Request `identityType` uses `HUMAN` / `MACHINE`. List, status, and approval responses use `IDENTITY` / `MACHINE_IDENTITY` on `requestedFor.type` for the same distinction.\n\nPrerequisites and authorization:\n* The organization must have Machine Identity Security licensed; otherwise the request is rejected with 403.\n* Access request config v2 `machineIdentityAccessRequestEnabled` must be true (default true); otherwise 403.\n* Request-on-behalf-of for machines is controlled by `allowRequestOnBehalfOfForMachineIdentity` and `allowRequestForMachineByOwner` on the access request configuration. See those schema fields for the authorization cascade (open ROBO, owner/admin ROBO, then admin-only fallback).\n\nConstraints for machine requests:\n* Only `ENTITLEMENT` items are supported (roles and access profiles are rejected).\n* GRANT_ACCESS and MODIFY_ACCESS requests require `accountSelection` to be provided with `accountUuid` and/or `nativeIdentity`  that match a real machine account for that machine identity on the selected source. Prefer values returned by the accounts-selection API.\n* MODIFY_ACCESS requests additionally require each item to have `startDate` and/or `removeDate` to denote date modifications.\n* REVOKE_ACCESS must target exactly one machine identity. Per entitlement item, provide `nativeIdentity` (or it may be auto-resolved when the machine has exactly one account on the entitlement source). Do not send `accountSelection` on machine revoke.\n* Multi-machine GRANT_ACCESS is allowed within existing recipient limits; multi-machine REVOKE_ACCESS is not.\n\n__FORMS IN ACCESS REQUESTS__\n* Forms apply to human GRANT_ACCESS requests for roles, access profiles, and entitlements. Forms are not used for REVOKE_ACCESS.\n* Roles, access profiles, and entitlements can optionally reference a `formDefinitionId` in their request configuration. When configured, the requester completes that form and includes the resulting `formInstanceId` on each affected GRANT_ACCESS line item when submitting the access request.\n* Provide `formInstanceId` on each GRANT_ACCESS line item in `requestedItems` (flat payload) or in `requestedForWithRequestedItems.requestedItems` (nested payload). An empty `formInstanceId` on a GRANT_ACCESS line item is rejected with HTTP 400.\n* When a configured form is required, a missing `formInstanceId`, a submitted form whose definition does not match the configured `formDefinitionId`, or form instance data that could not be read may fail the request during asynchronous processing even when this endpoint returns success.\n* Reusing the same `formInstanceId` for the same requested object across multiple recipients is supported.\n* Completed form answers are returned on access request status, administration, and approval responses in the `form` object on each item. Access request pre-approval and dynamic approver trigger inputs may include `form` on each entry in `requestedItems`. The post-approval trigger includes `form` on each entry in `requestedItemsStatus`.\n\n:::caution\n\nIf any entitlements are being requested, then the maximum number of entitlements that can be requested is 25, and the maximum number of identities that can be requested for is 10. If you exceed these limits, the request will fail with a 400 error. If you are not requesting any entitlements, then there are no limits.\n\n:::\n\n__REVOKE_ACCESS__\n* Can only be requested for a single identity at a time.\n* You cannot use an access request to revoke access from an identity if that access has been granted by role membership or by birthright provisioning. \n* Does not support self request. Only manager can request to revoke access for their directly managed employees.\n* If a `removeDate` is specified, then the requested role, access profile, or entitlement will be removed on that date and time.\n* Roles, access profiles, and entitlements can be requested for revocation.\n* Revoke requests for entitlements are limited to 1 entitlement per access request currently.\n* You cannot specify a 'startDate' in a REVOKE_ACCESS request, as startDate is only applicable for GRANT_ACCESS requests to indicate when the access should be provisioned, and it does not make sense in the context of revoking access.\n* You can specify a `removeDate` to add or alter a sunset date and time on an assignment. The `removeDate` must be a future date-time, in the UTC timezone. If the user already has the access assigned with a sunset date and time, the removeDate must be a date-time earlier than the existing sunset date and time. \n* Allows a manager to request to revoke access for direct employees. A user with ORG_ADMIN authority can also request to revoke access from anyone.\n* Now supports REVOKE_ACCESS requests for identities with multiple accounts on a single source, with the help of 'assignmentId' and 'nativeIdentity' fields. These fields should be used within the 'requestedItems' section for the revoke requests. \n* For human identities, usage of 'requestedForWithRequestedItems' is not supported for revoke requests. Machine identity revoke requests must use 'requestedForWithRequestedItems' with `identityType: MACHINE` as described above.\n",
         "requestBody": {
           "required": true,
           "content": {
@@ -3241,7 +3251,7 @@
           "Access Requests"
         ],
         "summary": "Access request status",
-        "description": "Use this API to return a list of access request statuses based on the specified query parameters.\nIf an access request was made for access that an identity already has, the API ignores the access request.  These ignored requests do not display in the list of access request statuses.\nAny user with any user level can get the status of their own access requests. A user with ORG_ADMIN is required to call this API to get a list of statuses for other users. For access requests for machines, each status item will include `identityType` as `MACHINE` and `requestedFor` with `type: MACHINE_IDENTITY` and the machine id. Requests without a stored identity type are returned as `HUMAN` / `IDENTITY`.",
+        "description": "Use this API to return a list of access request statuses based on the specified query parameters.\nIf an access request was made for access that an identity already has, the API ignores the access request.  These ignored requests do not display in the list of access request statuses.\nAny user with any user level can get the status of their own access requests. A user with ORG_ADMIN is required to call this API to get a list of statuses for other users. For access requests for machines, each status item will include `identityType` as `MACHINE` and `requestedFor` with `type: MACHINE_IDENTITY` and the machine id. Requests without a stored identity type are returned as `HUMAN` / `IDENTITY`.\nWhen a requested object has an associated form, each status item may include a `form` object with the form definition ID, instance ID, and answers (`formData`).",
         "parameters": [
           {
             "in": "query",
@@ -3402,7 +3412,7 @@
           "Access Requests"
         ],
         "summary": "Access request status for administrators",
-        "description": "Use this API to get access request statuses of all the access requests in the org based on the specified query  parameters.\nAny user with user level ORG_ADMIN or scope idn:access-request-administration:read can access this endpoint to get  the  access request statuses",
+        "description": "Use this API to get access request statuses of all the access requests in the org based on the specified query  parameters.\nAny user with user level ORG_ADMIN or scope idn:access-request-administration:read can access this endpoint to get  the  access request statuses\nWhen a requested object has an associated form, each status item may include a `form` object with the form definition ID, instance ID, and answers (`formData`).",
         "parameters": [
           {
             "in": "header",
@@ -26987,7 +26997,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/accessprofile"
+                    "$ref": "#/components/schemas/accessprofile-2"
                   }
                 }
               }
@@ -28488,7 +28498,7 @@
           "Entitlements"
         ],
         "summary": "Get entitlement request config",
-        "description": "This API returns the entitlement request config for a specified entitlement.",
+        "description": "This API returns the entitlement request config for a specified entitlement.\nThe `accessRequestConfig.formDefinitionId` field associates an optional custom form with entitlement access requests.",
         "security": [
           {
             "userAuth": [
@@ -28534,6 +28544,7 @@
                     "requestCommentRequired": true,
                     "denialCommentRequired": true,
                     "reauthorizationRequired": false,
+                    "formDefinitionId": "78258e80-e9e2-4e1a-a11f-ce0b7c62f25d",
                     "approvalSchemes": [
                       {
                         "approverType": "ENTITLEMENT_OWNER",
@@ -28603,7 +28614,7 @@
           "Entitlements"
         ],
         "summary": "Replace entitlement request config",
-        "description": "This API replaces the entitlement request config for a specified entitlement.",
+        "description": "This API replaces the entitlement request config for a specified entitlement.\nSet `accessRequestConfig.formDefinitionId` to associate an optional custom form with entitlement access requests.",
         "security": [
           {
             "userAuth": [
@@ -28651,6 +28662,7 @@
                   "accessRequestConfig": {
                     "requestCommentRequired": true,
                     "denialCommentRequired": true,
+                    "formDefinitionId": "78258e80-e9e2-4e1a-a11f-ce0b7c62f25d",
                     "approvalSchemes": [
                       {
                         "approverType": "ENTITLEMENT_OWNER",
@@ -81434,6 +81446,12 @@
             "items": {
               "$ref": "#/components/schemas/accessprofileapprovalscheme"
             }
+          },
+          "formDefinitionId": {
+            "type": "string",
+            "nullable": true,
+            "description": "The ID of the form definition used for the access request. If specified, the form is presented to the requester during the access request process.",
+            "example": "78258e80-e9e2-4e1a-a11f-ce0b7c62f25d"
           }
         }
       },
@@ -82658,6 +82676,93 @@
         },
         "additionalProperties": true
       },
+      "accessrequestitemform": {
+        "type": "object",
+        "title": "Access Request Item Form",
+        "nullable": true,
+        "description": "Completed form instance associated with an access request item. Omitted when the item has no associated form or no form answers were captured. All listed properties may be present when form answers exist. Optional structural keys (`formElements`, `formConditions`, `formInstanceInputs`) may also be present; their shape follows the form instance payload.",
+        "additionalProperties": true,
+        "properties": {
+          "formDefinitionId": {
+            "type": "string",
+            "nullable": true,
+            "description": "ID of the form definition that was completed for this item.",
+            "example": "b2c1808f-77f5-4a3a-9f3a-1d2e3f4a5b6c"
+          },
+          "formInstanceId": {
+            "type": "string",
+            "nullable": true,
+            "description": "ID of the completed form instance.",
+            "example": "9f3a1d2e-3f4a-5b6c-7d8e-9f0a1b2c3d4e"
+          },
+          "formData": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": true,
+            "description": "Key-value pairs (form field technical name to value) from the completed form instance.",
+            "example": {
+              "department": "Engineering",
+              "notifyRequester": true,
+              "platforms": [
+                "AWS",
+                "GCP"
+              ]
+            }
+          },
+          "formElements": {
+            "type": "array",
+            "nullable": true,
+            "description": "Optional form element definitions when present. Shape follows the form instance payload.",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            },
+            "example": [
+              {
+                "id": "00000000-0000-0000-0000-000000000000",
+                "elementType": "TEXT"
+              }
+            ]
+          },
+          "formConditions": {
+            "type": "array",
+            "nullable": true,
+            "description": "Optional conditional display rules when present. Shape follows the form instance payload; do not depend on a fixed condition schema in this API.",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            },
+            "example": [
+              {
+                "ruleOperator": "AND",
+                "rules": [],
+                "effects": []
+              }
+            ]
+          },
+          "formInstanceInputs": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": true,
+            "description": "Optional inputs passed into the form instance when present. Copied from the form instance payload as-is.",
+            "example": {
+              "department": "Engineering"
+            }
+          }
+        },
+        "example": {
+          "formDefinitionId": "b2c1808f-77f5-4a3a-9f3a-1d2e3f4a5b6c",
+          "formInstanceId": "9f3a1d2e-3f4a-5b6c-7d8e-9f0a1b2c3d4e",
+          "formData": {
+            "department": "Engineering",
+            "notifyRequester": true,
+            "platforms": [
+              "AWS",
+              "GCP"
+            ]
+          }
+        }
+      },
       "pendingapproval": {
         "type": "object",
         "title": "Pending Approval",
@@ -82867,6 +82972,17 @@
             "items": {
               "$ref": "#/components/schemas/entitlementstatesnapshotjitdetail"
             }
+          },
+          "form": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/accessrequestitemform"
+              },
+              {
+                "nullable": true,
+                "description": "Completed form data for this approval item when the requested object has an associated form."
+              }
+            ]
           }
         }
       },
@@ -83182,6 +83298,17 @@
             "items": {
               "$ref": "#/components/schemas/entitlementstatesnapshotjitdetail"
             }
+          },
+          "form": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/accessrequestitemform"
+              },
+              {
+                "nullable": true,
+                "description": "Completed form data for this approval item when the requested object has an associated form."
+              }
+            ]
           }
         }
       },
@@ -83437,6 +83564,12 @@
                 "example": "DAYS"
               }
             }
+          },
+          "formDefinitionId": {
+            "type": "string",
+            "nullable": true,
+            "description": "The ID of the form definition used for the access request. If specified, the form is presented to the requester during the access request process.",
+            "example": "78258e80-e9e2-4e1a-a11f-ce0b7c62f25d"
           }
         }
       },
@@ -83643,6 +83776,12 @@
             "nullable": true,
             "description": "The unique identifier for an account on the identity, designated as the account ID attribute in the source's account schema. This is used to revoke a specific attributeAssignment on the identity.\n* For use with REVOKE_ACCESS requests for entitlements for identities with multiple accounts on a single source.\n",
             "example": "CN=User db3377de14bf,OU=YOURCONTAINER, DC=YOURDOMAIN"
+          },
+          "formInstanceId": {
+            "type": "string",
+            "nullable": true,
+            "description": "Optional ID of a completed form instance for this line item. For human GRANT_ACCESS requests, include when the requested role, access profile, or entitlement has an associated `formDefinitionId` in its request configuration. An empty `formInstanceId` on a GRANT_ACCESS item is rejected with HTTP 400. Not used for REVOKE_ACCESS.",
+            "example": "9f3a1d2e-3f4a-5b6c-7d8e-9f0a1b2c3d4e"
           }
         },
         "required": [
@@ -83749,6 +83888,12 @@
             "nullable": true,
             "description": "The unique identifier for an account on the identity, designated as the account ID attribute in the source's account schema.\n* For machine identity REVOKE_ACCESS: required per entitlement item (or auto-resolved when the machine has exactly one account on the entitlement source). Must match a machine account on that source. Do not send `accountSelection` on machine revoke. Human REVOKE_ACCESS cannot use this nested item schema; use flat `requestedItems` instead.\n",
             "example": "CN=User db3377de14bf,OU=YOURCONTAINER, DC=YOURDOMAIN"
+          },
+          "formInstanceId": {
+            "type": "string",
+            "nullable": true,
+            "description": "Optional ID of a completed form instance for this line item.\n* For human GRANT_ACCESS: include when the requested role, access profile, or entitlement has an associated `formDefinitionId` in its request configuration. An empty `formInstanceId` on a GRANT_ACCESS item is rejected with HTTP 400.\n* Not supported for machine identity access requests.",
+            "example": "9f3a1d2e-3f4a-5b6c-7d8e-9f0a1b2c3d4e"
           }
         },
         "required": [
@@ -84814,6 +84959,17 @@
             "items": {
               "$ref": "#/components/schemas/entitlementstatesnapshotjitdetail"
             }
+          },
+          "form": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/accessrequestitemform"
+              },
+              {
+                "nullable": true,
+                "description": "Completed form data for this item when the requested object has an associated form."
+              }
+            ]
           }
         }
       },
@@ -85037,6 +85193,17 @@
               "key1": "value1",
               "key2": "value2"
             }
+          },
+          "form": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/accessrequestitemform"
+              },
+              {
+                "nullable": true,
+                "description": "Completed form data for this item when the requested object has an associated form."
+              }
+            ]
           }
         }
       },
@@ -96912,6 +97079,215 @@
         },
         "required": [
           "dimensionIds"
+        ]
+      },
+      "requestability-2": {
+        "type": "object",
+        "nullable": true,
+        "properties": {
+          "commentsRequired": {
+            "type": "boolean",
+            "description": "Indicates whether the requester of the containing object must provide comments justifying the request.",
+            "example": true,
+            "nullable": true,
+            "default": false
+          },
+          "denialCommentsRequired": {
+            "type": "boolean",
+            "description": "Indicates whether an approver must provide comments when denying the request.",
+            "example": true,
+            "nullable": true,
+            "default": false
+          },
+          "reauthorizationRequired": {
+            "type": "boolean",
+            "description": "Indicates whether reauthorization is required for the request.",
+            "example": true,
+            "nullable": true,
+            "default": false
+          },
+          "requireEndDate": {
+            "type": "boolean",
+            "description": "Indicates whether the requester of the containing object must provide access end date.",
+            "example": true,
+            "nullable": true,
+            "default": false
+          },
+          "maxPermittedAccessDuration": {
+            "$ref": "#/components/schemas/accessduration",
+            "nullable": true
+          },
+          "approvalSchemes": {
+            "type": "array",
+            "nullable": true,
+            "description": "List describing the steps involved in approving the request.",
+            "items": {
+              "$ref": "#/components/schemas/accessprofileapprovalscheme"
+            }
+          }
+        }
+      },
+      "accessprofile-2": {
+        "type": "object",
+        "description": "Access profile.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Access profile ID.",
+            "example": "2c91808a7190d06e01719938fcd20792",
+            "readOnly": true
+          },
+          "name": {
+            "type": "string",
+            "description": "Access profile name.",
+            "example": "Employee-database-read-write"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "description": "Access profile description.",
+            "example": "Collection of entitlements to read/write the employee database"
+          },
+          "created": {
+            "type": "string",
+            "description": "Date and time when the access profile was created.",
+            "format": "date-time",
+            "example": "2021-03-01T22:32:58.104Z",
+            "readOnly": true
+          },
+          "modified": {
+            "type": "string",
+            "description": "Date and time when the access profile was last modified.",
+            "format": "date-time",
+            "example": "2021-03-02T20:22:28.104Z",
+            "readOnly": true
+          },
+          "enabled": {
+            "type": "boolean",
+            "default": false,
+            "description": "Indicates whether the access profile is enabled. If it's enabled, you must include at least one entitlement.",
+            "example": true
+          },
+          "owner": {
+            "$ref": "#/components/schemas/ownerreference",
+            "description": "Access profile owner."
+          },
+          "source": {
+            "$ref": "#/components/schemas/accessprofilesourceref"
+          },
+          "entitlements": {
+            "type": "array",
+            "nullable": true,
+            "description": "List of entitlements associated with the access profile. If `enabled` is false, this can be empty. Otherwise, it must contain at least one entitlement.",
+            "items": {
+              "$ref": "#/components/schemas/entitlementref"
+            }
+          },
+          "requestable": {
+            "type": "boolean",
+            "default": true,
+            "description": "Indicates whether the access profile is requestable by access request. Currently, making an access profile non-requestable is only supported  for customers enabled with the new Request Center. Otherwise, attempting to create an access profile with a value  **false** in this field results in a 400 error.",
+            "example": true
+          },
+          "accessRequestConfig": {
+            "$ref": "#/components/schemas/requestability-2",
+            "nullable": true,
+            "description": "Access request configuration for the object."
+          },
+          "revocationRequestConfig": {
+            "$ref": "#/components/schemas/revocability",
+            "nullable": true,
+            "description": "Revocation request configuration for the object."
+          },
+          "segments": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            },
+            "description": "List of segment IDs, if any, that the access profile is assigned to.",
+            "example": [
+              "f7b1b8a3-5fed-4fd4-ad29-82014e137e19",
+              "29cb6c06-1da8-43ea-8be4-b3125f248f2a"
+            ]
+          },
+          "accessModelMetadata": {
+            "$ref": "#/components/schemas/attributedtolist",
+            "description": "This field must be left null or empty when creating an Role, otherwise a 400 Bad Request error will result.",
+            "example": [
+              {
+                "key": "iscFederalClassifications",
+                "name": "Federal Classifications",
+                "multiselect": true,
+                "status": "active",
+                "type": "governance",
+                "objectTypes": [
+                  "general"
+                ],
+                "description": "Classification used by government organizations to specify the level of confidentiality for an access item.",
+                "values": [
+                  {
+                    "value": "secret",
+                    "name": "Secret",
+                    "status": "active"
+                  }
+                ]
+              }
+            ]
+          },
+          "provisioningCriteria": {
+            "$ref": "#/components/schemas/provisioningcriterialevel1",
+            "description": "When an identity has multiple accounts on the source the access profile is associated with, the API evaluates this expression against those accounts to choose one to provision with the access profile.",
+            "nullable": true,
+            "example": {
+              "operation": "OR",
+              "children": [
+                {
+                  "operation": "AND",
+                  "children": [
+                    {
+                      "attribute": "dn",
+                      "operation": "CONTAINS",
+                      "value": "useast"
+                    },
+                    {
+                      "attribute": "manager",
+                      "operation": "CONTAINS",
+                      "value": "Scott.Clark"
+                    }
+                  ]
+                },
+                {
+                  "operation": "AND",
+                  "children": [
+                    {
+                      "attribute": "dn",
+                      "operation": "EQUALS",
+                      "value": "Gibson"
+                    },
+                    {
+                      "attribute": "telephoneNumber",
+                      "operation": "CONTAINS",
+                      "value": "512"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "additionalOwners": {
+            "type": "array",
+            "nullable": true,
+            "description": "List of additional owner references beyond the primary owner. Each entry may be an identity (IDENTITY) or a governance group (GOVERNANCE_GROUP).",
+            "items": {
+              "$ref": "#/components/schemas/additionalownerref"
+            }
+          }
+        },
+        "required": [
+          "owner",
+          "name",
+          "source"
         ]
       },
       "entitlementconnectionsearchhitentitlement": {
@@ -127014,6 +127390,17 @@
                   "type": "string",
                   "description": "A comment from the requestor on why the access is needed.",
                   "example": "William needs this access for his day to day job activities."
+                },
+                "form": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/accessrequestitemform"
+                    },
+                    {
+                      "nullable": true,
+                      "description": "Completed form data for this requested item when the access item has an associated form."
+                    }
+                  ]
                 }
               }
             },
@@ -127142,6 +127529,17 @@
                   "example": {
                     "applicationName": "My application"
                   }
+                },
+                "form": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/accessrequestitemform"
+                    },
+                    {
+                      "nullable": true,
+                      "description": "Completed form data for this requested item when the access item has an associated form."
+                    }
+                  ]
                 },
                 "approvalInfo": {
                   "description": "A list of one or more approvers for the access request.",
@@ -127294,6 +127692,17 @@
                   "type": "string",
                   "description": "A comment from the identity requesting the access.",
                   "example": "William needs this access to do his job."
+                },
+                "form": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/accessrequestitemform"
+                    },
+                    {
+                      "nullable": true,
+                      "description": "Completed form data for this requested item when the access item has an associated form."
+                    }
+                  ]
                 }
               }
             },
@@ -133566,7 +133975,7 @@
     },
     "examples": {
       "create-human-grant": {
-        "description": "GRANT_ACCESS for a human identity using the flat requestedFor / requestedItems shape (default when account selection is not needed).",
+        "description": "GRANT_ACCESS for a human identity using the flat requestedFor / requestedItems shape (default when account selection is not needed), with optional formInstanceId when the requested object has an associated form.",
         "value": {
           "requestType": "GRANT_ACCESS",
           "requestedFor": [
@@ -133576,13 +133985,14 @@
             {
               "type": "ACCESS_PROFILE",
               "id": "2c9180835d2e5168015d32f890ca1581",
-              "comment": "Requesting access profile for John Doe"
+              "comment": "Requesting access profile for John Doe",
+              "formInstanceId": "9f3a1d2e-3f4a-5b6c-7d8e-9f0a1b2c3d4e"
             }
           ]
         }
       },
       "create-human-grant-nested": {
-        "description": "GRANT_ACCESS for a human identity using requestedForWithRequestedItems, with accountSelection and optional sunrise/sunset dates on the item.",
+        "description": "GRANT_ACCESS for a human identity using requestedForWithRequestedItems, with accountSelection, optional formInstanceId when the requested object has an associated form, and optional sunrise/sunset dates on the item.",
         "value": {
           "requestType": "GRANT_ACCESS",
           "requestedForWithRequestedItems": [
@@ -133594,6 +134004,7 @@
                   "type": "ACCESS_PROFILE",
                   "id": "2c9180835d2e5168015d32f890ca1581",
                   "comment": "Requesting access profile for John Doe",
+                  "formInstanceId": "9f3a1d2e-3f4a-5b6c-7d8e-9f0a1b2c3d4e",
                   "startDate": "2027-01-15T21:22:23.000Z",
                   "removeDate": "2027-07-11T21:23:15.000Z",
                   "accountSelection": [
