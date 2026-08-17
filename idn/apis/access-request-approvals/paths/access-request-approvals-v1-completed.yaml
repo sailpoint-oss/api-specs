@@ -8,6 +8,9 @@ get:
     For access requests for machines, each approval will include 'identityType' as 'MACHINE' and
     'requestedFor' with 'type: MACHINE_IDENTITY' and the machine id. Approvals without a stored
     identity type are returned as 'HUMAN' / 'IDENTITY'.
+
+    When a requested object has an associated form, each approval may include a `form` object with the form definition ID,
+    instance ID, and answers (`formData`).
   security:
   - userAuth:
     - idn:access-request-approvals:read

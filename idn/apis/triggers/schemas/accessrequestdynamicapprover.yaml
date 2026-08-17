@@ -62,6 +62,12 @@ properties:
           type: string
           description: A comment from the requestor on why the access is needed.
           example: William needs this access for his day to day job activities.
+        form:
+          allOf:
+            - $ref: ../../shared/schemas/accessrequestitemform.yaml
+            - nullable: true
+              description: >-
+                Completed form data for this requested item when the access item has an associated form.
     minItems: 1
     maxItems: 25
   requestedBy:

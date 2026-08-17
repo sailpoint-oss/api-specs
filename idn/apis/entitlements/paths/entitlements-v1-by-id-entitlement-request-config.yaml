@@ -3,7 +3,11 @@ get:
   tags:
   - Entitlements
   summary: Get entitlement request config
-  description: This API returns the entitlement request config for a specified entitlement.
+  description: >-
+    This API returns the entitlement request config for a specified entitlement.
+
+    The `accessRequestConfig.formDefinitionId` field associates an optional custom form with entitlement access
+    requests.
   security:
   - userAuth:
     - idn:entitlement:read
@@ -36,6 +40,7 @@ get:
               requestCommentRequired: true
               denialCommentRequired: true
               reauthorizationRequired: false
+              formDefinitionId: 78258e80-e9e2-4e1a-a11f-ce0b7c62f25d
               approvalSchemes:
               - approverType: ENTITLEMENT_OWNER
                 approverId:
@@ -72,7 +77,10 @@ put:
   tags:
   - Entitlements
   summary: Replace entitlement request config
-  description: This API replaces the entitlement request config for a specified entitlement.
+  description: >-
+    This API replaces the entitlement request config for a specified entitlement.
+
+    Set `accessRequestConfig.formDefinitionId` to associate an optional custom form with entitlement access requests.
   security:
   - userAuth:
     - idn:entitlement:manage
@@ -106,6 +114,7 @@ put:
             accessRequestConfig:
               requestCommentRequired: true
               denialCommentRequired: true
+              formDefinitionId: 78258e80-e9e2-4e1a-a11f-ce0b7c62f25d
               approvalSchemes:
               - approverType: ENTITLEMENT_OWNER
                 approverId:

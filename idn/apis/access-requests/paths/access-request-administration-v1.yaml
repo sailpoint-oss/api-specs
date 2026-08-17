@@ -13,6 +13,9 @@ get:
     Use this API to get access request statuses of all the access requests in the org based on the specified query  parameters.
 
     Any user with user level ORG_ADMIN or scope idn:access-request-administration:read can access this endpoint to get  the  access request statuses
+
+    When a requested object has an associated form, each status item may include a `form` object with the form definition
+    ID, instance ID, and answers (`formData`).
   parameters:
   - in: header
     name: X-SailPoint-Experimental

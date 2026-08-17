@@ -131,6 +131,8 @@ post:
   description: >-
     Create an access profile.
 
+    Set `accessRequestConfig.formDefinitionId` to associate an optional custom form with access profile access requests.
+
     A user with `ROLE_SUBADMIN` or `SOURCE_SUBADMIN` authority must be associated with the access profile's source.
 
     The maximum supported length for the description field is 2000 characters. Longer descriptions will be preserved for

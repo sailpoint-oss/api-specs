@@ -110,6 +110,10 @@ tags:
       | [VA Cluster Status
       Change](https://developer.sailpoint.com/docs/extensibility/event-triggers/triggers/va-cluster-status-change/) |
       idn:va-cluster-status-change | FIRE_AND_FORGET | After the status of a VA cluster has changed. |
+
+      Access request pre-approval and dynamic approver trigger inputs may include a `form` object on each entry in
+      `requestedItems` when that item has associated form data. The post-approval trigger includes `form` on each entry
+      in `requestedItemsStatus`.
 paths:
   /triggers/v1:
     $ref: ./paths/triggers-v1.yaml

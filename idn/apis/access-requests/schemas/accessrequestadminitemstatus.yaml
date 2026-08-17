@@ -154,3 +154,9 @@ properties:
     example:
       key1: value1
       key2: value2
+  form:
+    allOf:
+      - $ref: ../../shared/schemas/accessrequestitemform.yaml
+      - nullable: true
+        description: >-
+          Completed form data for this item when the requested object has an associated form.

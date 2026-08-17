@@ -71,6 +71,12 @@ properties:
           additionalProperties: true
           example:
             applicationName: My application
+        form:
+          allOf:
+            - $ref: ../../shared/schemas/accessrequestitemform.yaml
+            - nullable: true
+              description: >-
+                Completed form data for this requested item when the access item has an associated form.
         approvalInfo:
           description: A list of one or more approvers for the access request.
           type: array

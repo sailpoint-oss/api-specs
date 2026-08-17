@@ -126,6 +126,30 @@ post:
     * Multi-machine GRANT_ACCESS is allowed within existing recipient limits; multi-machine REVOKE_ACCESS is not.
 
 
+    __FORMS IN ACCESS REQUESTS__
+
+    * Forms apply to human GRANT_ACCESS requests for roles, access profiles, and entitlements. Forms are not used for
+    REVOKE_ACCESS.
+
+    * Roles, access profiles, and entitlements can optionally reference a `formDefinitionId` in their request
+    configuration. When configured, the requester completes that form and includes the resulting `formInstanceId` on
+    each affected GRANT_ACCESS line item when submitting the access request.
+
+    * Provide `formInstanceId` on each GRANT_ACCESS line item in `requestedItems` (flat payload) or in
+    `requestedForWithRequestedItems.requestedItems` (nested payload). An empty `formInstanceId` on a GRANT_ACCESS line
+    item is rejected with HTTP 400.
+
+    * When a configured form is required, a missing `formInstanceId`, a submitted form whose definition does not match
+    the configured `formDefinitionId`, or form instance data that could not be read may fail the request during
+    asynchronous processing even when this endpoint returns success.
+
+    * Reusing the same `formInstanceId` for the same requested object across multiple recipients is supported.
+
+    * Completed form answers are returned on access request status, administration, and approval responses in the
+    `form` object on each item. Access request pre-approval and dynamic approver trigger inputs may include `form` on
+    each entry in `requestedItems`. The post-approval trigger includes `form` on each entry in `requestedItemsStatus`.
+
+
     :::caution
 
 

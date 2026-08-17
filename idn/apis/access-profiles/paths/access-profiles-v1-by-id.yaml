@@ -3,7 +3,11 @@ get:
   tags:
   - Access Profiles
   summary: Get an access profile
-  description: This API returns an Access Profile by its ID.
+  description: >-
+    This API returns an Access Profile by its ID.
+
+    The `accessRequestConfig.formDefinitionId` field associates an optional custom form with access profile access
+    requests.
   parameters:
   - in: path
     name: id
@@ -89,6 +93,9 @@ patch:
     example "Replace Source" in the examples dropdown.
 
 
+    Set `accessRequestConfig.formDefinitionId` to associate an optional custom form with access profile access requests.
+
+
     A user with SOURCE_SUBADMIN may only use this API to patch Access Profiles which are associated with Sources they
     are able to administer.
 
@@ -164,6 +171,12 @@ patch:
               - id: 2c9180877677453d01767b4b08f63386
                 type: ENTITLEMENT
                 name: DevRel
+          Set Form Definition:
+            description: Set accessRequestConfig.formDefinitionId
+            value:
+            - op: add
+              path: /accessRequestConfig/formDefinitionId
+              value: 78258e80-e9e2-4e1a-a11f-ce0b7c62f25d
     required: true
   responses:
     '200':

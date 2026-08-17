@@ -194,3 +194,9 @@ properties:
     description: JIT (Just-In-Time) details for the requested access item, if applicable.
     items:
       $ref: ./entitlementstatesnapshotjitdetail.yaml
+  form:
+    allOf:
+      - $ref: ../../shared/schemas/accessrequestitemform.yaml
+      - nullable: true
+        description: >-
+          Completed form data for this approval item when the requested object has an associated form.
