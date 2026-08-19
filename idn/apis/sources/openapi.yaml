@@ -182,6 +182,20 @@ paths:
     $ref: ./paths/sources-v2-by-sourceid-provisioning-policies-by-id.yaml
   /sources/v1/{sourceId}/provisioning-policies/bulk-update:
     $ref: ./paths/sources-v1-by-sourceid-provisioning-policies-bulk-update.yaml
+  /sources/v1/{sourceId}/datasets:
+    $ref: ./paths/sources-v1-by-sourceid-datasets.yaml
+  /sources/v1/{sourceId}/datasets/{datasetId}:
+    $ref: ./paths/sources-v1-by-sourceid-datasets-by-datasetid.yaml
+  /sources/v1/{sourceId}/datasets/{datasetId}/aggregate:
+    $ref: ./paths/sources-v1-by-sourceid-datasets-by-datasetid-aggregate.yaml
+  /sources/v1/{sourceId}/datasets/{datasetId}/delete-objects:
+    $ref: ./paths/sources-v1-by-sourceid-datasets-by-datasetid-delete-objects.yaml
+  /sources/v1/{sourceId}/resources:
+    $ref: ./paths/sources-v1-by-sourceid-resources.yaml
+  /sources/v1/{sourceId}/resources/mappings:
+    $ref: ./paths/sources-v1-by-sourceid-resources-mappings.yaml
+  /sources/v1/{sourceId}/resources/{resourceId}:
+    $ref: ./paths/sources-v1-by-sourceid-resources-by-resourceid.yaml
   /sources/v1/{sourceId}/schemas:
     $ref: ./paths/sources-v1-by-sourceid-schemas.yaml
   /sources/v1/{sourceId}/schedules:
