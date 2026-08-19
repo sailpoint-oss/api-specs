@@ -69095,6 +69095,1560 @@
         }
       }
     },
+    "/sources/v1/{sourceId}/datasets": {
+      "get": {
+        "operationId": "getSourceDatasetsV1",
+        "security": [
+          {
+            "userAuth": [
+              "idn:sources:read",
+              "idn:sources:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:read",
+              "idn:sources:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ],
+        "tags": [
+          "Sources"
+        ],
+        "summary": "List datasets on source",
+        "description": "Use this API to list datasets for the specified source in Identity Security Cloud (ISC).\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sourceId",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listSourcesV1",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Source ID.",
+            "example": "2c9180835d191a86015d28455b4a2329"
+          },
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          },
+          {
+            "$ref": "#/components/parameters/count"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The datasets were successfully retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "maxItems": 250,
+                  "items": {
+                    "$ref": "#/components/schemas/sourcedataset"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "post": {
+        "operationId": "createSourceDatasetV1",
+        "security": [
+          {
+            "userAuth": [
+              "idn:sources:update",
+              "idn:source-schema:create",
+              "idn:sources:manage",
+              "idn:source-schema:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:update",
+              "idn:source-schema:create",
+              "idn:sources:manage",
+              "idn:source-schema:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ],
+        "tags": [
+          "Sources"
+        ],
+        "summary": "Create dataset on source",
+        "description": "Use this API to create a dataset on the specified source in Identity Security Cloud (ISC).\n\n\nThis operation requires a connector with the `supportDatasetCreation` label. `name` is required.\nThe dataset `id` is always server-generated from `name` as `customer:` plus a normalized form of\nthe name; any client-supplied `id` is ignored.\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sourceId",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listSourcesV1",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Source ID.",
+            "example": "2c9180835d191a86015d28455b4a2329"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/sourcedataset"
+              },
+              "examples": {
+                "Create Dataset": {
+                  "value": {
+                    "name": "Applications",
+                    "description": "CMDB application records for this source."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The dataset was successfully created on the specified source.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/sourcedataset"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/sources/v1/{sourceId}/datasets/{datasetId}": {
+      "get": {
+        "operationId": "getSourceDatasetV1",
+        "security": [
+          {
+            "userAuth": [
+              "idn:sources:read",
+              "idn:sources:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:read",
+              "idn:sources:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ],
+        "tags": [
+          "Sources"
+        ],
+        "summary": "Get source dataset by id",
+        "description": "Use this API to get a dataset by id for the specified source in Identity Security Cloud (ISC).\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sourceId",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listSourcesV1",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Source ID.",
+            "example": "2c9180835d191a86015d28455b4a2329"
+          },
+          {
+            "in": "path",
+            "name": "datasetId",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "getSourceDatasetsV1",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Dataset ID.",
+            "example": "cmdb-servicenow:applications"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested dataset was successfully retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/sourcedataset"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "put": {
+        "operationId": "putSourceDatasetV1",
+        "security": [
+          {
+            "userAuth": [
+              "idn:sources:update",
+              "idn:sources:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:update",
+              "idn:sources:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ],
+        "tags": [
+          "Sources"
+        ],
+        "summary": "Update source dataset (full)",
+        "description": "Use this API to replace a dataset on the specified source in Identity Security Cloud (ISC).\n\n\nCallers should round-trip the GET representation. `id` is required in the request body and must\nmatch the path. `aggregationEnabled` may always be updated. `name`, `description`, and `resources`\ncan be changed only when the connector has the `supportDatasetCreation` label.\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sourceId",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listSourcesV1",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Source ID.",
+            "example": "2c9180835d191a86015d28455b4a2329"
+          },
+          {
+            "in": "path",
+            "name": "datasetId",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "getSourceDatasetsV1",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Dataset ID.",
+            "example": "cmdb-servicenow:applications"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/sourcedataset"
+              },
+              "examples": {
+                "Replace Dataset": {
+                  "value": {
+                    "id": "cmdb-servicenow:applications",
+                    "name": "Applications",
+                    "description": "CMDB application records for this source.",
+                    "aggregationEnabled": true,
+                    "resources": [
+                      {
+                        "id": "aws:iam-role",
+                        "name": "Role",
+                        "type": "std:resource"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The dataset was successfully replaced.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/sourcedataset"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "patch": {
+        "operationId": "updateSourceDatasetV1",
+        "security": [
+          {
+            "userAuth": [
+              "idn:sources:update",
+              "idn:sources:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:update",
+              "idn:sources:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ],
+        "tags": [
+          "Sources"
+        ],
+        "summary": "Update source dataset (partial)",
+        "description": "Use this API to selectively update an existing dataset using a JSONPatch payload.\n\n\n`aggregationEnabled` may always be updated. `name`, `description`, and `resources` can be changed\nonly when the connector has the `supportDatasetCreation` label. `id` is immutable.\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sourceId",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listSourcesV1",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Source ID.",
+            "example": "2c9180835d191a86015d28455b4a2329"
+          },
+          {
+            "in": "path",
+            "name": "datasetId",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "getSourceDatasetsV1",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Dataset ID.",
+            "example": "cmdb-servicenow:applications"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "The JSONPatch payload used to update the dataset.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/jsonpatchoperation"
+                }
+              },
+              "examples": {
+                "enable-aggregation": {
+                  "summary": "Enable aggregation for the dataset",
+                  "value": [
+                    {
+                      "op": "replace",
+                      "path": "/aggregationEnabled",
+                      "value": true
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The dataset was successfully updated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/sourcedataset"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteSourceDatasetV1",
+        "security": [
+          {
+            "userAuth": [
+              "idn:sources:delete",
+              "idn:source-schema:delete",
+              "idn:sources:manage",
+              "idn:source-schema:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:delete",
+              "idn:source-schema:delete",
+              "idn:sources:manage",
+              "idn:source-schema:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ],
+        "tags": [
+          "Sources"
+        ],
+        "summary": "Delete source dataset by id",
+        "description": "Use this API to delete a dataset on the specified source in Identity Security Cloud (ISC).\n\n\nThis operation requires a connector with the `supportDatasetCreation` label. Linked resource\nschemas are not deleted.\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sourceId",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listSourcesV1",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Source ID.",
+            "example": "2c9180835d191a86015d28455b4a2329"
+          },
+          {
+            "in": "path",
+            "name": "datasetId",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "getSourceDatasetsV1",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Dataset ID.",
+            "example": "cmdb-servicenow:applications"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/204",
+            "description": "The dataset was successfully deleted."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/sources/v1/{sourceId}/datasets/{datasetId}/aggregate": {
+      "post": {
+        "operationId": "importSourceDatasetV1",
+        "security": [
+          {
+            "userAuth": [
+              "idn:sources:aggregate",
+              "idn:sources:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:aggregate",
+              "idn:sources:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ],
+        "tags": [
+          "Sources"
+        ],
+        "summary": "Aggregate source dataset",
+        "description": "Starts an aggregation for the specified dataset on the source in Identity Security Cloud (ISC).\nAn optional `config` object can be supplied for connector-specific aggregation settings.\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sourceId",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listSourcesV1",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Source ID.",
+            "example": "2c9180835d191a86015d28455b4a2329"
+          },
+          {
+            "in": "path",
+            "name": "datasetId",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "getSourceDatasetsV1",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Dataset ID.",
+            "example": "cmdb-servicenow:applications"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/datasetaggregationrequest"
+              },
+              "examples": {
+                "Aggregate with config": {
+                  "value": {
+                    "config": {
+                      "region": "us-east-1"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Dataset aggregation task.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/taskresultdetails-2"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/sources/v1/{sourceId}/datasets/{datasetId}/delete-objects": {
+      "post": {
+        "operationId": "deleteSourceDatasetObjectsV1",
+        "security": [
+          {
+            "userAuth": [
+              "idn:sources:aggregate",
+              "idn:sources:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:aggregate",
+              "idn:sources:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ],
+        "tags": [
+          "Sources"
+        ],
+        "summary": "Delete objects for source dataset",
+        "description": "Starts a task to delete aggregated objects for the specified dataset on the source in Identity\nSecurity Cloud (ISC). Linked dataset and resource definitions are not deleted.\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sourceId",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listSourcesV1",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Source ID.",
+            "example": "2c9180835d191a86015d28455b4a2329"
+          },
+          {
+            "in": "path",
+            "name": "datasetId",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "getSourceDatasetsV1",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Dataset ID.",
+            "example": "cmdb-servicenow:applications"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete objects task.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/taskresultdetails-2"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/sources/v1/{sourceId}/resources": {
+      "get": {
+        "operationId": "getSourceResourcesV1",
+        "security": [
+          {
+            "userAuth": [
+              "idn:sources:read",
+              "idn:source-schema:read",
+              "idn:sources:manage",
+              "idn:source-schema:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:read",
+              "idn:source-schema:read",
+              "idn:sources:manage",
+              "idn:source-schema:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ],
+        "tags": [
+          "Sources"
+        ],
+        "summary": "List resources for a source",
+        "description": "Use this API to list resources defined on the specified source in Identity Security Cloud (ISC).\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sourceId",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listSourcesV1",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Source ID.",
+            "example": "2c9180835d191a86015d28455b4a2329"
+          },
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          },
+          {
+            "$ref": "#/components/parameters/count"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The source resources were successfully retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "maxItems": 250,
+                  "items": {
+                    "$ref": "#/components/schemas/sourcedatasetresource"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "post": {
+        "operationId": "createSourceResourceV1",
+        "security": [
+          {
+            "userAuth": [
+              "idn:sources:update",
+              "idn:source-schema:create",
+              "idn:sources:manage",
+              "idn:source-schema:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:update",
+              "idn:source-schema:create",
+              "idn:sources:manage",
+              "idn:source-schema:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ],
+        "tags": [
+          "Sources"
+        ],
+        "summary": "Create resource on source",
+        "description": "Use this API to create a resource on the specified source in Identity Security Cloud (ISC).\n\n\nThis operation requires a connector with the `supportDatasetCreation` label. `name`, `type`,\n`datasetId`, and `schema` are required. The `schema` must define at least one attribute plus\n`identityAttribute` and `displayAttribute`. The resource `id` is always server-generated from\n`name` as `customer:` plus a normalized form of the name; any client-supplied `id` is ignored.\nAfter creation, schema attribute edits are made through the source schema APIs.\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sourceId",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listSourcesV1",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Source ID.",
+            "example": "2c9180835d191a86015d28455b4a2329"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/sourcedatasetresource"
+              },
+              "examples": {
+                "Create Resource": {
+                  "value": {
+                    "name": "Account",
+                    "type": "std:resource",
+                    "datasetId": "cmdb-servicenow:applications",
+                    "features": [
+                      "Create",
+                      "Delete"
+                    ],
+                    "schema": {
+                      "identityAttribute": "NAME",
+                      "displayAttribute": "NAME",
+                      "attributes": [
+                        {
+                          "name": "NAME",
+                          "type": "STRING",
+                          "isMultiValued": false,
+                          "isEntitlement": false,
+                          "isGroup": false
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The resource was successfully created on the specified source.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/sourcedatasetresource"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/sources/v1/{sourceId}/resources/mappings": {
+      "get": {
+        "operationId": "getSourceResourceMappingsV1",
+        "security": [
+          {
+            "userAuth": [
+              "idn:sources:read",
+              "idn:source-schema:read",
+              "idn:sources:manage",
+              "idn:source-schema:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:read",
+              "idn:source-schema:read",
+              "idn:sources:manage",
+              "idn:source-schema:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ],
+        "tags": [
+          "Sources"
+        ],
+        "summary": "Get source resource mappings",
+        "description": "Use this API to get aggregation metadata for resources on the specified source in Identity\nSecurity Cloud (ISC). The response is keyed by resource id. Each value includes the linked\ndataset id, resource type, and connector object type. Resources without a matching schema are\nomitted.\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sourceId",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listSourcesV1",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Source ID.",
+            "example": "2c9180835d191a86015d28455b4a2329"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The source resource mappings were successfully retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/sourceresourcemapping"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/sources/v1/{sourceId}/resources/{resourceId}": {
+      "get": {
+        "operationId": "getSourceResourceV1",
+        "security": [
+          {
+            "userAuth": [
+              "idn:sources:read",
+              "idn:source-schema:read",
+              "idn:sources:manage",
+              "idn:source-schema:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:read",
+              "idn:source-schema:read",
+              "idn:sources:manage",
+              "idn:source-schema:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ],
+        "tags": [
+          "Sources"
+        ],
+        "summary": "Get source resource by id",
+        "description": "Use this API to get a resource by id on the specified source in Identity Security Cloud (ISC).\nThe response includes the full CIS schema for the resource.\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sourceId",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listSourcesV1",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Source ID.",
+            "example": "2c9180835d191a86015d28455b4a2329"
+          },
+          {
+            "in": "path",
+            "name": "resourceId",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "getSourceResourcesV1",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Resource ID.",
+            "example": "account"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested source resource was successfully retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/sourcedatasetresource"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "put": {
+        "operationId": "putSourceResourceV1",
+        "security": [
+          {
+            "userAuth": [
+              "idn:sources:update",
+              "idn:source-schema:update",
+              "idn:sources:manage",
+              "idn:source-schema:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:update",
+              "idn:source-schema:update",
+              "idn:sources:manage",
+              "idn:source-schema:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ],
+        "tags": [
+          "Sources"
+        ],
+        "summary": "Update source resource (full)",
+        "description": "Use this API to replace a resource on the specified source in Identity Security Cloud (ISC).\n\n\nAfter creation, schema attribute edits should be made through the source schema APIs. Connectors\nwith the `supportDatasetCreation` label can update additional resource fields.\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sourceId",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listSourcesV1",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Source ID.",
+            "example": "2c9180835d191a86015d28455b4a2329"
+          },
+          {
+            "in": "path",
+            "name": "resourceId",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "getSourceResourcesV1",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Resource ID.",
+            "example": "account"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/sourcedatasetresource"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The resource was successfully replaced.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/sourcedatasetresource"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "patch": {
+        "operationId": "updateSourceResourceV1",
+        "security": [
+          {
+            "userAuth": [
+              "idn:sources:update",
+              "idn:source-schema:update",
+              "idn:sources:manage",
+              "idn:source-schema:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:update",
+              "idn:source-schema:update",
+              "idn:sources:manage",
+              "idn:source-schema:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ],
+        "tags": [
+          "Sources"
+        ],
+        "summary": "Update source resource (partial)",
+        "description": "Use this API to selectively update an existing resource using a JSONPatch payload.\n\n\nAfter creation, schema attribute edits should be made through the source schema APIs. Connectors\nwith the `supportDatasetCreation` label can update additional resource fields.\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sourceId",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listSourcesV1",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Source ID.",
+            "example": "2c9180835d191a86015d28455b4a2329"
+          },
+          {
+            "in": "path",
+            "name": "resourceId",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "getSourceResourcesV1",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Resource ID.",
+            "example": "account"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "The JSONPatch payload used to update the resource.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/jsonpatchoperation"
+                }
+              },
+              "examples": {
+                "replace-features": {
+                  "summary": "Replace resource features",
+                  "value": [
+                    {
+                      "op": "replace",
+                      "path": "/features",
+                      "value": [
+                        "Create",
+                        "Delete"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The resource was successfully updated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/sourcedatasetresource"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteSourceResourceV1",
+        "security": [
+          {
+            "userAuth": [
+              "idn:sources:update",
+              "idn:source-schema:delete",
+              "idn:sources:manage",
+              "idn:source-schema:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:update",
+              "idn:source-schema:delete",
+              "idn:sources:manage",
+              "idn:source-schema:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ],
+        "tags": [
+          "Sources"
+        ],
+        "summary": "Delete source resource by id",
+        "description": "Use this API to delete a resource on the specified source in Identity Security Cloud (ISC).\n\n\nThe resource schema is deleted and the resource is unlinked from any dataset rows on the source.\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sourceId",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listSourcesV1",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Source ID.",
+            "example": "2c9180835d191a86015d28455b4a2329"
+          },
+          {
+            "in": "path",
+            "name": "resourceId",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "getSourceResourcesV1",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Resource ID.",
+            "example": "account"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/204",
+            "description": "The resource was successfully deleted."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
     "/sources/v1/{sourceId}/schemas": {
       "get": {
         "operationId": "getSourceSchemasV1",
@@ -122788,6 +124342,156 @@
           }
         }
       },
+      "sourcedatasetresourceref": {
+        "type": "object",
+        "title": "Source Dataset Resource Reference",
+        "description": "Simplified resource reference associated with a source dataset.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Resource identifier.",
+            "example": "aws:iam-role"
+          },
+          "name": {
+            "type": "string",
+            "description": "Display name of the resource.",
+            "example": "Role"
+          },
+          "type": {
+            "type": "string",
+            "description": "Resource type from source schema config.",
+            "example": "std:resource"
+          }
+        }
+      },
+      "sourcedataset": {
+        "type": "object",
+        "title": "Source Dataset",
+        "description": "Dataset instance for a source. The dataset `id` is server-generated from `name` on create (`customer:` plus a normalized form of `name`); any client-supplied `id` is ignored. `aggregationEnabled` may always be updated. `name`, `description`, and `resources` can be changed only when the connector has the `supportDatasetCreation` label.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "readOnly": true,
+            "description": "Dataset identifier. Server-generated on create.",
+            "example": "cmdb-servicenow:applications"
+          },
+          "name": {
+            "type": "string",
+            "description": "Display name of the dataset. Required on create.",
+            "example": "Applications"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the dataset.",
+            "example": "CMDB application records for this source."
+          },
+          "aggregationEnabled": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether aggregation is enabled for this dataset on the source.",
+            "example": true
+          },
+          "resources": {
+            "type": "array",
+            "description": "Simplified resource references associated with this dataset.",
+            "items": {
+              "$ref": "#/components/schemas/sourcedatasetresourceref"
+            }
+          }
+        }
+      },
+      "datasetaggregationrequest": {
+        "type": "object",
+        "title": "Dataset Aggregation Request",
+        "description": "Optional request body for starting a dataset aggregation.",
+        "properties": {
+          "config": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Connector-specific aggregation configuration.",
+            "example": {
+              "region": "us-east-1"
+            }
+          }
+        }
+      },
+      "taskresultdetails-2": {
+        "type": "object",
+        "title": "Task Result Details",
+        "description": "Details of an asynchronous task started by a source dataset operation.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "System-generated unique ID of the task.",
+            "example": "ef38f94347e94562b5bb8424a56397d8"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of task this result represents.",
+            "example": "QUARTZ"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the task.",
+            "example": "Dataset Aggregation"
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the task.",
+            "example": "Aggregate from the specified dataset"
+          },
+          "launcher": {
+            "type": "string",
+            "description": "The user who initiated the task.",
+            "example": "John Doe"
+          },
+          "created": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The task creation date.",
+            "example": "2020-09-07T12:14:00.364Z"
+          },
+          "launched": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "The task start date.",
+            "example": "2020-09-07T12:14:00.521Z"
+          },
+          "completed": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "The task completion date.",
+            "example": "2020-09-07T12:14:01.137Z"
+          },
+          "completionStatus": {
+            "type": "string",
+            "nullable": true,
+            "enum": [
+              "SUCCESS",
+              "WARNING",
+              "ERROR",
+              "TERMINATED",
+              "TEMP_ERROR"
+            ],
+            "description": "Task completion status.",
+            "example": "SUCCESS"
+          },
+          "parentName": {
+            "type": "string",
+            "nullable": true,
+            "description": "Name of the parent task if one exists.",
+            "example": "Audit Report"
+          },
+          "progress": {
+            "type": "string",
+            "nullable": true,
+            "description": "Current task state.",
+            "example": "Initializing..."
+          }
+        }
+      },
       "attributedefinitiontype": {
         "type": "string",
         "enum": [
@@ -122962,6 +124666,81 @@
             "description": "The date the Schema was last modified.",
             "format": "date-time",
             "example": "2019-12-31T20:22:28.104Z"
+          }
+        }
+      },
+      "sourcedatasetresource": {
+        "type": "object",
+        "title": "Source Dataset Resource",
+        "description": "Resource definition for a source. On create, `name`, `type`, `datasetId`, and `schema` are required. The `schema` must define at least one attribute plus `identityAttribute` and `displayAttribute`. The resource `id` is always server-generated from `name` (`customer:` plus a normalized form of `name`); any client-supplied `id` is ignored. After creation, schema attribute edits are made through the source schema APIs. `datasetId` associates the resource with a dataset and is recorded in the resource schema configuration.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "readOnly": true,
+            "description": "Resource identifier. Server-generated on create.",
+            "example": "aws:iam-role"
+          },
+          "name": {
+            "type": "string",
+            "description": "Display name of the resource. Required on create.",
+            "example": "Account"
+          },
+          "features": {
+            "type": "array",
+            "description": "Feature identifiers supported by this resource.",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "Create",
+              "Delete"
+            ]
+          },
+          "type": {
+            "type": "string",
+            "description": "Resource type. Required on create.",
+            "example": "std:resource"
+          },
+          "datasetId": {
+            "type": "string",
+            "description": "Dataset identifier to associate this resource with. Required on create.",
+            "example": "cmdb-servicenow:applications"
+          },
+          "schema": {
+            "$ref": "#/components/schemas/schema",
+            "description": "CIS schema for the resource. Required on create."
+          }
+        }
+      },
+      "sourceresourcemapping": {
+        "type": "object",
+        "title": "Source Resource Mapping",
+        "description": "Aggregation metadata for a resource on a source, keyed by resource id. Each value includes the linked dataset id, resource type, and connector object type. Resources without a matching schema are omitted.",
+        "additionalProperties": {
+          "type": "object",
+          "properties": {
+            "datasetId": {
+              "type": "string",
+              "description": "Dataset identifier that owns the resource.",
+              "example": "cmdb-servicenow:applications"
+            },
+            "resourceType": {
+              "type": "string",
+              "description": "Resource type from source schema config.",
+              "example": "std:resource"
+            },
+            "objectType": {
+              "type": "string",
+              "description": "Connector object type for the resource.",
+              "example": "account"
+            }
+          }
+        },
+        "example": {
+          "aws:iam-role": {
+            "datasetId": "cmdb-servicenow:applications",
+            "resourceType": "std:resource",
+            "objectType": "account"
           }
         }
       },
