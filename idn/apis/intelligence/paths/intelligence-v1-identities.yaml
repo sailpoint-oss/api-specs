@@ -51,18 +51,24 @@ get:
     from upstream X-Total-Count when items is non-empty, and carries a next continuation URL when
     totalCount exceeds the items returned on this page. Slices are always present (empty uses
     items [] with no totalCount). privilegedAccess returns the full privileged-access result and never carries
-    next or totalCount. If any enrichment upstream fails, the whole request fails with HTTP 500,
-    except outliers, which is omitted (not an error) when the tenant lacks the IDA-outliers license
-    (upstream 401 or 403).
+    next or totalCount. When the tenant has idn:machine-identity-security, nonHumanIdentityOwnership
+    is included with agents and applications categories; each category is a flat object with
+    independently paged primaryOwned and secondaryOwned buckets, and optional message/reason when
+    upstream ownership fetch fails for that category (reason UPSTREAM_UNAVAILABLE). When the tenant
+    lacks that license, nonHumanIdentityOwnership is omitted. Continue ownership paging with
+    GET .../non-human-identity-ownership/{category} and optional ownershipRole=primary|secondary
+    (defaults to primary). If any enrichment upstream fails, the whole request fails with HTTP 500,
+    except outliers (omitted when the tenant lacks the IDA-outliers license) and
+    nonHumanIdentityOwnership category-level degrade (aggregate still returns HTTP 200).
 
     **Non-human identity envelope (type NHI)**
 
     Returns flat non-human identity fields at the top level plus correlated machine accounts on the
     aggregate and a derived block (isOrphaned, authorizedHumanIdentities, blastRadiusSummary).
-    Omits Human-only slices (privilegedAccess, outliers, accessHistory). Account paging via child
-    routes is not yet released. Opaque prefix resolution that deduplicates to one parent identity
-    returns HTTP 200 with matchConfidence partial; multiple distinct parent identities return HTTP 409
-    with IDC_IDENTITY_AMBIGUOUS and candidate id and displayName values.
+    Omits Human-only slices (privilegedAccess, outliers, accessHistory, nonHumanIdentityOwnership).
+    Account paging via child routes is not yet released. Opaque prefix resolution that deduplicates
+    to one parent identity returns HTTP 200 with matchConfidence partial; multiple distinct parent
+    identities return HTTP 409 with IDC_IDENTITY_AMBIGUOUS and candidate id and displayName values.
   parameters:
   - in: query
     name: filters

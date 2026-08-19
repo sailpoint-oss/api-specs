@@ -4,6 +4,7 @@ description: |
   The accounts, privilegedAccess, and accessHistory slices are always present (empty slices use items []).
   The outliers slice is omitted when the tenant lacks the IDA-outliers license.
   The identityGraph deep link is omitted when the tenant lacks the idg:base license.
+  The nonHumanIdentityOwnership slice is omitted when the tenant lacks idn:machine-identity-security.
 required:
   - id
   - type
@@ -79,6 +80,13 @@ properties:
     description: Omitted when the tenant lacks the idg:base license.
     allOf:
       - $ref: ./intelidentitygraphlink.yaml
+  nonHumanIdentityOwnership:
+    type: object
+    description: |
+      Omitted when the tenant lacks `idn:machine-identity-security`. When present, both `agents`
+      and `applications` always render.
+    allOf:
+      - $ref: ./intel-non-human-identity-ownership.yaml
   accounts:
     type: object
     description: First page of accounts for the identity.

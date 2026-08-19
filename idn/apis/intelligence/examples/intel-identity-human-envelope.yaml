@@ -15,6 +15,31 @@ value:
   isManager: false
   identityGraph:
     href: https://tenant.identitynow.com/ui/identity-graph?entity=human_identity&id=ef38f94347e94562b5bb8424a56397d8
+  nonHumanIdentityOwnership:
+    agents:
+      primaryOwned:
+        items:
+          - id: 2c91808874ff91550175097daaec161e
+            displayName: Example AI Agent
+            source:
+              id: 310a15aa1cf34939a8730cc16b6473da
+              name: Example Source
+              type: DelimitedFile
+        totalCount: 1
+      secondaryOwned:
+        items: []
+    applications:
+      primaryOwned:
+        items:
+          - id: 2c91808874ff91550175097daaec161f
+            displayName: Example Application
+            source:
+              id: 60de165099e649cb828553a5e8510fc4
+              name: Example Directory
+              type: DelimitedFile
+        totalCount: 1
+      secondaryOwned:
+        items: []
   accounts:
     items:
       - id: 2c91808874ff91550175097daaec161c
