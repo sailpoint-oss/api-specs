@@ -2263,8 +2263,8 @@ paths:
     $ref: "./v2025/paths/parameter-storage-parameter-id.yaml"
   /parameter-storage/parameters/{id}/references:
     $ref: "./v2025/paths/parameter-storage-parameter-id-reference.yaml"
-  /parameter-storage/specification:
-    $ref: "./v2025/paths/parameter-storage-specification.yaml"
+  /parameter-storage/specifications:
+    $ref: "./v2025/paths/parameter-storage-specifications.yaml"
   /peer-group-strategies/{strategy}/identity-outliers:
     $ref: ./v2025/paths/peer-group-strategies.yaml
   /notification-template-context:

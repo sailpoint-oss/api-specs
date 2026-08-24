@@ -73,8 +73,8 @@ paths:
     $ref: ./paths/parameter-storage-v1-parameters-by-id.yaml
   /parameter-storage/v1/parameters/{id}/references:
     $ref: ./paths/parameter-storage-v1-parameters-by-id-references.yaml
-  /parameter-storage/v1/specification:
-    $ref: ./paths/parameter-storage-v1-specification.yaml
+  /parameter-storage/v1/specifications:
+    $ref: ./paths/parameter-storage-v1-specifications.yaml
 security:
   - userAuth:
       - sp:scopes:all
