@@ -18571,6 +18571,10 @@
               "idn:identity-profile:read"
             ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "API"
         ]
       }
     },
@@ -18628,7 +18632,16 @@
             "userAuth": [
               "idn:identity-profile:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-profile:manage"
+            ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "API"
         ]
       }
     },

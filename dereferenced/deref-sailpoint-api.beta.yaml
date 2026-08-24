@@ -10028,6 +10028,7 @@ paths:
         - $ref: '#/components/parameters/count'
         - in: query
           name: filters
+          required: false
           schema:
             type: string
           description: |-
@@ -10043,6 +10044,7 @@ paths:
           example: id eq 8c190e6787aa4ed9a90bd9d5344523fb
         - in: query
           name: sorters
+          required: false
           schema:
             type: string
             format: comma-separated
@@ -10076,6 +10078,11 @@ paths:
         - userAuth:
             - idn:identity-profile:read
             - idn:identity-profile:manage
+        - applicationAuth:
+            - idn:identity-profile:read
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - API
   /identity-profiles/import:
     post:
       operationId: importIdentityProfiles
@@ -10112,6 +10119,11 @@ paths:
       security:
         - userAuth:
             - idn:identity-profile:manage
+        - applicationAuth:
+            - idn:identity-profile:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - API
   /identity-profiles/identity-preview:
     post:
       operationId: showGenerateIdentityPreview

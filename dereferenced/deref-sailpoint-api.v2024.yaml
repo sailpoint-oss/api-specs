@@ -10982,6 +10982,9 @@ paths:
             - idn:identity-profile:read
         - applicationAuth:
             - idn:identity-profile:read
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - API
   /identity-profiles/import:
     post:
       operationId: importIdentityProfiles
@@ -11018,6 +11021,11 @@ paths:
       security:
         - userAuth:
             - idn:identity-profile:manage
+        - applicationAuth:
+            - idn:identity-profile:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - API
   /identity-profiles/{identity-profile-id}:
     get:
       operationId: getIdentityProfile

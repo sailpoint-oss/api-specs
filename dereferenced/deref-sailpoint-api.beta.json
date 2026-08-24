@@ -12850,6 +12850,7 @@
           {
             "in": "query",
             "name": "filters",
+            "required": false,
             "schema": {
               "type": "string"
             },
@@ -12859,6 +12860,7 @@
           {
             "in": "query",
             "name": "sorters",
+            "required": false,
             "schema": {
               "type": "string",
               "format": "comma-separated"
@@ -12906,7 +12908,16 @@
               "idn:identity-profile:read",
               "idn:identity-profile:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-profile:read"
+            ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "API"
         ]
       }
     },
@@ -12964,7 +12975,16 @@
             "userAuth": [
               "idn:identity-profile:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-profile:manage"
+            ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "API"
         ]
       }
     },
