@@ -66,3 +66,6 @@ get:
     - idn:identity-profile:read
   - applicationAuth:
     - idn:identity-profile:read
+  x-sailpoint-userLevels:
+  - ORG_ADMIN
+  - API
