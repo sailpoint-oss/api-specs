@@ -23268,11 +23268,14 @@ components:
       properties:
         value:
           type: string
-          description: Technical name of the Attribute value. This is unique and cannot be changed after creation.
+          pattern: ^[a-zA-Z0-9]([a-zA-Z0-9_-]*[a-zA-Z0-9])?$
+          maxLength: 255
+          description: Technical name of the Attribute value. This is unique and cannot be changed after creation. Allowed characters are letters, numbers, dashes (-), and underscores (_); the value cannot start or end with a dash or underscore.
           example: public
         name:
           type: string
-          description: The display name of the Attribute value.
+          maxLength: 100
+          description: 'The display name of the Attribute value. Allowed characters are letters, numbers, whitespace, and the following special characters: . / | , ( ) & _ -'
           example: Public
         status:
           type: string
@@ -23291,11 +23294,14 @@ components:
       properties:
         key:
           type: string
-          description: Technical name of the Attribute. This is unique and cannot be changed after creation.
+          pattern: ^[a-zA-Z0-9]([a-zA-Z0-9_-]*[a-zA-Z0-9])?$
+          maxLength: 255
+          description: Technical name of the Attribute. This is unique and cannot be changed after creation. Allowed characters are letters, numbers, dashes (-), and underscores (_); the value cannot start or end with a dash or underscore.
           example: iscPrivacy
         name:
           type: string
-          description: The display name of the key.
+          maxLength: 100
+          description: 'The display name of the key. Allowed characters are letters, numbers, whitespace, and the following special characters: . / | , ( ) & _ -'
           example: Privacy
         multiselect:
           type: boolean
@@ -23326,7 +23332,8 @@ components:
             - entitlement
         description:
           type: string
-          description: The description of the Attribute.
+          maxLength: 500
+          description: 'The description of the Attribute. Allowed characters are letters, numbers, whitespace, and the following special characters: . / | , ( ) & _ : -'
           example: Specifies the level of privacy associated with an access item.
         values:
           type: array

@@ -46,7 +46,7 @@
   "tags": [
     {
       "name": "Access Model Metadata",
-      "description": "Use this API to create and manage metadata attributes for your Access Model.\nAccess Model Metadata allows you to add contextual information to your ISC Access Model items using pre-defined metadata for risk, regulations, privacy levels, etc., or by creating your own metadata attributes to reflect the unique needs of your organization. This release of the API includes support for entitlement metadata. Support for role and access profile metadata will be introduced in a subsequent release.\n\nCommon usages for Access Model metadata include:\n\n- Organizing and categorizing access items to make it easier for your users to search for and find the access rights they want to request, certify, or manage.\n\n- Providing richer information about access that is being acted on to allow stakeholders to make better decisions when approving, certifying, or managing access rights.\n\n- Identifying access that may requires additional approval requirements or be subject to more frequent review.\n"
+      "description": "Use this API to create and manage metadata attributes for your Access Model.\nAccess Model Metadata allows you to add contextual information to your ISC Access Model items using pre-defined metadata for risk, regulations, privacy levels, etc., or by creating your own metadata attributes to reflect the unique needs of your organization. This release of the API includes support for entitlement, role, and access profile metadata.\n\nCommon usages for Access Model metadata include:\n\n- Organizing and categorizing access items to make it easier for your users to search for and find the access rights they want to request, certify, or manage.\n\n- Providing richer information about access that is being acted on to allow stakeholders to make better decisions when approving, certifying, or managing access rights.\n\n- Identifying access that may requires additional approval requirements or be subject to more frequent review.\n"
     },
     {
       "name": "Access Profiles",
@@ -476,7 +476,7 @@
     "/access-model-metadata/v1/attributes": {
       "get": {
         "summary": "List access model metadata attributes",
-        "description": "Get a list of Access Model Metadata Attributes",
+        "description": "Get a list of Access Model Metadata Attributes. Supports pagination through limit and offset parameters.",
         "tags": [
           "Access Model Metadata"
         ],
@@ -507,7 +507,7 @@
             },
             "example": "name eq \"Privacy\"",
             "required": false,
-            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**key**: *eq*\n\n**name**: *eq*\n\n**type**: *eq*\n\n**status**: *eq*\n\n**objectTypes**: *eq*\n\nSupported composite operators are *and, or*"
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**key**: *eq, co*\n\n**name**: *eq, co*\n\n**type**: *eq*\n\n**status**: *eq*\n\n**objectTypes**: *eq*\n\nSupported composite operators are *and, or*"
           },
           {
             "in": "query",
@@ -516,12 +516,15 @@
               "type": "string",
               "format": "comma-separated"
             },
-            "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **name, key**",
+            "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **key, name, type, status**",
             "example": "name,-key",
             "required": false
           },
           {
             "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
           },
           {
             "$ref": "#/components/parameters/count"
@@ -536,6 +539,39 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/attributedto"
+                  }
+                },
+                "examples": {
+                  "Adhoc-enabled attribute": {
+                    "description": "A paginated list containing an Adhoc-enabled Attribute",
+                    "value": [
+                      {
+                        "key": "iscPrivacy",
+                        "name": "Privacy",
+                        "multiselect": true,
+                        "isAdhoc": true,
+                        "status": "active",
+                        "type": "custom",
+                        "objectTypes": [
+                          "all"
+                        ],
+                        "description": "Specifies the level of privacy associated with an access item.",
+                        "values": [
+                          {
+                            "value": "public",
+                            "name": "Public",
+                            "status": "active",
+                            "type": "static"
+                          },
+                          {
+                            "value": "restricted-42",
+                            "name": "Restricted 42",
+                            "status": "active",
+                            "type": "adhoc"
+                          }
+                        ]
+                      }
+                    ]
                   }
                 }
               }
@@ -563,7 +599,7 @@
       },
       "post": {
         "summary": "Create access model metadata attribute",
-        "description": "Create a new Access Model Metadata Attribute.\n",
+        "description": "Create a new Access Model Metadata Attribute.\n\nThe **isAdhoc** field can be set on creation to indicate whether the Attribute supports ad-hoc\n(dynamically created) values in addition to static values; if omitted, it defaults to *false*.\n\nAny **values** provided at creation time must each have a *type* of *static* (or omit/leave *type*\nblank); *adhoc* is not an allowed value on this public API and results in a *400* error. Ad-hoc\nvalues are created dynamically through an internal service-to-service flow, not through this API.\n",
         "operationId": "createAccessModelMetadataAttributeV1",
         "tags": [
           "Access Model Metadata"
@@ -590,6 +626,30 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/attributedto"
+              },
+              "examples": {
+                "Adhoc-enabled attribute": {
+                  "description": "Create an Attribute that supports ad-hoc values, with an initial static value",
+                  "value": {
+                    "key": "iscPrivacy",
+                    "name": "Privacy",
+                    "multiselect": false,
+                    "isAdhoc": true,
+                    "type": "custom",
+                    "objectTypes": [
+                      "all"
+                    ],
+                    "description": "Specifies the level of privacy associated with an access item.",
+                    "values": [
+                      {
+                        "value": "public",
+                        "name": "Public",
+                        "status": "active",
+                        "type": "static"
+                      }
+                    ]
+                  }
+                }
               }
             }
           }
@@ -694,7 +754,7 @@
       },
       "patch": {
         "summary": "Update access model metadata attribute",
-        "description": "Update an existing Access Model Metadata Attribute.  \nThe following fields are patchable: **name**, **description**, **multiselect**, **values**\n",
+        "description": "Update an existing Access Model Metadata Attribute.  \nThe following fields are patchable: **name**, **description**, **multiselect**, **isAdhoc**, **values**\n",
         "operationId": "updateAccessModelMetadataAttributeV1",
         "tags": [
           "Access Model Metadata"
@@ -771,12 +831,81 @@
             "$ref": "#/components/responses/500"
           }
         }
+      },
+      "delete": {
+        "summary": "Delete access model metadata attribute",
+        "description": "Delete an existing Access Model Metadata Attribute and all of its values.\n",
+        "operationId": "deleteAccessModelMetadataAttributeV1",
+        "tags": [
+          "Access Model Metadata"
+        ],
+        "security": [
+          {
+            "userAuth": [
+              "idn:access-model-metadata:delete"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:access-model-metadata:delete"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listAccessModelMetadataAttributeV1",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Technical name of the Attribute.",
+            "example": "iscPrivacy"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Attribute deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/trackerkeydto"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "410": {
+            "$ref": "#/components/responses/410"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
       }
     },
     "/access-model-metadata/v1/attributes/{key}/values": {
       "get": {
         "summary": "List access model metadata values",
-        "description": "Get a list of Access Model Metadata Attribute Values",
+        "description": "Get a list of Access Model Metadata Attribute Values. Supports pagination through limit and offset parameters.",
         "tags": [
           "Access Model Metadata"
         ],
@@ -811,7 +940,31 @@
             "example": "iscPrivacy"
           },
           {
+            "in": "query",
+            "name": "filters",
+            "schema": {
+              "type": "string"
+            },
+            "example": "name eq \"Public\"",
+            "required": false,
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**value**: *eq, co*\n\n**name**: *eq, co*\n\n**status**: *eq*\n\n**type**: *eq*\n\nSupported composite operators are *and, or*"
+          },
+          {
+            "in": "query",
+            "name": "sorters",
+            "schema": {
+              "type": "string",
+              "format": "comma-separated"
+            },
+            "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **value, name, status, type**",
+            "example": "name,-value",
+            "required": false
+          },
+          {
             "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
           },
           {
             "$ref": "#/components/parameters/count"
@@ -826,6 +979,25 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/attributevaluedto"
+                  }
+                },
+                "examples": {
+                  "Paginated static and adhoc values": {
+                    "description": "A paginated page of values for an Adhoc-enabled Attribute",
+                    "value": [
+                      {
+                        "value": "public",
+                        "name": "Public",
+                        "status": "active",
+                        "type": "static"
+                      },
+                      {
+                        "value": "restricted-42",
+                        "name": "Restricted 42",
+                        "status": "active",
+                        "type": "adhoc"
+                      }
+                    ]
                   }
                 }
               }
@@ -853,7 +1025,7 @@
       },
       "post": {
         "summary": "Create access model metadata value",
-        "description": "Create a new value for an existing Access Model Metadata Attribute.    \n",
+        "description": "Create a new value for an existing Access Model Metadata Attribute.\n\nThe **type** field must be omitted, blank, or *static* (case-insensitive); *adhoc* is not an\nallowed value on this public API and results in a *400* error. Ad-hoc values are created\ndynamically through an internal service-to-service flow when the parent Attribute has *isAdhoc*\nset to *true*, not through this API.\n",
         "operationId": "createAccessModelMetadataAttributeValueV1",
         "tags": [
           "Access Model Metadata"
@@ -893,6 +1065,17 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/attributevaluedto"
+              },
+              "examples": {
+                "Static value": {
+                  "description": "Create a static value; type may also be omitted or left blank",
+                  "value": {
+                    "value": "public",
+                    "name": "Public",
+                    "status": "active",
+                    "type": "static"
+                  }
+                }
               }
             }
           }
@@ -909,7 +1092,30 @@
             }
           },
           "400": {
-            "$ref": "#/components/responses/400"
+            "description": "Client Error - Returned if the request body is invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorresponsedto"
+                },
+                "examples": {
+                  "400.1 Bad request content": {
+                    "description": "Response when an unsupported type (e.g. \"adhoc\") is sent to this public API",
+                    "value": {
+                      "detailCode": "400.1 Bad request content",
+                      "trackingId": "1ea1adcb84da4dcb890145e05745774e",
+                      "messages": [
+                        {
+                          "locale": "en-US",
+                          "localeOrigin": "DEFAULT",
+                          "text": "The request was syntactically correct but its content is semantically invalid."
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
           },
           "401": {
             "$ref": "#/components/responses/401"
@@ -1091,6 +1297,86 @@
           },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete access model metadata value",
+        "description": "Delete an existing Access Model Metadata Attribute Value.\n",
+        "operationId": "deleteAccessModelMetadataAttributeValueV1",
+        "tags": [
+          "Access Model Metadata"
+        ],
+        "security": [
+          {
+            "userAuth": [
+              "idn:access-model-metadata:delete"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:access-model-metadata:delete"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listAccessModelMetadataAttributeV1",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Technical name of the Attribute.",
+            "example": "iscPrivacy"
+          },
+          {
+            "name": "value",
+            "in": "path",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listAccessModelMetadataAttributeValueV1",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Technical name of the Attribute value.",
+            "example": "public"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Attribute value deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/trackervaluedto"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "410": {
+            "$ref": "#/components/responses/410"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -81861,17 +82147,6 @@
           "default": 250
         }
       },
-      "count": {
-        "in": "query",
-        "name": "count",
-        "description": "If *true* it will populate the *X-Total-Count* response header with the number of results that would be returned if *limit* and *offset* were ignored.\n\nSince requesting a total count can have a performance impact, it is recommended not to send **count=true** if that value will not be used.\n\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
-        "required": false,
-        "example": true,
-        "schema": {
-          "type": "boolean",
-          "default": false
-        }
-      },
       "offset": {
         "in": "query",
         "name": "offset",
@@ -81883,6 +82158,17 @@
           "format": "int32",
           "minimum": 0,
           "default": 0
+        }
+      },
+      "count": {
+        "in": "query",
+        "name": "count",
+        "description": "If *true* it will populate the *X-Total-Count* response header with the number of results that would be returned if *limit* and *offset* were ignored.\n\nSince requesting a total count can have a performance impact, it is recommended not to send **count=true** if that value will not be used.\n\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+        "required": false,
+        "example": true,
+        "schema": {
+          "type": "boolean",
+          "default": false
         }
       },
       "limit50": {
@@ -82040,18 +82326,31 @@
         "properties": {
           "value": {
             "type": "string",
-            "description": "Technical name of the Attribute value. This is unique and cannot be changed after creation.",
+            "pattern": "^[a-zA-Z0-9]([a-zA-Z0-9_-]*[a-zA-Z0-9])?$",
+            "maxLength": 255,
+            "description": "Technical name of the Attribute value. This is unique and cannot be changed after creation. Allowed characters are letters, numbers, dashes (-), and underscores (_); the value cannot start or end with a dash or underscore.",
             "example": "public"
           },
           "name": {
             "type": "string",
-            "description": "The display name of the Attribute value.",
+            "maxLength": 100,
+            "description": "The display name of the Attribute value. Allowed characters are letters, numbers, whitespace, and the following special characters: . / | , ( ) & _ -",
             "example": "Public"
           },
           "status": {
             "type": "string",
             "description": "The status of the Attribute value.",
             "example": "active"
+          },
+          "type": {
+            "type": "string",
+            "nullable": true,
+            "enum": [
+              "static",
+              "adhoc"
+            ],
+            "description": "Indicates how this Attribute value was created. static values are pre-defined and created directly through this API. adhoc values are created dynamically through an internal service-to-service flow when the parent Attribute has isAdhoc set to true, and cannot be created directly through the public create-value API.",
+            "example": "static"
           }
         }
       },
@@ -82060,18 +82359,28 @@
         "properties": {
           "key": {
             "type": "string",
-            "description": "Technical name of the Attribute. This is unique and cannot be changed after creation.",
+            "pattern": "^[a-zA-Z0-9]([a-zA-Z0-9_-]*[a-zA-Z0-9])?$",
+            "maxLength": 255,
+            "description": "Technical name of the Attribute. This is unique and cannot be changed after creation. Allowed characters are letters, numbers, dashes (-), and underscores (_); the value cannot start or end with a dash or underscore.",
             "example": "iscPrivacy"
           },
           "name": {
             "type": "string",
-            "description": "The display name of the key.",
+            "maxLength": 100,
+            "description": "The display name of the key. Allowed characters are letters, numbers, whitespace, and the following special characters: . / | , ( ) & _ -",
             "example": "Privacy"
           },
           "multiselect": {
             "type": "boolean",
             "default": false,
             "description": "Indicates whether the attribute can have multiple values.",
+            "example": false
+          },
+          "isAdhoc": {
+            "type": "boolean",
+            "nullable": true,
+            "default": false,
+            "description": "Indicates whether this Attribute supports ad-hoc (dynamically created) values, in addition to pre-defined static values. Ad-hoc values are created dynamically through an internal service-to-service flow rather than through the public create-value API. This field can be set when creating an Attribute; if omitted, it defaults to false.",
             "example": false
           },
           "status": {
@@ -82097,7 +82406,8 @@
           },
           "description": {
             "type": "string",
-            "description": "The description of the Attribute.",
+            "maxLength": 500,
+            "description": "The description of the Attribute. Allowed characters are letters, numbers, whitespace, and the following special characters: . / | , ( ) & _ : -",
             "example": "Specifies the level of privacy associated with an access item."
           },
           "values": {
@@ -82167,6 +82477,46 @@
             "items": {
               "$ref": "#/components/schemas/errormessagedto"
             }
+          }
+        }
+      },
+      "trackerkeydto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "ID of the tracker created to record this delete operation.",
+            "example": "2c9180867817ac4d017817c491119a20"
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of object being tracked.",
+            "example": "metadata-attribute"
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of the delete operation.",
+            "example": "DELETING"
+          },
+          "errors": {
+            "type": "array",
+            "nullable": true,
+            "description": "Any errors encountered while processing the delete operation.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "created": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The time the delete operation was initiated.",
+            "example": "2020-10-08T18:33:52.029Z"
+          },
+          "key": {
+            "type": "string",
+            "nullable": true,
+            "description": "Technical name of the deleted Attribute.",
+            "example": "iscPrivacy"
           }
         }
       },
@@ -82248,6 +82598,45 @@
             ],
             "description": "The value to be used for the operation, required for \"add\" and \"replace\" operations",
             "example": "New description"
+          }
+        }
+      },
+      "trackervaluedto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "ID of the tracker created to record this delete operation.",
+            "example": "2c9180867817ac4d017817c491119a20"
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of object being tracked.",
+            "example": "value"
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of the delete operation.",
+            "example": "DELETING"
+          },
+          "errors": {
+            "type": "array",
+            "nullable": true,
+            "description": "Any errors encountered while processing the delete operation.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "created": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The time the delete operation was initiated.",
+            "example": "2020-10-08T18:33:52.029Z"
+          },
+          "value": {
+            "type": "string",
+            "description": "Technical name of the deleted Attribute value.",
+            "example": "public"
           }
         }
       },
@@ -135972,6 +136361,32 @@
                       }
                     }
                   }
+                }
+              }
+            }
+          }
+        }
+      },
+      "410": {
+        "description": "Gone - returned if the requested operation is not yet available for your tenant because the underlying capability is still being rolled out.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/errorresponsedto"
+            },
+            "examples": {
+              "410": {
+                "summary": "An example of a 410 response object",
+                "value": {
+                  "detailCode": "410 Gone",
+                  "trackingId": "b21b1f7ce4da4d639f2c62a57171b427",
+                  "messages": [
+                    {
+                      "locale": "en-US",
+                      "localeOrigin": "DEFAULT",
+                      "text": "The requested operation is not yet available for your tenant."
+                    }
+                  ]
                 }
               }
             }

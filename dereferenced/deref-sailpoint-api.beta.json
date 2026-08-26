@@ -46,7 +46,7 @@
   "tags": [
     {
       "name": "Access Model Metadata",
-      "description": "Use this API to create and manage metadata attributes for your Access Model.\nAccess Model Metadata allows you to add contextual information to your ISC Access Model items using pre-defined metadata for risk, regulations, privacy levels, etc., or by creating your own metadata attributes to reflect the unique needs of your organization. This release of the API includes support for entitlement metadata. Support for role and access profile metadata will be introduced in a subsequent release.\n\nCommon usages for Access Model metadata include:\n\n- Organizing and categorizing access items to make it easier for your users to search for and find the access rights they want to request, certify, or manage.\n\n- Providing richer information about access that is being acted on to allow stakeholders to make better decisions when approving, certifying, or managing access rights.\n\n- Identifying access that may requires additional approval requirements or be subject to more frequent review.\n"
+      "description": "Use this API to create and manage metadata attributes for your Access Model.\nAccess Model Metadata allows you to add contextual information to your ISC Access Model items using pre-defined metadata for risk, regulations, privacy levels, etc., or by creating your own metadata attributes to reflect the unique needs of your organization. This release of the API includes support for entitlement, role, and access profile metadata.\n\nCommon usages for Access Model metadata include:\n\n- Organizing and categorizing access items to make it easier for your users to search for and find the access rights they want to request, certify, or manage.\n\n- Providing richer information about access that is being acted on to allow stakeholders to make better decisions when approving, certifying, or managing access rights.\n\n- Identifying access that may requires additional approval requirements or be subject to more frequent review.\n"
     },
     {
       "name": "Access Profiles",
@@ -687,6 +687,75 @@
             "$ref": "#/components/responses/500"
           }
         }
+      },
+      "delete": {
+        "summary": "Delete access model metadata attribute",
+        "description": "Delete an existing Access Model Metadata Attribute and all of its values.\n",
+        "operationId": "deleteAccessModelMetadataAttribute",
+        "tags": [
+          "Access Model Metadata"
+        ],
+        "security": [
+          {
+            "userAuth": [
+              "idn:access-model-metadata:delete"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:access-model-metadata:delete"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "description": "Technical name of the Attribute.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "iscPrivacy",
+            "x-sailpoint-resource-operation-id": "listAccessModelMetadataAttribute"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Attribute deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrackerKeyDTO"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "410": {
+            "$ref": "#/components/responses/410"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
       }
     },
     "/access-model-metadata/attributes/{key}/values": {
@@ -1084,6 +1153,86 @@
           },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete access model metadata value",
+        "description": "Delete an existing Access Model Metadata Attribute Value.\n",
+        "operationId": "deleteAccessModelMetadataAttributeValue",
+        "tags": [
+          "Access Model Metadata"
+        ],
+        "security": [
+          {
+            "userAuth": [
+              "idn:access-model-metadata:delete"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:access-model-metadata:delete"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Technical name of the Attribute.",
+            "example": "iscPrivacy",
+            "x-sailpoint-resource-operation-id": "listAccessModelMetadataAttribute"
+          },
+          {
+            "name": "value",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Technical name of the Attribute value.",
+            "example": "public",
+            "x-sailpoint-resource-operation-id": "listAccessModelMetadataAttributeValue"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Attribute value deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrackerValueDTO"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "410": {
+            "$ref": "#/components/responses/410"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -50422,12 +50571,15 @@
         "properties": {
           "value": {
             "type": "string",
-            "description": "Technical name of the Attribute value. This is unique and cannot be changed after creation.",
+            "pattern": "^[a-zA-Z0-9]([a-zA-Z0-9_-]*[a-zA-Z0-9])?$",
+            "maxLength": 255,
+            "description": "Technical name of the Attribute value. This is unique and cannot be changed after creation. Allowed characters are letters, numbers, dashes (-), and underscores (_); the value cannot start or end with a dash or underscore.",
             "example": "public"
           },
           "name": {
             "type": "string",
-            "description": "The display name of the Attribute value.",
+            "maxLength": 100,
+            "description": "The display name of the Attribute value. Allowed characters are letters, numbers, whitespace, and the following special characters: . / | , ( ) & _ -",
             "example": "Public"
           },
           "status": {
@@ -50452,12 +50604,15 @@
         "properties": {
           "key": {
             "type": "string",
-            "description": "Technical name of the Attribute. This is unique and cannot be changed after creation.",
+            "pattern": "^[a-zA-Z0-9]([a-zA-Z0-9_-]*[a-zA-Z0-9])?$",
+            "maxLength": 255,
+            "description": "Technical name of the Attribute. This is unique and cannot be changed after creation. Allowed characters are letters, numbers, dashes (-), and underscores (_); the value cannot start or end with a dash or underscore.",
             "example": "iscPrivacy"
           },
           "name": {
             "type": "string",
-            "description": "The display name of the key.",
+            "maxLength": 100,
+            "description": "The display name of the key. Allowed characters are letters, numbers, whitespace, and the following special characters: . / | , ( ) & _ -",
             "example": "Privacy"
           },
           "multiselect": {
@@ -50496,7 +50651,8 @@
           },
           "description": {
             "type": "string",
-            "description": "The description of the Attribute.",
+            "maxLength": 500,
+            "description": "The description of the Attribute. Allowed characters are letters, numbers, whitespace, and the following special characters: . / | , ( ) & _ : -",
             "example": "Specifies the level of privacy associated with an access item."
           },
           "values": {
@@ -50566,6 +50722,46 @@
             "items": {
               "$ref": "#/components/schemas/ErrorMessageDto"
             }
+          }
+        }
+      },
+      "TrackerKeyDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "ID of the tracker created to record this delete operation.",
+            "example": "2c9180867817ac4d017817c491119a20"
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of object being tracked.",
+            "example": "metadata-attribute"
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of the delete operation.",
+            "example": "DELETING"
+          },
+          "errors": {
+            "type": "array",
+            "nullable": true,
+            "description": "Any errors encountered while processing the delete operation.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "created": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The time the delete operation was initiated.",
+            "example": "2020-10-08T18:33:52.029Z"
+          },
+          "key": {
+            "type": "string",
+            "nullable": true,
+            "description": "Technical name of the deleted Attribute.",
+            "example": "iscPrivacy"
           }
         }
       },
@@ -50647,6 +50843,45 @@
             ],
             "description": "The value to be used for the operation, required for \"add\" and \"replace\" operations",
             "example": "New description"
+          }
+        }
+      },
+      "TrackerValueDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "ID of the tracker created to record this delete operation.",
+            "example": "2c9180867817ac4d017817c491119a20"
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of object being tracked.",
+            "example": "value"
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of the delete operation.",
+            "example": "DELETING"
+          },
+          "errors": {
+            "type": "array",
+            "nullable": true,
+            "description": "Any errors encountered while processing the delete operation.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "created": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The time the delete operation was initiated.",
+            "example": "2020-10-08T18:33:52.029Z"
+          },
+          "value": {
+            "type": "string",
+            "description": "Technical name of the deleted Attribute value.",
+            "example": "public"
           }
         }
       },
@@ -81352,6 +81587,32 @@
                   "type": "string",
                   "description": "Unique tracking id for the error.",
                   "example": "e7eab60924f64aa284175b9fa3309599"
+                }
+              }
+            }
+          }
+        }
+      },
+      "410": {
+        "description": "Gone - Returned if the requested operation is not yet available for your tenant because the underlying capability is still being rolled out.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponseDto"
+            },
+            "examples": {
+              "410": {
+                "summary": "An example of a 410 response object",
+                "value": {
+                  "detailCode": "410 Gone",
+                  "trackingId": "b21b1f7ce4da4d639f2c62a57171b427",
+                  "messages": [
+                    {
+                      "locale": "en-US",
+                      "localeOrigin": "DEFAULT",
+                      "text": "The requested operation is not yet available for your tenant."
+                    }
+                  ]
                 }
               }
             }
