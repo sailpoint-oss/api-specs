@@ -94,3 +94,48 @@ patch:
       $ref: ../responses/429.yaml
     '500':
       $ref: ../responses/500.yaml
+
+delete:
+  summary: Delete access model metadata attribute
+  description: |
+    Delete an existing Access Model Metadata Attribute and all of its values.
+  operationId: deleteAccessModelMetadataAttribute
+  tags:
+    - Access Model Metadata
+  security:
+    - userAuth:
+        - idn:access-model-metadata:delete
+    - applicationAuth:
+        - idn:access-model-metadata:delete
+  x-sailpoint-userLevels:
+    - ORG_ADMIN
+  parameters:
+    - name: key
+      in: path
+      required: true
+      x-sailpoint-resource-operation-id: listAccessModelMetadataAttribute
+      schema:
+        type: string
+      description: Technical name of the Attribute.
+      example: iscPrivacy
+  responses:
+    '200':
+      description: OK - Attribute deleted successfully
+      content:
+        application/json:
+          schema:
+            $ref: ../schemas/gov-attributes/TrackerKeyDTO.yaml
+    '400':
+      $ref: ../responses/400.yaml
+    '401':
+      $ref: ../responses/401.yaml
+    '403':
+      $ref: ../responses/403.yaml
+    '404':
+      $ref: ../responses/404.yaml
+    '410':
+      $ref: ../responses/410.yaml
+    '429':
+      $ref: ../responses/429.yaml
+    '500':
+      $ref: ../responses/500.yaml

@@ -2,13 +2,19 @@ type: "object"
 properties:
   key:
     type: "string"
+    pattern: '^[a-zA-Z0-9]([a-zA-Z0-9_-]*[a-zA-Z0-9])?$'
+    maxLength: 255
     description: >- 
       Technical name of the Attribute. This is unique and cannot be changed after creation.
+      Allowed characters are letters, numbers, dashes (-), and underscores (_); the value cannot
+      start or end with a dash or underscore.
     example: "iscPrivacy"
   name:
     type: "string"
+    maxLength: 100
     description: >-
-      The display name of the key.
+      The display name of the key. Allowed characters are letters, numbers, whitespace, and the
+      following special characters: . / | , ( ) & _ -
     example: "Privacy"
   multiselect:
     type: "boolean"
@@ -47,8 +53,10 @@ properties:
     example: ["entitlement"]
   description:
     type: "string"
+    maxLength: 500
     description: >-
-      The description of the Attribute.
+      The description of the Attribute. Allowed characters are letters, numbers, whitespace, and
+      the following special characters: . / | , ( ) & _ : -
     example: "Specifies the level of privacy associated with an access item."
   values:
     type: "array"

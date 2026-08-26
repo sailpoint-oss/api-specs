@@ -45,7 +45,7 @@ patch:
   summary: Update access model metadata attribute
   description: |
     Update an existing Access Model Metadata Attribute.  
-    The following fields are patchable: **name**, **description**, **multiselect**, **values**
+    The following fields are patchable: **name**, **description**, **multiselect**, **isAdhoc**, **values**
   operationId: updateAccessModelMetadataAttributeV1
   tags:
   - Access Model Metadata
@@ -89,6 +89,50 @@ patch:
       $ref: ../../shared/responses/403.yaml
     '404':
       $ref: ../../shared/responses/404.yaml
+    '429':
+      $ref: ../../shared/responses/429.yaml
+    '500':
+      $ref: ../../shared/responses/500.yaml
+delete:
+  summary: Delete access model metadata attribute
+  description: |
+    Delete an existing Access Model Metadata Attribute and all of its values.
+  operationId: deleteAccessModelMetadataAttributeV1
+  tags:
+  - Access Model Metadata
+  security:
+  - userAuth:
+    - idn:access-model-metadata:delete
+  - applicationAuth:
+    - idn:access-model-metadata:delete
+  x-sailpoint-userLevels:
+  - ORG_ADMIN
+  parameters:
+  - name: key
+    in: path
+    required: true
+    x-sailpoint-resource-operation-id: listAccessModelMetadataAttributeV1
+    schema:
+      type: string
+    description: Technical name of the Attribute.
+    example: iscPrivacy
+  responses:
+    '200':
+      description: OK - Attribute deleted successfully
+      content:
+        application/json:
+          schema:
+            $ref: ../schemas/trackerkeydto.yaml
+    '400':
+      $ref: ../../shared/responses/400.yaml
+    '401':
+      $ref: ../../shared/responses/401.yaml
+    '403':
+      $ref: ../../shared/responses/403.yaml
+    '404':
+      $ref: ../../shared/responses/404.yaml
+    '410':
+      $ref: ../../shared/responses/410.yaml
     '429':
       $ref: ../../shared/responses/429.yaml
     '500':
