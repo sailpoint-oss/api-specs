@@ -57418,18 +57418,10 @@
             "description": "Filters the results to the specified type/types, where each type is one of `ROLE` or `ACCESS_PROFILE`. If absent, all types are returned. SailPoint may add support for additional types in the future without notice.",
             "required": false,
             "schema": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "enum": [
-                  "ACCESS_PROFILE",
-                  "ROLE"
-                ],
-                "description": "Currently supported requestable object types."
-              }
+              "type": "string",
+              "format": "comma-separated"
             },
-            "example": "ACCESS_PROFILE,ROLE",
-            "explode": false
+            "example": "ACCESS_PROFILE,ROLE"
           },
           {
             "in": "query",
@@ -57447,16 +57439,10 @@
             "description": "Filters the result to the specified status/statuses, where each status is one of `AVAILABLE`, `ASSIGNED`, or `PENDING`. Specifying this parameter without also specifying an `identity-id` parameter results in an error.  SailPoint may add additional statuses in the future without notice.",
             "required": false,
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/requestableobjectrequeststatus"
-              }
+              "type": "string",
+              "format": "comma-separated"
             },
-            "explode": false,
-            "example": [
-              "ASSIGNED",
-              "PENDING"
-            ]
+            "example": "ASSIGNED,PENDING"
           },
           {
             "$ref": "#/components/parameters/limit"
