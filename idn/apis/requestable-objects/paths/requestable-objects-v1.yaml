@@ -37,15 +37,9 @@ get:
       absent, all types are returned. SailPoint may add support for additional types in the future without notice.
     required: false
     schema:
-      type: array
-      items:
-        type: string
-        enum:
-        - ACCESS_PROFILE
-        - ROLE
-        description: Currently supported requestable object types.
+      type: string
+      format: comma-separated
     example: ACCESS_PROFILE,ROLE
-    explode: false
   - in: query
     name: term
     required: false
@@ -62,13 +56,9 @@ get:
       `PENDING`. Specifying this parameter without also specifying an `identity-id` parameter results in an error.  SailPoint may add additional statuses in the future without notice.
     required: false
     schema:
-      type: array
-      items:
-        $ref: ../schemas/requestableobjectrequeststatus.yaml
-    explode: false
-    example:
-    - ASSIGNED
-    - PENDING
+      type: string
+      format: comma-separated
+    example: ASSIGNED,PENDING
   - $ref: ../../shared/parameters/limit.yaml
   - $ref: ../../shared/parameters/offset.yaml
   - $ref: ../../shared/parameters/count.yaml
