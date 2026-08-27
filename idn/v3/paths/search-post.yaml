@@ -21,7 +21,6 @@ post:
     - SOURCE_SUBADMIN
     - ROLE_ADMIN
     - ROLE_SUBADMIN
-    - HELPDESK
   summary: "Perform search"
   parameters:
   - $ref: '../parameters/offset.yaml'

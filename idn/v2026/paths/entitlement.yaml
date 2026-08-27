@@ -25,7 +25,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: ../schemas/Entitlement.yaml
+            $ref: ../schemas/EntitlementV2.yaml
           example:
             sourceSchemaObjectType: group
             attribute: memberOf
@@ -185,7 +185,7 @@ patch:
       content:
         application/json:
           schema:
-            $ref: ../schemas/Entitlement.yaml
+            $ref: ../schemas/EntitlementV2.yaml
     '400':
       $ref: ../responses/400.yaml
     '401':

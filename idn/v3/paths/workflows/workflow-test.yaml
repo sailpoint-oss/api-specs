@@ -15,6 +15,8 @@ post:
     This endpoint will return an execution ID, which can be used to lookup more information about the execution using the `Get a Workflow Execution` endpoint.
 
     **This will cause a live run of the workflow, which could result in unintended modifications to your IDN tenant.**
+
+    This endpoint has a rate limit of 5 requests per 10 seconds.
   security:
     - userAuth: [sp:workflow-execute:external]
   x-sailpoint-userLevels:

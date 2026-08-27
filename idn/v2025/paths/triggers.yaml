@@ -31,14 +31,6 @@ get:
 
         Sorting is supported for the following fields: **id, name**
       example: name
-    - name: X-SailPoint-Experimental
-      in: header
-      description: Use this header to enable this experimental API.
-      example: true
-      schema:
-        type: string
-        default: true
-      required: true
   responses:
     '200':
       description: List of triggers.
@@ -63,3 +55,5 @@ get:
         - sp:trigger-service-subscriptions:read
     - applicationAuth:
         - sp:trigger-service-subscriptions:read
+  x-sailpoint-userLevels:
+    - ORG_ADMIN

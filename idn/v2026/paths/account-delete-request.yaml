@@ -1,7 +1,7 @@
 post:
   operationId: deleteAccountRequest
   tags:
-    - Delete account
+    - Account Deletion Requests
   summary: Delete account
   description: |-
     Initiates an account deletion request for the specified account.
@@ -17,14 +17,6 @@ post:
     - SOURCE_SUBADMIN
     - USER
   parameters:
-    - in: header
-      name: X-SailPoint-Experimental
-      description: Use this header to enable this experimental API.
-      example: true
-      schema:
-        type: string
-        default: true
-      required: true
     - in: path
       name: accountId
       schema:
@@ -47,7 +39,7 @@ post:
       content:
         application/json:
           schema:
-            $ref: ../schemas/AccountDeleteAsyncResult.yaml
+            $ref: ../schemas/AccountRequestAsyncResult.yaml
           example:
             accountRequestId: 2d81808474683da6017468693c260196
     '400':

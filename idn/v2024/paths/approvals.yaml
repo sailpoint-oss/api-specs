@@ -4,6 +4,8 @@ get:
         - idn:access-request-approvals:read
         - idn:access-request-administration:read
         - idn:access-request-approvals:manage
+  x-sailpoint-userLevels:
+    - APPROVAL_OWNER
   operationId: getApprovals
   tags:
     - Approvals
@@ -14,18 +16,22 @@ get:
   parameters:
     - in: query
       name: mine
+      required: false
       schema:
         type: boolean
+        default: true
       description: Returns the list of approvals for the current caller
       example: 'true'
     - in: query
       name: requesterId
+      required: false
       schema:
         type: string
       description: Returns the list of approvals for a given requester ID
       example: 17e633e7d57e481569df76323169deb6a
     - in: query
       name: filters
+      required: false
       schema:
         type: string
       description: |-
@@ -37,14 +43,8 @@ get:
 
         **referenceType**: *eq*
       example: filters=status eq PENDING
-    - name: X-SailPoint-Experimental
-      in: header
-      description: Use this header to enable this experimental API.
-      example: true
-      schema:
-        type: string
-        default: true
-      required: true
+    - $ref: ../parameters/limit.yaml
+    - $ref: ../parameters/offset.yaml
   responses:
     '200':
       description: List of Approvals

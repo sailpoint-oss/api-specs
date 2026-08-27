@@ -18,14 +18,6 @@ get:
       schema:
         type: string
         example: newMailAttribute
-    - name: X-SailPoint-Experimental
-      in: header
-      description: Use this header to enable this experimental API.
-      example: true
-      schema:
-        type: string
-        default: true
-      required: true
   responses:
     '200':
       description: Specific attribute configuration in IdentityNow.
@@ -64,14 +56,6 @@ delete:
       schema:
         type: string
         example: newMailAttribute
-    - name: X-SailPoint-Experimental
-      in: header
-      description: Use this header to enable this experimental API.
-      example: true
-      schema:
-        type: string
-        default: true
-      required: true
   responses:
     '204':
       $ref: ../responses/204.yaml
@@ -107,14 +91,6 @@ patch:
       schema:
         type: string
         example: promotedMailAttribute
-    - name: X-SailPoint-Experimental
-      in: header
-      description: Use this header to enable this experimental API.
-      example: true
-      schema:
-        type: string
-        default: true
-      required: true
   requestBody:
     content:
       application/json-patch+json:

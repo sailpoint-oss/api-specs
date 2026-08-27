@@ -67,7 +67,10 @@ get:
             businessUnit: "Finance"
             installType: "On Premise"
             environment: "Production"
-            riskScore: "ANY"
+            riskScore: 1
+            isBusiness: false
+            totalSigninsCount: 1
+            riskLevel: "Low"
             isPrivileged: false
             warrantyExpiration: "2023-09-25T14:07:27.000+0000"
             attributes:
@@ -184,6 +187,10 @@ patch:
               "f9b7e2ce-aced-4117-a95f-4ffad8b33989",
               "a3b159f2-5f09-43c9-b40e-a6f317aa5b8f"
             ]
+            riskScore: 1
+            isBusiness: false
+            totalSigninsCount: 1
+            riskLevel: "Low"
     '400':
       $ref: '../responses/400.yaml'
     '401':

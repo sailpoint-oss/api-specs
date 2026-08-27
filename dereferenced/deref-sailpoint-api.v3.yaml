@@ -1198,6 +1198,8 @@ paths:
 
         **owner**
 
+        **additionalOwners**
+
         **requestable**
 
         **accessRequestConfig**
@@ -1558,6 +1560,8 @@ paths:
         * Supports self request and request on behalf of other users. Refer to the [Get Access Request Configuration](https://developer.sailpoint.com/idn/api/v3/get-access-request-config) endpoint for request configuration options.  
         * Allows any authenticated token (except API) to call this endpoint to request to grant access to themselves. Depending on the configuration, a user can request access for others.
         * Roles, access profiles and entitlements can be requested.
+        * You can specify a `startDate` to set or alter a sunrise date-time on an assignment. The startDate must be a future date-time, in the UTC timezone. Additionally, if the user already has the access assigned with a sunrise date and its yet to be provisioned, you can also submit a request without a `startDate` to request immediate provisioning after approval.
+        * If a `startDate` is specified, then the requested role, access profile, or entitlement will be provisioned on that date and time.
         * You can specify a `removeDate` to set or alter a sunset date-time on an assignment. The removeDate must be a future date-time, in the UTC timezone. Additionally, if the user already has the access assigned with a sunset date, you can also submit a request without a `removeDate` to request removal of the sunset date and time.
         * If a `removeDate` is specified, then the requested role, access profile, or entitlement will be removed on that date and time.
         * Now supports an alternate field 'requestedForWithRequestedItems' for users to specify account selections while requesting items where they have more than one account on the source.
@@ -1575,6 +1579,7 @@ paths:
         * If a `removeDate` is specified, then the requested role, access profile, or entitlement will be removed on that date and time.
         * Roles, access profiles, and entitlements can be requested for revocation.
         * Revoke requests for entitlements are limited to 1 entitlement per access request currently.
+        * You cannot specify a 'startDate' in a REVOKE_ACCESS request, as startDate is only applicable for GRANT_ACCESS requests to indicate when the access should be provisioned, and it does not make sense in the context of revoking access.
         * You can specify a `removeDate` to add or alter a sunset date and time on an assignment. The `removeDate` must be a future date-time, in the UTC timezone. If the user already has the access assigned with a sunset date and time, the removeDate must be a date-time earlier than the existing sunset date and time. 
         * Allows a manager to request to revoke access for direct employees. A user with ORG_ADMIN authority can also request to revoke access from anyone.
         * Now supports REVOKE_ACCESS requests for identities with multiple accounts on a single source, with the help of 'assignmentId' and 'nativeIdentity' fields. These fields should be used within the 'requestedItems' section for the revoke requests. 
@@ -1794,7 +1799,7 @@ paths:
 
             Filtering is supported for the following fields and operators:
 
-            **accessRequestId**: *eq, ge, gt, le, lt, ne, sw*
+            **accessRequestId**: *eq, ge, gt, le, lt, ne, in, sw*
 
             **accountActivityItemId**: *eq, in, ge, gt, le, ne, sw*
 
@@ -8121,10 +8126,11 @@ paths:
             - idn:identity-profile:read
       x-sailpoint-userLevels:
         - ORG_ADMIN
+        - API
     post:
       operationId: createIdentityProfile
       summary: Create identity profile
-      description: 'Creates an identity profile.    '
+      description: Creates an identity profile.
       tags:
         - Identity Profiles
       requestBody:
@@ -8153,8 +8159,11 @@ paths:
       security:
         - userAuth:
             - idn:identity-profile:manage
+        - applicationAuth:
+            - idn:identity-profile:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
+        - API
   /identity-profiles/bulk-delete:
     post:
       operationId: deleteIdentityProfiles
@@ -8195,8 +8204,11 @@ paths:
       security:
         - userAuth:
             - idn:identity-profile:manage
+        - applicationAuth:
+            - idn:identity-profile:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
+        - API
   /identity-profiles/export:
     get:
       operationId: exportIdentityProfiles
@@ -8259,6 +8271,9 @@ paths:
             - idn:identity-profile:read
         - applicationAuth:
             - idn:identity-profile:read
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - API
   /identity-profiles/import:
     post:
       operationId: importIdentityProfiles
@@ -8295,6 +8310,11 @@ paths:
       security:
         - userAuth:
             - idn:identity-profile:manage
+        - applicationAuth:
+            - idn:identity-profile:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - API
   /identity-profiles/identity-preview:
     post:
       operationId: showIdentityPreview
@@ -8331,8 +8351,11 @@ paths:
       security:
         - userAuth:
             - idn:identity-profile:manage
+        - applicationAuth:
+            - idn:identity-profile:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
+        - API
   /identity-profiles/{identity-profile-id}:
     get:
       operationId: getIdentityProfile
@@ -8376,6 +8399,7 @@ paths:
             - idn:identity-profile:read
       x-sailpoint-userLevels:
         - ORG_ADMIN
+        - API
     delete:
       operationId: deleteIdentityProfile
       tags:
@@ -8417,8 +8441,11 @@ paths:
       security:
         - userAuth:
             - idn:identity-profile:manage
+        - applicationAuth:
+            - idn:identity-profile:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
+        - API
     patch:
       operationId: updateIdentityProfile
       tags:
@@ -8489,8 +8516,11 @@ paths:
       security:
         - userAuth:
             - idn:identity-profile:manage
+        - applicationAuth:
+            - idn:identity-profile:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
+        - API
   /identity-profiles/{identity-profile-id}/default-identity-attribute-config:
     get:
       operationId: getDefaultIdentityAttributeConfig
@@ -8530,8 +8560,11 @@ paths:
       security:
         - userAuth:
             - idn:identity-profile:manage
+        - applicationAuth:
+            - idn:identity-profile:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
+        - API
   /identity-profiles/{identity-profile-id}/process-identities:
     post:
       operationId: syncIdentityProfile
@@ -8576,8 +8609,11 @@ paths:
       security:
         - userAuth:
             - idn:identity-profile:manage
+        - applicationAuth:
+            - idn:identity-profile:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
+        - API
   /managed-clients:
     get:
       tags:
@@ -12824,6 +12860,7 @@ paths:
         * description
         * enabled
         * owner
+        * additionalOwners
         * accessProfiles
         * entitlements
         * membership
@@ -13760,7 +13797,6 @@ paths:
         - SOURCE_SUBADMIN
         - ROLE_ADMIN
         - ROLE_SUBADMIN
-        - HELPDESK
       summary: Perform search
       parameters:
         - $ref: '#/components/parameters/offset'
@@ -13983,7 +14019,6 @@ paths:
         - SOURCE_SUBADMIN
         - ROLE_ADMIN
         - ROLE_SUBADMIN
-        - HELPDESK
       summary: Get a document by id
       parameters:
         - $ref: '#/components/parameters/index'
@@ -19889,6 +19924,8 @@ paths:
         This endpoint will return an execution ID, which can be used to lookup more information about the execution using the `Get a Workflow Execution` endpoint.
 
         **This will cause a live run of the workflow, which could result in unintended modifications to your IDN tenant.**
+
+        This endpoint has a rate limit of 5 requests per 10 seconds.
       security:
         - userAuth:
             - sp:workflow-execute:external
@@ -19971,6 +20008,7 @@ paths:
         - Workflows
       summary: List workflow executions
       description: |-
+        [Deprecated] This endpoint will be removed in July 2028.
         Use this API to list a specified workflow's executions. Workflow executions are available for up to 90 days before being archived. By default, you can get a maximum of 250 executions. To get executions past the first 250 records, you can do the following:
         1. Use the [Get Workflows](https://developer.sailpoint.com/idn/api/beta/list-workflows) endpoint to get your workflows.
         2. Get your workflow ID from the response.
@@ -19982,9 +20020,10 @@ paths:
           - Paginate through results with the `offset` parameter.
           For example, you can page through 50 executions per page and use that as a way to get to the records past the first 250.
           Refer to [Paginating Results](https://developer.sailpoint.com/idn/api/standard-collection-parameters#paginating-results) for more information about the query parameters you can use to achieve pagination.
+      deprecated: true
       security:
         - userAuth:
-            - sp:workflow:read
+            - sp:workflow-execution:read
             - sp:workflow:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
@@ -20049,7 +20088,7 @@ paths:
         - ORG_ADMIN
       security:
         - userAuth:
-            - sp:workflow:read
+            - sp:workflow-execution:read
             - sp:workflow:manage
       parameters:
         - name: id
@@ -20092,7 +20131,7 @@ paths:
       deprecated: true
       security:
         - userAuth:
-            - sp:workflow:read
+            - sp:workflow-execution:read
             - sp:workflow:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
@@ -20109,6 +20148,8 @@ paths:
           schema:
             type: string
             example: c17bea3a-574d-453c-9e04-4365fbf5af0b
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
       responses:
         '200':
           description: List of workflow execution events for the given workflow execution
@@ -20276,11 +20317,19 @@ paths:
             Filtering is supported for the following fields and operators:
 
             **id**: *eq*
+
+            **name**: *eq*
+
+            **type**: *eq*
           example: id eq "idn:identity-attributes-changed"
       security:
         - userAuth:
             - sp:workflow:read
             - sp:workflow:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
       responses:
         '200':
           description: List of workflow triggers
@@ -20853,6 +20902,7 @@ components:
             Additional submit data structure with requestedFor containing requestedItems allowing distinction for each request item and Identity.
             * Can only be used when 'requestedFor' and 'requestedItems' are not separately provided
             * Adds ability to specify which account the user wants the access on, in case they have multiple accounts on a source
+            * Allows the ability to request items with different start dates
             * Allows the ability to request items with different remove dates
             * Also allows different combinations of request items and identities in the same request
             * Only for use in GRANT_ACCESS type requests
@@ -20896,6 +20946,15 @@ components:
             requestedAppName: test-app
             requestedAppId: 2c91808f7892918f0178b78da4a305a1
           description: Arbitrary key-value pairs. They will never be processed by the IdentityNow system but will be returned on associated APIs such as /account-activities and /access-request-status.
+        startDate:
+          type: string
+          description: |
+            The date and time the role or access profile or entitlement is/will be provisioned to the specified identity. Also known as the sunrise date.
+            * Specify a date-time in the future.
+            * This date-time can be used to indicate date-time when access item will be provisioned on the identity account. A GRANT_ACCESS request can use startDate to specify when to schedule provisioning of access item for an identity/account & a MODIFY_ACCESS request can use startDate to change the provisioning date-time of already assigned access item. But REVOKE_ACCESS request can not have startDate field. You can change the sunrise date in requests for yourself or others you are authorized to request for.
+            * If the startDate is in the past, then the provisioning will be processed as soon as possible, but no guarantees can be made about when the provisioning will occur. If the startDate is in the future, then the provisioning will be scheduled to occur on that date and time. If no startDate is provided, then the provisioning will be processed as soon as possible.
+          format: date-time
+          example: '2020-06-12T21:22:23.000Z'
         removeDate:
           type: string
           description: |
@@ -21928,12 +21987,14 @@ components:
           example: Reviewer Name
         email:
           type: string
-          description: The email of the reviewing identity.
+          nullable: true
+          description: The email of the reviewing identity. This is only applicable to reviewers of the `IDENTITY` type.
           example: reviewer@test.com
         type:
           type: string
           enum:
             - IDENTITY
+            - GOVERNANCE_GROUP
           description: The type of the reviewing identity.
           example: IDENTITY
         created:
@@ -23127,6 +23188,9 @@ components:
             - MANAGER
             - GOVERNANCE_GROUP
             - WORKFLOW
+            - ALL_OWNERS
+            - ADDITIONAL_OWNER
+            - ADDITIONAL_GOVERNANCE_GROUP
           description: |-
             Describes the individual or group that is responsible for an approval step. These are the possible values:
             **APP_OWNER**: The owner of the Application
@@ -23139,12 +23203,18 @@ components:
 
             **GOVERNANCE_GROUP**: A Governance Group, the ID of which is specified by the **approverId** field
 
-            **WORKFLOW**: A Workflow, the ID of which is specified by the **approverId** field. Workflow is exclusive to other types of approvals and License required.   
+            **WORKFLOW**: A Workflow, the ID of which is specified by the **approverId** field. Workflow is exclusive to other types of approvals and License required.
+
+            **ALL_OWNERS**: All owners of the Access Profile, including the primary owner and any secondary owners
+
+            **ADDITIONAL_OWNER**: An additional owner of the Access Profile, the ID of which is specified by the **approverId** field
+
+            **ADDITIONAL_GOVERNANCE_GROUP**: An additional Governance Group, the ID of which is specified by the **approverId** field
           example: GOVERNANCE_GROUP
         approverId:
           type: string
           nullable: true
-          description: Id of the specific approver, used when approverType is GOVERNANCE_GROUP or WORKFLOW.
+          description: Id of the specific approver, used when approverType is GOVERNANCE_GROUP, WORKFLOW, or ADDITIONAL_GOVERNANCE_GROUP.
           example: 46c79819-a69f-49a2-becb-12c971ae66c6
     Requestability:
       type: object
@@ -23198,31 +23268,51 @@ components:
       properties:
         value:
           type: string
-          description: Technical name of the Attribute value. This is unique and cannot be changed after creation.
+          pattern: ^[a-zA-Z0-9]([a-zA-Z0-9_-]*[a-zA-Z0-9])?$
+          maxLength: 255
+          description: Technical name of the Attribute value. This is unique and cannot be changed after creation. Allowed characters are letters, numbers, dashes (-), and underscores (_); the value cannot start or end with a dash or underscore.
           example: public
         name:
           type: string
-          description: The display name of the Attribute value.
+          maxLength: 100
+          description: 'The display name of the Attribute value. Allowed characters are letters, numbers, whitespace, and the following special characters: . / | , ( ) & _ -'
           example: Public
         status:
           type: string
           description: The status of the Attribute value.
           example: active
+        type:
+          type: string
+          nullable: true
+          enum:
+            - static
+            - adhoc
+          description: Indicates how this Attribute value was created. **static** values are pre-defined and created directly through this API. **adhoc** values are created dynamically through an internal service-to-service flow when the parent Attribute has *isAdhoc* set to *true*, and cannot be created directly through the public create-value API.
+          example: static
     AttributeDTO:
       type: object
       properties:
         key:
           type: string
-          description: Technical name of the Attribute. This is unique and cannot be changed after creation.
+          pattern: ^[a-zA-Z0-9]([a-zA-Z0-9_-]*[a-zA-Z0-9])?$
+          maxLength: 255
+          description: Technical name of the Attribute. This is unique and cannot be changed after creation. Allowed characters are letters, numbers, dashes (-), and underscores (_); the value cannot start or end with a dash or underscore.
           example: iscPrivacy
         name:
           type: string
-          description: The display name of the key.
+          maxLength: 100
+          description: 'The display name of the key. Allowed characters are letters, numbers, whitespace, and the following special characters: . / | , ( ) & _ -'
           example: Privacy
         multiselect:
           type: boolean
           default: false
           description: Indicates whether the attribute can have multiple values.
+          example: false
+        isAdhoc:
+          type: boolean
+          nullable: true
+          default: false
+          description: Indicates whether this Attribute supports ad-hoc (dynamically created) values, in addition to pre-defined static values. Ad-hoc values are created dynamically through an internal service-to-service flow rather than through the public create-value API. This field can be set when creating an Attribute; if omitted, it defaults to *false*.
           example: false
         status:
           type: string
@@ -23242,7 +23332,8 @@ components:
             - entitlement
         description:
           type: string
-          description: The description of the Attribute.
+          maxLength: 500
+          description: 'The description of the Attribute. Allowed characters are letters, numbers, whitespace, and the following special characters: . / | , ( ) & _ : -'
           example: Specifies the level of privacy associated with an access item.
         values:
           type: array
@@ -23349,6 +23440,26 @@ components:
           nullable: true
           description: Array of child criteria. This field is required if the operation is `AND` or `OR`. Otherwise, it must be left null. A maximum of three levels of criteria are supported, including leaf nodes.
           example: null
+    AdditionalOwnerRef:
+      type: object
+      description: Reference to an additional owner (identity or governance group).
+      properties:
+        type:
+          type: string
+          enum:
+            - IDENTITY
+            - GOVERNANCE_GROUP
+          description: Type of the additional owner; IDENTITY for an identity, GOVERNANCE_GROUP for a governance group.
+          example: IDENTITY
+        id:
+          type: string
+          description: ID of the identity or governance group.
+          example: 2c9180a46faadee4016fb4e018c20639
+        name:
+          type: string
+          nullable: true
+          description: Display name. It may be left null or omitted on input. If set, it must match the current display name of the identity or governance group, otherwise a 400 Bad Request error may result.
+          example: support
     AccessProfile:
       type: object
       description: Access profile.
@@ -23459,8 +23570,9 @@ components:
         additionalOwners:
           type: array
           nullable: true
+          description: List of additional owner references beyond the primary owner. Each entry may be an identity (IDENTITY) or a governance group (GOVERNANCE_GROUP).
           items:
-            $ref: '#/components/schemas/OwnerReference'
+            $ref: '#/components/schemas/AdditionalOwnerRef'
       required:
         - owner
         - name
@@ -23730,10 +23842,12 @@ components:
         privileged:
           type: boolean
           description: True if the entitlement is privileged
+          default: false
           example: true
         cloudGoverned:
           type: boolean
           description: True if the entitlement is cloud governed
+          default: false
           example: true
         requestable:
           type: boolean
@@ -23759,6 +23873,12 @@ components:
               type: string
               description: The display name of the identity
               example: john.doe
+        additionalOwners:
+          type: array
+          nullable: true
+          description: List of additional owner references beyond the primary owner. Each entry may be an identity (IDENTITY) or a governance group (GOVERNANCE_GROUP).
+          items:
+            $ref: '#/components/schemas/AdditionalOwnerRef'
         manuallyUpdatedFields:
           type: object
           description: A map of entitlement fields that have been manually updated. The key is the field name in UPPER_SNAKE_CASE format, and the value is true or false to indicate if the field has been updated.
@@ -23888,6 +24008,15 @@ components:
             requestedAppName: test-app
             requestedAppId: 2c91808f7892918f0178b78da4a305a1
           description: Arbitrary key-value pairs. They will never be processed by the IdentityNow system but will be returned on associated APIs such as /account-activities and /access-request-status.
+        startDate:
+          type: string
+          description: |
+            The date and time the role or access profile or entitlement is/will be provisioned to the specified identity. Also known as the sunrise date.
+            * Specify a date-time in the future.
+            * This date-time can be used to indicate date-time when access item will be provisioned on the identity account. A GRANT_ACCESS request can use startDate to specify when to schedule provisioning of access item for an identity/account & a MODIFY_ACCESS request can use startDate to change the provisioning date-time of already assigned access item. But REVOKE_ACCESS request can not have startDate field. You can change the sunrise date in requests for yourself or others you are authorized to request for.
+            * If the startDate is in the past, then the provisioning will be processed as soon as possible, but no guarantees can be made about when the provisioning will occur. If the startDate is in the future, then the provisioning will be scheduled to occur on that date and time. If no startDate is provided, then the provisioning will be processed as soon as possible.
+          format: date-time
+          example: '2020-06-12T21:22:23.000Z'
         removeDate:
           type: string
           description: |
@@ -24824,6 +24953,12 @@ components:
           description: Description associated to the requested object.
           example: This is the Engineering role that engineers are granted.
           nullable: true
+        startDate:
+          type: string
+          format: date-time
+          nullable: true
+          description: When the role access is scheduled for provisioning.
+          example: '2019-10-21T00:00:00.000Z'
         removeDate:
           type: string
           format: date-time
@@ -25005,6 +25140,21 @@ components:
           description: The remove date or sunset date that was assigned at the time of the request.
           format: date-time
           example: '2020-07-11T00:00:00Z'
+        startDate:
+          type: string
+          description: The date the role or access profile or entitlement is/will assigned to the specified identity.
+          format: date-time
+          example: '2020-07-11T00:00:00Z'
+        startUpdateRequested:
+          type: boolean
+          default: false
+          description: If true, then the request is to change the start date or sunrise date.
+          example: true
+        currentStartDate:
+          type: string
+          description: The start date or sunrise date that was assigned at the time of the request.
+          format: date-time
+          example: '2020-07-11T00:00:00Z'
         sodViolationContext:
           $ref: '#/components/schemas/SodViolationContextCheckCompleted'
           description: The details of the SOD violations for the associated approval.
@@ -25155,6 +25305,21 @@ components:
           format: date-time
           example: '2020-07-11T00:00:00Z'
           nullable: true
+        startDate:
+          type: string
+          description: The date the role or access profile or entitlement is/will assigned to the specified identity.
+          format: date-time
+          example: '2020-07-11T00:00:00Z'
+        startUpdateRequested:
+          type: boolean
+          default: false
+          description: If true, then the request is to change the start date or sunrise date.
+          example: true
+        currentStartDate:
+          type: string
+          description: The start date or sunrise date that was assigned at the time of the request.
+          format: date-time
+          example: '2020-07-11T00:00:00Z'
         sodViolationContext:
           $ref: '#/components/schemas/SodViolationContextCheckCompleted'
           description: The details of the SOD violations for the associated approval.
@@ -26879,6 +27044,8 @@ components:
             - MANAGER
             - SOURCE_OWNER
             - SEARCH
+            - ROLE_COMPOSITION
+            - MACHINE_ACCOUNT
           description: The type of the campaign.
           example: MANAGER
         description:
@@ -31095,8 +31262,13 @@ components:
         - EQUALS
         - NOT_EQUALS
         - CONTAINS
+        - DOES_NOT_CONTAIN
         - STARTS_WITH
         - ENDS_WITH
+        - GREATER_THAN
+        - LESS_THAN
+        - GREATER_THAN_EQUALS
+        - LESS_THAN_EQUALS
         - AND
         - OR
       description: An operation
@@ -31138,7 +31310,8 @@ components:
           $ref: '#/components/schemas/RoleCriteriaKey'
         stringValue:
           type: string
-          description: String value to test the Identity attribute, Account attribute, or Entitlement specified in the key w/r/t the specified operation. If this criteria is a leaf node, that is, if the operation is one of EQUALS, NOT_EQUALS, CONTAINS, STARTS_WITH, or ENDS_WITH, this field is required. Otherwise, specifying it is an error.
+          nullable: true
+          description: String value to test the Identity attribute, Account attribute, or Entitlement specified in the key w/r/t the specified operation. If this criteria is a leaf node, that is, if the operation is one of EQUALS, NOT_EQUALS, CONTAINS, DOES_NOT_CONTAIN, STARTS_WITH, or ENDS_WITH, this field is required. Otherwise, specifying it is an error.
           example: carlee.cert1c9f9b6fd@mailinator.com
     RoleCriteriaLevel2:
       type: object
@@ -31152,7 +31325,7 @@ components:
         stringValue:
           type: string
           nullable: true
-          description: String value to test the Identity attribute, Account attribute, or Entitlement specified in the key w/r/t the specified operation. If this criteria is a leaf node, that is, if the operation is one of EQUALS, NOT_EQUALS, CONTAINS, STARTS_WITH, or ENDS_WITH, this field is required. Otherwise, specifying it is an error.
+          description: String value to test the Identity attribute, Account attribute, or Entitlement specified in the key w/r/t the specified operation. If this criteria is a leaf node, that is, if the operation is one of EQUALS, NOT_EQUALS, CONTAINS, DOES_NOT_CONTAIN, STARTS_WITH, or ENDS_WITH, this field is required. Otherwise, specifying it is an error.
           example: carlee.cert1c9f9b6fd@mailinator.com
         children:
           type: array
@@ -31172,7 +31345,7 @@ components:
         stringValue:
           type: string
           nullable: true
-          description: String value to test the Identity attribute, Account attribute, or Entitlement specified in the key w/r/t the specified operation. If this criteria is a leaf node, that is, if the operation is one of EQUALS, NOT_EQUALS, CONTAINS, STARTS_WITH, or ENDS_WITH, this field is required. Otherwise, specifying it is an error.
+          description: String value to test the Identity attribute, Account attribute, or Entitlement specified in the key w/r/t the specified operation. If this criteria is a leaf node, that is, if the operation is one of EQUALS, NOT_EQUALS, CONTAINS, DOES_NOT_CONTAIN, STARTS_WITH, or ENDS_WITH, this field is required. Otherwise, specifying it is an error.
           example: carlee.cert1c9f9b6fd@mailinator.com
         children:
           type: array
@@ -31228,6 +31401,9 @@ components:
             - MANAGER
             - GOVERNANCE_GROUP
             - WORKFLOW
+            - ALL_OWNERS
+            - ADDITIONAL_OWNER
+            - ADDITIONAL_GOVERNANCE_GROUP
           description: |-
             Describes the individual or group that is responsible for an approval step. Values are as follows.
 
@@ -31237,12 +31413,18 @@ components:
 
             **GOVERNANCE_GROUP**: A Governance Group, the ID of which is specified by the **approverId** field
 
-            **WORKFLOW**: A Workflow, the ID of which is specified by the **approverId** field. Workflow is exclusive to other types of approvals and License required. 
+            **WORKFLOW**: A Workflow, the ID of which is specified by the **approverId** field. Workflow is exclusive to other types of approvals and License required.
+
+            **ALL_OWNERS**: All owners of the Role, including the primary owner and any secondary owners
+
+            **ADDITIONAL_OWNER**: An additional owner of the Role, the ID of which is specified by the **approverId** field
+
+            **ADDITIONAL_GOVERNANCE_GROUP**: An additional Governance Group, the ID of which is specified by the **approverId** field
           example: GOVERNANCE_GROUP
         approverId:
           type: string
           nullable: true
-          description: Id of the specific approver, used when approverType is GOVERNANCE_GROUP or WORKFLOW.
+          description: Id of the specific approver, used when approverType is GOVERNANCE_GROUP, WORKFLOW, or ADDITIONAL_GOVERNANCE_GROUP.
           example: 46c79819-a69f-49a2-becb-12c971ae66c6
     RequestabilityForRole:
       type: object
@@ -31278,6 +31460,11 @@ components:
           description: List describing the steps in approving the request
           items:
             $ref: '#/components/schemas/ApprovalSchemeForRole'
+        formDefinitionId:
+          type: string
+          nullable: true
+          description: The ID of the form definition used for the access request. If specified, the form is presented to the requester during the access request process.
+          example: 78258e80-e9e2-4e1a-a11f-ce0b7c62f25d
     RevocabilityForRole:
       type: object
       properties:
@@ -31347,6 +31534,12 @@ components:
           example: Urna amet cursus pellentesque nisl orci maximus lorem nisl euismod fusce morbi placerat adipiscing maecenas nisi tristique et metus et lacus sed morbi nunc nisl maximus magna arcu varius sollicitudin elementum enim maecenas nisi id ipsum tempus fusce diam ipsum tortor.
         owner:
           $ref: '#/components/schemas/OwnerReference'
+        additionalOwners:
+          type: array
+          nullable: true
+          description: List of additional owner references beyond the primary owner. Each entry may be an identity (IDENTITY) or a governance group (GOVERNANCE_GROUP).
+          items:
+            $ref: '#/components/schemas/AdditionalOwnerRef'
         accessProfiles:
           type: array
           items:
@@ -31420,6 +31613,11 @@ components:
                 - value: secret
                   name: Secret
                   status: active
+        privilegeLevel:
+          type: string
+          nullable: true
+          description: The privilege level of the role, if applicable.
+          example: High
       required:
         - name
         - owner
@@ -36409,17 +36607,27 @@ components:
             - EVENT
             - SCHEDULED
             - EXTERNAL
+            - AccessRequestTrigger
           example: EVENT
         deprecated:
           type: boolean
+          description: Whether the trigger is deprecated.
+          example: false
+          default: false
         deprecatedBy:
           type: string
           format: date-time
+          description: Date the trigger was deprecated, if applicable.
+          example: '2023-01-01T00:00:00Z'
         isSimulationEnabled:
           type: boolean
+          description: Whether the trigger can be simulated.
+          example: false
+          default: false
         outputSchema:
           type: object
           description: Example output schema
+          example: {}
         name:
           type: string
           description: Trigger Name
@@ -36626,6 +36834,29 @@ components:
 
             If an application has been deleted from within the discovery source, the status will be set to "INACTIVE".
           example: ACTIVE
+        riskScore:
+          type: integer
+          format: int32
+          description: The risk score of the application ranging from 0-100, 100 being highest risk.
+          example: 1
+        isBusiness:
+          type: boolean
+          description: Indicates whether the application is used for business purposes.
+          example: false
+          default: true
+        totalSigninsCount:
+          type: integer
+          format: int32
+          description: The total number of sign-in accounts for the application.
+          example: 1
+        riskLevel:
+          type: string
+          enum:
+            - High
+            - Medium
+            - Low
+          description: The risk level of the application.
+          example: Low
     FullDiscoveredApplications:
       type: object
       description: Discovered applications with their respective associated sources
@@ -36688,6 +36919,29 @@ components:
           example:
             - e0cc5d7d-bf7f-4f81-b2af-8885b09d9923
             - a0303682-5e4a-44f7-bdc2-6ce6112549c1
+        riskScore:
+          type: integer
+          format: int32
+          description: The risk score of the application ranging from 0-100, 100 being highest risk.
+          example: 1
+        isBusiness:
+          type: boolean
+          description: Indicates whether the application is used for business purposes.
+          example: false
+          default: true
+        totalSigninsCount:
+          type: integer
+          format: int32
+          description: The total number of sign-in accounts for the application.
+          example: 1
+        riskLevel:
+          type: string
+          enum:
+            - High
+            - Medium
+            - Low
+          description: The risk level of the application.
+          example: Low
   parameters:
     limit:
       in: query
@@ -40368,6 +40622,10 @@ components:
           discoveredAt: '2023-07-01T12:00:00Z'
           createdAt: '2024-06-01T12:00:00Z'
           status: ACTIVE
+          riskScore: 1
+          isBusiness: false
+          totalSigninsCount: 1
+          riskLevel: Low
         - id: 59310a1e-0d8f-42fa-95aa-b82b263de7f6
           name: Sample Tracker
           discoverySource: Okta SaaS
@@ -40379,6 +40637,10 @@ components:
           discoveredAt: '2023-08-15T08:00:00Z'
           createdAt: '2024-05-20T08:00:00Z'
           status: ACTIVE
+          riskScore: 1
+          isBusiness: false
+          totalSigninsCount: 1
+          riskLevel: Low
         - id: dfe675cb-f689-475f-99f1-49e348449867
           name: Demo Manager
           discoverySource: Okta SaaS
@@ -40390,6 +40652,10 @@ components:
           discoveredAt: '2023-09-10T15:00:00Z'
           createdAt: '2024-07-03T15:00:00Z'
           status: ACTIVE
+          riskScore: 1
+          isBusiness: false
+          totalSigninsCount: 1
+          riskLevel: Low
     FullDiscoveredApplications:
       description: List of discovered applications with their respective associated sources
       value:
@@ -40406,6 +40672,10 @@ components:
           status: ACTIVE
           associatedSources:
             - e0cc5d7d-bf7f-4f81-b2af-8885b09d9923
+          riskScore: 1
+          isBusiness: false
+          totalSigninsCount: 1
+          riskLevel: Low
         - id: b3a3a704-6a45-45ee-a501-bbc332388222
           name: Sample Tracker
           discoverySource: Okta SaaS
@@ -40420,6 +40690,10 @@ components:
           associatedSources:
             - a3b159f2-5f09-43c9-b40e-a6f317aa5b8f
             - e0cc5d7d-bf7f-4f81-b2af-8885b09d9923
+          riskScore: 1
+          isBusiness: false
+          totalSigninsCount: 1
+          riskLevel: Low
         - id: 1d070458-faed-4a6c-8990-918ad70a06ee
           name: Demo Manager
           discoverySource: Okta SaaS
@@ -40435,6 +40709,10 @@ components:
             - 4e2d7605-833f-4c34-8d03-5b2c7d2f4f66
             - f9b7e2ce-aced-4117-a95f-4ffad8b33989
             - a3b159f2-5f09-43c9-b40e-a6f317aa5b8f
+          riskScore: 1
+          isBusiness: false
+          totalSigninsCount: 1
+          riskLevel: Low
         - id: 9be7c5a5-9f37-46ba-965a-e5b9453472c6
           name: Task Organizer
           discoverySource: Manual Entry
@@ -40447,3 +40725,7 @@ components:
           createdAt: '2024-08-01T14:00:00Z'
           status: ACTIVE
           associatedSources: []
+          riskScore: 1
+          isBusiness: false
+          totalSigninsCount: 1
+          riskLevel: Low

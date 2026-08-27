@@ -11,6 +11,7 @@ get:
     - $ref: '../../v3/parameters/count.yaml'
     - in: query
       name: filters
+      required: false
       schema:
         type: string
       description: >-
@@ -30,6 +31,7 @@ get:
       example: id eq 8c190e6787aa4ed9a90bd9d5344523fb
     - in: query
       name: sorters
+      required: false
       schema:
         type: string
         format: comma-separated
@@ -62,3 +64,7 @@ get:
       $ref: '../../v3/responses/500.yaml'
   security:
     - userAuth: [idn:identity-profile:read, idn:identity-profile:manage]
+    - applicationAuth: [idn:identity-profile:read]
+  x-sailpoint-userLevels:
+    - ORG_ADMIN
+    - API

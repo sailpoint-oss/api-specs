@@ -15,7 +15,6 @@ get:
     - SOURCE_SUBADMIN
     - ROLE_ADMIN
     - ROLE_SUBADMIN
-    - HELPDESK
   summary: "Get a document by id"
   parameters:
   - $ref: '../parameters/path/search/index.yaml'

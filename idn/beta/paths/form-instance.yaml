@@ -1,8 +1,13 @@
 get:
+  x-sailpoint-userLevels:
+    - USER
   tags:
     - Custom Forms
   summary: Returns a form instance.
-  description: Parameter `{formInstanceID}` should match a form instance ID.
+  description: |-
+    Parameter `{formInstanceID}` should match a form instance ID.
+
+    Only the assigned recipient (`recipients[].id` when `type` is `IDENTITY`) may call this.
   operationId: getFormInstanceByKey
   parameters:
     - name: formInstanceID
@@ -141,10 +146,15 @@ get:
   security:
     - userAuth: [ ]
 patch:
+  x-sailpoint-userLevels:
+    - USER
   tags:
     - Custom Forms
   summary: Patch a form instance.
-  description: Parameter `{formInstanceID}` should match a form instance ID.
+  description: |-
+    Parameter `{formInstanceID}` should match a form instance ID.
+
+    Only the assigned recipient (`recipients[].id` when `type` is `IDENTITY`) may call this.
   operationId: patchFormInstance
   parameters:
     - name: formInstanceID

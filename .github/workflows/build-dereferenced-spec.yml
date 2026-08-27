@@ -5,6 +5,8 @@ on:
     branches:
       - main
     paths:
+      - idn/sailpoint-api.root.yaml
+      - idn/apis/**
       - idn/sailpoint-api.v3.yaml
       - idn/v3/**
       - idn/sailpoint-api.beta.yaml
@@ -46,10 +48,23 @@ jobs:
           node-version: "24"
       - name: Install redocly and postman
         run: |
-          npm install -g @redocly/cli
+          # Pinned: redocly 2.40.0 began rejecting multi-line flow collections
+          # whose closing bracket is not indented past its key. Hundreds of
+          # `example:` blocks under idn/<version>/schemas/ and nerm/ hit this,
+          # which fails the bundle for v3/beta/v2024/v2025/v2026. Unpin once the
+          # source YAML indentation is fixed.
+          npm install -g @redocly/cli@2.39.0
           npm install -g openapi-to-postmanv2
+          npm install --prefix scripts
       - name: Dereference API Specification and build Postman collection
         run: |
+
+          # idn (rebuild sailpoint-api.root.yaml from apis/ partitions, then bundle to sailpoint-api.yaml)
+          node scripts/build-idn-root-spec.js
+
+          # idn (combined versioned spec)
+          redocly bundle idn/sailpoint-api.root.yaml --ext yaml -o dereferenced/deref-sailpoint-api.yaml
+          redocly bundle idn/sailpoint-api.root.yaml --ext json -o dereferenced/deref-sailpoint-api.json
 
           # v3
           redocly bundle idn/sailpoint-api.v3.yaml --ext json -o dereferenced/deref-sailpoint-api.v3.json
@@ -82,6 +97,7 @@ jobs:
           redocly bundle cloud-api-client-common/api-specs/src/main/yaml/sailpoint-oauth.yaml --ext json -o dereferenced/deref-sailpoint-api.oauth.json
 
           # build postman collections
+          openapi2postmanv2 -s dereferenced/deref-sailpoint-api.yaml -o postman/collections/sailpoint-api-isc.json -p -c postman-script/openapi2postman-config.json
           openapi2postmanv2 -s dereferenced/deref-sailpoint-api.v3.yaml -o postman/collections/sailpoint-api-v3.json -p -c postman-script/openapi2postman-config.json
           openapi2postmanv2 -s dereferenced/deref-sailpoint-api.beta.yaml -o postman/collections/sailpoint-api-beta.json -p -c postman-script/openapi2postman-config.json
           openapi2postmanv2 -s dereferenced/deref-sailpoint-api.nerm.yaml -o postman/collections/sailpoint-api-nerm.json -p -c postman-script/openapi2postman-config.json
@@ -92,6 +108,7 @@ jobs:
           openapi2postmanv2 -s dereferenced/deref-sailpoint-api.oauth.yaml -o postman/collections/sailpoint-api-oauth.json -p -c postman-script/openapi2postman-config.json 
           
           # modify collections
+          node postman-script/modify-collection.js postman/collections/sailpoint-api-isc.json
           node postman-script/modify-collection.js postman/collections/sailpoint-api-v3.json
           node postman-script/modify-collection.js postman/collections/sailpoint-api-beta.json
           node postman-script/modify-collection.js postman/collections/sailpoint-api-v2024.json
@@ -105,6 +122,7 @@ jobs:
           cd postman-script/update-by-folder-ts
           echo "POSTMAN_API_KEY=${{ secrets.POSTMAN_API_KEY }}" > .env
           npm ci
+          npm run isc
           npm run v3
           npm run beta
           npm run v2024

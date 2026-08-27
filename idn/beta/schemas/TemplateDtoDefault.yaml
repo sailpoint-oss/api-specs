@@ -14,8 +14,6 @@ properties:
     description: The message medium. More mediums may be added in the future.
     enum:
       - EMAIL
-      - PHONE
-      - SMS
       - SLACK
       - TEAMS
     example: EMAIL

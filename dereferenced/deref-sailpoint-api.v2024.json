@@ -46,7 +46,7 @@
   "tags": [
     {
       "name": "Access Model Metadata",
-      "description": "Use this API to create and manage metadata attributes for your Access Model.\nAccess Model Metadata allows you to add contextual information to your ISC Access Model items using pre-defined metadata for risk, regulations, privacy levels, etc., or by creating your own metadata attributes to reflect the unique needs of your organization. This release of the API includes support for entitlement metadata. Support for role and access profile metadata will be introduced in a subsequent release.\n\nCommon usages for Access Model metadata include:\n\n- Organizing and categorizing access items to make it easier for your users to search for and find the access rights they want to request, certify, or manage.\n\n- Providing richer information about access that is being acted on to allow stakeholders to make better decisions when approving, certifying, or managing access rights.\n\n- Identifying access that may requires additional approval requirements or be subject to more frequent review.\n"
+      "description": "Use this API to create and manage metadata attributes for your Access Model.\nAccess Model Metadata allows you to add contextual information to your ISC Access Model items using pre-defined metadata for risk, regulations, privacy levels, etc., or by creating your own metadata attributes to reflect the unique needs of your organization. This release of the API includes support for entitlement, role, and access profile metadata.\n\nCommon usages for Access Model metadata include:\n\n- Organizing and categorizing access items to make it easier for your users to search for and find the access rights they want to request, certify, or manage.\n\n- Providing richer information about access that is being acted on to allow stakeholders to make better decisions when approving, certifying, or managing access rights.\n\n- Identifying access that may requires additional approval requirements or be subject to more frequent review.\n"
     },
     {
       "name": "Access Profiles",
@@ -668,7 +668,7 @@
           "Access Profiles"
         ],
         "summary": "Patch a specified access profile",
-        "description": "This API updates an existing Access Profile. The following fields are patchable:\n\n**name**\n\n**description**\n\n**enabled**\n\n**owner**\n\n**requestable**\n\n**accessRequestConfig**\n\n**revokeRequestConfig**\n\n**segments**\n\n**entitlements**\n\n**provisioningCriteria**\n\n**source** (must be updated with entitlements belonging to new source in the same API call)\n\nIf you need to change the `source` of the access profile, you can do so only if you update the `entitlements` in the same API call.  The new entitlements can only come from the target source that you want to change to.  Look for the example \"Replace Source\" in the examples dropdown.\n\nA user with SOURCE_SUBADMIN may only use this API to patch Access Profiles which are associated with Sources they are able to administer.\n>  The maximum supported length for the description field is 2000 characters. Longer descriptions will be preserved for existing access profiles, however, any new access profiles as well as any updates to existing descriptions will be limited to 2000 characters.\n\n> You can only add or replace **entitlements** that exist on the source that the access profile is attached to. You can use the **list entitlements** endpoint with the **filters** query parameter to get a list of available entitlements on the access profile's source.",
+        "description": "This API updates an existing Access Profile. The following fields are patchable:\n\n**name**\n\n**description**\n\n**enabled**\n\n**owner**\n\n**additionalOwners**\n\n**requestable**\n\n**accessRequestConfig**\n\n**revokeRequestConfig**\n\n**segments**\n\n**entitlements**\n\n**provisioningCriteria**\n\n**source** (must be updated with entitlements belonging to new source in the same API call)\n\nIf you need to change the `source` of the access profile, you can do so only if you update the `entitlements` in the same API call.  The new entitlements can only come from the target source that you want to change to.  Look for the example \"Replace Source\" in the examples dropdown.\n\nA user with SOURCE_SUBADMIN may only use this API to patch Access Profiles which are associated with Sources they are able to administer.\n>  The maximum supported length for the description field is 2000 characters. Longer descriptions will be preserved for existing access profiles, however, any new access profiles as well as any updates to existing descriptions will be limited to 2000 characters.\n\n> You can only add or replace **entitlements** that exist on the source that the access profile is attached to. You can use the **list entitlements** endpoint with the **filters** query parameter to get a list of available entitlements on the access profile's source.",
         "parameters": [
           {
             "name": "id",
@@ -1116,7 +1116,7 @@
         "tags": [
           "Access Requests"
         ],
-        "description": "Use this API to submit an access request in Identity Security Cloud (ISC), where it follows any ISC approval processes.\n\n:::info\nThe ability to request access using this API is constrained by the Access Request Segments defined in the API token's user context.\n:::\n\nAccess requests are processed asynchronously by ISC. A successful response from this endpoint means that the request\nhas been submitted to ISC and is queued for processing. Because this endpoint is asynchronous, it does not return an error\nif you submit duplicate access requests in quick succession or submit an access request for access that is already in progress, approved, or rejected.\n\nIt is best practice to check for any existing access requests that reference the same access items before submitting a new access request. This can\nbe accomplished by using the [List Access Request Status](https://developer.sailpoint.com/idn/api/v3/list-access-request-status) or the [Pending Access Request Approvals](https://developer.sailpoint.com/idn/api/v3/list-pending-approvals) APIs. You can also\nuse the [Search API](https://developer.sailpoint.com/idn/api/v3/search) to check the existing access items an identity has before submitting\nan access request to ensure that you aren't requesting access that is already granted. If you use this API to request access that an identity already has, \nwithout changing the account details or end date information from the existing assignment, \nthe API will cancel the request as a duplicate.\n\nThere are two types of access request:\n\n__GRANT_ACCESS__\n* Can be requested for multiple identities in a single request.\n* Supports self request and request on behalf of other users. Refer to the [Get Access Request Configuration](https://developer.sailpoint.com/idn/api/v3/get-access-request-config) endpoint for request configuration options.  \n* Allows any authenticated token (except API) to call this endpoint to request to grant access to themselves. Depending on the configuration, a user can request access for others.\n* Roles, access profiles and entitlements can be requested.\n* You can specify a `removeDate` to set or alter a sunset date-time on an assignment. The removeDate must be a future date-time, in the UTC timezone. Additionally, if the user already has the access assigned with a sunset date, you can also submit a request without a `removeDate` to request removal of the sunset date and time.\n* If a `removeDate` is specified, then the requested role, access profile, or entitlement will be removed on that date and time.\n* Now supports an alternate field 'requestedForWithRequestedItems' for users to specify account selections while requesting items where they have more than one account on the source.\n\n:::caution\n\nIf any entitlements are being requested, then the maximum number of entitlements that can be requested is 25, and the maximum number of identities that can be requested for is 10. If you exceed these limits, the request will fail with a 400 error. If you are not requesting any entitlements, then there are no limits.\n\n:::\n\n__REVOKE_ACCESS__\n* Can only be requested for a single identity at a time.\n* You cannot use an access request to revoke access from an identity if that access has been granted by role membership or by birthright provisioning. \n* Does not support self request. Only manager can request to revoke access for their directly managed employees.\n* If a `removeDate` is specified, then the requested role, access profile, or entitlement will be removed on that date and time.\n* Roles, access profiles, and entitlements can be requested for revocation.\n* Revoke requests for entitlements are limited to 1 entitlement per access request currently.\n* You can specify a `removeDate` to add or alter a sunset date and time on an assignment. The `removeDate` must be a future date-time, in the UTC timezone. If the user already has the access assigned with a sunset date and time, the removeDate must be a date-time earlier than the existing sunset date and time. \n* Allows a manager to request to revoke access for direct employees. A user with ORG_ADMIN authority can also request to revoke access from anyone.\n* Now supports REVOKE_ACCESS requests for identities with multiple accounts on a single source, with the help of 'assignmentId' and 'nativeIdentity' fields. These fields should be used within the 'requestedItems' section for the revoke requests. \n* Usage of 'requestedForWithRequestedItems' field is not supported for revoke requests.\n",
+        "description": "Use this API to submit an access request in Identity Security Cloud (ISC), where it follows any ISC approval processes.\n\n:::info\nThe ability to request access using this API is constrained by the Access Request Segments defined in the API token's user context.\n:::\n\nAccess requests are processed asynchronously by ISC. A successful response from this endpoint means that the request\nhas been submitted to ISC and is queued for processing. Because this endpoint is asynchronous, it does not return an error\nif you submit duplicate access requests in quick succession or submit an access request for access that is already in progress, approved, or rejected.\n\nIt is best practice to check for any existing access requests that reference the same access items before submitting a new access request. This can\nbe accomplished by using the [List Access Request Status](https://developer.sailpoint.com/idn/api/v3/list-access-request-status) or the [Pending Access Request Approvals](https://developer.sailpoint.com/idn/api/v3/list-pending-approvals) APIs. You can also\nuse the [Search API](https://developer.sailpoint.com/idn/api/v3/search) to check the existing access items an identity has before submitting\nan access request to ensure that you aren't requesting access that is already granted. If you use this API to request access that an identity already has, \nwithout changing the account details or end date information from the existing assignment, \nthe API will cancel the request as a duplicate.\n\nThere are two types of access request:\n\n__GRANT_ACCESS__\n* Can be requested for multiple identities in a single request.\n* Supports self request and request on behalf of other users. Refer to the [Get Access Request Configuration](https://developer.sailpoint.com/idn/api/v3/get-access-request-config) endpoint for request configuration options.  \n* Allows any authenticated token (except API) to call this endpoint to request to grant access to themselves. Depending on the configuration, a user can request access for others.\n* Roles, access profiles and entitlements can be requested.\n* You can specify a `startDate` to set or alter a sunrise date-time on an assignment. The startDate must be a future date-time, in the UTC timezone. Additionally, if the user already has the access assigned with a sunrise date and its yet to be provisioned, you can also submit a request without a `startDate` to request immediate provisioning after approval.\n* If a `startDate` is specified, then the requested role, access profile, or entitlement will be provisioned on that date and time.\n* You can specify a `removeDate` to set or alter a sunset date-time on an assignment. The removeDate must be a future date-time, in the UTC timezone. Additionally, if the user already has the access assigned with a sunset date, you can also submit a request without a `removeDate` to request removal of the sunset date and time.\n* If a `removeDate` is specified, then the requested role, access profile, or entitlement will be removed on that date and time.\n* Now supports an alternate field 'requestedForWithRequestedItems' for users to specify account selections while requesting items where they have more than one account on the source.\n\n:::caution\n\nIf any entitlements are being requested, then the maximum number of entitlements that can be requested is 25, and the maximum number of identities that can be requested for is 10. If you exceed these limits, the request will fail with a 400 error. If you are not requesting any entitlements, then there are no limits.\n\n:::\n\n__REVOKE_ACCESS__\n* Can only be requested for a single identity at a time.\n* You cannot use an access request to revoke access from an identity if that access has been granted by role membership or by birthright provisioning. \n* Does not support self request. Only manager can request to revoke access for their directly managed employees.\n* If a `removeDate` is specified, then the requested role, access profile, or entitlement will be removed on that date and time.\n* Roles, access profiles, and entitlements can be requested for revocation.\n* Revoke requests for entitlements are limited to 1 entitlement per access request currently.\n* You cannot specify a 'startDate' in a REVOKE_ACCESS request, as startDate is only applicable for GRANT_ACCESS requests to indicate when the access should be provisioned, and it does not make sense in the context of revoking access.\n* You can specify a `removeDate` to add or alter a sunset date and time on an assignment. The `removeDate` must be a future date-time, in the UTC timezone. If the user already has the access assigned with a sunset date and time, the removeDate must be a date-time earlier than the existing sunset date and time. \n* Allows a manager to request to revoke access for direct employees. A user with ORG_ADMIN authority can also request to revoke access from anyone.\n* Now supports REVOKE_ACCESS requests for identities with multiple accounts on a single source, with the help of 'assignmentId' and 'nativeIdentity' fields. These fields should be used within the 'requestedItems' section for the revoke requests. \n* Usage of 'requestedForWithRequestedItems' field is not supported for revoke requests.\n",
         "requestBody": {
           "required": true,
           "content": {
@@ -1784,7 +1784,7 @@
               "type": "string"
             },
             "example": "accountActivityItemId eq \"2c918086771c86df0177401efcdf54c0\"",
-            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**accountActivityItemId**: *eq, in, ge, gt, le, lt, ne, isnull, sw*\n\n**accessRequestId**: *in*\n\n**status**: *in, eq, ne*\n\n**created**: *eq, in, ge, gt, le, lt, ne, isnull, sw*",
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**accountActivityItemId**: *eq, in, ge, gt, le, lt, ne, isnull, sw*\n\n**accessRequestId**: *in, eq, ne, ge, gt, le, lt, sw*\n\n**status**: *in, eq, ne*\n\n**created**: *eq, in, ge, gt, le, lt, ne, isnull, sw*",
             "required": false
           },
           {
@@ -12392,6 +12392,19 @@
         ],
         "summary": "Create segment",
         "description": "This API creates a segment. \n>**Note:** Segment definitions may take time to propagate to all identities.",
+        "parameters": [
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -13269,11 +13282,6 @@
             "userAuth": [
               "idn:identity-lifecycle-state:manage"
             ]
-          },
-          {
-            "applicationAuth": [
-              "idn:identity-lifecycle-state:manage"
-            ]
           }
         ],
         "x-sailpoint-userLevels": [
@@ -13893,7 +13901,8 @@
           }
         ],
         "x-sailpoint-userLevels": [
-          "ORG_ADMIN"
+          "ORG_ADMIN",
+          "API"
         ]
       },
       "post": {
@@ -13945,10 +13954,16 @@
             "userAuth": [
               "idn:identity-profile:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-profile:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
-          "ORG_ADMIN"
+          "ORG_ADMIN",
+          "API"
         ]
       }
     },
@@ -14004,10 +14019,16 @@
             "userAuth": [
               "idn:identity-profile:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-profile:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
-          "ORG_ADMIN"
+          "ORG_ADMIN",
+          "API"
         ]
       }
     },
@@ -14092,6 +14113,10 @@
               "idn:identity-profile:read"
             ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "API"
         ]
       }
     },
@@ -14149,7 +14174,16 @@
             "userAuth": [
               "idn:identity-profile:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-profile:manage"
+            ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "API"
         ]
       }
     },
@@ -14218,7 +14252,8 @@
           }
         ],
         "x-sailpoint-userLevels": [
-          "ORG_ADMIN"
+          "ORG_ADMIN",
+          "API"
         ]
       },
       "delete": {
@@ -14278,10 +14313,16 @@
             "userAuth": [
               "idn:identity-profile:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-profile:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
-          "ORG_ADMIN"
+          "ORG_ADMIN",
+          "API"
         ]
       },
       "patch": {
@@ -14376,10 +14417,16 @@
             "userAuth": [
               "idn:identity-profile:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-profile:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
-          "ORG_ADMIN"
+          "ORG_ADMIN",
+          "API"
         ]
       }
     },
@@ -14440,10 +14487,16 @@
             "userAuth": [
               "idn:identity-profile:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-profile:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
-          "ORG_ADMIN"
+          "ORG_ADMIN",
+          "API"
         ]
       }
     },
@@ -14502,10 +14555,16 @@
             "userAuth": [
               "idn:identity-profile:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-profile:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
-          "ORG_ADMIN"
+          "ORG_ADMIN",
+          "API"
         ]
       }
     },
@@ -20368,6 +20427,17 @@
             "x-sailpoint-resource-operation-id": "listPasswordPolicies",
             "description": "The ID of password policy to retrieve.",
             "example": "ff808081838d9e9d01838da6a03e0005"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -20463,6 +20533,17 @@
             "x-sailpoint-resource-operation-id": "listPasswordPolicies",
             "description": "The ID of password policy to update.",
             "example": "ff808081838d9e9d01838da6a03e0007"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
           }
         ],
         "requestBody": {
@@ -20602,6 +20683,17 @@
             "x-sailpoint-resource-operation-id": "listPasswordPolicies",
             "description": "The ID of password policy to delete.",
             "example": "ff808081838d9e9d01838da6a03e0002"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -20646,6 +20738,19 @@
         ],
         "x-sailpoint-userLevels": [
           "ORG_ADMIN"
+        ],
+        "parameters": [
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
         ],
         "requestBody": {
           "required": true,
@@ -20750,6 +20855,17 @@
           },
           {
             "$ref": "#/components/parameters/count"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -21523,17 +21639,6 @@
         ],
         "parameters": [
           {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          },
-          {
             "in": "path",
             "name": "identityId",
             "schema": {
@@ -21854,7 +21959,7 @@
           "Roles"
         ],
         "summary": "Patch a specified role",
-        "description": "This API updates an existing role using [JSON Patch](https://tools.ietf.org/html/rfc6902) syntax.\n\nThe following fields are patchable:\n\n* name\n* description\n* enabled\n* owner\n* accessProfiles\n* entitlements\n* membership\n* requestable\n* accessRequestConfig\n* revokeRequestConfig\n* segments\n* accessModelMetadata   \nA token with API, ORG_ADMIN, ROLE_ADMIN, or ROLE_SUBADMIN authority is required to call this API. In addition, a token with ROLE_SUBADMIN authority may only call this API if all access profiles included in the role are associated to Sources with management workgroups of which the ROLE_SUBADMIN is a member.\n\nThe maximum supported length for the description field is 2000 characters. Longer descriptions will be preserved for existing roles, however, any new roles as well as any updates to existing descriptions will be limited to 2000 characters.\n\nWhen you use this API to modify a role's membership identities, you can only modify up to a limit of 500 membership identities at a time.",
+        "description": "This API updates an existing role using [JSON Patch](https://tools.ietf.org/html/rfc6902) syntax.\n\nThe following fields are patchable:\n\n* name\n* description\n* enabled\n* owner\n* additionalOwners\n* accessProfiles\n* entitlements\n* membership\n* requestable\n* accessRequestConfig\n* revokeRequestConfig\n* segments\n* accessModelMetadata   \nA token with API, ORG_ADMIN, ROLE_ADMIN, or ROLE_SUBADMIN authority is required to call this API. In addition, a token with ROLE_SUBADMIN authority may only call this API if all access profiles included in the role are associated to Sources with management workgroups of which the ROLE_SUBADMIN is a member.\n\nThe maximum supported length for the description field is 2000 characters. Longer descriptions will be preserved for existing roles, however, any new roles as well as any updates to existing descriptions will be limited to 2000 characters.\n\nWhen you use this API to modify a role's membership identities, you can only modify up to a limit of 500 membership identities at a time.",
         "parameters": [
           {
             "name": "id",
@@ -24085,8 +24190,7 @@
           "SOURCE_ADMIN",
           "SOURCE_SUBADMIN",
           "ROLE_ADMIN",
-          "ROLE_SUBADMIN",
-          "HELPDESK"
+          "ROLE_SUBADMIN"
         ],
         "summary": "Perform search",
         "parameters": [
@@ -24447,8 +24551,7 @@
           "SOURCE_ADMIN",
           "SOURCE_SUBADMIN",
           "ROLE_ADMIN",
-          "ROLE_SUBADMIN",
-          "HELPDESK"
+          "ROLE_SUBADMIN"
         ],
         "summary": "Get a document by id",
         "parameters": [
@@ -34791,11 +34894,12 @@
           "Workflows"
         ],
         "summary": "List workflow executions",
-        "description": "Use this API to list a specified workflow's executions. Workflow executions are available for up to 90 days before being archived. By default, you can get a maximum of 250 executions. To get executions past the first 250 records, you can do the following:\n1. Use the [Get Workflows](https://developer.sailpoint.com/idn/api/beta/list-workflows) endpoint to get your workflows.\n2. Get your workflow ID from the response.\n3. You can then do either of the following:\n\n  - Filter to find relevant workflow executions.\n  For example, you can filter for failed workflow executions: `GET /workflows/:workflowID/executions?filters=status eq \"Failed\"`\n\n  - Paginate through results with the `offset` parameter.\n  For example, you can page through 50 executions per page and use that as a way to get to the records past the first 250.\n  Refer to [Paginating Results](https://developer.sailpoint.com/idn/api/standard-collection-parameters#paginating-results) for more information about the query parameters you can use to achieve pagination.",
+        "description": "[Deprecated] This endpoint will be removed in July 2028.\nUse this API to list a specified workflow's executions. Workflow executions are available for up to 90 days before being archived. By default, you can get a maximum of 250 executions. To get executions past the first 250 records, you can do the following:\n1. Use the [Get Workflows](https://developer.sailpoint.com/idn/api/beta/list-workflows) endpoint to get your workflows.\n2. Get your workflow ID from the response.\n3. You can then do either of the following:\n\n  - Filter to find relevant workflow executions.\n  For example, you can filter for failed workflow executions: `GET /workflows/:workflowID/executions?filters=status eq \"Failed\"`\n\n  - Paginate through results with the `offset` parameter.\n  For example, you can page through 50 executions per page and use that as a way to get to the records past the first 250.\n  Refer to [Paginating Results](https://developer.sailpoint.com/idn/api/standard-collection-parameters#paginating-results) for more information about the query parameters you can use to achieve pagination.",
+        "deprecated": true,
         "security": [
           {
             "userAuth": [
-              "sp:workflow:read",
+              "sp:workflow-execution:read",
               "sp:workflow:manage"
             ]
           }
@@ -34882,16 +34986,20 @@
         "security": [
           {
             "userAuth": [
-              "sp:workflow:read",
+              "sp:workflow-execution:read",
               "sp:workflow:manage"
             ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
         ],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "description": "Workflow execution ID.",
+            "x-sailpoint-resource-operation-id": "getWorkflowExecutions",
             "required": true,
             "style": "simple",
             "explode": false,
@@ -34946,16 +35054,22 @@
         "security": [
           {
             "userAuth": [
-              "sp:workflow:read",
+              "sp:workflow-execution:read",
               "sp:workflow:manage"
             ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_SUBADMIN",
+          "SOURCE_ADMIN"
         ],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "description": "Id of the workflow execution",
+            "x-sailpoint-resource-operation-id": "getWorkflowExecution",
             "required": true,
             "style": "simple",
             "explode": false,
@@ -34963,6 +35077,12 @@
               "type": "string",
               "example": "c17bea3a-574d-453c-9e04-4365fbf5af0b"
             }
+          },
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
           }
         ],
         "responses": {
@@ -35220,7 +35340,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq*",
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq*\n\n**name**: *eq*\n\n**type**: *eq*",
             "example": "id eq \"idn:identity-attributes-changed\""
           }
         ],
@@ -35231,6 +35351,11 @@
               "sp:workflow:manage"
             ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
         ],
         "responses": {
           "200": {
@@ -35837,10 +35962,16 @@
             "userAuth": [
               "idn:identity-profile:manage"
             ]
+          },
+          {
+            "applicationAuth": [
+              "idn:identity-profile:manage"
+            ]
           }
         ],
         "x-sailpoint-userLevels": [
-          "ORG_ADMIN"
+          "ORG_ADMIN",
+          "API"
         ]
       }
     },
@@ -35955,20 +36086,7 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        },
-        "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          }
-        ]
+        }
       },
       "get": {
         "operationId": "getSearchAttributeConfig",
@@ -35994,17 +36112,6 @@
           },
           {
             "$ref": "#/components/parameters/offset"
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "responses": {
@@ -36068,17 +36175,6 @@
               "type": "string",
               "example": "newMailAttribute"
             }
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "responses": {
@@ -36139,17 +36235,6 @@
               "type": "string",
               "example": "newMailAttribute"
             }
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "responses": {
@@ -36200,17 +36285,6 @@
               "type": "string",
               "example": "promotedMailAttribute"
             }
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "requestBody": {
@@ -36575,6 +36649,75 @@
             "$ref": "#/components/responses/500"
           }
         }
+      },
+      "delete": {
+        "summary": "Delete access model metadata attribute",
+        "description": "Delete an existing Access Model Metadata Attribute and all of its values.\n",
+        "operationId": "deleteAccessModelMetadataAttribute",
+        "tags": [
+          "Access Model Metadata"
+        ],
+        "security": [
+          {
+            "userAuth": [
+              "idn:access-model-metadata:delete"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:access-model-metadata:delete"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listAccessModelMetadataAttribute",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Technical name of the Attribute.",
+            "example": "iscPrivacy"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Attribute deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrackerKeyDTO"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "410": {
+            "$ref": "#/components/responses/410"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
       }
     },
     "/access-model-metadata/attributes/{key}/values": {
@@ -36903,6 +37046,86 @@
             "$ref": "#/components/responses/500"
           }
         }
+      },
+      "delete": {
+        "summary": "Delete access model metadata value",
+        "description": "Delete an existing Access Model Metadata Attribute Value.\n",
+        "operationId": "deleteAccessModelMetadataAttributeValue",
+        "tags": [
+          "Access Model Metadata"
+        ],
+        "security": [
+          {
+            "userAuth": [
+              "idn:access-model-metadata:delete"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:access-model-metadata:delete"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listAccessModelMetadataAttribute",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Technical name of the Attribute.",
+            "example": "iscPrivacy"
+          },
+          {
+            "name": "value",
+            "in": "path",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listAccessModelMetadataAttributeValue",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Technical name of the Attribute value.",
+            "example": "public"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Attribute value deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrackerValueDTO"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "410": {
+            "$ref": "#/components/responses/410"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
       }
     },
     "/access-profiles/bulk-update-requestable": {
@@ -36978,19 +37201,6 @@
           "ORG_ADMIN",
           "SOURCE_ADMIN",
           "SOURCE_SUBADMIN"
-        ],
-        "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          }
         ]
       }
     },
@@ -37924,20 +38134,7 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        },
-        "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          }
-        ]
+        }
       }
     },
     "/auth-profiles/{id}": {
@@ -37987,17 +38184,6 @@
         },
         "parameters": [
           {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          },
-          {
             "name": "id",
             "in": "path",
             "description": "ID of the Auth Profile to patch.",
@@ -38028,17 +38214,6 @@
               "type": "string",
               "example": "2c91808a7813090a017814121919ecca"
             }
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "requestBody": {
@@ -38105,7 +38280,7 @@
         "x-sailpoint-userLevels": [
           "ORG_ADMIN"
         ],
-        "description": "This API creates the custom password instructions for the specified page ID.",
+        "description": "This API creates the custom password instructions for the specified page ID.\n\nThe `pageId` determines which login and password-recovery screen your custom instructions appear on. The following table describes each supported page ID and where its text is displayed:\n\n| Page ID | Where the custom text appears |\n| --- | --- |\n| `flow-selection:select` | Flow-selection landing screen, under \"Need help signing in?\", above the navigation links. |\n| `reset-password:enter-username` | Reset-password \"enter username\" step, under the prompt, above the username field. |\n| `unlock-account:enter-username` | Unlock-account \"enter username\" step, under the prompt, above the username field. |\n| `forget-username:user-email` | Forgot-username screen, under \"Enter the email address for\", above the email field. |\n| `reset-password:enter-password` | Reset-password \"new password\" step, under the header, above the password fields. |\n| `change-password:enter-password` | Same \"new password\" screen, but the authenticated app/sync-group change variant. |\n| `reset-password:finish` | Reset-password success screen, under the success icon/heading, above the return button. |\n| `change-password:finish` | Success screen for the authenticated app/sync-group change, under the heading. |\n| `mfa:select` | MFA method-selection step, under the prompt, above the list of MFA options. |\n| `mfa:enter-code` | MFA code-entry step, under the option label, above the code field. |\n| `mfa:enter-kba` | KBA step, under \"Please answer these security questions\", above the questions form. |\n| `unlock-account:finish` | Unlock-account success screen, under the success icon/heading, above the return button. |\n\nIn every case the text shows as an info-icon + paragraph block that only appears if custom text is configured for that page ID, positioned between the screen's built-in heading and its form controls.\n",
         "requestBody": {
           "required": true,
           "content": {
@@ -41790,11 +41965,13 @@
         "security": [
           {
             "userAuth": [
+              "idn:identity:process",
               "idn:identity:manage"
             ]
           },
           {
             "applicationAuth": [
+              "idn:identity:process",
               "idn:identity:manage"
             ]
           }
@@ -42675,6 +42852,9 @@
             ]
           }
         ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
         "operationId": "putMailFromAttributes",
         "tags": [
           "Notifications"
@@ -42721,20 +42901,7 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        },
-        "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          }
-        ]
+        }
       }
     },
     "/mail-from-attributes/{identity}": {
@@ -42746,6 +42913,9 @@
             ]
           }
         ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
         "operationId": "getMailFromAttributes",
         "tags": [
           "Notifications"
@@ -42754,25 +42924,15 @@
         "description": "Retrieve MAIL FROM attributes for a given AWS SES identity.",
         "parameters": [
           {
-            "in": "query",
-            "name": "id",
+            "in": "path",
+            "name": "identity",
             "required": true,
             "schema": {
               "type": "string"
             },
             "description": "Returns the MX and TXT record to be put in your DNS, as well as the MAIL FROM domain status",
-            "example": "bobsmith@sailpoint.com"
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
+            "example": "bobsmith@sailpoint.com",
+            "x-sailpoint-resource-operation-id": "listFromAddresses"
           }
         ],
         "responses": {
@@ -42815,6 +42975,9 @@
             ]
           }
         ],
+        "x-sailpoint-userLevels": [
+          "APPROVAL_OWNER"
+        ],
         "operationId": "getApprovals",
         "tags": [
           "Approvals"
@@ -42825,8 +42988,10 @@
           {
             "in": "query",
             "name": "mine",
+            "required": false,
             "schema": {
-              "type": "boolean"
+              "type": "boolean",
+              "default": true
             },
             "description": "Returns the list of approvals for the current caller",
             "example": "true"
@@ -42834,6 +42999,7 @@
           {
             "in": "query",
             "name": "requesterId",
+            "required": false,
             "schema": {
               "type": "string"
             },
@@ -42843,6 +43009,7 @@
           {
             "in": "query",
             "name": "filters",
+            "required": false,
             "schema": {
               "type": "string"
             },
@@ -42850,15 +43017,10 @@
             "example": "filters=status eq PENDING"
           },
           {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
           }
         ],
         "responses": {
@@ -42904,6 +43066,9 @@
             ]
           }
         ],
+        "x-sailpoint-userLevels": [
+          "APPROVAL_OWNER"
+        ],
         "operationId": "getApproval",
         "tags": [
           "Approvals"
@@ -42921,17 +43086,6 @@
             },
             "description": "ID of the approval that is to be returned",
             "example": "38453251-6be2-5f8f-df93-5ce19e295837"
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "responses": {
@@ -42969,7 +43123,7 @@
         "tags": [
           "Machine Accounts"
         ],
-        "summary": "Machine accounts list",
+        "summary": "List machine accounts",
         "description": "This returns a list of machine accounts.  ",
         "security": [
           {
@@ -43068,7 +43222,7 @@
         "tags": [
           "Machine Accounts"
         ],
-        "summary": "Machine account details",
+        "summary": "Get machine account details",
         "description": "Use this API to return the details for a single machine account by its ID.  ",
         "security": [
           {
@@ -43143,7 +43297,7 @@
         "tags": [
           "Machine Accounts"
         ],
-        "summary": "Update a machine account",
+        "summary": "Update machine account details",
         "description": "Use this API to update machine accounts details. \n",
         "security": [
           {
@@ -43298,6 +43452,17 @@
             "description": "Source ID",
             "example": "ef38f94347e94562b5bb8424a56397d8",
             "x-sailpoint-resource-operation-id": "listSources"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -43366,6 +43531,17 @@
             "description": "Source ID.",
             "example": "ef38f94347e94562b5bb8424a56397d8",
             "x-sailpoint-resource-operation-id": "listSources"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
           }
         ],
         "requestBody": {
@@ -43444,6 +43620,17 @@
             "description": "Source ID.",
             "example": "ef38f94347e94562b5bb8424a56397d8",
             "x-sailpoint-resource-operation-id": "listSources"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -43515,6 +43702,17 @@
             "description": "Source ID",
             "example": "ef38f94347e94562b5bb8424a56397d8",
             "x-sailpoint-resource-operation-id": "listSources"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -43588,6 +43786,17 @@
             "description": "Source ID.",
             "example": "ef38f94347e94562b5bb8424a56397d8",
             "x-sailpoint-resource-operation-id": "listSources"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
           }
         ],
         "requestBody": {
@@ -43666,6 +43875,17 @@
             "description": "source ID.",
             "example": "ef38f94347e94562b5bb8424a56397d8",
             "x-sailpoint-resource-operation-id": "listSources"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -43699,7 +43919,7 @@
         "tags": [
           "Machine Account Mappings"
         ],
-        "summary": "Update Source's Machine Account Mappings",
+        "summary": "Update source's machine account mappings",
         "description": "Use this API to update Machine Account Attribute Mapping for a Source. A token with ORG_ADMIN, SOURCE_ADMIN, or SOURCE_SUBADMIN authority is required to call this API.",
         "security": [
           {
@@ -43782,7 +44002,7 @@
         "tags": [
           "Machine Account Classify"
         ],
-        "summary": "Classify a Single Machine Account",
+        "summary": "Classify single machine account",
         "security": [
           {
             "userAuth": [
@@ -43816,6 +44036,17 @@
           },
           {
             "$ref": "#/components/parameters/ClassificationMode"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -43959,7 +44190,7 @@
         "tags": [
           "Machine Identities"
         ],
-        "summary": "Create machine identities",
+        "summary": "Create machine identity",
         "security": [
           {
             "userAuth": [
@@ -44037,7 +44268,7 @@
         "tags": [
           "Machine Identities"
         ],
-        "summary": "Machine identity details",
+        "summary": "Get machine identity details",
         "description": "This API returns a single machine identity using the Machine Identity ID.",
         "security": [
           {
@@ -44112,7 +44343,7 @@
         "tags": [
           "Machine Identities"
         ],
-        "summary": "Update a machine identity",
+        "summary": "Update machine identity details",
         "description": "Use this API to update machine identity details.\n",
         "security": [
           {
@@ -44312,6 +44543,9 @@
             ]
           }
         ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/limit"
@@ -44322,22 +44556,12 @@
           {
             "in": "query",
             "name": "filters",
+            "required": false,
             "schema": {
               "type": "string",
               "example": "key eq \"cloud_manual_work_item_summary\""
             },
             "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**key**: *eq, in, sw*\n\n**medium**: *eq, sw*\n\n**locale**: *eq, sw*"
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "responses": {
@@ -44417,17 +44641,6 @@
             "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **key, name, medium**",
             "example": "key, -name",
             "required": false
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "responses": {
@@ -44514,24 +44727,21 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        },
-        "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          }
-        ]
+        }
       }
     },
     "/notification-templates/{id}": {
       "get": {
+        "security": [
+          {
+            "userAuth": [
+              "idn:notification-templates:read"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
         "operationId": "getNotificationTemplate",
         "tags": [
           "Notifications"
@@ -44551,17 +44761,6 @@
               "type": "string",
               "example": "c17bea3a-574d-453c-9e04-4365fbf5af0b"
             }
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "responses": {
@@ -44603,13 +44802,16 @@
           "Notifications"
         ],
         "summary": "Bulk delete notification templates",
-        "description": "This lets you bulk delete templates that you previously created for your site. Since this is a beta feature, please contact support to enable usage.",
+        "description": "This lets you bulk delete templates that you previously created for your site.",
         "security": [
           {
             "userAuth": [
               "idn:notification-templates:delete"
             ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
         ],
         "requestBody": {
           "required": true,
@@ -44643,20 +44845,7 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        },
-        "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          }
-        ]
+        }
       }
     },
     "/org-config": {
@@ -44713,20 +44902,7 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        },
-        "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          }
-        ]
+        }
       },
       "patch": {
         "operationId": "patchOrgConfig",
@@ -44795,20 +44971,7 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        },
-        "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          }
-        ]
+        }
       }
     },
     "/org-config/valid-time-zones": {
@@ -44877,17 +45040,6 @@
           }
         },
         "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          },
           {
             "$ref": "#/components/parameters/limit50"
           },
@@ -45919,6 +46071,9 @@
             ]
           }
         ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
         "responses": {
           "200": {
             "description": "Notification template context attributes for a specific tenant.",
@@ -45945,25 +46100,12 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        },
-        "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          }
-        ]
+        }
       }
     },
     "/notification-preferences/{key}": {
       "get": {
-        "operationId": "listNotificationPreferences",
+        "operationId": "getNotificationPreferences",
         "tags": [
           "Notifications"
         ],
@@ -45975,6 +46117,9 @@
               "idn:notification-preferences:read"
             ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
         ],
         "responses": {
           "200": {
@@ -46005,20 +46150,7 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        },
-        "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          }
-        ]
+        }
       }
     },
     "/reassignment-configurations/types": {
@@ -50221,17 +50353,6 @@
             "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **name, attribute, value, created, modified**",
             "example": "name,-modified",
             "required": false
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "responses": {
@@ -50291,6 +50412,16 @@
     },
     "/send-test-notification": {
       "post": {
+        "security": [
+          {
+            "userAuth": [
+              "idn:notification-templates:create"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
         "operationId": "sendTestNotification",
         "tags": [
           "Notifications"
@@ -50337,20 +50468,7 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        },
-        "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          }
-        ]
+        }
       }
     },
     "/sim-integrations/{id}": {
@@ -51854,15 +51972,15 @@
         },
         "parameters": [
           {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listSources",
             "schema": {
-              "type": "string",
-              "default": true
+              "type": "string"
             },
-            "required": true
+            "description": "The Source id",
+            "example": "8c190e6787aa4ed9a90bd9d5344523fb"
           }
         ]
       },
@@ -51974,15 +52092,15 @@
         },
         "parameters": [
           {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listSources",
             "schema": {
-              "type": "string",
-              "default": true
+              "type": "string"
             },
-            "required": true
+            "description": "The Source id",
+            "example": "8c190e6787aa4ed9a90bd9d5344523fb"
           }
         ]
       }
@@ -52540,20 +52658,7 @@
         "tags": [
           "Tenant Context"
         ],
-        "description": "Returns a list of key-value pairs representing the current state of the tenant's context.\n",
-        "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          }
-        ],
+        "description": "Returns all key-value pairs representing the current state of the tenant's context.\nEach tenant is limited to a maximum of 100 key-value pairs.\n",
         "security": [
           {
             "userAuth": [
@@ -52623,19 +52728,6 @@
           "Tenant Context"
         ],
         "description": "Allows the user to make incremental updates to tenant context records using [JSON Patch](https://tools.ietf.org/html/rfc6902) syntax.\n\nThis endpoint is specifically designed to modify the `/Key/*` field, supporting operations such as `add`, `remove`, or `replace` to manage key-value pairs. \n\nNote that each tenant is limited to a maximum of 100 key-value pairs.\n",
-        "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          }
-        ],
         "security": [
           {
             "userAuth": [
@@ -52842,17 +52934,6 @@
             },
             "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **id, name**",
             "example": "name"
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "responses": {
@@ -52896,6 +52977,9 @@
               "sp:trigger-service-subscriptions:read"
             ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
         ]
       }
     },
@@ -53011,18 +53095,8 @@
             ]
           }
         ],
-        "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          }
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
         ]
       },
       "get": {
@@ -53062,17 +53136,6 @@
             },
             "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **triggerId, triggerName**",
             "example": "triggerName"
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "responses": {
@@ -53182,6 +53245,9 @@
               "sp:trigger-service-subscriptions:manage"
             ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
         ]
       }
     },
@@ -53204,17 +53270,6 @@
             "x-sailpoint-resource-operation-id": "listSubscriptions",
             "description": "Subscription ID",
             "example": "0f11f2a4-7c94-4bf3-a2bd-742580fe3bde"
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "requestBody": {
@@ -53320,6 +53375,9 @@
               "sp:trigger-service-subscriptions:manage"
             ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
         ]
       },
       "patch": {
@@ -53340,17 +53398,6 @@
             "x-sailpoint-resource-operation-id": "listSubscriptions",
             "description": "ID of the Subscription to patch",
             "example": "0f11f2a4-7c94-4bf3-a2bd-742580fe3bde"
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "requestBody": {
@@ -53404,6 +53451,9 @@
               "sp:trigger-service-subscriptions:manage"
             ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
         ]
       },
       "delete": {
@@ -53424,17 +53474,6 @@
             "x-sailpoint-resource-operation-id": "listSubscriptions",
             "description": "Subscription ID",
             "example": "0f11f2a4-7c94-4bf3-a2bd-742580fe3bde"
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "responses": {
@@ -53472,6 +53511,9 @@
               "sp:trigger-service-subscriptions:manage"
             ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
         ]
       }
     },
@@ -53547,18 +53589,8 @@
             ]
           }
         ],
-        "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          }
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
         ]
       }
     },
@@ -53600,17 +53632,6 @@
             },
             "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **triggerId, subscriptionName, created, completed**",
             "example": "created"
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "responses": {
@@ -53656,6 +53677,9 @@
               "sp:trigger-service-invocation-status:manage"
             ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
         ]
       }
     },
@@ -53678,17 +53702,6 @@
             "x-sailpoint-resource-operation-id": "listTriggerInvocationStatus",
             "description": "The ID of the invocation to complete.",
             "example": "0f11f2a4-7c94-4bf3-a2bd-742580fe3bde"
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "requestBody": {
@@ -53726,7 +53739,18 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": []
+          },
+          {
+            "applicationAuth": []
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ]
       }
     },
     "/trigger-invocations/test": {
@@ -53817,18 +53841,8 @@
             ]
           }
         ],
-        "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          }
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
         ]
       }
     },
@@ -53973,6 +53987,16 @@
     },
     "/verified-from-addresses": {
       "get": {
+        "security": [
+          {
+            "userAuth": [
+              "idn:notification-templates:read"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
         "operationId": "listFromAddresses",
         "tags": [
           "Notifications"
@@ -53992,32 +54016,23 @@
           {
             "in": "query",
             "name": "filters",
+            "required": false,
             "schema": {
               "type": "string"
             },
-            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**email**: *eq, ge, le, sw*",
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**email**: *eq, ge, le, gt, lt*",
             "example": "email eq \"john.doe@company.com\""
           },
           {
             "in": "query",
             "name": "sorters",
+            "required": false,
             "schema": {
               "type": "string",
               "format": "comma-separated"
             },
             "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **email**",
             "example": "email"
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "responses": {
@@ -54034,6 +54049,9 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
           "401": {
             "$ref": "#/components/responses/401"
           },
@@ -54049,6 +54067,16 @@
         }
       },
       "post": {
+        "security": [
+          {
+            "userAuth": [
+              "idn:notification-templates:create"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
         "operationId": "createVerifiedFromAddress",
         "tags": [
           "Notifications"
@@ -54094,24 +54122,21 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        },
-        "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          }
-        ]
+        }
       }
     },
     "/verified-from-addresses/{id}": {
       "delete": {
+        "security": [
+          {
+            "userAuth": [
+              "idn:notification-templates:delete"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
         "operationId": "deleteVerifiedFromAddress",
         "tags": [
           "Notifications"
@@ -54122,22 +54147,13 @@
           {
             "in": "path",
             "name": "id",
-            "schema": {
-              "type": "string"
-            },
+            "description": "Unique identifier of the verified sender address to delete.",
             "required": true,
-            "x-sailpoint-resource-operation-id": "listFromAddresses"
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
+            "x-sailpoint-resource-operation-id": "listFromAddresses",
             "schema": {
               "type": "string",
-              "default": true
-            },
-            "required": true
+              "example": "c17bea3a-574d-453c-9e04-4365fbf5af0b"
+            }
           }
         ],
         "responses": {
@@ -54174,12 +54190,23 @@
             ]
           }
         ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
         "operationId": "getDkimAttributes",
         "tags": [
           "Notifications"
         ],
         "summary": "Get dkim attributes",
         "description": "Retrieve DKIM (DomainKeys Identified Mail) attributes for all your tenants' AWS SES identities. Limits retrieval to 100 identities per call.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          }
+        ],
         "responses": {
           "200": {
             "description": "List of DKIM Attributes",
@@ -54209,20 +54236,7 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        },
-        "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          }
-        ]
+        }
       },
       "post": {
         "security": [
@@ -54231,6 +54245,9 @@
               "sp:notification-verify-domain-dkim:write"
             ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
         ],
         "operationId": "createDomainDkim",
         "tags": [
@@ -54277,24 +54294,28 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        },
-        "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          }
-        ]
+        }
       }
     },
     "/workgroups": {
       "get": {
+        "security": [
+          {
+            "userAuth": [
+              "idn:workgroup:read",
+              "idn:workgroup:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:workgroup:read",
+              "idn:workgroup:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
         "operationId": "listWorkgroups",
         "tags": [
           "Governance Groups"
@@ -54331,17 +54352,6 @@
             "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **name, created, modified, id, description**",
             "example": "name,-modified",
             "required": false
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "responses": {
@@ -54373,24 +54383,9 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        },
-        "security": [
-          {
-            "userAuth": [
-              "idn:workgroup:read",
-              "idn:workgroup:manage"
-            ]
-          },
-          {
-            "applicationAuth": [
-              "idn:workgroup:read",
-              "idn:workgroup:manage"
-            ]
-          }
-        ]
+        }
       },
       "post": {
-        "operationId": "createWorkgroup",
         "security": [
           {
             "userAuth": [
@@ -54403,6 +54398,10 @@
             ]
           }
         ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "operationId": "createWorkgroup",
         "tags": [
           "Governance Groups"
         ],
@@ -54444,24 +54443,28 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        },
-        "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          }
-        ]
+        }
       }
     },
     "/workgroups/{id}": {
       "get": {
+        "security": [
+          {
+            "userAuth": [
+              "idn:workgroup:read",
+              "idn:workgroup:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:workgroup:read",
+              "idn:workgroup:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
         "operationId": "getWorkgroup",
         "tags": [
           "Governance Groups"
@@ -54473,22 +54476,12 @@
             "in": "path",
             "name": "id",
             "required": true,
+            "x-sailpoint-resource-operation-id": "listWorkgroups",
             "schema": {
               "type": "string"
             },
             "description": "ID of the Governance Group",
             "example": "2c9180837ca6693d017ca8d097500149"
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "responses": {
@@ -54517,26 +54510,24 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        },
+        }
+      },
+      "delete": {
         "security": [
           {
             "userAuth": [
-              "idn:workgroup:read",
               "idn:workgroup:manage"
             ]
           },
           {
             "applicationAuth": [
-              "idn:workgroup:read",
               "idn:workgroup:manage"
             ]
           }
         ],
         "x-sailpoint-userLevels": [
           "ORG_ADMIN"
-        ]
-      },
-      "delete": {
+        ],
         "operationId": "deleteWorkgroup",
         "tags": [
           "Governance Groups"
@@ -54548,22 +54539,12 @@
             "in": "path",
             "name": "id",
             "required": true,
+            "x-sailpoint-resource-operation-id": "listWorkgroups",
             "schema": {
               "type": "string"
             },
             "description": "ID of the Governance Group",
             "example": "2c9180837ca6693d017ca8d097500149"
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "responses": {
@@ -54585,7 +54566,9 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        },
+        }
+      },
+      "patch": {
         "security": [
           {
             "userAuth": [
@@ -54600,9 +54583,7 @@
         ],
         "x-sailpoint-userLevels": [
           "ORG_ADMIN"
-        ]
-      },
-      "patch": {
+        ],
         "operationId": "patchWorkgroup",
         "tags": [
           "Governance Groups"
@@ -54614,22 +54595,12 @@
             "in": "path",
             "name": "id",
             "required": true,
+            "x-sailpoint-resource-operation-id": "listWorkgroups",
             "schema": {
               "type": "string"
             },
             "description": "ID of the Governance Group",
             "example": "2c9180837ca6693d017ca8d097500149"
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "requestBody": {
@@ -54682,7 +54653,11 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        },
+        }
+      }
+    },
+    "/workgroups/bulk-delete": {
+      "post": {
         "security": [
           {
             "userAuth": [
@@ -54697,16 +54672,12 @@
         ],
         "x-sailpoint-userLevels": [
           "ORG_ADMIN"
-        ]
-      }
-    },
-    "/workgroups/bulk-delete": {
-      "post": {
+        ],
         "operationId": "deleteWorkgroupsInBulk",
-        "summary": "Delete governance group(s)",
         "tags": [
           "Governance Groups"
         ],
+        "summary": "Delete governance group(s)",
         "description": "\nThis API initiates a bulk deletion of one or more Governance Groups.\n\n>  If any of the indicated Governance Groups have one or more connections associated with it,then those Governance Groups will be added in  **inUse** list of the response. Governance Group(s) marked as **inUse** can not be deleted.\n\n>  If any of the indicated Governance Groups is not does not exists in Organization,then those Governance Groups will be added in **notFound** list of the response. Governance Groups marked as **notFound** will not be deleted.\n\n>  If any of the indicated Governance Groups does not have any connections associated with it,then those Governance Groups will be added in **deleted** list of the response. A Governance Group marked as **deleted** will be deleted from current Organization.\n\n>  If the request contains any **inUse** or **notFound** Governance Group IDs then it skips only these Governance Groups for deletion and deletes the rest of Governance Groups which have no connections associated with it. \n\n>  **This API has limit number of Governance Groups can be deleted at one time. If the request contains more then 100 Governance Groups IDs to be deleted then the API will throw an exception.**",
         "requestBody": {
           "required": true,
@@ -54750,36 +54721,28 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        },
+        }
+      }
+    },
+    "/workgroups/{workgroupId}/connections": {
+      "get": {
         "security": [
           {
             "userAuth": [
+              "idn:workgroup:read",
               "idn:workgroup:manage"
             ]
           },
           {
             "applicationAuth": [
+              "idn:workgroup:read",
               "idn:workgroup:manage"
             ]
           }
         ],
-        "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          }
-        ]
-      }
-    },
-    "/workgroups/{workgroupId}/connections": {
-      "get": {
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
         "operationId": "listConnections",
         "tags": [
           "Governance Groups"
@@ -54792,6 +54755,7 @@
             "in": "path",
             "description": "ID of the Governance Group.",
             "required": true,
+            "x-sailpoint-resource-operation-id": "listWorkgroups",
             "schema": {
               "type": "string",
               "example": "2c91808a7813090a017814121919ecca"
@@ -54816,17 +54780,6 @@
             "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **name, created, modified**",
             "example": "name,-modified",
             "required": false
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "responses": {
@@ -54858,7 +54811,11 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        },
+        }
+      }
+    },
+    "/workgroups/{workgroupId}/members": {
+      "get": {
         "security": [
           {
             "userAuth": [
@@ -54872,11 +54829,10 @@
               "idn:workgroup:manage"
             ]
           }
-        ]
-      }
-    },
-    "/workgroups/{workgroupId}/members": {
-      "get": {
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
         "operationId": "listWorkgroupMembers",
         "tags": [
           "Governance Groups"
@@ -54889,6 +54845,7 @@
             "in": "path",
             "description": "ID of the Governance Group.",
             "required": true,
+            "x-sailpoint-resource-operation-id": "listWorkgroups",
             "schema": {
               "type": "string",
               "example": "2c91808a7813090a017814121919ecca"
@@ -54913,17 +54870,6 @@
             "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **name, created, modified**",
             "example": "name,-modified",
             "required": false
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "responses": {
@@ -54981,26 +54927,11 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        },
-        "security": [
-          {
-            "userAuth": [
-              "idn:workgroup:read",
-              "idn:workgroup:manage"
-            ]
-          },
-          {
-            "applicationAuth": [
-              "idn:workgroup:read",
-              "idn:workgroup:manage"
-            ]
-          }
-        ]
+        }
       }
     },
     "/workgroups/{workgroupId}/members/bulk-add": {
       "post": {
-        "operationId": "updateWorkgroupMembers",
         "security": [
           {
             "userAuth": [
@@ -55013,6 +54944,10 @@
             ]
           }
         ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "operationId": "updateWorkgroupMembers",
         "tags": [
           "Governance Groups"
         ],
@@ -55024,21 +54959,11 @@
             "in": "path",
             "description": "ID of the Governance Group.",
             "required": true,
+            "x-sailpoint-resource-operation-id": "listWorkgroups",
             "schema": {
               "type": "string",
               "example": "2c91808a7813090a017814121919ecca"
             }
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "requestBody": {
@@ -55083,7 +55008,6 @@
     },
     "/workgroups/{workgroupId}/members/bulk-delete": {
       "post": {
-        "operationId": "deleteWorkgroupMembers",
         "security": [
           {
             "userAuth": [
@@ -55099,6 +55023,7 @@
         "x-sailpoint-userLevels": [
           "ORG_ADMIN"
         ],
+        "operationId": "deleteWorkgroupMembers",
         "tags": [
           "Governance Groups"
         ],
@@ -55110,21 +55035,11 @@
             "in": "path",
             "description": "ID of the Governance Group.",
             "required": true,
+            "x-sailpoint-resource-operation-id": "listWorkgroups",
             "schema": {
               "type": "string",
               "example": "2c91808a7813090a017814121919ecca"
             }
-          },
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
           }
         ],
         "requestBody": {
@@ -58499,6 +58414,36 @@
         "operationId": "searchFormInstancesByTenant",
         "parameters": [
           {
+            "name": "offset",
+            "in": "query",
+            "description": "Offset\n\nInteger specifying the offset of the first result from the beginning of the collection. The standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#paginating-results).\nThe offset value is record-based, not page-based, and the index starts at 0.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 0,
+              "x-go-name": "Offset"
+            },
+            "example": 0,
+            "required": false,
+            "x-go-name": "Offset"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Limit\n\nInteger specifying the maximum number of records to return in a single API call. The standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#paginating-results).\nIf it is not specified, a default limit is used.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "maximum": 250,
+              "minimum": 0,
+              "default": 250,
+              "x-go-name": "Limit"
+            },
+            "example": 100,
+            "required": false,
+            "x-go-name": "Limit"
+          },
+          {
             "in": "query",
             "name": "filters",
             "schema": {
@@ -58620,7 +58565,7 @@
             }
           },
           "429": {
-            "description": "Too many requests",
+            "description": "Too many requests. The list form instances operation is limited to 50 requests per 10 seconds per tenant; reduce call frequency or wait before retrying.",
             "content": {
               "application/json": {
                 "schema": {
@@ -58867,11 +58812,14 @@
     },
     "/form-instances/{formInstanceID}": {
       "get": {
+        "x-sailpoint-userLevels": [
+          "USER"
+        ],
         "tags": [
           "Custom Forms"
         ],
         "summary": "Returns a form instance.",
-        "description": "Parameter `{formInstanceID}` should match a form instance ID.",
+        "description": "Parameter `{formInstanceID}` should match a form instance ID.\n\nOnly the assigned recipient (`recipients[].id` when `type` is `IDENTITY`) may call this.",
         "operationId": "getFormInstanceByKey",
         "parameters": [
           {
@@ -59077,11 +59025,14 @@
         ]
       },
       "patch": {
+        "x-sailpoint-userLevels": [
+          "USER"
+        ],
         "tags": [
           "Custom Forms"
         ],
         "summary": "Patch a form instance.",
-        "description": "Parameter `{formInstanceID}` should match a form instance ID.",
+        "description": "Parameter `{formInstanceID}` should match a form instance ID.\n\nOnly the assigned recipient (`recipients[].id` when `type` is `IDENTITY`) may call this.",
         "operationId": "patchFormInstance",
         "parameters": [
           {
@@ -61655,12 +61606,6 @@
               "idn:app-roles:read",
               "idn:app-roles:manage"
             ]
-          },
-          {
-            "applicationAuth": [
-              "idn:app-roles:read",
-              "idn:app-roles:manage"
-            ]
           }
         ],
         "parameters": [
@@ -61728,11 +61673,6 @@
         "security": [
           {
             "userAuth": [
-              "idn:app-roles:manage"
-            ]
-          },
-          {
-            "applicationAuth": [
               "idn:app-roles:manage"
             ]
           }
@@ -61899,11 +61839,6 @@
             "userAuth": [
               "idn:app-roles:manage"
             ]
-          },
-          {
-            "applicationAuth": [
-              "idn:app-roles:manage"
-            ]
           }
         ],
         "tags": [
@@ -61977,11 +61912,6 @@
             "userAuth": [
               "idn:app-roles:manage"
             ]
-          },
-          {
-            "applicationAuth": [
-              "idn:app-roles:manage"
-            ]
           }
         ],
         "parameters": [
@@ -62041,12 +61971,6 @@
         "security": [
           {
             "userAuth": [
-              "idn:app-roles:read",
-              "idn:app-roles:manage"
-            ]
-          },
-          {
-            "applicationAuth": [
               "idn:app-roles:read",
               "idn:app-roles:manage"
             ]
@@ -62145,12 +62069,6 @@
               "idn:app-roles:read",
               "idn:app-roles:manage"
             ]
-          },
-          {
-            "applicationAuth": [
-              "idn:app-roles:read",
-              "idn:app-roles:manage"
-            ]
           }
         ],
         "description": "This API returns the list of source apps available for access request.",
@@ -62242,11 +62160,6 @@
         "security": [
           {
             "userAuth": [
-              "idn:app-roles:manage"
-            ]
-          },
-          {
-            "applicationAuth": [
               "idn:app-roles:manage"
             ]
           }
@@ -62421,11 +62334,6 @@
             "userAuth": [
               "idn:app-roles:manage"
             ]
-          },
-          {
-            "applicationAuth": [
-              "idn:app-roles:manage"
-            ]
           }
         ],
         "description": "This API returns the list of access profiles for the specified source app",
@@ -62513,11 +62421,6 @@
         "security": [
           {
             "userAuth": [
-              "idn:app-roles:manage"
-            ]
-          },
-          {
-            "applicationAuth": [
               "idn:app-roles:manage"
             ]
           }
@@ -62706,12 +62609,6 @@
               "idn:app-roles:read",
               "idn:app-roles:manage"
             ]
-          },
-          {
-            "applicationAuth": [
-              "idn:app-roles:read",
-              "idn:app-roles:manage"
-            ]
           }
         ],
         "description": "This API returns the list of available accounts for the specified user app. The user app needs to belong lo logged in user.",
@@ -62787,12 +62684,6 @@
         "security": [
           {
             "userAuth": [
-              "idn:app-roles:read",
-              "idn:app-roles:manage"
-            ]
-          },
-          {
-            "applicationAuth": [
               "idn:app-roles:read",
               "idn:app-roles:manage"
             ]
@@ -62875,11 +62766,6 @@
         "security": [
           {
             "userAuth": [
-              "idn:app-roles:manage"
-            ]
-          },
-          {
-            "applicationAuth": [
               "idn:app-roles:manage"
             ]
           }
@@ -64333,7 +64219,7 @@
             "description": "Arbitrary key-value pairs. They will never be processed by the IdentityNow system but will be returned on associated APIs such as /account-activities."
           },
           "requestedForWithRequestedItems": {
-            "description": "Additional submit data structure with requestedFor containing requestedItems allowing distinction for each request item and Identity.\n* Can only be used when 'requestedFor' and 'requestedItems' are not separately provided\n* Adds ability to specify which account the user wants the access on, in case they have multiple accounts on a source\n* Allows the ability to request items with different remove dates\n* Also allows different combinations of request items and identities in the same request\n* Only for use in GRANT_ACCESS type requests\n",
+            "description": "Additional submit data structure with requestedFor containing requestedItems allowing distinction for each request item and Identity.\n* Can only be used when 'requestedFor' and 'requestedItems' are not separately provided\n* Adds ability to specify which account the user wants the access on, in case they have multiple accounts on a source\n* Allows the ability to request items with different start dates\n* Allows the ability to request items with different remove dates\n* Also allows different combinations of request items and identities in the same request\n* Only for use in GRANT_ACCESS type requests\n",
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/RequestedForDtoRef"
@@ -64384,6 +64270,12 @@
               "requestedAppId": "2c91808f7892918f0178b78da4a305a1"
             },
             "description": "Arbitrary key-value pairs. They will never be processed by the IdentityNow system but will be returned on associated APIs such as /account-activities and /access-request-status."
+          },
+          "startDate": {
+            "type": "string",
+            "description": "The date and time the role or access profile or entitlement is/will be provisioned to the specified identity. Also known as the sunrise date.\n* Specify a date-time in the future.\n* This date-time can be used to indicate date-time when access item will be provisioned on the identity account. A GRANT_ACCESS request can use startDate to specify when to schedule provisioning of access item for an identity/account & a MODIFY_ACCESS request can use startDate to change the provisioning date-time of already assigned access item. But REVOKE_ACCESS request can not have startDate field. You can change the sunrise date in requests for yourself or others you are authorized to request for.\n* If the startDate is in the past, then the provisioning will be processed as soon as possible, but no guarantees can be made about when the provisioning will occur. If the startDate is in the future, then the provisioning will be scheduled to occur on that date and time. If no startDate is provided, then the provisioning will be processed as soon as possible.\n",
+            "format": "date-time",
+            "example": "2020-06-12T21:22:23.000Z"
           },
           "removeDate": {
             "type": "string",
@@ -65729,13 +65621,15 @@
           },
           "email": {
             "type": "string",
-            "description": "The email of the reviewing identity.",
+            "nullable": true,
+            "description": "The email of the reviewing identity. This is only applicable to reviewers of the `IDENTITY` type.",
             "example": "reviewer@test.com"
           },
           "type": {
             "type": "string",
             "enum": [
-              "IDENTITY"
+              "IDENTITY",
+              "GOVERNANCE_GROUP"
             ],
             "description": "The type of the reviewing identity.",
             "example": "IDENTITY"
@@ -67724,15 +67618,18 @@
               "SOURCE_OWNER",
               "MANAGER",
               "GOVERNANCE_GROUP",
-              "WORKFLOW"
+              "WORKFLOW",
+              "ALL_OWNERS",
+              "ADDITIONAL_OWNER",
+              "ADDITIONAL_GOVERNANCE_GROUP"
             ],
-            "description": "Describes the individual or group that is responsible for an approval step. These are the possible values:\n**APP_OWNER**: The owner of the Application\n\n**OWNER**: Owner of the associated Access Profile or Role\n\n**SOURCE_OWNER**: Owner of the Source associated with an Access Profile\n\n**MANAGER**: Manager of the Identity making the request\n\n**GOVERNANCE_GROUP**: A Governance Group, the ID of which is specified by the **approverId** field\n\n**WORKFLOW**: A Workflow, the ID of which is specified by the **approverId** field. Workflow is exclusive to other types of approvals and License required. ",
+            "description": "Describes the individual or group that is responsible for an approval step. These are the possible values:\n**APP_OWNER**: The owner of the Application\n\n**OWNER**: Owner of the associated Access Profile or Role\n\n**SOURCE_OWNER**: Owner of the Source associated with an Access Profile\n\n**MANAGER**: Manager of the Identity making the request\n\n**GOVERNANCE_GROUP**: A Governance Group, the ID of which is specified by the **approverId** field\n\n**WORKFLOW**: A Workflow, the ID of which is specified by the **approverId** field. Workflow is exclusive to other types of approvals and License required.\n\n**ALL_OWNERS**: All owners of the Access Profile, including the primary owner and any secondary owners\n\n**ADDITIONAL_OWNER**: An additional owner of the Access Profile, the ID of which is specified by the **approverId** field\n\n**ADDITIONAL_GOVERNANCE_GROUP**: An additional Governance Group, the ID of which is specified by the **approverId** field",
             "example": "GOVERNANCE_GROUP"
           },
           "approverId": {
             "type": "string",
             "nullable": true,
-            "description": "Id of the specific approver, used when approverType is GOVERNANCE_GROUP or WORKFLOW.",
+            "description": "Id of the specific approver, used when approverType is GOVERNANCE_GROUP, WORKFLOW, or ADDITIONAL_GOVERNANCE_GROUP.",
             "example": "46c79819-a69f-49a2-becb-12c971ae66c6"
           }
         }
@@ -67802,12 +67699,15 @@
         "properties": {
           "value": {
             "type": "string",
-            "description": "Technical name of the Attribute value. This is unique and cannot be changed after creation.",
+            "pattern": "^[a-zA-Z0-9]([a-zA-Z0-9_-]*[a-zA-Z0-9])?$",
+            "maxLength": 255,
+            "description": "Technical name of the Attribute value. This is unique and cannot be changed after creation. Allowed characters are letters, numbers, dashes (-), and underscores (_); the value cannot start or end with a dash or underscore.",
             "example": "public"
           },
           "name": {
             "type": "string",
-            "description": "The display name of the Attribute value.",
+            "maxLength": 100,
+            "description": "The display name of the Attribute value. Allowed characters are letters, numbers, whitespace, and the following special characters: . / | , ( ) & _ -",
             "example": "Public"
           },
           "status": {
@@ -67822,12 +67722,15 @@
         "properties": {
           "key": {
             "type": "string",
-            "description": "Technical name of the Attribute. This is unique and cannot be changed after creation.",
+            "pattern": "^[a-zA-Z0-9]([a-zA-Z0-9_-]*[a-zA-Z0-9])?$",
+            "maxLength": 255,
+            "description": "Technical name of the Attribute. This is unique and cannot be changed after creation. Allowed characters are letters, numbers, dashes (-), and underscores (_); the value cannot start or end with a dash or underscore.",
             "example": "iscPrivacy"
           },
           "name": {
             "type": "string",
-            "description": "The display name of the key.",
+            "maxLength": 100,
+            "description": "The display name of the key. Allowed characters are letters, numbers, whitespace, and the following special characters: . / | , ( ) & _ -",
             "example": "Privacy"
           },
           "multiselect": {
@@ -67859,7 +67762,8 @@
           },
           "description": {
             "type": "string",
-            "description": "The description of the Attribute.",
+            "maxLength": 500,
+            "description": "The description of the Attribute. Allowed characters are letters, numbers, whitespace, and the following special characters: . / | , ( ) & _ : -",
             "example": "Specifies the level of privacy associated with an access item."
           },
           "values": {
@@ -68001,6 +67905,32 @@
             "nullable": true,
             "description": "Array of child criteria. This field is required if the operation is `AND` or `OR`. Otherwise, it must be left null. A maximum of three levels of criteria are supported, including leaf nodes.",
             "example": null
+          }
+        }
+      },
+      "AdditionalOwnerRef": {
+        "type": "object",
+        "description": "Reference to an additional owner (identity or governance group).",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "IDENTITY",
+              "GOVERNANCE_GROUP"
+            ],
+            "description": "Type of the additional owner; IDENTITY for an identity, GOVERNANCE_GROUP for a governance group.",
+            "example": "IDENTITY"
+          },
+          "id": {
+            "type": "string",
+            "description": "ID of the identity or governance group.",
+            "example": "2c9180a46faadee4016fb4e018c20639"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "description": "Display name. It may be left null or omitted on input. If set, it must match the current display name of the identity or governance group, otherwise a 400 Bad Request error may result.",
+            "example": "support"
           }
         }
       },
@@ -68155,8 +68085,9 @@
           "additionalOwners": {
             "type": "array",
             "nullable": true,
+            "description": "List of additional owner references beyond the primary owner. Each entry may be an identity (IDENTITY) or a governance group (GOVERNANCE_GROUP).",
             "items": {
-              "$ref": "#/components/schemas/OwnerReference"
+              "$ref": "#/components/schemas/AdditionalOwnerRef"
             }
           }
         },
@@ -68526,11 +68457,13 @@
           "privileged": {
             "type": "boolean",
             "description": "True if the entitlement is privileged",
+            "default": false,
             "example": true
           },
           "cloudGoverned": {
             "type": "boolean",
             "description": "True if the entitlement is cloud governed",
+            "default": false,
             "example": true
           },
           "requestable": {
@@ -68562,6 +68495,14 @@
                 "description": "The display name of the identity",
                 "example": "john.doe"
               }
+            }
+          },
+          "additionalOwners": {
+            "type": "array",
+            "nullable": true,
+            "description": "List of additional owner references beyond the primary owner. Each entry may be an identity (IDENTITY) or a governance group (GOVERNANCE_GROUP).",
+            "items": {
+              "$ref": "#/components/schemas/AdditionalOwnerRef"
             }
           },
           "manuallyUpdatedFields": {
@@ -68731,6 +68672,12 @@
               "requestedAppId": "2c91808f7892918f0178b78da4a305a1"
             },
             "description": "Arbitrary key-value pairs. They will never be processed by the IdentityNow system but will be returned on associated APIs such as /account-activities and /access-request-status."
+          },
+          "startDate": {
+            "type": "string",
+            "description": "The date and time the role or access profile or entitlement is/will be provisioned to the specified identity. Also known as the sunrise date.\n* Specify a date-time in the future.\n* This date-time can be used to indicate date-time when access item will be provisioned on the identity account. A GRANT_ACCESS request can use startDate to specify when to schedule provisioning of access item for an identity/account & a MODIFY_ACCESS request can use startDate to change the provisioning date-time of already assigned access item. But REVOKE_ACCESS request can not have startDate field. You can change the sunrise date in requests for yourself or others you are authorized to request for.\n* If the startDate is in the past, then the provisioning will be processed as soon as possible, but no guarantees can be made about when the provisioning will occur. If the startDate is in the future, then the provisioning will be scheduled to occur on that date and time. If no startDate is provided, then the provisioning will be processed as soon as possible.\n",
+            "format": "date-time",
+            "example": "2020-06-12T21:22:23.000Z"
           },
           "removeDate": {
             "type": "string",
@@ -69225,6 +69172,7 @@
       "ApprovalReminderAndEscalationConfig": {
         "type": "object",
         "title": "Approval Reminder And Escalation Config",
+        "description": "Configuration for approval reminder and escalation behavior. Important: Modifying this object will override the sp-approval service's reminderConfig and escalationConfig settings. Changes made here take precedence over any configuration set directly in the sp-approval service.\n",
         "properties": {
           "daysUntilEscalation": {
             "type": "integer",
@@ -69242,9 +69190,10 @@
           },
           "maxReminders": {
             "type": "integer",
-            "description": "Maximum number of reminder notification to send to the reviewer before approval escalation.",
+            "description": "Maximum number of reminder notifications to send to the reviewer before approval escalation. The maximum allowed value is 20.",
             "format": "int32",
-            "minimum": 1,
+            "minimum": 0,
+            "maximum": 20,
             "example": 1,
             "nullable": true
           },
@@ -69391,7 +69340,7 @@
           },
           "approvalReminderAndEscalationConfig": {
             "$ref": "#/components/schemas/ApprovalReminderAndEscalationConfig",
-            "description": "Approval reminder and escalation configuration."
+            "description": "Approval reminder and escalation configuration. Modifying this object will override the sp-approval service's reminderConfig and escalationConfig settings."
           },
           "entitlementRequestConfig": {
             "$ref": "#/components/schemas/EntitlementRequestConfig",
@@ -70274,6 +70223,13 @@
             "example": "This is the Engineering role that engineers are granted.",
             "nullable": true
           },
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the role access is scheduled for provisioning.",
+            "example": "2019-10-21T00:00:00.000Z"
+          },
           "removeDate": {
             "type": "string",
             "format": "date-time",
@@ -70487,6 +70443,13 @@
             "description": "Description associated to the requested object.",
             "example": "This is the Engineering role that engineers are granted.",
             "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the role access is scheduled for provisioning.",
+            "example": "2019-10-21T00:00:00.000Z"
           },
           "removeDate": {
             "type": "string",
@@ -70713,6 +70676,24 @@
             "format": "date-time",
             "example": "2020-07-11T00:00:00Z"
           },
+          "startDate": {
+            "type": "string",
+            "description": "The date the role or access profile or entitlement is/will assigned to the specified identity.",
+            "format": "date-time",
+            "example": "2020-07-11T00:00:00Z"
+          },
+          "startUpdateRequested": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, then the request is to change the start date or sunrise date.",
+            "example": true
+          },
+          "currentStartDate": {
+            "type": "string",
+            "description": "The start date or sunrise date that was assigned at the time of the request.",
+            "format": "date-time",
+            "example": "2020-07-11T00:00:00Z"
+          },
           "sodViolationContext": {
             "$ref": "#/components/schemas/SodViolationContextCheckCompleted",
             "description": "The details of the SOD violations for the associated approval."
@@ -70915,6 +70896,24 @@
             "format": "date-time",
             "example": "2020-07-11T00:00:00Z",
             "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "description": "The date the role or access profile or entitlement is/will assigned to the specified identity.",
+            "format": "date-time",
+            "example": "2020-07-11T00:00:00Z"
+          },
+          "startUpdateRequested": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, then the request is to change the start date or sunrise date.",
+            "example": true
+          },
+          "currentStartDate": {
+            "type": "string",
+            "description": "The start date or sunrise date that was assigned at the time of the request.",
+            "format": "date-time",
+            "example": "2020-07-11T00:00:00Z"
           },
           "sodViolationContext": {
             "$ref": "#/components/schemas/SodViolationContextCheckCompleted",
@@ -73218,7 +73217,9 @@
             "enum": [
               "MANAGER",
               "SOURCE_OWNER",
-              "SEARCH"
+              "SEARCH",
+              "ROLE_COMPOSITION",
+              "MACHINE_ACCOUNT"
             ],
             "description": "The type of the campaign.",
             "example": "MANAGER"
@@ -76195,6 +76196,13 @@
             "description": "Date that the assignment was added",
             "example": "2025-07-11T18:45:37.098Z"
           },
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Date when assignment will be active, if requested with a future date. If null, assignment is active immediately",
+            "example": "2026-01-22T19:15:00.000Z"
+          },
           "removeDate": {
             "type": "string",
             "format": "date-time",
@@ -76447,6 +76455,13 @@
             "items": {
               "$ref": "#/components/schemas/RoleTargetDto"
             }
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Date when assignment will be active, if access was requested with a future start date. If null, assignment is active immediately",
+            "example": "2026-07-10T18:45:37.098Z"
           },
           "removeDate": {
             "type": "string",
@@ -81703,8 +81718,13 @@
           "EQUALS",
           "NOT_EQUALS",
           "CONTAINS",
+          "DOES_NOT_CONTAIN",
           "STARTS_WITH",
           "ENDS_WITH",
+          "GREATER_THAN",
+          "LESS_THAN",
+          "GREATER_THAN_EQUALS",
+          "LESS_THAN_EQUALS",
           "AND",
           "OR"
         ],
@@ -81758,7 +81778,8 @@
           },
           "stringValue": {
             "type": "string",
-            "description": "String value to test the Identity attribute, Account attribute, or Entitlement specified in the key w/r/t the specified operation. If this criteria is a leaf node, that is, if the operation is one of EQUALS, NOT_EQUALS, CONTAINS, STARTS_WITH, or ENDS_WITH, this field is required. Otherwise, specifying it is an error.",
+            "nullable": true,
+            "description": "String value to test the Identity attribute, Account attribute, or Entitlement specified in the key w/r/t the specified operation. If this criteria is a leaf node, that is, if the operation is one of EQUALS, NOT_EQUALS, CONTAINS, DOES_NOT_CONTAIN, STARTS_WITH, or ENDS_WITH, this field is required. Otherwise, specifying it is an error.",
             "example": "carlee.cert1c9f9b6fd@mailinator.com"
           }
         }
@@ -81777,7 +81798,7 @@
           "stringValue": {
             "type": "string",
             "nullable": true,
-            "description": "String value to test the Identity attribute, Account attribute, or Entitlement specified in the key w/r/t the specified operation. If this criteria is a leaf node, that is, if the operation is one of EQUALS, NOT_EQUALS, CONTAINS, STARTS_WITH, or ENDS_WITH, this field is required. Otherwise, specifying it is an error.",
+            "description": "String value to test the Identity attribute, Account attribute, or Entitlement specified in the key w/r/t the specified operation. If this criteria is a leaf node, that is, if the operation is one of EQUALS, NOT_EQUALS, CONTAINS, DOES_NOT_CONTAIN, STARTS_WITH, or ENDS_WITH, this field is required. Otherwise, specifying it is an error.",
             "example": "carlee.cert1c9f9b6fd@mailinator.com"
           },
           "children": {
@@ -81804,7 +81825,7 @@
           "stringValue": {
             "type": "string",
             "nullable": true,
-            "description": "String value to test the Identity attribute, Account attribute, or Entitlement specified in the key w/r/t the specified operation. If this criteria is a leaf node, that is, if the operation is one of EQUALS, NOT_EQUALS, CONTAINS, STARTS_WITH, or ENDS_WITH, this field is required. Otherwise, specifying it is an error.",
+            "description": "String value to test the Identity attribute, Account attribute, or Entitlement specified in the key w/r/t the specified operation. If this criteria is a leaf node, that is, if the operation is one of EQUALS, NOT_EQUALS, CONTAINS, DOES_NOT_CONTAIN, STARTS_WITH, or ENDS_WITH, this field is required. Otherwise, specifying it is an error.",
             "example": "carlee.cert1c9f9b6fd@mailinator.com"
           },
           "children": {
@@ -81876,15 +81897,18 @@
               "OWNER",
               "MANAGER",
               "GOVERNANCE_GROUP",
-              "WORKFLOW"
+              "WORKFLOW",
+              "ALL_OWNERS",
+              "ADDITIONAL_OWNER",
+              "ADDITIONAL_GOVERNANCE_GROUP"
             ],
-            "description": "Describes the individual or group that is responsible for an approval step. Values are as follows.\n\n**OWNER**: Owner of the associated Role\n\n**MANAGER**: Manager of the Identity making the request\n\n**GOVERNANCE_GROUP**: A Governance Group, the ID of which is specified by the **approverId** field\n\n**WORKFLOW**: A Workflow, the ID of which is specified by the **approverId** field. Workflow is exclusive to other types of approvals and License required.     ",
+            "description": "Describes the individual or group that is responsible for an approval step. Values are as follows.\n\n**OWNER**: Owner of the associated Role\n\n**MANAGER**: Manager of the Identity making the request\n\n**GOVERNANCE_GROUP**: A Governance Group, the ID of which is specified by the **approverId** field\n\n**WORKFLOW**: A Workflow, the ID of which is specified by the **approverId** field. Workflow is exclusive to other types of approvals and License required.\n\n**ALL_OWNERS**: All owners of the Role, including the primary owner and any secondary owners\n\n**ADDITIONAL_OWNER**: An additional owner of the Role, the ID of which is specified by the **approverId** field\n\n**ADDITIONAL_GOVERNANCE_GROUP**: An additional Governance Group, the ID of which is specified by the **approverId** field",
             "example": "GOVERNANCE_GROUP"
           },
           "approverId": {
             "type": "string",
             "nullable": true,
-            "description": "Id of the specific approver, used when approverType is GOVERNANCE_GROUP or WORKFLOW.",
+            "description": "Id of the specific approver, used when approverType is GOVERNANCE_GROUP, WORKFLOW, or ADDITIONAL_GOVERNANCE_GROUP.",
             "example": "46c79819-a69f-49a2-becb-12c971ae66c6"
           }
         }
@@ -81917,7 +81941,6 @@
             "type": "boolean",
             "description": "Indicates whether the requester of the containing object must provide access end date.",
             "example": true,
-            "nullable": true,
             "default": false
           },
           "maxPermittedAccessDuration": {
@@ -81930,6 +81953,12 @@
             "items": {
               "$ref": "#/components/schemas/ApprovalSchemeForRole"
             }
+          },
+          "formDefinitionId": {
+            "type": "string",
+            "nullable": true,
+            "description": "The ID of the form definition used for the access request. If specified, the form is presented to the requester during the access request process.",
+            "example": "78258e80-e9e2-4e1a-a11f-ce0b7c62f25d"
           }
         }
       },
@@ -82019,6 +82048,14 @@
           },
           "owner": {
             "$ref": "#/components/schemas/OwnerReference"
+          },
+          "additionalOwners": {
+            "type": "array",
+            "nullable": true,
+            "description": "List of additional owner references beyond the primary owner. Each entry may be an identity (IDENTITY) or a governance group (GOVERNANCE_GROUP).",
+            "items": {
+              "$ref": "#/components/schemas/AdditionalOwnerRef"
+            }
           },
           "accessProfiles": {
             "type": "array",
@@ -82118,6 +82155,12 @@
                 ]
               }
             ]
+          },
+          "privilegeLevel": {
+            "type": "string",
+            "nullable": true,
+            "description": "The privilege level of the role, if applicable.",
+            "example": "High"
           }
         },
         "required": [
@@ -89525,23 +89568,33 @@
             "enum": [
               "EVENT",
               "SCHEDULED",
-              "EXTERNAL"
+              "EXTERNAL",
+              "AccessRequestTrigger"
             ],
             "example": "EVENT"
           },
           "deprecated": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Whether the trigger is deprecated.",
+            "example": false,
+            "default": false
           },
           "deprecatedBy": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "description": "Date the trigger was deprecated, if applicable.",
+            "example": "2023-01-01T00:00:00Z"
           },
           "isSimulationEnabled": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Whether the trigger can be simulated.",
+            "example": false,
+            "default": false
           },
           "outputSchema": {
             "type": "object",
-            "description": "Example output schema"
+            "description": "Example output schema",
+            "example": {}
           },
           "name": {
             "type": "string",
@@ -89842,6 +89895,85 @@
               "2c91808b79fd2422017a0b35d30f3968": "employeeNumber",
               "2c91808b79fd2422017a0b36008f396b": "employeeNumber"
             }
+          }
+        }
+      },
+      "TrackerKeyDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "ID of the tracker created to record this delete operation.",
+            "example": "2c9180867817ac4d017817c491119a20"
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of object being tracked.",
+            "example": "metadata-attribute"
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of the delete operation.",
+            "example": "DELETING"
+          },
+          "errors": {
+            "type": "array",
+            "nullable": true,
+            "description": "Any errors encountered while processing the delete operation.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "created": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The time the delete operation was initiated.",
+            "example": "2020-10-08T18:33:52.029Z"
+          },
+          "key": {
+            "type": "string",
+            "nullable": true,
+            "description": "Technical name of the deleted Attribute.",
+            "example": "iscPrivacy"
+          }
+        }
+      },
+      "TrackerValueDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "ID of the tracker created to record this delete operation.",
+            "example": "2c9180867817ac4d017817c491119a20"
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of object being tracked.",
+            "example": "value"
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of the delete operation.",
+            "example": "DELETING"
+          },
+          "errors": {
+            "type": "array",
+            "nullable": true,
+            "description": "Any errors encountered while processing the delete operation.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "created": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The time the delete operation was initiated.",
+            "example": "2020-10-08T18:33:52.029Z"
+          },
+          "value": {
+            "type": "string",
+            "description": "Technical name of the deleted Attribute value.",
+            "example": "public"
           }
         }
       },
@@ -90675,6 +90807,12 @@
             ],
             "description": "the list of app ids associated with the access profile"
           },
+          "startDate": {
+            "type": "string",
+            "example": "2024-07-01T05:00:00.00Z",
+            "description": "the date the access profile will be assigned to the specified identity, in case requested with a future start date",
+            "nullable": true
+          },
           "removeDate": {
             "type": "string",
             "example": "2024-07-01T06:00:00.00Z",
@@ -90775,6 +90913,12 @@
             "type": "string",
             "example": "Role - Workday/Citizenship access",
             "description": "the description for the role"
+          },
+          "startDate": {
+            "type": "string",
+            "example": "2024-07-01T05:00:00.00Z",
+            "description": "the date the access profile will be assigned to the specified identity, in case requested with a future start date",
+            "nullable": true
           },
           "removeDate": {
             "type": "string",
@@ -91955,6 +92099,7 @@
           },
           "modified": {
             "description": "Last modification date of the task this TaskStatus represents",
+            "nullable": true,
             "type": "string",
             "format": "date-time",
             "example": "2020-07-11T21:23:15.000Z"
@@ -93096,37 +93241,49 @@
         "properties": {
           "key": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "The template key"
           },
           "text": {
-            "type": "string"
+            "type": "string",
+            "description": "The main text content of the Slack message",
+            "example": "You have a new approval request"
           },
           "blocks": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "JSON string of Slack Block Kit blocks for rich formatting"
           },
           "attachments": {
-            "type": "string"
+            "type": "string",
+            "description": "JSON string of Slack attachments",
+            "example": "[]"
           },
           "notificationType": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "The type of notification"
           },
           "approvalId": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "The approval request ID"
           },
           "requestId": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "The request ID"
           },
           "requestedById": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "The ID of the user who made the request"
           },
           "isSubscription": {
             "type": "boolean",
-            "nullable": true
+            "nullable": true,
+            "default": false,
+            "description": "Whether this is a subscription notification"
           },
           "autoApprovalData": {
             "type": "object",
@@ -93134,23 +93291,28 @@
             "properties": {
               "isAutoApproved": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "Whether the request was auto-approved"
               },
               "itemId": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "The item ID"
               },
               "itemType": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "The item type"
               },
               "autoApprovalMessageJSON": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "JSON message for auto-approval"
               },
               "autoApprovalTitle": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "Title for auto-approval"
               }
             }
           },
@@ -93160,19 +93322,23 @@
             "properties": {
               "requestType": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "The type of request"
               },
               "containsDeny": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "Whether the request contains a deny action"
               },
               "campaignId": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "The campaign ID"
               },
               "campaignStatus": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "The campaign status"
               }
             }
           }
@@ -93185,38 +93351,49 @@
         "properties": {
           "key": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "The template key"
           },
           "title": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "The title of the Teams message"
           },
           "text": {
-            "type": "string"
+            "type": "string",
+            "description": "The main text content of the Teams message",
+            "example": "You have a new approval request"
           },
           "messageJSON": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "JSON string of the Teams adaptive card"
           },
           "isSubscription": {
             "type": "boolean",
-            "nullable": true
+            "nullable": true,
+            "default": false,
+            "description": "Whether this is a subscription notification"
           },
           "approvalId": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "The approval request ID"
           },
           "requestId": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "The request ID"
           },
           "requestedById": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "The ID of the user who made the request"
           },
           "notificationType": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "The type of notification"
           },
           "autoApprovalData": {
             "type": "object",
@@ -93224,23 +93401,28 @@
             "properties": {
               "isAutoApproved": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "Whether the request was auto-approved"
               },
               "itemId": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "The item ID"
               },
               "itemType": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "The item type"
               },
               "autoApprovalMessageJSON": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "JSON message for auto-approval"
               },
               "autoApprovalTitle": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "Title for auto-approval"
               }
             }
           },
@@ -93250,19 +93432,23 @@
             "properties": {
               "requestType": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "The type of request"
               },
               "containsDeny": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "Whether the request contains a deny action"
               },
               "campaignId": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "The campaign ID"
               },
               "campaignStatus": {
                 "type": "string",
-                "nullable": true
+                "nullable": true,
+                "description": "The campaign status"
               }
             }
           }
@@ -93287,8 +93473,6 @@
             "description": "The message medium. More mediums may be added in the future.",
             "enum": [
               "EMAIL",
-              "PHONE",
-              "SMS",
               "SLACK",
               "TEAMS"
             ],
@@ -93369,8 +93553,6 @@
             "description": "The message medium. More mediums may be added in the future.",
             "enum": [
               "EMAIL",
-              "PHONE",
-              "SMS",
               "SLACK",
               "TEAMS"
             ],
@@ -93438,12 +93620,24 @@
             "example": "2020-01-01T00:00:00.000000Z"
           },
           "slackTemplate": {
-            "type": "string",
-            "nullable": true
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TemplateSlack"
+              },
+              {
+                "nullable": true
+              }
+            ]
           },
           "teamsTemplate": {
-            "type": "string",
-            "nullable": true
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TemplateTeams"
+              },
+              {
+                "nullable": true
+              }
+            ]
           }
         },
         "required": [
@@ -93458,16 +93652,18 @@
         "properties": {
           "key": {
             "type": "string",
-            "example": "cloud_manual_work_item_summary"
+            "example": "cloud_manual_work_item_summary",
+            "description": "The template key to delete"
           },
           "medium": {
             "type": "string",
             "enum": [
               "EMAIL",
-              "PHONE",
-              "SMS"
+              "SLACK",
+              "TEAMS"
             ],
-            "example": "EMAIL"
+            "example": "EMAIL",
+            "description": "The notification medium (EMAIL, SLACK, or TEAMS)"
           },
           "locale": {
             "type": "string",
@@ -93528,6 +93724,7 @@
           "lcsChangeHonorsSourceEnableFeature": {
             "type": "boolean",
             "description": "Flag to determine whether the LCS_CHANGE_HONORS_SOURCE_ENABLE_FEATURE flag is enabled for the current org.",
+            "default": false,
             "example": false
           },
           "armCustomerId": {
@@ -93576,7 +93773,15 @@
           "iaiEnableCertificationRecommendations": {
             "type": "boolean",
             "description": "Flag to determine whether IAI Certification Recommendations are enabled for the current org",
+            "default": true,
             "example": true
+          },
+          "aiAgentDeleteRequestEnabled": {
+            "type": "boolean",
+            "nullable": true,
+            "description": "Org opt-in flag that enables AI Agent delete-at-source lifecycle requests for the current org.",
+            "default": false,
+            "example": false
           },
           "sodReportConfigs": {
             "type": "array",
@@ -93996,10 +94201,10 @@
       },
       "Medium": {
         "type": "string",
+        "description": "The notification medium (EMAIL, SLACK, or TEAMS)",
+        "example": "EMAIL",
         "enum": [
           "EMAIL",
-          "SMS",
-          "PHONE",
           "SLACK",
           "TEAMS"
         ]
@@ -96040,11 +96245,51 @@
               "EMAIL",
               "SLACK",
               "TEAMS"
-            ]
+            ],
+            "example": "EMAIL"
+          },
+          "locale": {
+            "type": "string",
+            "description": "The locale for the message text.",
+            "example": "en"
           },
           "context": {
             "type": "object",
-            "description": "A Json object that denotes the context specific to the template."
+            "description": "A Json object that denotes the context specific to the template.",
+            "example": {
+              "numberOfPendingTasks": "4",
+              "taskTasks": "tasks"
+            }
+          },
+          "recipientEmailList": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "A list of override recipient email addresses for the test notification.",
+            "example": [
+              "test@example.com"
+            ]
+          },
+          "carbonCopy": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "A list of CC email addresses for the test notification.",
+            "example": [
+              "cc@example.com"
+            ]
+          },
+          "blindCarbonCopy": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "A list of BCC email addresses for the test notification.",
+            "example": [
+              "bcc@example.com"
+            ]
           }
         }
       },
@@ -96322,7 +96567,6 @@
           "jobId",
           "status",
           "type",
-          "expiration",
           "created",
           "modified"
         ]
@@ -100693,23 +100937,36 @@
         "properties": {
           "id": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "Unique identifier for the verified sender address"
           },
           "email": {
             "type": "string",
-            "example": "sender@example.com"
+            "example": "sender@example.com",
+            "description": "The verified sender email address"
           },
           "isVerifiedByDomain": {
             "type": "boolean",
-            "example": false
+            "default": false,
+            "example": false,
+            "description": "Whether the sender address is verified by domain"
           },
           "verificationStatus": {
             "type": "string",
             "enum": [
               "PENDING",
               "SUCCESS",
-              "FAILED"
-            ]
+              "FAILED",
+              "NA"
+            ],
+            "example": "SUCCESS",
+            "description": "The verification status of the sender address"
+          },
+          "region": {
+            "type": "string",
+            "nullable": true,
+            "example": "us-east-1",
+            "description": "The AWS SES region the sender address is associated with"
           }
         }
       },
@@ -100747,8 +101004,13 @@
           },
           "dkimVerificationStatus": {
             "type": "string",
-            "example": "Success",
-            "description": "The current status if the domain /identity has been verified. Ie Success, Failed, Pending"
+            "example": "SUCCESS",
+            "description": "The current status if the domain /identity has been verified. Ie SUCCESS, FAILED, PENDING"
+          },
+          "region": {
+            "type": "string",
+            "example": "us-east-1",
+            "description": "The AWS SES region the domain is associated with"
           }
         },
         "description": "DKIM attributes for a domain or identity"
@@ -100779,6 +101041,7 @@
             "description": "A domain address"
           },
           "dkimEnabled": {
+            "type": "boolean",
             "default": false,
             "example": true,
             "description": "DKIM is enabled for this domain"
@@ -100799,6 +101062,11 @@
             "type": "string",
             "example": "PENDING",
             "description": "Status of DKIM authentication"
+          },
+          "region": {
+            "type": "string",
+            "example": "us-east-1",
+            "description": "The AWS SES region the domain is associated with"
           }
         },
         "description": "Domain status DTO containing everything required to verify via DKIM"
@@ -102944,6 +103212,34 @@
             "type": "string",
             "description": "The status of an application within the discovery source.\n\nBy default this field is set to \"ACTIVE\" when the application is discovered.\n\nIf an application has been deleted from within the discovery source, the status will be set to \"INACTIVE\".",
             "example": "ACTIVE"
+          },
+          "riskScore": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The risk score of the application ranging from 0-100, 100 being highest risk.",
+            "example": 1
+          },
+          "isBusiness": {
+            "type": "boolean",
+            "description": "Indicates whether the application is used for business purposes.",
+            "example": false,
+            "default": true
+          },
+          "totalSigninsCount": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The total number of sign-in accounts for the application.",
+            "example": 1
+          },
+          "riskLevel": {
+            "type": "string",
+            "enum": [
+              "High",
+              "Medium",
+              "Low"
+            ],
+            "description": "The risk level of the application.",
+            "example": "Low"
           }
         }
       },
@@ -103017,6 +103313,34 @@
               "e0cc5d7d-bf7f-4f81-b2af-8885b09d9923",
               "a0303682-5e4a-44f7-bdc2-6ce6112549c1"
             ]
+          },
+          "riskScore": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The risk score of the application ranging from 0-100, 100 being highest risk.",
+            "example": 1
+          },
+          "isBusiness": {
+            "type": "boolean",
+            "description": "Indicates whether the application is used for business purposes.",
+            "example": false,
+            "default": true
+          },
+          "totalSigninsCount": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The total number of sign-in accounts for the application.",
+            "example": 1
+          },
+          "riskLevel": {
+            "type": "string",
+            "enum": [
+              "High",
+              "Medium",
+              "Low"
+            ],
+            "description": "The risk level of the application.",
+            "example": "Low"
           }
         }
       },
@@ -104217,6 +104541,32 @@
                   "type": "string",
                   "description": "Unique tracking id for the error.",
                   "example": "e7eab60924f64aa284175b9fa3309599"
+                }
+              }
+            }
+          }
+        }
+      },
+      "410": {
+        "description": "Gone - Returned if the requested operation is not yet available for your tenant because the underlying capability is still being rolled out.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponseDto"
+            },
+            "examples": {
+              "410": {
+                "summary": "An example of a 410 response object",
+                "value": {
+                  "detailCode": "410 Gone",
+                  "trackingId": "b21b1f7ce4da4d639f2c62a57171b427",
+                  "messages": [
+                    {
+                      "locale": "en-US",
+                      "localeOrigin": "DEFAULT",
+                      "text": "The requested operation is not yet available for your tenant."
+                    }
+                  ]
                 }
               }
             }
@@ -108754,7 +109104,11 @@
             ],
             "discoveredAt": "2023-07-01T12:00:00Z",
             "createdAt": "2024-06-01T12:00:00Z",
-            "status": "ACTIVE"
+            "status": "ACTIVE",
+            "riskScore": 1,
+            "isBusiness": false,
+            "totalSigninsCount": 1,
+            "riskLevel": "Low"
           },
           {
             "id": "59310a1e-0d8f-42fa-95aa-b82b263de7f6",
@@ -108768,7 +109122,11 @@
             ],
             "discoveredAt": "2023-08-15T08:00:00Z",
             "createdAt": "2024-05-20T08:00:00Z",
-            "status": "ACTIVE"
+            "status": "ACTIVE",
+            "riskScore": 1,
+            "isBusiness": false,
+            "totalSigninsCount": 1,
+            "riskLevel": "Low"
           },
           {
             "id": "dfe675cb-f689-475f-99f1-49e348449867",
@@ -108782,7 +109140,11 @@
             ],
             "discoveredAt": "2023-09-10T15:00:00Z",
             "createdAt": "2024-07-03T15:00:00Z",
-            "status": "ACTIVE"
+            "status": "ACTIVE",
+            "riskScore": 1,
+            "isBusiness": false,
+            "totalSigninsCount": 1,
+            "riskLevel": "Low"
           }
         ]
       },
@@ -108804,7 +109166,11 @@
             "status": "ACTIVE",
             "associatedSources": [
               "e0cc5d7d-bf7f-4f81-b2af-8885b09d9923"
-            ]
+            ],
+            "riskScore": 1,
+            "isBusiness": false,
+            "totalSigninsCount": 1,
+            "riskLevel": "Low"
           },
           {
             "id": "b3a3a704-6a45-45ee-a501-bbc332388222",
@@ -108822,7 +109188,11 @@
             "associatedSources": [
               "a3b159f2-5f09-43c9-b40e-a6f317aa5b8f",
               "e0cc5d7d-bf7f-4f81-b2af-8885b09d9923"
-            ]
+            ],
+            "riskScore": 1,
+            "isBusiness": false,
+            "totalSigninsCount": 1,
+            "riskLevel": "Low"
           },
           {
             "id": "1d070458-faed-4a6c-8990-918ad70a06ee",
@@ -108841,7 +109211,11 @@
               "4e2d7605-833f-4c34-8d03-5b2c7d2f4f66",
               "f9b7e2ce-aced-4117-a95f-4ffad8b33989",
               "a3b159f2-5f09-43c9-b40e-a6f317aa5b8f"
-            ]
+            ],
+            "riskScore": 1,
+            "isBusiness": false,
+            "totalSigninsCount": 1,
+            "riskLevel": "Low"
           },
           {
             "id": "9be7c5a5-9f37-46ba-965a-e5b9453472c6",
@@ -108856,7 +109230,11 @@
             "discoveredAt": "2023-10-05T14:00:00Z",
             "createdAt": "2024-08-01T14:00:00Z",
             "status": "ACTIVE",
-            "associatedSources": []
+            "associatedSources": [],
+            "riskScore": 1,
+            "isBusiness": false,
+            "totalSigninsCount": 1,
+            "riskLevel": "Low"
           }
         ]
       }

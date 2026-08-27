@@ -92,7 +92,7 @@ async function getCollections() {
   
   
   
-  async function uploadCollection() {
+  async function uploadCollection(collectionJson: any) {
     const options = {
       method: 'POST',
       hostname: 'api.getpostman.com',
@@ -122,8 +122,7 @@ async function getCollections() {
           reject(error);
         });
       });
-      let json = JSON.parse(fs.readFileSync('../../postman/collections/sailpoint-api-' + args[2].toLowerCase() + '.json', 'utf8'))
-      req.write(JSON.stringify({ "collection": json }))
+      req.write(JSON.stringify({ "collection": collectionJson }))
       req.end();
     });
   }
@@ -131,12 +130,15 @@ async function getCollections() {
 
   async function main() {
     try {
+      const collectionJson = JSON.parse(fs.readFileSync('../../postman/collections/sailpoint-api-' + args[2].toLowerCase() + '.json', 'utf8'));
+      const collectionName = collectionJson.info.name;
+
       const response = <any>await getCollections();
       if (!response.collections) {
         console.log(response)
         throw new Error("Postman API threw an error");
       }
-      const upload = <any>await uploadCollection();
+      const upload = <any>await uploadCollection(collectionJson);
       if (!upload.collection) {
         console.log(upload)
         throw new Error("Postman API threw an error");
@@ -148,7 +150,7 @@ async function getCollections() {
       await insertOrUpdateItem({ id: args[2] + 'CollectionUrl', Item: newLink })
       
       for (let collection of response.collections) {
-        if (collection.name.toLowerCase().includes(args[2].toLowerCase())) {
+        if (collection.name.toLowerCase() === collectionName.toLowerCase() && collection.uid !== upload.collection.uid) {
           console.log(collection);
           const response = await deleteCollection(collection.uid);
           console.log(response);

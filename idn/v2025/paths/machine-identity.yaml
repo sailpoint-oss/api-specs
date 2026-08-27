@@ -2,7 +2,7 @@ get:
   operationId: getMachineIdentity
   tags:
     - Machine Identities
-  summary: Machine identity details
+  summary: Get machine identity details
   description: This API returns a single machine identity using the Machine Identity ID.
   security:
     - userAuth:
@@ -52,7 +52,7 @@ patch:
   operationId: updateMachineIdentity
   tags:
     - Machine Identities
-  summary: Update a machine identity
+  summary: Update machine identity details
   description: |
     Use this API to update machine identity details.
   security:

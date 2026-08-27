@@ -1,6 +1,6 @@
 get:
   tags:
-    - Human Account Deletion Approval Config
+    - Sources
   summary: Human Account Deletion Approval Config
   description: |
     The endpoint retrieves the approval configuration for deleting human accounts from a specified source. It returns details such as whether approval is required, who the approvers are, and any additional approval settings. This helps administrators understand and manage the approval workflow for human account deletions in their organization. The response is provided as an AccountDeleteConfigDto object.
@@ -12,14 +12,6 @@ get:
     - SOURCE_ADMIN
     - SOURCE_SUBADMIN
   parameters:
-    - in: header
-      name: X-SailPoint-Experimental
-      description: Use this header to enable this experimental API.
-      example: true
-      schema:
-        type: string
-        default: true
-      required: true
     - in: path
       name: sourceId
       schema:
@@ -50,7 +42,7 @@ get:
 patch:
   operationId: updateAccountDeletionApprovalConfig
   tags:
-    - Human Account Deletion Approval Config
+    - Sources
   summary: Human Account Deletion Approval Config
   description: |
     Updates the approval configuration for deleting human accounts for a specific source, identified by source ID. This endpoint allows administrators to modify settings such as whether approval is required, who the approvers are, and other approval-related options. The update is performed using a JSON Patch payload, and the response returns the updated AccountDeleteConfigDto object reflecting the new approval workflow configuration.
@@ -61,14 +53,6 @@ patch:
     - SOURCE_ADMIN
     - SOURCE_SUBADMIN
   parameters:
-    - in: header
-      name: X-SailPoint-Experimental
-      description: Use this header to enable this experimental API.
-      example: true
-      schema:
-        type: string
-        default: true
-      required: true
     - name: sourceId
       in: path
       schema:

@@ -24,6 +24,11 @@ properties:
     type: string
     description: Name of the workflow
     example: my_workflow
+  disable_failure_email_notifications:
+    type: boolean
+    nullable: true
+    description: When honored at runtime, suppresses failure email notifications for this workflow's sessions.
+    example: false
   condition_rules_attributes:
     type: array
     description: The ProfileTypeRule this workflow will be working with.

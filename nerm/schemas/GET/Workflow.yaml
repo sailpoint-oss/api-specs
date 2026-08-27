@@ -105,3 +105,9 @@ properties:
     default: false
     description: Whether permissions are allowed or blocked.
     example: false
+  disable_failure_email_notifications:
+    type: boolean
+    nullable: true
+    description: Suppresses failure email notifications for this workflow's sessions.
+
+    example: false

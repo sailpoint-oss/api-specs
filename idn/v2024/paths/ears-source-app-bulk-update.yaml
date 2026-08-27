@@ -10,8 +10,6 @@ post:
   security:
     - userAuth:
         - idn:app-roles:manage
-    - applicationAuth:
-        - idn:app-roles:manage
   parameters:
     - name: X-SailPoint-Experimental
       in: header

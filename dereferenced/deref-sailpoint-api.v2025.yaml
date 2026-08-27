@@ -30,7 +30,7 @@ tags:
   - name: Access Model Metadata
     description: |
       Use this API to create and manage metadata attributes for your Access Model.
-      Access Model Metadata allows you to add contextual information to your ISC Access Model items using pre-defined metadata for risk, regulations, privacy levels, etc., or by creating your own metadata attributes to reflect the unique needs of your organization. This release of the API includes support for entitlement metadata. Support for role and access profile metadata will be introduced in a subsequent release.
+      Access Model Metadata allows you to add contextual information to your ISC Access Model items using pre-defined metadata for risk, regulations, privacy levels, etc., or by creating your own metadata attributes to reflect the unique needs of your organization. This release of the API includes support for entitlement, role, and access profile metadata.
 
       Common usages for Access Model metadata include:
 
@@ -1567,6 +1567,8 @@ paths:
 
         **owner**
 
+        **additionalOwners**
+
         **requestable**
 
         **accessRequestConfig**
@@ -1926,6 +1928,8 @@ paths:
         * Supports self request and request on behalf of other users. Refer to the [Get Access Request Configuration](https://developer.sailpoint.com/idn/api/v3/get-access-request-config) endpoint for request configuration options.  
         * Allows any authenticated token (except API) to call this endpoint to request to grant access to themselves. Depending on the configuration, a user can request access for others.
         * Roles, access profiles and entitlements can be requested.
+        * You can specify a `startDate` to set or alter a sunrise date-time on an assignment. The startDate must be a future date-time, in the UTC timezone. Additionally, if the user already has the access assigned with a sunrise date and its yet to be provisioned, you can also submit a request without a `startDate` to request immediate provisioning after approval.
+        * If a `startDate` is specified, then the requested role, access profile, or entitlement will be provisioned on that date and time.
         * You can specify a `removeDate` to set or alter a sunset date-time on an assignment. The removeDate must be a future date-time, in the UTC timezone. Additionally, if the user already has the access assigned with a sunset date, you can also submit a request without a `removeDate` to request removal of the sunset date and time.
         * If a `removeDate` is specified, then the requested role, access profile, or entitlement will be removed on that date and time.
         * Now supports an alternate field 'requestedForWithRequestedItems' for users to specify account selections while requesting items where they have more than one account on the source.
@@ -1943,6 +1947,7 @@ paths:
         * If a `removeDate` is specified, then the requested role, access profile, or entitlement will be removed on that date and time.
         * Roles, access profiles, and entitlements can be requested for revocation.
         * Revoke requests for entitlements are limited to 1 entitlement per access request currently.
+        * You cannot specify a 'startDate' in a REVOKE_ACCESS request, as startDate is only applicable for GRANT_ACCESS requests to indicate when the access should be provisioned, and it does not make sense in the context of revoking access.
         * You can specify a `removeDate` to add or alter a sunset date and time on an assignment. The `removeDate` must be a future date-time, in the UTC timezone. If the user already has the access assigned with a sunset date and time, the removeDate must be a date-time earlier than the existing sunset date and time. 
         * Allows a manager to request to revoke access for direct employees. A user with ORG_ADMIN authority can also request to revoke access from anyone.
         * Now supports REVOKE_ACCESS requests for identities with multiple accounts on a single source, with the help of 'assignmentId' and 'nativeIdentity' fields. These fields should be used within the 'requestedItems' section for the revoke requests. 
@@ -2432,7 +2437,7 @@ paths:
 
             **accountActivityItemId**: *eq, in, ge, gt, le, lt, ne, isnull, sw*
 
-            **accessRequestId**: *in*
+            **accessRequestId**: *in, eq, ne, ge, gt, le, lt, sw*
 
             **status**: *in, eq, ne*
 
@@ -2989,6 +2994,8 @@ paths:
             **source.connectionType**: *eq, in*
 
             **recommendation.method**: *eq, in, isnull*
+
+            **recommendation.type**: *eq, in, isnull*
 
             **created**: *eq, ge, gt, le, lt*
 
@@ -11068,6 +11075,15 @@ paths:
       description: |-
         This API creates a segment. 
         >**Note:** Segment definitions may take time to propagate to all identities.
+      parameters:
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
       requestBody:
         required: true
         content:
@@ -11241,14 +11257,6 @@ paths:
           x-sailpoint-resource-operation-id: listIdentities
           description: Identity Id
           example: ef38f94347e94562b5bb8424a56397d8
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '204':
           $ref: '#/components/responses/204'
@@ -11658,8 +11666,6 @@ paths:
       description: Use this API to set/update an identity's lifecycle state to the one provided and update the corresponding identity profile.
       security:
         - userAuth:
-            - idn:identity-lifecycle-state:manage
-        - applicationAuth:
             - idn:identity-lifecycle-state:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
@@ -12080,6 +12086,7 @@ paths:
             - idn:identity-profile:read
       x-sailpoint-userLevels:
         - ORG_ADMIN
+        - API
     post:
       operationId: createIdentityProfile
       summary: Create identity profile
@@ -12112,8 +12119,11 @@ paths:
       security:
         - userAuth:
             - idn:identity-profile:manage
+        - applicationAuth:
+            - idn:identity-profile:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
+        - API
   /identity-profiles/bulk-delete:
     post:
       operationId: deleteIdentityProfiles
@@ -12154,8 +12164,11 @@ paths:
       security:
         - userAuth:
             - idn:identity-profile:manage
+        - applicationAuth:
+            - idn:identity-profile:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
+        - API
   /identity-profiles/export:
     get:
       operationId: exportIdentityProfiles
@@ -12218,6 +12231,9 @@ paths:
             - idn:identity-profile:read
         - applicationAuth:
             - idn:identity-profile:read
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - API
   /identity-profiles/import:
     post:
       operationId: importIdentityProfiles
@@ -12254,6 +12270,11 @@ paths:
       security:
         - userAuth:
             - idn:identity-profile:manage
+        - applicationAuth:
+            - idn:identity-profile:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - API
   /identity-profiles/{identity-profile-id}:
     get:
       operationId: getIdentityProfile
@@ -12297,6 +12318,7 @@ paths:
             - idn:identity-profile:read
       x-sailpoint-userLevels:
         - ORG_ADMIN
+        - API
     delete:
       operationId: deleteIdentityProfile
       tags:
@@ -12338,8 +12360,11 @@ paths:
       security:
         - userAuth:
             - idn:identity-profile:manage
+        - applicationAuth:
+            - idn:identity-profile:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
+        - API
     patch:
       operationId: updateIdentityProfile
       tags:
@@ -12410,8 +12435,11 @@ paths:
       security:
         - userAuth:
             - idn:identity-profile:manage
+        - applicationAuth:
+            - idn:identity-profile:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
+        - API
   /identity-profiles/{identity-profile-id}/default-identity-attribute-config:
     get:
       operationId: getDefaultIdentityAttributeConfig
@@ -12451,8 +12479,11 @@ paths:
       security:
         - userAuth:
             - idn:identity-profile:manage
+        - applicationAuth:
+            - idn:identity-profile:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
+        - API
   /identity-profiles/{identity-profile-id}/process-identities:
     post:
       operationId: syncIdentityProfile
@@ -12497,8 +12528,11 @@ paths:
       security:
         - userAuth:
             - idn:identity-profile:manage
+        - applicationAuth:
+            - idn:identity-profile:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
+        - API
   /launchers:
     get:
       tags:
@@ -17963,6 +17997,7 @@ paths:
         * description
         * enabled
         * owner
+        * additionalOwners
         * accessProfiles
         * entitlements
         * membership
@@ -19526,7 +19561,6 @@ paths:
         - SOURCE_SUBADMIN
         - ROLE_ADMIN
         - ROLE_SUBADMIN
-        - HELPDESK
       summary: Perform search
       parameters:
         - $ref: '#/components/parameters/offset'
@@ -19749,7 +19783,6 @@ paths:
         - SOURCE_SUBADMIN
         - ROLE_ADMIN
         - ROLE_SUBADMIN
-        - HELPDESK
       summary: Get a document by id
       parameters:
         - $ref: '#/components/parameters/index'
@@ -22434,7 +22467,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransmitterMetadata'
               example:
-                spec_version: '1_0'
+                spec_version: 1_0
                 issuer: https://tenant.api.identitynow.com
                 jwks_uri: https://tenant.api.identitynow.com/ssf/jwks
                 delivery_methods_supported:
@@ -27375,6 +27408,7 @@ paths:
         - Workflows
       summary: List workflow executions
       description: |-
+        [Deprecated] This endpoint will be removed in July 2028.
         Use this API to list a specified workflow's executions. Workflow executions are available for up to 90 days before being archived. By default, you can get a maximum of 250 executions. To get executions past the first 250 records, you can do the following:
         1. Use the [Get Workflows](https://developer.sailpoint.com/idn/api/beta/list-workflows) endpoint to get your workflows.
         2. Get your workflow ID from the response.
@@ -27386,9 +27420,10 @@ paths:
           - Paginate through results with the `offset` parameter.
           For example, you can page through 50 executions per page and use that as a way to get to the records past the first 250.
           Refer to [Paginating Results](https://developer.sailpoint.com/idn/api/standard-collection-parameters#paginating-results) for more information about the query parameters you can use to achieve pagination.
+      deprecated: true
       security:
         - userAuth:
-            - sp:workflow:read
+            - sp:workflow-execution:read
             - sp:workflow:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
@@ -27451,12 +27486,15 @@ paths:
       description: Use this API to get a single workflow execution. Workflow executions are available for up to 90 days before being archived. If you attempt to access a workflow execution that has been archived, you will receive a "404 Not Found" response.
       security:
         - userAuth:
-            - sp:workflow:read
+            - sp:workflow-execution:read
             - sp:workflow:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
       parameters:
         - name: id
           in: path
           description: Workflow execution ID.
+          x-sailpoint-resource-operation-id: getWorkflowExecutions
           required: true
           style: simple
           explode: false
@@ -27492,18 +27530,25 @@ paths:
       description: Get a detailed history of a single workflow execution.  Workflow executions are available for up to 90 days before being archived.  If you attempt to access a workflow execution that has been archived, you will receive a 404 Not Found.
       security:
         - userAuth:
-            - sp:workflow:read
+            - sp:workflow-execution:read
             - sp:workflow:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_SUBADMIN
+        - SOURCE_ADMIN
       parameters:
         - name: id
           in: path
           description: Id of the workflow execution
+          x-sailpoint-resource-operation-id: getWorkflowExecution
           required: true
           style: simple
           explode: false
           schema:
             type: string
             example: c17bea3a-574d-453c-9e04-4365fbf5af0b
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
       responses:
         '200':
           description: List of workflow execution events for the given workflow execution
@@ -27534,7 +27579,7 @@ paths:
       description: Gets a workflow execution history, trigger input, and workflow definition of a single workflow execution.  Workflow executions are available for up to 90 days before being archived.  If you attempt to access a workflow execution that has been archived, you will receive a 404 Not Found.
       security:
         - userAuth:
-            - sp:workflow:read
+            - sp:workflow-execution:read
             - sp:workflow:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
@@ -27716,11 +27761,19 @@ paths:
             Filtering is supported for the following fields and operators:
 
             **id**: *eq*
+
+            **name**: *eq*
+
+            **type**: *eq*
           example: id eq "idn:identity-attributes-changed"
       security:
         - userAuth:
             - sp:workflow:read
             - sp:workflow:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
       responses:
         '200':
           description: List of workflow triggers
@@ -28103,8 +28156,11 @@ paths:
       security:
         - userAuth:
             - idn:identity-profile:manage
+        - applicationAuth:
+            - idn:identity-profile:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
+        - API
   /work-items/{id}/forward:
     post:
       operationId: forwardWorkItem
@@ -28181,15 +28237,6 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
     get:
       operationId: getSearchAttributeConfig
       tags:
@@ -28205,14 +28252,6 @@ paths:
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '200':
           description: List of attribute configurations in ISC.
@@ -28253,14 +28292,6 @@ paths:
           schema:
             type: string
             example: newMailAttribute
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '200':
           description: Specific attribute configuration in IdentityNow.
@@ -28299,14 +28330,6 @@ paths:
           schema:
             type: string
             example: newMailAttribute
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '204':
           $ref: '#/components/responses/204'
@@ -28342,14 +28365,6 @@ paths:
           schema:
             type: string
             example: promotedMailAttribute
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       requestBody:
         content:
           application/json-patch+json:
@@ -28595,6 +28610,50 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
+    delete:
+      summary: Delete access model metadata attribute
+      description: |
+        Delete an existing Access Model Metadata Attribute and all of its values.
+      operationId: deleteAccessModelMetadataAttribute
+      tags:
+        - Access Model Metadata
+      security:
+        - userAuth:
+            - idn:access-model-metadata:delete
+        - applicationAuth:
+            - idn:access-model-metadata:delete
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      parameters:
+        - name: key
+          in: path
+          required: true
+          x-sailpoint-resource-operation-id: listAccessModelMetadataAttribute
+          schema:
+            type: string
+          description: Technical name of the Attribute.
+          example: iscPrivacy
+      responses:
+        '200':
+          description: OK - Attribute deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrackerKeyDTO'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '410':
+          $ref: '#/components/responses/410'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
   /access-model-metadata/attributes/{key}/values:
     get:
       summary: List access model metadata values
@@ -28804,6 +28863,58 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
+    delete:
+      summary: Delete access model metadata value
+      description: |
+        Delete an existing Access Model Metadata Attribute Value.
+      operationId: deleteAccessModelMetadataAttributeValue
+      tags:
+        - Access Model Metadata
+      security:
+        - userAuth:
+            - idn:access-model-metadata:delete
+        - applicationAuth:
+            - idn:access-model-metadata:delete
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      parameters:
+        - name: key
+          in: path
+          required: true
+          x-sailpoint-resource-operation-id: listAccessModelMetadataAttribute
+          schema:
+            type: string
+          description: Technical name of the Attribute.
+          example: iscPrivacy
+        - name: value
+          in: path
+          required: true
+          x-sailpoint-resource-operation-id: listAccessModelMetadataAttributeValue
+          schema:
+            type: string
+          description: Technical name of the Attribute value.
+          example: public
+      responses:
+        '200':
+          description: OK - Attribute value deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrackerValueDTO'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '410':
+          $ref: '#/components/responses/410'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
   /access-model-metadata/bulk-update/filter:
     post:
       summary: Metadata Attribute update by filter
@@ -28975,15 +29086,6 @@ paths:
         - ORG_ADMIN
         - SOURCE_ADMIN
         - SOURCE_SUBADMIN
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
   /ai-access-request-recommendations:
     get:
       operationId: getAccessRequestRecommendations
@@ -29734,7 +29836,7 @@ paths:
               - FULL
               - SLIM
           default: basic
-          example: detailLevel=FULL
+          example: FULL
         - name: filters
           in: query
           schema:
@@ -30453,15 +30555,6 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
   /auth-profiles/{id}:
     get:
       operationId: getProfileConfig
@@ -30492,14 +30585,6 @@ paths:
         '500':
           $ref: '#/components/responses/500'
       parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
         - name: id
           in: path
           description: ID of the Auth Profile to patch.
@@ -30525,14 +30610,6 @@ paths:
           schema:
             type: string
             example: 2c91808a7813090a017814121919ecca
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       requestBody:
         content:
           application/json-patch+json:
@@ -30571,7 +30648,27 @@ paths:
         - userAuth: []
       x-sailpoint-userLevels:
         - ORG_ADMIN
-      description: This API creates the custom password instructions for the specified page ID.
+      description: |
+        This API creates the custom password instructions for the specified page ID.
+
+        The `pageId` determines which login and password-recovery screen your custom instructions appear on. The following table describes each supported page ID and where its text is displayed:
+
+        | Page ID | Where the custom text appears |
+        | --- | --- |
+        | `flow-selection:select` | Flow-selection landing screen, under "Need help signing in?", above the navigation links. |
+        | `reset-password:enter-username` | Reset-password "enter username" step, under the prompt, above the username field. |
+        | `unlock-account:enter-username` | Unlock-account "enter username" step, under the prompt, above the username field. |
+        | `forget-username:user-email` | Forgot-username screen, under "Enter the email address for", above the email field. |
+        | `reset-password:enter-password` | Reset-password "new password" step, under the header, above the password fields. |
+        | `change-password:enter-password` | Same "new password" screen, but the authenticated app/sync-group change variant. |
+        | `reset-password:finish` | Reset-password success screen, under the success icon/heading, above the return button. |
+        | `change-password:finish` | Success screen for the authenticated app/sync-group change, under the heading. |
+        | `mfa:select` | MFA method-selection step, under the prompt, above the list of MFA options. |
+        | `mfa:enter-code` | MFA code-entry step, under the option label, above the code field. |
+        | `mfa:enter-kba` | KBA step, under "Please answer these security questions", above the questions form. |
+        | `unlock-account:finish` | Unlock-account success screen, under the success icon/heading, above the return button. |
+
+        In every case the text shows as an info-icon + paragraph block that only appears if custom text is configured for that page ID, positioned between the screen's built-in heading and its form controls.
       requestBody:
         required: true
         content:
@@ -33075,8 +33172,10 @@ paths:
         url: https://documentation.sailpoint.com/saas/help/setup/identity_processing.html
       security:
         - userAuth:
+            - idn:identity:process
             - idn:identity:manage
         - applicationAuth:
+            - idn:identity:process
             - idn:identity:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
@@ -33362,6 +33461,8 @@ paths:
       security:
         - userAuth:
             - sp:notification-mail-from-attributes:write
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
       operationId: putMailFromAttributes
       tags:
         - Notifications
@@ -33393,41 +33494,27 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
   /mail-from-attributes/{identity}:
     get:
       security:
         - userAuth:
             - sp:notification-mail-from-attributes:read
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
       operationId: getMailFromAttributes
       tags:
         - Notifications
       summary: Get mail from attributes
       description: Retrieve MAIL FROM attributes for a given AWS SES identity.
       parameters:
-        - in: query
-          name: id
+        - in: path
+          name: identity
           required: true
           schema:
             type: string
           description: Returns the MX and TXT record to be put in your DNS, as well as the MAIL FROM domain status
           example: bobsmith@sailpoint.com
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
+          x-sailpoint-resource-operation-id: listFromAddresses
       responses:
         '200':
           description: MAIL FROM Attributes object
@@ -33459,10 +33546,16 @@ paths:
         - Approvals
       summary: Get approvals
       description: |-
-        Currently this endpoint only supports Entitlement Description Approvals.
-        Get a list of approvals. This endpoint is for generic approvals, unlike the access-request-approval endpoint, and does not include access-request-approvals. 
-        Absence of all query parameters for non admins will will default to mine=true. Admin will default to mine=false.
-        Absence of all query parameters for admins will return all approvals in the org.
+        Gets a list of approvals.
+
+        One of the following query parameters should be present: 'mine', 'approverId', 'requesterId', 'requesteeId'.
+
+        The absence of all query parameters for non admins will default to mine=true (which is the equivalent of 'approverId=[your_identity_id]') 
+        while admins will default to mine=false (which will show all approvals in the org).
+
+        For lookups by access request ID please use the following:
+
+        '/generic-approvals?mine=false&filters=referenceType+eq+"accessRequestId"+and+referenceId+eq+"12345678901234567890123456789012"'
       parameters:
         - in: query
           name: mine
@@ -33470,7 +33563,7 @@ paths:
           schema:
             type: boolean
             default: false
-          description: Returns the list of approvals for the current caller. Defaults to false if admin, true otherwise.
+          description: Determines whether to return the list of approvals assigned to the current caller or all approvals in the org. Defaults to false if admin, true otherwise (which is the equivalent of 'approverId=[your_identity_id]').
           example: 'true'
         - in: query
           name: requesterId
@@ -33526,6 +33619,14 @@ paths:
           description: If set to true in the query, the approval requests returned will include approvers.
           example: 'true'
         - in: query
+          name: include-reassignment-history
+          required: false
+          schema:
+            type: boolean
+            default: false
+          description: If set to true in the query, the approval requests returned will include reassignment history.
+          example: 'true'
+        - in: query
           name: include-batch-info
           required: false
           schema:
@@ -33545,8 +33646,6 @@ paths:
 
             **status**: *eq, ne, in, co, sw*
 
-            **referenceType**: *eq, ne, in, co, sw*
-
             **name**: *eq, ne, in, co, sw*
 
             **priority**: *eq, ne, in, co, sw*
@@ -33559,10 +33658,6 @@ paths:
 
             **batchId**: *eq, ne, in, co, sw*
 
-            **approvalId**: *eq, ne, in, co, sw*
-
-            **tenantId**: *eq, ne, in, co, sw*
-
             **createdDate**: *eq, ne, in, co, sw, gt, ge, lt, le*
 
             **dueDate**: *eq, ne, in, co, sw, gt, ge, lt, le*
@@ -33573,24 +33668,30 @@ paths:
 
             **referenceId**: *eq, ne, in, co, sw*
 
+            **referenceType**: *eq, ne, in, co, sw*
+
             **referenceName**: *eq, ne, in, co, sw*
-
-            **requestedTargetType**: *eq, ne, in, co, sw*
-
-            **requestedTargetRequestType**: *eq, ne, in, co, sw*
 
             **requestedTargetId**: *eq, ne, in, co, sw*
 
+            **requestedTargetType**: *eq, ne, in, co, sw*
+
+            **requestedTargetName**: *eq, ne, in, co, sw*
+
+            **requestedTargetRequestType**: *eq, ne, in, co, sw*
+
             **modifiedDate**: *eq, ne, in, co, sw, gt, ge, lt, le*
+
+            **decisionDate**: *eq, ne, in, co, sw, gt, ge, lt, le*
+
+            **approvalId**: *eq, ne, in, co, sw*
 
             **requesterId**: *eq, ne, in, co, sw*
 
             **requesteeId**: *eq, ne, in, co, sw*
 
             **approverId**: *eq, ne, in, co, sw*
-
-            **decisionDate**: *eq, ne, in, co, sw, gt, ge, lt, le*
-          example: filters=status eq PENDING
+          example: filters=status eq "PENDING" and type eq "ACCESS_REQUEST_APPROVAL"
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
       responses:
@@ -33626,8 +33727,8 @@ paths:
         - Approvals
       summary: Get an approval
       description: |-
-        Currently this endpoint only supports Entitlement Description Approvals.
-        Retrieve a single approval for a given approval ID. This endpoint is for generic approvals, different than the access-request-approval endpoint and does not include access-request-approvals.
+        Fetches an approval request by it's approval ID. For lookups by access request ID please use the following:
+        /generic-approvals?filters=referenceType+eq+"accessRequestId"+and+referenceId+eq+"12345678901234567890123456789012"
       parameters:
         - in: path
           name: id
@@ -33637,14 +33738,6 @@ paths:
             type: string
           description: ID of the approval that is to be returned
           example: 38453251-6be2-5f8f-df93-5ce19e295837
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: 'true'
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '200':
           description: Approval object
@@ -33674,8 +33767,7 @@ paths:
         - Approvals
       summary: Post Approvals Approve
       description: |-
-        Currently this endpoint only supports Entitlement Description Approvals.
-        Approves a specified approval request on behalf of the caller. This endpoint is for generic approvals, unlike the access-request-approval endpoint, and does not include access-request-approvals. The approval request must be in a state that allows it to be approved.
+        Approves a specified approval request on behalf of the caller. The approval request must be in a state that allows it to be approved. This endpoint does not support access request IDs.
         If called by an admin and the admin is not listed as an approver, the approval request will be reassigned from a random approver to the admin user.
       parameters:
         - in: path
@@ -33683,9 +33775,9 @@ paths:
           required: true
           schema:
             type: string
-          description: Approval ID that correlates to an existing approval request that a user wants to approve
+          description: Approval ID that correlates to an existing approval request that a user wants to approve.
           example: 38453251-6be2-5f8f-df93-5ce19e295837
-          x-sailpoint-resource-operation-id: approveApproval
+          x-sailpoint-resource-operation-id: getApprovals
       requestBody:
         required: false
         content:
@@ -33722,9 +33814,7 @@ paths:
       tags:
         - Approvals
       summary: Post Approvals Attributes
-      description: |-
-        Currently this endpoint only supports Entitlement Description Approvals.
-        Allows for the edit/addition/removal of the key/value pair additional attributes map for an existing approval request.
+      description: Allows for the edit/addition/removal of the key/value pair additional attributes map for an existing approval request. This endpoint does not support access request IDs.
       parameters:
         - in: path
           name: id
@@ -33733,7 +33823,7 @@ paths:
             type: string
           description: Approval ID that correlates to an existing approval request that a user wants to change the attributes of.
           example: 38453251-6be2-5f8f-df93-5ce19e295837
-          x-sailpoint-resource-operation-id: updateApprovalsAttributes
+          x-sailpoint-resource-operation-id: getApprovals
       requestBody:
         required: true
         content:
@@ -33770,9 +33860,7 @@ paths:
       tags:
         - Approvals
       summary: Post Approvals Comments
-      description: |-
-        Currently this endpoint only supports Entitlement Description Approvals.
-        Adds comments to a specified approval request.
+      description: Adds comments to a specified approval request. This endpoint does not support access request IDs.
       parameters:
         - in: path
           name: id
@@ -33781,7 +33869,7 @@ paths:
             type: string
           description: Approval ID that correlates to an existing approval request that a user wants to add a comment to.
           example: 38453251-6be2-5f8f-df93-5ce19e295837
-          x-sailpoint-resource-operation-id: updateApprovalsComments
+          x-sailpoint-resource-operation-id: getApprovals
       requestBody:
         required: true
         content:
@@ -33818,9 +33906,7 @@ paths:
       tags:
         - Approvals
       summary: Post Approvals Reassign
-      description: |-
-        Currently this endpoint only supports Entitlement Description Approvals.
-        Reassigns an approval request to another identity resulting in that identity being added as an authorized approver.
+      description: Reassigns an approval request to another identity resulting in that identity being added as an authorized approver. This endpoint does not support access request IDs.
       parameters:
         - in: path
           name: id
@@ -33829,7 +33915,7 @@ paths:
             type: string
           description: Approval ID that correlates to an existing approval request that a user wants to reassign.
           example: 38453251-6be2-5f8f-df93-5ce19e295837
-          x-sailpoint-resource-operation-id: updateApprovalsReassign
+          x-sailpoint-resource-operation-id: getApprovals
       requestBody:
         required: true
         content:
@@ -33863,9 +33949,8 @@ paths:
         - Approvals
       summary: Post Approvals Reject
       description: |-
-        Currently this endpoint only supports Entitlement Description Approvals.
-        Rejects a specified approval request on behalf of the caller.
-        If called by an admin and the admin is not listed as an approver, the approval request will be reassigned from a random approver to the admin user.
+        Rejects a specified approval request on behalf of the caller. This endpoint does not support access request IDs.
+        If called by an admin and the admin is not listed as an approver, the approval request will be reassigned from a random approver to the admin user and approved.
       parameters:
         - in: path
           name: id
@@ -33874,7 +33959,7 @@ paths:
             type: string
           description: Approval ID that correlates to an existing approval request that a user wants to reject.
           example: 38453251-6be2-5f8f-df93-5ce19e295837
-          x-sailpoint-resource-operation-id: rejectApproval
+          x-sailpoint-resource-operation-id: getApprovals
       requestBody:
         required: false
         content:
@@ -33914,8 +33999,25 @@ paths:
           required: true
           schema:
             type: string
-          description: 'The id of the object the config applies to, for example one of the following: [(approvalID), (roleID), (entitlementID), (accessProfileID), "ENTITLEMENT_DESCRIPTIONS", "ACCESS_REQUEST_APPROVAL", (tenantID)]'
-          example: 38453251-6be2-5f8f-df93-5ce19e295837
+          description: |
+            The ID defined by the scope field, where id/scope is the following:
+
+            * `{accountID}`/`ACCOUNT`
+            * `{roleID}`/`ROLE`
+            * `{entitlementID}`/`ENTITLEMENT`
+            * `{accessProfileID}`/`ACCESS_PROFILE`
+            * `{domainObjectID}`/`DOMAIN_OBJECT`
+            * `ENTITLEMENT_DESCRIPTIONS`/`APPROVAL_TYPE`
+            * `ACCESS_REQUEST_APPROVAL`/`APPROVAL_TYPE`
+            * `ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+            * `MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+            * `MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+            * `AGENT_ACTIVATE_APPROVAL`/`APPROVAL_TYPE`
+            * `AGENT_DEACTIVATE_APPROVAL`/`APPROVAL_TYPE`
+            * `{tenantID}`/`TENANT`
+
+            Replace placeholders such as `{roleID}` with the actual resource ID.
+          example: ACCESS_REQUEST_APPROVAL
           x-sailpoint-resource-operation-id: getApprovals
       responses:
         '200':
@@ -33945,24 +34047,38 @@ paths:
       tags:
         - Approvals
       summary: Put Approval Config
-      description: Upserts a singular approval configuration that matches the given configID and configScope. If id and scope are not provided, it will default to setting the tenant config.
+      description: |-
+        Upserts a singular approval configuration that matches the given configID and configScope. 
+        For example to update the approval configurations for all Access Request Approvals please use: '/generic-approvals/config/ACCESS_REQUEST_APPROVAL/APPROVAL_TYPE'
       parameters:
         - in: path
           name: id
           required: true
           schema:
             type: string
-          description: |-
-            The ID defined by the scope field, where [[id]]:[[scope]] is the following
-            [[roleID]]:ROLE
-            [[entitlementID]]:ENTITLEMENT
-            [[accessProfileID]]:ACCESS_PROFILE
-            ENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE
-            ACCESS_REQUEST_APPROVAL:APPROVAL_TYPE
-            [[tenantID]]:TENANT
-            [[domainObjectID]]:DOMAIN_OBJECT
-          example: 38453251-6be2-5f8f-df93-5ce19e295837
-          x-sailpoint-resource-operation-id: getApprovals
+          description: |
+            The ID defined by the scope field, where id/scope is the following:
+
+            * `{accountID}`/`ACCOUNT`
+            * `{roleID}`/`ROLE`
+            * `{entitlementID}`/`ENTITLEMENT`
+            * `{accessProfileID}`/`ACCESS_PROFILE`
+            * `{domainObjectID}`/`DOMAIN_OBJECT`
+            * `ENTITLEMENT_DESCRIPTIONS`/`APPROVAL_TYPE`
+            * `ACCESS_REQUEST_APPROVAL`/`APPROVAL_TYPE`
+            * `ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+            * `MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+            * `MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+            * `AGENT_ACTIVATE_APPROVAL`/`APPROVAL_TYPE`
+            * `AGENT_DEACTIVATE_APPROVAL`/`APPROVAL_TYPE`
+            * `{tenantID}`/`TENANT`
+
+            Replace placeholders such as `{roleID}` with the actual resource ID.
+          example: ACCESS_REQUEST_APPROVAL
+          x-sailpoint-resource-operation-id:
+            - listEntitlements
+            - listRoles
+            - listAccessProfiles
         - in: path
           name: scope
           required: true
@@ -33970,21 +34086,31 @@ paths:
             type: string
             enum:
               - DOMAIN_OBJECT
+              - ACCOUNT
               - ROLE
               - ACCESS_PROFILE
               - ENTITLEMENT
               - APPROVAL_TYPE
               - TENANT
-          description: |-
-            The scope of the field, where [[id]]:[[scope]] is the following
-            [[roleID]]:ROLE
-            [[entitlementID]]:ENTITLEMENT
-            [[accessProfileID]]:ACCESS_PROFILE
-            ENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE
-            ACCESS_REQUEST_APPROVAL:APPROVAL_TYPE
-            [[tenantID]]:TENANT
-            [[domainObjectID]]:DOMAIN_OBJECT
-          example: DOMAIN_OBJECT
+          description: |
+            The scope that defines the type of id, where id/scope is the following:
+
+            * `{accountID}`/`ACCOUNT`
+            * `{roleID}`/`ROLE`
+            * `{entitlementID}`/`ENTITLEMENT`
+            * `{accessProfileID}`/`ACCESS_PROFILE`
+            * `{domainObjectID}`/`DOMAIN_OBJECT`
+            * `ENTITLEMENT_DESCRIPTIONS`/`APPROVAL_TYPE`
+            * `ACCESS_REQUEST_APPROVAL`/`APPROVAL_TYPE`
+            * `ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+            * `MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+            * `MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+            * `AGENT_ACTIVATE_APPROVAL`/`APPROVAL_TYPE`
+            * `AGENT_DEACTIVATE_APPROVAL`/`APPROVAL_TYPE`
+            * `{tenantID}`/`TENANT`
+
+            Replace placeholders such as `{roleID}` with the actual resource ID.
+          example: APPROVAL_TYPE
       requestBody:
         required: true
         content:
@@ -34029,17 +34155,29 @@ paths:
           required: true
           schema:
             type: string
-          description: |-
-            The ID defined by the scope field, where [[id]]:[[scope]] is the following
-            [[roleID]]:ROLE
-            [[entitlementID]]:ENTITLEMENT
-            [[accessProfileID]]:ACCESS_PROFILE
-            ENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE
-            ACCESS_REQUEST_APPROVAL:APPROVAL_TYPE
-            [[tenantID]]:TENANT
-            [[domainObjectID]]:DOMAIN_OBJECT
-          example: 38453251-6be2-5f8f-df93-5ce19e295837
-          x-sailpoint-resource-operation-id: getApprovals
+          description: |
+            The ID defined by the scope field, where id/scope is the following:
+
+            * `{accountID}`/`ACCOUNT`
+            * `{roleID}`/`ROLE`
+            * `{entitlementID}`/`ENTITLEMENT`
+            * `{accessProfileID}`/`ACCESS_PROFILE`
+            * `{domainObjectID}`/`DOMAIN_OBJECT`
+            * `ENTITLEMENT_DESCRIPTIONS`/`APPROVAL_TYPE`
+            * `ACCESS_REQUEST_APPROVAL`/`APPROVAL_TYPE`
+            * `ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+            * `MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+            * `MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+            * `AGENT_ACTIVATE_APPROVAL`/`APPROVAL_TYPE`
+            * `AGENT_DEACTIVATE_APPROVAL`/`APPROVAL_TYPE`
+            * `{tenantID}`/`TENANT`
+
+            Replace placeholders such as `{roleID}` with the actual resource ID.
+          example: ACCESS_REQUEST_APPROVAL
+          x-sailpoint-resource-operation-id:
+            - listEntitlements
+            - listRoles
+            - listAccessProfiles
         - in: path
           name: scope
           required: true
@@ -34047,21 +34185,31 @@ paths:
             type: string
             enum:
               - DOMAIN_OBJECT
+              - ACCOUNT
               - ROLE
               - ACCESS_PROFILE
               - ENTITLEMENT
               - APPROVAL_TYPE
               - TENANT
-          description: |-
-            The scope of the field, where [[id]]:[[scope]] is the following
-            [[roleID]]:ROLE
-            [[entitlementID]]:ENTITLEMENT
-            [[accessProfileID]]:ACCESS_PROFILE
-            ENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE
-            ACCESS_REQUEST_APPROVAL:APPROVAL_TYPE
-            [[tenantID]]:TENANT
-            [[domainObjectID]]:DOMAIN_OBJECT
-          example: DOMAIN_OBJECT
+          description: |
+            The scope that defines the type of id, where id/scope is the following:
+
+            * `{accountID}`/`ACCOUNT`
+            * `{roleID}`/`ROLE`
+            * `{entitlementID}`/`ENTITLEMENT`
+            * `{accessProfileID}`/`ACCESS_PROFILE`
+            * `{domainObjectID}`/`DOMAIN_OBJECT`
+            * `ENTITLEMENT_DESCRIPTIONS`/`APPROVAL_TYPE`
+            * `ACCESS_REQUEST_APPROVAL`/`APPROVAL_TYPE`
+            * `ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+            * `MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+            * `MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
+            * `AGENT_ACTIVATE_APPROVAL`/`APPROVAL_TYPE`
+            * `AGENT_DEACTIVATE_APPROVAL`/`APPROVAL_TYPE`
+            * `{tenantID}`/`TENANT`
+
+            Replace placeholders such as `{roleID}` with the actual resource ID.
+          example: APPROVAL_TYPE
           x-go-name: Type
       responses:
         '204':
@@ -34155,7 +34303,10 @@ paths:
       tags:
         - Approvals
       summary: Post Bulk Cancel Approvals
-      description: Bulk cancels specified approval requests on behalf of the caller
+      description: |-
+        Bulk cancels specified approval requests on behalf of the caller. 
+        Note: To bulk cancel access request approvals, please use the following:
+        /access-requests/bulk-cancel
       requestBody:
         required: true
         content:
@@ -34215,7 +34366,7 @@ paths:
       operationId: listMachineAccounts
       tags:
         - Machine Accounts
-      summary: Machine accounts list
+      summary: List machine accounts
       description: 'This returns a list of machine accounts.  '
       security:
         - userAuth:
@@ -34296,14 +34447,6 @@ paths:
             Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)
 
             Sorting is supported for the following fields: **id, name, nativeIdentity, ownerIdentity, uuid, description, machineIdentity.id, machineIdentity.name, subtype.technicalName, subtype.displayName, accessType, environment, manuallyCorrelated, enabled, locked, hasEntitlements, ownerIdentity.id, ownerIdentity.name, attributes, source.id, source.name, created, modified**
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '200':
           description: List of machine account objects
@@ -34330,7 +34473,7 @@ paths:
       operationId: getMachineAccount
       tags:
         - Machine Accounts
-      summary: Machine account details
+      summary: Get machine account details
       description: 'Use this API to return the details for a single machine account by its ID.  '
       security:
         - userAuth:
@@ -34349,14 +34492,6 @@ paths:
           x-sailpoint-resource-operation-id: listMachineAccounts
           description: Machine Account ID.
           example: ef38f94347e94562b5bb8424a56397d8
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '200':
           description: Machine Account object.
@@ -34380,7 +34515,7 @@ paths:
       operationId: updateMachineAccount
       tags:
         - Machine Accounts
-      summary: Update a machine account
+      summary: Update machine account details
       description: |
         Use this API to update machine accounts details. 
       security:
@@ -34401,14 +34536,6 @@ paths:
           x-sailpoint-resource-operation-id: listMachineAccounts
           description: Machine Account ID.
           example: ef38f94347e94562b5bb8424a56397d8
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       requestBody:
         required: true
         description: |-
@@ -34496,6 +34623,14 @@ paths:
           description: Source ID
           example: ef38f94347e94562b5bb8424a56397d8
           x-sailpoint-resource-operation-id: listSources
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
       responses:
         '200':
           description: A Config Object
@@ -34539,6 +34674,14 @@ paths:
           description: Source ID.
           example: ef38f94347e94562b5bb8424a56397d8
           x-sailpoint-resource-operation-id: listSources
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
       requestBody:
         required: true
         content:
@@ -34590,6 +34733,14 @@ paths:
           description: Source ID.
           example: ef38f94347e94562b5bb8424a56397d8
           x-sailpoint-resource-operation-id: listSources
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
       responses:
         '200':
           $ref: '#/components/responses/204'
@@ -34634,6 +34785,14 @@ paths:
           description: Source ID
           example: ef38f94347e94562b5bb8424a56397d8
           x-sailpoint-resource-operation-id: listSources
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
       responses:
         '200':
           description: An array of Attribute Mapping Objects
@@ -34683,6 +34842,14 @@ paths:
           description: Source ID.
           example: ef38f94347e94562b5bb8424a56397d8
           x-sailpoint-resource-operation-id: listSources
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
       requestBody:
         required: true
         content:
@@ -34734,6 +34901,14 @@ paths:
           description: source ID.
           example: ef38f94347e94562b5bb8424a56397d8
           x-sailpoint-resource-operation-id: listSources
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
       responses:
         '200':
           $ref: '#/components/responses/204'
@@ -34754,7 +34929,7 @@ paths:
       operationId: setMachineAccountMappings
       tags:
         - Machine Account Mappings
-      summary: Update Source's Machine Account Mappings
+      summary: Update source's Machine Account Mappings
       description: Use this API to update Machine Account Attribute Mapping for a Source. A token with ORG_ADMIN, SOURCE_ADMIN, or SOURCE_SUBADMIN authority is required to call this API.
       security:
         - userAuth:
@@ -34831,6 +35006,14 @@ paths:
           description: Source ID.
           example: ef38f94347e94562b5bb8424a56397d8
           x-sailpoint-resource-operation-id: listSources
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
       responses:
         '200':
           description: Source's all accounts submitted for classification.
@@ -34884,6 +35067,14 @@ paths:
           description: Source ID.
           example: ef38f94347e94562b5bb8424a56397d8
           x-sailpoint-resource-operation-id: listSources
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
       responses:
         '204':
           $ref: '#/components/responses/204'
@@ -34926,6 +35117,14 @@ paths:
           description: Source ID.
           example: ef38f94347e94562b5bb8424a56397d8
           x-sailpoint-resource-operation-id: listSources
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
       responses:
         '200':
           description: Source Accounts Classification Status object.
@@ -34973,6 +35172,14 @@ paths:
           description: Source ID.
           example: ef38f94347e94562b5bb8424a56397d8
           x-sailpoint-resource-operation-id: listSources
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
       responses:
         '204':
           $ref: '#/components/responses/204'
@@ -34991,7 +35198,7 @@ paths:
       operationId: startMachineIdentityAggregation
       tags:
         - Machine Identities
-      summary: Start Machine Identity (AI Agent) Aggregation
+      summary: Start machine identity aggregation
       security:
         - userAuth:
             - idn:mis-agents:aggregate
@@ -35000,7 +35207,7 @@ paths:
         - SOURCE_ADMIN
         - SOURCE_SUBADMIN
         - HELPDESK
-      description: Use this API to aggregate machine identities (AI Agents).
+      description: Starts a machine identity (AI Agents) aggregation on the specified source.
       requestBody:
         required: true
         content:
@@ -35027,6 +35234,14 @@ paths:
         '500':
           $ref: '#/components/responses/500'
       parameters:
+        - in: path
+          name: sourceId
+          schema:
+            type: string
+          required: true
+          description: Source ID.
+          example: ef38f94347e94562b5bb8424a56397d8
+          x-sailpoint-resource-operation-id: listSources
         - name: X-SailPoint-Experimental
           in: header
           description: Use this header to enable this experimental API.
@@ -35039,6 +35254,9 @@ paths:
     get:
       summary: Retrieve all subtypes by source
       description: Get all machine account subtypes for a given source.
+      deprecated: true
+      x-deprecated-description: |
+        This API has been deprecated, please refer to [Retrieve all subtypes](https://developer.sailpoint.com/docs/api/v2026/list-source-subtypes) for the latest API.
       operationId: listMachineAccountSubtypes
       tags:
         - Machine Accounts
@@ -35131,6 +35349,9 @@ paths:
     post:
       summary: Create subtype
       description: Create a new machine account subtype for a source.
+      deprecated: true
+      x-deprecated-description: |
+        This API has been deprecated, please refer to [Create subtype](https://developer.sailpoint.com/docs/api/v2026/create-source-subtype) for the latest API.
       operationId: createMachineAccountSubtype
       tags:
         - Machine Accounts
@@ -35226,6 +35447,9 @@ paths:
     get:
       summary: Retrieve subtype by source and technicalName
       description: Get a machine account subtype by source ID and technical name.
+      deprecated: true
+      x-deprecated-description: |
+        This API has been deprecated, please refer to [Retrieve all subtypes](https://developer.sailpoint.com/docs/api/v2026/list-source-subtypes) for the latest API.
       operationId: getMachineAccountSubtypeByTechnicalName
       tags:
         - Machine Accounts
@@ -35298,6 +35522,9 @@ paths:
       description: |-
         Update fields of a machine account subtype by source ID and technical name.
         Patchable fields include: `displayName`, `description`.
+      deprecated: true
+      x-deprecated-description: |
+        This API has been deprecated, please refer to [Patch subtype by ID](https://developer.sailpoint.com/docs/api/v2026/patch-machine-account-subtype) for the latest API.
       operationId: patchMachineAccountSubtype
       tags:
         - Machine Accounts
@@ -35381,6 +35608,9 @@ paths:
     delete:
       summary: Delete subtype
       description: Delete a machine account subtype by source ID and technical name.
+      deprecated: true
+      x-deprecated-description: |
+        This API has been deprecated, please refer to [Delete subtype by ID](https://developer.sailpoint.com/docs/api/v2026/delete-machine-account-subtype) for the latest API.
       operationId: deleteMachineAccountSubtype
       tags:
         - Machine Accounts
@@ -35435,6 +35665,9 @@ paths:
     get:
       summary: Retrieve subtype by subtype id
       description: Get a machine account subtype by its unique ID.
+      deprecated: true
+      x-deprecated-description: |
+        This API has been deprecated, please refer to [Get subtype by ID](https://developer.sailpoint.com/docs/api/v2026/get-source-subtype-by-id) for the latest API.
       operationId: getMachineAccountSubtypeById
       tags:
         - Machine Accounts
@@ -35498,7 +35731,7 @@ paths:
       operationId: sendClassifyMachineAccount
       tags:
         - Machine Account Classify
-      summary: Classify a Single Machine Account
+      summary: Classify single machine account
       security:
         - userAuth:
             - idn:account:update
@@ -35522,6 +35755,14 @@ paths:
           x-sailpoint-resource-operation-id: listAccounts
           example: ef38f94347e94562b5bb8424a56397d8
         - $ref: '#/components/parameters/ClassificationMode'
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
       responses:
         '200':
           description: Account classified as Machine.
@@ -35649,7 +35890,7 @@ paths:
       operationId: createMachineIdentity
       tags:
         - Machine Identities
-      summary: Create machine identities
+      summary: Create machine identity
       security:
         - userAuth:
             - idn:mis-identity:manage
@@ -35699,7 +35940,7 @@ paths:
       operationId: getMachineIdentity
       tags:
         - Machine Identities
-      summary: Machine identity details
+      summary: Get machine identity details
       description: This API returns a single machine identity using the Machine Identity ID.
       security:
         - userAuth:
@@ -35749,7 +35990,7 @@ paths:
       operationId: updateMachineIdentity
       tags:
         - Machine Identities
-      summary: Update a machine identity
+      summary: Update machine identity details
       description: |
         Use this API to update machine identity details.
       security:
@@ -35954,11 +36195,14 @@ paths:
       security:
         - userAuth:
             - idn:notification-template-defaults:read
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
         - in: query
           name: filters
+          required: false
           schema:
             type: string
             example: key eq "cloud_manual_work_item_summary"
@@ -35972,14 +36216,6 @@ paths:
             **medium**: *eq, sw*
 
             **locale**: *eq, sw*
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '200':
           description: A list of the default template objects
@@ -36041,14 +36277,6 @@ paths:
             Sorting is supported for the following fields: **key, name, medium**
           example: key, -name
           required: false
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '200':
           description: A list of template objects for your site
@@ -36105,17 +36333,13 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
   /notification-templates/{id}:
     get:
+      security:
+        - userAuth:
+            - idn:notification-templates:read
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
       operationId: getNotificationTemplate
       tags:
         - Notifications
@@ -36132,14 +36356,6 @@ paths:
           schema:
             type: string
             example: c17bea3a-574d-453c-9e04-4365fbf5af0b
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '200':
           description: A template object for your site
@@ -36163,10 +36379,12 @@ paths:
       tags:
         - Notifications
       summary: Bulk delete notification templates
-      description: This lets you bulk delete templates that you previously created for your site. Since this is a beta feature, please contact support to enable usage.
+      description: This lets you bulk delete templates that you previously created for your site.
       security:
         - userAuth:
             - idn:notification-templates:delete
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
       requestBody:
         required: true
         content:
@@ -36188,15 +36406,6 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
   /org-config:
     get:
       operationId: getOrgConfig
@@ -36320,14 +36529,6 @@ paths:
         '500':
           $ref: '#/components/responses/500'
       parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
         - $ref: '#/components/parameters/limit50'
         - $ref: '#/components/parameters/offset'
         - $ref: '#/components/parameters/count'
@@ -36984,9 +37185,7 @@ paths:
       security:
         - userAuth:
             - sp:parameter-storage:read
-            - sp:parameter-storage:create
-            - sp:parameter-storage:update
-            - sp:parameter-storage:delete
+            - sp:parameter-storage:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
       x-audience:
@@ -37017,7 +37216,7 @@ paths:
         - Parameter Storage
       security:
         - userAuth:
-            - sp:parameter-storage:create
+            - sp:parameter-storage:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
       x-audience:
@@ -37088,6 +37287,7 @@ paths:
       security:
         - userAuth:
             - sp:parameter-storage:read
+            - sp:parameter-storage:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
       x-audience:
@@ -37130,6 +37330,7 @@ paths:
       security:
         - userAuth:
             - sp:parameter-storage:read
+            - sp:parameter-storage:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
       x-audience:
@@ -37170,7 +37371,7 @@ paths:
         - Parameter Storage
       security:
         - userAuth:
-            - sp:parameter-storage:update
+            - sp:parameter-storage:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
       x-audience:
@@ -37224,7 +37425,7 @@ paths:
         - Parameter Storage
       security:
         - userAuth:
-            - sp:parameter-storage:delete
+            - sp:parameter-storage:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
       x-audience:
@@ -37256,6 +37457,7 @@ paths:
       security:
         - userAuth:
             - sp:parameter-storage:read
+            - sp:parameter-storage:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
       x-audience:
@@ -37303,7 +37505,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /parameter-storage/specification:
+  /parameter-storage/specifications:
     get:
       summary: Get specifications for parameter types.
       description: Get the specifications for all parameter types. All parameters must conform to this specification document.
@@ -37311,9 +37513,7 @@ paths:
       security:
         - userAuth:
             - sp:parameter-storage:read
-            - sp:parameter-storage:update
-            - sp:parameter-storage:create
-            - sp:parameter-storage:delete
+            - sp:parameter-storage:manage
       parameters:
         - name: Accept-Language
           in: header
@@ -37404,6 +37604,8 @@ paths:
       security:
         - userAuth:
             - idn:notification-templates:read
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
       responses:
         '200':
           description: Notification template context attributes for a specific tenant.
@@ -37421,18 +37623,9 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
   /notification-preferences/{key}:
     get:
-      operationId: listNotificationPreferences
+      operationId: getNotificationPreferences
       tags:
         - Notifications
       summary: List notification preferences for tenant.
@@ -37440,6 +37633,8 @@ paths:
       security:
         - userAuth:
             - idn:notification-preferences:read
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
       responses:
         '200':
           description: Return preference for the given notification key.
@@ -37459,15 +37654,6 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
   /reassignment-configurations/types:
     get:
       operationId: getReassignmentConfigTypes
@@ -40536,6 +40722,109 @@ paths:
         - ROLE_SUBADMIN
         - API
         - HELPDESK
+  /role-propagation-config:
+    put:
+      operationId: setRolePropagationConfig
+      summary: Update Role Change Propagation Configuration
+      tags:
+        - Role Propagation
+      description: This endpoint enables or disables the Role Change Propagation Process for the tenant
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/role-propagation-config-input'
+        required: true
+      parameters:
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
+      responses:
+        '200':
+          description: Role Change Propagation configuration for the tenant is successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/role-propagation-config-response'
+              example:
+                enabled: true
+                enabledDate: '2026-01-27T08:07:20Z'
+                createdDate: '2025-02-18T20:20:36Z'
+                modifiedDate: '2026-01-27T08:07:20Z'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - userAuth:
+            - idn:role-propagation-config:write
+        - applicationAuth:
+            - idn:role-propagation-config:write
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - ROLE_ADMIN
+        - ROLE_SUBADMIN
+        - API
+        - HELPDESK
+    get:
+      operationId: getRolePropagationConfig
+      summary: Get Role Change Propagation Configuration
+      tags:
+        - Role Propagation
+      description: This endpoint fetches the Role Change Propagation Configuration for the tenant
+      parameters:
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
+      responses:
+        '200':
+          description: Role Change Propagation configuration for the tenant.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/role-propagation-config-response'
+              example:
+                enabled: true
+                enabledDate: '2026-01-27T08:07:20Z'
+                createdDate: '2025-02-18T20:20:36Z'
+                modifiedDate: '2026-01-27T08:07:20Z'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - userAuth:
+            - idn:role-propagation-config:read
+        - applicationAuth:
+            - idn:role-propagation-config:read
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - ROLE_ADMIN
+        - ROLE_SUBADMIN
+        - API
+        - HELPDESK
   /roles/{id}/entitlements:
     get:
       operationId: getRoleEntitlements
@@ -40592,14 +40881,6 @@ paths:
             Sorting is supported for the following fields: **name, attribute, value, created, modified**
           example: name,-modified
           required: false
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '200':
           description: List of Entitlements
@@ -40636,6 +40917,11 @@ paths:
         - ROLE_SUBADMIN
   /send-test-notification:
     post:
+      security:
+        - userAuth:
+            - idn:notification-templates:create
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
       operationId: sendTestNotification
       tags:
         - Notifications
@@ -40668,15 +40954,6 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
   /sim-integrations/{id}:
     put:
       tags:
@@ -41700,14 +41977,14 @@ paths:
         '500':
           $ref: '#/components/responses/500'
       parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
+        - in: path
+          name: id
+          required: true
+          x-sailpoint-resource-operation-id: listSources
           schema:
             type: string
-            default: true
-          required: true
+          description: The Source id
+          example: 8c190e6787aa4ed9a90bd9d5344523fb
     put:
       security:
         - userAuth:
@@ -41777,14 +42054,14 @@ paths:
         '500':
           $ref: '#/components/responses/500'
       parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
+        - in: path
+          name: id
+          required: true
+          x-sailpoint-resource-operation-id: listSources
           schema:
             type: string
-            default: true
-          required: true
+          description: The Source id
+          example: 8c190e6787aa4ed9a90bd9d5344523fb
   /sources/{sourceId}/load-entitlements:
     post:
       tags:
@@ -42039,12 +42316,12 @@ paths:
         - Task Management
       summary: Retrieve pending task status list
       description: |
-        This API is being deprecated. Please use the [task-status-list](https://developer.sailpoint.com/docs/api/v2025/get-task-status-list) endpoint with isnull filtering on the completionStatus field to retrieve pending tasks. Example: /v2025/task-status?filters=completionStatus isnull
+        This API is being deprecated. Please use the [task-status-list](https://developer.sailpoint.com/docs/api/v2026/get-task-status-list) endpoint with isnull filtering on the completionStatus field to retrieve pending tasks. Example: /v2026/task-status?filters=completionStatus isnull
 
         Retrieve a list of statuses for pending tasks. Types of tasks include account and entitlement aggregation and other general background processing tasks.  Data for tasks older than 90 days will not be returned.
       deprecated: true
       x-deprecated-description: |
-        This API has been deprecated, please refer to [task-status-list](https://developer.sailpoint.com/docs/api/v2025/get-task-status-list) for the latest API.
+        This API has been deprecated, please refer to [task-status-list](https://developer.sailpoint.com/docs/api/v2026/get-task-status-list) for the latest API.
       operationId: getPendingTasks
       parameters:
         - $ref: '#/components/parameters/offset'
@@ -42095,12 +42372,12 @@ paths:
         - Task Management
       summary: Retrieve pending task list headers
       description: |
-        This API is being deprecated. Please use the [task-status-list](https://developer.sailpoint.com/docs/api/v2025/get-task-status-list) endpoint with isnull filtering on the completionStatus field and count=true. Example: /v2025/task-status?count=true&filters=completionStatus isnull
+        This API is being deprecated. Please use the [task-status-list](https://developer.sailpoint.com/docs/api/v2026/get-task-status-list) endpoint with isnull filtering on the completionStatus field and count=true. Example: /v2026/task-status?count=true&filters=completionStatus isnull
 
         Responds with headers only for list of task statuses for pending tasks.
       deprecated: true
       x-deprecated-description: |
-        This API has been deprecated, please refer to [task-status-list](https://developer.sailpoint.com/docs/api/v2025/get-task-status-list) for the latest API.
+        This API has been deprecated, please refer to [task-status-list](https://developer.sailpoint.com/docs/api/v2026/get-task-status-list) for the latest API.
       operationId: getPendingTaskHeaders
       parameters:
         - $ref: '#/components/parameters/offset'
@@ -42174,16 +42451,8 @@ paths:
       tags:
         - Tenant Context
       description: |
-        Returns a list of key-value pairs representing the current state of the tenant's context.
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
+        Returns all key-value pairs representing the current state of the tenant's context.
+        Each tenant is limited to a maximum of 100 key-value pairs.
       security:
         - userAuth:
             - idn:tenant-context:read
@@ -42231,15 +42500,6 @@ paths:
         This endpoint is specifically designed to modify the `/Key/*` field, supporting operations such as `add`, `remove`, or `replace` to manage key-value pairs. 
 
         Note that each tenant is limited to a maximum of 100 key-value pairs.
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       security:
         - userAuth:
             - idn:tenant-context:write
@@ -42375,14 +42635,6 @@ paths:
 
             Sorting is supported for the following fields: **id, name**
           example: name
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '200':
           description: List of triggers.
@@ -42407,6 +42659,8 @@ paths:
             - sp:trigger-service-subscriptions:read
         - applicationAuth:
             - sp:trigger-service-subscriptions:read
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
   /trigger-subscriptions:
     post:
       operationId: createSubscription
@@ -42488,15 +42742,8 @@ paths:
             - sp:trigger-service-subscriptions:manage
         - applicationAuth:
             - sp:trigger-service-subscriptions:manage
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
     get:
       operationId: listSubscriptions
       tags:
@@ -42534,14 +42781,6 @@ paths:
 
             Sorting is supported for the following fields: **triggerId, triggerName**
           example: triggerName
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '200':
           description: List of subscriptions.
@@ -42616,6 +42855,8 @@ paths:
         - applicationAuth:
             - sp:trigger-service-subscriptions:read
             - sp:trigger-service-subscriptions:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
   /trigger-subscriptions/{id}:
     put:
       operationId: updateSubscription
@@ -42642,14 +42883,6 @@ paths:
           x-sailpoint-resource-operation-id: listSubscriptions
           description: Subscription ID
           example: 0f11f2a4-7c94-4bf3-a2bd-742580fe3bde
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       requestBody:
         required: true
         content:
@@ -42720,6 +42953,8 @@ paths:
             - sp:trigger-service-subscriptions:manage
         - applicationAuth:
             - sp:trigger-service-subscriptions:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
     patch:
       operationId: patchSubscription
       tags:
@@ -42738,14 +42973,6 @@ paths:
           x-sailpoint-resource-operation-id: listSubscriptions
           description: ID of the Subscription to patch
           example: 0f11f2a4-7c94-4bf3-a2bd-742580fe3bde
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       requestBody:
         required: true
         content:
@@ -42776,6 +43003,8 @@ paths:
             - sp:trigger-service-subscriptions:manage
         - applicationAuth:
             - sp:trigger-service-subscriptions:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
     delete:
       operationId: deleteSubscription
       tags:
@@ -42791,14 +43020,6 @@ paths:
           x-sailpoint-resource-operation-id: listSubscriptions
           description: Subscription ID
           example: 0f11f2a4-7c94-4bf3-a2bd-742580fe3bde
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '204':
           $ref: '#/components/responses/204'
@@ -42820,6 +43041,8 @@ paths:
             - sp:trigger-service-subscriptions:manage
         - applicationAuth:
             - sp:trigger-service-subscriptions:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
   /trigger-subscriptions/validate-filter:
     post:
       operationId: testSubscriptionFilter
@@ -42868,15 +43091,8 @@ paths:
             - sp:trigger-service-subscriptions:manage
         - applicationAuth:
             - sp:trigger-service-subscriptions:manage
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
   /trigger-invocations/status:
     get:
       operationId: listTriggerInvocationStatus
@@ -42916,14 +43132,6 @@ paths:
 
             Sorting is supported for the following fields: **triggerId, subscriptionName, created, completed**
           example: created
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '200':
           description: List of latest invocation statuses.
@@ -42950,6 +43158,8 @@ paths:
         - applicationAuth:
             - sp:trigger-service-invocation-status:read
             - sp:trigger-service-invocation-status:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
   /trigger-invocations/{id}/complete:
     post:
       operationId: completeTriggerInvocation
@@ -42966,14 +43176,6 @@ paths:
           x-sailpoint-resource-operation-id: listTriggerInvocationStatus
           description: The ID of the invocation to complete.
           example: 0f11f2a4-7c94-4bf3-a2bd-742580fe3bde
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       requestBody:
         required: true
         content:
@@ -42997,6 +43199,11 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
+      security:
+        - userAuth: []
+        - applicationAuth: []
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
   /trigger-invocations/test:
     post:
       operationId: startTestTriggerInvocation
@@ -43052,15 +43259,8 @@ paths:
             - sp:trigger-service-invocation-status:manage
         - applicationAuth:
             - sp:trigger-service-invocation-status:manage
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
   /ui-metadata/tenant:
     get:
       operationId: getTenantUiMetadata
@@ -43150,6 +43350,11 @@ paths:
           required: true
   /verified-from-addresses:
     get:
+      security:
+        - userAuth:
+            - idn:notification-templates:read
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
       operationId: listFromAddresses
       tags:
         - Notifications
@@ -43161,6 +43366,7 @@ paths:
         - $ref: '#/components/parameters/count'
         - in: query
           name: filters
+          required: false
           schema:
             type: string
           description: |-
@@ -43168,10 +43374,11 @@ paths:
 
             Filtering is supported for the following fields and operators:
 
-            **email**: *eq, ge, le, sw*
+            **email**: *eq, ge, le, gt, lt*
           example: email eq "john.doe@company.com"
         - in: query
           name: sorters
+          required: false
           schema:
             type: string
             format: comma-separated
@@ -43180,14 +43387,6 @@ paths:
 
             Sorting is supported for the following fields: **email**
           example: email
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '200':
           description: List of Email Status
@@ -43197,6 +43396,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/EmailStatusDto'
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -43206,6 +43407,11 @@ paths:
         '500':
           $ref: '#/components/responses/500'
     post:
+      security:
+        - userAuth:
+            - idn:notification-templates:create
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
       operationId: createVerifiedFromAddress
       tags:
         - Notifications
@@ -43236,17 +43442,13 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
   /verified-from-addresses/{id}:
     delete:
+      security:
+        - userAuth:
+            - idn:notification-templates:delete
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
       operationId: deleteVerifiedFromAddress
       tags:
         - Notifications
@@ -43255,18 +43457,12 @@ paths:
       parameters:
         - in: path
           name: id
-          schema:
-            type: string
+          description: Unique identifier of the verified sender address to delete.
           required: true
           x-sailpoint-resource-operation-id: listFromAddresses
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
           schema:
             type: string
-            default: true
-          required: true
+            example: c17bea3a-574d-453c-9e04-4365fbf5af0b
       responses:
         '204':
           $ref: '#/components/responses/204'
@@ -43287,11 +43483,16 @@ paths:
       security:
         - userAuth:
             - sp:notification-dkim-attributes:read
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
       operationId: getDkimAttributes
       tags:
         - Notifications
       summary: Get dkim attributes
       description: Retrieve DKIM (DomainKeys Identified Mail) attributes for all your tenants' AWS SES identities. Limits retrieval to 100 identities per call.
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
       responses:
         '200':
           description: List of DKIM Attributes
@@ -43311,19 +43512,12 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
     post:
       security:
         - userAuth:
             - sp:notification-verify-domain-dkim:write
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
       operationId: createDomainDkim
       tags:
         - Notifications
@@ -43354,17 +43548,17 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
   /workgroups:
     get:
+      security:
+        - userAuth:
+            - idn:workgroup:read
+            - idn:workgroup:manage
+        - applicationAuth:
+            - idn:workgroup:read
+            - idn:workgroup:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
       operationId: listWorkgroups
       tags:
         - Governance Groups
@@ -43401,14 +43595,6 @@ paths:
             Sorting is supported for the following fields: **name, created, modified, id, description**
           example: name,-modified
           required: false
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '200':
           description: List of Governance Groups
@@ -43428,20 +43614,15 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-      security:
-        - userAuth:
-            - idn:workgroup:read
-            - idn:workgroup:manage
-        - applicationAuth:
-            - idn:workgroup:read
-            - idn:workgroup:manage
     post:
-      operationId: createWorkgroup
       security:
         - userAuth:
             - idn:workgroup:manage
         - applicationAuth:
             - idn:workgroup:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      operationId: createWorkgroup
       tags:
         - Governance Groups
       summary: Create a new governance group.
@@ -43469,17 +43650,17 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
   /workgroups/{id}:
     get:
+      security:
+        - userAuth:
+            - idn:workgroup:read
+            - idn:workgroup:manage
+        - applicationAuth:
+            - idn:workgroup:read
+            - idn:workgroup:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
       operationId: getWorkgroup
       tags:
         - Governance Groups
@@ -43489,18 +43670,11 @@ paths:
         - in: path
           name: id
           required: true
+          x-sailpoint-resource-operation-id: listWorkgroups
           schema:
             type: string
           description: ID of the Governance Group
           example: 2c9180837ca6693d017ca8d097500149
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '200':
           description: A Governance Group
@@ -43518,16 +43692,14 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
+    delete:
       security:
         - userAuth:
-            - idn:workgroup:read
             - idn:workgroup:manage
         - applicationAuth:
-            - idn:workgroup:read
             - idn:workgroup:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
-    delete:
       operationId: deleteWorkgroup
       tags:
         - Governance Groups
@@ -43537,18 +43709,11 @@ paths:
         - in: path
           name: id
           required: true
+          x-sailpoint-resource-operation-id: listWorkgroups
           schema:
             type: string
           description: ID of the Governance Group
           example: 2c9180837ca6693d017ca8d097500149
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '204':
           $ref: '#/components/responses/204'
@@ -43562,6 +43727,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
+    patch:
       security:
         - userAuth:
             - idn:workgroup:manage
@@ -43569,7 +43735,6 @@ paths:
             - idn:workgroup:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
-    patch:
       operationId: patchWorkgroup
       tags:
         - Governance Groups
@@ -43583,18 +43748,11 @@ paths:
         - in: path
           name: id
           required: true
+          x-sailpoint-resource-operation-id: listWorkgroups
           schema:
             type: string
           description: ID of the Governance Group
           example: 2c9180837ca6693d017ca8d097500149
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       requestBody:
         content:
           application/json-patch+json:
@@ -43626,6 +43784,8 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
+  /workgroups/bulk-delete:
+    post:
       security:
         - userAuth:
             - idn:workgroup:manage
@@ -43633,12 +43793,10 @@ paths:
             - idn:workgroup:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
-  /workgroups/bulk-delete:
-    post:
       operationId: deleteWorkgroupsInBulk
-      summary: Delete governance group(s)
       tags:
         - Governance Groups
+      summary: Delete governance group(s)
       description: |-
 
         This API initiates a bulk deletion of one or more Governance Groups.
@@ -43679,22 +43837,17 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-      security:
-        - userAuth:
-            - idn:workgroup:manage
-        - applicationAuth:
-            - idn:workgroup:manage
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
   /workgroups/{workgroupId}/connections:
     get:
+      security:
+        - userAuth:
+            - idn:workgroup:read
+            - idn:workgroup:manage
+        - applicationAuth:
+            - idn:workgroup:read
+            - idn:workgroup:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
       operationId: listConnections
       tags:
         - Governance Groups
@@ -43705,6 +43858,7 @@ paths:
           in: path
           description: ID of the Governance Group.
           required: true
+          x-sailpoint-resource-operation-id: listWorkgroups
           schema:
             type: string
             example: 2c91808a7813090a017814121919ecca
@@ -43722,14 +43876,6 @@ paths:
             Sorting is supported for the following fields: **name, created, modified**
           example: name,-modified
           required: false
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '200':
           description: List all connections associated with a Governance Group.
@@ -43749,6 +43895,8 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
+  /workgroups/{workgroupId}/members:
+    get:
       security:
         - userAuth:
             - idn:workgroup:read
@@ -43756,8 +43904,8 @@ paths:
         - applicationAuth:
             - idn:workgroup:read
             - idn:workgroup:manage
-  /workgroups/{workgroupId}/members:
-    get:
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
       operationId: listWorkgroupMembers
       tags:
         - Governance Groups
@@ -43768,6 +43916,7 @@ paths:
           in: path
           description: ID of the Governance Group.
           required: true
+          x-sailpoint-resource-operation-id: listWorkgroups
           schema:
             type: string
             example: 2c91808a7813090a017814121919ecca
@@ -43785,14 +43934,6 @@ paths:
             Sorting is supported for the following fields: **name, created, modified**
           example: name,-modified
           required: false
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       responses:
         '200':
           description: List all members associated with a Governance Group.
@@ -43832,21 +43973,16 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-      security:
-        - userAuth:
-            - idn:workgroup:read
-            - idn:workgroup:manage
-        - applicationAuth:
-            - idn:workgroup:read
-            - idn:workgroup:manage
   /workgroups/{workgroupId}/members/bulk-add:
     post:
-      operationId: updateWorkgroupMembers
       security:
         - userAuth:
             - idn:workgroup:write
         - applicationAuth:
             - idn:workgroup:write
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      operationId: updateWorkgroupMembers
       tags:
         - Governance Groups
       summary: Add members to governance group
@@ -43861,17 +43997,10 @@ paths:
           in: path
           description: ID of the Governance Group.
           required: true
+          x-sailpoint-resource-operation-id: listWorkgroups
           schema:
             type: string
             example: 2c91808a7813090a017814121919ecca
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       requestBody:
         description: List of identities to be added to a Governance Group members list.
         required: true
@@ -43898,7 +44027,6 @@ paths:
           $ref: '#/components/responses/500'
   /workgroups/{workgroupId}/members/bulk-delete:
     post:
-      operationId: deleteWorkgroupMembers
       security:
         - userAuth:
             - idn:workgroup:write
@@ -43906,6 +44034,7 @@ paths:
             - idn:workgroup:write
       x-sailpoint-userLevels:
         - ORG_ADMIN
+      operationId: deleteWorkgroupMembers
       tags:
         - Governance Groups
       summary: Remove members from governance group
@@ -43919,17 +44048,10 @@ paths:
           in: path
           description: ID of the Governance Group.
           required: true
+          x-sailpoint-resource-operation-id: listWorkgroups
           schema:
             type: string
             example: 2c91808a7813090a017814121919ecca
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       requestBody:
         description: List of identities to be removed from  a Governance Group members list.
         required: true
@@ -46292,6 +46414,38 @@ paths:
       description: Returns a list of form instances for the tenant. Optionally filter by form definition ID.
       operationId: searchFormInstancesByTenant
       parameters:
+        - name: offset
+          in: query
+          description: |-
+            Offset
+
+            Integer specifying the offset of the first result from the beginning of the collection. The standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#paginating-results).
+            The offset value is record-based, not page-based, and the index starts at 0.
+          schema:
+            type: integer
+            format: int64
+            default: 0
+            x-go-name: Offset
+          example: 0
+          required: false
+          x-go-name: Offset
+        - name: limit
+          in: query
+          description: |-
+            Limit
+
+            Integer specifying the maximum number of records to return in a single API call. The standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#paginating-results).
+            If it is not specified, a default limit is used.
+          schema:
+            type: integer
+            format: int64
+            maximum: 250
+            minimum: 0
+            default: 250
+            x-go-name: Limit
+          example: 100
+          required: false
+          x-go-name: Limit
         - in: query
           name: filters
           schema:
@@ -46380,7 +46534,7 @@ paths:
                     type: string
                     x-go-name: TrackingID
         '429':
-          description: Too many requests
+          description: Too many requests. The list form instances operation is limited to 50 requests per 10 seconds per tenant; reduce call frequency or wait before retrying.
           content:
             application/json:
               schema:
@@ -46541,10 +46695,15 @@ paths:
       x-codegen-request-body-name: Body
   /form-instances/{formInstanceID}:
     get:
+      x-sailpoint-userLevels:
+        - USER
       tags:
         - Custom Forms
       summary: Returns a form instance.
-      description: Parameter `{formInstanceID}` should match a form instance ID.
+      description: |-
+        Parameter `{formInstanceID}` should match a form instance ID.
+
+        Only the assigned recipient (`recipients[].id` when `type` is `IDENTITY`) may call this.
       operationId: getFormInstanceByKey
       parameters:
         - name: formInstanceID
@@ -46683,10 +46842,15 @@ paths:
       security:
         - userAuth: []
     patch:
+      x-sailpoint-userLevels:
+        - USER
       tags:
         - Custom Forms
       summary: Patch a form instance.
-      description: Parameter `{formInstanceID}` should match a form instance ID.
+      description: |-
+        Parameter `{formInstanceID}` should match a form instance ID.
+
+        Only the assigned recipient (`recipients[].id` when `type` is `IDENTITY`) may call this.
       operationId: patchFormInstance
       parameters:
         - name: formInstanceID
@@ -48382,7 +48546,34 @@ paths:
         '401':
           $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/403'
+          description: |
+            Forbidden. Returned when the user doesn't have access to this endpoint, or when the quota of allowed invocations for the day has been exceeded.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ErrorResponseDto'
+                  - type: object
+                    properties:
+                      error:
+                        type: string
+                        description: Error message when quota is exceeded
+                    required:
+                      - error
+              examples:
+                access_denied:
+                  summary: An example of a 403 response when access is denied
+                  value:
+                    detailCode: 403 Forbidden
+                    trackingId: b21b1f7ce4da4d639f2c62a57171b427
+                    messages:
+                      - locale: en-US
+                        localeOrigin: DEFAULT
+                        text: The server understood the request but refuses to authorize it.
+                quota_exceeded:
+                  summary: Quota exceeded - cannot execute more than one application discovery task within 24 hours
+                  value:
+                    error: cannot execute more than one application discovery task within 24 hours
         '404':
           $ref: '#/components/responses/404'
         '429':
@@ -48819,9 +49010,6 @@ paths:
         - userAuth:
             - idn:app-roles:read
             - idn:app-roles:manage
-        - applicationAuth:
-            - idn:app-roles:read
-            - idn:app-roles:manage
       description: This API returns the list of source apps assigned for logged in user.
       parameters:
         - $ref: '#/components/parameters/limit'
@@ -48899,9 +49087,6 @@ paths:
         - userAuth:
             - idn:app-roles:read
             - idn:app-roles:manage
-        - applicationAuth:
-            - idn:app-roles:read
-            - idn:app-roles:manage
       description: This API returns the list of source apps available for access request.
       parameters:
         - $ref: '#/components/parameters/limit'
@@ -48977,8 +49162,6 @@ paths:
       description: This endpoint creates a source app using the given source app payload
       security:
         - userAuth:
-            - idn:app-roles:manage
-        - applicationAuth:
             - idn:app-roles:manage
       parameters:
         - name: X-SailPoint-Experimental
@@ -49353,9 +49536,6 @@ paths:
         - userAuth:
             - idn:app-roles:read
             - idn:app-roles:manage
-        - applicationAuth:
-            - idn:app-roles:read
-            - idn:app-roles:manage
       description: This API returns the list of user apps assigned to logged in user
       parameters:
         - $ref: '#/components/parameters/limit'
@@ -49418,8 +49598,6 @@ paths:
       summary: List all user apps
       security:
         - userAuth:
-            - idn:app-roles:manage
-        - applicationAuth:
             - idn:app-roles:manage
       description: |-
         This API returns the list of all user apps with specified filters.
@@ -50985,6 +51163,7 @@ components:
             Additional submit data structure with requestedFor containing requestedItems allowing distinction for each request item and Identity.
             * Can only be used when 'requestedFor' and 'requestedItems' are not separately provided
             * Adds ability to specify which account the user wants the access on, in case they have multiple accounts on a source
+            * Allows the ability to request items with different start dates
             * Allows the ability to request items with different remove dates
             * Also allows different combinations of request items and identities in the same request
             * Only for use in GRANT_ACCESS type requests
@@ -51028,6 +51207,15 @@ components:
             requestedAppName: test-app
             requestedAppId: 2c91808f7892918f0178b78da4a305a1
           description: Arbitrary key-value pairs. They will never be processed by the IdentityNow system but will be returned on associated APIs such as /account-activities and /access-request-status.
+        startDate:
+          type: string
+          description: |
+            The date and time the role or access profile or entitlement is/will be provisioned to the specified identity. Also known as the sunrise date.
+            * Specify a date-time in the future.
+            * This date-time can be used to indicate date-time when access item will be provisioned on the identity account. A GRANT_ACCESS request can use startDate to specify when to schedule provisioning of access item for an identity/account & a MODIFY_ACCESS request can use startDate to change the provisioning date-time of already assigned access item. But REVOKE_ACCESS request can not have startDate field. You can change the sunrise date in requests for yourself or others you are authorized to request for.
+            * If the startDate is in the past, then the provisioning will be processed as soon as possible, but no guarantees can be made about when the provisioning will occur. If the startDate is in the future, then the provisioning will be scheduled to occur on that date and time. If no startDate is provided, then the provisioning will be processed as soon as possible.
+          format: date-time
+          example: '2020-06-12T21:22:23.000Z'
         removeDate:
           type: string
           description: |
@@ -52062,12 +52250,14 @@ components:
           example: Reviewer Name
         email:
           type: string
-          description: The email of the reviewing identity.
+          nullable: true
+          description: The email of the reviewing identity. This is only applicable to reviewers of the `IDENTITY` type.
           example: reviewer@test.com
         type:
           type: string
           enum:
             - IDENTITY
+            - GOVERNANCE_GROUP
           description: The type of the reviewing identity.
           example: IDENTITY
         created:
@@ -53553,6 +53743,9 @@ components:
             - MANAGER
             - GOVERNANCE_GROUP
             - WORKFLOW
+            - ALL_OWNERS
+            - ADDITIONAL_OWNER
+            - ADDITIONAL_GOVERNANCE_GROUP
           description: |-
             Describes the individual or group that is responsible for an approval step. These are the possible values:
             **APP_OWNER**: The owner of the Application
@@ -53565,12 +53758,18 @@ components:
 
             **GOVERNANCE_GROUP**: A Governance Group, the ID of which is specified by the **approverId** field
 
-            **WORKFLOW**: A Workflow, the ID of which is specified by the **approverId** field. Workflow is exclusive to other types of approvals and License required. 
+            **WORKFLOW**: A Workflow, the ID of which is specified by the **approverId** field. Workflow is exclusive to other types of approvals and License required.
+
+            **ALL_OWNERS**: All owners of the Access Profile, including the primary owner and any secondary owners
+
+            **ADDITIONAL_OWNER**: An additional owner of the Access Profile, the ID of which is specified by the **approverId** field
+
+            **ADDITIONAL_GOVERNANCE_GROUP**: An additional Governance Group, the ID of which is specified by the **approverId** field
           example: GOVERNANCE_GROUP
         approverId:
           type: string
           nullable: true
-          description: Id of the specific approver, used when approverType is GOVERNANCE_GROUP or WORKFLOW.
+          description: Id of the specific approver, used when approverType is GOVERNANCE_GROUP, WORKFLOW, or ADDITIONAL_GOVERNANCE_GROUP.
           example: 46c79819-a69f-49a2-becb-12c971ae66c6
     Requestability:
       type: object
@@ -53624,11 +53823,14 @@ components:
       properties:
         value:
           type: string
-          description: Technical name of the Attribute value. This is unique and cannot be changed after creation.
+          pattern: ^[a-zA-Z0-9]([a-zA-Z0-9_-]*[a-zA-Z0-9])?$
+          maxLength: 255
+          description: Technical name of the Attribute value. This is unique and cannot be changed after creation. Allowed characters are letters, numbers, dashes (-), and underscores (_); the value cannot start or end with a dash or underscore.
           example: public
         name:
           type: string
-          description: The display name of the Attribute value.
+          maxLength: 100
+          description: 'The display name of the Attribute value. Allowed characters are letters, numbers, whitespace, and the following special characters: . / | , ( ) & _ -'
           example: Public
         status:
           type: string
@@ -53639,11 +53841,14 @@ components:
       properties:
         key:
           type: string
-          description: Technical name of the Attribute. This is unique and cannot be changed after creation.
+          pattern: ^[a-zA-Z0-9]([a-zA-Z0-9_-]*[a-zA-Z0-9])?$
+          maxLength: 255
+          description: Technical name of the Attribute. This is unique and cannot be changed after creation. Allowed characters are letters, numbers, dashes (-), and underscores (_); the value cannot start or end with a dash or underscore.
           example: iscPrivacy
         name:
           type: string
-          description: The display name of the key.
+          maxLength: 100
+          description: 'The display name of the key. Allowed characters are letters, numbers, whitespace, and the following special characters: . / | , ( ) & _ -'
           example: Privacy
         multiselect:
           type: boolean
@@ -53668,7 +53873,8 @@ components:
             - entitlement
         description:
           type: string
-          description: The description of the Attribute.
+          maxLength: 500
+          description: 'The description of the Attribute. Allowed characters are letters, numbers, whitespace, and the following special characters: . / | , ( ) & _ : -'
           example: Specifies the level of privacy associated with an access item.
         values:
           type: array
@@ -53775,6 +53981,26 @@ components:
           nullable: true
           description: Array of child criteria. This field is required if the operation is `AND` or `OR`. Otherwise, it must be left null. A maximum of three levels of criteria are supported, including leaf nodes.
           example: null
+    AdditionalOwnerRef:
+      type: object
+      description: Reference to an additional owner (identity or governance group).
+      properties:
+        type:
+          type: string
+          enum:
+            - IDENTITY
+            - GOVERNANCE_GROUP
+          description: Type of the additional owner; IDENTITY for an identity, GOVERNANCE_GROUP for a governance group.
+          example: IDENTITY
+        id:
+          type: string
+          description: ID of the identity or governance group.
+          example: 2c9180a46faadee4016fb4e018c20639
+        name:
+          type: string
+          nullable: true
+          description: Display name. It may be left null or omitted on input. If set, it must match the current display name of the identity or governance group, otherwise a 400 Bad Request error may result.
+          example: support
     AccessProfile:
       type: object
       description: Access profile.
@@ -53885,8 +54111,9 @@ components:
         additionalOwners:
           type: array
           nullable: true
+          description: List of additional owner references beyond the primary owner. Each entry may be an identity (IDENTITY) or a governance group (GOVERNANCE_GROUP).
           items:
-            $ref: '#/components/schemas/OwnerReference'
+            $ref: '#/components/schemas/AdditionalOwnerRef'
       required:
         - owner
         - name
@@ -54190,6 +54417,12 @@ components:
               type: string
               description: The display name of the identity
               example: john.doe
+        additionalOwners:
+          type: array
+          nullable: true
+          description: List of additional owner references beyond the primary owner. Each entry may be an identity (IDENTITY) or a governance group (GOVERNANCE_GROUP).
+          items:
+            $ref: '#/components/schemas/AdditionalOwnerRef'
         manuallyUpdatedFields:
           type: object
           description: A map of entitlement fields that have been manually updated. The key is the field name in UPPER_SNAKE_CASE format, and the value is true or false to indicate if the field has been updated.
@@ -54319,6 +54552,15 @@ components:
             requestedAppName: test-app
             requestedAppId: 2c91808f7892918f0178b78da4a305a1
           description: Arbitrary key-value pairs. They will never be processed by the IdentityNow system but will be returned on associated APIs such as /account-activities and /access-request-status.
+        startDate:
+          type: string
+          description: |
+            The date and time the role or access profile or entitlement is/will be provisioned to the specified identity. Also known as the sunrise date.
+            * Specify a date-time in the future.
+            * This date-time can be used to indicate date-time when access item will be provisioned on the identity account. A GRANT_ACCESS request can use startDate to specify when to schedule provisioning of access item for an identity/account & a MODIFY_ACCESS request can use startDate to change the provisioning date-time of already assigned access item. But REVOKE_ACCESS request can not have startDate field. You can change the sunrise date in requests for yourself or others you are authorized to request for.
+            * If the startDate is in the past, then the provisioning will be processed as soon as possible, but no guarantees can be made about when the provisioning will occur. If the startDate is in the future, then the provisioning will be scheduled to occur on that date and time. If no startDate is provided, then the provisioning will be processed as soon as possible.
+          format: date-time
+          example: '2020-06-12T21:22:23.000Z'
         removeDate:
           type: string
           description: |
@@ -54702,6 +54944,8 @@ components:
     ApprovalReminderAndEscalationConfig:
       type: object
       title: Approval Reminder And Escalation Config
+      description: |
+        Configuration for approval reminder and escalation behavior. Important: Modifying this object will override the sp-approval service's reminderConfig and escalationConfig settings. Changes made here take precedence over any configuration set directly in the sp-approval service.
       properties:
         daysUntilEscalation:
           type: integer
@@ -54717,9 +54961,10 @@ components:
           nullable: true
         maxReminders:
           type: integer
-          description: Maximum number of reminder notification to send to the reviewer before approval escalation.
+          description: Maximum number of reminder notifications to send to the reviewer before approval escalation. The maximum allowed value is 20.
           format: int32
-          minimum: 1
+          minimum: 0
+          maximum: 20
           example: 1
           nullable: true
         fallbackApproverRef:
@@ -54843,7 +55088,7 @@ components:
           description: Request On Behalf Of configuration.
         approvalReminderAndEscalationConfig:
           $ref: '#/components/schemas/ApprovalReminderAndEscalationConfig'
-          description: Approval reminder and escalation configuration.
+          description: Approval reminder and escalation configuration. Modifying this object will override the sp-approval service's reminderConfig and escalationConfig settings.
         entitlementRequestConfig:
           $ref: '#/components/schemas/EntitlementRequestConfig'
           description: Entitlement request configuration.
@@ -55528,6 +55773,12 @@ components:
           description: Description associated to the requested object.
           example: This is the Engineering role that engineers are granted.
           nullable: true
+        startDate:
+          type: string
+          format: date-time
+          nullable: true
+          description: When the role access is scheduled for provisioning.
+          example: '2019-10-21T00:00:00.000Z'
         removeDate:
           type: string
           format: date-time
@@ -55676,6 +55927,12 @@ components:
           description: Description associated to the requested object.
           example: This is the Engineering role that engineers are granted.
           nullable: true
+        startDate:
+          type: string
+          format: date-time
+          nullable: true
+          description: When the role access is scheduled for provisioning.
+          example: '2019-10-21T00:00:00.000Z'
         removeDate:
           type: string
           format: date-time
@@ -55851,6 +56108,21 @@ components:
           description: The remove date or sunset date that was assigned at the time of the request.
           format: date-time
           example: '2020-07-11T00:00:00Z'
+        startDate:
+          type: string
+          description: The date the role or access profile or entitlement is/will assigned to the specified identity.
+          format: date-time
+          example: '2020-07-11T00:00:00Z'
+        startUpdateRequested:
+          type: boolean
+          default: false
+          description: If true, then the request is to change the start date or sunrise date.
+          example: true
+        currentStartDate:
+          type: string
+          description: The start date or sunrise date that was assigned at the time of the request.
+          format: date-time
+          example: '2020-07-11T00:00:00Z'
         sodViolationContext:
           $ref: '#/components/schemas/SodViolationContextCheckCompleted'
           description: The details of the SOD violations for the associated approval.
@@ -56001,6 +56273,21 @@ components:
           format: date-time
           example: '2020-07-11T00:00:00Z'
           nullable: true
+        startDate:
+          type: string
+          description: The date the role or access profile or entitlement is/will assigned to the specified identity.
+          format: date-time
+          example: '2020-07-11T00:00:00Z'
+        startUpdateRequested:
+          type: boolean
+          default: false
+          description: If true, then the request is to change the start date or sunrise date.
+          example: true
+        currentStartDate:
+          type: string
+          description: The start date or sunrise date that was assigned at the time of the request.
+          format: date-time
+          example: '2020-07-11T00:00:00Z'
         sodViolationContext:
           $ref: '#/components/schemas/SodViolationContextCheckCompleted'
           description: The details of the SOD violations for the associated approval.
@@ -56182,6 +56469,7 @@ components:
           enum:
             - HUMAN
             - MACHINE
+            - AGENT
           description: Recommended type of account.
           example: MACHINE
         method:
@@ -57883,6 +58171,8 @@ components:
             - MANAGER
             - SOURCE_OWNER
             - SEARCH
+            - ROLE_COMPOSITION
+            - MACHINE_ACCOUNT
           description: The type of the campaign.
           example: MANAGER
         description:
@@ -61101,6 +61391,12 @@ components:
           format: date-time
           description: Date that the assignment was added
           example: '2025-07-11T18:45:37.098Z'
+        startDate:
+          type: string
+          format: date-time
+          nullable: true
+          description: Date when assignment will be active, if requested with a future date. If null, assignment is active immediately
+          example: '2026-01-22T19:15:00.000Z'
         removeDate:
           type: string
           format: date-time
@@ -61279,6 +61575,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/RoleTargetDto'
+        startDate:
+          type: string
+          format: date-time
+          nullable: true
+          description: Date when assignment will be active, if access was requested with a future start date. If null, assignment is active immediately
+          example: '2026-07-10T18:45:37.098Z'
         removeDate:
           type: string
           format: date-time
@@ -65916,8 +66218,13 @@ components:
         - EQUALS
         - NOT_EQUALS
         - CONTAINS
+        - DOES_NOT_CONTAIN
         - STARTS_WITH
         - ENDS_WITH
+        - GREATER_THAN
+        - LESS_THAN
+        - GREATER_THAN_EQUALS
+        - LESS_THAN_EQUALS
         - AND
         - OR
       description: An operation
@@ -65959,7 +66266,8 @@ components:
           $ref: '#/components/schemas/RoleCriteriaKey'
         stringValue:
           type: string
-          description: String value to test the Identity attribute, Account attribute, or Entitlement specified in the key w/r/t the specified operation. If this criteria is a leaf node, that is, if the operation is one of EQUALS, NOT_EQUALS, CONTAINS, STARTS_WITH, or ENDS_WITH, this field is required. Otherwise, specifying it is an error.
+          nullable: true
+          description: String value to test the Identity attribute, Account attribute, or Entitlement specified in the key w/r/t the specified operation. If this criteria is a leaf node, that is, if the operation is one of EQUALS, NOT_EQUALS, CONTAINS, DOES_NOT_CONTAIN, STARTS_WITH, or ENDS_WITH, this field is required. Otherwise, specifying it is an error.
           example: carlee.cert1c9f9b6fd@mailinator.com
     RoleCriteriaLevel2:
       type: object
@@ -65973,7 +66281,7 @@ components:
         stringValue:
           type: string
           nullable: true
-          description: String value to test the Identity attribute, Account attribute, or Entitlement specified in the key w/r/t the specified operation. If this criteria is a leaf node, that is, if the operation is one of EQUALS, NOT_EQUALS, CONTAINS, STARTS_WITH, or ENDS_WITH, this field is required. Otherwise, specifying it is an error.
+          description: String value to test the Identity attribute, Account attribute, or Entitlement specified in the key w/r/t the specified operation. If this criteria is a leaf node, that is, if the operation is one of EQUALS, NOT_EQUALS, CONTAINS, DOES_NOT_CONTAIN, STARTS_WITH, or ENDS_WITH, this field is required. Otherwise, specifying it is an error.
           example: carlee.cert1c9f9b6fd@mailinator.com
         children:
           type: array
@@ -65993,7 +66301,7 @@ components:
         stringValue:
           type: string
           nullable: true
-          description: String value to test the Identity attribute, Account attribute, or Entitlement specified in the key w/r/t the specified operation. If this criteria is a leaf node, that is, if the operation is one of EQUALS, NOT_EQUALS, CONTAINS, STARTS_WITH, or ENDS_WITH, this field is required. Otherwise, specifying it is an error.
+          description: String value to test the Identity attribute, Account attribute, or Entitlement specified in the key w/r/t the specified operation. If this criteria is a leaf node, that is, if the operation is one of EQUALS, NOT_EQUALS, CONTAINS, DOES_NOT_CONTAIN, STARTS_WITH, or ENDS_WITH, this field is required. Otherwise, specifying it is an error.
           example: carlee.cert1c9f9b6fd@mailinator.com
         children:
           type: array
@@ -66049,6 +66357,9 @@ components:
             - MANAGER
             - GOVERNANCE_GROUP
             - WORKFLOW
+            - ALL_OWNERS
+            - ADDITIONAL_OWNER
+            - ADDITIONAL_GOVERNANCE_GROUP
           description: |-
             Describes the individual or group that is responsible for an approval step. Values are as follows.
 
@@ -66058,12 +66369,18 @@ components:
 
             **GOVERNANCE_GROUP**: A Governance Group, the ID of which is specified by the **approverId** field
 
-            **WORKFLOW**: A Workflow, the ID of which is specified by the **approverId** field. Workflow is exclusive to other types of approvals and License required. 
+            **WORKFLOW**: A Workflow, the ID of which is specified by the **approverId** field. Workflow is exclusive to other types of approvals and License required.
+
+            **ALL_OWNERS**: All owners of the Role, including the primary owner and any secondary owners
+
+            **ADDITIONAL_OWNER**: An additional owner of the Role, the ID of which is specified by the **approverId** field
+
+            **ADDITIONAL_GOVERNANCE_GROUP**: An additional Governance Group, the ID of which is specified by the **approverId** field
           example: GOVERNANCE_GROUP
         approverId:
           type: string
           nullable: true
-          description: Id of the specific approver, used when approverType is GOVERNANCE_GROUP or WORKFLOW.
+          description: Id of the specific approver, used when approverType is GOVERNANCE_GROUP, WORKFLOW, or ADDITIONAL_GOVERNANCE_GROUP.
           example: 46c79819-a69f-49a2-becb-12c971ae66c6
     DimensionAttribute:
       type: object
@@ -66130,6 +66447,11 @@ components:
             $ref: '#/components/schemas/ApprovalSchemeForRole'
         dimensionSchema:
           $ref: '#/components/schemas/DimensionSchema'
+        formDefinitionId:
+          type: string
+          nullable: true
+          description: The ID of the form definition used for the access request. If specified, the form is presented to the requester during the access request process.
+          example: 78258e80-e9e2-4e1a-a11f-ce0b7c62f25d
     RevocabilityForRole:
       type: object
       properties:
@@ -66199,6 +66521,12 @@ components:
           example: Urna amet cursus pellentesque nisl orci maximus lorem nisl euismod fusce morbi placerat adipiscing maecenas nisi tristique et metus et lacus sed morbi nunc nisl maximus magna arcu varius sollicitudin elementum enim maecenas nisi id ipsum tempus fusce diam ipsum tortor.
         owner:
           $ref: '#/components/schemas/OwnerReference'
+        additionalOwners:
+          type: array
+          nullable: true
+          description: List of additional owner references beyond the primary owner. Each entry may be an identity (IDENTITY) or a governance group (GOVERNANCE_GROUP).
+          items:
+            $ref: '#/components/schemas/AdditionalOwnerRef'
         accessProfiles:
           type: array
           items:
@@ -66273,6 +66601,11 @@ components:
                 - value: secret
                   name: Secret
                   status: active
+        privilegeLevel:
+          type: string
+          nullable: true
+          description: The privilege level of the role, if applicable.
+          example: High
       required:
         - name
         - owner
@@ -69193,7 +69526,7 @@ components:
         spec_version:
           type: string
           description: Version of the SSF specification supported.
-          example: '1_0'
+          example: 1_0
         issuer:
           type: string
           description: Base URL of the transmitter (issuer).
@@ -72327,17 +72660,27 @@ components:
             - EVENT
             - SCHEDULED
             - EXTERNAL
+            - AccessRequestTrigger
           example: EVENT
         deprecated:
           type: boolean
+          description: Whether the trigger is deprecated.
+          example: false
+          default: false
         deprecatedBy:
           type: string
           format: date-time
+          description: Date the trigger was deprecated, if applicable.
+          example: '2023-01-01T00:00:00Z'
         isSimulationEnabled:
           type: boolean
+          description: Whether the trigger can be simulated.
+          example: false
+          default: false
         outputSchema:
           type: object
           description: Example output schema
+          example: {}
         name:
           type: string
           description: Trigger Name
@@ -72559,6 +72902,67 @@ components:
           example:
             2c91808b79fd2422017a0b35d30f3968: employeeNumber
             2c91808b79fd2422017a0b36008f396b: employeeNumber
+    TrackerKeyDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of the tracker created to record this delete operation.
+          example: 2c9180867817ac4d017817c491119a20
+        type:
+          type: string
+          description: The type of object being tracked.
+          example: metadata-attribute
+        status:
+          type: string
+          description: The status of the delete operation.
+          example: DELETING
+        errors:
+          type: array
+          nullable: true
+          description: Any errors encountered while processing the delete operation.
+          items:
+            type: string
+        created:
+          type: string
+          format: date-time
+          description: The time the delete operation was initiated.
+          example: '2020-10-08T18:33:52.029Z'
+        key:
+          type: string
+          nullable: true
+          description: Technical name of the deleted Attribute.
+          example: iscPrivacy
+    TrackerValueDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of the tracker created to record this delete operation.
+          example: 2c9180867817ac4d017817c491119a20
+        type:
+          type: string
+          description: The type of object being tracked.
+          example: value
+        status:
+          type: string
+          description: The status of the delete operation.
+          example: DELETING
+        errors:
+          type: array
+          nullable: true
+          description: Any errors encountered while processing the delete operation.
+          items:
+            type: string
+        created:
+          type: string
+          format: date-time
+          description: The time the delete operation was initiated.
+          example: '2020-10-08T18:33:52.029Z'
+        value:
+          type: string
+          description: Technical name of the deleted Attribute value.
+          example: public
     BulkUpdateAMMKeyValue:
       description: The metadata to be updated, including attribute and values.
       type: array
@@ -73631,6 +74035,11 @@ components:
             - cloudAppId: 2c91808a77ff216301782327a50f09bf
               cloudAppName: Another App
           description: the list of app ids associated with the access profile
+        startDate:
+          type: string
+          example: '2024-07-01T05:00:00.00Z'
+          description: the date the access profile will be assigned to the specified identity, in case requested with a future start date
+          nullable: true
         removeDate:
           type: string
           example: '2024-07-01T06:00:00.00Z'
@@ -73711,6 +74120,11 @@ components:
           type: string
           example: Role - Workday/Citizenship access
           description: the description for the role
+        startDate:
+          type: string
+          example: '2024-07-01T05:00:00.00Z'
+          description: the date the access profile will be assigned to the specified identity, in case requested with a future start date
+          nullable: true
         removeDate:
           type: string
           example: '2024-07-01T06:00:00.00Z'
@@ -74619,6 +75033,7 @@ components:
           example: '2020-07-11T21:23:15.000Z'
         modified:
           description: Last modification date of the task this TaskStatus represents
+          nullable: true
           type: string
           format: date-time
           example: '2020-07-11T21:23:15.000Z'
@@ -74843,7 +75258,7 @@ components:
         identityID:
           type: string
           example: 17e633e7d57e481569df76323169deb6a
-          description: Identity ID.
+          description: Identity ID of the type of identity defined in the 'type' field.
         members:
           type: array
           items:
@@ -74897,15 +75312,53 @@ components:
           type: string
           enum:
             - IDENTITY
-            - MANAGER_OF
             - GOVERNANCE_GROUP
-            - SOURCE_OWNER
-            - ROLE_OWNER
+            - MANAGER_OF
+            - ACCOUNT_OWNER
+            - MACHINE_ACCOUNT_OWNER
+            - MACHINE_IDENTITY_OWNER
+            - MANAGER_OF_REQUESTED_TARGET_OWNER
+            - MANAGER_OF_MACHINE_IDENTITY_OWNER
+            - MANAGER_OF_ACCOUNT_OWNER
+            - MANAGER_OF_MACHINE_ACCOUNT_OWNER
+            - MANAGER_OF_REQUESTER
+            - MANAGER_OF_REQUESTER_OWNER
+            - MANAGER_OF_OWNER
             - ACCESS_PROFILE_OWNER
-            - ENTITLEMENT_OWNER
             - APPLICATION_OWNER
+            - ENTITLEMENT_OWNER
+            - ROLE_OWNER
+            - SOURCE_OWNER
+            - REQUESTED_TARGET_OWNER
+            - ACCESS_PROFILE_PRIMARY_OWNER
+            - APPLICATION_PRIMARY_OWNER
+            - ENTITLEMENT_PRIMARY_OWNER
+            - ROLE_PRIMARY_OWNER
+            - SOURCE_PRIMARY_OWNER
+            - ACCOUNT_PRIMARY_OWNER
+            - MACHINE_ACCOUNT_PRIMARY_OWNER
+            - MACHINE_IDENTITY_PRIMARY_OWNER
+            - REQUESTED_TARGET_PRIMARY_OWNER
+            - ACCESS_PROFILE_SECONDARY_OWNER_GROUP
+            - APPLICATION_SECONDARY_OWNER_GROUP
+            - ENTITLEMENT_SECONDARY_OWNER_GROUP
+            - ROLE_SECONDARY_OWNER_GROUP
+            - SOURCE_SECONDARY_OWNER_GROUP
+            - ACCOUNT_SECONDARY_OWNER_GROUP
+            - MACHINE_ACCOUNT_SECONDARY_OWNER_GROUP
+            - MACHINE_IDENTITY_SECONDARY_OWNER_GROUP
+            - REQUESTED_TARGET_SECONDARY_OWNER_GROUP
+            - ACCESS_PROFILE_ALL_OWNER_GROUP
+            - APPLICATION_ALL_OWNER_GROUP
+            - ENTITLEMENT_ALL_OWNER_GROUP
+            - ROLE_ALL_OWNER_GROUP
+            - SOURCE_ALL_OWNER_GROUP
+            - ACCOUNT_ALL_OWNER_GROUP
+            - MACHINE_ACCOUNT_ALL_OWNER_GROUP
+            - MACHINE_IDENTITY_ALL_OWNER_GROUP
+            - REQUESTED_TARGET_ALL_OWNER_GROUP
           example: IDENTITY
-          description: Type of identity.
+          description: Type of identityID.
       description: Approval Identity Object
     ApprovalName:
       type: object
@@ -74937,34 +75390,6 @@ components:
     ApprovalConfig:
       type: object
       properties:
-        tenantId:
-          type: string
-          example: d3c10266-1a31-4acc-b01e-44a3d1c56615
-          description: Tenant ID of the approval configuration.
-        id:
-          type: string
-          example: 5804e7d6-e04b-400f-9fb8-dff894419a2f
-          description: |-
-            The ID defined by the scope field, where [[id]]:[[scope]] is the following
-            [[roleID]]:ROLE
-            [[entitlementID]]:ENTITLEMENT
-            [[accessProfileID]]:ACCESS_PROFILE
-            ENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE
-            ACCESS_REQUEST_APPROVAL:APPROVAL_TYPE
-            [[tenantID]]:TENANT
-            [[domainObjectID]]:DOMAIN_OBJECT
-        scope:
-          type: string
-          example: DOMAIN_OBJECT
-          description: |-
-            The scope of the field, where [[id]]:[[scope]] is the following
-            [[roleID]]:ROLE
-            [[entitlementID]]:ENTITLEMENT
-            [[accessProfileID]]:ACCESS_PROFILE
-            ENTITLEMENT_DESCRIPTIONS:APPROVAL_TYPE
-            ACCESS_REQUEST_APPROVAL:APPROVAL_TYPE
-            [[tenantID]]:TENANT
-            [[domainObjectID]]:DOMAIN_OBJECT
         reminderConfig:
           type: object
           properties:
@@ -74980,8 +75405,11 @@ components:
               description: Number of days until the first reminder.
             reminderCronSchedule:
               type: string
-              example: 1 1 1 1 1
+              example: '@every 24h'
               description: Cron schedule for reminders.
+              externalDocs:
+                description: Predefined schedules and cron expression format
+                url: https://pkg.go.dev/github.com/robfig/cron#hdr-Predefined_schedules
             maxReminders:
               type: integer
               example: 5
@@ -75003,30 +75431,71 @@ components:
               description: Number of days until the first escalation.
             escalationCronSchedule:
               type: string
-              example: '*/5 * * * *'
+              example: '@every 72h'
               description: Cron schedule for escalations.
+              externalDocs:
+                description: Predefined schedules and cron expression format
+                url: https://pkg.go.dev/github.com/robfig/cron#hdr-Predefined_schedules
             escalationChain:
               type: array
               items:
                 type: object
                 properties:
-                  chainId:
-                    type: string
-                    example: ef85d1a8-41ef-433a-8153-0b1f59e7b26a
-                    description: ID of the escalation chain.
-                  tier:
-                    type: integer
-                    example: 1
-                    format: int64
-                    description: Starting at 1 defines the order in which the identities will get assigned
                   identityId:
                     type: string
                     example: fdfda352157d4cc79bb749953131b457
-                    description: Identity ID in the escalation chain.
+                    description: Optional Identity ID of the type of identity defined in the 'identityType' field.
                   identityType:
                     type: string
+                    enum:
+                      - IDENTITY
+                      - GOVERNANCE_GROUP
+                      - MANAGER_OF
+                      - ACCOUNT_OWNER
+                      - MACHINE_ACCOUNT_OWNER
+                      - MACHINE_IDENTITY_OWNER
+                      - MANAGER_OF_REQUESTED_TARGET_OWNER
+                      - MANAGER_OF_MACHINE_IDENTITY_OWNER
+                      - MANAGER_OF_ACCOUNT_OWNER
+                      - MANAGER_OF_MACHINE_ACCOUNT_OWNER
+                      - MANAGER_OF_REQUESTER
+                      - MANAGER_OF_REQUESTER_OWNER
+                      - MANAGER_OF_OWNER
+                      - ACCESS_PROFILE_OWNER
+                      - APPLICATION_OWNER
+                      - ENTITLEMENT_OWNER
+                      - ROLE_OWNER
+                      - SOURCE_OWNER
+                      - REQUESTED_TARGET_OWNER
+                      - ACCESS_PROFILE_PRIMARY_OWNER
+                      - APPLICATION_PRIMARY_OWNER
+                      - ENTITLEMENT_PRIMARY_OWNER
+                      - ROLE_PRIMARY_OWNER
+                      - SOURCE_PRIMARY_OWNER
+                      - ACCOUNT_PRIMARY_OWNER
+                      - MACHINE_ACCOUNT_PRIMARY_OWNER
+                      - MACHINE_IDENTITY_PRIMARY_OWNER
+                      - REQUESTED_TARGET_PRIMARY_OWNER
+                      - ACCESS_PROFILE_SECONDARY_OWNER_GROUP
+                      - APPLICATION_SECONDARY_OWNER_GROUP
+                      - ENTITLEMENT_SECONDARY_OWNER_GROUP
+                      - ROLE_SECONDARY_OWNER_GROUP
+                      - SOURCE_SECONDARY_OWNER_GROUP
+                      - ACCOUNT_SECONDARY_OWNER_GROUP
+                      - MACHINE_ACCOUNT_SECONDARY_OWNER_GROUP
+                      - MACHINE_IDENTITY_SECONDARY_OWNER_GROUP
+                      - REQUESTED_TARGET_SECONDARY_OWNER_GROUP
+                      - ACCESS_PROFILE_ALL_OWNER_GROUP
+                      - APPLICATION_ALL_OWNER_GROUP
+                      - ENTITLEMENT_ALL_OWNER_GROUP
+                      - ROLE_ALL_OWNER_GROUP
+                      - SOURCE_ALL_OWNER_GROUP
+                      - ACCOUNT_ALL_OWNER_GROUP
+                      - MACHINE_ACCOUNT_ALL_OWNER_GROUP
+                      - MACHINE_IDENTITY_ALL_OWNER_GROUP
+                      - REQUESTED_TARGET_ALL_OWNER_GROUP
                     example: IDENTITY
-                    description: Type of identity in the escalation chain.
+                    description: Type of identityId in the escalation chain.
               description: Escalation chain configuration.
           description: Configuration for escalations.
         timeoutConfig:
@@ -75067,23 +75536,61 @@ components:
           items:
             type: object
             properties:
-              chainId:
-                type: string
-                example: 23dc206e-2a9e-4f98-93db-8d6e342cca18
-                description: ID of the serial chain.
-              tier:
-                type: integer
-                example: 1
-                format: int64
-                description: Starting at 1 defines the order in which the identities will get assigned
               identityId:
                 type: string
                 example: 2c9180858090ea8801809a0465e829da
-                description: Identity ID in the serial chain.
+                description: Optional Identity ID of the type of identity defined in the 'identityType' field.
               identityType:
                 type: string
+                enum:
+                  - IDENTITY
+                  - GOVERNANCE_GROUP
+                  - MANAGER_OF
+                  - ACCOUNT_OWNER
+                  - MACHINE_ACCOUNT_OWNER
+                  - MACHINE_IDENTITY_OWNER
+                  - MANAGER_OF_REQUESTED_TARGET_OWNER
+                  - MANAGER_OF_MACHINE_IDENTITY_OWNER
+                  - MANAGER_OF_ACCOUNT_OWNER
+                  - MANAGER_OF_MACHINE_ACCOUNT_OWNER
+                  - MANAGER_OF_REQUESTER
+                  - MANAGER_OF_REQUESTER_OWNER
+                  - MANAGER_OF_OWNER
+                  - ACCESS_PROFILE_OWNER
+                  - APPLICATION_OWNER
+                  - ENTITLEMENT_OWNER
+                  - ROLE_OWNER
+                  - SOURCE_OWNER
+                  - REQUESTED_TARGET_OWNER
+                  - ACCESS_PROFILE_PRIMARY_OWNER
+                  - APPLICATION_PRIMARY_OWNER
+                  - ENTITLEMENT_PRIMARY_OWNER
+                  - ROLE_PRIMARY_OWNER
+                  - SOURCE_PRIMARY_OWNER
+                  - ACCOUNT_PRIMARY_OWNER
+                  - MACHINE_ACCOUNT_PRIMARY_OWNER
+                  - MACHINE_IDENTITY_PRIMARY_OWNER
+                  - REQUESTED_TARGET_PRIMARY_OWNER
+                  - ACCESS_PROFILE_SECONDARY_OWNER_GROUP
+                  - APPLICATION_SECONDARY_OWNER_GROUP
+                  - ENTITLEMENT_SECONDARY_OWNER_GROUP
+                  - ROLE_SECONDARY_OWNER_GROUP
+                  - SOURCE_SECONDARY_OWNER_GROUP
+                  - ACCOUNT_SECONDARY_OWNER_GROUP
+                  - MACHINE_ACCOUNT_SECONDARY_OWNER_GROUP
+                  - MACHINE_IDENTITY_SECONDARY_OWNER_GROUP
+                  - REQUESTED_TARGET_SECONDARY_OWNER_GROUP
+                  - ACCESS_PROFILE_ALL_OWNER_GROUP
+                  - APPLICATION_ALL_OWNER_GROUP
+                  - ENTITLEMENT_ALL_OWNER_GROUP
+                  - ROLE_ALL_OWNER_GROUP
+                  - SOURCE_ALL_OWNER_GROUP
+                  - ACCOUNT_ALL_OWNER_GROUP
+                  - MACHINE_ACCOUNT_ALL_OWNER_GROUP
+                  - MACHINE_IDENTITY_ALL_OWNER_GROUP
+                  - REQUESTED_TARGET_ALL_OWNER_GROUP
                 example: IDENTITY
-                description: Type of identity in the serial chain.
+                description: Type of identityId in the serial chain.
           description: If the approval request has an approvalCriteria of SERIAL this chain will be used to determine the assignment order.
         requiresComment:
           type: string
@@ -75096,15 +75603,92 @@ components:
           description: Determines whether a comment is required when approving or rejecting the approval request.
         fallbackApprover:
           type: object
-          $ref: '#/components/schemas/ApprovalIdentity'
+          properties:
+            identityID:
+              type: string
+              example: fdfda352157d4cc79bb749953131b457
+              description: Optional Identity ID of the type of identity defined in the 'type' field.
+            type:
+              type: string
+              enum:
+                - IDENTITY
+                - GOVERNANCE_GROUP
+                - MANAGER_OF
+                - ACCOUNT_OWNER
+                - MACHINE_ACCOUNT_OWNER
+                - MACHINE_IDENTITY_OWNER
+                - MANAGER_OF_REQUESTED_TARGET_OWNER
+                - MANAGER_OF_MACHINE_IDENTITY_OWNER
+                - MANAGER_OF_ACCOUNT_OWNER
+                - MANAGER_OF_MACHINE_ACCOUNT_OWNER
+                - MANAGER_OF_REQUESTER
+                - MANAGER_OF_REQUESTER_OWNER
+                - MANAGER_OF_OWNER
+                - ACCESS_PROFILE_OWNER
+                - APPLICATION_OWNER
+                - ENTITLEMENT_OWNER
+                - ROLE_OWNER
+                - SOURCE_OWNER
+                - REQUESTED_TARGET_OWNER
+                - ACCESS_PROFILE_PRIMARY_OWNER
+                - APPLICATION_PRIMARY_OWNER
+                - ENTITLEMENT_PRIMARY_OWNER
+                - ROLE_PRIMARY_OWNER
+                - SOURCE_PRIMARY_OWNER
+                - ACCOUNT_PRIMARY_OWNER
+                - MACHINE_ACCOUNT_PRIMARY_OWNER
+                - MACHINE_IDENTITY_PRIMARY_OWNER
+                - REQUESTED_TARGET_PRIMARY_OWNER
+                - ACCESS_PROFILE_SECONDARY_OWNER_GROUP
+                - APPLICATION_SECONDARY_OWNER_GROUP
+                - ENTITLEMENT_SECONDARY_OWNER_GROUP
+                - ROLE_SECONDARY_OWNER_GROUP
+                - SOURCE_SECONDARY_OWNER_GROUP
+                - ACCOUNT_SECONDARY_OWNER_GROUP
+                - MACHINE_ACCOUNT_SECONDARY_OWNER_GROUP
+                - MACHINE_IDENTITY_SECONDARY_OWNER_GROUP
+                - REQUESTED_TARGET_SECONDARY_OWNER_GROUP
+                - ACCESS_PROFILE_ALL_OWNER_GROUP
+                - APPLICATION_ALL_OWNER_GROUP
+                - ENTITLEMENT_ALL_OWNER_GROUP
+                - ROLE_ALL_OWNER_GROUP
+                - SOURCE_ALL_OWNER_GROUP
+                - ACCOUNT_ALL_OWNER_GROUP
+                - MACHINE_ACCOUNT_ALL_OWNER_GROUP
+                - MACHINE_IDENTITY_ALL_OWNER_GROUP
+                - REQUESTED_TARGET_ALL_OWNER_GROUP
+              example: MANAGER_OF
+              description: Type of identityID for the fallback approver.
           description: Configuration for fallback approver. Used if the user cannot be found for whatever reason and escalation config does not exist.
+        machineIdentityManagerAssignment:
+          type: string
+          enum:
+            - MANAGER_OF_REQUESTER
+            - MACHINE_IDENTITY_OWNER
+            - MANAGER_OF_MACHINE_IDENTITY_OWNER
+            - REQUESTED_TARGET_OWNER
+            - MANAGER_OF_REQUESTED_TARGET_OWNER
+            - ACCOUNT_OWNER
+            - MANAGER_OF_ACCOUNT_OWNER
+          example: MACHINE_IDENTITY_OWNER
+          default: MANAGER_OF_REQUESTER
+          description: Specifies how to treat the identity type "MANAGER_OF" when the requestee is a machine identity.
+        circumventApprovalProcess:
+          type: boolean
+          example: false
+          default: false
+          description: When true, all approvals will be created with the status "PASSED" effectively skipping the approval process. Note this field should only be used for Machine Account or Machine related approvals.
         autoApprove:
           type: string
           enum:
             - 'OFF'
             - DIRECT
             - INDIRECT
-          description: OFF will prevent the approval request from being assigned to the requester or requestee by assigning it to their manager instead. DIRECT will cause approval requests to be auto-approved when assigned directly and only to the requester. INDIRECT will auto-approve when the requester appears anywhere in the list of approvers, including in a governance group. This field will only be effective if requestedTarget.reauthRequired is set to false, otherwise the approval will have to be manually approved.
+          description: |-
+            OFF will prevent the approval request from being assigned to the requester or requestee by assigning it to their manager instead.
+            DIRECT when the requester != requestee this will cause steps assigned directly to the requester to be auto-approved.
+            INDIRECT when the requester != requestee this will cause steps assigned to the requester or a group containing the requester to be auto-approved.
+            This field will only be effective if requestedTarget.reauthRequired is set to false, otherwise the approval will have to be manually approved.
           example: 'OFF'
       description: Approval config Object
     ApprovalDescription:
@@ -75471,6 +76055,10 @@ components:
           type: string
           description: Comment associated with the request.
           example: comment
+        overrideApproverID:
+          type: string
+          description: Optional field for ServiceNow Administrators to specify which member of a governance group to override/approve on behalf of.
+          example: '12345678901234567890123456789012'
       description: Approval Approve Request
     ApprovalAttributesRequest:
       type: object
@@ -75529,6 +76117,10 @@ components:
           type: string
           description: Comment associated with the reject request.
           example: string
+        overrideApproverID:
+          type: string
+          description: Optional field for ServiceNow Administrators to specify which member of a governance group to override/reject on behalf of.
+          example: '12345678901234567890123456789012'
       description: Request body for rejecting an approval request.
     BulkApproveRequestDTO:
       type: object
@@ -75985,6 +76577,11 @@ components:
             type: string
             description: The dataset Id of the source
             example: source:datasetId12345
+        disableOptimization:
+          type: boolean
+          description: Flag to disable optimization for the aggregation. Defaults to false when not provided. When set to true, it disables aggregation optimizations and may increase processing time.
+          example: false
+          default: false
     MachineIdentityAggregationResponse:
       type: object
       title: Machine Identity Aggregation Response
@@ -76312,28 +76909,40 @@ components:
         key:
           type: string
           nullable: true
+          description: The template key
         text:
           type: string
+          description: The main text content of the Slack message
+          example: You have a new approval request
         blocks:
           type: string
           nullable: true
+          description: JSON string of Slack Block Kit blocks for rich formatting
         attachments:
           type: string
+          description: JSON string of Slack attachments
+          example: '[]'
         notificationType:
           type: string
           nullable: true
+          description: The type of notification
         approvalId:
           type: string
           nullable: true
+          description: The approval request ID
         requestId:
           type: string
           nullable: true
+          description: The request ID
         requestedById:
           type: string
           nullable: true
+          description: The ID of the user who made the request
         isSubscription:
           type: boolean
           nullable: true
+          default: false
+          description: Whether this is a subscription notification
         autoApprovalData:
           type: object
           nullable: true
@@ -76341,18 +76950,23 @@ components:
             isAutoApproved:
               type: string
               nullable: true
+              description: Whether the request was auto-approved
             itemId:
               type: string
               nullable: true
+              description: The item ID
             itemType:
               type: string
               nullable: true
+              description: The item type
             autoApprovalMessageJSON:
               type: string
               nullable: true
+              description: JSON message for auto-approval
             autoApprovalTitle:
               type: string
               nullable: true
+              description: Title for auto-approval
         customFields:
           type: object
           nullable: true
@@ -76360,15 +76974,19 @@ components:
             requestType:
               type: string
               nullable: true
+              description: The type of request
             containsDeny:
               type: string
               nullable: true
+              description: Whether the request contains a deny action
             campaignId:
               type: string
               nullable: true
+              description: The campaign ID
             campaignStatus:
               type: string
               nullable: true
+              description: The campaign status
     TemplateTeams:
       type: object
       title: Template Teams
@@ -76377,29 +76995,40 @@ components:
         key:
           type: string
           nullable: true
+          description: The template key
         title:
           type: string
           nullable: true
+          description: The title of the Teams message
         text:
           type: string
+          description: The main text content of the Teams message
+          example: You have a new approval request
         messageJSON:
           type: string
           nullable: true
+          description: JSON string of the Teams adaptive card
         isSubscription:
           type: boolean
           nullable: true
+          default: false
+          description: Whether this is a subscription notification
         approvalId:
           type: string
           nullable: true
+          description: The approval request ID
         requestId:
           type: string
           nullable: true
+          description: The request ID
         requestedById:
           type: string
           nullable: true
+          description: The ID of the user who made the request
         notificationType:
           type: string
           nullable: true
+          description: The type of notification
         autoApprovalData:
           type: object
           nullable: true
@@ -76407,18 +77036,23 @@ components:
             isAutoApproved:
               type: string
               nullable: true
+              description: Whether the request was auto-approved
             itemId:
               type: string
               nullable: true
+              description: The item ID
             itemType:
               type: string
               nullable: true
+              description: The item type
             autoApprovalMessageJSON:
               type: string
               nullable: true
+              description: JSON message for auto-approval
             autoApprovalTitle:
               type: string
               nullable: true
+              description: Title for auto-approval
         customFields:
           type: object
           nullable: true
@@ -76426,15 +77060,19 @@ components:
             requestType:
               type: string
               nullable: true
+              description: The type of request
             containsDeny:
               type: string
               nullable: true
+              description: Whether the request contains a deny action
             campaignId:
               type: string
               nullable: true
+              description: The campaign ID
             campaignStatus:
               type: string
               nullable: true
+              description: The campaign status
     TemplateDtoDefault:
       type: object
       title: Template Dto Default
@@ -76452,8 +77090,6 @@ components:
           description: The message medium. More mediums may be added in the future.
           enum:
             - EMAIL
-            - PHONE
-            - SMS
             - SLACK
             - TEAMS
           example: EMAIL
@@ -76518,8 +77154,6 @@ components:
           description: The message medium. More mediums may be added in the future.
           enum:
             - EMAIL
-            - PHONE
-            - SMS
             - SLACK
             - TEAMS
           example: EMAIL
@@ -76574,11 +77208,13 @@ components:
           description: The time when this template was last modified. This is auto-generated.
           example: '2020-01-01T00:00:00.000000Z'
         slackTemplate:
-          type: string
-          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/TemplateSlack'
+            - nullable: true
         teamsTemplate:
-          type: string
-          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/TemplateTeams'
+            - nullable: true
       required:
         - key
         - medium
@@ -76590,13 +77226,15 @@ components:
         key:
           type: string
           example: cloud_manual_work_item_summary
+          description: The template key to delete
         medium:
           type: string
           enum:
             - EMAIL
-            - PHONE
-            - SMS
+            - SLACK
+            - TEAMS
           example: EMAIL
+          description: The notification medium (EMAIL, SLACK, or TEAMS)
         locale:
           type: string
           description: The locale for the message text, a BCP 47 language tag.
@@ -76644,6 +77282,7 @@ components:
         lcsChangeHonorsSourceEnableFeature:
           type: boolean
           description: Flag to determine whether the LCS_CHANGE_HONORS_SOURCE_ENABLE_FEATURE flag is enabled for the current org.
+          default: false
           example: false
         armCustomerId:
           type: string
@@ -76658,9 +77297,9 @@ components:
             - sourceId: 2c91808c791a94e501792388b0d62659
               systemId: '1556'
             - sourceId: 2_2c91808c791a94e501792388b0d62659
-              systemId: '2_1556'
+              systemId: 2_1556
             - sourceId: 3_2c91808c791a94e501792388b0d62659
-              systemId: '3_1556'
+              systemId: 3_1556
         armAuth:
           type: string
           description: ARM authentication string
@@ -76679,7 +77318,14 @@ components:
         iaiEnableCertificationRecommendations:
           type: boolean
           description: Flag to determine whether IAI Certification Recommendations are enabled for the current org
+          default: true
           example: true
+        aiAgentDeleteRequestEnabled:
+          type: boolean
+          nullable: true
+          description: Org opt-in flag that enables AI Agent delete-at-source lifecycle requests for the current org.
+          default: false
+          example: false
         sodReportConfigs:
           type: array
           items:
@@ -77182,10 +77828,10 @@ components:
           example: '2020-04-15T16:16:47.525Z'
     Medium:
       type: string
+      description: The notification medium (EMAIL, SLACK, or TEAMS)
+      example: EMAIL
       enum:
         - EMAIL
-        - SMS
-        - PHONE
         - SLACK
         - TEAMS
     PreferencesDto:
@@ -78888,6 +79534,39 @@ components:
               type: boolean
               example: false
               default: false
+    role-propagation-config-response:
+      description: Role Change Propagation Config Response
+      type: object
+      properties:
+        enabled:
+          description: Indicates if the Role Change Propagation process is enabled for the tenant
+          type: boolean
+          example: true
+          default: false
+        enabledDate:
+          description: The time when Role Change Propagation Process was last enabled on the tenant
+          type: string
+          example: '2026-01-27T08:07:20Z'
+          format: date-time
+        createdDate:
+          description: The time when Role Change Propagation Configuration was first created for the tenant
+          type: string
+          example: '2025-02-18T20:20:36Z'
+          format: date-time
+        modifiedDate:
+          description: The time when Role Change Propagation Config was updated on the tenant
+          type: string
+          example: '2026-01-27T08:07:20Z'
+          format: date-time
+    role-propagation-config-input:
+      description: Role Change Propagation Config Input
+      type: object
+      properties:
+        enabled:
+          description: Indicates if the Role Change Propagation process should be enabled for the tenant
+          type: boolean
+          example: true
+          default: false
     SendTestNotificationRequestDto:
       type: object
       title: Send Test Notification Request Dto
@@ -78903,9 +79582,38 @@ components:
             - EMAIL
             - SLACK
             - TEAMS
+          example: EMAIL
+        locale:
+          type: string
+          description: The locale for the message text.
+          example: en
         context:
           type: object
           description: A Json object that denotes the context specific to the template.
+          example:
+            numberOfPendingTasks: '4'
+            taskTasks: tasks
+        recipientEmailList:
+          type: array
+          items:
+            type: string
+          description: A list of override recipient email addresses for the test notification.
+          example:
+            - test@example.com
+        carbonCopy:
+          type: array
+          items:
+            type: string
+          description: A list of CC email addresses for the test notification.
+          example:
+            - cc@example.com
+        blindCarbonCopy:
+          type: array
+          items:
+            type: string
+          description: A list of BCC email addresses for the test notification.
+          example:
+            - bcc@example.com
     SimIntegrationDetails:
       type: object
       title: Sim Integration Details
@@ -79122,7 +79830,6 @@ components:
         - jobId
         - status
         - type
-        - expiration
         - created
         - modified
     SpConfigExportJob:
@@ -83385,18 +84092,30 @@ components:
         id:
           type: string
           nullable: true
+          description: Unique identifier for the verified sender address
         email:
           type: string
           example: sender@example.com
+          description: The verified sender email address
         isVerifiedByDomain:
           type: boolean
+          default: false
           example: false
+          description: Whether the sender address is verified by domain
         verificationStatus:
           type: string
           enum:
             - PENDING
             - SUCCESS
             - FAILED
+            - NA
+          example: SUCCESS
+          description: The verification status of the sender address
+        region:
+          type: string
+          nullable: true
+          example: us-east-1
+          description: The AWS SES region the sender address is associated with
     DkimAttributes:
       type: object
       title: Dkim Attributes
@@ -83425,8 +84144,12 @@ components:
           description: The tokens to be added to a DNS for verification
         dkimVerificationStatus:
           type: string
-          example: Success
-          description: The current status if the domain /identity has been verified. Ie Success, Failed, Pending
+          example: SUCCESS
+          description: The current status if the domain /identity has been verified. Ie SUCCESS, FAILED, PENDING
+        region:
+          type: string
+          example: us-east-1
+          description: The AWS SES region the domain is associated with
       description: DKIM attributes for a domain or identity
     DomainAddress:
       type: object
@@ -83449,6 +84172,7 @@ components:
           example: sailpoint.com
           description: A domain address
         dkimEnabled:
+          type: boolean
           default: false
           example: true
           description: DKIM is enabled for this domain
@@ -83465,6 +84189,10 @@ components:
           type: string
           example: PENDING
           description: Status of DKIM authentication
+        region:
+          type: string
+          example: us-east-1
+          description: The AWS SES region the domain is associated with
       description: Domain status DTO containing everything required to verify via DKIM
     WorkgroupDto:
       type: object
@@ -85543,9 +86271,28 @@ components:
           description: The environment in which the application operates.
           example: Production
         riskScore:
+          type: integer
+          format: int32
+          description: The risk score of the application ranging from 0-100, 100 being highest risk.
+          example: 1
+        isBusiness:
+          type: boolean
+          description: Indicates whether the application is used for business purposes.
+          example: false
+          default: true
+        totalSigninsCount:
+          type: integer
+          format: int32
+          description: The total number of sign-in accounts for the application.
+          example: 1
+        riskLevel:
           type: string
-          description: The risk score of the application.
-          example: ANY
+          enum:
+            - High
+            - Medium
+            - Low
+          description: The risk level of the application.
+          example: Low
         isPrivileged:
           type: boolean
           description: Indicates whether the application has privileged access.
@@ -85710,9 +86457,28 @@ components:
           description: The environment in which the application operates.
           example: Production
         riskScore:
+          type: integer
+          format: int32
+          description: The risk score of the application ranging from 0-100, 100 being highest risk.
+          example: 1
+        isBusiness:
+          type: boolean
+          description: Indicates whether the application is used for business purposes.
+          example: false
+          default: true
+        totalSigninsCount:
+          type: integer
+          format: int32
+          description: The total number of sign-in accounts for the application.
+          example: 1
+        riskLevel:
           type: string
-          description: The risk score of the application.
-          example: ANY
+          enum:
+            - High
+            - Medium
+            - Low
+          description: The risk level of the application.
+          example: Low
         isPrivileged:
           type: boolean
           description: Indicates whether the application has privileged access.
@@ -86901,6 +87667,22 @@ components:
               type: string
               description: Unique tracking id for the error.
               example: e7eab60924f64aa284175b9fa3309599
+    '410':
+      description: Gone - Returned if the requested operation is not yet available for your tenant because the underlying capability is still being rolled out.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponseDto'
+          examples:
+            '410':
+              summary: An example of a 410 response object
+              value:
+                detailCode: 410 Gone
+                trackingId: b21b1f7ce4da4d639f2c62a57171b427
+                messages:
+                  - locale: en-US
+                    localeOrigin: DEFAULT
+                    text: The requested operation is not yet available for your tenant.
     '412':
       description: Precondition Failed - Returned in response if API/Feature not enabled for an organization.
       content:
@@ -90490,6 +91272,9 @@ components:
           installType: null
           environment: null
           riskScore: null
+          isBusiness: false
+          totalSigninsCount: 1
+          riskLevel: Low
           isPrivileged: false
           warrantyExpiration: null
           attributes: null
@@ -90522,7 +91307,10 @@ components:
           businessUnit: R&D
           installType: SaaS
           environment: Production
-          riskScore: MEDIUM
+          riskScore: 1
+          isBusiness: false
+          totalSigninsCount: 1
+          riskLevel: Medium
           isPrivileged: false
           warrantyExpiration: 2024-09-01T00:00:00.000+0000
           attributes:
@@ -90567,7 +91355,10 @@ components:
           businessUnit: Finance
           installType: On Premise
           environment: Production
-          riskScore: ANY
+          riskScore: 1
+          isBusiness: false
+          totalSigninsCount: 1
+          riskLevel: Low
           isPrivileged: false
           warrantyExpiration: 2023-09-25T14:07:27.000+0000
           attributes:
@@ -90611,6 +91402,9 @@ components:
           installType: null
           environment: null
           riskScore: null
+          isBusiness: false
+          totalSigninsCount: 1
+          riskLevel: Low
           isPrivileged: false
           warrantyExpiration: null
           attributes: null
@@ -90645,7 +91439,10 @@ components:
           businessUnit: R&D
           installType: SaaS
           environment: Production
-          riskScore: MEDIUM
+          riskScore: 1
+          isBusiness: false
+          totalSigninsCount: 1
+          riskLevel: Medium
           isPrivileged: false
           warrantyExpiration: 2024-09-01T00:00:00.000+0000
           attributes:
@@ -90693,7 +91490,10 @@ components:
           businessUnit: Finance
           installType: On Premise
           environment: Production
-          riskScore: ANY
+          riskScore: 1
+          isBusiness: false
+          totalSigninsCount: 1
+          riskLevel: Low
           isPrivileged: false
           warrantyExpiration: 2023-09-25T14:07:27.000+0000
           attributes:

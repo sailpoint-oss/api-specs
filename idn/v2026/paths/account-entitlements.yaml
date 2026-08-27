@@ -1,5 +1,5 @@
 get:
-  operationId: getAccountEntitlements
+  operationId: listEntitlementsByAccount
   tags:
     - Entitlements
   summary: Get entitlements for an account
@@ -37,7 +37,7 @@ get:
           schema:
             type: array
             items:
-              $ref: '../schemas/Entitlement.yaml'
+              $ref: '../schemas/EntitlementV2.yaml'
           example:
             [
               {

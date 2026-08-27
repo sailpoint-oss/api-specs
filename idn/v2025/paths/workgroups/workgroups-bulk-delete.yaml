@@ -1,8 +1,15 @@
 post:
+  security:
+    - userAuth:
+        - idn:workgroup:manage
+    - applicationAuth:
+        - idn:workgroup:manage
+  x-sailpoint-userLevels:
+    - ORG_ADMIN
   operationId: deleteWorkgroupsInBulk
-  summary: Delete governance group(s)
   tags:
     - Governance Groups
+  summary: Delete governance group(s)
   description: |-
 
     This API initiates a bulk deletion of one or more Governance Groups.
@@ -43,17 +50,3 @@ post:
       $ref: ../../responses/429.yaml
     '500':
       $ref: ../../responses/500.yaml
-  security:
-    - userAuth:
-        - idn:workgroup:manage
-    - applicationAuth:
-        - idn:workgroup:manage
-  parameters:
-    - name: X-SailPoint-Experimental
-      in: header
-      description: Use this header to enable this experimental API.
-      example: true
-      schema:
-        type: string
-        default: true
-      required: true

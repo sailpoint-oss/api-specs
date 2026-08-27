@@ -102,7 +102,7 @@ get:
           schema:
             type: array
             items:
-              $ref: ../schemas/Entitlement.yaml
+              $ref: ../schemas/EntitlementV2.yaml
     '400':
       $ref: ../responses/400.yaml
     '401':
