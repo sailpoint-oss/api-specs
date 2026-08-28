@@ -47,6 +47,12 @@ paths:
     $ref: ./paths/entitlements-v1-reset-sources-by-id.yaml
   /entitlements/v1/{id}/access-model-metadata/{attributeKey}/values/{attributeValue}:
     $ref: ./paths/entitlements-v1-by-id-access-model-metadata-by-attributekey-values-by-attributevalue.yaml
+  /entitlements/v1/access-model-metadata/bulk-update/ids:
+    $ref: ./paths/entitlements-v1-access-model-metadata-bulk-update-ids.yaml
+  /entitlements/v1/access-model-metadata/bulk-update/filter:
+    $ref: ./paths/entitlements-v1-access-model-metadata-bulk-update-filter.yaml
+  /entitlements/v1/access-model-metadata/bulk-update/query:
+    $ref: ./paths/entitlements-v1-access-model-metadata-bulk-update-query.yaml
   /entitlements/v1/aggregate/sources/{id}:
     $ref: ./paths/entitlements-v1-aggregate-sources-by-id.yaml
 security:

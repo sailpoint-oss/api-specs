@@ -106,6 +106,14 @@ paths:
     $ref: ./paths/access-profiles-v1-by-id-entitlements.yaml
   /access-profiles/v1/bulk-update-requestable:
     $ref: ./paths/access-profiles-v1-bulk-update-requestable.yaml
+  /access-profiles/v1/{id}/access-model-metadata/{attributeKey}/values/{attributeValue}:
+    $ref: ./paths/access-profiles-v1-by-id-access-model-metadata-by-attributekey-values-by-attributevalue.yaml
+  /access-profiles/v1/access-model-metadata/bulk-update/ids:
+    $ref: ./paths/access-profiles-v1-access-model-metadata-bulk-update-ids.yaml
+  /access-profiles/v1/access-model-metadata/bulk-update/filter:
+    $ref: ./paths/access-profiles-v1-access-model-metadata-bulk-update-filter.yaml
+  /access-profiles/v1/access-model-metadata/bulk-update/query:
+    $ref: ./paths/access-profiles-v1-access-model-metadata-bulk-update-query.yaml
 security:
   - userAuth:
       - sp:scopes:all
