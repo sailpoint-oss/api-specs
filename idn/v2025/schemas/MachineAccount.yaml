@@ -48,6 +48,33 @@ allOf:
           id: "2c918084660f45d6016617daa9210584"
           type: "IDENTITY"
           name: "Adam Kennedy"
+      owners:
+        type: object
+        nullable: true
+        description: >-
+          Primary and additional owners for this machine account when an owner
+          configuration exists. Additional owners are either human identities or a
+          single governance group, never both.
+        properties:
+          primary:
+            description: The primary owner of this machine account.
+            allOf:
+              - $ref: './BaseReferenceDto.yaml'
+            example:
+              id: "2c918084660f45d6016617daa9210584"
+              type: "IDENTITY"
+              name: "Adam Kennedy"
+          secondary:
+            type: array
+            description: >-
+              Additional owners. Either human identities or a single governance
+              group, never both.
+            items:
+              $ref: './BaseReferenceDto.yaml'
+            example:
+              - id: "2c918084660f45d6016617daa9210585"
+                type: "IDENTITY"
+                name: "Alison Ferguso"
       accessType:
         type: string
         example: direct
