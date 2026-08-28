@@ -2330,6 +2330,445 @@
         ]
       }
     },
+    "/access-profiles/v1/{id}/access-model-metadata/{attributeKey}/values/{attributeValue}": {
+      "post": {
+        "operationId": "updateAttributeKeyAndValueToAccessProfileV1",
+        "summary": "Add metadata to access profile",
+        "tags": [
+          "Access Profiles"
+        ],
+        "description": "This API adds a single Access Model Metadata value to an access profile by attribute key and attribute value. A single access profile cannot be assigned more than 25 metadata values. Adding custom metadata requires a suite license.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listAccessProfilesV1",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The access profile's ID.",
+            "example": "c24359c389374d0fb8585698a2189e3d"
+          },
+          {
+            "name": "attributeKey",
+            "in": "path",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listAccessModelMetadataAttributeV1",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Technical name of the Attribute.",
+            "example": "iscPrivacy"
+          },
+          {
+            "name": "attributeValue",
+            "in": "path",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listAccessModelMetadataAttributeValueV1",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Technical name of the Attribute Value.",
+            "example": "public"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with the access profile as updated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/accessprofile"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:access-profile:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "ROLE_ADMIN",
+          "ROLE_SUBADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ]
+      },
+      "delete": {
+        "operationId": "deleteMetadataFromAccessProfileByKeyAndValueV1",
+        "summary": "Remove metadata from access profile",
+        "tags": [
+          "Access Profiles"
+        ],
+        "description": "This API removes a single Access Model Metadata value from an access profile by attribute key and attribute value.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listAccessProfilesV1",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The access profile's ID.",
+            "example": "2c91808c74ff913f0175097daa9d59cd"
+          },
+          {
+            "name": "attributeKey",
+            "in": "path",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listAccessModelMetadataAttributeV1",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Technical name of the Attribute.",
+            "example": "iscPrivacy"
+          },
+          {
+            "name": "attributeValue",
+            "in": "path",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listAccessModelMetadataAttributeValueV1",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Technical name of the Attribute Value.",
+            "example": "public"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Request accepted"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:access-profile:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "ROLE_ADMIN",
+          "ROLE_SUBADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ]
+      }
+    },
+    "/access-profiles/v1/access-model-metadata/bulk-update/ids": {
+      "post": {
+        "operationId": "updateAccessProfilesMetadataByIdsV1",
+        "summary": "Bulk-update metadata by ids",
+        "tags": [
+          "Access Profiles"
+        ],
+        "description": "This API initiates a bulk update of Access Model Metadata for one or more access profiles by a list of access profile IDs.\n\nThe update is processed asynchronously. The response returns the ID of the task performing the update.\n\nThe maximum access profile count in a single request is 3000. A single access profile cannot be assigned more than 25 metadata values. Adding or replacing custom metadata requires a suite license.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/accessprofilemetadatabulkupdatebyidrequest"
+              },
+              "example": {
+                "accessProfiles": [
+                  "b1db89554cfa431cb8b9921ea38d9367"
+                ],
+                "operation": "REPLACE",
+                "replaceScope": "ATTRIBUTE",
+                "values": [
+                  {
+                    "attribute": "iscFederalClassifications",
+                    "values": [
+                      "topSecret"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Returned if the bulk update request was created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/accessprofilemetadatabulkupdateresponse"
+                },
+                "examples": {
+                  "Update request created successfully": {
+                    "value": {
+                      "id": "2d82ac17-eb0d-4ba6-9918-dcad6ee0294d",
+                      "type": "ACCESS_PROFILE",
+                      "status": "CREATED",
+                      "created": "2024-09-16T18:59:06.871594Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:access-profile:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "ROLE_ADMIN",
+          "ROLE_SUBADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ]
+      }
+    },
+    "/access-profiles/v1/access-model-metadata/bulk-update/filter": {
+      "post": {
+        "operationId": "updateAccessProfilesMetadataByFilterV1",
+        "summary": "Bulk-update metadata by filter",
+        "tags": [
+          "Access Profiles"
+        ],
+        "description": "This API initiates a bulk update of Access Model Metadata for every access profile matching the supplied filter expression.\n\nThe update is processed asynchronously. The response returns the ID of the task performing the update.\n\nA single access profile cannot be assigned more than 25 metadata values. Adding or replacing custom metadata requires a suite license.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/accessprofilemetadatabulkupdatebyfilterrequest"
+              },
+              "example": {
+                "filters": "requestable eq false",
+                "operation": "REPLACE",
+                "replaceScope": "ATTRIBUTE",
+                "values": [
+                  {
+                    "attribute": "iscFederalClassifications",
+                    "values": [
+                      "topSecret"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Returned if the bulk update request was created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/accessprofilemetadatabulkupdateresponse"
+                },
+                "examples": {
+                  "Update request created successfully": {
+                    "value": {
+                      "id": "2d82ac17-eb0d-4ba6-9918-dcad6ee0294d",
+                      "type": "ACCESS_PROFILE",
+                      "status": "CHUNK_PENDING",
+                      "created": "2024-09-16T18:59:06.871594Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:access-profile:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "ROLE_ADMIN",
+          "ROLE_SUBADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ]
+      }
+    },
+    "/access-profiles/v1/access-model-metadata/bulk-update/query": {
+      "post": {
+        "operationId": "updateAccessProfilesMetadataByQueryV1",
+        "summary": "Bulk-update metadata by query",
+        "tags": [
+          "Access Profiles"
+        ],
+        "description": "This API initiates a bulk update of Access Model Metadata for every access profile matching the supplied search query.\n\nThe update is processed asynchronously. The response returns the ID of the task performing the update.\n\nA single access profile cannot be assigned more than 25 metadata values. Adding or replacing custom metadata requires a suite license.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/accessprofilemetadatabulkupdatebyqueryrequest"
+              },
+              "example": {
+                "query": {
+                  "indices": [
+                    "accessprofiles"
+                  ],
+                  "queryType": "TEXT",
+                  "textQuery": {
+                    "terms": [
+                      "test123"
+                    ],
+                    "fields": [
+                      "id"
+                    ],
+                    "matchAny": false,
+                    "contains": true
+                  },
+                  "includeNested": false
+                },
+                "operation": "REPLACE",
+                "replaceScope": "ATTRIBUTE",
+                "values": [
+                  {
+                    "attribute": "iscFederalClassifications",
+                    "values": [
+                      "topSecret"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Returned if the bulk update request was created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/accessprofilemetadatabulkupdateresponse"
+                },
+                "examples": {
+                  "Update request created successfully": {
+                    "value": {
+                      "id": "2d82ac17-eb0d-4ba6-9918-dcad6ee0294d",
+                      "type": "ACCESS_PROFILE",
+                      "status": "CREATED",
+                      "created": "2024-09-16T18:59:06.871594Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:access-profile:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "ROLE_ADMIN",
+          "ROLE_SUBADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ]
+      }
+    },
     "/access-request-approvals/v1/pending": {
       "get": {
         "operationId": "listPendingApprovalsV1",
@@ -29226,6 +29665,273 @@
             "$ref": "#/components/responses/500"
           }
         }
+      }
+    },
+    "/entitlements/v1/access-model-metadata/bulk-update/ids": {
+      "post": {
+        "operationId": "updateEntitlementsMetadataByIdsV1",
+        "summary": "Bulk-update metadata by ids",
+        "tags": [
+          "Entitlements"
+        ],
+        "description": "This API initiates a bulk update of Access Model Metadata for one or more entitlements by a list of entitlement IDs.\n\nThe update is processed asynchronously. The response returns the ID of the task performing the update.\n\nThe maximum entitlement count in a single request is 3000. Adding or replacing custom metadata requires a suite license.\n\nThis API replaces the deprecated `updateAccessModelMetadataByIdsV1` operation.",
+        "requestBody": {
+          "description": "Attribute metadata bulk update request body.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/entitlementmetadatabulkupdatebyidrequest"
+              },
+              "example": {
+                "entitlements": [
+                  "2c9180867817ac4d017817c491119a20"
+                ],
+                "operation": "REPLACE",
+                "replaceScope": "ATTRIBUTE",
+                "values": [
+                  {
+                    "attribute": "iscFederalClassifications",
+                    "values": [
+                      "topSecret"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Returned if the bulk update request was created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/entitlementmetadatabulkupdateresponse"
+                },
+                "examples": {
+                  "Update request created successfully": {
+                    "value": {
+                      "id": "2d82ac17-eb0d-4ba6-9918-dcad6ee0294d",
+                      "type": "ENTITLEMENT",
+                      "status": "CREATED",
+                      "created": "2024-09-16T18:59:06.871594Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:entitlement:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ]
+      }
+    },
+    "/entitlements/v1/access-model-metadata/bulk-update/filter": {
+      "post": {
+        "operationId": "updateEntitlementsMetadataByFilterV1",
+        "summary": "Bulk-update metadata by filter",
+        "tags": [
+          "Entitlements"
+        ],
+        "description": "This API initiates a bulk update of Access Model Metadata for every entitlement matching the supplied filter expression.\n\nThe update is processed asynchronously. The response returns the ID of the task performing the update.\n\nAdding or replacing custom metadata requires a suite license.\n\nThis API replaces the deprecated `updateAccessModelMetadataByFilterV1` operation.",
+        "requestBody": {
+          "description": "Attribute metadata bulk update request body.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/entitlementmetadatabulkupdatebyfilterrequest"
+              },
+              "example": {
+                "filters": "id eq 2c9180867817ac4d017817c491119a20",
+                "operation": "REPLACE",
+                "replaceScope": "ATTRIBUTE",
+                "values": [
+                  {
+                    "attribute": "iscFederalClassifications",
+                    "values": [
+                      "topSecret"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Returned if the bulk update request was created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/entitlementmetadatabulkupdateresponse"
+                },
+                "examples": {
+                  "Update request created successfully": {
+                    "value": {
+                      "id": "2d82ac17-eb0d-4ba6-9918-dcad6ee0294d",
+                      "type": "ENTITLEMENT",
+                      "status": "CHUNK_PENDING",
+                      "created": "2024-09-16T18:59:06.871594Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:entitlement:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ]
+      }
+    },
+    "/entitlements/v1/access-model-metadata/bulk-update/query": {
+      "post": {
+        "operationId": "updateEntitlementsMetadataByQueryV1",
+        "summary": "Bulk-update metadata by query",
+        "tags": [
+          "Entitlements"
+        ],
+        "description": "This API initiates a bulk update of Access Model Metadata for every entitlement matching the supplied search query.\n\nThe update is processed asynchronously. The response returns the ID of the task performing the update.\n\nAdding or replacing custom metadata requires a suite license.\n\nThis API replaces the deprecated `updateAccessModelMetadataByQueryV1` operation.",
+        "requestBody": {
+          "description": "Attribute metadata bulk update request body.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/entitlementmetadatabulkupdatebyqueryrequest"
+              },
+              "example": {
+                "query": {
+                  "indices": [
+                    "entitlements"
+                  ],
+                  "queryType": "TEXT",
+                  "textQuery": {
+                    "terms": [
+                      "test123"
+                    ],
+                    "fields": [
+                      "id"
+                    ],
+                    "matchAny": false,
+                    "contains": true
+                  },
+                  "includeNested": false
+                },
+                "operation": "REPLACE",
+                "replaceScope": "ATTRIBUTE",
+                "values": [
+                  {
+                    "attribute": "iscFederalClassifications",
+                    "values": [
+                      "topSecret"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Returned if the bulk update request was created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/entitlementmetadatabulkupdateresponse"
+                },
+                "examples": {
+                  "Update request created successfully": {
+                    "value": {
+                      "id": "2d82ac17-eb0d-4ba6-9918-dcad6ee0294d",
+                      "type": "ENTITLEMENT",
+                      "status": "CREATED",
+                      "created": "2024-09-16T18:59:06.871594Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:entitlement:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ]
       }
     },
     "/entitlements/v1/aggregate/sources/{id}": {
@@ -84327,6 +85033,306 @@
           }
         ]
       },
+      "accessprofilemetadatabulkupdatebyidrequest": {
+        "description": "Request to bulk update Access Model Metadata on a list of access profiles identified by ID. The maximum access profile count in a single request is 3000. A single access profile cannot be assigned more than 25 metadata values. Adding or replacing custom metadata requires a suite license.",
+        "type": "object",
+        "properties": {
+          "accessProfiles": {
+            "description": "The IDs of the access profiles to update.",
+            "type": "array",
+            "maxItems": 3000,
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "b1db89554cfa431cb8b9921ea38d9367"
+            ]
+          },
+          "operation": {
+            "description": "The operation to be performed",
+            "type": "string",
+            "enum": [
+              "ADD",
+              "REMOVE",
+              "REPLACE"
+            ],
+            "example": "REPLACE"
+          },
+          "replaceScope": {
+            "description": "The choice of update scope. **ATTRIBUTE** replaces only the values of the attributes named in `values`, and **ALL** replaces every metadata attribute on the access profile.",
+            "type": "string",
+            "enum": [
+              "ALL",
+              "ATTRIBUTE"
+            ],
+            "example": "ATTRIBUTE"
+          },
+          "values": {
+            "description": "The metadata to be updated, including attribute key and value.",
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "type": "object",
+              "required": [
+                "attribute",
+                "values"
+              ],
+              "properties": {
+                "attribute": {
+                  "type": "string",
+                  "description": "The technical name of the metadata attribute.",
+                  "example": "iscFederalClassifications"
+                },
+                "values": {
+                  "type": "array",
+                  "description": "The values of the attribute to be updated.",
+                  "items": {
+                    "type": "string",
+                    "example": "secret"
+                  },
+                  "nullable": true,
+                  "example": [
+                    "secret"
+                  ]
+                },
+                "objectType": {
+                  "type": "string",
+                  "description": "The type of the metadata attribute. Set to `custom` for custom metadata attributes, which require a suite license.",
+                  "example": "custom"
+                }
+              }
+            },
+            "example": [
+              {
+                "attribute": "iscFederalClassifications",
+                "values": [
+                  "topSecret"
+                ]
+              }
+            ]
+          }
+        },
+        "required": [
+          "accessProfiles",
+          "operation",
+          "replaceScope",
+          "values"
+        ]
+      },
+      "accessprofilemetadatabulkupdateresponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "ID of the task that is processing the bulk update.",
+            "example": "2d82ac17-eb0d-4ba6-9918-dcad6ee0294d"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the object the bulk update applies to.",
+            "example": "ACCESS_PROFILE"
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of the bulk update request.",
+            "enum": [
+              "CREATED",
+              "PRE_PROCESS",
+              "PRE_PROCESS_COMPLETED",
+              "POST_PROCESS",
+              "COMPLETED",
+              "CHUNK_PENDING",
+              "CHUNK_PROCESSING",
+              "RE_PROCESSING",
+              "PRE_PROCESS_FAILED",
+              "FAILED"
+            ],
+            "example": "CREATED"
+          },
+          "created": {
+            "type": "string",
+            "description": "Time when the bulk update request was created",
+            "format": "date-time",
+            "example": "2020-10-08T18:33:52.029Z"
+          }
+        }
+      },
+      "accessprofilemetadatabulkupdatebyfilterrequest": {
+        "description": "Request to bulk update Access Model Metadata on every access profile matching a filter expression. A single access profile cannot be assigned more than 25 metadata values. Adding or replacing custom metadata requires a suite license.",
+        "type": "object",
+        "properties": {
+          "filters": {
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in*\n\n**name**: *eq, sw*\n\n**created**: *gt, ge, le*\n\n**modified**: *gt, lt, ge, le*\n\n**owner.id**: *eq, in*\n\n**requestable**: *eq*\n\n**source.id**: *eq, in*\n\nSupported composite operators are *and, or*",
+            "type": "string",
+            "example": "requestable eq false"
+          },
+          "operation": {
+            "description": "The operation to be performed",
+            "type": "string",
+            "enum": [
+              "ADD",
+              "REMOVE",
+              "REPLACE"
+            ],
+            "example": "REPLACE"
+          },
+          "replaceScope": {
+            "description": "The choice of update scope. **ATTRIBUTE** replaces only the values of the attributes named in `values`, and **ALL** replaces every metadata attribute on the access profile.",
+            "type": "string",
+            "enum": [
+              "ALL",
+              "ATTRIBUTE"
+            ],
+            "example": "ATTRIBUTE"
+          },
+          "values": {
+            "description": "The metadata to be updated, including attribute key and value.",
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "type": "object",
+              "required": [
+                "attribute",
+                "values"
+              ],
+              "properties": {
+                "attribute": {
+                  "type": "string",
+                  "description": "The technical name of the metadata attribute.",
+                  "example": "iscFederalClassifications"
+                },
+                "values": {
+                  "type": "array",
+                  "description": "The values of the attribute to be updated.",
+                  "items": {
+                    "type": "string",
+                    "example": "secret"
+                  },
+                  "nullable": true,
+                  "example": [
+                    "secret"
+                  ]
+                },
+                "objectType": {
+                  "type": "string",
+                  "description": "The type of the metadata attribute. Set to `custom` for custom metadata attributes, which require a suite license.",
+                  "example": "custom"
+                }
+              }
+            },
+            "example": [
+              {
+                "attribute": "iscFederalClassifications",
+                "values": [
+                  "topSecret"
+                ]
+              }
+            ]
+          }
+        },
+        "required": [
+          "filters",
+          "operation",
+          "replaceScope",
+          "values"
+        ]
+      },
+      "accessprofilemetadatabulkupdatebyqueryrequest": {
+        "description": "Request to bulk update Access Model Metadata on every access profile matching a search query. A single access profile cannot be assigned more than 25 metadata values. Adding or replacing custom metadata requires a suite license.\n\nFor more information about the query object, refer to [V3 API Perform Search](https://developer.sailpoint.com/docs/api/v3/search-post).",
+        "type": "object",
+        "properties": {
+          "query": {
+            "description": "The search query selecting the access profiles to update.",
+            "type": "object",
+            "example": {
+              "indices": [
+                "accessprofiles"
+              ],
+              "queryType": "TEXT",
+              "textQuery": {
+                "terms": [
+                  "test123"
+                ],
+                "fields": [
+                  "id"
+                ],
+                "matchAny": false,
+                "contains": true
+              },
+              "includeNested": false
+            }
+          },
+          "operation": {
+            "description": "The operation to be performed",
+            "type": "string",
+            "enum": [
+              "ADD",
+              "REMOVE",
+              "REPLACE"
+            ],
+            "example": "REPLACE"
+          },
+          "replaceScope": {
+            "description": "The choice of update scope. **ATTRIBUTE** replaces only the values of the attributes named in `values`, and **ALL** replaces every metadata attribute on the access profile.",
+            "type": "string",
+            "enum": [
+              "ALL",
+              "ATTRIBUTE"
+            ],
+            "example": "ATTRIBUTE"
+          },
+          "values": {
+            "description": "The metadata to be updated, including attribute key and value.",
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "type": "object",
+              "required": [
+                "attribute",
+                "values"
+              ],
+              "properties": {
+                "attribute": {
+                  "type": "string",
+                  "description": "The technical name of the metadata attribute.",
+                  "example": "iscFederalClassifications"
+                },
+                "values": {
+                  "type": "array",
+                  "description": "The values of the attribute to be updated.",
+                  "items": {
+                    "type": "string",
+                    "example": "secret"
+                  },
+                  "nullable": true,
+                  "example": [
+                    "secret"
+                  ]
+                },
+                "objectType": {
+                  "type": "string",
+                  "description": "The type of the metadata attribute. Set to `custom` for custom metadata attributes, which require a suite license.",
+                  "example": "custom"
+                }
+              }
+            },
+            "example": [
+              {
+                "attribute": "iscFederalClassifications",
+                "values": [
+                  "topSecret"
+                ]
+              }
+            ]
+          }
+        },
+        "required": [
+          "query",
+          "operation",
+          "replaceScope",
+          "values"
+        ]
+      },
       "accessrequesttype": {
         "type": "string",
         "enum": [
@@ -100028,6 +101034,304 @@
             "example": "Entitlement Source Reset"
           }
         }
+      },
+      "entitlementmetadatabulkupdatebyidrequest": {
+        "description": "Request to bulk update Access Model Metadata on a list of entitlements identified by ID. The maximum entitlement count in a single request is 3000. Adding or replacing custom metadata requires a suite license.",
+        "type": "object",
+        "properties": {
+          "entitlements": {
+            "description": "The IDs of the entitlements to update.",
+            "type": "array",
+            "maxItems": 3000,
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "2c9180867817ac4d017817c491119a20",
+              "2c9180867817ac4d017817c491119a21"
+            ]
+          },
+          "operation": {
+            "description": "The operation to be performed",
+            "type": "string",
+            "enum": [
+              "ADD",
+              "REMOVE",
+              "REPLACE"
+            ],
+            "example": "REPLACE"
+          },
+          "replaceScope": {
+            "description": "The choice of update scope. **ATTRIBUTE** replaces only the values of the attributes named in `values`, and **ALL** replaces every metadata attribute on the entitlement.",
+            "type": "string",
+            "enum": [
+              "ALL",
+              "ATTRIBUTE"
+            ],
+            "example": "ATTRIBUTE"
+          },
+          "values": {
+            "description": "The metadata to be updated, including attribute key and value.",
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "type": "object",
+              "required": [
+                "attribute",
+                "values"
+              ],
+              "properties": {
+                "attribute": {
+                  "type": "string",
+                  "description": "The technical name of the metadata attribute.",
+                  "example": "iscFederalClassifications"
+                },
+                "values": {
+                  "type": "array",
+                  "description": "The values of the attribute to be updated.",
+                  "items": {
+                    "type": "string",
+                    "example": "secret"
+                  },
+                  "nullable": true,
+                  "example": [
+                    "secret"
+                  ]
+                },
+                "objectType": {
+                  "type": "string",
+                  "description": "The type of the metadata attribute. Set to `custom` for custom metadata attributes, which require a suite license.",
+                  "example": "custom"
+                }
+              }
+            },
+            "example": [
+              {
+                "attribute": "iscFederalClassifications",
+                "values": [
+                  "topSecret"
+                ]
+              }
+            ]
+          }
+        },
+        "required": [
+          "entitlements",
+          "operation",
+          "values"
+        ]
+      },
+      "entitlementmetadatabulkupdateresponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "ID of the task that is processing the bulk update.",
+            "example": "2d82ac17-eb0d-4ba6-9918-dcad6ee0294d"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the object the bulk update applies to.",
+            "example": "ENTITLEMENT"
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of the bulk update request.",
+            "enum": [
+              "CREATED",
+              "PRE_PROCESS",
+              "PRE_PROCESS_COMPLETED",
+              "POST_PROCESS",
+              "COMPLETED",
+              "CHUNK_PENDING",
+              "CHUNK_PROCESSING",
+              "RE_PROCESSING",
+              "PRE_PROCESS_FAILED",
+              "FAILED"
+            ],
+            "example": "CREATED"
+          },
+          "created": {
+            "type": "string",
+            "description": "Time when the bulk update request was created",
+            "format": "date-time",
+            "example": "2020-10-08T18:33:52.029Z"
+          }
+        }
+      },
+      "entitlementmetadatabulkupdatebyfilterrequest": {
+        "description": "Request to bulk update Access Model Metadata on every entitlement matching a filter expression. Adding or replacing custom metadata requires a suite license.",
+        "type": "object",
+        "properties": {
+          "filters": {
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq*",
+            "type": "string",
+            "example": "id eq 2c9180867817ac4d017817c491119a20"
+          },
+          "operation": {
+            "description": "The operation to be performed",
+            "type": "string",
+            "enum": [
+              "ADD",
+              "REMOVE",
+              "REPLACE"
+            ],
+            "example": "REPLACE"
+          },
+          "replaceScope": {
+            "description": "The choice of update scope. **ATTRIBUTE** replaces only the values of the attributes named in `values`, and **ALL** replaces every metadata attribute on the entitlement.",
+            "type": "string",
+            "enum": [
+              "ALL",
+              "ATTRIBUTE"
+            ],
+            "example": "ATTRIBUTE"
+          },
+          "values": {
+            "description": "The metadata to be updated, including attribute key and value.",
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "type": "object",
+              "required": [
+                "attribute",
+                "values"
+              ],
+              "properties": {
+                "attribute": {
+                  "type": "string",
+                  "description": "The technical name of the metadata attribute.",
+                  "example": "iscFederalClassifications"
+                },
+                "values": {
+                  "type": "array",
+                  "description": "The values of the attribute to be updated.",
+                  "items": {
+                    "type": "string",
+                    "example": "secret"
+                  },
+                  "nullable": true,
+                  "example": [
+                    "secret"
+                  ]
+                },
+                "objectType": {
+                  "type": "string",
+                  "description": "The type of the metadata attribute. Set to `custom` for custom metadata attributes, which require a suite license.",
+                  "example": "custom"
+                }
+              }
+            },
+            "example": [
+              {
+                "attribute": "iscFederalClassifications",
+                "values": [
+                  "topSecret"
+                ]
+              }
+            ]
+          }
+        },
+        "required": [
+          "filters",
+          "operation",
+          "values"
+        ]
+      },
+      "entitlementmetadatabulkupdatebyqueryrequest": {
+        "description": "Request to bulk update Access Model Metadata on every entitlement matching a search query. Adding or replacing custom metadata requires a suite license.\n\nFor more information about the query object, refer to [V3 API Perform Search](https://developer.sailpoint.com/docs/api/v3/search-post).",
+        "type": "object",
+        "properties": {
+          "query": {
+            "description": "The search query selecting the entitlements to update.",
+            "type": "object",
+            "example": {
+              "indices": [
+                "entitlements"
+              ],
+              "queryType": "TEXT",
+              "textQuery": {
+                "terms": [
+                  "test123"
+                ],
+                "fields": [
+                  "id"
+                ],
+                "matchAny": false,
+                "contains": true
+              },
+              "includeNested": false
+            }
+          },
+          "operation": {
+            "description": "The operation to be performed",
+            "type": "string",
+            "enum": [
+              "ADD",
+              "REMOVE",
+              "REPLACE"
+            ],
+            "example": "REPLACE"
+          },
+          "replaceScope": {
+            "description": "The choice of update scope. **ATTRIBUTE** replaces only the values of the attributes named in `values`, and **ALL** replaces every metadata attribute on the entitlement.",
+            "type": "string",
+            "enum": [
+              "ALL",
+              "ATTRIBUTE"
+            ],
+            "example": "ATTRIBUTE"
+          },
+          "values": {
+            "description": "The metadata to be updated, including attribute key and value.",
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "type": "object",
+              "required": [
+                "attribute",
+                "values"
+              ],
+              "properties": {
+                "attribute": {
+                  "type": "string",
+                  "description": "The technical name of the metadata attribute.",
+                  "example": "iscFederalClassifications"
+                },
+                "values": {
+                  "type": "array",
+                  "description": "The values of the attribute to be updated.",
+                  "items": {
+                    "type": "string",
+                    "example": "secret"
+                  },
+                  "nullable": true,
+                  "example": [
+                    "secret"
+                  ]
+                },
+                "objectType": {
+                  "type": "string",
+                  "description": "The type of the metadata attribute. Set to `custom` for custom metadata attributes, which require a suite license.",
+                  "example": "custom"
+                }
+              }
+            },
+            "example": [
+              {
+                "attribute": "iscFederalClassifications",
+                "values": [
+                  "topSecret"
+                ]
+              }
+            ]
+          }
+        },
+        "required": [
+          "query",
+          "operation",
+          "values"
+        ]
       },
       "loadentitlementtask": {
         "type": "object",
