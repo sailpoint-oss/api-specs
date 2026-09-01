@@ -57,6 +57,8 @@ paths:
     $ref: ./paths/personal-access-tokens-v1.yaml
   /personal-access-tokens/v1/{id}:
     $ref: ./paths/personal-access-tokens-v1-by-id.yaml
+  /personal-access-tokens/v1/bulk-update:
+    $ref: ./paths/personal-access-tokens-v1-bulk-update.yaml
 security:
   - userAuth:
       - sp:scopes:all
