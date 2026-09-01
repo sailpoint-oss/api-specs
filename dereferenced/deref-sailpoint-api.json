@@ -56856,6 +56856,102 @@
         }
       }
     },
+    "/personal-access-tokens/v1/bulk-update": {
+      "patch": {
+        "operationId": "updateBulkPersonalAccessTokensV1",
+        "security": [
+          {
+            "userAuth": [
+              "sp:all-personal-access-tokens:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "tags": [
+          "Personal Access Tokens"
+        ],
+        "summary": "Bulk update personal access tokens",
+        "description": "This applies a single [JSON Patch](https://tools.ietf.org/html/rfc6902) document to multiple personal access tokens (PATs) in the current tenant in one request.\nThe same `patch` is applied to every token referenced in `ids`. Up to **25** tokens can be updated per request.\nThis is an administrative operation intended for org admins managing PATs across their tenant. The caller must have the `idn:all-personal-access-tokens:update` right. API OAuth client credentials are not permitted to call this endpoint.\nNote: This operation is also accessible via `POST` to the same path; both methods behave identically. Unlike the single-token patch endpoint, the request body uses `Content-Type: application/json` (not `application/json-patch+json`).\n**Allowed patch paths**\nOnly expiration-related paths may be modified in bulk:\n* `/expirationDate` - Set or clear the token's expiration date. Any other path (for example `/name` or `/scope`) results in a `400` response.\n* `/userAwareTokenNeverExpires` - Explicit acknowledgment that the token will never expire.\n**expirationDate and userAwareTokenNeverExpires Relationship:**\nWhen clearing `expirationDate` (either by removing it or replacing it with `null`), `userAwareTokenNeverExpires` must also be set to `true` in the same patch. This serves as an explicit acknowledgment that the caller is aware of the security implications of creating a token that will never expire. When `expirationDate` is set to a valid future date-time, `userAwareTokenNeverExpires` can be omitted.\n**Note:** `userAwareTokenNeverExpires` is stored internally and is not returned in the response.",
+        "requestBody": {
+          "required": true,
+          "description": "The IDs of the personal access tokens to update, along with a single JSON Patch document to apply to each of them.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/bulkupdatepersonalaccesstokensrequest"
+              },
+              "examples": {
+                "Set expiration on multiple tokens": {
+                  "value": {
+                    "ids": [
+                      "695dab70d33d466b81d958dc9fb392db",
+                      "abc123def456abc123def456abc12345"
+                    ],
+                    "patch": [
+                      {
+                        "op": "replace",
+                        "path": "/expirationDate",
+                        "value": "2026-12-31T23:59:59.999Z"
+                      }
+                    ]
+                  }
+                },
+                "Set tokens to never expire": {
+                  "value": {
+                    "ids": [
+                      "695dab70d33d466b81d958dc9fb392db"
+                    ],
+                    "patch": [
+                      {
+                        "op": "remove",
+                        "path": "/expirationDate"
+                      },
+                      {
+                        "op": "replace",
+                        "path": "/userAwareTokenNeverExpires",
+                        "value": true
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The bulk update succeeded. Returns the updated representation of each personal access token, sorted by `id`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/getpersonalaccesstokenresponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
     "/criteria/v1/privilege": {
       "post": {
         "summary": "Create custom privilege criteria",
@@ -118134,6 +118230,46 @@
           "accessTokenValiditySeconds",
           "expirationDate"
         ]
+      },
+      "bulkupdatepersonalaccesstokensrequest": {
+        "type": "object",
+        "title": "Bulk Update Personal Access Tokens Request",
+        "description": "Request body for bulk updating personal access tokens. A single JSON Patch document is applied to every personal access token referenced in `ids`.",
+        "required": [
+          "ids",
+          "patch"
+        ],
+        "properties": {
+          "ids": {
+            "type": "array",
+            "description": "The IDs of the personal access tokens to update. All IDs must reference personal access tokens that exist in the current tenant. Duplicate and blank values are not allowed.",
+            "minItems": 1,
+            "maxItems": 25,
+            "uniqueItems": true,
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "695dab70d33d466b81d958dc9fb392db",
+              "abc123def456abc123def456abc12345"
+            ]
+          },
+          "patch": {
+            "type": "array",
+            "description": "A single [JSON Patch](https://tools.ietf.org/html/rfc6902) document that is applied identically to every personal access token referenced in `ids`.\nOnly the following paths are allowed for bulk updates:\n* `/expirationDate` - Set (`replace`) or clear (`remove`) the token's expiration.\n* `/userAwareTokenNeverExpires` - Explicit acknowledgment required when clearing `expirationDate`.\nAny other path (for example `/name` or `/scope`) results in a `400` response.",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/components/schemas/jsonpatchoperation"
+            },
+            "example": [
+              {
+                "op": "replace",
+                "path": "/expirationDate",
+                "value": "2026-08-01T00:00:00.000Z"
+              }
+            ]
+          }
+        }
       },
       "privilegecriteriadto": {
         "type": "object",
