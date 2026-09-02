@@ -97,7 +97,6 @@ patch:
   security:
   - userAuth:
     - idn:entitlement:manage
-    - idn:entitlement:update
   x-sailpoint-userLevels:
   - ORG_ADMIN
   - SOURCE_ADMIN
