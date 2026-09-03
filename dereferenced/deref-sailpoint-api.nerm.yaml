@@ -4928,6 +4928,8 @@ components:
             radio_attribute_uid: yes, no
     ProfileTypeRule-3:
       type: object
+      required:
+        - type
       properties:
         id:
           type: string
@@ -4935,7 +4937,6 @@ components:
           readOnly: true
         type:
           type: string
-          required: true
           enum:
             - ProfileTypeRule
         comparison_operator:
@@ -4951,6 +4952,8 @@ components:
           default: false
     ProfileStatusRule-3:
       type: object
+      required:
+        - type
       properties:
         id:
           type: string
@@ -4958,7 +4961,6 @@ components:
           readOnly: true
         type:
           type: string
-          required: true
           enum:
             - ProfileStatusRule
         comparison_operator:
@@ -4978,6 +4980,12 @@ components:
           default: false
     ProfileAttributeRuleString-3:
       type: object
+      required:
+        - type
+        - condition_object_type
+        - condition_object_id
+        - comparison_operator
+        - value
       properties:
         id:
           type: string
@@ -4988,22 +4996,18 @@ components:
           readOnly: true
         type:
           type: string
-          required: true
           enum:
             - ProfileAttributeRule
         condition_object_type:
           type: string
-          required: true
           enum:
             - TextFieldAttribute
             - TextAreaAttribute
         condition_object_id:
           type: string
-          required: true
           format: uuid
         comparison_operator:
           type: string
-          required: true
           enum:
             - '=='
             - '!='
@@ -5014,13 +5018,16 @@ components:
             - include?
         value:
           type: string
-          required: true
           example: Some value
         _destroy:
           type: boolean
           default: false
     ProfileAttributeRuleDate-3:
       type: object
+      required:
+        - type
+        - condition_object_type
+        - value
       properties:
         id:
           type: string
@@ -5031,12 +5038,10 @@ components:
           readOnly: true
         type:
           type: string
-          required: true
           enum:
             - ProfileAttributeRule
         condition_object_type:
           type: string
-          required: true
           enum:
             - DateAttribute
         condition_object_id:
@@ -5058,7 +5063,6 @@ components:
             - before
         value:
           type: string
-          required: true
           enum:
             - Today
             - <uid>
@@ -5075,6 +5079,12 @@ components:
           default: false
     ProfileAttributeRuleId-3:
       type: object
+      required:
+        - type
+        - condition_object_type
+        - condition_object_id
+        - comparison_operator
+        - value
       properties:
         id:
           type: string
@@ -5085,12 +5095,10 @@ components:
           readOnly: true
         type:
           type: string
-          required: true
           enum:
             - ProfileAttributeRule
         condition_object_type:
           type: string
-          required: true
           enum:
             - ProfileSelectAttribute
             - ProfileSearchAttribute
@@ -5100,23 +5108,24 @@ components:
             - ContributorSearchAttribute
         condition_object_id:
           type: string
-          required: true
           format: uuid
         comparison_operator:
           type: string
-          required: true
           enum:
             - include?
             - exclude?
         value:
           type: string
-          required: true
           format: uuid
         _destroy:
           type: boolean
           default: false
     RiskRule-3:
       type: object
+      required:
+        - type
+        - value
+        - secondary_value
       properties:
         id:
           type: string
@@ -5127,7 +5136,6 @@ components:
           readOnly: true
         type:
           type: string
-          required: true
           enum:
             - RiskRule
         comparison_operator:
@@ -5138,12 +5146,10 @@ components:
             - <
         value:
           type: string
-          summary: id of the Risk Level being compared against
-          required: true
+          description: id of the Risk Level being compared against
           format: uuid
         secondary_value:
           type: string
-          required: true
           enum:
             - OverallRisk
         _destroy:
@@ -7024,11 +7030,12 @@ components:
             $ref: '#/components/schemas/User-2'
     User-3:
       type: object
+      required:
+        - id
       properties:
         id:
           type: string
           format: uuid
-          required: true
           writeOnly: true
           example: db6f8e8b-65c2-47d5-a0db-90bcc4e9df9e
           description: ID of the object to retrieve or update

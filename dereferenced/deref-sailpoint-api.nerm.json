@@ -7383,6 +7383,9 @@
       },
       "ProfileTypeRule-3": {
         "type": "object",
+        "required": [
+          "type"
+        ],
         "properties": {
           "id": {
             "type": "string",
@@ -7391,7 +7394,6 @@
           },
           "type": {
             "type": "string",
-            "required": true,
             "enum": [
               "ProfileTypeRule"
             ]
@@ -7415,6 +7417,9 @@
       },
       "ProfileStatusRule-3": {
         "type": "object",
+        "required": [
+          "type"
+        ],
         "properties": {
           "id": {
             "type": "string",
@@ -7423,7 +7428,6 @@
           },
           "type": {
             "type": "string",
-            "required": true,
             "enum": [
               "ProfileStatusRule"
             ]
@@ -7452,6 +7456,13 @@
       },
       "ProfileAttributeRuleString-3": {
         "type": "object",
+        "required": [
+          "type",
+          "condition_object_type",
+          "condition_object_id",
+          "comparison_operator",
+          "value"
+        ],
         "properties": {
           "id": {
             "type": "string",
@@ -7464,14 +7475,12 @@
           },
           "type": {
             "type": "string",
-            "required": true,
             "enum": [
               "ProfileAttributeRule"
             ]
           },
           "condition_object_type": {
             "type": "string",
-            "required": true,
             "enum": [
               "TextFieldAttribute",
               "TextAreaAttribute"
@@ -7479,12 +7488,10 @@
           },
           "condition_object_id": {
             "type": "string",
-            "required": true,
             "format": "uuid"
           },
           "comparison_operator": {
             "type": "string",
-            "required": true,
             "enum": [
               "==",
               "!=",
@@ -7497,7 +7504,6 @@
           },
           "value": {
             "type": "string",
-            "required": true,
             "example": "Some value"
           },
           "_destroy": {
@@ -7508,6 +7514,11 @@
       },
       "ProfileAttributeRuleDate-3": {
         "type": "object",
+        "required": [
+          "type",
+          "condition_object_type",
+          "value"
+        ],
         "properties": {
           "id": {
             "type": "string",
@@ -7520,14 +7531,12 @@
           },
           "type": {
             "type": "string",
-            "required": true,
             "enum": [
               "ProfileAttributeRule"
             ]
           },
           "condition_object_type": {
             "type": "string",
-            "required": true,
             "enum": [
               "DateAttribute"
             ]
@@ -7557,7 +7566,6 @@
           },
           "value": {
             "type": "string",
-            "required": true,
             "enum": [
               "Today",
               "<uid>"
@@ -7582,6 +7590,13 @@
       },
       "ProfileAttributeRuleId-3": {
         "type": "object",
+        "required": [
+          "type",
+          "condition_object_type",
+          "condition_object_id",
+          "comparison_operator",
+          "value"
+        ],
         "properties": {
           "id": {
             "type": "string",
@@ -7594,14 +7609,12 @@
           },
           "type": {
             "type": "string",
-            "required": true,
             "enum": [
               "ProfileAttributeRule"
             ]
           },
           "condition_object_type": {
             "type": "string",
-            "required": true,
             "enum": [
               "ProfileSelectAttribute",
               "ProfileSearchAttribute",
@@ -7613,12 +7626,10 @@
           },
           "condition_object_id": {
             "type": "string",
-            "required": true,
             "format": "uuid"
           },
           "comparison_operator": {
             "type": "string",
-            "required": true,
             "enum": [
               "include?",
               "exclude?"
@@ -7626,7 +7637,6 @@
           },
           "value": {
             "type": "string",
-            "required": true,
             "format": "uuid"
           },
           "_destroy": {
@@ -7637,6 +7647,11 @@
       },
       "RiskRule-3": {
         "type": "object",
+        "required": [
+          "type",
+          "value",
+          "secondary_value"
+        ],
         "properties": {
           "id": {
             "type": "string",
@@ -7649,7 +7664,6 @@
           },
           "type": {
             "type": "string",
-            "required": true,
             "enum": [
               "RiskRule"
             ]
@@ -7664,13 +7678,11 @@
           },
           "value": {
             "type": "string",
-            "summary": "id of the Risk Level being compared against",
-            "required": true,
+            "description": "id of the Risk Level being compared against",
             "format": "uuid"
           },
           "secondary_value": {
             "type": "string",
-            "required": true,
             "enum": [
               "OverallRisk"
             ]
@@ -10067,11 +10079,13 @@
       },
       "User-3": {
         "type": "object",
+        "required": [
+          "id"
+        ],
         "properties": {
           "id": {
             "type": "string",
             "format": "uuid",
-            "required": true,
             "writeOnly": true,
             "example": "db6f8e8b-65c2-47d5-a0db-90bcc4e9df9e",
             "description": "ID of the object to retrieve or update"
