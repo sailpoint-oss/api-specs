@@ -28782,8 +28782,7 @@
         "security": [
           {
             "userAuth": [
-              "idn:entitlement:manage",
-              "idn:entitlement:update"
+              "idn:entitlement:manage"
             ]
           }
         ],
@@ -80769,7 +80768,7 @@
           "Work Reassignment"
         ],
         "summary": "List reassignment configurations",
-        "description": "Gets all Reassignment configuration for the current org.",
+        "description": "Gets a paginated list of Reassignment configurations for the current org.",
         "security": [
           {
             "userAuth": [
@@ -80812,6 +80811,23 @@
           }
         },
         "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Max number of results to return.",
+            "required": false,
+            "example": 20,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 0,
+              "maximum": 20,
+              "default": 20
+            }
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          },
           {
             "name": "X-SailPoint-Experimental",
             "in": "header",
