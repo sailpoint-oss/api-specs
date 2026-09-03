@@ -73,9 +73,10 @@ function buildRootSpec() {
   };
   if (existing.security) root.security = existing.security;
 
-  const allTags  = [];
-  const seenTags = new Set();
-  const allPaths = {};
+  const allTags     = [];
+  const seenTags    = new Set();
+  const allPaths    = {};
+  const allWebhooks = {};
 
   const partitions = fs.readdirSync(APIS_DIR, { withFileTypes: true })
     .filter(e => e.isDirectory())
@@ -103,17 +104,34 @@ function buildRootSpec() {
         allPaths[pathKey] = pathValue;
       }
     }
+
+    // Event triggers (webhooks) are declared per partition under x-webhooks.
+    // They have no path, so they are merged by event name.
+    for (const [eventName, eventValue] of Object.entries(part["x-webhooks"] || {})) {
+      if (eventValue && eventValue.$ref) {
+        const ref = eventValue.$ref.replace(/^\.\//, "");
+        allWebhooks[eventName] = { $ref: `./apis/${partitionName}/${ref}` };
+      } else {
+        allWebhooks[eventName] = eventValue;
+      }
+    }
   }
 
   root.tags  = allTags;
   root.paths = allPaths;
+  if (Object.keys(allWebhooks).length > 0) {
+    root["x-webhooks"] = allWebhooks;
+  }
   root.components = {
     ...(existing.components || {}),
     securitySchemes: SECURITY_SCHEMES,
   };
 
   fs.writeFileSync(ROOT_SPEC, yaml.dump(root, { lineWidth: -1, noRefs: true }), "utf8");
-  console.log(`Written idn/sailpoint-api.root.yaml (${Object.keys(allPaths).length} paths, ${allTags.length} tags)`);
+  console.log(
+    `Written idn/sailpoint-api.root.yaml (${Object.keys(allPaths).length} paths, ` +
+    `${allTags.length} tags, ${Object.keys(allWebhooks).length} webhooks)`
+  );
 }
 
 function bundleSpec() {
