@@ -15,3 +15,18 @@ properties:
     nullable: true
     description: Placeholder text displayed in the username input field. If you would like to reset the value use "null".
     example: 'Please provide your work email address...'
+  instanceBadgeDisplayName:
+    type: string
+    nullable: true
+    description: Display name for the instance badge. Null when no display name is configured.
+    example: 'Sandbox'
+  instanceBadgeColor:
+    type: string
+    nullable: true
+    description: Hex value of color for the instance badge. Null when no color is configured.
+    example: 'FFAA00'
+  instanceBadgeVisible:
+    type: boolean
+    description: Whether the instance badge is visible. Defaults to false when no value is stored.
+    example: true
+    default: false
