@@ -22,6 +22,18 @@ The API spec system has migrated from year-based base-path versioning to per-res
   redocly bundle sailpoint-api.root.yaml -o sailpoint-api.yaml
   ```
 
+## Where the webhooks went
+
+Event triggers are not versioned by base path, so they are no longer duplicated per year. The `webhooks/` directory in here is frozen with the rest of this directory.
+
+| Before | After |
+|--------|-------|
+| `v2026/webhooks/<event>.yaml` | `apis/triggers/webhooks/<event>.yaml` |
+| `v2026/schemas/trigger/example-input/X.yaml` | `apis/triggers/schemas/x.yaml` |
+| `x-webhooks` in `sailpoint-api.v2026.yaml` | `x-webhooks` in `apis/triggers/openapi.yaml` |
+
+The root assembler merges `x-webhooks` from every partition into `sailpoint-api.root.yaml`, the same way it merges `paths`.
+
 ## Do not modify this directory
 
 Changes to files in `v2026/` will not be reflected in the new versioned spec. Make changes in `apis/` instead.

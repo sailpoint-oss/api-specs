@@ -132,3 +132,70 @@ paths:
 security:
   - userAuth:
       - sp:scopes:all
+x-webhooks:
+  AccessRequestDecision:
+    $ref: './webhooks/access-request-decision.yaml'
+  AccessRequestDynamicApproval:
+    $ref: './webhooks/access-request-dynamic-approval.yaml'
+  AccessRequestSubmitted:
+    $ref: './webhooks/access-request-submitted.yaml'
+  AccountAggregationCompleted:
+    $ref: './webhooks/account-aggregation-completed.yaml'
+  AccountsCollectedForAggregation:
+    $ref: './webhooks/accounts-collected-for-aggregation.yaml'
+  AccountCreated:
+    $ref: './webhooks/account-created.yaml'
+  AccountDeleted:
+    $ref: './webhooks/account-deleted.yaml'
+  AccountUpdated:
+    $ref: './webhooks/account-updated.yaml'
+  CampaignActivated:
+    $ref: './webhooks/campaign-activated.yaml'
+  CampaignEnded:
+    $ref: './webhooks/campaign-ended.yaml'
+  CampaignGenerated:
+    $ref: './webhooks/campaign-generated.yaml'
+  CertificationSignedOff:
+    $ref: './webhooks/certification-signed-off.yaml'
+  FormSubmitted:
+    $ref: './webhooks/form-submitted.yaml'
+  IdentityAttributesChanged:
+    $ref: './webhooks/identity-attributes-changed.yaml'
+  IdentityCreated:
+    $ref: './webhooks/identity-created.yaml'
+  MachineIdentityCreated:
+    $ref: './webhooks/machine-identity-created.yaml'
+  MachineIdentityUpdated:
+    $ref: './webhooks/machine-identity-updated.yaml'
+  MachineIdentityDeleted:
+    $ref: './webhooks/machine-identity-deleted.yaml'
+  NativeChangeAccountCreated:
+    $ref: './webhooks/native-change-account-created.yaml'
+  NativeChangeAccountDeleted:
+    $ref: './webhooks/native-change-account-deleted.yaml'
+  NativeChangeAccountUpdated:
+    $ref: './webhooks/native-change-account-updated.yaml'
+  OutlierDetected:
+    $ref: './webhooks/outlier-detected.yaml'
+  ProvisioningCompleted:
+    $ref: './webhooks/provisioning-completed.yaml'
+  ScheduledSearch:
+    $ref: './webhooks/scheduled-search.yaml'
+  SODViolationCreated:
+    $ref: './webhooks/sod-violation-created.yaml'
+  SODViolationReopened:
+    $ref: './webhooks/sod-violation-reopened.yaml'
+  SODViolationMitigated:
+    $ref: './webhooks/sod-violation-mitigated.yaml'
+  SODViolationClosed:
+    $ref: './webhooks/sod-violation-closed.yaml'
+  SourceCreated:
+    $ref: './webhooks/source-created.yaml'
+  SourceDeleted:
+    $ref: './webhooks/source-deleted.yaml'
+  SourceUpdated:
+    $ref: './webhooks/source-updated.yaml'
+  VaClusterStatusChange:
+    $ref: './webhooks/va-cluster-status-change.yaml'
+  IdentityDeleted:
+    $ref: './webhooks/identity-deleted.yaml'
