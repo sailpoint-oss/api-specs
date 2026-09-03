@@ -1,4 +1,6 @@
 type: object
+required:
+  - type
 properties:
   id:
     type: string
@@ -6,7 +8,6 @@ properties:
     readOnly: true
   type:
     type: string
-    required: true
     enum: [ProfileTypeRule]
   comparison_operator:
     type: string
