@@ -2644,6 +2644,12 @@ components:
       $ref: "./v2026/schemas/MisBulkUpdateRequest.yaml"
     RequestOnBehalfOfConfig:
       $ref: "./v2026/schemas/RequestOnBehalfOfConfig.yaml"
+    SourceEntitlementAccessRequestConfig:
+      $ref: "./v2026/schemas/SourceEntitlementAccessRequestConfig.yaml"
+    SourceEntitlementApprovalScheme:
+      $ref: "./v2026/schemas/SourceEntitlementApprovalScheme.yaml"
+    SourceEntitlementRevocationRequestConfig:
+      $ref: "./v2026/schemas/SourceEntitlementRevocationRequestConfig.yaml"
     TemplateMediumDto:
       $ref: "./v2026/schemas/TemplateMediumDto.yaml"
     TemplateVariable:

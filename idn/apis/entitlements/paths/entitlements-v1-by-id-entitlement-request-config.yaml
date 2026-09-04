@@ -103,6 +103,34 @@ put:
       application/json:
         schema:
           $ref: ../schemas/entitlementrequestconfig.yaml
+        examples:
+          Set config with governance group approval:
+            description: A sequential list of approvers. The request goes to each approver in order.
+            value:
+              accessRequestConfig:
+                requestCommentRequired: true
+                denialCommentRequired: true
+                approvalSchemes:
+                - approverType: ENTITLEMENT_OWNER
+                - approverType: GOVERNANCE_GROUP
+                  approverId: 46c79819-a69f-49a2-becb-12c971ae66c6
+              revocationRequestConfig:
+                approvalSchemes: []
+          Set config with workflow approval:
+            description: >-
+              A workflow approver. `approverId` is the ID of a workflow that uses the `idn:access-request-trigger`
+              trigger, the Adaptive Approvals feature must be enabled for the tenant, and `WORKFLOW` must be the only
+              entry in `approvalSchemes`. Workflow approvals are supported
+              only at the entitlement level, not at the source level.
+            value:
+              accessRequestConfig:
+                requestCommentRequired: false
+                denialCommentRequired: false
+                approvalSchemes:
+                - approverType: WORKFLOW
+                  approverId: 8b2fa4a4-bd33-41a1-9ac6-0ffebc976a90
+              revocationRequestConfig:
+                approvalSchemes: []
   responses:
     '200':
       description: Responds with the entitlement request config as updated.

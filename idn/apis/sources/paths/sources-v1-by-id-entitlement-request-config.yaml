@@ -26,6 +26,12 @@ get:
     configuration.
 
     - However, the entitlement-level configuration (if defined) overrides this source-level configuration.
+
+
+    The `WORKFLOW` approver type is not supported in source-level configuration. To use a workflow as an
+    approver, configure it on the entitlement with
+    [Replace entitlement request config](https://developer.sailpoint.com/docs/api/put-entitlement-request-config-v-1).
+    A source-level request that contains `WORKFLOW` fails with a 400.
   responses:
     '200':
       description: Source Entitlement Request Configuration Details.
@@ -112,6 +118,12 @@ put:
     configuration.
 
     - However, the entitlement-level configuration (if defined) overrides this source-level configuration.
+
+
+    The `WORKFLOW` approver type is not supported in source-level configuration. To use a workflow as an
+    approver, configure it on the entitlement with
+    [Replace entitlement request config](https://developer.sailpoint.com/docs/api/put-entitlement-request-config-v-1).
+    A source-level request that contains `WORKFLOW` fails with a 400.
   requestBody:
     required: true
     content:
