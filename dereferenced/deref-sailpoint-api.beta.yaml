@@ -7810,6 +7810,30 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/EntitlementRequestConfig-2'
+            examples:
+              Set config with governance group approval:
+                description: A sequential list of approvers. The request goes to each approver in order.
+                value:
+                  accessRequestConfig:
+                    requestCommentRequired: true
+                    denialCommentRequired: true
+                    approvalSchemes:
+                      - approverType: ENTITLEMENT_OWNER
+                      - approverType: GOVERNANCE_GROUP
+                        approverId: 46c79819-a69f-49a2-becb-12c971ae66c6
+                  revocationRequestConfig:
+                    approvalSchemes: []
+              Set config with workflow approval:
+                description: A workflow approver. `approverId` is the ID of a workflow that uses the `idn:access-request-trigger` trigger, the Adaptive Approvals feature must be enabled for the tenant, and `WORKFLOW` must be the only entry in `approvalSchemes`. Workflow approvals are supported only at the entitlement level, not at the source level.
+                value:
+                  accessRequestConfig:
+                    requestCommentRequired: false
+                    denialCommentRequired: false
+                    approvalSchemes:
+                      - approverType: WORKFLOW
+                        approverId: 8b2fa4a4-bd33-41a1-9ac6-0ffebc976a90
+                  revocationRequestConfig:
+                    approvalSchemes: []
       responses:
         '200':
           description: Responds with the entitlement request config as updated.
@@ -23224,6 +23248,10 @@ paths:
         - userAuth:
             - idn:sources:read
             - idn:sources:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
       operationId: getSourceEntitlementRequestConfig
       summary: Get source entitlement request configuration
       tags:
@@ -23234,6 +23262,8 @@ paths:
         Access request to any entitlements in the source should follow this configuration unless a separate entitlement-level configuration is defined.
         - During access request, this source-level entitlement request configuration overrides the global organization-level configuration.
         - However, the entitlement-level configuration (if defined) overrides this source-level configuration.
+
+        The `WORKFLOW` approver type is not supported in source-level configuration. To use a workflow as an approver, configure it on the entitlement with [Replace entitlement request config](https://developer.sailpoint.com/docs/api/put-entitlement-request-config-v-1). A source-level request that contains `WORKFLOW` fails with a 400.
 
         A token with ORG_ADMIN, SOURCE_ADMIN, or SOURCE_SUBADMIN authority is required to call this API.
       parameters:
@@ -23296,6 +23326,10 @@ paths:
       security:
         - userAuth:
             - idn:sources:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
       operationId: updateSourceEntitlementRequestConfig
       summary: Update source entitlement request configuration
       tags:
@@ -23306,6 +23340,8 @@ paths:
         Access request to any entitlements in the source should follow this configuration unless a separate entitlement-level configuration is defined.
         - During access request, this source-level entitlement request configuration overrides the global organization-level configuration.
         - However, the entitlement-level configuration (if defined) overrides this source-level configuration.
+
+        The `WORKFLOW` approver type is not supported in source-level configuration. To use a workflow as an approver, configure it on the entitlement with [Replace entitlement request config](https://developer.sailpoint.com/docs/api/put-entitlement-request-config-v-1). A source-level request that contains `WORKFLOW` fails with a 400.
 
         A token with ORG_ADMIN, SOURCE_ADMIN, or SOURCE_SUBADMIN authority is required to call this API.
       parameters:
@@ -41294,12 +41330,17 @@ components:
 
             **GOVERNANCE_GROUP**: A Governance Group, the ID of which is specified by the **approverId** field
 
-            **WORKFLOW**: A Workflow, the ID of which is specified by the **approverId** field, Workflows are exclusive to other types of approvals and License required.     
+            **WORKFLOW**: A Workflow, the ID of which is specified by the **approverId** field. A workflow approver has these requirements.
+
+            - The Adaptive Approvals feature must be enabled for the tenant.
+            - The workflow given in **approverId** must use the `idn:access-request-trigger` trigger.
+            - `WORKFLOW` is exclusive of the other approver types. If you use it, it must be the only entry in **approvalSchemes**.
+            - `WORKFLOW` is supported only in entitlement-level configuration. The source-level [Update source entitlement request configuration](https://developer.sailpoint.com/docs/api/update-source-entitlement-request-config-v-1) endpoint rejects it with a 400.
           example: GOVERNANCE_GROUP
         approverId:
           type: string
           nullable: true
-          description: Id of the specific approver, used only when approverType is GOVERNANCE_GROUP or WORKFLOW
+          description: Id of the specific approver, used only when approverType is GOVERNANCE_GROUP or WORKFLOW. For WORKFLOW this is the ID of the workflow to run.
           example: e3eab852-8315-467f-9de7-70eda97f63c8
     EntitlementAccessRequestConfig:
       type: object
@@ -41355,7 +41396,7 @@ components:
       properties:
         approvalSchemes:
           type: array
-          description: Ordered list of approval steps for the access request. Empty when no approval is required.
+          description: Ordered list of approval steps for the revocation request. Empty when no approval is required.
           items:
             $ref: '#/components/schemas/EntitlementApprovalScheme'
     EntitlementRequestConfig-2:
@@ -51743,16 +51784,102 @@ components:
         - id
         - status
         - payload
+    SourceEntitlementApprovalScheme:
+      type: object
+      title: Source Entitlement Approval Scheme
+      properties:
+        approverType:
+          type: string
+          enum:
+            - ENTITLEMENT_OWNER
+            - SOURCE_OWNER
+            - MANAGER
+            - GOVERNANCE_GROUP
+          description: |-
+            Describes the individual or group that is responsible for an approval step. Values are as follows.
+
+            **ENTITLEMENT_OWNER**: Owner of the associated Entitlement
+
+            **SOURCE_OWNER**: Owner of the associated Source
+
+            **MANAGER**: Manager of the Identity for whom the request is being made
+
+            **GOVERNANCE_GROUP**: A Governance Group, the ID of which is specified by the **approverId** field
+
+            **WORKFLOW** is not supported in source-level entitlement request configuration. Use the entitlement-level [Replace entitlement request config](https://developer.sailpoint.com/docs/api/put-entitlement-request-config-v-1) endpoint to configure a workflow approver. A source-level request that contains `WORKFLOW` is rejected with a 400.
+          example: GOVERNANCE_GROUP
+        approverId:
+          type: string
+          nullable: true
+          description: Id of the specific approver, used only when approverType is GOVERNANCE_GROUP
+          example: e3eab852-8315-467f-9de7-70eda97f63c8
+    SourceEntitlementAccessRequestConfig:
+      type: object
+      title: Source Entitlement Access Request Config
+      properties:
+        approvalSchemes:
+          type: array
+          description: Ordered list of approval steps for the access request. Empty when no approval is required.
+          items:
+            $ref: '#/components/schemas/SourceEntitlementApprovalScheme'
+        requestCommentRequired:
+          type: boolean
+          description: If the requester must provide a comment during access request.
+          default: false
+          example: true
+        denialCommentRequired:
+          type: boolean
+          description: If the reviewer must provide a comment when denying the access request.
+          default: false
+          example: false
+        reauthorizationRequired:
+          type: boolean
+          description: Is Reauthorization Required
+          default: false
+          example: false
+        requireEndDate:
+          type: boolean
+          default: false
+          description: If true, then remove date or sunset date is required in access request of the entitlement.
+          example: true
+        maxPermittedAccessDuration:
+          nullable: true
+          type: object
+          description: The maximum duration for which the access is permitted.
+          properties:
+            value:
+              type: integer
+              format: int32
+              description: The numeric value of the duration.
+              example: 5
+            timeUnit:
+              type: string
+              description: The time unit for the duration.
+              enum:
+                - HOURS
+                - DAYS
+                - WEEKS
+                - MONTHS
+              example: DAYS
+    SourceEntitlementRevocationRequestConfig:
+      type: object
+      title: Source Entitlement Revocation Request Config
+      properties:
+        approvalSchemes:
+          type: array
+          description: Ordered list of approval steps for the revocation request. Empty when no approval is required.
+          items:
+            $ref: '#/components/schemas/SourceEntitlementApprovalScheme'
     SourceEntitlementRequestConfig:
       type: object
       title: Source Entitlement Request Config
       description: Entitlement Request Configuration
       properties:
         accessRequestConfig:
-          $ref: '#/components/schemas/EntitlementAccessRequestConfig'
+          $ref: '#/components/schemas/SourceEntitlementAccessRequestConfig'
           description: Configuration for requesting access to entitlements
         revocationRequestConfig:
-          $ref: '#/components/schemas/EntitlementRevocationRequestConfig'
+          $ref: '#/components/schemas/SourceEntitlementRevocationRequestConfig'
     LoadAccountsTask:
       type: object
       title: Load Accounts Task
