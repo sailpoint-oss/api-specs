@@ -21,6 +21,8 @@ properties:
     type: string
     description: The connector application xml
     example: "<?xml version='1.0' encoding='UTF-8'?>\n<!DOCTYPE Application PUBLIC \"sailpoint.dtd\" \"sailpoint.dtd\">\n<Application connector=\"sailpoint.connector.OpenConnectorAdapter\" name=\"custom Atlassian Suite - Cloud\" type=\"custom Atlassian Suite - Cloud\"/>\n"
+  provisioningPolicies:
+    $ref: ../../apis/shared/schemas/provisioningpolicies.yaml
   correlationConfigXml:
     type: string
     description: The connector correlation config xml

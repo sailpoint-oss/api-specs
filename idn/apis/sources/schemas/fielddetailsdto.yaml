@@ -17,7 +17,7 @@ properties:
     type: object
     description: Attributes required for the transform
     example:
-      template: ${firstname}.${lastname}${uniqueCounter}
+      template: '{firstname}.{lastname}{uniqueCounter}'
       cloudMaxUniqueChecks: '50'
       cloudMaxSize: '20'
       cloudRequired: 'true'

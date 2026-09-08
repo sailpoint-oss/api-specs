@@ -27,6 +27,8 @@ properties:
 
       <Application connector="sailpoint.connector.OpenConnectorAdapter" name="custom Atlassian Suite - Cloud"
       type="custom Atlassian Suite - Cloud"/>
+  provisioningPolicies:
+    $ref: ../../shared/schemas/provisioningpolicies.yaml
   correlationConfigXml:
     type: string
     description: The connector correlation config xml
