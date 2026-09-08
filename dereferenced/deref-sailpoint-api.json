@@ -97743,6 +97743,147 @@
           }
         }
       },
+      "usagetype": {
+        "type": "string",
+        "nullable": false,
+        "enum": [
+          "CREATE",
+          "UPDATE",
+          "ENABLE",
+          "DISABLE",
+          "DELETE",
+          "ASSIGN",
+          "UNASSIGN",
+          "CREATE_GROUP",
+          "UPDATE_GROUP",
+          "DELETE_GROUP",
+          "REGISTER",
+          "CREATE_IDENTITY",
+          "UPDATE_IDENTITY",
+          "EDIT_GROUP",
+          "UNLOCK",
+          "CHANGE_PASSWORD"
+        ],
+        "example": "CREATE",
+        "description": "The type of provisioning policy usage. \nIn IdentityNow, a source can support various provisioning operations. For example, when a joiner is added to a source, this may trigger both CREATE and UPDATE provisioning operations.  Each usage type is considered a provisioning policy.  A source can have any number of these provisioning policies defined. \nThese are the common usage types: \nCREATE - This usage type relates to 'Create Account Profile', the provisioning template for the account to be created. For example, this would be used for a joiner on a source.  \nUPDATE - This usage type relates to 'Update Account Profile', the provisioning template for the 'Update' connector operations. For example, this would be used for an attribute sync on a source.\nENABLE - This usage type relates to 'Enable Account Profile', the provisioning template for the account to be enabled. For example, this could be used for a joiner on a source once the joiner's account is created. \nDISABLE - This usage type relates to 'Disable Account Profile', the provisioning template for the account to be disabled. For example, this could be used when a leaver is removed temporarily from a source.\nYou can use these usage types for all your provisioning policy needs. "
+      },
+      "fielddetailsdto": {
+        "type": "object",
+        "title": "Field Details Dto",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the attribute.",
+            "example": "userName"
+          },
+          "transform": {
+            "type": "object",
+            "description": "The transform to apply to the field",
+            "example": {
+              "type": "rule",
+              "attributes": {
+                "name": "Create Unique LDAP Attribute"
+              }
+            },
+            "default": {}
+          },
+          "attributes": {
+            "type": "object",
+            "description": "Attributes required for the transform",
+            "example": {
+              "template": "{firstname}.{lastname}{uniqueCounter}",
+              "cloudMaxUniqueChecks": "50",
+              "cloudMaxSize": "20",
+              "cloudRequired": "true"
+            }
+          },
+          "isRequired": {
+            "type": "boolean",
+            "readOnly": true,
+            "description": "Flag indicating whether or not the attribute is required.",
+            "default": false,
+            "example": false
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of the attribute.\n\nstring: For text-based data.\n\nint: For whole numbers.\n\nlong: For larger whole numbers.\n\ndate: For date and time values.\n\nboolean: For true/false values.\n\nsecret: For sensitive data like passwords, which will be masked and encrypted.\n",
+            "enum": [
+              "string",
+              "int",
+              "long",
+              "date",
+              "boolean",
+              "secret"
+            ],
+            "example": "string"
+          },
+          "isMultiValued": {
+            "type": "boolean",
+            "description": "Flag indicating whether or not the attribute is multi-valued.",
+            "default": false,
+            "example": false
+          }
+        }
+      },
+      "provisioningpolicydto": {
+        "type": "object",
+        "title": "Provisioning Policy Dto",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "nullable": true,
+            "type": "string",
+            "description": "the provisioning policy name",
+            "example": "example provisioning policy for inactive identities"
+          },
+          "description": {
+            "type": "string",
+            "description": "the description of the provisioning policy",
+            "example": "this provisioning policy creates access based on an identity going inactive"
+          },
+          "usageType": {
+            "$ref": "#/components/schemas/usagetype"
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/fielddetailsdto"
+            }
+          }
+        }
+      },
+      "provisioningpolicies": {
+        "type": "array",
+        "description": "Default provisioning policies parsed from the connector application XML templates. Always an array; empty when the connector ships no templates.",
+        "nullable": false,
+        "items": {
+          "$ref": "#/components/schemas/provisioningpolicydto"
+        },
+        "example": [
+          {
+            "name": "Account",
+            "description": "Create Account Profile",
+            "usageType": "CREATE",
+            "fields": [
+              {
+                "name": "distinguishedName",
+                "transform": {
+                  "type": "identityAttribute",
+                  "attributes": {
+                    "name": "email"
+                  }
+                },
+                "attributes": {},
+                "isRequired": true,
+                "type": "string",
+                "isMultiValued": false
+              }
+            ]
+          }
+        ]
+      },
       "connectordetail": {
         "type": "object",
         "title": "Connector Detail",
@@ -97771,6 +97912,9 @@
             "type": "string",
             "description": "The connector application xml",
             "example": "<?xml version='1.0' encoding='UTF-8'?>\n<!DOCTYPE Application PUBLIC \"sailpoint.dtd\" \"sailpoint.dtd\">\n<Application connector=\"sailpoint.connector.OpenConnectorAdapter\" name=\"custom Atlassian Suite - Cloud\" type=\"custom Atlassian Suite - Cloud\"/>\n"
+          },
+          "provisioningPolicies": {
+            "$ref": "#/components/schemas/provisioningpolicies"
           },
           "correlationConfigXml": {
             "type": "string",
@@ -126917,117 +127061,6 @@
           "owner",
           "connector"
         ]
-      },
-      "usagetype": {
-        "type": "string",
-        "nullable": false,
-        "enum": [
-          "CREATE",
-          "UPDATE",
-          "ENABLE",
-          "DISABLE",
-          "DELETE",
-          "ASSIGN",
-          "UNASSIGN",
-          "CREATE_GROUP",
-          "UPDATE_GROUP",
-          "DELETE_GROUP",
-          "REGISTER",
-          "CREATE_IDENTITY",
-          "UPDATE_IDENTITY",
-          "EDIT_GROUP",
-          "UNLOCK",
-          "CHANGE_PASSWORD"
-        ],
-        "example": "CREATE",
-        "description": "The type of provisioning policy usage. \nIn IdentityNow, a source can support various provisioning operations. For example, when a joiner is added to a source, this may trigger both CREATE and UPDATE provisioning operations.  Each usage type is considered a provisioning policy.  A source can have any number of these provisioning policies defined. \nThese are the common usage types: \nCREATE - This usage type relates to 'Create Account Profile', the provisioning template for the account to be created. For example, this would be used for a joiner on a source.  \nUPDATE - This usage type relates to 'Update Account Profile', the provisioning template for the 'Update' connector operations. For example, this would be used for an attribute sync on a source.\nENABLE - This usage type relates to 'Enable Account Profile', the provisioning template for the account to be enabled. For example, this could be used for a joiner on a source once the joiner's account is created. \nDISABLE - This usage type relates to 'Disable Account Profile', the provisioning template for the account to be disabled. For example, this could be used when a leaver is removed temporarily from a source.\nYou can use these usage types for all your provisioning policy needs. "
-      },
-      "fielddetailsdto": {
-        "type": "object",
-        "title": "Field Details Dto",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "The name of the attribute.",
-            "example": "userName"
-          },
-          "transform": {
-            "type": "object",
-            "description": "The transform to apply to the field",
-            "example": {
-              "type": "rule",
-              "attributes": {
-                "name": "Create Unique LDAP Attribute"
-              }
-            },
-            "default": {}
-          },
-          "attributes": {
-            "type": "object",
-            "description": "Attributes required for the transform",
-            "example": {
-              "template": "${firstname}.${lastname}${uniqueCounter}",
-              "cloudMaxUniqueChecks": "50",
-              "cloudMaxSize": "20",
-              "cloudRequired": "true"
-            }
-          },
-          "isRequired": {
-            "type": "boolean",
-            "readOnly": true,
-            "description": "Flag indicating whether or not the attribute is required.",
-            "default": false,
-            "example": false
-          },
-          "type": {
-            "type": "string",
-            "description": "The type of the attribute.\n\nstring: For text-based data.\n\nint: For whole numbers.\n\nlong: For larger whole numbers.\n\ndate: For date and time values.\n\nboolean: For true/false values.\n\nsecret: For sensitive data like passwords, which will be masked and encrypted.\n",
-            "enum": [
-              "string",
-              "int",
-              "long",
-              "date",
-              "boolean",
-              "secret"
-            ],
-            "example": "string"
-          },
-          "isMultiValued": {
-            "type": "boolean",
-            "description": "Flag indicating whether or not the attribute is multi-valued.",
-            "default": false,
-            "example": false
-          }
-        }
-      },
-      "provisioningpolicydto": {
-        "type": "object",
-        "title": "Provisioning Policy Dto",
-        "required": [
-          "name"
-        ],
-        "properties": {
-          "name": {
-            "nullable": true,
-            "type": "string",
-            "description": "the provisioning policy name",
-            "example": "example provisioning policy for inactive identities"
-          },
-          "description": {
-            "type": "string",
-            "description": "the description of the provisioning policy",
-            "example": "this provisioning policy creates access based on an identity going inactive"
-          },
-          "usageType": {
-            "$ref": "#/components/schemas/usagetype"
-          },
-          "fields": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/fielddetailsdto"
-            }
-          }
-        }
       },
       "usagetypev2": {
         "type": "string",
