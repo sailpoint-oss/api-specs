@@ -443,7 +443,7 @@ tags:
       withing the organization.
   - name: Declassify Source
   - name: Dimensions
-    description: "Use this API to implement and customize dynamic role functionality. With this functionality in place, administrators can create dimensions and configure them for use throughout Identity Security Cloud. Identity Security Cloud can use established criteria to automatically assign the dimensions to qualified users. This enables users to get all the access they need quickly and securely and administrators to spend their time on other tasks. Entitlements represent the most granular level of access in Identity Security Cloud.\nAccess profiles represent the next level and often group entitlements. Dimension represent access selectively based on the evaluation of contextual information that is available or provided. Each Dimension include context attributes and access selection expressions which map criteria to access right assignments. Each dimension can contain up to 5 context attributes. Dynamic Access Roles represent the broadest level of access and often group access profiles ,entitlements and dimensions.Each Dynamic Access Role may contain one or more Dimensions."
+    description: "Use this API to implement and customize dynamic role functionality. With this functionality in place, administrators can create dimensions and configure them for use throughout Identity Security Cloud. Identity Security Cloud can use established criteria to automatically assign the dimensions to qualified users. This enables users to get all the access they need quickly and securely and administrators to spend their time on other tasks. Entitlements represent the most granular level of access in Identity Security Cloud.\nAccess profiles represent the next level and often group entitlements. Dimension represent access selectively based on the evaluation of contextual information that is available or provided. Each Dimension include context attributes and access selection expressions which map criteria to access right assignments. Each dimension can contain up to 5 context attributes. Dynamic Access Roles represent the broadest level of access and often group access profiles ,entitlements and dimensions.Each Dynamic Access Role may contain one or more Dimensions.\nDimensions do not carry Access Model Metadata. Access Model Metadata can be assigned to entitlements, access profiles, and roles only."
   - name: Discovered Applications
     description: |
       Use this API to retrieve all the available discovered apps for a given tenant id.
@@ -2538,12 +2538,22 @@ paths:
     $ref: './v2026/paths/role-access-model-metadata/role-bulk-update-filter.yaml'
   /roles/access-model-metadata/bulk-update/query:
     $ref: './v2026/paths/role-access-model-metadata/role-bulk-update-query.yaml'
-  /roles/access-model-metadata/bulk-update/id:
+  /roles/access-model-metadata/bulk-update/{id}:
     $ref: './v2026/paths/role-access-model-metadata/role-bulk-update-status-id.yaml'
   /roles/access-model-metadata/bulk-update:
     $ref: './v2026/paths/role-access-model-metadata/role-bulk-update-status.yaml'
   /roles/filter:
     $ref: './v2026/paths/role-access-model-metadata/role-filter.yaml'
+  /access-profiles/{id}/access-model-metadata/{attributeKey}/values/{attributeValue}:
+    $ref: './v2026/paths/access-profile-access-model-metadata/access-profile-id-access-model-metadata.yaml'
+  /access-profiles/access-model-metadata/bulk-update/ids:
+    $ref: './v2026/paths/access-profile-access-model-metadata/access-profile-bulk-update-ids.yaml'
+  /access-profiles/access-model-metadata/bulk-update/filter:
+    $ref: './v2026/paths/access-profile-access-model-metadata/access-profile-bulk-update-filter.yaml'
+  /access-profiles/access-model-metadata/bulk-update/query:
+    $ref: './v2026/paths/access-profile-access-model-metadata/access-profile-bulk-update-query.yaml'
+  /access-profiles/filter:
+    $ref: './v2026/paths/access-profile-access-model-metadata/access-profile-filter.yaml'
   /criteria/privilege:
     $ref: './v2026/paths/gov-criteria-privilege-criteria-no-id.yaml'
   /criteria/privilege/{criteriaId}:

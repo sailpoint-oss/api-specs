@@ -2513,7 +2513,7 @@ paths:
     $ref: './v2025/paths/role-access-model-metadata/role-bulk-update-filter.yaml'
   /roles/access-model-metadata/bulk-update/query:
     $ref: './v2025/paths/role-access-model-metadata/role-bulk-update-query.yaml'
-  /roles/access-model-metadata/bulk-update/id:
+  /roles/access-model-metadata/bulk-update/{id}:
     $ref: './v2025/paths/role-access-model-metadata/role-bulk-update-status-id.yaml'
   /roles/access-model-metadata/bulk-update:
     $ref: './v2025/paths/role-access-model-metadata/role-bulk-update-status.yaml'

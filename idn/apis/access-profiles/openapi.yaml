@@ -114,6 +114,8 @@ paths:
     $ref: ./paths/access-profiles-v1-access-model-metadata-bulk-update-filter.yaml
   /access-profiles/v1/access-model-metadata/bulk-update/query:
     $ref: ./paths/access-profiles-v1-access-model-metadata-bulk-update-query.yaml
+  /access-profiles/v1/filter:
+    $ref: ./paths/access-profiles-v1-filter.yaml
 security:
   - userAuth:
       - sp:scopes:all
