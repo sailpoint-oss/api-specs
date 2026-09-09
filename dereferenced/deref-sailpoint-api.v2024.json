@@ -63285,7 +63285,7 @@
         }
       }
     },
-    "/roles/access-model-metadata/bulk-update/id": {
+    "/roles/access-model-metadata/bulk-update/{id}": {
       "get": {
         "operationId": "getBulkUpdateStatusById",
         "summary": "Get bulk-update status by id",

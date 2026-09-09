@@ -170,7 +170,7 @@
     },
     {
       "name": "Dimensions",
-      "description": "Use this API to implement and customize dynamic role functionality. With this functionality in place, administrators can create dimensions and configure them for use throughout Identity Security Cloud. Identity Security Cloud can use established criteria to automatically assign the dimensions to qualified users. This enables users to get all the access they need quickly and securely and administrators to spend their time on other tasks. Entitlements represent the most granular level of access in Identity Security Cloud.\nAccess profiles represent the next level and often group entitlements. Dimension represent access selectively based on the evaluation of contextual information that is available or provided. Each Dimension include context attributes and access selection expressions which map criteria to access right assignments. Each dimension can contain up to 5 context attributes. Dynamic Access Roles represent the broadest level of access and often group access profiles ,entitlements and dimensions.Each Dynamic Access Role may contain one or more Dimensions."
+      "description": "Use this API to implement and customize dynamic role functionality. With this functionality in place, administrators can create dimensions and configure them for use throughout Identity Security Cloud. Identity Security Cloud can use established criteria to automatically assign the dimensions to qualified users. This enables users to get all the access they need quickly and securely and administrators to spend their time on other tasks. Entitlements represent the most granular level of access in Identity Security Cloud.\nAccess profiles represent the next level and often group entitlements. Dimension represent access selectively based on the evaluation of contextual information that is available or provided. Each Dimension include context attributes and access selection expressions which map criteria to access right assignments. Each dimension can contain up to 5 context attributes. Dynamic Access Roles represent the broadest level of access and often group access profiles ,entitlements and dimensions.Each Dynamic Access Role may contain one or more Dimensions.\nDimensions do not carry Access Model Metadata. Access Model Metadata can be assigned to entitlements, access profiles, and roles only."
     },
     {
       "name": "Discovered Applications",
@@ -75369,7 +75369,7 @@
         }
       }
     },
-    "/roles/access-model-metadata/bulk-update/id": {
+    "/roles/access-model-metadata/bulk-update/{id}": {
       "get": {
         "operationId": "getBulkUpdateStatusById",
         "summary": "Get bulk-update status by id",
@@ -75621,6 +75621,590 @@
                       "$ref": "#/components/schemas/Role"
                     }
                   ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/access-profiles/{id}/access-model-metadata/{attributeKey}/values/{attributeValue}": {
+      "post": {
+        "operationId": "updateAttributeKeyAndValueToAccessProfile",
+        "summary": "Add metadata to access profile",
+        "description": "This API adds a single Access Model Metadata value to an access profile by attribute key and attribute value.\nA token with ORG_ADMIN, ROLE_ADMIN, ROLE_SUBADMIN, SOURCE_ADMIN or SOURCE_SUBADMIN authority is required to call this API.\nA single access profile cannot be assigned more than 25 metadata values. Adding custom metadata requires a suite license.",
+        "tags": [
+          "Access Profiles"
+        ],
+        "security": [
+          {
+            "userAuth": [
+              "idn:access-profile:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "ROLE_ADMIN",
+          "ROLE_SUBADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listAccessProfiles",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The access profile's ID.",
+            "example": "c24359c389374d0fb8585698a2189e3d"
+          },
+          {
+            "name": "attributeKey",
+            "in": "path",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listAccessModelMetadataAttribute",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Technical name of the Attribute.",
+            "example": "iscPrivacy"
+          },
+          {
+            "name": "attributeValue",
+            "in": "path",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listAccessModelMetadataAttributeValue",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Technical name of the Attribute Value.",
+            "example": "public"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Responds with the access profile as updated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessProfile"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteMetadataFromAccessProfileByKeyAndValue",
+        "summary": "Remove metadata from access profile",
+        "description": "This API removes a single Access Model Metadata value from an access profile by attribute key and attribute value.\nA token with ORG_ADMIN, ROLE_ADMIN, ROLE_SUBADMIN, SOURCE_ADMIN or SOURCE_SUBADMIN authority is required to call this API.",
+        "tags": [
+          "Access Profiles"
+        ],
+        "security": [
+          {
+            "userAuth": [
+              "idn:access-profile:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "ROLE_ADMIN",
+          "ROLE_SUBADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The access profile's ID.",
+            "example": "2c91808c74ff913f0175097daa9d59cd",
+            "x-sailpoint-resource-operation-id": "listAccessProfiles"
+          },
+          {
+            "name": "attributeKey",
+            "in": "path",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listAccessModelMetadataAttribute",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Technical name of the Attribute.",
+            "example": "iscPrivacy"
+          },
+          {
+            "name": "attributeValue",
+            "in": "path",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listAccessModelMetadataAttributeValue",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Technical name of the Attribute Value.",
+            "example": "public"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Request accepted. The metadata value is removed asynchronously."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/access-profiles/access-model-metadata/bulk-update/ids": {
+      "post": {
+        "operationId": "updateAccessProfilesMetadataByIds",
+        "summary": "Bulk-update access-profile metadata by id",
+        "description": "This API initiates a bulk update of Access Model Metadata for one or more access profiles by a list of access profile IDs.\nA token with ORG_ADMIN, ROLE_ADMIN, ROLE_SUBADMIN, SOURCE_ADMIN or SOURCE_SUBADMIN authority is required to call this API.\nThe update is processed asynchronously. The response returns the ID of the task performing the update.\nThe maximum access profile count in a single update request is 3000. The maximum metadata value count for a single access profile is 25. Adding or replacing custom metadata requires a suite license.",
+        "tags": [
+          "Access Profiles"
+        ],
+        "security": [
+          {
+            "userAuth": [
+              "idn:access-profile:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "ROLE_ADMIN",
+          "ROLE_SUBADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccessProfileMetadataBulkUpdateByIdRequest"
+              },
+              "example": {
+                "accessProfiles": [
+                  "b1db89554cfa431cb8b9921ea38d9367"
+                ],
+                "operation": "REPLACE",
+                "replaceScope": "ATTRIBUTE",
+                "values": [
+                  {
+                    "attribute": "iscFederalClassifications",
+                    "values": [
+                      "topSecret"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Returned if the bulk update request was created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessProfileMetadataBulkUpdateResponse"
+                },
+                "example": {
+                  "id": "2d82ac17-eb0d-4ba6-9918-dcad6ee0294d",
+                  "type": "ACCESS_PROFILE",
+                  "status": "CREATED",
+                  "created": "2024-09-16T18:59:06.871594Z"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/access-profiles/access-model-metadata/bulk-update/filter": {
+      "post": {
+        "operationId": "updateAccessProfilesMetadataByFilter",
+        "summary": "Bulk-update access-profile metadata by filters",
+        "description": "This API initiates a bulk update of Access Model Metadata for every access profile matching a filter expression.\nA token with ORG_ADMIN, ROLE_ADMIN, ROLE_SUBADMIN, SOURCE_ADMIN or SOURCE_SUBADMIN authority is required to call this API.\nThe update is processed asynchronously. The response returns the ID of the task performing the update.\nThe maximum metadata value count for a single access profile is 25. Adding or replacing custom metadata requires a suite license.",
+        "tags": [
+          "Access Profiles"
+        ],
+        "security": [
+          {
+            "userAuth": [
+              "idn:access-profile:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "ROLE_ADMIN",
+          "ROLE_SUBADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccessProfileMetadataBulkUpdateByFilterRequest"
+              },
+              "example": {
+                "filters": "requestable eq false",
+                "operation": "REPLACE",
+                "replaceScope": "ATTRIBUTE",
+                "values": [
+                  {
+                    "attribute": "iscFederalClassifications",
+                    "values": [
+                      "topSecret"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Returned if the bulk update request was created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessProfileMetadataBulkUpdateResponse"
+                },
+                "example": {
+                  "id": "2d82ac17-eb0d-4ba6-9918-dcad6ee0294d",
+                  "type": "ACCESS_PROFILE",
+                  "status": "CREATED",
+                  "created": "2024-09-16T18:59:06.871594Z"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/access-profiles/access-model-metadata/bulk-update/query": {
+      "post": {
+        "operationId": "updateAccessProfilesMetadataByQuery",
+        "summary": "Bulk-update access-profile metadata by query",
+        "description": "This API initiates a bulk update of Access Model Metadata for every access profile matching a search query.\nA token with ORG_ADMIN, ROLE_ADMIN, ROLE_SUBADMIN, SOURCE_ADMIN or SOURCE_SUBADMIN authority is required to call this API.\nThe update is processed asynchronously. The response returns the ID of the task performing the update.\nThe maximum metadata value count for a single access profile is 25. Adding or replacing custom metadata requires a suite license.\nFor more information about the query object, refer to [V3 API Perform Search](https://developer.sailpoint.com/docs/api/v3/search-post).",
+        "tags": [
+          "Access Profiles"
+        ],
+        "security": [
+          {
+            "userAuth": [
+              "idn:access-profile:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "ROLE_ADMIN",
+          "ROLE_SUBADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccessProfileMetadataBulkUpdateByQueryRequest"
+              },
+              "example": {
+                "query": {
+                  "indices": [
+                    "accessprofiles"
+                  ],
+                  "queryType": "TEXT",
+                  "textQuery": {
+                    "terms": [
+                      "test123"
+                    ],
+                    "fields": [
+                      "id"
+                    ],
+                    "matchAny": false,
+                    "contains": true
+                  },
+                  "includeNested": false
+                },
+                "operation": "REPLACE",
+                "replaceScope": "ATTRIBUTE",
+                "values": [
+                  {
+                    "attribute": "iscFederalClassifications",
+                    "values": [
+                      "topSecret"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Returned if the bulk update request was created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessProfileMetadataBulkUpdateResponse"
+                },
+                "example": {
+                  "id": "2d82ac17-eb0d-4ba6-9918-dcad6ee0294d",
+                  "type": "ACCESS_PROFILE",
+                  "status": "CREATED",
+                  "created": "2024-09-16T18:59:06.871594Z"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/access-profiles/filter": {
+      "post": {
+        "operationId": "searchAccessProfilesByFilter",
+        "summary": "Filter access profiles by metadata",
+        "description": "This API returns a list of access profiles filtered by Access Model Metadata and by filter expression. It supports filtering by both filter expression and attribute key and values.\nA token with API, ORG_ADMIN, ROLE_ADMIN, ROLE_SUBADMIN, SOURCE_ADMIN, SOURCE_SUBADMIN, HELPDESK, CERT_ADMIN, REPORT_ADMIN or SOURCE_ADMIN authority is required to call this API.",
+        "tags": [
+          "Access Profiles"
+        ],
+        "security": [
+          {
+            "userAuth": [
+              "idn:access-profile:read",
+              "idn:access-profile-checked:read"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "ROLE_ADMIN",
+          "ROLE_SUBADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ],
+        "parameters": [
+          {
+            "name": "for-subadmin",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "If provided, filters the returned list according to what is visible to the indicated ROLE_SUBADMIN or SOURCE_SUBADMIN Identity. The value of the parameter is either an Identity ID, or the special value **me**, which is shorthand for the calling Identity's ID. A 400 Bad Request error is returned if the **for-subadmin** parameter is specified for an Identity that is not a subadmin.",
+            "example": "5168015d32f890ca15812c9180835d2e",
+            "required": false
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 0,
+              "maximum": 250,
+              "default": 50
+            },
+            "description": "Max number of results to return See [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+            "example": 50,
+            "required": false
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Offset into the full result set. Usually specified with *limit* to paginate through the results.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 0,
+              "default": 0
+            },
+            "required": false,
+            "example": 0
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "description": "Boolean indicating whether a total count is returned, factoring in any filter parameters, in the X-Total-Count response header. The value is the total size of the collection that would be returned if limit and offset were ignored.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "required": false,
+            "example": true
+          },
+          {
+            "name": "sorters",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **name, created, modified**",
+            "example": "name,-modified",
+            "required": false
+          },
+          {
+            "name": "for-segment-ids",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "If present, filters the returned list to those access profiles assigned to the specified Segment IDs. Accepts a comma-separated list of Segment IDs.",
+            "example": "0b5c9f2d-1e1b-4b2f-9b1a-0e7f4a6c2d3e",
+            "required": false
+          },
+          {
+            "name": "include-unsegmented",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            },
+            "description": "Whether or not the response list should contain unsegmented access profiles.",
+            "example": true,
+            "required": false
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccessProfileListFilterDTO"
+              },
+              "example": {
+                "filters": "requestable eq false",
+                "ammKeyValues": [
+                  {
+                    "attribute": "iscFederalClassifications",
+                    "values": [
+                      "secret"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Responds with a list of access profiles.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AccessProfile"
+                  }
                 }
               }
             }
@@ -126742,6 +127326,352 @@
                 "example": "ODS-AD-SOURCE"
               }
             }
+          }
+        }
+      },
+      "AccessProfileMetadataBulkUpdateByIdRequest": {
+        "description": "Request to bulk update Access Model Metadata on a list of access profiles identified by ID. The maximum access profile count in a single request is 3000. A single access profile cannot be assigned more than 25 metadata values. Adding or replacing custom metadata requires a suite license.",
+        "type": "object",
+        "properties": {
+          "accessProfiles": {
+            "description": "The IDs of the access profiles to update.",
+            "type": "array",
+            "maxItems": 3000,
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "b1db89554cfa431cb8b9921ea38d9367"
+            ]
+          },
+          "operation": {
+            "description": "The operation to be performed.",
+            "type": "string",
+            "enum": [
+              "ADD",
+              "REMOVE",
+              "REPLACE"
+            ],
+            "example": "REPLACE"
+          },
+          "replaceScope": {
+            "description": "The choice of update scope. **ATTRIBUTE** replaces only the values of the attributes named in `values`. **ALL** replaces every metadata attribute on the access profile.",
+            "type": "string",
+            "enum": [
+              "ALL",
+              "ATTRIBUTE"
+            ],
+            "example": "ATTRIBUTE"
+          },
+          "values": {
+            "description": "The metadata to be updated, including attribute key and value.",
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "type": "object",
+              "required": [
+                "attribute",
+                "values"
+              ],
+              "properties": {
+                "attribute": {
+                  "type": "string",
+                  "description": "The technical name of the metadata attribute.",
+                  "example": "iscFederalClassifications"
+                },
+                "values": {
+                  "type": "array",
+                  "description": "The values of the attribute to be updated.",
+                  "items": {
+                    "type": "string",
+                    "example": "secret"
+                  },
+                  "nullable": true,
+                  "example": [
+                    "secret"
+                  ]
+                },
+                "objectType": {
+                  "type": "string",
+                  "description": "The type of the metadata attribute. Set to `custom` for custom metadata attributes, which require a suite license.",
+                  "example": "custom"
+                }
+              }
+            },
+            "example": [
+              {
+                "attribute": "iscFederalClassifications",
+                "values": [
+                  "topSecret"
+                ]
+              }
+            ]
+          }
+        },
+        "required": [
+          "accessProfiles",
+          "operation",
+          "replaceScope",
+          "values"
+        ]
+      },
+      "AccessProfileMetadataBulkUpdateResponse": {
+        "description": "The status of an asynchronous access profile Access Model Metadata bulk update.",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "ID of the task that is processing the bulk update.",
+            "example": "2d82ac17-eb0d-4ba6-9918-dcad6ee0294d"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the object the bulk update applies to.",
+            "example": "ACCESS_PROFILE"
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of the bulk update request.",
+            "enum": [
+              "CREATED",
+              "PRE_PROCESS",
+              "PRE_PROCESS_COMPLETED",
+              "POST_PROCESS",
+              "COMPLETED",
+              "CHUNK_PENDING",
+              "CHUNK_PROCESSING",
+              "RE_PROCESSING",
+              "PRE_PROCESS_FAILED",
+              "FAILED"
+            ],
+            "example": "CREATED"
+          },
+          "created": {
+            "type": "string",
+            "description": "Time when the bulk update request was created.",
+            "format": "date-time",
+            "example": "2020-10-08T18:33:52.029Z"
+          }
+        }
+      },
+      "AccessProfileMetadataBulkUpdateByFilterRequest": {
+        "description": "Request to bulk update Access Model Metadata on every access profile matching a filter expression. A single access profile cannot be assigned more than 25 metadata values. Adding or replacing custom metadata requires a suite license.",
+        "type": "object",
+        "properties": {
+          "filters": {
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in*\n\n**name**: *eq, sw*\n\n**created**: *gt, ge, le*\n\n**modified**: *gt, lt, ge, le*\n\n**owner.id**: *eq, in*\n\n**requestable**: *eq*\n\n**source.id**: *eq, in*\n\nSupported composite operators are *and, or*",
+            "type": "string",
+            "example": "requestable eq false"
+          },
+          "operation": {
+            "description": "The operation to be performed.",
+            "type": "string",
+            "enum": [
+              "ADD",
+              "REMOVE",
+              "REPLACE"
+            ],
+            "example": "REPLACE"
+          },
+          "replaceScope": {
+            "description": "The choice of update scope. **ATTRIBUTE** replaces only the values of the attributes named in `values`. **ALL** replaces every metadata attribute on the access profile.",
+            "type": "string",
+            "enum": [
+              "ALL",
+              "ATTRIBUTE"
+            ],
+            "example": "ATTRIBUTE"
+          },
+          "values": {
+            "description": "The metadata to be updated, including attribute key and value.",
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "type": "object",
+              "required": [
+                "attribute",
+                "values"
+              ],
+              "properties": {
+                "attribute": {
+                  "type": "string",
+                  "description": "The technical name of the metadata attribute.",
+                  "example": "iscFederalClassifications"
+                },
+                "values": {
+                  "type": "array",
+                  "description": "The values of the attribute to be updated.",
+                  "items": {
+                    "type": "string",
+                    "example": "secret"
+                  },
+                  "nullable": true,
+                  "example": [
+                    "secret"
+                  ]
+                },
+                "objectType": {
+                  "type": "string",
+                  "description": "The type of the metadata attribute. Set to `custom` for custom metadata attributes, which require a suite license.",
+                  "example": "custom"
+                }
+              }
+            },
+            "example": [
+              {
+                "attribute": "iscFederalClassifications",
+                "values": [
+                  "topSecret"
+                ]
+              }
+            ]
+          }
+        },
+        "required": [
+          "filters",
+          "operation",
+          "replaceScope",
+          "values"
+        ]
+      },
+      "AccessProfileMetadataBulkUpdateByQueryRequest": {
+        "description": "Request to bulk update Access Model Metadata on every access profile matching a search query. A single access profile cannot be assigned more than 25 metadata values. Adding or replacing custom metadata requires a suite license.\nFor more information about the query object, refer to [V3 API Perform Search](https://developer.sailpoint.com/docs/api/v3/search-post).",
+        "type": "object",
+        "properties": {
+          "query": {
+            "description": "The search query selecting the access profiles to update.",
+            "type": "object",
+            "example": {
+              "indices": [
+                "accessprofiles"
+              ],
+              "queryType": "TEXT",
+              "textQuery": {
+                "terms": [
+                  "test123"
+                ],
+                "fields": [
+                  "id"
+                ],
+                "matchAny": false,
+                "contains": true
+              },
+              "includeNested": false
+            }
+          },
+          "operation": {
+            "description": "The operation to be performed.",
+            "type": "string",
+            "enum": [
+              "ADD",
+              "REMOVE",
+              "REPLACE"
+            ],
+            "example": "REPLACE"
+          },
+          "replaceScope": {
+            "description": "The choice of update scope. **ATTRIBUTE** replaces only the values of the attributes named in `values`. **ALL** replaces every metadata attribute on the access profile.",
+            "type": "string",
+            "enum": [
+              "ALL",
+              "ATTRIBUTE"
+            ],
+            "example": "ATTRIBUTE"
+          },
+          "values": {
+            "description": "The metadata to be updated, including attribute key and value.",
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "type": "object",
+              "required": [
+                "attribute",
+                "values"
+              ],
+              "properties": {
+                "attribute": {
+                  "type": "string",
+                  "description": "The technical name of the metadata attribute.",
+                  "example": "iscFederalClassifications"
+                },
+                "values": {
+                  "type": "array",
+                  "description": "The values of the attribute to be updated.",
+                  "items": {
+                    "type": "string",
+                    "example": "secret"
+                  },
+                  "nullable": true,
+                  "example": [
+                    "secret"
+                  ]
+                },
+                "objectType": {
+                  "type": "string",
+                  "description": "The type of the metadata attribute. Set to `custom` for custom metadata attributes, which require a suite license.",
+                  "example": "custom"
+                }
+              }
+            },
+            "example": [
+              {
+                "attribute": "iscFederalClassifications",
+                "values": [
+                  "topSecret"
+                ]
+              }
+            ]
+          }
+        },
+        "required": [
+          "query",
+          "operation",
+          "replaceScope",
+          "values"
+        ]
+      },
+      "AccessProfileListFilterDTO": {
+        "description": "Filter criteria and Access Model Metadata key/values used to select access profiles.",
+        "type": "object",
+        "properties": {
+          "filters": {
+            "type": "string",
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in*\n\n**name**: *eq, sw*\n\n**created**: *gt, ge, le*\n\n**modified**: *gt, lt, ge, le*\n\n**owner.id**: *eq, in*\n\n**requestable**: *eq*\n\n**source.id**: *eq, in*",
+            "example": "requestable eq false",
+            "nullable": true
+          },
+          "ammKeyValues": {
+            "nullable": true,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "attribute": {
+                  "description": "Attribute key of a metadata. A blank or missing value is rejected with a 400 error.",
+                  "type": "string",
+                  "example": "iscFederalClassifications"
+                },
+                "values": {
+                  "description": "A list of attribute values used to filter access profiles. If the list is empty, filtering is done by attribute key only.",
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": "secret"
+                  },
+                  "example": [
+                    "secret"
+                  ]
+                }
+              }
+            },
+            "example": [
+              {
+                "attribute": "iscFederalClassifications",
+                "values": [
+                  "secret"
+                ]
+              }
+            ]
           }
         }
       },

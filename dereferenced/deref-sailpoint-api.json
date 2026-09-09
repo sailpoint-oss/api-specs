@@ -2769,6 +2769,147 @@
         ]
       }
     },
+    "/access-profiles/v1/filter": {
+      "post": {
+        "operationId": "searchAccessProfilesByFilterV1",
+        "summary": "Filter access profiles by metadata",
+        "tags": [
+          "Access Profiles"
+        ],
+        "description": "Get a list of access profiles filtered by Access Model Metadata and by filter expression. Filtering is supported by filter expression, by metadata attribute key and values, or by both together.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "for-subadmin",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filters the returned list according to what is visible to the indicated ROLE_SUBADMIN or SOURCE_SUBADMIN identity. The value of the parameter is either an identity ID or the special value **me**, which is shorthand for the calling identity's ID.\n\nIf you specify an identity that isn't a subadmin, the API returns a 400 Bad Request error.",
+            "example": "8c190e6787aa4ed9a90bd9d5344523fb",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Max number of results to return.\nSee [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.",
+            "required": false,
+            "example": 50,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 0,
+              "maximum": 250,
+              "default": 50
+            }
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          },
+          {
+            "$ref": "#/components/parameters/count"
+          },
+          {
+            "in": "query",
+            "name": "sorters",
+            "schema": {
+              "type": "string",
+              "format": "comma-separated"
+            },
+            "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **name, created, modified**",
+            "example": "name",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "for-segment-ids",
+            "schema": {
+              "type": "string",
+              "format": "comma-separated"
+            },
+            "description": "Filters the returned list to those access profiles assigned to the specified segment IDs.",
+            "example": "0b5c9f2d-1e1b-4b2f-9b1a-0e7f4a6c2d3e",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include-unsegmented",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            },
+            "description": "Whether the returned list includes unsegmented access profiles.",
+            "example": true,
+            "required": false
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/accessprofilelistfilterdto"
+              },
+              "example": {
+                "filters": "requestable eq false",
+                "ammKeyValues": [
+                  {
+                    "attribute": "iscFederalClassifications",
+                    "values": [
+                      "secret"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "List of access profiles matching the filter criteria.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/accessprofile"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:access-profile:read",
+              "idn:access-profile-checked:read"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "ROLE_ADMIN",
+          "ROLE_SUBADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ]
+      }
+    },
     "/access-request-approvals/v1/pending": {
       "get": {
         "operationId": "listPendingApprovalsV1",
@@ -86410,6 +86551,52 @@
           "replaceScope",
           "values"
         ]
+      },
+      "accessprofilelistfilterdto": {
+        "description": "Filter criteria and Access Model Metadata key/values used to select access profiles.",
+        "type": "object",
+        "properties": {
+          "filters": {
+            "type": "string",
+            "nullable": true,
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in*\n\n**name**: *eq, sw*\n\n**created**: *gt, ge, le*\n\n**modified**: *gt, lt, ge, le*\n\n**owner.id**: *eq, in*\n\n**requestable**: *eq*\n\n**source.id**: *eq, in*\n\nSupported composite operators are *and, or*",
+            "example": "requestable eq false"
+          },
+          "ammKeyValues": {
+            "type": "array",
+            "nullable": true,
+            "description": "The Access Model Metadata attributes and values used to filter the results.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "attribute": {
+                  "type": "string",
+                  "description": "The technical name of the metadata attribute. A blank or missing value is rejected with a 400 error.",
+                  "example": "iscFederalClassifications"
+                },
+                "values": {
+                  "type": "array",
+                  "description": "The attribute values used to filter access profiles. If the list is empty, results are filtered by attribute key only.",
+                  "items": {
+                    "type": "string",
+                    "example": "secret"
+                  },
+                  "example": [
+                    "secret"
+                  ]
+                }
+              }
+            },
+            "example": [
+              {
+                "attribute": "iscFederalClassifications",
+                "values": [
+                  "secret"
+                ]
+              }
+            ]
+          }
+        }
       },
       "accessrequesttype": {
         "type": "string",
