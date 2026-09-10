@@ -25586,7 +25586,7 @@
         }
       }
     },
-    "/das/identity-collectors/v1": {
+    "/das/v1/identity-collectors": {
       "get": {
         "summary": "List identity collectors",
         "description": "This endpoint lists the identity collectors in Data Access Security with optional filtering and pagination.\n\nSorting is not supported for this endpoint; supplying the `sorters` query parameter results in a validation error.",
@@ -25677,7 +25677,7 @@
       },
       "post": {
         "summary": "Create identity collector",
-        "description": "This endpoint creates a new identity collector in Data Access Security for the specified source. The identity collector type is derived from the source.",
+        "description": "This endpoint creates a new identity collector in Data Access Security for the specified source. The identity collector type is derived from the source.\n\nOptionally configure `users` and `groups` to register source attributes (`properties`) and map them to data dictionary fields by name (`fieldMappings.fieldDictionaryName`). When omitted, both collections are created with fixed columns only.",
         "security": [
           {
             "userAuth": [
@@ -25753,10 +25753,152 @@
         }
       }
     },
-    "/das/identity-collectors/v1/{id}": {
+    "/das/v1/identity-collectors/types": {
+      "get": {
+        "summary": "List identity collector types",
+        "description": "Returns the public identity collector type display names exposed for metadata and UI discovery. This endpoint lists base types only (for example, `Box` rather than `Box SaaS`). SaaS variants are not listed here; the identity collector type is derived from `sourceId` when creating an identity collector. Existing identity collectors may still report SaaS variant types in list and update responses.\n\nPagination is not supported for this endpoint; the full set of public types is always returned.",
+        "security": [
+          {
+            "userAuth": [
+              "das:identity-collectors:read",
+              "das:identity-collectors:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "das:identity-collectors:read",
+              "das:identity-collectors:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "tags": [
+          "Data Access Security"
+        ],
+        "operationId": "getIdentityCollectorTypesV1",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Supported identity collector type display names.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "example": [
+                    "Active Directory",
+                    "AWS",
+                    "Azure Active Directory",
+                    "Box",
+                    "Databricks",
+                    "Dropbox",
+                    "Google Drive",
+                    "Microsoft Entra SaaS",
+                    "Snowflake"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/das/v1/identity-collectors/properties": {
+      "get": {
+        "summary": "List built-in identity collector properties",
+        "description": "Returns the built-in source attribute names for users and groups collections. When no filter is provided, built-in properties for all public identity collector types are returned (the same base types listed by [List Identity Collector Types](https://developer.sailpoint.com/docs/api/get-identity-collector-types-v-1)). When filtered by `type`, only the matching type is returned; the filter accepts any supported type display name, including SaaS variants such as `Box SaaS` or `AWS SaaS`.\n\nThese attributes are always available for field mapping without being listed in `properties`.",
+        "security": [
+          {
+            "userAuth": [
+              "das:identity-collectors:read",
+              "das:identity-collectors:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "das:identity-collectors:read",
+              "das:identity-collectors:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "tags": [
+          "Data Access Security"
+        ],
+        "operationId": "getIdentityCollectorBuiltinPropertiesV1",
+        "parameters": [
+          {
+            "name": "filters",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "example": "type eq \"Azure Active Directory\"",
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**type**: *eq*"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Built-in source attribute names for users and groups collections.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/identitycollectorbuiltinpropertiesresponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/das/v1/identity-collectors/{id}": {
       "put": {
-        "summary": "Update identity collector by identifier",
-        "description": "This endpoint updates the name of an existing identity collector in Data Access Security. The `sourceId` and `type` cannot be changed and must match the current values.",
+        "summary": "Replace identity collector",
+        "description": "Fully replaces an existing identity collector in Data Access Security. This is a PUT operation, not a partial update: the request body must contain the complete resource representation. Omitted or null top-level properties are rejected. After a successful request, a subsequent list request returns exactly the configuration that was sent.\n\nRetrieve the current configuration with [List Identity Collectors](https://developer.sailpoint.com/docs/api/list-identity-collectors-v-1) before replacing it. The `sourceId` and `type` cannot be changed and must match the current values.",
         "security": [
           {
             "userAuth": [
@@ -25785,12 +25927,13 @@
               "type": "integer",
               "format": "int64"
             },
-            "description": "The unique identifier of the identity collector to update.",
-            "example": 12345
+            "description": "The unique identifier of the identity collector to replace.",
+            "example": 12345,
+            "x-sailpoint-resource-operation-id": "listIdentityCollectorsV1"
           }
         ],
         "requestBody": {
-          "description": "Request body containing the updated details for the identity collector.",
+          "description": "Complete identity collector representation used to fully replace the existing resource. Partial updates are not supported.",
           "content": {
             "application/json": {
               "schema": {
@@ -25802,7 +25945,7 @@
         },
         "responses": {
           "204": {
-            "description": "No Content"
+            "description": "The identity collector was fully replaced."
           },
           "400": {
             "$ref": "#/components/responses/400"
@@ -25859,7 +26002,8 @@
               "format": "int64"
             },
             "description": "The unique identifier of the identity collector to delete.",
-            "example": 12345
+            "example": 12345,
+            "x-sailpoint-resource-operation-id": "listIdentityCollectorsV1"
           }
         ],
         "responses": {
@@ -25877,6 +26021,310 @@
           },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/das/v1/permissions/fields": {
+      "get": {
+        "summary": "List data dictionary fields",
+        "description": "Returns custom data dictionary fields that can be used when configuring identity collector field mappings and other permission-related settings. Built-in fields are not included in list responses; only custom fields created via [Create Data Dictionary Field](https://developer.sailpoint.com/docs/api/create-data-dictionary-field-v-1) are returned. All listed fields have `required: false`.",
+        "security": [
+          {
+            "userAuth": [
+              "das:permissions:read",
+              "das:permissions:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "das:permissions:read",
+              "das:permissions:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "tags": [
+          "Data Access Security"
+        ],
+        "operationId": "listDataDictionaryFieldsV1",
+        "parameters": [
+          {
+            "name": "filters",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "example": "dataDictionaryType eq \"Users\" and name eq \"Department\"",
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**dataDictionaryType**: *eq*\n\n**name**: *eq*\n\nSupported composite operators are *and*"
+          },
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          },
+          {
+            "$ref": "#/components/parameters/count"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Data dictionary fields matching the filter criteria.",
+            "headers": {
+              "X-Total-Count": {
+                "description": "The total number of results matching the filter criteria, regardless of paging limits.",
+                "schema": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/datadictionaryfieldlistitem"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create data dictionary field",
+        "description": "Creates a custom data dictionary field. The server assigns fieldType String and required false; callers do not supply those values.",
+        "security": [
+          {
+            "userAuth": [
+              "das:permissions:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "das:permissions:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "tags": [
+          "Data Access Security"
+        ],
+        "operationId": "createDataDictionaryFieldV1",
+        "requestBody": {
+          "description": "Custom data dictionary field to create.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/createdatadictionaryfieldrequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "The data dictionary field was created.",
+            "headers": {
+              "Location": {
+                "description": "URL of the created data dictionary field.",
+                "schema": {
+                  "type": "string"
+                },
+                "example": "/das/v1/permissions/fields/Department"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/datadictionaryfieldlistitem"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/das/v1/permissions/fields/{name}": {
+      "put": {
+        "summary": "Replace data dictionary field",
+        "description": "Fully replaces a custom data dictionary field. This is a PUT operation, not a partial update: the request body must contain the complete resource representation. Omitted properties are rejected. For custom fields, `fieldType`, `dataDictionaryType`, and `required` must match the current values; only `name` may change. Built-in fields where `required` is true cannot be updated.\n\nList the field first with [List Data Dictionary Fields](https://developer.sailpoint.com/docs/api/list-data-dictionary-fields-v-1) to obtain the current representation before replacing it.",
+        "security": [
+          {
+            "userAuth": [
+              "das:permissions:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "das:permissions:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "tags": [
+          "Data Access Security"
+        ],
+        "operationId": "putDataDictionaryFieldV1",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The current field name.",
+            "example": "Department",
+            "x-sailpoint-resource-operation-id": "listDataDictionaryFieldsV1"
+          }
+        ],
+        "requestBody": {
+          "description": "Complete data dictionary field representation used to fully replace the existing field.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/updatedatadictionaryfieldrequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "The data dictionary field was fully replaced.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/datadictionaryfieldlistitem"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete data dictionary field",
+        "description": "Deletes a custom data dictionary field. Built-in fields where required is true cannot be deleted.",
+        "security": [
+          {
+            "userAuth": [
+              "das:permissions:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "das:permissions:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "tags": [
+          "Data Access Security"
+        ],
+        "operationId": "deleteDataDictionaryFieldV1",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The field name to delete.",
+            "example": "Department",
+            "x-sailpoint-resource-operation-id": "listDataDictionaryFieldsV1"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -100817,6 +101265,52 @@
           }
         }
       },
+      "identitycollectorfieldmapping": {
+        "type": "object",
+        "required": [
+          "fieldDictionaryName",
+          "sourceAttributeName"
+        ],
+        "properties": {
+          "fieldDictionaryName": {
+            "type": "string",
+            "description": "The name of the data dictionary field to map to. Dictionary fields of type Users apply to the users collection; dictionary fields of type Roles apply to the groups collection.",
+            "example": "UPTF-1"
+          },
+          "sourceAttributeName": {
+            "type": "string",
+            "description": "The source attribute name to read at runtime. This may be a built-in attribute for the identity collector type or a custom attribute listed in `properties` for the same collection. Built-in attributes can be discovered using the identity collector properties metadata endpoint.",
+            "example": "department"
+          }
+        }
+      },
+      "identitycollectorcollectionsettings": {
+        "type": "object",
+        "required": [
+          "properties",
+          "fieldMappings"
+        ],
+        "properties": {
+          "properties": {
+            "type": "array",
+            "description": "Source attribute names to register as datasource columns for this collection. These names must match the attributes sent by Identity Security Cloud. Use an empty array when no custom attributes are required.",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "UserAddress",
+              "department"
+            ]
+          },
+          "fieldMappings": {
+            "type": "array",
+            "description": "Maps source attributes to data dictionary fields and DAS custom field slots. Each `sourceAttributeName` must be either a built-in attribute for the identity collector type or listed in `properties`. Use an empty array when no dynamic field mappings are configured.",
+            "items": {
+              "$ref": "#/components/schemas/identitycollectorfieldmapping"
+            }
+          }
+        }
+      },
       "identitycollectorlistitem": {
         "type": "object",
         "properties": {
@@ -100832,13 +101326,36 @@
           },
           "type": {
             "type": "string",
-            "description": "The identity collector type, derived from its underlying source. Possible values include \"Active Directory\", \"Azure Active Directory\", \"Google Drive\", \"Dropbox\", \"Box\", \"Microsoft Entra SaaS\", \"Snowflake\", and \"Databricks\".",
+            "description": "The identity collector type, derived from its underlying source.",
+            "x-extensible-enum": [
+              "Active Directory",
+              "Azure Active Directory",
+              "Google Drive",
+              "Dropbox",
+              "Dropbox SaaS",
+              "Box",
+              "Box SaaS",
+              "Microsoft Entra SaaS",
+              "Snowflake",
+              "Snowflake SaaS",
+              "Databricks",
+              "AWS",
+              "AWS SaaS"
+            ],
             "example": "Active Directory"
           },
           "sourceId": {
             "type": "string",
             "description": "The identifier of the source the identity collector is associated with, represented as a UUID. Both hyphenated and non-hyphenated formats are accepted.",
             "example": "2c9180835d2e5168015d32f890ca1581"
+          },
+          "users": {
+            "$ref": "#/components/schemas/identitycollectorcollectionsettings",
+            "description": "Current users collection configuration, including properties and dynamic field mappings."
+          },
+          "groups": {
+            "$ref": "#/components/schemas/identitycollectorcollectionsettings",
+            "description": "Current groups collection configuration, including properties and dynamic field mappings."
           }
         }
       },
@@ -100858,15 +101375,80 @@
             "type": "string",
             "description": "The identifier of the source to create the identity collector for, represented as a UUID. Both hyphenated and non-hyphenated formats are accepted. The identity collector type is derived from this source.",
             "example": "2c9180835d2e5168015d32f890ca1581"
+          },
+          "users": {
+            "$ref": "#/components/schemas/identitycollectorcollectionsettings",
+            "description": "Optional users collection settings, including properties and field mappings."
+          },
+          "groups": {
+            "$ref": "#/components/schemas/identitycollectorcollectionsettings",
+            "description": "Optional groups collection settings, including properties and field mappings."
           }
         }
       },
+      "identitycollectorbuiltinpropertiesbytype": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Identity collector type display name.",
+            "example": "Azure Active Directory"
+          },
+          "users": {
+            "type": "array",
+            "description": "Built-in user source attribute names that can be used in field mappings for the identity collector type.",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "userPrincipalName",
+              "displayName",
+              "department"
+            ]
+          },
+          "groups": {
+            "type": "array",
+            "description": "Built-in group source attribute names that can be used in field mappings for the identity collector type.",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "displayName",
+              "mailEnabled",
+              "objectId"
+            ]
+          }
+        },
+        "required": [
+          "type",
+          "users",
+          "groups"
+        ]
+      },
+      "identitycollectorbuiltinpropertiesresponse": {
+        "type": "object",
+        "properties": {
+          "types": {
+            "type": "array",
+            "description": "Built-in source attribute names grouped by identity collector type.",
+            "items": {
+              "$ref": "#/components/schemas/identitycollectorbuiltinpropertiesbytype"
+            }
+          }
+        },
+        "required": [
+          "types"
+        ]
+      },
       "updateidentitycollectorrequest": {
         "type": "object",
+        "description": "Complete identity collector representation for [Replace Identity Collector](https://developer.sailpoint.com/docs/api/put-identity-collector-v-1). The server fully replaces the existing resource with this payload. Partial updates are not supported; `users` and `groups` must always be supplied and replace the current collection settings in their entirety.",
         "required": [
           "name",
           "sourceId",
-          "type"
+          "type",
+          "users",
+          "groups"
         ],
         "properties": {
           "name": {
@@ -100882,9 +101464,134 @@
           "type": {
             "type": "string",
             "description": "The identity collector type. This value cannot be modified for an existing identity collector and must match the current value.",
+            "x-extensible-enum": [
+              "Active Directory",
+              "Azure Active Directory",
+              "Google Drive",
+              "Dropbox",
+              "Dropbox SaaS",
+              "Box",
+              "Box SaaS",
+              "Microsoft Entra SaaS",
+              "Snowflake",
+              "Snowflake SaaS",
+              "Databricks",
+              "AWS",
+              "AWS SaaS"
+            ],
             "example": "Active Directory"
+          },
+          "users": {
+            "$ref": "#/components/schemas/identitycollectorcollectionsettings",
+            "description": "Full users collection settings for the identity collector. Replaces the existing properties and fieldMappings for the users collection."
+          },
+          "groups": {
+            "$ref": "#/components/schemas/identitycollectorcollectionsettings",
+            "description": "Full groups collection settings for the identity collector. Replaces the existing properties and fieldMappings for the groups collection."
           }
         }
+      },
+      "datadictionaryfieldlistitem": {
+        "type": "object",
+        "description": "A custom data dictionary field used for permission and identity collector mappings.",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The unique field name.",
+            "example": "Department"
+          },
+          "fieldType": {
+            "type": "string",
+            "description": "The field data type. Custom fields are always String.",
+            "example": "String"
+          },
+          "dataDictionaryType": {
+            "type": "string",
+            "description": "The data dictionary that owns this field.",
+            "enum": [
+              "Users",
+              "Roles",
+              "Permission Types",
+              "Business Resources"
+            ],
+            "example": "Users"
+          },
+          "required": {
+            "type": "boolean",
+            "description": "Whether the field is required. Custom fields returned by list are always false.",
+            "example": false
+          }
+        },
+        "required": [
+          "name",
+          "fieldType",
+          "dataDictionaryType",
+          "required"
+        ]
+      },
+      "createdatadictionaryfieldrequest": {
+        "type": "object",
+        "description": "Request body for creating a custom data dictionary field.",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The unique field name to create.",
+            "example": "Department"
+          },
+          "dataDictionaryType": {
+            "type": "string",
+            "description": "The data dictionary that owns this field.",
+            "enum": [
+              "Users",
+              "Roles",
+              "Permission Types",
+              "Business Resources"
+            ],
+            "example": "Users"
+          }
+        },
+        "required": [
+          "name",
+          "dataDictionaryType"
+        ]
+      },
+      "updatedatadictionaryfieldrequest": {
+        "type": "object",
+        "description": "Complete data dictionary field representation for [Replace Data Dictionary Field](https://developer.sailpoint.com/docs/api/put-data-dictionary-field-v-1). The server fully replaces the field using this body. For custom fields, `fieldType`, `dataDictionaryType`, and `required` must match the current values; only `name` may change. Built-in fields where `required` is true cannot be updated.",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The field name.",
+            "example": "Cost Center"
+          },
+          "fieldType": {
+            "type": "string",
+            "description": "The field data type. Must match the current value.",
+            "example": "String"
+          },
+          "dataDictionaryType": {
+            "type": "string",
+            "description": "The data dictionary that owns this field. Must match the current value.",
+            "enum": [
+              "Users",
+              "Roles",
+              "Permission Types",
+              "Business Resources"
+            ],
+            "example": "Users"
+          },
+          "required": {
+            "type": "boolean",
+            "description": "Must match the current value. Custom fields must be false.",
+            "example": false
+          }
+        },
+        "required": [
+          "name",
+          "fieldType",
+          "dataDictionaryType",
+          "required"
+        ]
       },
       "dataownermodel": {
         "type": "object",
