@@ -2,6 +2,8 @@ name: sort
 in: query
 description: How records should be sorted
 required: false
+style: form
+explode: false
 schema:
   type: object
   example: { attr: "sync", order: "asc" }
