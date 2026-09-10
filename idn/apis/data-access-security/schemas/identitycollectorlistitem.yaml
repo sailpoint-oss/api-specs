@@ -10,9 +10,21 @@ properties:
     example: Active Directory Identity Collector
   type:
     type: string
-    description: >-
-      The identity collector type, derived from its underlying source. Possible values include "Active Directory",
-      "Azure Active Directory", "Google Drive", "Dropbox", "Box", "Microsoft Entra SaaS", "Snowflake", and "Databricks".
+    description: The identity collector type, derived from its underlying source.
+    x-extensible-enum:
+      - "Active Directory"
+      - "Azure Active Directory"
+      - "Google Drive"
+      - "Dropbox"
+      - "Dropbox SaaS"
+      - "Box"
+      - "Box SaaS"
+      - "Microsoft Entra SaaS"
+      - "Snowflake"
+      - "Snowflake SaaS"
+      - "Databricks"
+      - "AWS"
+      - "AWS SaaS"
     example: Active Directory
   sourceId:
     type: string
@@ -20,3 +32,9 @@ properties:
       The identifier of the source the identity collector is associated with, represented as a UUID. Both hyphenated
       and non-hyphenated formats are accepted.
     example: 2c9180835d2e5168015d32f890ca1581
+  users:
+    $ref: './identitycollectorcollectionsettings.yaml'
+    description: Current users collection configuration, including properties and dynamic field mappings.
+  groups:
+    $ref: './identitycollectorcollectionsettings.yaml'
+    description: Current groups collection configuration, including properties and dynamic field mappings.

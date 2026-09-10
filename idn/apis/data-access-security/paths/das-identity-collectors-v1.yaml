@@ -77,6 +77,11 @@ post:
   description: >-
     This endpoint creates a new identity collector in Data Access Security for the specified source. The identity
     collector type is derived from the source.
+
+
+    Optionally configure `users` and `groups` to register source attributes (`properties`)
+    and map them to data dictionary fields by name (`fieldMappings.fieldDictionaryName`). When omitted, both collections are created with fixed
+    columns only.
   security:
   - userAuth:
     - das:identity-collectors:manage

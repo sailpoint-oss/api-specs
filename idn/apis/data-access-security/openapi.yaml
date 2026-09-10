@@ -53,10 +53,18 @@ paths:
     $ref: ./paths/das-v1-applications.yaml
   /das/v1/applications/{id}:
     $ref: ./paths/das-v1-applications-by-id.yaml
-  /das/identity-collectors/v1:
+  /das/v1/identity-collectors:
     $ref: ./paths/das-identity-collectors-v1.yaml
-  /das/identity-collectors/v1/{id}:
+  /das/v1/identity-collectors/types:
+    $ref: ./paths/das-identity-collectors-v1-types.yaml
+  /das/v1/identity-collectors/properties:
+    $ref: ./paths/das-identity-collectors-v1-properties.yaml
+  /das/v1/identity-collectors/{id}:
     $ref: ./paths/das-identity-collectors-v1-by-id.yaml
+  /das/v1/permissions/fields:
+    $ref: ./paths/das-permissions-fields.yaml
+  /das/v1/permissions/fields/{name}:
+    $ref: ./paths/das-permissions-fields-by-name.yaml
   /das/v1/owners/applications/{appId}:
     $ref: ./paths/das-v1-owners-applications-by-appid.yaml
   /das/v1/owners/resources/{resourceId}:
