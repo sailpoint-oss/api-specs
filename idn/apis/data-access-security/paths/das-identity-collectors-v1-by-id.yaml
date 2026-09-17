@@ -89,6 +89,12 @@ delete:
       $ref: ../../shared/responses/403.yaml
     '404':
       $ref: ../../shared/responses/404.yaml
+    '409':
+      description: The identity collector is in use and cannot be deleted.
+      content:
+        application/json:
+          schema:
+            $ref: ../schemas/identitycollectordependenciesconflicterror.yaml
     '429':
       $ref: ../../shared/responses/429.yaml
     '500':
