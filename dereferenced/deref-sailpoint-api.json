@@ -25619,8 +25619,8 @@
               "type": "string"
             },
             "required": false,
-            "example": "sourceId eq \"2c9180835d2e5168015d32f890ca1581\"",
-            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**sourceId**: *eq*\n\n**type**: *eq, in*\n\n**id**: *eq, in*\n\nSupported composite operators are *and, or*"
+            "example": "name co \"Finance\" and type eq \"AWS\"",
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**sourceId**: *eq*\n\n**type**: *eq, in*\n\n**id**: *eq, in*\n\n**name**: *eq, co*\n\nFor `name`, `eq` performs an exact match and `co` performs a contains (substring) match. Use public type display names from [List Identity Collector Types](https://developer.sailpoint.com/docs/api/get-identity-collector-types-v-1) with `type` filters (for example, `AWS`, not `AWS SaaS`).\n\nSupported composite operators are *and, or*"
           },
           {
             "$ref": "#/components/parameters/limit"
@@ -25743,6 +25743,9 @@
           },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -26021,6 +26024,16 @@
           },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "description": "The identity collector is in use and cannot be deleted.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/identitycollectordependenciesconflicterror"
+                }
+              }
+            }
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -101488,6 +101501,80 @@
           "groups": {
             "$ref": "#/components/schemas/identitycollectorcollectionsettings",
             "description": "Full groups collection settings for the identity collector. Replaces the existing properties and fieldMappings for the groups collection."
+          }
+        }
+      },
+      "identitycollectordependency": {
+        "type": "object",
+        "description": "A dependent object blocking deletion of an identity collector.",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The display name of the dependent object. For applications, the platform dependency query may prefix the object name (for example, `Application - Finance SharePoint`).",
+            "example": "Application - Finance SharePoint"
+          },
+          "type": {
+            "type": "string",
+            "description": "The internal dependent object type identifier (fully qualified type name).",
+            "example": "WBX.WhiteOPS.ServerCore.BAM"
+          },
+          "typeDisplayName": {
+            "type": "string",
+            "description": "The human-readable display name of the dependent object type.",
+            "example": "Application"
+          }
+        }
+      },
+      "identitycollectordependenciesconflicterror": {
+        "type": "object",
+        "description": "Conflict response returned when an identity collector cannot be deleted because it is in use.",
+        "properties": {
+          "detailCode": {
+            "type": "string",
+            "description": "Fine-grained error code providing more detail of the error.",
+            "example": "409 Conflict"
+          },
+          "trackingId": {
+            "type": "string",
+            "description": "Unique tracking id for the error.",
+            "example": "e7eab60924f64aa284175b9fa3309599"
+          },
+          "messages": {
+            "type": "array",
+            "description": "Generic localized reason for error.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "locale": {
+                  "type": "string",
+                  "description": "The locale for the message text, a BCP 47 language tag.",
+                  "example": "en-US"
+                },
+                "localeOrigin": {
+                  "type": "string",
+                  "description": "An indicator of how the locale was selected.",
+                  "example": "DEFAULT"
+                },
+                "text": {
+                  "type": "string",
+                  "description": "Actual text of the error message in the indicated locale.",
+                  "example": "Identity collector is in use and cannot be deleted."
+                }
+              }
+            }
+          },
+          "dependencies": {
+            "type": "array",
+            "description": "Dependent objects blocking deletion. At most three items are returned.",
+            "items": {
+              "$ref": "#/components/schemas/identitycollectordependency"
+            }
+          },
+          "extendedDependenciesCount": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of additional dependent objects not included in `dependencies`.",
+            "example": 2
           }
         }
       },
