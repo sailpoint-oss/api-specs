@@ -32,13 +32,6 @@ tags:
       Experimental APIs for machine identity lifecycle requests (`ACTIVATE`, `DEACTIVATE`), including
       approval and provisioning status. Pass the `X-SailPoint-Experimental` header on every request.
 
-      On submit, the service resolves approval configuration for `ACTIVATE` and `DEACTIVATE` from
-      generic request approval config (`RESOURCE` first, then `GLOBAL`). If both are empty, org-level
-      agent request configuration is used. Callers do not send `approvalConfig` on the submit body.
-      Use https://developer.sailpoint.com/docs/api/get-generic-request-approval-config-v-1 and
-      https://developer.sailpoint.com/docs/api/patch-generic-request-approval-config-v-1 to manage
-      those settings.
-
       Read and cancel by `requestId` return **403** for authorization denials
       (`FORBIDDEN.lifecycle-request-access-denied`) and non-`AI_AGENT` rows
       (`FORBIDDEN.unsupported-type`). Unknown ids and target-type mismatches return **404**
