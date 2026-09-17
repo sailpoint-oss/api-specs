@@ -54,7 +54,10 @@ properties:
     example: a0220198-4b01-444b-8ac3-7a8a147a3791
   approvalSettingsId:
     type: string
-    description: Approval settings identifier used for the request.
-    example: approval-settings-001
+    description: >-
+      Identifier used to look up reminder, timeout, and escalation settings in generic approvals.
+      For resource-level agent requests this is `{sourceId}_{resourceId}` when that path is enabled.
+      This is not the generic-request-approval-config document id.
+    example: a86e1ab28a844b98b31dbe0ae531d867_aws:bedrock-agent
   provisioning:
     $ref: ./lifecycleprovisioning.yaml

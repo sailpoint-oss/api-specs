@@ -17,6 +17,10 @@ post:
     identity (organization admin, source admin, scoped source sub-admin, or effective owner).
 
     Supported actions are `DEACTIVATE`, `ACTIVATE`.
+
+    Do not send approval configuration on this request. Approvers come from
+    GET/PATCH `/generic-request-approval-config/v1` for the agent resource, then GLOBAL, then
+    org-level agent request settings.
   security:
   - userAuth:
     - idn:mis-identity:manage

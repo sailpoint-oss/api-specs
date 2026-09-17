@@ -1,0 +1,45 @@
+type: object
+title: Generic Approval Config
+description: >-
+  Generic (`scheme: APPROVAL`) configuration for one action. Approvers are resolved in the order
+  listed. `accountOwner` is allowed only for the SUBTYPE DELETE pair; it is rejected for RESOURCE
+  ACTIVATE and DEACTIVATE.
+required:
+  - scheme
+  - approvers
+  - comments
+properties:
+  scheme:
+    type: string
+    enum:
+      - APPROVAL
+    description: Discriminator. Must be APPROVAL for a serial approver chain.
+    example: APPROVAL
+  approvers:
+    type: string
+    example: sourceOwner, manager, workgroup:f76ff96a-0815-402a-be1a-18cdc693b79f
+    description: >-
+      Comma-separated approver tokens.
+
+
+      Allowed tokens for RESOURCE ACTIVATE and DEACTIVATE: sourceOwner, manager,
+      machineIdentityPrimaryOwner, machineIdentitySecondaryOwners, machineIdentityAllOwners,
+      workgroup:[workgroupId], identity:[identityId].
+
+
+      Role tokens (sourceOwner, manager, and the machineIdentity* tokens) may appear at most once
+      and must not include an id suffix. workgroup: and identity: may repeat when each id is unique.
+
+
+      Approval request assignment follows the order of tokens in this string.
+  comments:
+    type: string
+    enum:
+      - ALL
+      - APPROVAL
+      - REJECTION
+      - OFF
+    example: REJECTION
+    description: >-
+      Comment requirement for the approval request. Use REJECTION (not REJECT) when comments are
+      required only on deny.

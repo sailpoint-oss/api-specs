@@ -1,0 +1,54 @@
+openapi: 3.0.1
+info:
+  title: Identity Security Cloud API - Generic Request Approval Config
+  description: >-
+    Use these APIs to read and update generic request approval configuration for agent activate and deactivate
+    requests. We encourage you to join the SailPoint Developer Community forum at
+    https://developer.sailpoint.com/discuss to connect with other developers using our APIs.
+  termsOfService: https://developer.sailpoint.com/discuss/tos
+  contact:
+    name: Developer Relations
+    url: https://developer.sailpoint.com/discuss/api-help
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: v1
+servers:
+  - url: https://{tenant}.api.identitynow.com
+    description: This is the production API server.
+    variables:
+      tenant:
+        default: sailpoint
+        description: This is the name of your tenant, typically your company's name.
+  - url: https://{apiUrl}
+    description: This is the versioned API server.
+    variables:
+      apiUrl:
+        default: sailpoint.api.identitynow.com
+        description: This is the api url of your tenant
+tags:
+  - name: Generic Request Approval Config
+    description: |
+      Experimental APIs for resource-level and global approval settings used by agent lifecycle
+      requests (`ACTIVATE`, `DEACTIVATE`). Pass the `X-SailPoint-Experimental` header on every request.
+
+      Query parameters address the config because `targetId` can be a connector resource id
+      (for example `aws:bedrock-agent-alias-version`) that is not URL-safe as a path segment.
+      `sourceId` is a query parameter only and is never returned on the document.
+
+      An empty per-action object `{}` means no configuration at this scope. At submit, RESOURCE
+      is used first, then GLOBAL, then org-level agent request configuration.
+      There is no `approvalRequired` flag.
+
+      These routes require product `AGENTIC_IDENTITY_PROVISIONING` and LaunchDarkly flag
+      `MIS_2160_GENERIC_REQUEST_APPROVAL_CONFIG_API_ENABLED`. When the product is not licensed the
+      route looks absent (**404**). When the flag is off the API returns **403** with
+      `The requested endpoint is not yet enabled`.
+paths:
+  /generic-request-approval-config/v1:
+    $ref: ./paths/generic-request-approval-config-v1.yaml
+  /generic-request-approval-config/v1/{id}:
+    $ref: ./paths/generic-request-approval-config-v1-by-id.yaml
+security:
+  - userAuth:
+      - sp:scopes:all
