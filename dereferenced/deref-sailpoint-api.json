@@ -184,6 +184,10 @@
       "name": "Entitlements"
     },
     {
+      "name": "Generic Request Approval Config",
+      "description": "Experimental APIs for resource-level and global approval settings used by agent lifecycle\nrequests (`ACTIVATE`, `DEACTIVATE`). Pass the `X-SailPoint-Experimental` header on every request.\n\nQuery parameters address the config because `targetId` can be a connector resource id\n(for example `aws:bedrock-agent-alias-version`) that is not URL-safe as a path segment.\n`sourceId` is a query parameter only and is never returned on the document.\n\nAn empty per-action object `{}` means no configuration at this scope. At submit, RESOURCE\nis used first, then GLOBAL, then org-level agent request configuration.\nThere is no `approvalRequired` flag.\n\nThese routes require product `AGENTIC_IDENTITY_PROVISIONING` and LaunchDarkly flag\n`MIS_2160_GENERIC_REQUEST_APPROVAL_CONFIG_API_ENABLED`. When the product is not licensed the\nroute looks absent (**404**). When the flag is off the API returns **403** with\n`The requested endpoint is not yet enabled`.\n"
+    },
+    {
       "name": "Global Tenant Security Settings",
       "description": "Use this API to implement and customize global tenant security settings.\nWith this functionality in place, administrators can manage the global security settings that a tenant/org has.\nThis API can be used to configure the networks and Geographies allowed to access Identity Security Cloud URLs.\n"
     },
@@ -268,7 +272,7 @@
     },
     {
       "name": "Machine Identity Lifecycle Actions",
-      "description": "Experimental APIs for machine identity lifecycle requests (`ACTIVATE`, `DEACTIVATE`), including\napproval and provisioning status. Pass the `X-SailPoint-Experimental` header on every request.\n\nRead and cancel by `requestId` return **403** for authorization denials\n(`FORBIDDEN.lifecycle-request-access-denied`) and non-`AI_AGENT` rows\n(`FORBIDDEN.unsupported-type`). Unknown ids and target-type mismatches return **404**\n(`NOT_FOUND.detailed`).\n"
+      "description": "Experimental APIs for machine identity lifecycle requests (`ACTIVATE`, `DEACTIVATE`), including\napproval and provisioning status. Pass the `X-SailPoint-Experimental` header on every request.\n\nOn submit, the service resolves approval configuration for `ACTIVATE` and `DEACTIVATE` from\ngeneric request approval config (`RESOURCE` first, then `GLOBAL`). If both are empty, org-level\nagent request configuration is used. Callers do not send `approvalConfig` on the submit body.\nUse https://developer.sailpoint.com/docs/api/get-generic-request-approval-config-v-1 and\nhttps://developer.sailpoint.com/docs/api/patch-generic-request-approval-config-v-1 to manage\nthose settings.\n\nRead and cancel by `requestId` return **403** for authorization denials\n(`FORBIDDEN.lifecycle-request-access-denied`) and non-`AI_AGENT` rows\n(`FORBIDDEN.unsupported-type`). Unknown ids and target-type mismatches return **404**\n(`NOT_FOUND.detailed`).\n"
     },
     {
       "name": "Managed Clients",
@@ -30674,6 +30678,229 @@
         ]
       }
     },
+    "/generic-request-approval-config/v1": {
+      "get": {
+        "operationId": "getGenericRequestApprovalConfigV1",
+        "tags": [
+          "Generic Request Approval Config"
+        ],
+        "summary": "Get generic request approval config",
+        "description": "Returns the approval configuration document for one scope.\n\nScope rules for Phase II agent requests:\n\n| targetType | Allowed actions | targetId | sourceId |\n|------------|-----------------|----------|----------|\n| RESOURCE | ACTIVATE, DEACTIVATE | Required. Connector resource **id**, not the `std:*` type. Resolved resource type must be `std:agent`. | Required |\n| GLOBAL | ACTIVATE, DEACTIVATE | Derived (tenant id). Omit. | Must be omitted |\n\n`DELETE_AT_SOURCE` is not returned and cannot be configured on this API.\n\nA scope that has never been saved still returns **200**. Every allowed action is\npresent. Unset actions are `{}` (no config at this scope; submit uses RESOURCE, then GLOBAL,\nthen org-level). The first successful GET\nmaterializes a row so the response `id` can be used on PATCH.\n\nUnknown source, missing or invalid query params, a RESOURCE `targetId` the source\ndoes not advertise, or a resource whose type is not `std:agent` return **400**.\nProduct not licensed returns **404**. Flag off, missing experimental header, or\ninsufficient rights return **403**.\n",
+        "security": [
+          {
+            "userAuth": [
+              "idn:generic-request-approval-config:read"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ],
+        "parameters": [
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          },
+          {
+            "name": "targetType",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/genericrequesttargettype"
+            },
+            "description": "Scope of the configuration document.",
+            "example": "RESOURCE"
+          },
+          {
+            "name": "targetId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Required for RESOURCE and SUBTYPE. Connector resource id for RESOURCE (for example `aws:bedrock-agent-alias-version`). Omit for GLOBAL.",
+            "example": "aws:bedrock-agent-alias-version"
+          },
+          {
+            "name": "sourceId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Required for RESOURCE, SUBTYPE, and SOURCE. Must be omitted for GLOBAL.",
+            "example": "a86e1ab28a844b98b31dbe0ae531d867"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Approval configuration document for the requested scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/genericrequestapprovalconfig"
+                },
+                "example": {
+                  "id": "f0948adc-06f7-435b-a8fd-a06861012470",
+                  "targetType": "RESOURCE",
+                  "targetId": "aws:bedrock-agent-alias-version",
+                  "approvalConfig": {
+                    "ACTIVATE": {
+                      "scheme": "APPROVAL",
+                      "approvers": "sourceOwner, manager",
+                      "comments": "REJECTION"
+                    },
+                    "DEACTIVATE": {}
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/generic-request-approval-config/v1/{id}": {
+      "patch": {
+        "operationId": "patchGenericRequestApprovalConfigV1",
+        "tags": [
+          "Generic Request Approval Config"
+        ],
+        "summary": "Patch generic request approval config",
+        "description": "Updates stored approval configuration with an RFC 6902 JSON Patch.\n\nPatchable paths are `/approvalConfig` and `/approvalConfig/{ACTION}` for each action\nin the row's `targetType` vocabulary. For RESOURCE and GLOBAL those actions are\n`ACTIVATE` and `DEACTIVATE`.\n\n`id`, `targetType`, `targetId`, and `sourceId` are not patchable.\n`/approvalConfig/DELETE_AT_SOURCE` is rejected with **400**.\n\nReplace an action with `{}` (or remove it) to clear this scope. Submit then uses RESOURCE,\nthen GLOBAL, then org-level agent request configuration. Empty action objects are not persisted.\n\nAllowed approver tokens for RESOURCE ACTIVATE and DEACTIVATE:\n`sourceOwner`, `manager`, `machineIdentityPrimaryOwner`,\n`machineIdentitySecondaryOwners`, `machineIdentityAllOwners`,\n`workgroup:[workgroupId]`, `identity:[identityId]`.\n`accountOwner` is not allowed on those actions. Role tokens may appear once.\n`workgroup:` and `identity:` may repeat with distinct ids.\n\nGLOBAL writes accept `scheme: WORKFLOW` only.\nUnknown `id` returns **404**.\n",
+        "security": [
+          {
+            "userAuth": [
+              "idn:generic-request-approval-config:update"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ],
+        "parameters": [
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "Config id returned by GET.",
+            "example": "f0948adc-06f7-435b-a8fd-a06861012470",
+            "x-sailpoint-resource-operation-id": "getGenericRequestApprovalConfigV1"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "JSON Patch document used to update approvalConfig.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/jsonpatchoperation"
+                }
+              },
+              "example": [
+                {
+                  "op": "replace",
+                  "path": "/approvalConfig/ACTIVATE",
+                  "value": {
+                    "scheme": "APPROVAL",
+                    "approvers": "sourceOwner, manager",
+                    "comments": "REJECTION"
+                  }
+                },
+                {
+                  "op": "replace",
+                  "path": "/approvalConfig/DEACTIVATE",
+                  "value": {}
+                }
+              ]
+            },
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/jsonpatchoperation"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Full document after the patch, same shape as GET.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/genericrequestapprovalconfig"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
     "/auth-org/v1/network-config": {
       "get": {
         "operationId": "getAuthOrgNetworkConfigV1",
@@ -47723,7 +47950,7 @@
           "Machine Identity Lifecycle Actions"
         ],
         "summary": "Submit machine identity lifecycle action",
-        "description": "Creates a lifecycle request for the target machine identity and returns the created lifecycle\nsnapshot.\n\nThe response includes the generated `requestId`, which is used by\nhttps://developer.sailpoint.com/docs/api/list-machine-identity-lifecycle-actions-v-1,\nhttps://developer.sailpoint.com/docs/api/get-machine-identity-lifecycle-action-v-1, and\nhttps://developer.sailpoint.com/docs/api/cancel-machine-identity-lifecycle-action-v-1\n\nAuthorization is enforced in the service layer. Callers must have the\n`idn:machine-identity-lifecycle-action:manage` scope or role-context access to the target machine\nidentity (organization admin, source admin, scoped source sub-admin, or effective owner).\n\nSupported actions are `DEACTIVATE`, `ACTIVATE`.\n",
+        "description": "Creates a lifecycle request for the target machine identity and returns the created lifecycle\nsnapshot.\n\nThe response includes the generated `requestId`, which is used by\nhttps://developer.sailpoint.com/docs/api/list-machine-identity-lifecycle-actions-v-1,\nhttps://developer.sailpoint.com/docs/api/get-machine-identity-lifecycle-action-v-1, and\nhttps://developer.sailpoint.com/docs/api/cancel-machine-identity-lifecycle-action-v-1\n\nAuthorization is enforced in the service layer. Callers must have the\n`idn:machine-identity-lifecycle-action:manage` scope or role-context access to the target machine\nidentity (organization admin, source admin, scoped source sub-admin, or effective owner).\n\nSupported actions are `DEACTIVATE`, `ACTIVATE`.\n\nDo not send approval configuration on this request. Approvers come from\nGET/PATCH `/generic-request-approval-config/v1` for the agent resource, then GLOBAL, then\norg-level agent request settings.\n",
         "security": [
           {
             "userAuth": [
@@ -103614,6 +103841,139 @@
           }
         }
       },
+      "genericrequesttargettype": {
+        "type": "string",
+        "title": "Generic Request Target Type",
+        "description": "Scope of a generic request approval configuration document.\n\nPhase II agent activate and deactivate use `RESOURCE` and `GLOBAL`. `SUBTYPE` and `SOURCE` are accepted by the service for other generic-request vocabularies.\n\n| targetType | Allowed actions | targetId | sourceId | |------------|-----------------|----------|----------| | RESOURCE | ACTIVATE, DEACTIVATE | Required. Connector resource **id** (not the `std:*` type). Resolved resource type must be `std:agent`. | Required | | GLOBAL | ACTIVATE, DEACTIVATE | Derived (tenant id). Omit. | Must be omitted | | SUBTYPE | CREATE, DELETE | Required. Subtype id. | Required | | SOURCE | DELETE | Derived from sourceId. | Required |",
+        "enum": [
+          "RESOURCE",
+          "GLOBAL",
+          "SUBTYPE",
+          "SOURCE"
+        ],
+        "example": "RESOURCE"
+      },
+      "genericapprovalconfig": {
+        "type": "object",
+        "title": "Generic Approval Config",
+        "description": "Generic (`scheme: APPROVAL`) configuration for one action. Approvers are resolved in the order listed. `accountOwner` is allowed only for the SUBTYPE DELETE pair; it is rejected for RESOURCE ACTIVATE and DEACTIVATE.",
+        "required": [
+          "scheme",
+          "approvers",
+          "comments"
+        ],
+        "properties": {
+          "scheme": {
+            "type": "string",
+            "enum": [
+              "APPROVAL"
+            ],
+            "description": "Discriminator. Must be APPROVAL for a serial approver chain.",
+            "example": "APPROVAL"
+          },
+          "approvers": {
+            "type": "string",
+            "example": "sourceOwner, manager, workgroup:f76ff96a-0815-402a-be1a-18cdc693b79f",
+            "description": "Comma-separated approver tokens.\n\nAllowed tokens for RESOURCE ACTIVATE and DEACTIVATE: sourceOwner, manager, machineIdentityPrimaryOwner, machineIdentitySecondaryOwners, machineIdentityAllOwners, workgroup:[workgroupId], identity:[identityId].\n\nRole tokens (sourceOwner, manager, and the machineIdentity* tokens) may appear at most once and must not include an id suffix. workgroup: and identity: may repeat when each id is unique.\n\nApproval request assignment follows the order of tokens in this string."
+          },
+          "comments": {
+            "type": "string",
+            "enum": [
+              "ALL",
+              "APPROVAL",
+              "REJECTION",
+              "OFF"
+            ],
+            "example": "REJECTION",
+            "description": "Comment requirement for the approval request. Use REJECTION (not REJECT) when comments are required only on deny."
+          }
+        }
+      },
+      "adaptiveapprovalconfig": {
+        "type": "object",
+        "title": "Adaptive Approval Config",
+        "description": "Adaptive (`scheme: WORKFLOW`) configuration for one action. The decision is delegated to the platform workflow identified by workflowId instead of a generic-approvals serial chain. GLOBAL writes accept this scheme only.",
+        "required": [
+          "scheme",
+          "workflowId"
+        ],
+        "properties": {
+          "scheme": {
+            "type": "string",
+            "enum": [
+              "WORKFLOW"
+            ],
+            "description": "Discriminator. Must be WORKFLOW for adaptive platform-workflow approval.",
+            "example": "WORKFLOW"
+          },
+          "workflowId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Identifier of the platform workflow that decides the request.",
+            "example": "8c190e67-2a90-4c2a-9f1e-1c5d0b6a4e21"
+          }
+        }
+      },
+      "basegenericconfig": {
+        "title": "Base Generic Config",
+        "description": "Per-action approval configuration. An empty object means no configuration at this scope and is not persisted. At submit, RESOURCE is used first, then GLOBAL, then org-level agent request configuration. A non-empty object is either generic (`scheme: APPROVAL`) or adaptive (`scheme: WORKFLOW`).",
+        "oneOf": [
+          {
+            "type": "object",
+            "title": "Inherit Broader Config",
+            "description": "Empty object. No configuration at this scope. Submit uses RESOURCE, then GLOBAL, then org-level agent request configuration. Not persisted.",
+            "additionalProperties": false
+          },
+          {
+            "$ref": "#/components/schemas/genericapprovalconfig"
+          },
+          {
+            "$ref": "#/components/schemas/adaptiveapprovalconfig"
+          }
+        ]
+      },
+      "genericrequestapprovalconfig": {
+        "type": "object",
+        "title": "Generic Request Approval Config",
+        "description": "Approval configuration for one scope. sourceId is never returned. approvalConfig always contains every action allowed for targetType. Unset actions are empty objects (no config at this scope). Submit uses RESOURCE, then GLOBAL, then org-level agent request configuration. There is no approvalRequired flag.",
+        "required": [
+          "id",
+          "targetType",
+          "targetId",
+          "approvalConfig"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Stable identifier for this scope. Use this value on PATCH. Created on first GET if the scope was never configured.",
+            "example": "f0948adc-06f7-435b-a8fd-a06861012470"
+          },
+          "targetType": {
+            "$ref": "#/components/schemas/genericrequesttargettype"
+          },
+          "targetId": {
+            "type": "string",
+            "description": "Connector resource id for RESOURCE (for example aws:bedrock-agent-alias-version). Derived tenant id for GLOBAL. Not patchable.",
+            "example": "aws:bedrock-agent-alias-version"
+          },
+          "approvalConfig": {
+            "type": "object",
+            "description": "Map keyed by action name. RESOURCE and GLOBAL emit ACTIVATE and DEACTIVATE. DELETE_AT_SOURCE is not returned and cannot be patched.",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/basegenericconfig"
+            },
+            "example": {
+              "ACTIVATE": {
+                "scheme": "APPROVAL",
+                "approvers": "sourceOwner, manager",
+                "comments": "REJECTION"
+              },
+              "DEACTIVATE": {}
+            }
+          }
+        }
+      },
       "networkconfiguration": {
         "type": "object",
         "title": "Network Configuration",
@@ -113936,8 +114296,8 @@
           },
           "approvalSettingsId": {
             "type": "string",
-            "description": "Approval settings identifier used for the request.",
-            "example": "approval-settings-001"
+            "description": "Identifier used to look up reminder, timeout, and escalation settings in generic approvals. For resource-level agent requests this is `{sourceId}_{resourceId}` when that path is enabled. This is not the generic-request-approval-config document id.",
+            "example": "a86e1ab28a844b98b31dbe0ae531d867_aws:bedrock-agent"
           },
           "provisioning": {
             "$ref": "#/components/schemas/lifecycleprovisioning"
