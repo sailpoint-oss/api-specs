@@ -31,8 +31,6 @@ tags:
 paths:
   /sources/v1/{sourceId}/machine-account-mappings:
     $ref: ./paths/sources-v1-by-sourceid-machine-account-mappings.yaml
-  /sources/v1/{sourceId}/machine-mappings:
-    $ref: ./paths/sources-v1-by-sourceid-machine-mappings.yaml
 security:
   - userAuth:
       - sp:scopes:all
