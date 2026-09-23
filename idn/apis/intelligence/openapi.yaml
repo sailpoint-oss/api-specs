@@ -48,12 +48,14 @@ tags:
 
       ## Pagination
 
-      The aggregated Human GET embeds the first **10** items per paged slice. Each upstream paged call
+      The aggregated Human GET embeds the first page of each paged slice. Each upstream paged call
       sends `count=true` and reads `X-Total-Count`. Parent slices expose `totalCount` when `items` is
       non-empty and set `next` when `totalCount > offset + len(items)` (aggregate offset is always 0).
       Empty slices render as `items: []` with no `totalCount`. `privilegedAccess` is never paged and
       carries no `totalCount`. When licensed, `nonHumanIdentityOwnership` pages each
       `primaryOwned` / `secondaryOwned` bucket independently under `agents` and `applications`.
+      Non-human identity aggregate `accounts` includes `totalCount` and `next`; continue with
+      `GET .../accounts?isNHI=true` (bare array response).
 
       Human child routes (`/accounts`, `/outliers/rare-access`, `/access-history/*`,
       `/non-human-identity-ownership/{category}`) follow the SailPoint V3 pattern: pass `count=true`
