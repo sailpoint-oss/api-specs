@@ -14,14 +14,15 @@ get:
     - ROLE_SUBADMIN
   tags:
     - Sources
-  summary: Lists all sources in identitynow.
-  description: This end-point lists all the sources in IdentityNow.
+  summary: List sources
+  description: This end-point lists all the sources.
   parameters:
     - $ref: ../../v3/parameters/limit.yaml
     - $ref: ../../v3/parameters/offset.yaml
     - $ref: ../../v3/parameters/count.yaml
     - in: query
       name: filters
+      required: false
       schema:
         type: string
       example: name eq "Employees"
@@ -61,6 +62,7 @@ get:
         **category**: *co, eq, ge, gt, in, le, lt, ne, sw*
     - in: query
       name: sorters
+      required: false
       schema:
         type: string
         format: comma-separated
@@ -71,6 +73,7 @@ get:
         Sorting is supported for the following fields: **type, created, modified, name, owner.name, healthy, status, id, description, owner.id, accountCorrelationConfig.id, accountCorrelationConfig.name, managerCorrelationRule.type, managerCorrelationRule.id, managerCorrelationRule.name, authoritative, managementWorkgroup.id, connectorName, connectionType**
     - in: query
       name: for-subadmin
+      required: false
       schema:
         type: string
       example: name
@@ -119,14 +122,15 @@ post:
     - SOURCE_SUBADMIN
   tags:
     - Sources
-  summary: Creates a source in identitynow.
-  description: This creates a specific source with a full source JSON representation. Any passwords are submitted as plain-text and encrypted upon receipt in IdentityNow.
+  summary: Create source
+  description: This creates a specific source with a full source JSON representation. Any passwords are submitted as plain-text and encrypted upon receipt.
   parameters:
     - in: query
       name: provisionAsCsv
       description: 'If this parameter is `true`, it configures the source as a Delimited File (CSV) source. Setting this to `true` will automatically set the `type` of the source to `DelimitedFile`.  You must use this query parameter to create a Delimited File source as you would in the UI.  If you don''t set this query parameter and you attempt to set the `type` attribute directly, the request won''t correctly generate the source.  '
       schema:
         type: boolean
+        default: false
       required: false
       example: false
   requestBody:

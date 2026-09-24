@@ -14,14 +14,15 @@ get:
   - ROLE_SUBADMIN
   tags:
   - Sources
-  summary: Lists all sources in identitynow.
-  description: This end-point lists all the sources in IdentityNow.
+  summary: List sources
+  description: This end-point lists all the sources.
   parameters:
   - $ref: ../../shared/parameters/limit.yaml
   - $ref: ../../shared/parameters/offset.yaml
   - $ref: ../../shared/parameters/count.yaml
   - in: query
     name: filters
+    required: false
     schema:
       type: string
     example: name eq "Employees"
@@ -78,6 +79,7 @@ get:
       **category**: *co, eq, ge, gt, in, le, lt, ne, sw*
   - in: query
     name: sorters
+    required: false
     schema:
       type: string
       format: comma-separated
@@ -93,6 +95,7 @@ get:
       connectionType**
   - in: query
     name: for-subadmin
+    required: false
     schema:
       type: string
     example: name
@@ -145,10 +148,10 @@ post:
   - SOURCE_SUBADMIN
   tags:
   - Sources
-  summary: Creates a source in identitynow.
+  summary: Create source
   description: >-
     This creates a specific source with a full source JSON representation. Any passwords are submitted as plain-text and
-    encrypted upon receipt in IdentityNow.
+    encrypted upon receipt.
   parameters:
   - in: query
     name: provisionAsCsv
@@ -159,6 +162,7 @@ post:
       the `type` attribute directly, the request won't correctly generate the source.  
     schema:
       type: boolean
+      default: false
     required: false
     example: false
   requestBody:
