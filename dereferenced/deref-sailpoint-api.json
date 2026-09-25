@@ -45224,6 +45224,411 @@
         }
       }
     },
+    "/machine-accounts/v1/{id}/enable": {
+      "post": {
+        "operationId": "enableMachineAccountV1",
+        "tags": [
+          "Machine Accounts"
+        ],
+        "summary": "Enable machine account",
+        "description": "This API submits a task to enable a machine account and returns the task ID.\n\nA caller who owns the machine account can enable it. Other callers need the **idn:mis-account:enable** right.\n",
+        "security": [
+          {
+            "userAuth": [
+              "idn:mis-account:enable"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:mis-account:enable"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listMachineAccountsV1",
+            "description": "Machine Account ID.",
+            "example": "ef38f94347e94562b5bb8424a56397d8"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Async task details.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/machineaccountsasyncresult"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/machine-accounts/v1/{id}/disable": {
+      "post": {
+        "operationId": "disableMachineAccountV1",
+        "tags": [
+          "Machine Accounts"
+        ],
+        "summary": "Disable machine account",
+        "description": "This API submits a task to disable a machine account and returns the task ID.\n\nA caller who owns the machine account can disable it. Other callers need the **idn:mis-account:disable** right.\n",
+        "security": [
+          {
+            "userAuth": [
+              "idn:mis-account:disable"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:mis-account:disable"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listMachineAccountsV1",
+            "description": "Machine Account ID.",
+            "example": "ef38f94347e94562b5bb8424a56397d8"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Async task details.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/machineaccountsasyncresult"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/machine-accounts/v1/{id}/reload": {
+      "post": {
+        "operationId": "reloadMachineAccountV1",
+        "tags": [
+          "Machine Accounts"
+        ],
+        "summary": "Reload machine account",
+        "description": "This API asynchronously reloads the machine account directly from the connector and performs a one-time aggregation. It returns the task ID.\n\nA caller who owns the machine account can reload it. Other callers need the **idn:mis-account:reload** right.\n",
+        "security": [
+          {
+            "userAuth": [
+              "idn:mis-account:reload"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:mis-account:reload"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listMachineAccountsV1",
+            "description": "Machine Account ID.",
+            "example": "ef38f94347e94562b5bb8424a56397d8"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Async task details.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/machineaccountsasyncresult"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/machine-accounts/v1/{id}/remove": {
+      "post": {
+        "operationId": "deleteMachineAccountAsyncV1",
+        "tags": [
+          "Machine Accounts"
+        ],
+        "summary": "Remove machine account",
+        "description": "Use this API to remove a machine account from Identity Security Cloud. The source account is left unchanged, and a removed machine account can be re-created during the next aggregation. The response returns the task ID.\n\nThis endpoint is intended for:\n\n* Removing machine accounts that no longer exist on the source.\n\n* Removing machine accounts that will not be aggregated after a source configuration change.\n\n* Forcing machine accounts to be re-created on the next aggregation so account processing can run again.\n\nA caller who owns the machine account can remove it. Other callers need the **idn:mis-account:remove** right.\n",
+        "security": [
+          {
+            "userAuth": [
+              "idn:mis-account:remove"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:mis-account:remove"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listMachineAccountsV1",
+            "description": "Machine Account ID.",
+            "example": "ef38f94347e94562b5bb8424a56397d8"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Async task details.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/machineaccountsasyncresult"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/machine-accounts/v1/{id}/unlock": {
+      "post": {
+        "operationId": "unlockMachineAccountV1",
+        "tags": [
+          "Machine Accounts"
+        ],
+        "summary": "Unlock machine account",
+        "description": "This API submits a task to unlock a machine account and returns the task ID.\n\nA caller who owns the machine account can unlock it. Other callers need the **idn:mis-account:unlock** right.\n",
+        "security": [
+          {
+            "userAuth": [
+              "idn:mis-account:unlock"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:mis-account:unlock"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listMachineAccountsV1",
+            "description": "Machine Account ID.",
+            "example": "ef38f94347e94562b5bb8424a56397d8"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Async task details.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/machineaccountsasyncresult"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
     "/sources/v1/{sourceId}/subtypes": {
       "get": {
         "summary": "Retrieve all subtypes by source",
@@ -112240,6 +112645,21 @@
             }
           }
         ]
+      },
+      "machineaccountsasyncresult": {
+        "description": "Machine account async response containing the id of the started task.",
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "title": "Machine Accounts Async Result",
+        "properties": {
+          "id": {
+            "description": "ID of the task.",
+            "type": "string",
+            "example": "2c91808474683da6017468693c260195"
+          }
+        }
       },
       "sourcesubtype": {
         "type": "object",
