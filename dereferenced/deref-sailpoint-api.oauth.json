@@ -1,0 +1,748 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "SailPoint Identity Security Cloud - OAuth & SAML",
+    "description": "OAuth 2.0 and SAML endpoints for authentication and token management. Use this spec to generate a Postman collection with correct URLs (tenant + domain, no version path).",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://{tenant}.api.{domain}.com",
+      "description": "OAuth API base. Postman will use https://{{tenant}}.api.{{domain}}.com for token, introspect, revoke, and SAML.",
+      "variables": {
+        "tenant": {
+          "default": "sailpoint",
+          "description": "Tenant name"
+        },
+        "domain": {
+          "default": "identitynow",
+          "description": "Domain (e.g. identitynow for identitynow.com)"
+        }
+      }
+    },
+    {
+      "url": "https://{tenant}.login.sailpoint.com",
+      "description": "OAuth authorize (login). Used for /oauth/authorize.",
+      "variables": {
+        "tenant": {
+          "default": "sailpoint",
+          "description": "Tenant name"
+        }
+      }
+    }
+  ],
+  "tags": [
+    {
+      "name": "OAuth",
+      "description": "OAuth 2.0 and SAML endpoints for authentication and token management."
+    }
+  ],
+  "paths": {
+    "/oauth/authorize": {
+      "servers": [
+        {
+          "url": "https://{tenant}.login.sailpoint.com",
+          "description": "OAuth authorize (login) server",
+          "variables": {
+            "tenant": {
+              "default": "sailpoint",
+              "description": "Tenant name"
+            }
+          }
+        }
+      ],
+      "get": {
+        "operationId": "getOauthAuthorize",
+        "security": [
+          {}
+        ],
+        "tags": [
+          "OAuth"
+        ],
+        "summary": "Get OAuth authorization URL",
+        "description": "Initiates the OAuth 2.0 authorization code flow. The client redirects the user to this endpoint to authenticate with Identity Security Cloud; after successful login, ISC redirects back to the application with an authorization code that can be exchanged for an access token at the token endpoint. PKCE (Proof Key for Code Exchange) is optionally supported: if code_challenge and code_challenge_method are present, sp-token will use them. For public API OAuth clients with authorization_code grant, PKCE is required when that feature is enabled. See [SailPoint Authentication - Authorization Code Flow](https://developer.sailpoint.com/docs/api/v2025/authentication/#request-access-token-with-authorization-code-grant-flow).",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "client_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "b61429f5-203d-494c-94c3-04f54e17bc5c"
+            },
+            "description": "The OAuth client ID (e.g. from a personal access token or API client)."
+          },
+          {
+            "in": "query",
+            "name": "response_type",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "code"
+              ],
+              "default": "code",
+              "example": "code"
+            },
+            "description": "Must be \"code\" for authorization code flow."
+          },
+          {
+            "in": "query",
+            "name": "redirect_uri",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uri",
+              "example": "https://myapp.example.com/oauth/redirect"
+            },
+            "description": "The application URL to redirect to after authorization (must match client redirectUris)."
+          },
+          {
+            "in": "query",
+            "name": "code_challenge",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM"
+            },
+            "description": "PKCE code challenge (base64url-encoded). When present, sp-token will validate the code_verifier at the token endpoint."
+          },
+          {
+            "in": "query",
+            "name": "code_challenge_method",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "S256",
+                "plain"
+              ],
+              "default": "S256",
+              "example": "S256"
+            },
+            "description": "PKCE code challenge method (S256 recommended). Required when code_challenge is present."
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "Redirect to login or back to redirect_uri with authorization code."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/oauth/token": {
+      "servers": [
+        {
+          "url": "https://{tenant}.api.{domain}.com",
+          "description": "Use so Postman gets https://{{tenant}}.api.{{domain}}.com/oauth/token (not baseUrl).",
+          "variables": {
+            "tenant": {
+              "default": "sailpoint",
+              "description": "Tenant name"
+            },
+            "domain": {
+              "default": "identitynow",
+              "description": "Domain (e.g. identitynow for identitynow.com)"
+            }
+          }
+        }
+      ],
+      "post": {
+        "operationId": "createOauthToken",
+        "security": [
+          {}
+        ],
+        "tags": [
+          "OAuth"
+        ],
+        "summary": "Create OAuth access token",
+        "description": "Exchanges credentials or an authorization/refresh code for a JWT access token. Supports client_credentials (PAT or API client), authorization_code (exchange code from /oauth/authorize), and refresh_token grant types. See [SailPoint Authentication](https://developer.sailpoint.com/docs/api/v2025/authentication).",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "grant_type",
+                  "client_id"
+                ],
+                "properties": {
+                  "grant_type": {
+                    "type": "string",
+                    "enum": [
+                      "client_credentials",
+                      "authorization_code",
+                      "refresh_token"
+                    ],
+                    "description": "The OAuth 2.0 grant type."
+                  },
+                  "client_id": {
+                    "type": "string",
+                    "description": "The OAuth client ID."
+                  },
+                  "client_secret": {
+                    "type": "string",
+                    "description": "The OAuth client secret (required for client_credentials and refresh_token)."
+                  },
+                  "code": {
+                    "type": "string",
+                    "description": "Authorization code from /oauth/authorize (required for authorization_code)."
+                  },
+                  "redirect_uri": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "Redirect URI used in the authorization request (required for authorization_code)."
+                  },
+                  "refresh_token": {
+                    "type": "string",
+                    "description": "Refresh token from a previous token response (required for refresh_token)."
+                  },
+                  "code_verifier": {
+                    "type": "string",
+                    "description": "PKCE code verifier (required when authorization request included code_challenge). Raw value that was used to generate the code_challenge."
+                  },
+                  "scope": {
+                    "type": "string",
+                    "description": "Optional scope (e.g. sp:scope:all)."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Token response with access_token (JWT), token_type, expires_in, and optionally refresh_token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "access_token": {
+                      "type": "string",
+                      "description": "JWT access token for API authorization."
+                    },
+                    "token_type": {
+                      "type": "string",
+                      "example": "bearer"
+                    },
+                    "expires_in": {
+                      "type": "integer",
+                      "description": "Lifetime of the access token in seconds."
+                    },
+                    "refresh_token": {
+                      "type": "string",
+                      "description": "Present when using authorization_code with offline access."
+                    },
+                    "scope": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/oauth/introspect": {
+      "servers": [
+        {
+          "url": "https://{tenant}.api.{domain}.com",
+          "description": "Use so Postman gets https://{{tenant}}.api.{{domain}}.com/oauth/introspect (not baseUrl).",
+          "variables": {
+            "tenant": {
+              "default": "sailpoint",
+              "description": "Tenant name"
+            },
+            "domain": {
+              "default": "identitynow",
+              "description": "Domain (e.g. identitynow for identitynow.com)"
+            }
+          }
+        }
+      ],
+      "post": {
+        "operationId": "testOauthIntrospect",
+        "security": [
+          {}
+        ],
+        "tags": [
+          "OAuth"
+        ],
+        "summary": "Introspect OAuth token (RFC 7662)",
+        "description": "Standard OAuth 2.0 token introspection (RFC 7662). Validates an access or refresh token and returns its claims and metadata. Send the token in the request body as the \"token\" parameter.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "token"
+                ],
+                "properties": {
+                  "token": {
+                    "type": "string",
+                    "description": "The access_token or refresh_token to introspect (e.g. from the token endpoint response). In Postman, use {{accessToken}} or {{refreshToken}} if set from a previous token request."
+                  },
+                  "token_type_hint": {
+                    "type": "string",
+                    "enum": [
+                      "access_token",
+                      "refresh_token"
+                    ],
+                    "description": "Optional hint indicating the type of token being passed (RFC 7662)."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Token introspection result; when active is true, response includes tenant, identity, and authorization details.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "Token introspection result (RFC 7662); active plus claims when token is valid.",
+                  "properties": {
+                    "active": {
+                      "type": "boolean",
+                      "description": "Whether the token is active/valid (RFC 7662)."
+                    },
+                    "tenant_id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "description": "Tenant UUID (when active)."
+                    },
+                    "sub": {
+                      "type": "string",
+                      "description": "Subject identifier (e.g. user or client id)."
+                    },
+                    "pod": {
+                      "type": "string",
+                      "description": "Pod identifier (e.g. stg03-useast1)."
+                    },
+                    "org": {
+                      "type": "string",
+                      "description": "Organization/tenant name."
+                    },
+                    "identity_id": {
+                      "type": "string",
+                      "description": "Identity UUID in Identity Security Cloud."
+                    },
+                    "user_name": {
+                      "type": "string",
+                      "description": "Username of the authenticated user."
+                    },
+                    "iss": {
+                      "type": "string",
+                      "format": "uri",
+                      "description": "Token issuer (e.g. https://www.sailpoint.com)."
+                    },
+                    "strong_auth": {
+                      "type": "boolean",
+                      "description": "Whether strong authentication was used."
+                    },
+                    "authorities": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Granted authorities and scope-based rights."
+                    },
+                    "client_id": {
+                      "type": "string",
+                      "description": "OAuth client ID used to obtain the token."
+                    },
+                    "encoded_scope": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Encoded scope representation."
+                    },
+                    "strong_auth_supported": {
+                      "type": "boolean",
+                      "description": "Whether strong auth is supported for this context."
+                    },
+                    "scope": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "List of granted scopes."
+                    },
+                    "exp": {
+                      "type": "integer",
+                      "description": "Token expiration time (Unix timestamp)."
+                    },
+                    "jti": {
+                      "type": "string",
+                      "format": "uuid",
+                      "description": "JWT ID (unique token identifier)."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/oauth/revoke": {
+      "servers": [
+        {
+          "url": "https://{tenant}.api.{domain}.com",
+          "description": "Use so Postman gets https://{{tenant}}.api.{{domain}}.com/oauth/revoke (not baseUrl).",
+          "variables": {
+            "tenant": {
+              "default": "sailpoint",
+              "description": "Tenant name"
+            },
+            "domain": {
+              "default": "identitynow",
+              "description": "Domain (e.g. identitynow for identitynow.com)"
+            }
+          }
+        }
+      ],
+      "post": {
+        "operationId": "updateOauthTokenRevoke",
+        "security": [
+          {}
+        ],
+        "tags": [
+          "OAuth"
+        ],
+        "summary": "Revoke OAuth access or refresh token",
+        "description": "Revokes an OAuth 2.0 access token or refresh token. Present the token in the request body; the backing implementation places the token's JWT ID (jti) in a cache so that the gateway will no longer accept the access token for API calls, or so that the refresh token cannot be used to obtain new access tokens.\n**Availability:** This endpoint is coming soon and may not yet be exposed via the API Gateway.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "token"
+                ],
+                "properties": {
+                  "token": {
+                    "type": "string",
+                    "description": "The access_token or refresh_token to revoke."
+                  },
+                  "token_type_hint": {
+                    "type": "string",
+                    "enum": [
+                      "access_token",
+                      "refresh_token"
+                    ],
+                    "description": "Optional hint indicating the type of token being revoked (RFC 7009)."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Token revoked successfully."
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/saml/metadata/alias/{tenant}-sp": {
+      "servers": [
+        {
+          "url": "https://{tenant}.api.{domain}.com",
+          "description": "Use this URL so Postman generates https://{{tenant}}.api.{{domain}}.com/saml/metadata/alias/{{tenant}}-sp",
+          "variables": {
+            "tenant": {
+              "default": "sailpoint",
+              "description": "Tenant name"
+            },
+            "domain": {
+              "default": "identitynow",
+              "description": "Domain (e.g. identitynow for identitynow.com)"
+            }
+          }
+        }
+      ],
+      "get": {
+        "operationId": "getSamlMetadataAlias",
+        "security": [
+          {}
+        ],
+        "tags": [
+          "OAuth"
+        ],
+        "summary": "Get SAML metadata by alias",
+        "description": "Returns SAML 2.0 metadata for the Identity Security Cloud service provider. The path uses the tenant in the form {tenant}-sp so the URL is https://{{tenant}}.api.{{domain}}.com/saml/metadata/alias/{{tenant}}-sp.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tenant",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "sailpoint"
+            },
+            "description": "Tenant name; the path suffix will be -sp (e.g. sailpoint-sp)."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SAML 2.0 metadata XML for the service provider.",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "type": "string",
+                  "description": "SAML metadata document."
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "LocaleOrigin": {
+        "type": "string",
+        "enum": [
+          "DEFAULT",
+          "REQUEST",
+          null
+        ],
+        "description": "An indicator of how the locale was selected. *DEFAULT* means the locale is the system default. *REQUEST* means the locale was selected from the request context (i.e., best match based on the *Accept-Language* header). Additional values may be added in the future without notice.",
+        "example": "DEFAULT",
+        "nullable": true
+      },
+      "ErrorMessageDto": {
+        "type": "object",
+        "title": "Error Message Dto",
+        "properties": {
+          "locale": {
+            "type": "string",
+            "description": "The locale for the message text, a BCP 47 language tag.",
+            "example": "en-US",
+            "nullable": true
+          },
+          "localeOrigin": {
+            "$ref": "#/components/schemas/LocaleOrigin"
+          },
+          "text": {
+            "type": "string",
+            "description": "Actual text of the error message in the indicated locale.",
+            "example": "The request was syntactically correct but its content is semantically invalid."
+          }
+        }
+      },
+      "ErrorResponseDto": {
+        "type": "object",
+        "title": "Error Response Dto",
+        "properties": {
+          "detailCode": {
+            "type": "string",
+            "description": "Fine-grained error code providing more detail of the error.",
+            "example": "400.1 Bad Request Content"
+          },
+          "trackingId": {
+            "type": "string",
+            "description": "Unique tracking id for the error.",
+            "example": "e7eab60924f64aa284175b9fa3309599"
+          },
+          "messages": {
+            "type": "array",
+            "description": "Generic localized reason for error",
+            "items": {
+              "$ref": "#/components/schemas/ErrorMessageDto"
+            }
+          },
+          "causes": {
+            "type": "array",
+            "description": "Plain-text descriptive reasons to provide additional detail to the text provided in the messages field",
+            "items": {
+              "$ref": "#/components/schemas/ErrorMessageDto"
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "400": {
+        "description": "Client Error - Returned if the request body is invalid.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponseDto"
+            }
+          }
+        }
+      },
+      "401": {
+        "description": "Unauthorized - Returned if there is no authorization header, or if the JWT token is expired.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "description": "A message describing the error",
+                  "example": "JWT validation failed: JWT is expired"
+                }
+              }
+            }
+          }
+        }
+      },
+      "403": {
+        "description": "Forbidden - Returned if the user you are running as, doesn't have access to this end-point.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponseDto"
+            },
+            "examples": {
+              "403": {
+                "summary": "An example of a 403 response object",
+                "value": {
+                  "detailCode": "403 Forbidden",
+                  "trackingId": "b21b1f7ce4da4d639f2c62a57171b427",
+                  "messages": [
+                    {
+                      "locale": "en-US",
+                      "localeOrigin": "DEFAULT",
+                      "text": "The server understood the request but refuses to authorize it."
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "429": {
+        "description": "Too Many Requests - Returned in response to too many requests in a given period of time - rate limited. The Retry-After header in the response includes how long to wait before trying again.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "description": "A message describing the error",
+                  "example": " Rate Limit Exceeded "
+                }
+              }
+            }
+          }
+        }
+      },
+      "500": {
+        "description": "Internal Server Error - Returned if there is an unexpected error.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponseDto"
+            },
+            "examples": {
+              "500": {
+                "summary": "An example of a 500 response object",
+                "value": {
+                  "detailCode": "500.0 Internal Fault",
+                  "trackingId": "b21b1f7ce4da4d639f2c62a57171b427",
+                  "messages": [
+                    {
+                      "locale": "en-US",
+                      "localeOrigin": "DEFAULT",
+                      "text": "An internal fault occurred."
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
