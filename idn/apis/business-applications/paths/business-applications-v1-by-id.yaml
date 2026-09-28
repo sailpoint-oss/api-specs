@@ -21,6 +21,14 @@ get:
       x-sailpoint-resource-operation-id: listBusinessApplicationsV1
       description: Business Application ID.
       example: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+    - name: X-SailPoint-Experimental
+      in: header
+      description: Use this header to enable this experimental API.
+      example: true
+      schema:
+        type: string
+        default: true
+      required: true
   responses:
     '200':
       description: A Business Application object.
@@ -79,6 +87,14 @@ patch:
       x-sailpoint-resource-operation-id: listBusinessApplicationsV1
       description: Business Application ID.
       example: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+    - name: X-SailPoint-Experimental
+      in: header
+      description: Use this header to enable this experimental API.
+      example: true
+      schema:
+        type: string
+        default: true
+      required: true
   requestBody:
     required: true
     description: A JSON array of patch operations per RFC 6902.

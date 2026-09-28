@@ -106,6 +106,14 @@ get:
     - $ref: ../../shared/parameters/count.yaml
     - $ref: ../../shared/parameters/limit.yaml
     - $ref: ../../shared/parameters/offset.yaml
+    - name: X-SailPoint-Experimental
+      in: header
+      description: Use this header to enable this experimental API.
+      example: true
+      schema:
+        type: string
+        default: true
+      required: true
   responses:
     '200':
       description: List of machine identities.
@@ -151,6 +159,15 @@ post:
         - idn:mis-identity:manage
   x-sailpoint-userLevels:
     - ORG_ADMIN
+  parameters:
+    - name: X-SailPoint-Experimental
+      in: header
+      description: Use this header to enable this experimental API.
+      example: true
+      schema:
+        type: string
+        default: true
+      required: true
   requestBody:
     required: true
     content:

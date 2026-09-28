@@ -1,7 +1,9 @@
 post:
   operationId: deleteWorkgroupMembers
   security:
-    - userAuth: [ idn:workgroup:write ]
+    - userAuth: [ idn:workgroup:manage ]
+  x-sailpoint-userLevels:
+    - ORG_ADMIN
   tags:
     - Governance Groups
   summary: Remove members from governance group
@@ -19,6 +21,7 @@ post:
       in: path
       description: ID of the Governance Group.
       required: true
+      x-sailpoint-resource-operation-id: listWorkgroups
       schema:
         type: string
         example: 2c91808a7813090a017814121919ecca
