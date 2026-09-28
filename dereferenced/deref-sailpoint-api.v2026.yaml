@@ -46110,9 +46110,9 @@ paths:
     post:
       security:
         - userAuth:
-            - idn:workgroup:write
+            - idn:workgroup:manage
         - applicationAuth:
-            - idn:workgroup:write
+            - idn:workgroup:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
       operationId: updateWorkgroupMembers
@@ -46162,9 +46162,9 @@ paths:
     post:
       security:
         - userAuth:
-            - idn:workgroup:write
+            - idn:workgroup:manage
         - applicationAuth:
-            - idn:workgroup:write
+            - idn:workgroup:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
       operationId: deleteWorkgroupMembers

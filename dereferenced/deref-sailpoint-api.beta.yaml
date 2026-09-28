@@ -29924,9 +29924,11 @@ paths:
       operationId: updateWorkgroupMembers
       security:
         - userAuth:
-            - idn:workgroup:write
+            - idn:workgroup:manage
         - applicationAuth:
-            - idn:workgroup:write
+            - idn:workgroup:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
       tags:
         - Governance Groups
       summary: Add members to governance group
@@ -29941,6 +29943,7 @@ paths:
           in: path
           description: ID of the Governance Group.
           required: true
+          x-sailpoint-resource-operation-id: listWorkgroups
           schema:
             type: string
             example: 2c91808a7813090a017814121919ecca
@@ -29973,7 +29976,9 @@ paths:
       operationId: deleteWorkgroupMembers
       security:
         - userAuth:
-            - idn:workgroup:write
+            - idn:workgroup:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
       tags:
         - Governance Groups
       summary: Remove members from governance group
@@ -29988,6 +29993,7 @@ paths:
           in: path
           description: ID of the Governance Group.
           required: true
+          x-sailpoint-resource-operation-id: listWorkgroups
           schema:
             type: string
             example: 2c91808a7813090a017814121919ecca
