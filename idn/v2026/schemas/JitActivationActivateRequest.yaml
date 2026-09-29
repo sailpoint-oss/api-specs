@@ -15,3 +15,9 @@ properties:
     minimum: 1
     description: Requested activation duration in minutes.
     example: 120
+  requestOrigin:
+    type: string
+    description: Origin of the request.
+    example: slack
+  metaData:
+    $ref: ./JitActivationCallerMetadata.yaml
