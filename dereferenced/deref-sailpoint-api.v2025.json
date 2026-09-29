@@ -26518,7 +26518,7 @@
         "tags": [
           "Search"
         ],
-        "description": "Perform a search with the provided query and return a matching result collection. To page past 10,000 records, you can use `searchAfter` paging.  Refer to [Paginating Search Queries](https://developer.sailpoint.com/idn/api/standard-collection-parameters#paginating-search-queries) for more information about how to implement `searchAfter` paging. The search query itself has a size limitation of approximately 800 objects when filtering by large lists of IDs or values (e.g., using `terms` filters with extensive lists).",
+        "description": "Perform a search with the provided query and return a matching result collection. To page past 10,000 records, you can use `searchAfter` paging.  Refer to [Paginating Search Queries](https://developer.sailpoint.com/idn/api/standard-collection-parameters#paginating-search-queries) for more information about how to implement `searchAfter` paging. The search query itself has a size limitation of approximately 800 objects when filtering by large lists of IDs or values (e.g., using `terms` filters with extensive lists).\n**Note:** Response fields with an underscore (`_`) prefix, such as `_type` and `_index`, are internal metadata fields. These fields are for SailPoint internal use only and are subject to change without notice. Do not rely on them in your integrations.",
         "externalDocs": {
           "description": "Learn more about search.",
           "url": "https://documentation.sailpoint.com/saas/help/search/index.html"
@@ -26883,7 +26883,7 @@
         "tags": [
           "Search"
         ],
-        "description": "Fetches a single document from the specified index, using the specified document ID.",
+        "description": "Fetches a single document from the specified index, using the specified document ID.\n**Note:** Response fields with an underscore (`_`) prefix, such as `_type` and `_index`, are internal metadata fields. These fields are for SailPoint internal use only and are subject to change without notice. Do not rely on them in your integrations.",
         "operationId": "searchGet",
         "security": [
           {
@@ -93560,10 +93560,10 @@
           "type": {
             "$ref": "#/components/schemas/DocumentType"
           },
-          "_version": {
+          "_index": {
             "type": "string",
-            "example": "v2",
-            "description": "Version number."
+            "example": "44",
+            "description": "Internal metadata field. This field is for SailPoint internal use only and is subject to change without notice. Do not rely on it in your integrations."
           }
         }
       },
@@ -94115,9 +94115,10 @@
               "_type": {
                 "$ref": "#/components/schemas/DocumentType"
               },
-              "_version": {
+              "_index": {
                 "type": "string",
-                "example": "v2"
+                "example": "44",
+                "description": "Internal metadata field. This field is for SailPoint internal use only and is subject to change without notice. Do not rely on it in your integrations."
               }
             }
           }
@@ -120789,8 +120790,7 @@
             "_type": "accessprofile",
             "type": "accessprofile",
             "pod": "pod01-useast1",
-            "org": "org-name",
-            "_version": "v2"
+            "org": "org-name"
           }
         ]
       },
@@ -120893,8 +120893,7 @@
             "status": "Complete",
             "pod": "pod01-useast1",
             "org": "org-name",
-            "synced": "2025-01-02T21:47:16.953Z",
-            "_version": "v2"
+            "synced": "2025-01-02T21:47:16.953Z"
           }
         ]
       },
@@ -120926,8 +120925,7 @@
             "org": "org-name",
             "synced": "2024-11-07T16:29:06.131Z",
             "_type": "entitlement",
-            "type": "entitlement",
-            "_version": "v2"
+            "type": "entitlement"
           }
         ]
       },
@@ -120966,8 +120964,7 @@
             "status": "PASSED",
             "pod": "pod01-useast1",
             "org": "org-name",
-            "_type": "event",
-            "_version": "v2"
+            "_type": "event"
           }
         ]
       },
@@ -121362,8 +121359,7 @@
             "org": "org-name",
             "synced": "2025-01-17T06:10:19.853Z",
             "_type": "identity",
-            "type": "identity",
-            "_version": "v2"
+            "type": "identity"
           }
         ]
       },
@@ -121400,8 +121396,7 @@
             "pod": "pod01-useast1",
             "org": "org-name",
             "_type": "role",
-            "type": "role",
-            "_version": "v2"
+            "type": "role"
           }
         ]
       },
@@ -121652,8 +121647,7 @@
             "org": "org-name",
             "synced": "2025-01-03T22:37:04.452Z",
             "_type": "identity",
-            "type": "identity",
-            "_version": "v2"
+            "type": "identity"
           }
         ]
       },
@@ -122044,8 +122038,7 @@
             "org": "org-name",
             "synced": "2024-12-13T06:10:14.229Z",
             "_type": "identity",
-            "type": "identity",
-            "_version": "v2"
+            "type": "identity"
           }
         ]
       },
@@ -122073,8 +122066,7 @@
             "value": "CN=Benefits,OU=Groups,OU=Demo,DC=seri,DC=sailpointdemo,DC=com",
             "cloudGoverned": false,
             "_type": "access",
-            "_originalType": "identity",
-            "_version": "v2"
+            "_originalType": "identity"
           },
           {
             "requestCommentsRequired": false,
@@ -122101,8 +122093,7 @@
             "requestable": false,
             "cloudGoverned": false,
             "_type": "access",
-            "_originalType": "identity",
-            "_version": "v2"
+            "_originalType": "identity"
           }
         ]
       },
@@ -122405,8 +122396,7 @@
             "org": "org-name",
             "synced": "2024-12-13T06:10:29.734Z",
             "_type": "identity",
-            "type": "identity",
-            "_version": "v2"
+            "type": "identity"
           }
         ]
       },
@@ -122780,8 +122770,7 @@
             "org": "org-name",
             "synced": "2024-12-13T06:25:44.222Z",
             "_type": "identity",
-            "type": "identity",
-            "_version": "v2"
+            "type": "identity"
           }
         ]
       },
@@ -123043,8 +123032,7 @@
             "org": "org-name",
             "synced": "2024-12-13T06:28:14.763Z",
             "_type": "identity",
-            "type": "identity",
-            "_version": "v2"
+            "type": "identity"
           }
         ]
       },
