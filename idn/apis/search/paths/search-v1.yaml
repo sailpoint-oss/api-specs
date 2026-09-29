@@ -8,6 +8,8 @@ post:
     information about how to implement `searchAfter` paging. The search query itself has a size limitation of
     approximately 800 objects when filtering by large lists of IDs or values (e.g., using `terms` filters with extensive
     lists).
+
+    **Note:** Response fields with an underscore (`_`) prefix, such as `_type` and `_index`, are internal metadata fields. These fields are for SailPoint internal use only and are subject to change without notice. Do not rely on them in your integrations.
   externalDocs:
     description: Learn more about search.
     url: https://documentation.sailpoint.com/saas/help/search/index.html

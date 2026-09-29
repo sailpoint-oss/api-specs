@@ -6,8 +6,8 @@ schema:
 required: true
 example: 2c91808568c529c60168cca6f90c1313
 x-sailpoint-resource-operation-id:
-  - listAccessProfiles
-  - listAccountActivities
-  - listEntitlements
-  - listRoles
-  - listIdentities
+  - listAccessProfilesV1
+  - listAccountActivitiesV1
+  - listEntitlementsV1
+  - listRolesV1
+  - listIdentitiesV1

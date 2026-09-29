@@ -1,7 +1,10 @@
 get:
   tags:
   - Search
-  description: Fetches a single document from the specified index, using the specified document ID.
+  description: >-
+    Fetches a single document from the specified index, using the specified document ID.
+
+    **Note:** Response fields with an underscore (`_`) prefix, such as `_type` and `_index`, are internal metadata fields. These fields are for SailPoint internal use only and are subject to change without notice. Do not rely on them in your integrations.
   operationId: searchGetV1
   security:
   - userAuth:
