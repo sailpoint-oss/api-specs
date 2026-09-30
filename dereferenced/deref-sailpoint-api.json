@@ -68673,7 +68673,7 @@
           "SOD Violations"
         ],
         "summary": "Predict sod violations for identity.",
-        "description": "This API is used to check if granting some additional accesses would cause the subject to be in violation of any SOD policies. Returns the violations that would be caused.",
+        "description": "This API is used to check if granting some additional accesses (entitlements, access profiles, or roles) would cause the subject to be in violation of any SOD policies. Returns the violations that would be caused.",
         "requestBody": {
           "required": true,
           "content": {
@@ -68689,8 +68689,12 @@
                     "id": "2c918087682f9a86016839c050861ab1"
                   },
                   {
-                    "type": "ENTITLEMENT",
+                    "type": "ACCESS_PROFILE",
                     "id": "2c918087682f9a86016839c0509c1ab2"
+                  },
+                  {
+                    "type": "ROLE",
+                    "id": "2c918087682f9a86016839c050a01ab3"
                   }
                 ]
               }
@@ -68769,8 +68773,12 @@
                     "id": "2c918087682f9a86016839c050861ab1"
                   },
                   {
-                    "type": "ENTITLEMENT",
+                    "type": "ACCESS_PROFILE",
                     "id": "2c918087682f9a86016839c0509c1ab2"
+                  },
+                  {
+                    "type": "ROLE",
+                    "id": "2c918087682f9a86016839c050a01ab3"
                   }
                 ],
                 "clientMetadata": {
@@ -127782,24 +127790,26 @@
             "example": "2c91808568c529c60168cca6f90c1313"
           },
           "accessRefs": {
-            "description": "The list of entitlements to consider for possible violations in a preventive check.",
+            "description": "The list of access items to consider for possible violations in a preventive check. Supported types are ENTITLEMENT, ACCESS_PROFILE, and ROLE.",
             "type": "array",
             "items": {
               "type": "object",
-              "description": "Entitlement including a specific set of access.",
+              "description": "Reference to an access item that may contribute to an SOD violation.",
               "properties": {
                 "type": {
                   "type": "string",
-                  "description": "Entitlement's DTO type.",
+                  "description": "Access item DTO type.",
                   "enum": [
-                    "ENTITLEMENT"
+                    "ENTITLEMENT",
+                    "ACCESS_PROFILE",
+                    "ROLE"
                   ],
                   "example": "ENTITLEMENT",
                   "nullable": false
                 },
                 "id": {
                   "type": "string",
-                  "description": "Entitlement's ID.",
+                  "description": "Access item ID.",
                   "example": "2c91809773dee32014e13e122092014e",
                   "nullable": false
                 }
@@ -127811,8 +127821,12 @@
                 "id": "2c918087682f9a86016839c050861ab1"
               },
               {
-                "type": "ENTITLEMENT",
+                "type": "ACCESS_PROFILE",
                 "id": "2c918087682f9a86016839c0509c1ab2"
+              },
+              {
+                "type": "ROLE",
+                "id": "2c918087682f9a86016839c050a01ab3"
               }
             ]
           }
