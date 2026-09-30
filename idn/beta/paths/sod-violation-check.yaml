@@ -1,4 +1,13 @@
 post:
+  security:
+    - userAuth:
+        - idn:sod-violation:read
+        - idn:sod-violation:manage
+    - applicationAuth:
+        - idn:sod-violation:read
+        - idn:sod-violation:manage
+  x-sailpoint-userLevels:
+    - ORG_ADMIN
   operationId: startViolationCheck
   tags:
     - SOD Policies
@@ -25,9 +34,14 @@ post:
               "name": "CN=Information Access,OU=test,OU=test-service,DC=TestAD,DC=local"
             },
             {
-              "type": "ENTITLEMENT",
+              "type": "ACCESS_PROFILE",
               "id": "2c918087682f9a86016839c0509c1ab2",
-              "name": "CN=Information Technology,OU=test,OU=test-service,DC=TestAD,DC=local"
+              "name": "Finance Access Profile"
+            },
+            {
+              "type": "ROLE",
+              "id": "2c918087682f9a86016839c050a01ab3",
+              "name": "Payroll Approver Role"
             }
             ],
             "clientMetadata": {
