@@ -44850,7 +44850,7 @@
               "type": "string"
             },
             "example": "hasEntitlements eq true",
-            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in*\n\n**name**: *eq, in, sw*\n\n**nativeIdentity**: *eq, in, sw*\n\n**uuid**: *eq, in*\n\n**description**: *eq, in, sw*\n\n**machineIdentity.id**: *eq, in*\n\n**machineIdentity.name**: *eq, in, sw*\n\n**subtype.technicalName**: *eq, in, sw*\n\n**subtype.displayName**: *eq, in, sw*\n\n**accessType**: *eq, in, sw*\n\n**environment**: *eq, in, sw*\n\n**ownerIdentity**: *eq, in*\n\n**ownerIdentity.id**: *eq, in*\n\n**ownerIdentity.name**: *eq, in, sw*\n\n**manuallyCorrelated**: *eq*\n\n**enabled**: *eq*\n\n**locked**: *eq*\n\n**hasEntitlements**: *eq*\n\n**attributes**: *eq*\n\n**source.id**: *eq, in*\n\n**source.name**: *eq, in, sw*\n\n**created**: *eq, gt, lt, ge, le*\n\n**modified**: *eq, gt, lt, ge, le*"
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in*\n\n**name**: *eq, in, sw*\n\n**nativeIdentity**: *eq, in, sw*\n\n**uuid**: *eq, in*\n\n**description**: *eq, in, sw*\n\n**machineIdentity.id**: *eq, in*\n\n**machineIdentity.name**: *eq, in, sw*\n\n**subtype.technicalName**: *eq, in, sw*\n\n**subtype.displayName**: *eq, in, sw*\n\n**accessType**: *eq, in, sw*\n\n**environment**: *eq, in, sw*\n\n**ownerIdentity**: *eq, in*\n\n**ownerIdentity.id**: *eq, in*\n\n**ownerIdentity.name**: *eq, in, sw*\n\n**manuallyCorrelated**: *eq*\n\n**enabled**: *eq*\n\n**locked**: *eq*\n\n**hasEntitlements**: *eq*\n\n**attributes**: *eq*\n\n**source.id**: *eq, in*\n\n**source.name**: *eq, in, sw*\n\n**created**: *eq, gt, lt, ge, le*\n\n**modified**: *eq, gt, lt, ge, le*\n\n**risk.severity**: *eq, in*\n\n**permissionLevel**: *eq, in*\n\n**lastUsedAt**: *gt, lt, ge, le*\n\n`risk.severity`, `permissionLevel`, and `lastUsedAt` require Entro enrichment to be enabled for the tenant. When it is not, those filters return `400`. `compliance` and `complianceViolationsCount` are not filter fields. With unknown-severity enabled, a null stored severity matches `risk.severity eq \"UNKNOWN\"`."
           },
           {
             "in": "query",
@@ -44861,7 +44861,7 @@
               "format": "comma-separated"
             },
             "example": "id,name",
-            "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **id, name, nativeIdentity, ownerIdentity, uuid, description, machineIdentity.id, machineIdentity.name, subtype.technicalName, subtype.displayName, accessType, environment, manuallyCorrelated, enabled, locked, hasEntitlements, ownerIdentity.id, ownerIdentity.name, attributes, source.id, source.name, created, modified**"
+            "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **id, name, nativeIdentity, ownerIdentity, uuid, description, machineIdentity.id, machineIdentity.name, subtype.technicalName, subtype.displayName, accessType, environment, manuallyCorrelated, enabled, locked, hasEntitlements, ownerIdentity.id, ownerIdentity.name, attributes, source.id, source.name, created, modified, risk.severity, permissionLevel, lastUsedAt**\n\n`risk.severity`, `permissionLevel`, and `lastUsedAt` require Entro enrichment to be enabled; otherwise those sorters return `400`. `risk.severity` sorts by rank (UNKNOWN, LOW, MEDIUM, HIGH, CRITICAL), not alphabetically. Null Entro values sort last. `compliance` is not sortable."
           },
           {
             "name": "X-SailPoint-Experimental",
@@ -45036,7 +45036,7 @@
         ],
         "requestBody": {
           "required": true,
-          "description": "A JSON of updated values [JSON Patch](https://tools.ietf.org/html/rfc6902) standard. The following fields are patchable:\n          * description\n          * ownerIdentity\n          * subType\n          * accessType\n          * environment\n          * attributes\n          * classificationMethod\n          * manuallyEdited\n          * nativeIdentity\n          * uuid\n          * source\n          * manuallyCorrelated\n          * enabled\n          * locked\n          * hasEntitlements\n          * connectorAttributes",
+          "description": "A JSON of updated values [JSON Patch](https://tools.ietf.org/html/rfc6902) standard. The following fields are patchable:\n          * description\n          * environment\n          * accessType\n          * attributes\n          * manuallyEdited\n          * ownerIdentity\n          * subtype\n          * machineIdentity\n          * owners\n\nNon-dataset accounts may patch ownerIdentity, subtype, and machineIdentity. Dataset accounts may patch owners. When expanded ownership is enabled, non-dataset accounts may also patch owners, and dataset accounts may also patch ownerIdentity.\n`risk`, `permissionLevel`, `compliance`, and `lastUsedAt` are read-only. Do not patch them; aggregation is the only writer. A patch of other fields still succeeds when those values are present on the account.",
           "content": {
             "application/json-patch+json": {
               "schema": {
@@ -47086,7 +47086,7 @@
               "type": "string"
             },
             "example": "identityId eq \"2c9180858082150f0180893dbaf44201\"",
-            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in, sw*\n\n**displayName**: *eq, in, sw*\n\n**nativeIdentity**: *eq, in, sw*\n\n**attributes**: *eq*\n\n**manuallyEdited**: *eq*\n\n**subtype**: *eq, in*\n\n**owners.primaryIdentity.id**: *eq, in, sw*\n\n**owners.primaryIdentity.name**: *eq, in, isnull, pr*\n\n**owners.secondaryIdentity.id**: *eq, in, sw*\n\n**owners.secondaryIdentity.name**: *eq, in, isnull, pr*\n\n**owners.secondaryGovernanceGroup.id**: *eq, in*\n\n**owners.secondaryGovernanceGroup.name**: *eq, in, isnull, pr*\n\n**source.id**: *eq, in*\n\n**source.name**: *eq, in, sw*\n\n**entitlement.id**: *eq, in*\n\n**entitlement.name**: *eq, in, sw*\n\n**risk.severity**: *eq, in*\n\n**businessApplicationRefs.id**: *eq*\n\n**effectiveSanctionedStatus**: *eq*\n\nBusiness Application filters require Business Applications to be enabled for the tenant. Filter values are case-sensitive. When Business Applications is not enabled, these filters are not allowed and return `400`."
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in, sw*\n\n**displayName**: *eq, in, sw*\n\n**nativeIdentity**: *eq, in, sw*\n\n**attributes**: *eq*\n\n**manuallyEdited**: *eq*\n\n**subtype**: *eq, in*\n\n**owners.primaryIdentity.id**: *eq, in, sw*\n\n**owners.primaryIdentity.name**: *eq, in, isnull, pr*\n\n**owners.secondaryIdentity.id**: *eq, in, sw*\n\n**owners.secondaryIdentity.name**: *eq, in, isnull, pr*\n\n**owners.secondaryGovernanceGroup.id**: *eq, in*\n\n**owners.secondaryGovernanceGroup.name**: *eq, in, isnull, pr*\n\n**source.id**: *eq, in*\n\n**source.name**: *eq, in, sw*\n\n**entitlement.id**: *eq, in*\n\n**entitlement.name**: *eq, in, sw*\n\n**risk.severity**: *eq, in*\n\n**businessApplicationRefs.id**: *eq*\n\n**effectiveSanctionedStatus**: *eq*\n\n**sessionCount**: *eq, gt, ge, lt, le, isnull*\n\n**suspiciousSessionCount**: *eq, gt, ge, lt, le, isnull*\n\n**entroId**: *eq*\n\n**insights**: *eq*\n\nBusiness Application filters require Business Applications to be enabled for the tenant. Filter values are case-sensitive. When Business Applications is not enabled, these filters are not allowed and return `400`.\n\n`sessionCount`, `suspiciousSessionCount`, `entroId`, and `insights` require Entro enrichment to be enabled for the tenant. When it is not, those filters return `400`. `entroId` is an exact, case-sensitive match. `insights` matches one whole array element and does not match a substring. `sessionCount` and `suspiciousSessionCount` treat null as not enriched; `0` is a real count."
           },
           {
             "in": "query",
@@ -47096,7 +47096,7 @@
               "format": "comma-separated"
             },
             "required": false,
-            "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **nativeIdentity, name, owners.primaryIdentity.name, source.name, created, modified**",
+            "description": "Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **nativeIdentity, name, owners.primaryIdentity.name, source.name, created, modified, sessionCount, suspiciousSessionCount**\n\n`entroId` and `insights` are not sortable. `sessionCount` and `suspiciousSessionCount` require Entro enrichment to be enabled; otherwise those sorters return `400`. Null counts sort as not enriched, distinct from `0`.",
             "example": "nativeIdentity"
           },
           {
@@ -47320,7 +47320,7 @@
           "Machine Identities"
         ],
         "summary": "Partial update of machine identity",
-        "description": "Use this API to selectively update machine identity details using a JSONPatch payload.\n\nPatchable fields include **name**, **description**, **nativeIdentity**, **subtype**, **environment**, **attributes**, **owners**, **userEntitlements**, **manuallyEdited**, and **businessApplicationRefs** (when Business Applications is enabled for the tenant).\n\n\nWhen Business Applications is enabled for the tenant, `/businessApplicationRefs` may be replaced with at most one MANUAL Business Application\nreference, or cleared with an empty array. Patching `/businessApplicationRefs` when Business Applications is not enabled returns `400`.\nExisting `AUTOMATIC` correlations cannot be overridden (`400` / `ILLEGAL_UPDATE_ATTEMPT`). Unknown BA id returns `404`.\n",
+        "description": "Use this API to selectively update machine identity details using a JSONPatch payload.\n\nPatchable fields include **name**, **description**, **nativeIdentity**, **subtype**, **environment**, **attributes**, **owners**, **userEntitlements**, **manuallyEdited**, and **businessApplicationRefs** (when Business Applications is enabled for the tenant).\n\n\nWhen Business Applications is enabled for the tenant, `/businessApplicationRefs` may be replaced with at most one MANUAL Business Application\nreference, or cleared with an empty array. Patching `/businessApplicationRefs` when Business Applications is not enabled returns `400`.\nExisting `AUTOMATIC` correlations cannot be overridden (`400` / `ILLEGAL_UPDATE_ATTEMPT`). Unknown BA id returns `404`.\n\n\n`entroId`, `insights`, `sessionCount`, and `suspiciousSessionCount` are read-only. A patch that targets them is rejected\nwith `400`; aggregation is the only writer. `entroRiskBand`, `agentSource`, and `integrationType` are not response fields.\n",
         "security": [
           {
             "userAuth": [
@@ -112660,6 +112660,72 @@
                   "type": "SOURCE",
                   "name": "Active Directory"
                 }
+              },
+              "risk": {
+                "type": "object",
+                "readOnly": true,
+                "nullable": true,
+                "description": "Entro risk for this machine account. Present when Entro enrichment is enabled for the tenant. Null when no risk has been recorded. `score` stays null until a risk-engine projection exists. Read-only; written only by aggregation. This is separate from machine-identity SAF risk.",
+                "properties": {
+                  "score": {
+                    "type": "number",
+                    "format": "double",
+                    "nullable": true,
+                    "description": "Risk score. Null for Entro-only severity.",
+                    "example": 72.5
+                  },
+                  "severity": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Risk severity. A null stored severity can render as UNKNOWN when that behavior is enabled.",
+                    "enum": [
+                      "UNKNOWN",
+                      "LOW",
+                      "MEDIUM",
+                      "HIGH",
+                      "CRITICAL"
+                    ],
+                    "example": "HIGH"
+                  }
+                }
+              },
+              "permissionLevel": {
+                "type": "string",
+                "readOnly": true,
+                "nullable": true,
+                "description": "Entro permission level. Null when not enriched. Read-only; written only by aggregation.",
+                "enum": [
+                  "PRIVILEGED",
+                  "ELEVATED",
+                  "BASIC",
+                  "UNKNOWN"
+                ],
+                "example": "PRIVILEGED"
+              },
+              "compliance": {
+                "type": "array",
+                "readOnly": true,
+                "nullable": true,
+                "description": "Entro compliance control ids. Null when absent; empty when Entro recorded no violations. A violations count is the length of this array. There is no `complianceViolationsCount` field, and `compliance` is not a list filter or sort field. Read-only; written only by aggregation.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "nullable": true,
+                      "description": "Framework control id.",
+                      "example": "SOC2-CC6.1"
+                    }
+                  }
+                }
+              },
+              "lastUsedAt": {
+                "type": "string",
+                "format": "date-time",
+                "readOnly": true,
+                "nullable": true,
+                "description": "When the machine account was last used, from Entro. Null when not enriched. Read-only; written only by aggregation.",
+                "example": "2026-03-10T21:38:25Z"
               }
             }
           }
@@ -113674,6 +113740,41 @@
                     "example": "HIGH"
                   }
                 }
+              },
+              "entroId": {
+                "type": "string",
+                "readOnly": true,
+                "nullable": true,
+                "description": "Entro back-reference. Present when Entro enrichment is enabled for the tenant. Null means the identity is not Entro-correlated. Read-only; written only by aggregation. Not returned on older machine-identity versions.",
+                "example": "117923dfeaaf4a1ab09b6252ea369e44"
+              },
+              "insights": {
+                "type": "array",
+                "readOnly": true,
+                "nullable": true,
+                "description": "Entro insights. Null means not Entro-correlated; an empty array means enriched with no insights. Read-only; written only by aggregation. Filter matches a whole element, not a substring.",
+                "items": {
+                  "type": "string"
+                },
+                "example": [
+                  "Sanctioned Service Access"
+                ]
+              },
+              "sessionCount": {
+                "type": "integer",
+                "format": "int32",
+                "readOnly": true,
+                "nullable": true,
+                "description": "Entro session count. Null means not Entro-correlated and is not the same as 0. Read-only; written only by aggregation.",
+                "example": 152
+              },
+              "suspiciousSessionCount": {
+                "type": "integer",
+                "format": "int32",
+                "readOnly": true,
+                "nullable": true,
+                "description": "Entro suspicious session count. Null means not Entro-correlated and is not the same as 0. Read-only; written only by aggregation.",
+                "example": 22
               }
             }
           }
