@@ -87,21 +87,20 @@ patch:
       A JSON of updated values [JSON Patch](https://tools.ietf.org/html/rfc6902) standard. The following fields are
       patchable:
                 * description
-                * ownerIdentity
-                * subType
-                * accessType
                 * environment
+                * accessType
                 * attributes
-                * classificationMethod
                 * manuallyEdited
-                * nativeIdentity
-                * uuid
-                * source
-                * manuallyCorrelated
-                * enabled
-                * locked
-                * hasEntitlements
-                * connectorAttributes
+                * ownerIdentity
+                * subtype
+                * machineIdentity
+                * owners
+
+      Non-dataset accounts may patch ownerIdentity, subtype, and machineIdentity. Dataset accounts may patch owners.
+      When expanded ownership is enabled, non-dataset accounts may also patch owners, and dataset accounts may also patch ownerIdentity.
+
+      `risk`, `permissionLevel`, `compliance`, and `lastUsedAt` are read-only. Do not patch them;
+      aggregation is the only writer. A patch of other fields still succeeds when those values are present on the account.
     content:
       application/json-patch+json:
         schema:

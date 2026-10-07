@@ -123,3 +123,41 @@ allOf:
               - MEDIUM
               - LOW
             example: HIGH
+      entroId:
+        type: string
+        readOnly: true
+        nullable: true
+        description: >-
+          Entro back-reference. Present when Entro enrichment is enabled for the tenant.
+          Null means the identity is not Entro-correlated. Read-only; written only by aggregation.
+          Not returned on older machine-identity versions.
+        example: 117923dfeaaf4a1ab09b6252ea369e44
+      insights:
+        type: array
+        readOnly: true
+        nullable: true
+        description: >-
+          Entro insights. Null means not Entro-correlated; an empty array means enriched with no insights.
+          Read-only; written only by aggregation. Filter matches a whole element, not a substring.
+        items:
+          type: string
+        example:
+          - Sanctioned Service Access
+      sessionCount:
+        type: integer
+        format: int32
+        readOnly: true
+        nullable: true
+        description: >-
+          Entro session count. Null means not Entro-correlated and is not the same as 0.
+          Read-only; written only by aggregation.
+        example: 152
+      suspiciousSessionCount:
+        type: integer
+        format: int32
+        readOnly: true
+        nullable: true
+        description: >-
+          Entro suspicious session count. Null means not Entro-correlated and is not the same as 0.
+          Read-only; written only by aggregation.
+        example: 22
