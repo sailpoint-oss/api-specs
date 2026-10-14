@@ -240,6 +240,10 @@
       "description": "Use this API to start and manage Just-In-Time (JIT) Privileged activation workflows for entitlement connections,\nto read and submit activation frictions, and to search activation history.\n\nOAuth scopes: **idn:jit-activation-workflow:*** (activate, extend, deactivate, manage) for workflow APIs.\n**idn:jit-activation-history:read** (admin history view) and **idn:jit-activation-history-self:read** (self history view).\n"
     },
     {
+      "name": "Launchers",
+      "description": "Use this API to manage Launchers.\n\nA launcher lets users start a workflow on demand from Identity Security Cloud, such as a Privileged Workflow or a workflow that creates an Active Directory group. Each launcher references a workflow. Launching it starts an interactive process that runs that workflow for the user who launched it, and the response returns the ID of that interactive process.\n\nUsers can launch only the launchers assigned to them, and only while the launcher is enabled.\n\nA launcher's enabled state follows the workflow it references. When the workflow is disabled, the launcher is disabled, and when the workflow is enabled again, the launcher is enabled again. If the referenced workflow is deleted, the reference is removed from the launcher.\n\nLauncher names must be unique within a tenant, and a tenant can have up to 100 launchers.\n"
+    },
+    {
       "name": "Lifecycle States",
       "description": "Use this API to implement and customize lifecycle state functionality.\nWith this functionality in place, administrators can create and configure custom lifecycle states for use across their organizations, which is key to controlling which users have access, when they have access, and the access they have.\n\nA lifecycle state describes a user's status in a company. For example, two lifecycle states come by default with Identity Security Cloud: 'Active' and 'Inactive.' \nWhen an active employee takes an extended leave of absence from a company, his or her lifecycle state may change to 'Inactive,' for security purposes. \nThe inactive employee would lose access to all the applications, sources, and sensitive data during the leave of absence, but when the employee returns and becomes active again, all that access would be restored. \nThis saves administrators the time that would otherwise be spent provisioning the employee's access to each individual tool, reviewing the employee's certification history, etc. \n\nAdministrators can create a variety of custom lifecycle states. Refer to [Planning New Lifecycle States](https://documentation.sailpoint.com/saas/help/provisioning/lifecycle.html#planning-new-lifecycle-states) for some custom lifecycle state ideas.\n\nAdministrators must define the criteria for being in each lifecycle state, and they must define how Identity Security Cloud manages users' access to apps and sources for each lifecycle state.\n\nIn Identity Security Cloud, administrators can manage lifecycle states by going to Admin > Identities > Identity Profile, selecting the identity profile whose lifecycle states they want to manage, selecting the 'Provisioning' tab, and using the left panel to either select the lifecycle state they want to modify or create a new lifecycle state. \n\nIn the 'Provisioning' tab, administrators can make the following access changes to an identity profile's lifecycle state: \n\n- Enable/disable the lifecycle state for the identity profile.\n\n- Enable/disable source accounts for the identity profile's lifecycle state.\n\n- Add existing access profiles to grant to the identity profiles in that lifecycle state.\n\n- Create a new access profile to grant to the identity profile in that lifecycle state.\n\nAccess profiles granted in a previous lifecycle state are automatically revoked when the identity moves to a new lifecycle state. \nTo maintain access across multiple lifecycle states, administrators must grant the access profiles in each lifecycle state. \nFor example, if an administrator wants users with the 'HR Employee' identity profile to maintain their building access in both the 'Active' and 'Leave of Absence' lifecycle states, the administrator must grant the access profile for that building access to both lifecycle states.\n\nDuring scheduled refreshes, Identity Security Cloud evaluates lifecycle states to determine whether their assigned identities have the access defined in the lifecycle states' access profiles. \nIf the identities are missing access, Identity Security Cloud provisions that access. \n\nAdministrators can also use the 'Provisioning' tab to configure email notifications for Identity Security Cloud to send whenever an identity with that identity profile has a lifecycle state change. \nRefer to [Configuring Lifecycle State Notifications](https://documentation.sailpoint.com/saas/help/provisioning/lifecycle.html#configuring-lifecycle-state-notifications) for more information on how to do so.\n\nAn identity's lifecycle state can have four different statuses: the lifecycle state's status can be 'Active,' it can be 'Not Set,' it can be 'Not Valid,' or it 'Does Not Match Technical Name Case.' \nRefer to [Moving Identities into Lifecycle States](https://documentation.sailpoint.com/saas/help/provisioning/lifecycle.html#moving-identities-into-lifecycle-states) for more information about these different lifecycle state statuses. \n\nRefer to [Setting Up Lifecycle States](https://documentation.sailpoint.com/saas/help/provisioning/lifecycle.html) for more information about lifecycle states.\n"
     },
@@ -435,6 +439,10 @@
     {
       "name": "Tagged Objects",
       "description": "Use this API to implement object tagging functionality. \nWith object tagging functionality in place, any user in an organization can use tags as a way to group objects together and find them more quickly when the user searches Identity Security Cloud. \n\nIn Identity Security Cloud, users can search their tenants for information and add tags objects they find.\nTagging an object provides users with a way of grouping objects together and makes it easier to find these objects in the future. \n\nFor example, if a user is searching for an entitlement that grants a risky level of access to Active Directory, it's possible that the user may have to search through hundreds of entitlements to find the correct one. \nOnce the user finds that entitlement, the user can add a tag to the entitlement, \"AD_RISKY\" to make it easier to find the entitlement again.\nThe user can add the same tag to multiple objects the user wants to group together for an easy future search, and the user can also do so in bulk.\nWhen the user wants to find that tagged entitlement again, the user can search for \"tags:AD_RISKY\" to find all objects with that tag. \n\nWith the API, you can tag even more different object types than you can in Identity Security Cloud (access profiles, entitlements, identities, and roles). \nYou can use the API to tag all these objects:\n\n- Access profiles \n\n- Applications \n\n- Certification campaigns\n\n- Entitlements\n\n- Identities \n\n- Roles \n\n- SOD (separation of duties) policies\n\n- Sources \n\nYou can also use the API to directly find, create, and manage tagged objects without using search queries. \n\nThere are limits to tags: \n\n- You can have up to 500 different tags in your tenant.\n\n- You can apply up to 30 tags to one object. \n\n- You can have up to 10,000 tag associations, pairings of 1 tag to 1 object, in your tenant. \n\nBecause of these limits, it is recommended that you work with your governance experts and security teams to establish a list of tags that are most expressive of governance objects and access managed by Identity Security Cloud. \n\nThese are the types of information often expressed in tags: \n\n- Affected departments\n\n- Compliance and regulatory categories \n\n- Remediation urgency levels \n\n- Risk levels \n\nRefer to [Tagging Items in Search](https://documentation.sailpoint.com/saas/help/search/index.html?h=tags#tagging-items-in-search) for more information about tagging objects in Identity Security Cloud. \n"
+    },
+    {
+      "name": "Tags",
+      "description": "Use this API to manage the tags available in your Identity Security Cloud tenant.\n\nA tag is a reusable label, such as `PCI` or `SOX`, that you can apply to objects like identities, roles, access profiles, entitlements, and sources to group them and find them more quickly when you search Identity Security Cloud. These APIs manage the tags themselves. To apply tags to objects or remove them from objects, use the Tagged Objects APIs.\n\nTag names are normalized when a tag is created: spaces are replaced with underscores, letters are converted to uppercase, and any character other than A-Z, 0-9, and underscore is removed. For example, `pci data` becomes `PCI_DATA`. The normalized name must be between 3 and 128 characters long.\n\nA tag can't be deleted while it's still applied to any object. Remove the tag from those objects first.\n\nRefer to [Tagging Items in Search](https://documentation.sailpoint.com/saas/help/search/index.html?h=tags#tagging-items-in-search) for more information about tagging objects in Identity Security Cloud.\n"
     },
     {
       "name": "Task Management"
@@ -21137,20 +21145,6 @@
         "description": "Returns a list of form instances for the tenant. Optionally filter by form definition ID.",
         "operationId": "searchFormInstancesByTenantV1",
         "parameters": [
-          {
-            "name": "offset",
-            "in": "query",
-            "description": "Offset\n\nInteger specifying the offset of the first result from the beginning of the collection. The standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#paginating-results).\nThe offset value is record-based, not page-based, and the index starts at 0.",
-            "schema": {
-              "type": "integer",
-              "format": "int64",
-              "default": 0,
-              "x-go-name": "Offset"
-            },
-            "example": 0,
-            "required": false,
-            "x-go-name": "Offset"
-          },
           {
             "name": "limit",
             "in": "query",
@@ -63473,6 +63467,9 @@
                 "roles": {
                   "$ref": "#/components/examples/query-roles"
                 },
+                "workflowSummaries": {
+                  "$ref": "#/components/examples/query-workflowsummaries"
+                },
                 "query-fields": {
                   "$ref": "#/components/examples/query-fields"
                 },
@@ -63531,6 +63528,9 @@
                   },
                   "roles": {
                     "$ref": "#/components/examples/roles"
+                  },
+                  "workflowSummaries": {
+                    "$ref": "#/components/examples/workflowsummaries"
                   },
                   "query-fields": {
                     "$ref": "#/components/examples/queryfields"
@@ -63832,6 +63832,9 @@
                   },
                   "role": {
                     "$ref": "#/components/examples/role"
+                  },
+                  "workflowSummary": {
+                    "$ref": "#/components/examples/workflowsummary"
                   }
                 }
               }
@@ -85533,7 +85536,7 @@
       "index": {
         "in": "path",
         "name": "index",
-        "description": "The index from which to fetch the specified document.\n\nThe currently supported index names are: *accessprofiles*, *accountactivities*, *entitlements*, *events*, *identities*, and *roles*.\n",
+        "description": "The index from which to fetch the specified document.\n\nThe currently supported index names are: *accessprofiles*, *accountactivities*, *entitlements*, *events*, *identities*, *roles*, and *workflowsummaries*.\n",
         "schema": {
           "type": "string",
           "enum": [
@@ -85542,7 +85545,8 @@
             "entitlements",
             "events",
             "identities",
-            "roles"
+            "roles",
+            "workflowsummaries"
           ]
         },
         "required": true,
@@ -85979,7 +85983,7 @@
         }
       },
       "index": {
-        "description": "Enum representing the currently supported indices.\nAdditional values may be added in the future without notice.",
+        "description": "Enum representing the currently supported indices.\nAdditional values may be added in the future without notice.\n\nThe `*` value does not include the `workflowsummaries` index. To search workflow summaries, specify `workflowsummaries` explicitly.",
         "type": "string",
         "enum": [
           "accessprofiles",
@@ -85988,6 +85992,7 @@
           "events",
           "identities",
           "roles",
+          "workflowsummaries",
           "*"
         ],
         "example": "identities"
@@ -124841,7 +124846,8 @@
           "entitlement",
           "event",
           "identity",
-          "role"
+          "role",
+          "workflowsummary"
         ],
         "example": "identity"
       },
@@ -126423,6 +126429,134 @@
           }
         ]
       },
+      "workflowsummarydocument": {
+        "type": "object",
+        "description": "Workflow summary. Each workflow summary document represents one event in the execution history of a workflow.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "b393f4e2-4785-4d7f-ab27-3a6b8ded4c81-3",
+            "description": "ID of the workflow summary. The ID is the workflow execution ID, followed by a hyphen and the event ID."
+          },
+          "workflowExecutionId": {
+            "type": "string",
+            "example": "b393f4e2-4785-4d7f-ab27-3a6b8ded4c81",
+            "description": "ID of the workflow execution that the event belongs to."
+          },
+          "eventId": {
+            "type": "integer",
+            "format": "int64",
+            "example": 3,
+            "description": "Position of the event in the execution history of the workflow execution."
+          },
+          "workflowName": {
+            "type": "string",
+            "example": "Send Email",
+            "description": "Name of the workflow."
+          },
+          "workflowId": {
+            "type": "string",
+            "example": "d201c5d9-d37b-4a2f-af14-66414f39d568",
+            "description": "ID of the workflow."
+          },
+          "status": {
+            "type": "string",
+            "description": "Status of the workflow execution at the time of the event. Possible values include `Completed`, `Failed`, `Canceled`, `Running`, and `Queued`.",
+            "example": "Completed"
+          },
+          "workflowTest": {
+            "type": "boolean",
+            "description": "Indicates whether the workflow execution was a test execution.",
+            "example": false,
+            "default": false
+          },
+          "owner": {
+            "type": "object",
+            "nullable": true,
+            "description": "Owner of the workflow.",
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "Type of the owner.",
+                "example": "IDENTITY"
+              },
+              "id": {
+                "type": "string",
+                "description": "ID of the owner.",
+                "example": "2c9180844d5c0ab5014d5fb5bc6c0bc8"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the owner.",
+                "example": "William Wilson"
+              }
+            }
+          },
+          "requestId": {
+            "type": "string",
+            "description": "Backend ID that tracks a workflow request in the system. Provide this ID in a customer support ticket for debugging purposes.",
+            "example": "41e12a74fa7b4a6a98ae47887b64acdb"
+          },
+          "created": {
+            "type": "string",
+            "description": "ISO-8601 date-time referring to the time when the event occurred.",
+            "nullable": true,
+            "format": "date-time",
+            "example": "2022-02-07T20:13:31.640618296Z"
+          },
+          "synced": {
+            "type": "string",
+            "description": "ISO-8601 date-time referring to the date-time when object was queued to be synced into search database for use in the search API.\nThis date-time changes anytime there is an update to the object, which triggers a synchronization event being sent to the search database.\nThere may be some delay between the `synced` time and the time when the updated data is actually available in the search API.",
+            "example": "2022-02-07T20:13:32.104Z"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the execution history event. Examples include `WorkflowExecutionStarted`, `WorkflowExecutionCompleted`, `WorkflowExecutionFailed`, `ActivityTaskScheduled`, `ActivityTaskCompleted`, and `ActivityTaskFailed`.",
+            "example": "ActivityTaskCompleted"
+          },
+          "attributes": {
+            "type": "object",
+            "nullable": true,
+            "description": "Attributes of the event. The available attributes depend on the event type. For example, an `ActivityTaskCompleted` event can include `task`, `stepName`, `displayName`, `technicalName`, and `result`. Values that are not strings or integers are serialized as JSON strings.",
+            "additionalProperties": true,
+            "example": {
+              "task": "sp:send-email",
+              "stepName": "sendEmail",
+              "displayName": "Send Email",
+              "technicalName": "sendEmail",
+              "result": "{\"status\":\"sent\"}"
+            }
+          }
+        }
+      },
+      "workflowsummarydocuments": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/workflowsummarydocument"
+          },
+          {
+            "properties": {
+              "pod": {
+                "type": "string",
+                "example": "pod01-useast1"
+              },
+              "org": {
+                "type": "string",
+                "example": "org-name"
+              },
+              "_type": {
+                "$ref": "#/components/schemas/documenttype"
+              },
+              "_index": {
+                "type": "string",
+                "example": "44",
+                "description": "Internal metadata field. This field is for SailPoint internal use only and is subject to change without notice. Do not rely on it in your integrations."
+              }
+            }
+          }
+        ]
+      },
       "searchdocuments": {
         "type": "object",
         "oneOf": [
@@ -126443,6 +126577,9 @@
           },
           {
             "$ref": "#/components/schemas/roledocuments"
+          },
+          {
+            "$ref": "#/components/schemas/workflowsummarydocuments"
           }
         ]
       },
@@ -126540,6 +126677,9 @@
           },
           {
             "$ref": "#/components/schemas/roledocument"
+          },
+          {
+            "$ref": "#/components/schemas/workflowsummarydocument"
           }
         ]
       },
@@ -143919,6 +144059,20 @@
           }
         }
       },
+      "query-workflowsummaries": {
+        "summary": "Query for workflow summaries",
+        "value": {
+          "indices": [
+            "workflowsummaries"
+          ],
+          "query": {
+            "query": "workflowId:\"61c90819-2922-421a-bdfc-384cae2e4606\""
+          },
+          "sort": [
+            "-created"
+          ]
+        }
+      },
       "query-fields": {
         "summary": "Query with fields",
         "value": {
@@ -144726,6 +144880,63 @@
             "org": "org-name",
             "_type": "role",
             "type": "role"
+          }
+        ]
+      },
+      "workflowsummaries": {
+        "summary": "A collection of workflow summaries",
+        "value": [
+          {
+            "id": "b393f4e2-4785-4d7f-ab27-3a6b8ded4c81-3",
+            "workflowExecutionId": "b393f4e2-4785-4d7f-ab27-3a6b8ded4c81",
+            "eventId": 3,
+            "workflowName": "Send Email",
+            "workflowId": "d201c5d9-d37b-4a2f-af14-66414f39d568",
+            "status": "Completed",
+            "workflowTest": false,
+            "owner": {
+              "type": "IDENTITY",
+              "id": "2c9180844d5c0ab5014d5fb5bc6c0bc8",
+              "name": "William Wilson"
+            },
+            "requestId": "41e12a74fa7b4a6a98ae47887b64acdb",
+            "created": "2022-02-07T20:13:31.640618296Z",
+            "synced": "2022-02-07T20:13:32.104Z",
+            "type": "ActivityTaskCompleted",
+            "attributes": {
+              "task": "sp:send-email",
+              "stepName": "sendEmail",
+              "displayName": "Send Email",
+              "technicalName": "sendEmail",
+              "result": "{\"status\":\"sent\"}"
+            },
+            "pod": "pod01-useast1",
+            "org": "org-name",
+            "_type": "workflowsummary"
+          },
+          {
+            "id": "b393f4e2-4785-4d7f-ab27-3a6b8ded4c81-1",
+            "workflowExecutionId": "b393f4e2-4785-4d7f-ab27-3a6b8ded4c81",
+            "eventId": 1,
+            "workflowName": "Send Email",
+            "workflowId": "d201c5d9-d37b-4a2f-af14-66414f39d568",
+            "status": "Completed",
+            "workflowTest": false,
+            "owner": {
+              "type": "IDENTITY",
+              "id": "2c9180844d5c0ab5014d5fb5bc6c0bc8",
+              "name": "William Wilson"
+            },
+            "requestId": "41e12a74fa7b4a6a98ae47887b64acdb",
+            "created": "2022-02-07T20:13:29.356648026Z",
+            "synced": "2022-02-07T20:13:32.104Z",
+            "type": "WorkflowExecutionStarted",
+            "attributes": {
+              "trigger": "idn:identity-created"
+            },
+            "pod": "pod01-useast1",
+            "org": "org-name",
+            "_type": "workflowsummary"
           }
         ]
       },
@@ -147194,6 +147405,34 @@
             "TAG_1",
             "TAG_2"
           ]
+        }
+      },
+      "workflowsummary": {
+        "summary": "Workflow summary",
+        "value": {
+          "id": "b393f4e2-4785-4d7f-ab27-3a6b8ded4c81-3",
+          "workflowExecutionId": "b393f4e2-4785-4d7f-ab27-3a6b8ded4c81",
+          "eventId": 3,
+          "workflowName": "Send Email",
+          "workflowId": "d201c5d9-d37b-4a2f-af14-66414f39d568",
+          "status": "Completed",
+          "workflowTest": false,
+          "owner": {
+            "type": "IDENTITY",
+            "id": "2c9180844d5c0ab5014d5fb5bc6c0bc8",
+            "name": "William Wilson"
+          },
+          "requestId": "41e12a74fa7b4a6a98ae47887b64acdb",
+          "created": "2022-02-07T20:13:31.640618296Z",
+          "synced": "2022-02-07T20:13:32.104Z",
+          "type": "ActivityTaskCompleted",
+          "attributes": {
+            "task": "sp:send-email",
+            "stepName": "sendEmail",
+            "displayName": "Send Email",
+            "technicalName": "sendEmail",
+            "result": "{\"status\":\"sent\"}"
+          }
         }
       },
       "evaluateempty": {

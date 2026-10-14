@@ -17936,6 +17936,8 @@ paths:
                 $ref: '#/components/examples/query-identities'
               roles:
                 $ref: '#/components/examples/query-roles'
+              workflowSummaries:
+                $ref: '#/components/examples/query-workflowsummaries'
               query-fields:
                 $ref: '#/components/examples/query-fields'
               query-timeZone:
@@ -17975,6 +17977,8 @@ paths:
                   $ref: '#/components/examples/identities'
                 roles:
                   $ref: '#/components/examples/roles'
+                workflowSummaries:
+                  $ref: '#/components/examples/workflowSummaries'
                 query-fields:
                   $ref: '#/components/examples/queryFields'
                 query-timeZone:
@@ -18161,6 +18165,8 @@ paths:
                   $ref: '#/components/examples/identity'
                 role:
                   $ref: '#/components/examples/role'
+                workflowSummary:
+                  $ref: '#/components/examples/workflowSummary'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -41301,21 +41307,6 @@ paths:
       description: Returns a list of form instances for the tenant. Optionally filter by form definition ID.
       operationId: searchFormInstancesByTenant
       parameters:
-        - name: offset
-          in: query
-          description: |-
-            Offset
-
-            Integer specifying the offset of the first result from the beginning of the collection. The standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#paginating-results).
-            The offset value is record-based, not page-based, and the index starts at 0.
-          schema:
-            type: integer
-            format: int64
-            default: 0
-            x-go-name: Offset
-          example: 0
-          required: false
-          x-go-name: Offset
         - name: limit
           in: query
           description: |-
@@ -46731,6 +46722,7 @@ components:
         - $ref: '#/components/schemas/EventDocument'
         - $ref: '#/components/schemas/IdentityDocument'
         - $ref: '#/components/schemas/RoleDocument'
+        - $ref: '#/components/schemas/WorkflowSummaryDocument'
     SavedSearch:
       type: object
       allOf:
@@ -59906,6 +59898,7 @@ components:
       description: |-
         Enum representing the currently supported indices.
         Additional values may be added in the future without notice.
+        The `*` value does not include the `workflowsummaries` index. To search workflow summaries, specify `workflowsummaries` explicitly.
       type: string
       enum:
         - accessprofiles
@@ -59914,6 +59907,7 @@ components:
         - events
         - identities
         - roles
+        - workflowsummaries
         - '*'
       example: identities
     Column:
@@ -60814,6 +60808,7 @@ components:
         - event
         - identity
         - role
+        - workflowsummary
       example: identity
     DocumentFields:
       type: object
@@ -61460,6 +61455,106 @@ components:
       allOf:
         - $ref: '#/components/schemas/RoleDocument'
         - $ref: '#/components/schemas/DocumentFields'
+    WorkflowSummaryDocument:
+      type: object
+      description: Workflow summary. Each workflow summary document represents one event in the execution history of a workflow.
+      properties:
+        id:
+          type: string
+          example: b393f4e2-4785-4d7f-ab27-3a6b8ded4c81-3
+          description: ID of the workflow summary. The ID is the workflow execution ID, followed by a hyphen and the event ID.
+        workflowExecutionId:
+          type: string
+          example: b393f4e2-4785-4d7f-ab27-3a6b8ded4c81
+          description: ID of the workflow execution that the event belongs to.
+        eventId:
+          type: integer
+          format: int64
+          example: 3
+          description: Position of the event in the execution history of the workflow execution.
+        workflowName:
+          type: string
+          example: Send Email
+          description: Name of the workflow.
+        workflowId:
+          type: string
+          example: d201c5d9-d37b-4a2f-af14-66414f39d568
+          description: ID of the workflow.
+        status:
+          type: string
+          description: Status of the workflow execution at the time of the event. Possible values include `Completed`, `Failed`, `Canceled`, `Running`, and `Queued`.
+          example: Completed
+        workflowTest:
+          type: boolean
+          description: Indicates whether the workflow execution was a test execution.
+          example: false
+          default: false
+        owner:
+          type: object
+          nullable: true
+          description: Owner of the workflow.
+          properties:
+            type:
+              type: string
+              description: Type of the owner.
+              example: IDENTITY
+            id:
+              type: string
+              description: ID of the owner.
+              example: 2c9180844d5c0ab5014d5fb5bc6c0bc8
+            name:
+              type: string
+              description: Name of the owner.
+              example: William Wilson
+        requestId:
+          type: string
+          description: Backend ID that tracks a workflow request in the system. Provide this ID in a customer support ticket for debugging purposes.
+          example: 41e12a74fa7b4a6a98ae47887b64acdb
+        created:
+          type: string
+          description: ISO-8601 date-time referring to the time when the event occurred.
+          nullable: true
+          format: date-time
+          example: '2022-02-07T20:13:31.640618296Z'
+        synced:
+          type: string
+          description: |-
+            ISO-8601 date-time referring to the date-time when object was queued to be synced into search database for use in the search API.
+            This date-time changes anytime there is an update to the object, which triggers a synchronization event being sent to the search database.
+            There may be some delay between the `synced` time and the time when the updated data is actually available in the search API.
+          example: '2022-02-07T20:13:32.104Z'
+        type:
+          type: string
+          description: Type of the execution history event. Examples include `WorkflowExecutionStarted`, `WorkflowExecutionCompleted`, `WorkflowExecutionFailed`, `ActivityTaskScheduled`, `ActivityTaskCompleted`, and `ActivityTaskFailed`.
+          example: ActivityTaskCompleted
+        attributes:
+          type: object
+          nullable: true
+          description: Attributes of the event. The available attributes depend on the event type. For example, an `ActivityTaskCompleted` event can include `task`, `stepName`, `displayName`, `technicalName`, and `result`. Values that are not strings or integers are serialized as JSON strings.
+          additionalProperties: true
+          example:
+            task: sp:send-email
+            stepName: sendEmail
+            displayName: Send Email
+            technicalName: sendEmail
+            result: '{"status":"sent"}'
+    WorkflowSummaryDocuments:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/WorkflowSummaryDocument'
+        - properties:
+            pod:
+              type: string
+              example: pod01-useast1
+            org:
+              type: string
+              example: org-name
+            _type:
+              $ref: '#/components/schemas/DocumentType'
+            _index:
+              type: string
+              example: '44'
+              description: Internal metadata field. This field is for SailPoint internal use only and is subject to change without notice. Do not rely on it in your integrations.
     SearchDocuments:
       type: object
       oneOf:
@@ -61469,6 +61564,7 @@ components:
         - $ref: '#/components/schemas/EventDocuments'
         - $ref: '#/components/schemas/IdentityDocuments'
         - $ref: '#/components/schemas/RoleDocuments'
+        - $ref: '#/components/schemas/WorkflowSummaryDocuments'
     AggregationResult:
       type: object
       properties:
@@ -77020,7 +77116,7 @@ components:
       description: |
         The index from which to fetch the specified document.
 
-        The currently supported index names are: *accessprofiles*, *accountactivities*, *entitlements*, *events*, *identities*, and *roles*.
+        The currently supported index names are: *accessprofiles*, *accountactivities*, *entitlements*, *events*, *identities*, *roles*, and *workflowsummaries*.
       schema:
         type: string
         enum:
@@ -77030,6 +77126,7 @@ components:
           - events
           - identities
           - roles
+          - workflowsummaries
       required: true
       example: identities
     ClassificationMode:
@@ -77960,6 +78057,15 @@ components:
           - roles
         query:
           query: enabled:true
+    query-workflowsummaries:
+      summary: Query for workflow summaries
+      value:
+        indices:
+          - workflowsummaries
+        query:
+          query: workflowId:"61c90819-2922-421a-bdfc-384cae2e4606"
+        sort:
+          - '-created'
     query-fields:
       summary: Query with fields
       value:
@@ -78585,6 +78691,53 @@ components:
           org: org-name
           _type: role
           type: role
+    workflowSummaries:
+      summary: A collection of workflow summaries
+      value:
+        - id: b393f4e2-4785-4d7f-ab27-3a6b8ded4c81-3
+          workflowExecutionId: b393f4e2-4785-4d7f-ab27-3a6b8ded4c81
+          eventId: 3
+          workflowName: Send Email
+          workflowId: d201c5d9-d37b-4a2f-af14-66414f39d568
+          status: Completed
+          workflowTest: false
+          owner:
+            type: IDENTITY
+            id: 2c9180844d5c0ab5014d5fb5bc6c0bc8
+            name: William Wilson
+          requestId: 41e12a74fa7b4a6a98ae47887b64acdb
+          created: '2022-02-07T20:13:31.640618296Z'
+          synced: '2022-02-07T20:13:32.104Z'
+          type: ActivityTaskCompleted
+          attributes:
+            task: sp:send-email
+            stepName: sendEmail
+            displayName: Send Email
+            technicalName: sendEmail
+            result: '{"status":"sent"}'
+          pod: pod01-useast1
+          org: org-name
+          _type: workflowsummary
+        - id: b393f4e2-4785-4d7f-ab27-3a6b8ded4c81-1
+          workflowExecutionId: b393f4e2-4785-4d7f-ab27-3a6b8ded4c81
+          eventId: 1
+          workflowName: Send Email
+          workflowId: d201c5d9-d37b-4a2f-af14-66414f39d568
+          status: Completed
+          workflowTest: false
+          owner:
+            type: IDENTITY
+            id: 2c9180844d5c0ab5014d5fb5bc6c0bc8
+            name: William Wilson
+          requestId: 41e12a74fa7b4a6a98ae47887b64acdb
+          created: '2022-02-07T20:13:29.356648026Z'
+          synced: '2022-02-07T20:13:32.104Z'
+          type: WorkflowExecutionStarted
+          attributes:
+            trigger: idn:identity-created
+          pod: pod01-useast1
+          org: org-name
+          _type: workflowsummary
     queryFields:
       summary: Query with fields
       value:
@@ -80538,6 +80691,30 @@ components:
         tags:
           - TAG_1
           - TAG_2
+    workflowSummary:
+      summary: Workflow summary
+      value:
+        id: b393f4e2-4785-4d7f-ab27-3a6b8ded4c81-3
+        workflowExecutionId: b393f4e2-4785-4d7f-ab27-3a6b8ded4c81
+        eventId: 3
+        workflowName: Send Email
+        workflowId: d201c5d9-d37b-4a2f-af14-66414f39d568
+        status: Completed
+        workflowTest: false
+        owner:
+          type: IDENTITY
+          id: 2c9180844d5c0ab5014d5fb5bc6c0bc8
+          name: William Wilson
+        requestId: 41e12a74fa7b4a6a98ae47887b64acdb
+        created: '2022-02-07T20:13:31.640618296Z'
+        synced: '2022-02-07T20:13:32.104Z'
+        type: ActivityTaskCompleted
+        attributes:
+          task: sp:send-email
+          stepName: sendEmail
+          displayName: Send Email
+          technicalName: sendEmail
+          result: '{"status":"sent"}'
     identities-details-report-results:
       summary: Identities details report result.
       value:
