@@ -104,4 +104,4 @@ paths:
     $ref: ./paths/account-activities-v1-by-id.yaml
 security:
   - userAuth:
-      - sp:scopes:all
+      - idn:account-activity:read

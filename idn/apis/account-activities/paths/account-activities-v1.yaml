@@ -88,3 +88,9 @@ get:
       $ref: ../../shared/responses/429.yaml
     '500':
       $ref: ../../shared/responses/500.yaml
+  security:
+    - userAuth:
+        - idn:account-activity:read
+  x-sailpoint-userLevels:
+    - ORG_ADMIN
+    - API
