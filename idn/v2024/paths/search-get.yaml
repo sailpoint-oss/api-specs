@@ -41,6 +41,8 @@ get:
               $ref: '../schemas/search/documents/examples/identity.yaml'
             role:
               $ref: '../schemas/search/documents/examples/role.yaml'
+            workflowSummary:
+              $ref: '../schemas/search/documents/examples/workflowSummary.yaml'
     '400':
       $ref: '../responses/400.yaml'
     '401':

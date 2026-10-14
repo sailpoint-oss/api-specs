@@ -6,3 +6,4 @@ oneOf:
   - $ref: '../model/event/EventDocument.yaml'
   - $ref: '../model/identity/IdentityDocument.yaml'
   - $ref: '../model/role/RoleDocument.yaml'
+  - $ref: '../model/workflow/WorkflowSummaryDocument.yaml'

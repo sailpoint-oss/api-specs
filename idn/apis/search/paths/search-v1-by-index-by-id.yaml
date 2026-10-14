@@ -43,6 +43,8 @@ get:
               $ref: ../examples/identity.yaml
             role:
               $ref: ../examples/role.yaml
+            workflowSummary:
+              $ref: ../examples/workflowsummary.yaml
     '400':
       $ref: ../../shared/responses/400.yaml
     '401':

@@ -5,7 +5,7 @@ description: >
 
 
   The currently supported index names are: *accessprofiles*, *accountactivities*, *entitlements*, *events*,
-  *identities*, and *roles*.
+  *identities*, *roles*, and *workflowsummaries*.
 schema:
   type: string
   enum:
@@ -15,5 +15,6 @@ schema:
     - events
     - identities
     - roles
+    - workflowsummaries
 required: true
 example: identities

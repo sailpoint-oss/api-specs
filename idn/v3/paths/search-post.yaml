@@ -46,6 +46,8 @@ post:
             $ref: '../schemas/search/examples/query-identities.yaml'
           roles:
             $ref: '../schemas/search/examples/query-roles.yaml'
+          workflowSummaries:
+            $ref: '../schemas/search/examples/query-workflowsummaries.yaml'
           query-fields:
             $ref: '../schemas/search/examples/query-fields.yaml'
           query-timeZone:
@@ -85,6 +87,8 @@ post:
               $ref: '../schemas/search/documents/examples/identities.yaml'
             roles:
               $ref: '../schemas/search/documents/examples/roles.yaml'
+            workflowSummaries:
+              $ref: '../schemas/search/documents/examples/workflowSummaries.yaml'
             query-fields:
               $ref: '../schemas/search/documents/examples/queryFields.yaml'
             query-timeZone:

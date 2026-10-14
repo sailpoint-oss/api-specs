@@ -50,6 +50,8 @@ post:
             $ref: ../examples/query-identities.yaml
           roles:
             $ref: ../examples/query-roles.yaml
+          workflowSummaries:
+            $ref: ../examples/query-workflowsummaries.yaml
           query-fields:
             $ref: ../examples/query-fields.yaml
           query-timeZone:
@@ -89,6 +91,8 @@ post:
               $ref: ../examples/identities.yaml
             roles:
               $ref: ../examples/roles.yaml
+            workflowSummaries:
+              $ref: ../examples/workflowsummaries.yaml
             query-fields:
               $ref: ../examples/queryfields.yaml
             query-timeZone:
