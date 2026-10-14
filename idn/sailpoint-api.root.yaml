@@ -982,7 +982,8 @@ tags:
     documentation](https://developer.sailpoint.com/idn/api/).
 - name: JIT Activations
   description: |
-    Use this API to start and manage Just-In-Time (JIT) Privileged activation workflows for entitlement connections.
+    Use this API to start and manage Just-In-Time (JIT) Privileged activation workflows for entitlement connections,
+    and to read and submit activation frictions.
 - name: Lifecycle States
   description: >
     Use this API to implement and customize lifecycle state functionality.
@@ -3157,6 +3158,8 @@ paths:
     $ref: ./apis/jit-activations/paths/jit-activations-v1-deactivate.yaml
   /jit-activations/v1/extend:
     $ref: ./apis/jit-activations/paths/jit-activations-v1-extend.yaml
+  /jit-activations/v1/{activationId}/frictions:
+    $ref: ./apis/jit-activations/paths/jit-activations-v1-by-activationid-frictions.yaml
   /launchers/v1:
     $ref: ./apis/launchers/paths/launchers-v1.yaml
   /launchers/v1/{launcherID}:
