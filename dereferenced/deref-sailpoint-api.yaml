@@ -4485,6 +4485,12 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
+      security:
+        - userAuth:
+            - idn:account-activity:read
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - API
   /account-activities/v1/{id}:
     get:
       operationId: getAccountActivityV1
@@ -4520,6 +4526,12 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
+      security:
+        - userAuth:
+            - idn:account-activity:read
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - API
   /account-aggregations/v1/{id}/status:
     get:
       operationId: getAccountAggregationStatusV1

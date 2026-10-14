@@ -4692,7 +4692,18 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:account-activity:read"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "API"
+        ]
       }
     },
     "/account-activities/v1/{id}": {
@@ -4745,7 +4756,18 @@
           "500": {
             "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:account-activity:read"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "API"
+        ]
       }
     },
     "/account-aggregations/v1/{id}/status": {
