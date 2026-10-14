@@ -1,7 +1,7 @@
 get:
   tags:
   - Custom Forms
-  summary: Export form definitions by tenant.
+  summary: List form definitions by tenant.
   description: No parameters required.
   operationId: searchFormDefinitionsByTenantV1
   parameters:
