@@ -64540,6 +64540,11 @@ components:
       type: object
       title: Approval Status Dto
       properties:
+        approvalId:
+          type: string
+          description: Unique identifier for the approval. May be null; use the `approvalIds` list on the item status to get the populated approval IDs.
+          example: 2c9180877b2b6ea4017b2c545f971429
+          nullable: true
         forwarded:
           type: boolean
           default: false
@@ -64954,6 +64959,15 @@ components:
           items:
             $ref: '#/components/schemas/approvalstatusdto'
           description: Approval details for each item.
+        approvalIds:
+          type: array
+          items:
+            type: string
+          description: List of approval IDs associated with the request.
+          example:
+            - 85f0cf482dd44327b593624c07906c21
+            - fa57e1bfa36f41ee85e33ee59fcbeac5
+          nullable: true
         manualWorkItemDetails:
           type: array
           nullable: true
