@@ -1,6 +1,11 @@
 type: object
 title: Approval Status Dto
 properties:
+  approvalId:
+    type: string
+    description: Unique identifier for the approval. May be null; use the `approvalIds` list on the item status to get the populated approval IDs.
+    example: 2c9180877b2b6ea4017b2c545f971429
+    nullable: true
   forwarded:
     type: boolean
     default: false
