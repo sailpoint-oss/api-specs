@@ -52304,7 +52304,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Returns the attestation document. This contains the public key needed to add a parameter to the store.",
+            "description": "Returns an attestation document. This contains a single use public key which can be used to add a parameter to the store or reveal a parameter. The attestation document will expire after 5 minutes.",
             "content": {
               "application/json": {
                 "schema": {
@@ -106610,7 +106610,7 @@
         }
       },
       "ParameterStorageAttestationDocument": {
-        "description": "The attestation document. This is Base64Url encoded binary data containing the attestation document. This has a cert with a public key that needs to be used to encrypt the private fields of the parameter on creation or update.",
+        "description": "The attestation document. This is Base64Url encoded binary data containing the attestation document. This has a cert with a public key that needs to be used to encrypt the private fields of the parameter on creation or update. This key is single use and will expire if not used within 5 minutes.",
         "type": "object",
         "properties": {
           "attestationDocument": {
