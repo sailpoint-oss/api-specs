@@ -1,4 +1,4 @@
-description: The attestation document. This is Base64Url encoded binary data containing the attestation document. This has a cert with a public key that needs to be used to encrypt the private fields of the parameter on creation or update.
+description: The attestation document. This is Base64Url encoded binary data containing the attestation document. This has a cert with a public key that needs to be used to encrypt the private fields of the parameter on creation or update. This key is single use and will expire if not used within 5 minutes.
 type: object
 properties:
   attestationDocument:
