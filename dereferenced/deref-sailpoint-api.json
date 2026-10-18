@@ -25797,8 +25797,17 @@
           "required": true
         },
         "responses": {
-          "200": {
+          "201": {
             "description": "The identity collector was created successfully.",
+            "headers": {
+              "Location": {
+                "description": "URL of the created identity collector.",
+                "schema": {
+                  "type": "string"
+                },
+                "example": "/das/v1/identity-collectors/12345"
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -25847,7 +25856,7 @@
     "/das/v1/identity-collectors/types": {
       "get": {
         "summary": "List identity collector types",
-        "description": "Returns the public identity collector type display names exposed for metadata and UI discovery. This endpoint lists base types only (for example, `Box` rather than `Box SaaS`). SaaS variants are not listed here; the identity collector type is derived from `sourceId` when creating an identity collector. Existing identity collectors may still report SaaS variant types in list and update responses.\n\nPagination is not supported for this endpoint; the full set of public types is always returned.",
+        "description": "Returns the public identity collector types exposed for metadata and UI discovery, including the ISC `connectorName` values to use when listing sources for each type. This endpoint lists base types only (for example, `Box` rather than `Box SaaS`). SaaS variants are not listed as separate types; create derives the identity collector type from `sourceId`. Existing identity collectors may still report SaaS variant types in list and update responses.\n\nFlagged types (Snowflake, Databricks, Atlassian Suite) are included only when the corresponding tenant feature flag is enabled.\n\nPagination is not supported for this endpoint; the full set of enabled public types is always returned.",
         "security": [
           {
             "userAuth": [
@@ -25879,24 +25888,80 @@
         ],
         "responses": {
           "200": {
-            "description": "Supported identity collector type display names.",
+            "description": "Supported identity collector types with ISC connector names.",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "example": [
-                    "Active Directory",
-                    "AWS",
-                    "Azure Active Directory",
-                    "Box",
-                    "Databricks",
-                    "Dropbox",
-                    "Google Drive",
-                    "Microsoft Entra SaaS",
-                    "Snowflake"
+                  "$ref": "#/components/schemas/identitycollectortypesresponse"
+                },
+                "example": {
+                  "types": [
+                    {
+                      "type": "Active Directory",
+                      "iscConnectorNames": [
+                        "Active Directory"
+                      ]
+                    },
+                    {
+                      "type": "Atlassian Suite",
+                      "iscConnectorNames": [
+                        "Atlassian Suite - Cloud",
+                        "Atlassian Suite SaaS"
+                      ]
+                    },
+                    {
+                      "type": "AWS",
+                      "iscConnectorNames": [
+                        "AWS",
+                        "AWS SaaS"
+                      ]
+                    },
+                    {
+                      "type": "Azure Active Directory",
+                      "iscConnectorNames": [
+                        "Azure Active Directory"
+                      ]
+                    },
+                    {
+                      "type": "Box",
+                      "iscConnectorNames": [
+                        "Box",
+                        "Box SaaS"
+                      ]
+                    },
+                    {
+                      "type": "Databricks",
+                      "iscConnectorNames": [
+                        "Databricks"
+                      ]
+                    },
+                    {
+                      "type": "Dropbox",
+                      "iscConnectorNames": [
+                        "Dropbox",
+                        "Dropbox SaaS"
+                      ]
+                    },
+                    {
+                      "type": "Google Drive",
+                      "iscConnectorNames": [
+                        "G Suite",
+                        "Google Workspace SaaS"
+                      ]
+                    },
+                    {
+                      "type": "Microsoft Entra SaaS",
+                      "iscConnectorNames": [
+                        "Microsoft Entra"
+                      ]
+                    },
+                    {
+                      "type": "Snowflake",
+                      "iscConnectorNames": [
+                        "Snowflake",
+                        "Snowflake SaaS"
+                      ]
+                    }
                   ]
                 }
               }
@@ -102197,7 +102262,7 @@
           },
           "fieldMappings": {
             "type": "array",
-            "description": "Maps source attributes to data dictionary fields and DAS custom field slots. Each `sourceAttributeName` must be either a built-in attribute for the identity collector type or listed in `properties`. Use an empty array when no dynamic field mappings are configured.",
+            "description": "Maps source attributes to data dictionary fields and DAS custom field slots. The same `sourceAttributeName` may be mapped to multiple dictionary fields. Each `sourceAttributeName` must be either a built-in attribute for the identity collector type or listed in `properties`. Use an empty array when no dynamic field mappings are configured.",
             "items": {
               "$ref": "#/components/schemas/identitycollectorfieldmapping"
             }
@@ -102233,7 +102298,9 @@
               "Snowflake SaaS",
               "Databricks",
               "AWS",
-              "AWS SaaS"
+              "AWS SaaS",
+              "Atlassian Suite",
+              "Atlassian Suite SaaS"
             ],
             "example": "Active Directory"
           },
@@ -102278,6 +102345,48 @@
             "description": "Optional groups collection settings, including properties and field mappings."
           }
         }
+      },
+      "identitycollectortype": {
+        "type": "object",
+        "description": "A public identity collector type and the ISC `connectorName` values the UI should use when querying `GET /v3/sources` for sources that can back that type.",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Identity collector type display name. Matches the `type` values returned by list and used by create/update metadata. Base types only (for example `Box`, not `Box SaaS`).",
+            "example": "Google Drive"
+          },
+          "iscConnectorNames": {
+            "type": "array",
+            "description": "Exact ISC `connectorName` values to use in `GET /v3/sources` filters (`connectorName eq \"...\"`). These are not always equal to `type` (for example Google Drive maps to `G Suite` and `Google Workspace SaaS`).",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "G Suite",
+              "Google Workspace SaaS"
+            ]
+          }
+        },
+        "required": [
+          "type",
+          "iscConnectorNames"
+        ]
+      },
+      "identitycollectortypesresponse": {
+        "type": "object",
+        "description": "Public identity collector types available for discovery and create flows.",
+        "properties": {
+          "types": {
+            "type": "array",
+            "description": "Enabled public identity collector types. Flagged types (Snowflake, Databricks, Atlassian Suite) are omitted when their feature flags are disabled.",
+            "items": {
+              "$ref": "#/components/schemas/identitycollectortype"
+            }
+          }
+        },
+        "required": [
+          "types"
+        ]
       },
       "identitycollectorbuiltinpropertiesbytype": {
         "type": "object",
@@ -102370,7 +102479,9 @@
               "Snowflake SaaS",
               "Databricks",
               "AWS",
-              "AWS SaaS"
+              "AWS SaaS",
+              "Atlassian Suite",
+              "Atlassian Suite SaaS"
             ],
             "example": "Active Directory"
           },
