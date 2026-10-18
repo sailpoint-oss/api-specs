@@ -39,6 +39,8 @@ properties:
       - "Databricks"
       - "AWS"
       - "AWS SaaS"
+      - "Atlassian Suite"
+      - "Atlassian Suite SaaS"
     example: Active Directory
   users:
     $ref: './identitycollectorcollectionsettings.yaml'

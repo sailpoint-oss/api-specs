@@ -108,8 +108,14 @@ post:
           $ref: ../schemas/createidentitycollectorrequest.yaml
     required: true
   responses:
-    '200':
+    '201':
       description: The identity collector was created successfully.
+      headers:
+        Location:
+          description: URL of the created identity collector.
+          schema:
+            type: string
+          example: /das/v1/identity-collectors/12345
       content:
         application/json:
           schema:
