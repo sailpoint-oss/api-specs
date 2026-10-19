@@ -4315,17 +4315,6 @@
         "description": "Use this API to get access request statuses of all the access requests in the org based on the specified query  parameters.\nAny user with user level ORG_ADMIN or scope idn:access-request-administration:read can access this endpoint to get  the  access request statuses\nWhen a requested object has an associated form, each status item may include a `form` object with the form definition ID, instance ID, and answers (`formData`).",
         "parameters": [
           {
-            "in": "header",
-            "name": "X-SailPoint-Experimental",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          },
-          {
             "in": "query",
             "name": "requested-for",
             "schema": {
@@ -4432,6 +4421,17 @@
             "example": "request-state=EXECUTING",
             "description": "Filter the results by the state of the request. The only valid value is *EXECUTING*.",
             "required": false
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -66596,17 +66596,6 @@
         ],
         "parameters": [
           {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          },
-          {
             "$ref": "#/components/parameters/limit"
           },
           {
@@ -66714,19 +66703,6 @@
           "ORG_ADMIN",
           "SOD_CONTROL_ADMIN"
         ],
-        "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          }
-        ],
         "requestBody": {
           "required": true,
           "description": "Data needed to create a Compensating Control",
@@ -66827,17 +66803,6 @@
         ],
         "parameters": [
           {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          },
-          {
             "in": "path",
             "name": "id",
             "required": true,
@@ -66916,17 +66881,6 @@
           "SOD_CONTROL_ADMIN"
         ],
         "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          },
           {
             "in": "path",
             "name": "id",
@@ -67034,17 +66988,6 @@
           "ORG_ADMIN"
         ],
         "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          },
           {
             "in": "path",
             "name": "id",
@@ -69068,17 +69011,6 @@
         "description": "Returns a paged list of policy violations for the current tenant. Requires the read scope (idn:sod-violation:read).\nThis endpoint uses the standard collection parameters defined in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters/).\nThis endpoint supports standard V3 collection parameters: `limit`, `offset`, `count`, `filters`, and `sorters`.\nEmbedded references in each violation (`owner`, `target`, `policy`, and references inside `appliedControls`) follow the `ReferenceResponse` schema: `id` and `type` are always present; `name` is included when display metadata resolves.\nFilters and sorters are validated against a fixed whitelist of fields to ensure safe queries and to align with underlying database indexes.\n",
         "parameters": [
           {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          },
-          {
             "$ref": "#/components/parameters/limit"
           },
           {
@@ -69170,17 +69102,6 @@
         "summary": "List My Policy Violations",
         "description": "Returns a paged list of policy violations where the current user is the owner (directly assigned or via a governance group they belong to). No permission scope is required; caller identity is required.\nSupports the same collection parameters as GET /violations (limit, offset, count, filters, sorters), including the same filter field whitelist and processing (normalization, pruning of not-yet-persisted name predicates). The owner filter is implicit (current user); **do not** use `ownerId` in filters for this endpoint.\nEmbedded references in each violation follow `ReferenceResponse` (`id`, `type`, and optional `name` when metadata resolves).\n",
         "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          },
           {
             "$ref": "#/components/parameters/limit"
           },
@@ -69274,17 +69195,6 @@
         "description": "Returns a single policy violation by ID for the current tenant. Access is allowed if the caller has the read scope (`idn:sod-violation:read`) or is an owner of the violation (direct or via governance group). Returns 403 Forbidden if the violation exists but the caller has neither the read scope nor ownership. Returns 404 Not Found if the violation does not exist for the tenant.\nEmbedded references (`owner`, `target`, `policy`, and references inside `appliedControls`) use `ReferenceResponse`: `id` and `type` are always present; `name` is included when display metadata resolves.\n",
         "parameters": [
           {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          },
-          {
             "in": "path",
             "name": "id",
             "required": true,
@@ -69348,17 +69258,6 @@
         "summary": "Apply control to violation",
         "description": "Applies a compensating control to the specified policy violation. Callers without the `idn:sod-violation:manage` scope may only apply a control to violations they own (directly, or via a governance group they belong to).",
         "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          },
           {
             "in": "path",
             "name": "id",
@@ -69434,17 +69333,6 @@
         "summary": "Reassign policy violation",
         "description": "Reassigns the specified policy violation to a new owner. Callers without the `idn:sod-violation:manage` scope may only reassign violations they own (directly, or via a governance group they belong to).",
         "parameters": [
-          {
-            "name": "X-SailPoint-Experimental",
-            "in": "header",
-            "description": "Use this header to enable this experimental API.",
-            "example": true,
-            "schema": {
-              "type": "string",
-              "default": true
-            },
-            "required": true
-          },
           {
             "in": "path",
             "name": "id",

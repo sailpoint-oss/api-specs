@@ -4223,14 +4223,6 @@ paths:
         Any user with user level ORG_ADMIN or scope idn:access-request-administration:read can access this endpoint to get  the  access request statuses
         When a requested object has an associated form, each status item may include a `form` object with the form definition ID, instance ID, and answers (`formData`).
       parameters:
-        - in: header
-          name: X-SailPoint-Experimental
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
         - in: query
           name: requested-for
           schema:
@@ -4323,6 +4315,14 @@ paths:
           example: request-state=EXECUTING
           description: Filter the results by the state of the request. The only valid value is *EXECUTING*.
           required: false
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
       responses:
         '200':
           description: List of requested item statuses.
@@ -47624,14 +47624,6 @@ paths:
         - SOD_CONTROL_ADMIN
         - SOD_POLICY_ADMIN
       parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
         - $ref: '#/components/parameters/count'
@@ -47722,15 +47714,6 @@ paths:
       x-sailpoint-userLevels:
         - ORG_ADMIN
         - SOD_CONTROL_ADMIN
-      parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
       requestBody:
         required: true
         description: Data needed to create a Compensating Control
@@ -47800,14 +47783,6 @@ paths:
         - SOD_CONTROL_ADMIN
         - SOD_POLICY_ADMIN
       parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
         - in: path
           name: id
           required: true
@@ -47863,14 +47838,6 @@ paths:
         - ORG_ADMIN
         - SOD_CONTROL_ADMIN
       parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
         - in: path
           name: id
           required: true
@@ -47945,14 +47912,6 @@ paths:
       x-sailpoint-userLevels:
         - ORG_ADMIN
       parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
         - in: path
           name: id
           required: true
@@ -49348,14 +49307,6 @@ paths:
         Embedded references in each violation (`owner`, `target`, `policy`, and references inside `appliedControls`) follow the `ReferenceResponse` schema: `id` and `type` are always present; `name` is included when display metadata resolves.
         Filters and sorters are validated against a fixed whitelist of fields to ensure safe queries and to align with underlying database indexes.
       parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
         - $ref: '#/components/parameters/count'
@@ -49440,14 +49391,6 @@ paths:
         Supports the same collection parameters as GET /violations (limit, offset, count, filters, sorters), including the same filter field whitelist and processing (normalization, pruning of not-yet-persisted name predicates). The owner filter is implicit (current user); **do not** use `ownerId` in filters for this endpoint.
         Embedded references in each violation follow `ReferenceResponse` (`id`, `type`, and optional `name` when metadata resolves).
       parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
         - $ref: '#/components/parameters/count'
@@ -49528,14 +49471,6 @@ paths:
         Returns a single policy violation by ID for the current tenant. Access is allowed if the caller has the read scope (`idn:sod-violation:read`) or is an owner of the violation (direct or via governance group). Returns 403 Forbidden if the violation exists but the caller has neither the read scope nor ownership. Returns 404 Not Found if the violation does not exist for the tenant.
         Embedded references (`owner`, `target`, `policy`, and references inside `appliedControls`) use `ReferenceResponse`: `id` and `type` are always present; `name` is included when display metadata resolves.
       parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
         - in: path
           name: id
           required: true
@@ -49577,14 +49512,6 @@ paths:
       summary: Apply control to violation
       description: Applies a compensating control to the specified policy violation. Callers without the `idn:sod-violation:manage` scope may only apply a control to violations they own (directly, or via a governance group they belong to).
       parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
         - in: path
           name: id
           required: true
@@ -49633,14 +49560,6 @@ paths:
       summary: Reassign policy violation
       description: Reassigns the specified policy violation to a new owner. Callers without the `idn:sod-violation:manage` scope may only reassign violations they own (directly, or via a governance group they belong to).
       parameters:
-        - name: X-SailPoint-Experimental
-          in: header
-          description: Use this header to enable this experimental API.
-          example: true
-          schema:
-            type: string
-            default: true
-          required: true
         - in: path
           name: id
           required: true
