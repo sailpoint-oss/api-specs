@@ -17,14 +17,6 @@ get:
     When a requested object has an associated form, each status item may include a `form` object with the form definition
     ID, instance ID, and answers (`formData`).
   parameters:
-  - in: header
-    name: X-SailPoint-Experimental
-    description: Use this header to enable this experimental API.
-    example: true
-    schema:
-      type: string
-      default: true
-    required: true
   - in: query
     name: requested-for
     schema:
@@ -138,6 +130,14 @@ get:
     example: request-state=EXECUTING
     description: Filter the results by the state of the request. The only valid value is *EXECUTING*.
     required: false
+  - name: X-SailPoint-Experimental
+    in: header
+    description: Use this header to enable this experimental API.
+    example: true
+    schema:
+      type: string
+      default: true
+    required: true
   responses:
     '200':
       description: List of requested item statuses.
