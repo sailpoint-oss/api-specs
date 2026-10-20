@@ -87,6 +87,7 @@ get:
     example: name
     required: false
     x-go-name: Sorters
+  - $ref: ../../shared/parameters/count.yaml
   responses:
     '200':
       description: Returns a list of form definition objects by tenant used by SP-Config

@@ -3,6 +3,12 @@ get:
   - Custom Forms
   summary: List form definitions by tenant.
   description: No parameters required.
+  deprecated: true
+  x-deprecated-description: >
+    This API has been deprecated, please refer to [Export form definitions by
+    tenant](https://developer.sailpoint.com/docs/api/export-form-definitions-by-tenant-v-1) for the latest API.
+    The export API supports the standard `count` query parameter and returns the total count in the
+    *X-Total-Count* response header.
   operationId: searchFormDefinitionsByTenantV1
   parameters:
   - name: offset

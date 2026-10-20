@@ -15,6 +15,7 @@ get:
   parameters:
   - in: query
     name: filters
+    required: false
     schema:
       type: string
     description: >-
@@ -31,7 +32,7 @@ get:
       **rights**: *ca*
 
 
-      Supported composite operators: *and, or*
+      Supported composite operators are *and, or*
 
 
       All field values (second filter operands) are case-insensitive for this API.

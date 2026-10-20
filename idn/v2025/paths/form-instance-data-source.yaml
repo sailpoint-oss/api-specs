@@ -59,7 +59,7 @@ get:
       **value**: *eq, ne, in*
 
 
-      Supported composite operators: *not*
+      Supported composite operators are *not*
 
 
       Only a single *not* may be used, and it can only be used with the `in` operator.
@@ -209,3 +209,5 @@ get:
                 x-go-name: TrackingID
   security:
   - userAuth: []
+  x-sailpoint-userLevels:
+    - ORG_ADMIN
