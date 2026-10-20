@@ -7495,10 +7495,11 @@
           {
             "in": "query",
             "name": "filters",
+            "required": false,
             "schema": {
               "type": "string"
             },
-            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**target**: *eq, sw*\n\n**rights**: *ca*\n\nSupported composite operators: *and, or*\n\nAll field values (second filter operands) are case-insensitive for this API.\n\nOnly a single *and* or *or* composite filter operator may be used. It must also be used between a target filter and a rights filter, not between 2 filters for the same field.\n\nFor example, the following is valid: `?filters=rights+ca+(%22CREATE%22)+and+target+eq+%22SYS.OBJAUTH2%22`\n\nThe following is invalid: 1?filters=rights+ca+(%22CREATE%22)+and+rights+ca+(%SELECT%22)1",
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**target**: *eq, sw*\n\n**rights**: *ca*\n\nSupported composite operators are *and, or*\n\nAll field values (second filter operands) are case-insensitive for this API.\n\nOnly a single *and* or *or* composite filter operator may be used. It must also be used between a target filter and a rights filter, not between 2 filters for the same field.\n\nFor example, the following is valid: `?filters=rights+ca+(%22CREATE%22)+and+target+eq+%22SYS.OBJAUTH2%22`\n\nThe following is invalid: 1?filters=rights+ca+(%22CREATE%22)+and+rights+ca+(%SELECT%22)1",
             "example": "target eq \"SYS.OBJAUTH2\""
           },
           {

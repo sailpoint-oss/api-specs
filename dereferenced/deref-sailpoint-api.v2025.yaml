@@ -6938,6 +6938,7 @@ paths:
       parameters:
         - in: query
           name: filters
+          required: false
           schema:
             type: string
           description: |-
@@ -6949,7 +6950,7 @@ paths:
 
             **rights**: *ca*
 
-            Supported composite operators: *and, or*
+            Supported composite operators are *and, or*
 
             All field values (second filter operands) are case-insensitive for this API.
 
@@ -44955,7 +44956,7 @@ paths:
 
             **value**: *eq, ne, in*
 
-            Supported composite operators: *not*
+            Supported composite operators are *not*
 
             Only a single *not* may be used, and it can only be used with the `in` operator. The `not` composite operator must be used in front of the field. For example, the following is valid: `not value in ("ID01")`
           schema:
@@ -45107,6 +45108,8 @@ paths:
         - userAuth:
             - sp:forms:read
             - sp:forms:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
   /form-definitions/export:
     get:
       tags:
@@ -47136,7 +47139,7 @@ paths:
 
             **value**: *eq, ne, in*
 
-            Supported composite operators: *not*
+            Supported composite operators are *not*
 
             Only a single *not* may be used, and it can only be used with the `in` operator. The `not` composite operator must be used in front of the field. For example, the following is valid: `not value in ("ID01")`
           schema:
@@ -47279,6 +47282,8 @@ paths:
                     x-go-name: TrackingID
       security:
         - userAuth: []
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
   /form-instances/{formInstanceID}/file/{fileID}:
     get:
       tags:
@@ -50226,7 +50231,7 @@ paths:
 
             **privilegeLevel**: *eq*
 
-            **Supported composite operators**: *and*
+            Supported composite operators are *and*
 
             All filter values are case-sensitive for this API.
 

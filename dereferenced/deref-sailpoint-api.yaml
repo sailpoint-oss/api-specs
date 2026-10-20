@@ -11091,6 +11091,7 @@ paths:
       parameters:
         - in: query
           name: filters
+          required: false
           schema:
             type: string
           description: |-
@@ -11102,7 +11103,7 @@ paths:
 
             **rights**: *ca*
 
-            Supported composite operators: *and, or*
+            Supported composite operators are *and, or*
 
             All field values (second filter operands) are case-insensitive for this API.
 
@@ -13958,6 +13959,9 @@ paths:
         - Custom Forms
       summary: List form definitions by tenant.
       description: No parameters required.
+      deprecated: true
+      x-deprecated-description: |
+        This API has been deprecated, please refer to [Export form definitions by tenant](https://developer.sailpoint.com/docs/api/export-form-definitions-by-tenant-v-1) for the latest API. The export API supports the standard `count` query parameter and returns the total count in the *X-Total-Count* response header.
       operationId: searchFormDefinitionsByTenantV1
       parameters:
         - name: offset
@@ -14764,7 +14768,7 @@ paths:
 
             **value**: *eq, ne, in*
 
-            Supported composite operators: *not*
+            Supported composite operators are *not*
 
             Only a single *not* may be used, and it can only be used with the `in` operator. The `not` composite operator must be used in front of the field. For example, the following is valid: `not value in ("ID01")`
           schema:
@@ -14916,6 +14920,8 @@ paths:
         - userAuth:
             - sp:forms:read
             - sp:forms:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
   /form-definitions/v1/export:
     get:
       tags:
@@ -14990,6 +14996,7 @@ paths:
           example: name
           required: false
           x-go-name: Sorters
+        - $ref: '#/components/parameters/count'
       responses:
         '200':
           description: Returns a list of form definition objects by tenant used by SP-Config
@@ -16945,7 +16952,7 @@ paths:
 
             **value**: *eq, ne, in*
 
-            Supported composite operators: *not*
+            Supported composite operators are *not*
 
             Only a single *not* may be used, and it can only be used with the `in` operator. The `not` composite operator must be used in front of the field. For example, the following is valid: `not value in ("ID01")`
           schema:
@@ -17088,6 +17095,8 @@ paths:
                     x-go-name: TrackingID
       security:
         - userAuth: []
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
   /form-instances/v1/{formInstanceID}/file/{fileID}:
     get:
       tags:
@@ -45877,7 +45886,7 @@ paths:
 
             **privilegeLevel**: *eq*
 
-            **Supported composite operators**: *and*
+            Supported composite operators are *and*
 
             All filter values are case-sensitive for this API.
 

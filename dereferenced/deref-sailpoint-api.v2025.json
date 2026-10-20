@@ -8221,10 +8221,11 @@
           {
             "in": "query",
             "name": "filters",
+            "required": false,
             "schema": {
               "type": "string"
             },
-            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**target**: *eq, sw*\n\n**rights**: *ca*\n\nSupported composite operators: *and, or*\n\nAll field values (second filter operands) are case-insensitive for this API.\n\nOnly a single *and* or *or* composite filter operator may be used. It must also be used between a target filter and a rights filter, not between 2 filters for the same field.\n\nFor example, the following is valid: `?filters=rights+ca+(%22CREATE%22)+and+target+eq+%22SYS.OBJAUTH2%22`\n\nThe following is invalid: 1?filters=rights+ca+(%22CREATE%22)+and+rights+ca+(%SELECT%22)1",
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**target**: *eq, sw*\n\n**rights**: *ca*\n\nSupported composite operators are *and, or*\n\nAll field values (second filter operands) are case-insensitive for this API.\n\nOnly a single *and* or *or* composite filter operator may be used. It must also be used between a target filter and a rights filter, not between 2 filters for the same field.\n\nFor example, the following is valid: `?filters=rights+ca+(%22CREATE%22)+and+target+eq+%22SYS.OBJAUTH2%22`\n\nThe following is invalid: 1?filters=rights+ca+(%22CREATE%22)+and+rights+ca+(%SELECT%22)1",
             "example": "target eq \"SYS.OBJAUTH2\""
           },
           {
@@ -63560,7 +63561,7 @@
           {
             "name": "filters",
             "in": "query",
-            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**value**: *eq, ne, in*\n\nSupported composite operators: *not*\n\nOnly a single *not* may be used, and it can only be used with the `in` operator. The `not` composite operator must be used in front of the field. For example, the following is valid: `not value in (\"ID01\")`",
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**value**: *eq, ne, in*\n\nSupported composite operators are *not*\n\nOnly a single *not* may be used, and it can only be used with the `in` operator. The `not` composite operator must be used in front of the field. For example, the following is valid: `not value in (\"ID01\")`",
             "schema": {
               "type": "string",
               "x-go-name": "Filters"
@@ -63782,6 +63783,9 @@
               "sp:forms:manage"
             ]
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
         ]
       }
     },
@@ -66674,7 +66678,7 @@
           {
             "name": "filters",
             "in": "query",
-            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**value**: *eq, ne, in*\n\nSupported composite operators: *not*\n\nOnly a single *not* may be used, and it can only be used with the `in` operator. The `not` composite operator must be used in front of the field. For example, the following is valid: `not value in (\"ID01\")`",
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**value**: *eq, ne, in*\n\nSupported composite operators are *not*\n\nOnly a single *not* may be used, and it can only be used with the `in` operator. The `not` composite operator must be used in front of the field. For example, the following is valid: `not value in (\"ID01\")`",
             "schema": {
               "type": "string",
               "x-go-name": "Filters"
@@ -66882,6 +66886,9 @@
           {
             "userAuth": []
           }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
         ]
       }
     },
@@ -71066,7 +71073,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**type**: *eq*\n\n**sourceId**: *eq*\n\n**privilegeLevel**: *eq*\n\n**Supported composite operators**: *and*\n\nAll filter values are case-sensitive for this API.\n\nFor example, the following is valid: `?filters=type eq \"CUSTOM\" and sourceId eq \"2c91809175e6c63f0175fb5570220569\"`",
+            "description": "Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**type**: *eq*\n\n**sourceId**: *eq*\n\n**privilegeLevel**: *eq*\n\nSupported composite operators are *and*\n\nAll filter values are case-sensitive for this API.\n\nFor example, the following is valid: `?filters=type eq \"CUSTOM\" and sourceId eq \"2c91809175e6c63f0175fb5570220569\"`",
             "required": true,
             "example": "type eq \"CUSTOM\" and sourceId eq \"c42c45d8d7c04d2da64d215cd8c32f21\""
           }
