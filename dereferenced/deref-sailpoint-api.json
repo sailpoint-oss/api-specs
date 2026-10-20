@@ -240,6 +240,10 @@
       "description": "Use these APIs to configure JIT provisioning activation policy for the tenant.\nOAuth scopes: **idn:jit-policy:read** and **idn:jit-policy:manage** (get config), **idn:jit-policy:update** and **idn:jit-policy:manage** (update config). JIT activation workflow APIs use **idn:jit-activation-workflow:*** scopes (activate, extend, deactivate, manage, and **idn:jit-activation-workflow-internal:manage**).\nFor REST contract details, use the JIT Access operations in this specification and the [SailPoint API documentation](https://developer.sailpoint.com/idn/api/).\n"
     },
     {
+      "name": "JIT Activation Convert",
+      "description": "Use this API to convert the assignment type of an entitlement connection between\nSTANDING and JIT (Just-In-Time Privileged).\n\nOAuth scope required: **idn:jit-assignment-type-conversion:manage**\n"
+    },
+    {
       "name": "JIT Activations",
       "description": "Use this API to start and manage Just-In-Time (JIT) Privileged activation workflows for entitlement connections,\nto read and submit activation frictions, and to search activation history.\n\nOAuth scopes: **idn:jit-activation-workflow:*** (activate, extend, deactivate, manage) for workflow APIs.\n**idn:jit-activation-history:read** (admin history view) and **idn:jit-activation-history-self:read** (self history view).\n"
     },
@@ -46944,6 +46948,79 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/jitactivationconfigresponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/convert-entitlement-connection/v1": {
+      "post": {
+        "operationId": "startEntitlementConnectionConversionV1",
+        "tags": [
+          "JIT Activation Convert"
+        ],
+        "summary": "Convert entitlement connection assignment type",
+        "description": "Initiates an asynchronous workflow to convert the assignment type of an entitlement connection\nbetween `STANDING` and `JIT` (Just-In-Time Privileged).\n\nThe response is returned with HTTP 202 Accepted while the conversion workflow initializes.\n",
+        "security": [
+          {
+            "userAuth": [
+              "idn:jit-assignment-type-conversion:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "parameters": [
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": true,
+            "schema": {
+              "type": "string",
+              "default": true
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/convertentitlementconnectionrequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted. The conversion workflow was accepted and is running.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/convertentitlementconnectionresponse"
                 }
               }
             }
@@ -120092,6 +120169,62 @@
               }
             ],
             "example": 60
+          }
+        }
+      },
+      "convertentitlementconnectionrequest": {
+        "type": "object",
+        "title": "Convert Entitlement Connection Request",
+        "required": [
+          "connectionId",
+          "targetType"
+        ],
+        "properties": {
+          "connectionId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The ID of the entitlement connection to convert.",
+            "example": "757fb803-9024-5861-e510-83a56e4c5bd3"
+          },
+          "targetType": {
+            "type": "string",
+            "enum": [
+              "JIT",
+              "STANDING"
+            ],
+            "description": "The assignment type to convert the entitlement connection to.",
+            "example": "JIT"
+          }
+        }
+      },
+      "convertentitlementconnectionresponse": {
+        "type": "object",
+        "title": "Convert Entitlement Connection Response",
+        "required": [
+          "connectionId",
+          "type",
+          "state"
+        ],
+        "properties": {
+          "connectionId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The ID of the converted entitlement connection.",
+            "example": "757fb803-9024-5861-e510-83a56e4c5bd3"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "JIT",
+              "STANDING"
+            ],
+            "description": "The current assignment type of the entitlement connection, not the target type.",
+            "example": "JIT"
+          },
+          "state": {
+            "type": "string",
+            "description": "The current state of the entitlement connection. Conversion starts as PENDING.",
+            "example": "PENDING"
           }
         }
       },
