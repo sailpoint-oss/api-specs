@@ -214,6 +214,8 @@ paths:
     $ref: ./paths/sources-v1-by-sourceid-upload-connector-file.yaml
   /sources/v1/{sourceId}/connections:
     $ref: ./paths/sources-v1-by-sourceid-connections.yaml
+  /sources/v1/{sourceId}/service-desk-integrations:
+    $ref: ./paths/sources-v1-by-sourceid-service-desk-integrations.yaml
   /sources/v1/{id}/correlation-config:
     $ref: ./paths/sources-v1-by-id-correlation-config.yaml
   /sources/v1/{sourceId}/password-policies:
