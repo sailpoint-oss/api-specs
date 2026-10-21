@@ -79646,6 +79646,87 @@
         }
       }
     },
+    "/sources/v1/{sourceId}/service-desk-integrations": {
+      "get": {
+        "operationId": "getSourceServiceDeskIntegrationsV1",
+        "security": [
+          {
+            "userAuth": [
+              "idn:sources:read",
+              "idn:sources:manage"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:sources:read",
+              "idn:sources:manage"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "SOURCE_ADMIN",
+          "SOURCE_SUBADMIN"
+        ],
+        "tags": [
+          "Sources"
+        ],
+        "summary": "List source service desk integrations",
+        "description": "Use this API to list the Service Desk Integrations that carry out provisioning for a source in Identity Security Cloud (ISC).\n\nA source is provisioned either entirely through its own connector or entirely through a Service Desk Integration; provisioning is never split between the two. An empty list therefore means the source's own connector handles provisioning, and a non-empty list means every provisioning request for the source is routed to the integrations named in the response.\n\nUse this API to determine why provisioning settings on the source itself have no effect, and to identify the integration an administrator must change instead.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sourceId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listSourcesV1",
+            "description": "Source ID.",
+            "example": "2c9180835d191a86015d28455b4a2329"
+          },
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Service Desk Integrations that manage provisioning for the source, empty if the source's own connector handles provisioning.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/sourceservicedeskintegrationdto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
     "/sources/v1/{id}/correlation-config": {
       "get": {
         "operationId": "getCorrelationConfigV1",
@@ -140054,6 +140135,33 @@
             "items": {
               "$ref": "#/components/schemas/dependantconnectionsmissingdto"
             }
+          }
+        }
+      },
+      "sourceservicedeskintegrationdto": {
+        "type": "object",
+        "title": "Source Service Desk Integration Dto",
+        "description": "A Service Desk Integration that carries out provisioning for a source.",
+        "required": [
+          "id",
+          "name",
+          "type"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "ID of the Service Desk Integration.",
+            "example": "2c9180835d191a86015d28455b4a2329"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the Service Desk Integration, as given by the administrator who created it. Use this to find the integration in the Service Desk Integrations list.",
+            "example": "ServiceNow Production"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the Service Desk Integration, matching the connector it was created from. This is the same value the Service Desk Integration APIs report as `type`, for example:\n- ServiceNowSDIM\n- ServiceNow\n\nThe supported types are not fixed, so use [List service desk integration types](https://developer.sailpoint.com/docs/api/get-service-desk-integration-types-v-1) for the current set rather than hard coding them.",
+            "example": "ServiceNowSDIM"
           }
         }
       },
