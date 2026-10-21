@@ -66,6 +66,10 @@ paths:
     $ref: ./paths/identities-v1.yaml
   /identities/v1/{id}:
     $ref: ./paths/identities-v1-by-id.yaml
+  /identities/v2:
+    $ref: ./paths/identities-v2.yaml
+  /identities/v2/{id}:
+    $ref: ./paths/identities-v2-by-id.yaml
   /identities/v1/{identityId}/ownership:
     $ref: ./paths/identities-v1-by-identityid-ownership.yaml
   /identities/v1/{id}/reset:
