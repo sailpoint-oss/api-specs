@@ -46582,6 +46582,264 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
+  /public-identities/v2/visible-attributes:
+    get:
+      operationId: getPublicIdentitiesVisibleAttributesV2
+      tags:
+        - Public Identities
+      summary: Get public identity visible attributes
+      description: |-
+        Returns the default and configured identity attribute keys (with display names) that are allowed for public-identity search and projection. Call this before POST /public-identities/v2/search to learn which field keys are valid in query fields and sort.
+
+        Any authenticated user with the default scope can call this endpoint.
+      security:
+        - userAuth:
+            - sp:scopes:default
+      x-sailpoint-userLevels:
+        - USER
+      parameters:
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
+      responses:
+        '200':
+          description: Request succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/publicidentityvisibleattributes'
+              example:
+                defaultAttributes:
+                  - key: id
+                    name: id
+                  - key: displayName
+                    name: name
+                  - key: name
+                    name: alias
+                  - key: email
+                    name: email
+                  - key: cloudLifecycleState
+                    name: status
+                  - key: identityState
+                    name: identity state
+                  - key: manager.id
+                    name: manager id
+                  - key: manager.displayName
+                    name: manager name
+                  - key: manager.name
+                    name: manager alias
+                configuredAttributes:
+                  - key: displayName
+                    name: Display Name
+                  - key: lastSyncDate
+                    name: Last Sync Date
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /public-identities/v2/search:
+    post:
+      operationId: searchPublicIdentitiesV2
+      tags:
+        - Public Identities
+      summary: Search public identities
+      description: |-
+        Search public identities using a composite query and return matching records.
+
+        The root query set combines criteria with AND and must include attributes.identityState.exact = ACTIVE. The field keys must come from GET /public-identities/v2/visible-attributes and may use the prefix "attributes." and/or the suffix ".exact". See the request examples for the required exact payload structure.
+
+        Any authenticated user with the default scope can call this endpoint.
+      security:
+        - userAuth:
+            - sp:scopes:default
+      x-sailpoint-userLevels:
+        - USER
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/count'
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: true
+          schema:
+            type: string
+            default: true
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/publicidentitiessearchrequest'
+            examples:
+              singleEntryComposite:
+                summary: Root AND with ACTIVE gate and one TEXT entry
+                value:
+                  queryType: COMPOSITE
+                  indices:
+                    - identities
+                  includeNested: false
+                  sort:
+                    - name
+                  querySet:
+                    matchAny: false
+                    entries:
+                      - queryType: TEXT
+                        textQuery:
+                          fields:
+                            - attributes.identityState.exact
+                          terms:
+                            - ACTIVE
+                          matchAny: false
+                          contains: false
+                          strict: true
+                      - queryType: TEXT
+                        textQuery:
+                          terms:
+                            - Mara
+                          fields:
+                            - name
+                            - email
+                          matchAny: true
+                          contains: true
+                          strict: true
+              multiEntryComposite:
+                summary: Root AND with ACTIVE gate and multiple TEXT entries
+                value:
+                  queryType: COMPOSITE
+                  indices:
+                    - identities
+                  includeNested: false
+                  sort:
+                    - name
+                  querySet:
+                    matchAny: false
+                    entries:
+                      - queryType: TEXT
+                        textQuery:
+                          fields:
+                            - attributes.identityState.exact
+                          terms:
+                            - ACTIVE
+                          matchAny: false
+                          contains: false
+                          strict: true
+                      - queryType: TEXT
+                        textQuery:
+                          terms:
+                            - M
+                          fields:
+                            - email
+                          matchAny: true
+                          contains: false
+                          strict: true
+                      - queryType: TEXT
+                        textQuery:
+                          terms:
+                            - M
+                          fields:
+                            - name
+                          matchAny: true
+                          contains: false
+                          strict: true
+              nestedCompositeAndOr:
+                summary: Root AND with ACTIVE gate and nested OR of TEXT entries
+                value:
+                  queryType: COMPOSITE
+                  indices:
+                    - identities
+                  includeNested: false
+                  sort:
+                    - name
+                  querySet:
+                    matchAny: false
+                    entries:
+                      - queryType: TEXT
+                        textQuery:
+                          fields:
+                            - attributes.identityState.exact
+                          terms:
+                            - ACTIVE
+                          matchAny: false
+                          contains: false
+                          strict: true
+                      - queryType: COMPOSITE
+                        querySet:
+                          matchAny: true
+                          entries:
+                            - queryType: TEXT
+                              textQuery:
+                                terms:
+                                  - Mara
+                                fields:
+                                  - name
+                                matchAny: false
+                                contains: false
+                                strict: true
+                            - queryType: TEXT
+                              textQuery:
+                                terms:
+                                  - Mara
+                                fields:
+                                  - email
+                                matchAny: false
+                                contains: false
+                                strict: true
+      responses:
+        '200':
+          description: Request succeeded. Body is an array of PublicIdentityV2. When count=true, X-Total-Count may be set with the total matching count (ignoring limit/offset).
+          headers:
+            X-Total-Count:
+              description: Total number of matching results when count=true.
+              schema:
+                type: integer
+                format: int32
+              example: 30
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/publicidentityv2'
+              example:
+                - id: 2c9180857182305e0171993735622948
+                  name: sample.user
+                  displayName: Sample User
+                  email: someemail@identitynow.com
+                  identityState: ACTIVE
+                  cloudLifecycleState: Active
+                  manager:
+                    id: 2c9180a46faadee4016fb4e018c20639
+                    name: thomas.edison
+                    displayName: Thomas Edison
+                  attributes:
+                    country: US
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
   /public-identities-config/v1:
     get:
       operationId: getPublicIdentityConfigV1
@@ -96620,6 +96878,326 @@ components:
     publicidentityattributeconfig:
       type: object
       title: Public Identity Attribute Config
+      description: Maps an identity attribute key to its display name.
+      required:
+        - key
+        - name
+      properties:
+        key:
+          type: string
+          description: Attribute / search field key (e.g. email, manager.displayName).
+          example: country
+        name:
+          type: string
+          description: Human-readable display name for the attribute.
+          example: Country
+    publicidentityvisibleattributes:
+      type: object
+      title: Public Identity Visible Attributes
+      description: Default and configured identity attribute keys with display names exposed by the public identities API.
+      required:
+        - defaultAttributes
+        - configuredAttributes
+      properties:
+        defaultAttributes:
+          type: array
+          description: Always-available public-identity field keys for search and sort. Fixed platform list. `key` is the search field name; `name` is the display label.
+          items:
+            $ref: '#/components/schemas/publicidentityattributeconfig'
+          example:
+            - key: id
+              name: id
+            - key: email
+              name: email
+            - key: manager.displayName
+              name: manager name
+        configuredAttributes:
+          type: array
+          description: Tenant-configured public attributes from public-identities config (same source as public-identities-config). These keys are also allowed in search/sort and appear under `attributes` on search results.
+          items:
+            $ref: '#/components/schemas/publicidentityattributeconfig'
+          example:
+            - key: displayName
+              name: Display Name
+            - key: lastSyncDate
+              name: Last Sync Date
+    publicidentitiestextquery:
+      type: object
+      title: Public Identities Text Query
+      description: Text query clause used inside a TEXT composite entry.
+      additionalProperties: false
+      required:
+        - fields
+        - terms
+      properties:
+        fields:
+          type: array
+          minItems: 1
+          items:
+            type: string
+          description: Attribute keys to search. Base keys must match GET /public-identities/v2/visible-attributes (defaultAttributes + configuredAttributes). Optional "attributes." prefix and/or ".exact" suffix (e.g. email, attributes.email, email.exact, attributes.email.exact).
+          example:
+            - name
+            - email
+        terms:
+          type: array
+          minItems: 1
+          items:
+            oneOf:
+              - type: string
+                minLength: 1
+              - type: boolean
+          description: Search terms. Each value must be a non-blank string or a JSON boolean.
+          example:
+            - Mara
+        matchAny:
+          type: boolean
+          default: false
+          description: When true, terms/fields are OR'd within this text query. Optional for normal search clauses. The mandatory ACTIVE identityState gate entry must set this to false.
+          example: true
+        contains:
+          type: boolean
+          default: false
+          description: When true, matches substrings. Optional for normal search clauses. The mandatory ACTIVE identityState gate entry must set this to false.
+          example: true
+        strict:
+          type: boolean
+          default: false
+          description: When true, applies strict matching. Optional for normal search clauses. The mandatory ACTIVE identityState gate entry must set this to true.
+          example: true
+    publicidentitiestextentry:
+      type: object
+      title: Public Identities Text Entry
+      description: A COMPOSITE query entry that contains a TEXT query.
+      additionalProperties: false
+      required:
+        - queryType
+        - textQuery
+      properties:
+        queryType:
+          type: string
+          enum:
+            - TEXT
+          description: Entry type discriminator. Must be TEXT for text query entries.
+          example: TEXT
+        textQuery:
+          description: Text query clause for this TEXT entry.
+          allOf:
+            - $ref: '#/components/schemas/publicidentitiestextquery'
+    publicidentitiesnestedqueryset:
+      type: object
+      title: Public Identities Nested Query Set
+      description: Query set nested inside a COMPOSITE entry. TEXT entries combined with AND (matchAny false) or OR (matchAny true).
+      additionalProperties: false
+      required:
+        - matchAny
+        - entries
+      properties:
+        matchAny:
+          type: boolean
+          description: When true, entries are OR'd; when false, entries are AND'd.
+          example: true
+        entries:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/publicidentitiestextentry'
+          description: One or more TEXT entries.
+    publicidentitiesnestedcompositeentry:
+      type: object
+      title: Public Identities Nested Composite Entry
+      description: A COMPOSITE query entry that nests another querySet.
+      additionalProperties: false
+      required:
+        - queryType
+        - querySet
+      properties:
+        queryType:
+          type: string
+          enum:
+            - COMPOSITE
+          description: Entry type discriminator. Must be COMPOSITE for nested query sets.
+          example: COMPOSITE
+        querySet:
+          description: Nested query set for this COMPOSITE entry.
+          allOf:
+            - $ref: '#/components/schemas/publicidentitiesnestedqueryset'
+    publicidentitiescompositeentry:
+      title: Public Identities Composite Entry
+      description: A querySet entry that is either a TEXT clause or a nested COMPOSITE querySet.
+      discriminator:
+        propertyName: queryType
+        mapping:
+          TEXT: '#/components/schemas/publicidentitiestextentry'
+          COMPOSITE: '#/components/schemas/publicidentitiesnestedcompositeentry'
+      oneOf:
+        - $ref: '#/components/schemas/publicidentitiestextentry'
+        - $ref: '#/components/schemas/publicidentitiesnestedcompositeentry'
+    publicidentitiesqueryset:
+      type: object
+      title: Public Identities Query Set
+      description: A set of COMPOSITE query entries combined with AND (matchAny false) or OR (matchAny true).
+      additionalProperties: false
+      required:
+        - matchAny
+        - entries
+      properties:
+        matchAny:
+          type: boolean
+          description: When true, entries are OR'd; when false, entries are AND'd.
+          example: false
+        entries:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/publicidentitiescompositeentry'
+          description: One or more TEXT or nested COMPOSITE entries.
+          example:
+            - queryType: TEXT
+              textQuery:
+                fields:
+                  - attributes.identityState.exact
+                terms:
+                  - ACTIVE
+                matchAny: false
+                contains: false
+                strict: true
+    publicidentitiessearchrequest:
+      type: object
+      title: Public Identities Search Request
+      description: COMPOSITE search request for public identities. Root querySet must use matchAny false (AND). The first entries item must be the ACTIVE identityState TEXT gate; identityState may not appear elsewhere in the query tree.
+      additionalProperties: false
+      required:
+        - queryType
+        - indices
+        - includeNested
+        - querySet
+      properties:
+        queryType:
+          type: string
+          enum:
+            - COMPOSITE
+          description: Search query type. Must be COMPOSITE.
+          example: COMPOSITE
+        indices:
+          type: array
+          minItems: 1
+          maxItems: 1
+          items:
+            type: string
+            enum:
+              - identities
+          description: Search indices. Must be exactly ["identities"].
+          example:
+            - identities
+        includeNested:
+          type: boolean
+          enum:
+            - false
+          description: Must be false for public identities search.
+          example: false
+        sort:
+          type: array
+          minItems: 1
+          items:
+            type: string
+          description: Optional attribute keys to sort by. Base keys must match those returned by GET /public-identities/v2/visible-attributes (defaultAttributes + configuredAttributes). Optional "attributes." prefix and/or ".exact" suffix.
+          example:
+            - name
+        querySet:
+          allOf:
+            - $ref: '#/components/schemas/publicidentitiesqueryset'
+            - type: object
+              description: 'Root querySet must use matchAny false (AND). The first entries item must be exactly this TEXT gate; identityState may not appear elsewhere in the tree: {"queryType":"TEXT","textQuery":{"fields":["attributes.identityState.exact"], "terms":["ACTIVE"],"matchAny":false,"contains":false,"strict":true}}'
+    publicidentityv2manager:
+      type: object
+      title: Public Identity V2 Manager
+      description: Manager reference for a public identity search result
+      required:
+        - id
+        - name
+        - displayName
+      properties:
+        id:
+          nullable: true
+          type: string
+          description: Manager identity id
+          example: 2c9180a46faadee4016fb4e018c20639
+        name:
+          nullable: true
+          type: string
+          description: Manager alias / technical name
+          example: thomas.edison
+        displayName:
+          nullable: true
+          type: string
+          description: Manager display name. Null when absent from the search hit.
+          example: Thomas Edison
+    publicidentityv2:
+      type: object
+      title: Public Identity V2
+      description: Projected public identity returned by POST /public-identities/v2/search. Root fields are always present (null when unavailable). attributes contains only keys from GET /public-identities/v2/visible-attributes configuredAttributes.
+      required:
+        - id
+        - name
+        - displayName
+        - email
+        - identityState
+        - cloudLifecycleState
+        - manager
+        - attributes
+      properties:
+        id:
+          nullable: true
+          type: string
+          description: Identity id
+          example: 2c9180857182305e0171993735622948
+        name:
+          nullable: true
+          type: string
+          description: Alternate unique identifier for the identity (alias / search field name).
+          example: alison.ferguso
+        displayName:
+          nullable: true
+          type: string
+          description: Human-readable display name of the identity.
+          example: Alison Ferguso
+        email:
+          nullable: true
+          type: string
+          description: Email address of identity.
+          example: alison.ferguso@acme-solar.com
+        identityState:
+          nullable: true
+          type: string
+          enum:
+            - ACTIVE
+            - INACTIVE_SHORT_TERM
+            - INACTIVE_LONG_TERM
+            - null
+          example: ACTIVE
+          description: The current state of the identity, which determines how Identity Security Cloud interacts with the identity.
+        cloudLifecycleState:
+          nullable: true
+          type: string
+          description: The lifecycle status for the identity
+          example: Active
+        manager:
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/publicidentityv2manager'
+          description: Manager of this identity, or null when none
+        attributes:
+          type: object
+          additionalProperties:
+            nullable: true
+            type: string
+          description: Configured public identity attributes only (from visible-attributes configuredAttributes). Missing keys are omitted; present null values are returned as null.
+          example:
+            country: US
+    publicidentityattributeconfig-2:
+      type: object
+      title: Public Identity Attribute Config
       description: Used to map an attribute key for an Identity to its display name.
       properties:
         key:
@@ -96639,7 +97217,7 @@ components:
           type: array
           description: Up to 5 identity attributes that will be available to everyone in the org for all users in the org.
           items:
-            $ref: '#/components/schemas/publicidentityattributeconfig'
+            $ref: '#/components/schemas/publicidentityattributeconfig-2'
         modified:
           nullable: true
           type: string
