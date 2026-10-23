@@ -42,6 +42,10 @@ tags:
 paths:
   /public-identities/v1:
     $ref: ./paths/public-identities-v1.yaml
+  /public-identities/v2/visible-attributes:
+    $ref: ./paths/public-identities-v2-visible-attributes.yaml
+  /public-identities/v2/search:
+    $ref: ./paths/public-identities-v2-search.yaml
 security:
   - userAuth:
       - sp:scopes:all
