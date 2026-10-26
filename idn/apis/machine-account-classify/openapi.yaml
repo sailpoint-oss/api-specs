@@ -31,6 +31,8 @@ tags:
 paths:
   /accounts/v1/{id}/classify:
     $ref: ./paths/accounts-v1-by-id-classify.yaml
+  /accounts/v1/bulk-classify:
+    $ref: ./paths/accounts-v1-bulk-classify.yaml
 security:
   - userAuth:
       - sp:scopes:all

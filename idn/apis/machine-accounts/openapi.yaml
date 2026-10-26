@@ -43,6 +43,28 @@ paths:
     $ref: ./paths/machine-accounts-v1-by-id-remove.yaml
   /machine-accounts/v1/{id}/unlock:
     $ref: ./paths/machine-accounts-v1-by-id-unlock.yaml
+  /machine-accounts/v1/{id}/delete:
+    $ref: ./paths/machine-accounts-v1-by-id-delete.yaml
+  /machine-accounts/v1/{id}/entitlements:
+    $ref: ./paths/machine-accounts-v1-by-id-entitlements.yaml
+  /machine-accounts/v1/{id}/machine-identities:
+    $ref: ./paths/machine-accounts-v1-by-id-machine-identities.yaml
+  /machine-accounts/v1/machine-accounts-summary:
+    $ref: ./paths/machine-accounts-v1-machine-accounts-summary.yaml
+  /machine-accounts/v1/bulk-update:
+    $ref: ./paths/machine-accounts-v1-bulk-update.yaml
+  /machine-accounts/v1/bulk-enable:
+    $ref: ./paths/machine-accounts-v1-bulk-enable.yaml
+  /machine-accounts/v1/bulk-disable:
+    $ref: ./paths/machine-accounts-v1-bulk-disable.yaml
+  /machine-accounts/v1/bulk-reload:
+    $ref: ./paths/machine-accounts-v1-bulk-reload.yaml
+  /machine-accounts/v1/bulk-reload-async:
+    $ref: ./paths/machine-accounts-v1-bulk-reload-async.yaml
+  /machine-accounts/v2:
+    $ref: ./paths/machine-accounts-v2.yaml
+  /machine-accounts/v2/{id}:
+    $ref: ./paths/machine-accounts-v2-by-id.yaml
   /sources/v1/{sourceId}/subtypes:
     $ref: ./paths/sources-v1-by-sourceid-subtypes.yaml
   /sources/v1/{sourceId}/subtypes/{technicalName}:

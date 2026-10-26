@@ -196,6 +196,8 @@ paths:
     $ref: ./paths/sources-v1-by-sourceid-resources-mappings.yaml
   /sources/v1/{sourceId}/resources/{resourceId}:
     $ref: ./paths/sources-v1-by-sourceid-resources-by-resourceid.yaml
+  /sources/v1/{sourceId}/resources/{resourceId}/reprocess-correlations:
+    $ref: ./paths/sources-v1-by-sourceid-resources-by-resourceid-reprocess-correlations.yaml
   /sources/v1/{sourceId}/schemas:
     $ref: ./paths/sources-v1-by-sourceid-schemas.yaml
   /sources/v1/{sourceId}/schedules:
@@ -234,6 +236,8 @@ paths:
     $ref: ./paths/sources-v1-by-sourceid-native-change-detection-config.yaml
   /sources/v1/{id}/remove-accounts:
     $ref: ./paths/sources-v1-by-id-remove-accounts.yaml
+  /sources/v1/{id}/agents-delete:
+    $ref: ./paths/sources-v1-by-id-agents-delete.yaml
   /sources/v1/{id}/load-accounts:
     $ref: ./paths/sources-v1-by-id-load-accounts.yaml
   /sources/v1/{id}/load-uncorrelated-accounts:
