@@ -7,7 +7,7 @@ properties:
     type: array
     description: >-
       Source attribute names to register as datasource columns for this collection. These names must match the
-      attributes sent by Identity Security Cloud. Use an empty array when no custom attributes are required.
+      attributes sent by SailPoint Identity Security. Use an empty array when no custom attributes are required.
     items:
       type: string
     example:

@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: Identity Security Cloud API - Triggers
+  title: SailPoint Identity Security API - Triggers
   description: >-
-    Use these APIs to interact with the Identity Security Cloud platform to achieve repeatable, automated processes with
+    Use these APIs to interact with the SailPoint Identity Security platform to achieve repeatable, automated processes with
     greater scalability. We encourage you to join the SailPoint Developer Community forum at
     https://developer.sailpoint.com/discuss to connect with other developers using our APIs.
   termsOfService: https://developer.sailpoint.com/discuss/tos
@@ -29,8 +29,8 @@ servers:
 tags:
   - name: Triggers
     description: >
-      Event Triggers provide real-time updates to changes in Identity Security Cloud so you can take action as soon as
-      an event occurs, rather than poll an API endpoint for updates. Identity Security Cloud provides a user interface
+      Event Triggers provide real-time updates to changes in SailPoint Identity Security so you can take action as soon as
+      an event occurs, rather than poll an API endpoint for updates. SailPoint Identity Security provides a user interface
       within the admin console to create and manage trigger subscriptions.  These endpoints allow for programatically
       creating and managing trigger subscriptions.
 

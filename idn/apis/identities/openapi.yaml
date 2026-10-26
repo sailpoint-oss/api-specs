@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: Identity Security Cloud API - Identities
+  title: SailPoint Identity Security API - Identities
   description: >-
-    Use these APIs to interact with the Identity Security Cloud platform to achieve repeatable, automated processes with
+    Use these APIs to interact with the SailPoint Identity Security platform to achieve repeatable, automated processes with
     greater scalability. We encourage you to join the SailPoint Developer Community forum at
     https://developer.sailpoint.com/discuss to connect with other developers using our APIs.
   termsOfService: https://developer.sailpoint.com/discuss/tos
@@ -35,7 +35,7 @@ tags:
       attributes.
 
 
-      Identity Security Cloud uses identities as users' authoritative accounts. Identities can own other accounts,
+      SailPoint Identity Security uses identities as users' authoritative accounts. Identities can own other accounts,
       entitlements, and attributes.
 
 
@@ -44,10 +44,10 @@ tags:
       These identity attributes can be correlated with different attributes on different sources.
 
       For example, the identity John.Smith can own an account in the GitHub source with the account name John-Smith-Org,
-      and Identity Security Cloud knows they are the same person with the same access and attributes.
+      and SailPoint Identity Security knows they are the same person with the same access and attributes.
 
 
-      In Identity Security Cloud, administrators often set up these synchronizations to get triggered automatically with
+      In SailPoint Identity Security, administrators often set up these synchronizations to get triggered automatically with
       a change or to run on a schedule.
 
       To manually synchronize attributes for an identity, administrators can use the Identities drop-down menu and

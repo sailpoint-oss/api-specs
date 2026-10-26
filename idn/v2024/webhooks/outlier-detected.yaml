@@ -2,8 +2,8 @@ post:
   summary: Outlier detected
   operationId: outlierDetectedEvent
   description: >-
-    This event trigger fires when Identity Security Cloud (ISC) detects that identities have unusual access relative their peers.
-    ISC calculates outliers daily, flags the outliers, and notifies the trigger's subscribers when it detects them.
+    This event trigger fires when SailPoint Identity Security detects that identities have unusual access relative their peers.
+    SailPoint Identity Security calculates outliers daily, flags the outliers, and notifies the trigger's subscribers when it detects them.
 
     These are the requirements to use the trigger:
       * Your organization must have Access Insights, which it needs to access Identity Outliers.

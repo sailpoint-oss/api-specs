@@ -95,7 +95,7 @@ properties:
           - type
           - name
           type: object
-          description: Source that ISC is provisioning access on.
+          description: Source that SailPoint Identity Security is provisioning access on.
           properties:
             id:
               description: Source ID.

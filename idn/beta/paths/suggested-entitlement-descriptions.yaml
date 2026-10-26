@@ -22,7 +22,7 @@ get:
   parameters:
     - description: |-
         Integer specifying the maximum number of records to return in a single API call. 
-        The standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#paginating-results). If it is not specified, a default limit is used.
+        The standard syntax described in [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#paginating-results). If it is not specified, a default limit is used.
       schema:
         format: int64
         type: integer
@@ -30,7 +30,7 @@ get:
       name: limit
       example: limit=25
     - description: |-
-        Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)
+        Filter results using the standard syntax described in [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#filtering-results)
 
         Filtering is supported for the following fields and operators:
 
@@ -51,7 +51,7 @@ get:
       schema:
         type: string
     - description: |-
-        Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)
+        Sort results using the standard syntax described in [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#sorting-results)
 
         Sorting is supported for the following fields: **displayName, sourceName, status**
       in: query
@@ -61,7 +61,7 @@ get:
         type: string
     - description: |-
         If `true` it will populate the `X-Total-Count` response header with the number of results that would be returned if `limit` and `offset` were ignored. 
-        The standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#paginating-results).
+        The standard syntax described in [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#paginating-results).
         Since requesting a total count can have a performance impact, it is recommended not to send `count=true` if that value will not be used.
       in: query
       name: count

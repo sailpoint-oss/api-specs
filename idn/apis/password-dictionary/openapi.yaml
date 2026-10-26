@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: Identity Security Cloud API - Password Dictionary
+  title: SailPoint Identity Security API - Password Dictionary
   description: >-
-    Use these APIs to interact with the Identity Security Cloud platform to achieve repeatable, automated processes with
+    Use these APIs to interact with the SailPoint Identity Security platform to achieve repeatable, automated processes with
     greater scalability. We encourage you to join the SailPoint Developer Community forum at
     https://developer.sailpoint.com/discuss to connect with other developers using our APIs.
   termsOfService: https://developer.sailpoint.com/discuss/tos
@@ -101,7 +101,7 @@ tags:
       ISO 639-1 language codes and ISO 3166-1 country codes.
 
 
-      - Upload the .txt file to Identity Security Cloud with [Update Password
+      - Upload the .txt file to SailPoint Identity Security with [Update Password
       Dictionary](https://developer.sailpoint.com/docs/api/put-password-dictionary-v-1). Uploading a new file always
       overwrites the previous dictionary file.
 

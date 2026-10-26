@@ -11,7 +11,7 @@ post:
   tags:
   - Access Requests
   description: >
-    Use this API to submit an access request in Identity Security Cloud (ISC), where it follows any ISC approval
+    Use this API to submit an access request in SailPoint Identity Security, where it follows any SailPoint Identity Security approval
     processes.
 
 
@@ -26,9 +26,9 @@ post:
     :::
 
 
-    Access requests are processed asynchronously by ISC. A successful response from this endpoint means that the request
+    Access requests are processed asynchronously by SailPoint Identity Security. A successful response from this endpoint means that the request
 
-    has been submitted to ISC and is queued for processing. Because this endpoint is asynchronous, it does not return an
+    has been submitted to SailPoint Identity Security and is queued for processing. Because this endpoint is asynchronous, it does not return an
     error
 
     if you submit duplicate access requests in quick succession or submit an access request for access that is already

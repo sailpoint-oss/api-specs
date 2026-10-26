@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: Identity Security Cloud API - Sources
+  title: SailPoint Identity Security API - Sources
   description: >-
-    Use these APIs to interact with the Identity Security Cloud platform to achieve repeatable, automated processes with
+    Use these APIs to interact with the SailPoint Identity Security platform to achieve repeatable, automated processes with
     greater scalability. We encourage you to join the SailPoint Developer Community forum at
     https://developer.sailpoint.com/discuss to connect with other developers using our APIs.
   termsOfService: https://developer.sailpoint.com/discuss/tos
@@ -31,11 +31,11 @@ tags:
     description: >
       Use this API to implement and customize source functionality. 
 
-      With source functionality in place, organizations can use Identity Security Cloud to connect their various sources
+      With source functionality in place, organizations can use SailPoint Identity Security to connect their various sources
       and user data sets and manage access across all those different sources in a secure, scalable way. 
 
 
-      [Sources](https://documentation.sailpoint.com/saas/help/sources/index.html) refer to the Identity Security Cloud
+      [Sources](https://documentation.sailpoint.com/saas/help/sources/index.html) refer to the SailPoint Identity Security
       representations for external applications, databases, and directory management systems that maintain their own
       sets of users, like Dropbox, GitHub, and Workday, for example.
 
@@ -43,23 +43,23 @@ tags:
       organization likely has a different user record on each source, often with different permissions on many of those
       records. 
 
-      Connecting these sources to Identity Security Cloud makes it possible to manage user access across them all.
+      Connecting these sources to SailPoint Identity Security makes it possible to manage user access across them all.
 
-      Then, if a new hire starts at an organization, Identity Security Cloud can grant the new hire access to all the
+      Then, if a new hire starts at an organization, SailPoint Identity Security can grant the new hire access to all the
       sources they need.
 
       If an employee moves to a new department and needs access to new sources but no longer needs access to others,
-      Identity Security Cloud can grant the necessary access and revoke the unnecessary access for all the employee's
+      SailPoint Identity Security can grant the necessary access and revoke the unnecessary access for all the employee's
       various sources. 
 
-      If an employee leaves the company, Identity Security Cloud can revoke access to all the employee's various source
+      If an employee leaves the company, SailPoint Identity Security can revoke access to all the employee's various source
       accounts immediately. 
 
       These are just a few examples of the many ways that source functionality makes identity governance easier, more
       efficient, and more secure. 
 
 
-      In Identity Security Cloud, administrators can create configure, manage, and edit sources, and they can designate
+      In SailPoint Identity Security, administrators can create configure, manage, and edit sources, and they can designate
       other users as source admins to be able to do so.
 
       They can also designate users as source sub-admins, who can perform the same source actions but only on sources
@@ -78,17 +78,17 @@ tags:
       information about the source configuration process. 
 
 
-      Identity Security Cloud connects with its sources either by a direct communication with the source server
+      SailPoint Identity Security connects with its sources either by a direct communication with the source server
       (connection information specific to the source must be provided) or a flat file feed, a CSV file containing all
       the relevant information about the accounts to be loaded in.
 
-      Different sources use different connectors to share data with Identity Security Cloud, and each connector's setup
+      Different sources use different connectors to share data with SailPoint Identity Security, and each connector's setup
       process is specific to that connector. 
 
       SailPoint has built a number of connectors to come out of the box and connect to the most common sources, and
       SailPoint actively maintains these connectors.
 
-      Refer to [Identity Security Cloud
+      Refer to [SailPoint Identity Security
       Connectors](https://documentation.sailpoint.com/connectors/identitynow/landingpages/help/landingpages/identitynow_connectivity_landing.html)
       for more information about these SailPoint supported connectors. 
 
@@ -128,8 +128,8 @@ tags:
       The user account data and the entitlements update with each data aggregation from the source. 
 
       Organizations generally run scheduled, automated data aggregations to ensure that their data is always in sync
-      between their sources and their Identity Security Cloud tenants so an access change on a source is detected
-      quickly in Identity Security Cloud.
+      between their sources and their SailPoint Identity Security tenants so an access change on a source is detected
+      quickly in SailPoint Identity Security.
 
       Admins can view a history of these aggregations, and they can also run manual imports. 
 
@@ -137,10 +137,10 @@ tags:
       information about manual and scheduled aggregations. 
 
 
-      Admins can also make changes to determine which user account data Identity Security Cloud collects from the source
+      Admins can also make changes to determine which user account data SailPoint Identity Security collects from the source
       and how it correlates that account data with identity data. 
 
-      To define which account attributes the source shares with Identity Security Cloud, admins can edit the account
+      To define which account attributes the source shares with SailPoint Identity Security, admins can edit the account
       schema on the source.
 
       Refer to [Managing Source Account Schemas](https://documentation.sailpoint.com/saas/help/accounts/schema.html) for
@@ -162,7 +162,7 @@ tags:
       more information about deleting sources. 
 
 
-      Well organized, mapped out connections between sources and Identity Security Cloud are essential to achieving
+      Well organized, mapped out connections between sources and SailPoint Identity Security are essential to achieving
       comprehensive identity access governance across all the source systems organizations need. 
 
       Refer to [Managing Sources](https://documentation.sailpoint.com/saas/help/sources/index.html) for more information

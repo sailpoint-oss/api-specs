@@ -21,7 +21,7 @@ get:
         example: newMailAttribute
   responses:
     '200':
-      description: Specific attribute configuration in ISC.
+      description: Specific attribute configuration in SailPoint Identity Security.
       content:
         application/json:
           schema:

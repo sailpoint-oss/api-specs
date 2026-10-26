@@ -178,7 +178,7 @@ get:
       schema:
         type: string
       description: |-
-        Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)
+        Filter results using the standard syntax described in [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#filtering-results)
 
         Filtering is supported for the following fields and operators:
 
@@ -197,7 +197,7 @@ get:
         format: comma-separated
       example: id,name
       description: |-
-        Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)
+        Sort results using the standard syntax described in [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#sorting-results)
 
         Sorting is supported for the following fields: **id, name, created, modified, description**
   responses:

@@ -3,8 +3,8 @@ post:
   tags:
     - Application Discovery
   description: |-
-    Upload a CSV file with application data for manual correlation to specific ISC connectors. 
-    If a suitable ISC connector is unavailable, the system will recommend generic connectors instead.
+    Upload a CSV file with application data for manual correlation to specific SailPoint Identity Security connectors. 
+    If a suitable SailPoint Identity Security connector is unavailable, the system will recommend generic connectors instead.
   security:
     - userAuth:
         - idn:application-discovery:write

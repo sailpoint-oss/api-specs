@@ -3,7 +3,7 @@ get:
   tags:
     - Sources
   summary: Get provisioning policy by ID
-  description: This end-point retrieves the ProvisioningPolicy with the specified ID on the specified Source in Identity Security Cloud.
+  description: This end-point retrieves the ProvisioningPolicy with the specified ID on the specified Source in SailPoint Identity Security.
   security:
     - userAuth:
         - idn:provisioning-policy-source:read
@@ -69,7 +69,7 @@ put:
     - Sources
   summary: Update provisioning policy by ID
   description: >-
-    This end-point updates the provisioning policy with the specified ID on the specified source in Identity Security Cloud.
+    This end-point updates the provisioning policy with the specified ID on the specified source in SailPoint Identity Security.
 
     Transforms can be used in the provisioning policy to create a new attribute that you only need during provisioning.
 

@@ -36,7 +36,7 @@ get:
       schema:
         type: string
         format: comma-separated
-      description: 'Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters/) Sorting is supported for the following fields: **displayName, email, usageCount**'
+      description: 'Sort results using the standard syntax described in [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters/) Sorting is supported for the following fields: **displayName, email, usageCount**'
       example: '-usageCount'
     - $ref: ../parameters/offset.yaml
     - $ref: ../parameters/limit.yaml

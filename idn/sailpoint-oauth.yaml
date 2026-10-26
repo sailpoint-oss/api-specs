@@ -7,7 +7,7 @@
 # token/introspect/revoke/saml get the right URL. Authorize path has its own server override.
 openapi: 3.0.1
 info:
-  title: SailPoint Identity Security Cloud - OAuth & SAML
+  title: SailPoint Identity Security - OAuth & SAML
   description: OAuth 2.0 and SAML endpoints for authentication and token management. Use this spec to generate a Postman collection with correct URLs (tenant + domain, no version path).
   version: 1.0.0
 servers:

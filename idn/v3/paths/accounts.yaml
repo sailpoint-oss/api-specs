@@ -37,7 +37,7 @@ get:
         type: string
       example: identityId eq "2c9180858082150f0180893dbaf44201"
       description: |-
-        Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)
+        Filter results using the standard syntax described in [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#filtering-results)
 
         Filtering is supported for the following fields and operators:
 
@@ -86,7 +86,7 @@ get:
         format: comma-separated
       example: id,name
       description: |-
-        Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)
+        Sort results using the standard syntax described in [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#sorting-results)
 
         Sorting is supported for the following fields: **id, name, created, modified, sourceId, identityId, nativeIdentity, uuid, manuallyCorrelated, entitlements, origin, identity.name, identity.identityState, identity.correlated, source.displayableName, source.authoritative, source.connectionType**
   responses:
@@ -118,7 +118,7 @@ post:
 
     You must include the `sourceId` where the account will be created in the `attributes` object.
 
-    This endpoint creates an account on the source record in your ISC tenant.
+    This endpoint creates an account on the source record in your SailPoint Identity Security tenant.
     This is useful for Flat File (`DelimitedFile`) type sources because it allows you to aggregate new accounts without needing to import a new CSV file every time. 
 
     However, if you use this endpoint to create an account for a Direct Connection type source, you must ensure that the account also exists on the target source. 

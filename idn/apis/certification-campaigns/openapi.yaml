@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: Identity Security Cloud API - Certification Campaigns
+  title: SailPoint Identity Security API - Certification Campaigns
   description: >-
-    Use these APIs to interact with the Identity Security Cloud platform to achieve repeatable, automated processes with
+    Use these APIs to interact with the SailPoint Identity Security platform to achieve repeatable, automated processes with
     greater scalability. We encourage you to join the SailPoint Developer Community forum at
     https://developer.sailpoint.com/discuss to connect with other developers using our APIs.
   termsOfService: https://developer.sailpoint.com/discuss/tos
@@ -34,13 +34,13 @@ tags:
       With this functionality in place, administrators can create, customize, and manage certification campaigns for
       their organizations' use. 
 
-      Certification campaigns provide Identity Security Cloud users with an interactive review process they can use to
+      Certification campaigns provide SailPoint Identity Security users with an interactive review process they can use to
       identify and verify access to systems. 
 
       Campaigns help organizations reduce risk of inappropriate access and satisfy audit requirements. 
 
 
-      A certification refers to Identity Security Cloud's mechanism for reviewing a user's access to entitlements (sets
+      A certification refers to SailPoint Identity Security's mechanism for reviewing a user's access to entitlements (sets
       of permissions) and approving or removing that access. 
 
       These certifications serve as a way of showing that a user's access has been reviewed and approved. 
@@ -53,24 +53,24 @@ tags:
       For example, an organization may use a Manager Certification campaign as a way of showing that a user's access has
       been reviewed and approved by multiple managers. 
 
-      Once this campaign has been completed, Identity Security Cloud would provision all the access the user needs,
+      Once this campaign has been completed, SailPoint Identity Security would provision all the access the user needs,
       nothing more. 
 
 
-      Identity Security Cloud provides two simple campaign types users can create without using search queries, Manager
+      SailPoint Identity Security provides two simple campaign types users can create without using search queries, Manager
       and Source Owner campaigns:
 
 
-      You can create these types of campaigns without using any search queries in Identity Security Cloud: 
+      You can create these types of campaigns without using any search queries in SailPoint Identity Security: 
 
 
-      - ManagerCampaign: Identity Security Cloud provides this campaign type as a way to ensure that an identity's
+      - ManagerCampaign: SailPoint Identity Security provides this campaign type as a way to ensure that an identity's
       access is certified by their managers. 
 
       You only need to provide a name and description to create one. 
 
 
-      - Source Owner Campaign: Identity Security Cloud provides this campaign type as a way to ensure that an identity's
+      - Source Owner Campaign: SailPoint Identity Security provides this campaign type as a way to ensure that an identity's
       access to a source is certified by its source owners. 
 
       You only need to provide a name and description to create one. 
@@ -82,7 +82,7 @@ tags:
       Campaign](https://documentation.sailpoint.com/saas/help/certs/starting_campaign.html).
 
 
-      One useful way to create certification campaigns in Identity Security Cloud is to use a specific search and then
+      One useful way to create certification campaigns in SailPoint Identity Security is to use a specific search and then
       run a campaign on the results returned by that search. 
 
       This allows you to be much more specific about whom you are certifying in your campaigns and what access you are
@@ -93,7 +93,7 @@ tags:
       identities are appropriately certified. 
 
 
-      You can use Identity Security Cloud search queries to create these types of campaigns: 
+      You can use SailPoint Identity Security search queries to create these types of campaigns: 
 
 
       - Identities: Use this campaign type to review and revoke access items for specific identities. 
@@ -117,7 +117,7 @@ tags:
 
 
       - Uncorrelated Accounts: Use this campaign type to certify source accounts that aren't linked to an authoritative
-      identity in Identity Security Cloud. 
+      identity in SailPoint Identity Security. 
 
       You can use this campaign type to view all the uncorrelated accounts for a source and certify them. 
 
@@ -132,7 +132,7 @@ tags:
 
 
       Once the campaign is active, organization administrators or certification administrators can designate other
-      Identity Security Cloud users as certification reviewers. 
+      SailPoint Identity Security users as certification reviewers. 
 
       Those reviewers can view any of the certifications they either need to review (active) or have already reviewed
       (completed).

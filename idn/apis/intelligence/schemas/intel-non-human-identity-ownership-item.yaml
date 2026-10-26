@@ -6,7 +6,7 @@ description: Owned non-human identity summary row (aggregate slices and child ro
 properties:
   id:
     type: string
-    description: Identity Security Cloud identifier for the owned non-human identity.
+    description: SailPoint Identity Security identifier for the owned non-human identity.
     example: 2c91808874ff91550175097daaec161e
   displayName:
     type: string

@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: Identity Security Cloud API - Work Items
+  title: SailPoint Identity Security API - Work Items
   description: >-
-    Use these APIs to interact with the Identity Security Cloud platform to achieve repeatable, automated processes with
+    Use these APIs to interact with the SailPoint Identity Security platform to achieve repeatable, automated processes with
     greater scalability. We encourage you to join the SailPoint Developer Community forum at
     https://developer.sailpoint.com/discuss to connect with other developers using our APIs.
   termsOfService: https://developer.sailpoint.com/discuss/tos
@@ -34,7 +34,7 @@ tags:
       With this functionality in place, users can manage their work items (tasks). 
 
 
-      Work items refer to the tasks users see in Identity Security Cloud's Task Manager. 
+      Work items refer to the tasks users see in SailPoint Identity Security's Task Manager. 
 
       They can see the pending work items they need to complete, as well as the work items they have already completed. 
 

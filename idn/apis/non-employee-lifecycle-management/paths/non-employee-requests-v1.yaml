@@ -95,8 +95,8 @@ get:
       format: comma-separated
     example: created,approvalStatus
     description: >-
-      Sort results using the standard syntax described in [V3 API Standard Collection
-      Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)
+      Sort results using the standard syntax described in [API Standard Collection
+      Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#sorting-results)
 
 
       Sorting is supported for the following fields: **created, approvalStatus, firstName, lastName, email, phone,
@@ -108,8 +108,8 @@ get:
       type: string
     example: sourceId eq "2c91808568c529c60168cca6f90c1313"
     description: >-
-      Filter results using the standard syntax described in [V3 API Standard Collection
-      Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)
+      Filter results using the standard syntax described in [API Standard Collection
+      Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#filtering-results)
 
 
       Filtering is supported for the following fields and operators:

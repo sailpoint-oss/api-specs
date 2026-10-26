@@ -93,7 +93,7 @@ description: >-
 
   * USES_UUID: Connectivity 2.0 flag used to indicate that the connector supports a compound naming structure.
 
-  * PREFER_UUID: Used in ISC Provisioning AND Aggregation to decide if it should prefer account.uuid to account.nativeIdentity when data is read in through aggregation OR pushed out through provisioning.
+  * PREFER_UUID: Used in SailPoint Identity Security Provisioning AND Aggregation to decide if it should prefer account.uuid to account.nativeIdentity when data is read in through aggregation OR pushed out through provisioning.
 
   * ARM_SECURITY_EXTRACT: Indicates the application supports Security extracts for ARM
 

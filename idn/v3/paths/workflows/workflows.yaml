@@ -17,7 +17,7 @@ get:
         type: string
       example: enabled eq true and triggerId eq "abc123"
       description: |-
-        Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)
+        Filter results using the standard syntax described in [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#filtering-results)
 
         Filtering is supported for the following fields and operators:
 
@@ -33,7 +33,7 @@ get:
         type: string
         format: comma-separated
       description: |-
-        Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)
+        Sort results using the standard syntax described in [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#sorting-results)
 
         Sorting is supported for the following fields: **modified, name**
       example: modified
@@ -42,7 +42,7 @@ get:
       in: query
       description: |-
         Max number of results to return.
-        See [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.
+        See [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters) for more information.
       required: false
       example: 250
       schema:
@@ -55,7 +55,7 @@ get:
       in: query
       description: |-
         Offset into the full result set. Usually specified with *limit* to paginate through the results.
-        See [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.
+        See [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters) for more information.
       required: false
       example: 0
       schema:

@@ -2,7 +2,7 @@ get:
   summary: List identity collector types
   description: >-
     Returns the public identity collector types exposed for metadata and UI discovery, including
-    the ISC `connectorName` values to use when listing sources for each type. This endpoint lists
+    the SailPoint Identity Security `connectorName` values to use when listing sources for each type. This endpoint lists
     base types only (for example, `Box` rather than `Box SaaS`). SaaS variants are not listed as
     separate types; create derives the identity collector type from `sourceId`. Existing identity
     collectors may still report SaaS variant types in list and update responses.
@@ -31,7 +31,7 @@ get:
   - $ref: ../../shared/parameters/offset.yaml
   responses:
     '200':
-      description: Supported identity collector types with ISC connector names.
+      description: Supported identity collector types with SailPoint Identity Security connector names.
       content:
         application/json:
           schema:

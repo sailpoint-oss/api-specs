@@ -19,7 +19,7 @@ get:
   - Sources
   summary: Get source resource by id
   description: |
-    Use this API to get a resource by id on the specified source in Identity Security Cloud (ISC).
+    Use this API to get a resource by id on the specified source in SailPoint Identity Security.
     The response includes the full CIS schema for the resource.
   parameters:
   - in: path
@@ -86,7 +86,7 @@ put:
   - Sources
   summary: Update source resource (full)
   description: |
-    Use this API to replace a resource on the specified source in Identity Security Cloud (ISC).
+    Use this API to replace a resource on the specified source in SailPoint Identity Security.
 
 
     After creation, schema attribute edits should be made through the source schema APIs. Connectors
@@ -250,7 +250,7 @@ delete:
   - Sources
   summary: Delete source resource by id
   description: |
-    Use this API to delete a resource on the specified source in Identity Security Cloud (ISC).
+    Use this API to delete a resource on the specified source in SailPoint Identity Security.
 
 
     The resource schema is deleted and the resource is unlinked from any dataset rows on the source.

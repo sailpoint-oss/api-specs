@@ -11,7 +11,7 @@ get:
   tags:
     - Sources
   summary: List schemas on source
-  description: Use this API to list the schemas that exist on the specified source in Identity Security Cloud (ISC).
+  description: Use this API to list the schemas that exist on the specified source in SailPoint Identity Security.
   parameters:
     - in: path
       name: sourceId
@@ -72,7 +72,7 @@ post:
   tags:
     - Sources
   summary: Create schema on source
-  description: Use this API to create a new schema on the specified source in Identity Security Cloud (ISC).
+  description: Use this API to create a new schema on the specified source in SailPoint Identity Security.
   parameters:
     - in: path
       name: sourceId

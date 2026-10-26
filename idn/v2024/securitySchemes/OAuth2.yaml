@@ -1,7 +1,7 @@
 type: oauth2
 description: >-
   OAuth2 Bearer token (JWT). See
-  [Best Practices: IdentityNow REST API Authentication](https://developer.sailpoint.com/idn/api/authentication)
+  [Best Practices: IdentityNow REST API Authentication](https://developer.sailpoint.com/docs/api/authentication/)
 flows:
   authorizationCode:
     authorizationUrl: 'https://example-tenant.login.sailpoint.com/oauth/authorize'

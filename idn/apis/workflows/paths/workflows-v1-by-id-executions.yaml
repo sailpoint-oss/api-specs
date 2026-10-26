@@ -21,7 +21,7 @@ get:
 
       - Paginate through results with the `offset` parameter.
       For example, you can page through 50 executions per page and use that as a way to get to the records past the first 250.
-      Refer to [Paginating Results](https://developer.sailpoint.com/idn/api/standard-collection-parameters#paginating-results) for more information about the query parameters you can use to achieve pagination.
+      Refer to [Paginating Results](https://developer.sailpoint.com/docs/api/standard-collection-parameters#paginating-results) for more information about the query parameters you can use to achieve pagination.
   deprecated: true
   security:
   - userAuth:
@@ -49,8 +49,8 @@ get:
     schema:
       type: string
     description: >-
-      Filter results using the standard syntax described in [V3 API Standard Collection
-      Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)
+      Filter results using the standard syntax described in [API Standard Collection
+      Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#filtering-results)
 
 
       Filtering is supported for the following fields and operators:

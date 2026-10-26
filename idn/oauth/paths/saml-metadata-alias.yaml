@@ -21,7 +21,7 @@ get:
     - OAuth
   summary: Get SAML SP metadata
   description: >-
-    Returns SAML 2.0 metadata for the Identity Security Cloud service provider.
+    Returns SAML 2.0 metadata for the SailPoint Identity Security service provider.
     The path uses the tenant in the form {tenant}-sp so the URL is https://{{tenant}}.api.{{domain}}.com/saml/metadata/alias/{{tenant}}-sp.
   parameters:
     - in: path

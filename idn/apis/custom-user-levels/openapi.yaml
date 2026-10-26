@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: Identity Security Cloud API - Custom User Levels
+  title: SailPoint Identity Security API - Custom User Levels
   description: >-
-    Use these APIs to interact with the Identity Security Cloud platform to achieve repeatable, automated processes with
+    Use these APIs to interact with the SailPoint Identity Security platform to achieve repeatable, automated processes with
     greater scalability. We encourage you to join the SailPoint Developer Community forum at
     https://developer.sailpoint.com/discuss to connect with other developers using our APIs.
   termsOfService: https://developer.sailpoint.com/discuss/tos
@@ -32,11 +32,11 @@ tags:
       Use this API to implement custom user level functionality.
 
       With this functionality in place, administrators can create custom user levels and configure them for use
-      throughout Identity Security Cloud.
+      throughout SailPoint Identity Security.
 
 
       Custom user levels allow administrators to create custom user levels that can be used to control access to
-      Identity Security Cloud features and APIs.
+      SailPoint Identity Security features and APIs.
 
 
       Refer to [User Levels](https://documentation.sailpoint.com/saas/help/common/users/index.html) for more information

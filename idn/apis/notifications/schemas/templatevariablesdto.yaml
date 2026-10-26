@@ -25,7 +25,7 @@ properties:
       - key: __global.productName
         type: string
         description: The human-readable name of the product or application.
-        example: SailPoint Identity Security Cloud
+        example: SailPoint Identity Security
       - key: __esc.html()
         type: function
         description: Escapes the characters in a string using HTML entities (e.g. &quot;, &amp;).

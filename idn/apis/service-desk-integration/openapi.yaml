@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: Identity Security Cloud API - Service Desk Integration
+  title: SailPoint Identity Security API - Service Desk Integration
   description: >-
-    Use these APIs to interact with the Identity Security Cloud platform to achieve repeatable, automated processes with
+    Use these APIs to interact with the SailPoint Identity Security platform to achieve repeatable, automated processes with
     greater scalability. We encourage you to join the SailPoint Developer Community forum at
     https://developer.sailpoint.com/discuss to connect with other developers using our APIs.
   termsOfService: https://developer.sailpoint.com/discuss/tos
@@ -29,15 +29,15 @@ servers:
 tags:
   - name: Service Desk Integration
     description: >
-      Use this API to build an integration between Identity Security Cloud and a service desk ITSM (IT service
+      Use this API to build an integration between SailPoint Identity Security and a service desk ITSM (IT service
       management) solution. 
 
-      Once an administrator builds this integration between Identity Security Cloud and a service desk, users can use
-      Identity Security Cloud to raise and track tickets that are synchronized between Identity Security Cloud and the
+      Once an administrator builds this integration between SailPoint Identity Security and a service desk, users can use
+      SailPoint Identity Security to raise and track tickets that are synchronized between SailPoint Identity Security and the
       service desk. 
 
 
-      In Identity Security Cloud, administrators can create a service desk integration (sometimes also called an SDIM,
+      In SailPoint Identity Security, administrators can create a service desk integration (sometimes also called an SDIM,
       or Service Desk Integration Module) by going to Admin > Connections > Service Desk and selecting 'Create.'
 
 
@@ -47,7 +47,7 @@ tags:
 
       Refer to [Integrating SailPoint with Generic Service
       Desk](https://documentation.sailpoint.com/connectors/generic_sd/help/integrating_generic_service_desk/intro.html)
-      for more information about the process of setting up a Generic Service Desk in Identity Security Cloud.
+      for more information about the process of setting up a Generic Service Desk in SailPoint Identity Security.
 
 
       Administrators can create various service desk integrations, all with their own nuances. 

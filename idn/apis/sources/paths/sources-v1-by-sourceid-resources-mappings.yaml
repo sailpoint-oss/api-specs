@@ -19,8 +19,8 @@ get:
   - Sources
   summary: Get source resource mappings
   description: |
-    Use this API to get aggregation metadata for resources on the specified source in Identity
-    Security Cloud (ISC). The response is keyed by resource id. Each value includes the linked
+    Use this API to get aggregation metadata for resources on the specified source in SailPoint Identity
+    Security (SailPoint Identity Security). The response is keyed by resource id. Each value includes the linked
     dataset id, resource type, and connector object type. Resources without a matching schema are
     omitted.
   parameters:

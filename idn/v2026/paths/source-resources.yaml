@@ -19,7 +19,7 @@ get:
     - Sources
   summary: List resources for a source
   description: |
-    Use this API to list resources defined on the specified source in Identity Security Cloud (ISC).
+    Use this API to list resources defined on the specified source in SailPoint Identity Security.
   parameters:
     - in: path
       name: sourceId

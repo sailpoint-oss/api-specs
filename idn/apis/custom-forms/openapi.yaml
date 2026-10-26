@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: Identity Security Cloud API - Custom Forms
+  title: SailPoint Identity Security API - Custom Forms
   description: >-
-    Use these APIs to interact with the Identity Security Cloud platform to achieve repeatable, automated processes with
+    Use these APIs to interact with the SailPoint Identity Security platform to achieve repeatable, automated processes with
     greater scalability. We encourage you to join the SailPoint Developer Community forum at
     https://developer.sailpoint.com/discuss to connect with other developers using our APIs.
   termsOfService: https://developer.sailpoint.com/discuss/tos
@@ -47,7 +47,7 @@ tags:
 
 
       Refer to [Forms](https://documentation.sailpoint.com/saas/help/forms/index.html) for more information about using
-      forms in Identity Security Cloud.
+      forms in SailPoint Identity Security.
 paths:
   /form-definitions/v1:
     $ref: ./paths/form-definitions-v1.yaml

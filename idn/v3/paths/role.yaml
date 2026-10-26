@@ -71,7 +71,7 @@ patch:
 
     A user with ROLE_SUBADMIN authority may only call this API if all access profiles included in the role are associated to sources with management workgroups of the ROLE_SUBADMIN is a member of.
 
-    The maximum supported length for the description field is 2000 characters. ISC preserves longer descriptions for existing roles. However, any new roles as well as any updates to existing descriptions are limited to 2000 characters.
+    The maximum supported length for the description field is 2000 characters. SailPoint Identity Security preserves longer descriptions for existing roles. However, any new roles as well as any updates to existing descriptions are limited to 2000 characters.
 
     When you use this API to modify a role's membership identities, you can only modify up to a limit of 500 membership identities at a time. 
   parameters:
@@ -117,7 +117,7 @@ patch:
                     - id: 2c91808973fe906c0174262092014ed9
                     - id: 2c918086262092014ed94fb8a47612f3
           Set the Membership Selection Criteria to a Standard Expression:
-            description: This example shows how to define a role's membership, using `STANDARD` criteria. In this case, ISC will grant the role to all identities that have the *Engineering* attribute from the indicated source.
+            description: This example shows how to define a role's membership, using `STANDARD` criteria. In this case, SailPoint Identity Security will grant the role to all identities that have the *Engineering* attribute from the indicated source.
             value:
               - op: replace
                 path: /membership

@@ -14,8 +14,8 @@ get:
 
 
       Integer specifying the offset of the first result from the beginning of the collection. The standard syntax
-      described in [V3 API Standard Collection
-      Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#paginating-results).
+      described in [API Standard Collection
+      Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#paginating-results).
 
       The offset value is record-based, not page-based, and the index starts at 0.
     schema:
@@ -33,8 +33,8 @@ get:
 
 
       Integer specifying the maximum number of records to return in a single API call. The standard syntax described
-      in [V3 API Standard Collection
-      Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#paginating-results).
+      in [API Standard Collection
+      Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#paginating-results).
 
       If it is not specified, a default limit is used.
     schema:
@@ -53,8 +53,8 @@ get:
       If `true` it will populate the `X-Total-Count` response header with the number of results that would be returned
       if `limit` and `offset` were ignored. 
 
-      The standard syntax described in [V3 API Standard Collection
-      Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#paginating-results).
+      The standard syntax described in [API Standard Collection
+      Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#paginating-results).
 
       Since requesting a total count can have a performance impact, it is recommended not to send `count=true` if that
       value will not be used.

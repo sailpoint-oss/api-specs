@@ -16,7 +16,7 @@ required:
 properties:
   id:
     type: string
-    description: Identity Security Cloud identifier for this non-human identity.
+    description: SailPoint Identity Security identifier for this non-human identity.
     example: ef38f94347e94562b5bb8424a56397d8
   type:
     type: string
@@ -40,12 +40,12 @@ properties:
   created:
     type: string
     format: date-time
-    description: Timestamp when the identity record was created in Identity Security Cloud.
+    description: Timestamp when the identity record was created in SailPoint Identity Security.
     example: '2026-05-12T08:00:00Z'
   modified:
     type: string
     format: date-time
-    description: Timestamp when the identity record was last modified in Identity Security Cloud.
+    description: Timestamp when the identity record was last modified in SailPoint Identity Security.
     example: '2026-05-12T09:15:30Z'
   matchConfidence:
     type: string
@@ -88,7 +88,7 @@ properties:
   manuallyCreated:
     type: boolean
     default: false
-    description: True when the machine identity was created manually in Identity Security Cloud.
+    description: True when the machine identity was created manually in SailPoint Identity Security.
     example: false
   owners:
     $ref: ./intelmachineidentityowners.yaml

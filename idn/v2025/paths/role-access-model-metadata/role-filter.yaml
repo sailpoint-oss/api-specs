@@ -26,14 +26,14 @@ post:
         minimum: 0
         maximum: 250
         default: 50
-      description: Max number of results to return See [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.
+      description: Max number of results to return See [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters) for more information.
       example: 50
       required: false
     - name: offset
       in: query
       description: |-
         Offset into the full result set. Usually specified with *limit* to paginate through the results.
-        See [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.
+        See [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters) for more information.
       schema:
         type: integer
         format: int32
@@ -45,7 +45,7 @@ post:
       in: query
       description: |-
         Boolean indicating whether a total count is returned, factoring in any filter parameters, in the X-Total-Count response header. The value is the total size of the collection that would be returned if limit and offset were ignored. 
-        See [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters) for more information.
+        See [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters) for more information.
       schema:
         type: boolean
         default: false
@@ -56,7 +56,7 @@ post:
       schema:
         type: string
       description: |-
-        Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)
+        Sort results using the standard syntax described in [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#sorting-results)
 
         Sorting is supported for the following fields: **name, created, modified**
       example: name,-modified

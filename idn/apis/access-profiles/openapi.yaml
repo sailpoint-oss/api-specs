@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: Identity Security Cloud API - Access Profiles
+  title: SailPoint Identity Security API - Access Profiles
   description: >-
-    Use these APIs to interact with the Identity Security Cloud platform to achieve repeatable, automated processes with
+    Use these APIs to interact with the SailPoint Identity Security platform to achieve repeatable, automated processes with
     greater scalability. We encourage you to join the SailPoint Developer Community forum at
     https://developer.sailpoint.com/discuss to connect with other developers using our APIs.
   termsOfService: https://developer.sailpoint.com/discuss/tos
@@ -32,13 +32,13 @@ tags:
       Use this API to implement and customize access profile functionality. 
 
       With this functionality in place, administrators can create access profiles and configure them for use throughout
-      Identity Security Cloud, enabling users to get the access they need quickly and securely.
+      SailPoint Identity Security, enabling users to get the access they need quickly and securely.
 
 
       Access profiles group entitlements, which represent access rights on sources. 
 
 
-      For example, an Active Directory source in Identity Security Cloud can have multiple entitlements: the first,
+      For example, an Active Directory source in SailPoint Identity Security can have multiple entitlements: the first,
       'Employees,' may represent the access all employees have at the organization, and a second, 'Developers,' may
       represent the access all developers have at the organization.
 
@@ -54,7 +54,7 @@ tags:
       Developers' access profile.
 
 
-      Identity Security Cloud uses access profiles in many features, including the following:
+      SailPoint Identity Security uses access profiles in many features, including the following:
 
 
       - Provisioning: When you use the Provisioning Service, lifecycle states and roles both grant access to users in
@@ -73,7 +73,7 @@ tags:
       identity's role. 
 
 
-      In Identity Security Cloud, administrators can use the Access drop-down menu and select Access Profiles to view,
+      In SailPoint Identity Security, administrators can use the Access drop-down menu and select Access Profiles to view,
       configure, and delete existing access profiles, as well as create new ones. 
 
       Administrators can enable and disable an access profile, and they can also make the following configurations: 
@@ -89,7 +89,7 @@ tags:
       process for the access profile.
 
 
-      - Multiple Account Options: Define the logic Identity Security Cloud uses to provision access to an identity with
+      - Multiple Account Options: Define the logic SailPoint Identity Security uses to provision access to an identity with
       multiple accounts on the source. 
 
 

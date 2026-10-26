@@ -15,7 +15,7 @@ get:
     - Sources
   summary: List datasets on source
   description: |
-    Use this API to list datasets for the specified source in Identity Security Cloud (ISC).
+    Use this API to list datasets for the specified source in SailPoint Identity Security.
   parameters:
     - in: path
       name: sourceId

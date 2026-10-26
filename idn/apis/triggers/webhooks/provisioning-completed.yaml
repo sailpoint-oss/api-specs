@@ -2,8 +2,8 @@ post:
   summary: Provisioning completed
   operationId: provisioningCompletedEvent
   description: >-
-    This event trigger fires after Identity Security Cloud (ISC) provisions access to an account. 
-    This trigger provides organizations with a flexible way to extend the provisioning workflow after an identity's access has changed within ISC. 
+    This event trigger fires after SailPoint Identity Security provisions access to an account. 
+    This trigger provides organizations with a flexible way to extend the provisioning workflow after an identity's access has changed within SailPoint Identity Security. 
 
     These are the requirements to use the trigger:
       * An oAuth client must be configured with the `ORG_ADMIN` authority.
@@ -17,8 +17,8 @@ post:
       * `PROVISIONING`: The ability to write to accounts.
       * `PASSWORD`: The ability to update account passwords.
     
-    For a list of supported connectors and features, refer to [Identity Security Cloud Connectors](https://documentation.sailpoint.com/connectors/isc/landingpages/help/landingpages/isc_landing.html).
-    For more information about configuring sources for provisioning in ISC, refer to [Configuring Source Account Provisioning](https://documentation.sailpoint.com/saas/help/provisioning/create_profile.html).
+    For a list of supported connectors and features, refer to [SailPoint Identity Security Connectors](https://documentation.sailpoint.com/connectors/isc/landingpages/help/landingpages/isc_landing.html).
+    For more information about configuring sources for provisioning in SailPoint Identity Security, refer to [Configuring Source Account Provisioning](https://documentation.sailpoint.com/saas/help/provisioning/create_profile.html).
 
     This is a `FIRE_AND_FORGET` event trigger. 
     You can have a maximum of 50 subscriptions for this trigger.

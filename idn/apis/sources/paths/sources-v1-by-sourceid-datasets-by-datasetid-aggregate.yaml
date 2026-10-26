@@ -15,7 +15,7 @@ post:
   - Sources
   summary: Aggregate source dataset
   description: |
-    Starts an aggregation for the specified dataset on the source in Identity Security Cloud (ISC).
+    Starts an aggregation for the specified dataset on the source in SailPoint Identity Security.
     An optional `config` object can be supplied for connector-specific aggregation settings.
   parameters:
   - in: path

@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: Identity Security Cloud API - Password Sync Groups
+  title: SailPoint Identity Security API - Password Sync Groups
   description: >-
-    Use these APIs to interact with the Identity Security Cloud platform to achieve repeatable, automated processes with
+    Use these APIs to interact with the SailPoint Identity Security platform to achieve repeatable, automated processes with
     greater scalability. We encourage you to join the SailPoint Developer Community forum at
     https://developer.sailpoint.com/discuss to connect with other developers using our APIs.
   termsOfService: https://developer.sailpoint.com/discuss/tos
@@ -49,10 +49,10 @@ tags:
       all at once, rather then updating each one individually.
 
 
-      The following are required for administrators to create a password sync group in Identity Security Cloud: 
+      The following are required for administrators to create a password sync group in SailPoint Identity Security: 
 
 
-      - At least two direct connect sources connected to Identity Security Cloud and configured for Password Management.
+      - At least two direct connect sources connected to SailPoint Identity Security and configured for Password Management.
 
 
       - Each authentication source in a sync group must have at least one application. Refer to [Adding and Resetting
@@ -66,14 +66,14 @@ tags:
       password policies. 
 
 
-      In the Admin panel in Identity Security Cloud, administrators can use the Password Mgmt dropdown menu to select
+      In the Admin panel in SailPoint Identity Security, administrators can use the Password Mgmt dropdown menu to select
       Sync Groups. 
 
       To create a sync group, administrators must provide a name, choose a password policy to be enforced across the
       sources in the sync group, and select the sources to include in the sync group. 
 
 
-      Administrators can also delete sync groups in Identity Security Cloud, but they should know the following before
+      Administrators can also delete sync groups in SailPoint Identity Security, but they should know the following before
       they do: 
 
 

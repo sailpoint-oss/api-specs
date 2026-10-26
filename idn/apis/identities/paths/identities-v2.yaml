@@ -12,7 +12,7 @@ get:
     `offset + limit` cannot exceed 10,000. To page beyond that window, use `searchAfter` instead of a large offset.
     `searchAfter` cannot be combined with `offset`. Always include `id` in `sorters` when using `searchAfter`. Refer
     to [Paginating Search
-    Queries](https://developer.sailpoint.com/idn/api/standard-collection-parameters#paginating-search-queries) for more
+    Queries](https://developer.sailpoint.com/docs/api/standard-collection-parameters#paginating-search-queries) for more
     information.
     
     An identity with no privilege level is returned as `NONE`. Comparisons on
@@ -43,8 +43,8 @@ get:
       type: string
     example: privilegeLevel.effective eq "HIGH"
     description: >-
-      Filter results using the standard syntax described in [V3 API Standard Collection
-      Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)
+      Filter results using the standard syntax described in [API Standard Collection
+      Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#filtering-results)
 
 
       Filtering is supported for the following fields and operators:
@@ -125,8 +125,8 @@ get:
       format: comma-separated
     example: privilegeLevel.effective,id
     description: >-
-      Sort results using the standard syntax described in [V3 API Standard Collection
-      Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)
+      Sort results using the standard syntax described in [API Standard Collection
+      Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#sorting-results)
 
 
       Sorting is supported for the following fields: **id, name, alias, type, emailAddress, identityStatus,

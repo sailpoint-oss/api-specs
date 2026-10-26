@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: Identity Security Cloud API - Suggested Entitlement Description
+  title: SailPoint Identity Security API - Suggested Entitlement Description
   description: >-
-    Use these APIs to interact with the Identity Security Cloud platform to achieve repeatable, automated processes with
+    Use these APIs to interact with the SailPoint Identity Security platform to achieve repeatable, automated processes with
     greater scalability. We encourage you to join the SailPoint Developer Community forum at
     https://developer.sailpoint.com/discuss to connect with other developers using our APIs.
   termsOfService: https://developer.sailpoint.com/discuss/tos
@@ -35,7 +35,7 @@ tags:
 
       Refer to [GenAI Entitlement
       Descriptions](https://documentation.sailpoint.com/saas/help/access/entitlements.html#genai-entitlement-descriptions)
-      to learn more about SED in Identity Security Cloud (ISC). 
+      to learn more about SED in SailPoint Identity Security. 
 paths:
   /suggested-entitlement-descriptions/v1/auto-write-settings:
     $ref: ./paths/suggested-entitlement-descriptions-v1-auto-write-settings.yaml

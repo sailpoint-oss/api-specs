@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: Identity Security Cloud API - Saved Search
+  title: SailPoint Identity Security API - Saved Search
   description: >-
-    Use these APIs to interact with the Identity Security Cloud platform to achieve repeatable, automated processes with
+    Use these APIs to interact with the SailPoint Identity Security platform to achieve repeatable, automated processes with
     greater scalability. We encourage you to join the SailPoint Developer Community forum at
     https://developer.sailpoint.com/discuss to connect with other developers using our APIs.
   termsOfService: https://developer.sailpoint.com/discuss/tos
@@ -35,10 +35,10 @@ tags:
       well as rerun them. 
 
 
-      Search queries in Identity Security Cloud can grow very long and specific, which can make reconstructing them
+      Search queries in SailPoint Identity Security can grow very long and specific, which can make reconstructing them
       difficult or tedious, so it can be especially helpful to save search queries. 
 
-      It also opens the possibility to configure Identity Security Cloud to run the saved queries on a schedule, which
+      It also opens the possibility to configure SailPoint Identity Security to run the saved queries on a schedule, which
       is essential to detecting user information and access changes throughout an organization's tenant and across all
       its sources. 
 
@@ -46,7 +46,7 @@ tags:
       about running saved searches on a schedule. 
 
 
-      In Identity Security Cloud, users can save searches under a name, and then they can access that saved search and
+      In SailPoint Identity Security, users can save searches under a name, and then they can access that saved search and
       run it again when they want. 
 
 

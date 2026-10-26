@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: Identity Security Cloud API - Access Request Approvals
+  title: SailPoint Identity Security API - Access Request Approvals
   description: >-
-    Use these APIs to interact with the Identity Security Cloud platform to achieve repeatable, automated processes with
+    Use these APIs to interact with the SailPoint Identity Security platform to achieve repeatable, automated processes with
     greater scalability. We encourage you to join the SailPoint Developer Community forum at
     https://developer.sailpoint.com/discuss to connect with other developers using our APIs.
   termsOfService: https://developer.sailpoint.com/discuss/tos
@@ -37,7 +37,7 @@ tags:
       This enables more qualified users to review access requests and the others to spend their time on other tasks.  
 
 
-      In Identity Security Cloud, users can request access to applications, entitlements, and roles, and managers can
+      In SailPoint Identity Security, users can request access to applications, entitlements, and roles, and managers can
       request that team members' access be revoked.   
 
       For applications and entitlements, administrators can set access profiles to require approval from the access
@@ -51,17 +51,17 @@ tags:
       approve the requests.
 
 
-      When a user submits an access request, Identity Security Cloud sends the first required approver in the queue an
+      When a user submits an access request, SailPoint Identity Security sends the first required approver in the queue an
       email notification, based on the access request configuration's approval and reminder escalation configuration.
 
 
-      In Approvals in Identity Security Cloud, required approvers can view pending access requests under the Requested
+      In Approvals in SailPoint Identity Security, required approvers can view pending access requests under the Requested
       tab and approve or deny them, or the approvers can reassign the requests to different reviewers for approval.   
 
-      If the required approver approves the request and is the only reviewer required, Identity Security Cloud grants or
+      If the required approver approves the request and is the only reviewer required, SailPoint Identity Security grants or
       revokes access, based on the request.   
 
-      If multiple reviewers are required, Identity Security Cloud sends the request to the next reviewer in the queue,
+      If multiple reviewers are required, SailPoint Identity Security sends the request to the next reviewer in the queue,
       based on the access request configuration's approval reminder and escalation configuration.   
 
       The required approver can then view any completed access requests under the Reviewed tab.   

@@ -2,7 +2,7 @@ post:
   summary: Machine Identity Deleted
   operationId: machineIdentityDeletedEvent
   description: >-
-    This event trigger fires when a machine identity is deleted in Identity Security Cloud.
+    This event trigger fires when a machine identity is deleted in SailPoint Identity Security.
 
     Machine identities can be deleted via the UI, endpoint, or aggregations. Machine identities can also be auto-deleted when all account correlations to the machine identity are removed.
 

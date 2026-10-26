@@ -23,7 +23,7 @@ get:
     style: form
     explode: true
     description: >-
-      Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)
+      Sort results using the standard syntax described in [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#sorting-results)
 
 
       Sorting is supported for the following fields: **key, type, description**
@@ -68,7 +68,7 @@ get:
               - key: "__global.productName"
                 type: "string"
                 description: "The human-readable name of the product or application."
-                example: "SailPoint Identity Security Cloud"
+                example: "SailPoint Identity Security"
               - key: "__global.standardLogoURL"
                 type: "string"
                 description: "URL for the standard size logo displayed on various pages."

@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: Identity Security Cloud API - Dimensions
+  title: SailPoint Identity Security API - Dimensions
   description: >-
-    Use these APIs to interact with the Identity Security Cloud platform to achieve repeatable, automated processes with
+    Use these APIs to interact with the SailPoint Identity Security platform to achieve repeatable, automated processes with
     greater scalability. We encourage you to join the SailPoint Developer Community forum at
     https://developer.sailpoint.com/discuss to connect with other developers using our APIs.
   termsOfService: https://developer.sailpoint.com/discuss/tos
@@ -30,10 +30,10 @@ tags:
   - name: Dimensions
     description: >-
       Use this API to implement and customize dynamic role functionality. With this functionality in place,
-      administrators can create dimensions and configure them for use throughout Identity Security Cloud. Identity
-      Security Cloud can use established criteria to automatically assign the dimensions to qualified users. This
+      administrators can create dimensions and configure them for use throughout SailPoint Identity Security. SailPoint Identity
+      Security can use established criteria to automatically assign the dimensions to qualified users. This
       enables users to get all the access they need quickly and securely and administrators to spend their time on other
-      tasks. Entitlements represent the most granular level of access in Identity Security Cloud.
+      tasks. Entitlements represent the most granular level of access in SailPoint Identity Security.
 
       Access profiles represent the next level and often group entitlements. Dimension represent access selectively
       based on the evaluation of contextual information that is available or provided. Each Dimension include context

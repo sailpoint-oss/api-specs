@@ -54,13 +54,13 @@ get:
     - idn:account-config:manage
   x-sailpoint-userLevels:
   - ORG_ADMIN
-  description: Get a list of attribute/application attributes currently configured in Identity Security Cloud (ISC).
+  description: Get a list of attribute/application attributes currently configured in SailPoint Identity Security.
   parameters:
   - $ref: ../../shared/parameters/limit.yaml
   - $ref: ../../shared/parameters/offset.yaml
   responses:
     '200':
-      description: List of attribute configurations in ISC.
+      description: List of attribute configurations in SailPoint Identity Security.
       content:
         application/json:
           schema:

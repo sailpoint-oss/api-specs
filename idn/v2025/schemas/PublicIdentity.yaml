@@ -35,7 +35,7 @@ properties:
     - null
     example: ACTIVE
     description: |
-      The current state of the identity, which determines how Identity Security Cloud interacts with the identity.
+      The current state of the identity, which determines how SailPoint Identity Security interacts with the identity.
       An identity that is Active will be included identity picklists in Request Center, identity processing, and more.
       Identities that are Inactive will be excluded from these features.
   manager:

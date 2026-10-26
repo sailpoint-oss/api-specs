@@ -13,7 +13,7 @@ required:
 properties:
   id:
     type: string
-    description: Identity Security Cloud identifier for this identity.
+    description: SailPoint Identity Security identifier for this identity.
     example: ef38f94347e94562b5bb8424a56397d8
   type:
     type: string
@@ -54,12 +54,12 @@ properties:
   created:
     type: string
     format: date-time
-    description: Timestamp when the identity record was created in Identity Security Cloud.
+    description: Timestamp when the identity record was created in SailPoint Identity Security.
     example: "2026-05-12T08:00:00Z"
   modified:
     type: string
     format: date-time
-    description: Timestamp when the identity record was last modified in Identity Security Cloud.
+    description: Timestamp when the identity record was last modified in SailPoint Identity Security.
     example: "2026-05-12T09:15:30Z"
   alias:
     type: string
@@ -72,7 +72,7 @@ properties:
     example: user@example.com
   identityStatus:
     type: string
-    description: Current identity lifecycle status label from Identity Security Cloud.
+    description: Current identity lifecycle status label from SailPoint Identity Security.
     example: ACTIVE
   isManager:
     type: boolean

@@ -44,8 +44,7 @@ properties:
     -
     example: ACTIVE
     description: >-
-      The current state of the identity, which determines how Identity Security
-      Cloud interacts with the identity.
+      The current state of the identity, which determines how SailPoint Identity Security interacts with the identity.
   cloudLifecycleState:
     nullable: true
     type: string

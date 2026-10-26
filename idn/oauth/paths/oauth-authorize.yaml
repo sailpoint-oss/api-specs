@@ -19,13 +19,13 @@ get:
   summary: Get OAuth authorization URL
   description: >-
     Initiates the OAuth 2.0 authorization code flow. The client redirects the user to this endpoint
-    to authenticate with Identity Security Cloud; after successful login, ISC redirects back to
+    to authenticate with SailPoint Identity Security; after successful login, SailPoint Identity Security redirects back to
     the application with an authorization code that can be exchanged for an access token at the
     token endpoint.
     PKCE (Proof Key for Code Exchange) is optionally supported: if code_challenge and code_challenge_method
     are present, SailPoint's OAuth Authorization Server will use them. PKCE is required for public API OAuth clients
     with authorization_code grant.
-    See [SailPoint Authentication - Authorization Code Flow](https://developer.sailpoint.com/docs/api/v2025/authentication/#request-access-token-with-authorization-code-grant-flow).
+    See [SailPoint Authentication - Authorization Code Flow](https://developer.sailpoint.com/docs/api/authentication/#request-access-token-with-authorization-code-grant-flow).
   parameters:
     - in: query
       name: client_id

@@ -2,7 +2,7 @@ post:
   summary: Account aggregation completed
   operationId: accountAggregationCompletedEvent
   description: >-
-    This event trigger fires after a source aggregation has either succeeded or failed in collecting source accounts but before Identity Security Cloud (ISC) processes the aggregation.
+    This event trigger fires after a source aggregation has either succeeded or failed in collecting source accounts but before SailPoint Identity Security processes the aggregation.
     
     This is a `FIRE_AND_FORGET` event trigger. 
     You can have a maximum of 50 subscriptions for this trigger.

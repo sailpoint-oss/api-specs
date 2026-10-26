@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: Identity Security Cloud API - Lifecycle States
+  title: SailPoint Identity Security API - Lifecycle States
   description: >-
-    Use these APIs to interact with the Identity Security Cloud platform to achieve repeatable, automated processes with
+    Use these APIs to interact with the SailPoint Identity Security platform to achieve repeatable, automated processes with
     greater scalability. We encourage you to join the SailPoint Developer Community forum at
     https://developer.sailpoint.com/discuss to connect with other developers using our APIs.
   termsOfService: https://developer.sailpoint.com/discuss/tos
@@ -37,7 +37,7 @@ tags:
 
 
       A lifecycle state describes a user's status in a company. For example, two lifecycle states come by default with
-      Identity Security Cloud: 'Active' and 'Inactive.' 
+      SailPoint Identity Security: 'Active' and 'Inactive.' 
 
       When an active employee takes an extended leave of absence from a company, his or her lifecycle state may change
       to 'Inactive,' for security purposes. 
@@ -54,11 +54,11 @@ tags:
       for some custom lifecycle state ideas.
 
 
-      Administrators must define the criteria for being in each lifecycle state, and they must define how Identity
-      Security Cloud manages users' access to apps and sources for each lifecycle state.
+      Administrators must define the criteria for being in each lifecycle state, and they must define how SailPoint Identity
+      Security manages users' access to apps and sources for each lifecycle state.
 
 
-      In Identity Security Cloud, administrators can manage lifecycle states by going to Admin > Identities > Identity
+      In SailPoint Identity Security, administrators can manage lifecycle states by going to Admin > Identities > Identity
       Profile, selecting the identity profile whose lifecycle states they want to manage, selecting the 'Provisioning'
       tab, and using the left panel to either select the lifecycle state they want to modify or create a new lifecycle
       state. 
@@ -91,13 +91,13 @@ tags:
       profile for that building access to both lifecycle states.
 
 
-      During scheduled refreshes, Identity Security Cloud evaluates lifecycle states to determine whether their assigned
+      During scheduled refreshes, SailPoint Identity Security evaluates lifecycle states to determine whether their assigned
       identities have the access defined in the lifecycle states' access profiles. 
 
-      If the identities are missing access, Identity Security Cloud provisions that access. 
+      If the identities are missing access, SailPoint Identity Security provisions that access. 
 
 
-      Administrators can also use the 'Provisioning' tab to configure email notifications for Identity Security Cloud to
+      Administrators can also use the 'Provisioning' tab to configure email notifications for SailPoint Identity Security to
       send whenever an identity with that identity profile has a lifecycle state change. 
 
       Refer to [Configuring Lifecycle State

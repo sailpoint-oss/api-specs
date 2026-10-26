@@ -16,7 +16,7 @@ get:
   summary: Get source connections by id
   description: >-
     Use this API to get all dependent Profiles, Attributes, Applications and Custom Transforms for a source by a
-    specified ID in Identity Security Cloud (ISC).
+    specified ID in SailPoint Identity Security.
   parameters:
   - in: path
     name: sourceId

@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: Identity Security Cloud API - Password Policies
+  title: SailPoint Identity Security API - Password Policies
   description: >-
-    Use these APIs to interact with the Identity Security Cloud platform to achieve repeatable, automated processes with
+    Use these APIs to interact with the SailPoint Identity Security platform to achieve repeatable, automated processes with
     greater scalability. We encourage you to join the SailPoint Developer Community forum at
     https://developer.sailpoint.com/discuss to connect with other developers using our APIs.
   termsOfService: https://developer.sailpoint.com/discuss/tos
@@ -42,7 +42,7 @@ tags:
       manage passwords for supported sources in your org.
 
 
-      In the Identity Security Cloud Admin panel, administrators can use the Password Mgmt dropdown menu to select Sync
+      In the SailPoint Identity Security Admin panel, administrators can use the Password Mgmt dropdown menu to select Sync
       Groups.
 
       Refer to [Managing Password

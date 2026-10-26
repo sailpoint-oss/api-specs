@@ -21,8 +21,8 @@ post:
 
 
       Integer specifying the maximum number of records to return in a single API call. The standard syntax described
-      in [V3 API Standard Collection
-      Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#paginating-results).
+      in [API Standard Collection
+      Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#paginating-results).
 
       If it is not specified, a default limit is used.
     schema:
@@ -38,8 +38,8 @@ post:
   - name: filters
     in: query
     description: >-
-      Filter results using the standard syntax described in [V3 API Standard Collection
-      Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)
+      Filter results using the standard syntax described in [API Standard Collection
+      Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#filtering-results)
 
 
       Filtering is supported for the following fields and operators:

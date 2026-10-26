@@ -9,7 +9,7 @@ post:
     - ORG_ADMIN
   description: 'This endpoint closes access requests that are stuck in a pending state.
     It can be used throughout a request''s lifecycle even after the approval state,
-    unlike the [Cancel Access Request endpoint](https://developer.sailpoint.com/idn/api/v3/cancel-access-request/).
+    unlike the [Cancel Access Request endpoint](https://developer.sailpoint.com/docs/api/v2025/cancel-access-request/).
 
 
     To find pending access requests with the UI, navigate to Search and use this query:
@@ -19,7 +19,7 @@ post:
 
 
     To find pending access requests with the API, use the [List Account Activities
-    endpoint](https://developer.sailpoint.com/idn/api/v3/list-account-activities/).
+    endpoint](https://developer.sailpoint.com/docs/api/v2025/list-account-activities/).
 
 
     Input the IDs from either source.

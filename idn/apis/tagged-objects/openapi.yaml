@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: Identity Security Cloud API - Tagged Objects
+  title: SailPoint Identity Security API - Tagged Objects
   description: >-
-    Use these APIs to interact with the Identity Security Cloud platform to achieve repeatable, automated processes with
+    Use these APIs to interact with the SailPoint Identity Security platform to achieve repeatable, automated processes with
     greater scalability. We encourage you to join the SailPoint Developer Community forum at
     https://developer.sailpoint.com/discuss to connect with other developers using our APIs.
   termsOfService: https://developer.sailpoint.com/discuss/tos
@@ -32,10 +32,10 @@ tags:
       Use this API to implement object tagging functionality. 
 
       With object tagging functionality in place, any user in an organization can use tags as a way to group objects
-      together and find them more quickly when the user searches Identity Security Cloud. 
+      together and find them more quickly when the user searches SailPoint Identity Security. 
 
 
-      In Identity Security Cloud, users can search their tenants for information and add tags objects they find.
+      In SailPoint Identity Security, users can search their tenants for information and add tags objects they find.
 
       Tagging an object provides users with a way of grouping objects together and makes it easier to find these objects
       in the future. 
@@ -54,7 +54,7 @@ tags:
       objects with that tag. 
 
 
-      With the API, you can tag even more different object types than you can in Identity Security Cloud (access
+      With the API, you can tag even more different object types than you can in SailPoint Identity Security (access
       profiles, entitlements, identities, and roles). 
 
       You can use the API to tag all these objects:
@@ -100,8 +100,7 @@ tags:
 
 
       Because of these limits, it is recommended that you work with your governance experts and security teams to
-      establish a list of tags that are most expressive of governance objects and access managed by Identity Security
-      Cloud. 
+      establish a list of tags that are most expressive of governance objects and access managed by SailPoint Identity Security. 
 
 
       These are the types of information often expressed in tags: 
@@ -121,7 +120,7 @@ tags:
 
       Refer to [Tagging Items in
       Search](https://documentation.sailpoint.com/saas/help/search/index.html?h=tags#tagging-items-in-search) for more
-      information about tagging objects in Identity Security Cloud. 
+      information about tagging objects in SailPoint Identity Security. 
 paths:
   /tagged-objects/v1:
     $ref: ./paths/tagged-objects-v1.yaml

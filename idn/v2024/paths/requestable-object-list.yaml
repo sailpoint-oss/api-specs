@@ -8,7 +8,7 @@ get:
   x-sailpoint-userLevels:
     - ORG_ADMIN
   description: >-
-    Get a list of acccess items that can be requested through the [Access Request endpoints](https://developer.sailpoint.com/docs/api/v2024/access-requests).
+    Get a list of acccess items that can be requested through the [Access Request endpoints](https://developer.sailpoint.com/redoc/sailpoint-api-v2024-light.html#tag/Access-Requests).
     Access items are marked with `AVAILABLE`, `PENDING` or `ASSIGNED` with respect to the identity provided using `identity-id` query parameter.
 
     This endpoint only lists roles and access profiles. For gathering requestable entitlements, the [Entitlements List API](https://developer.sailpoint.com/docs/api/v2025/list-entitlements) can be used with the segmented-for-identity parameter.
@@ -73,7 +73,7 @@ get:
         type: string
       example: 'name sw "bob"'
       description: |
-        Filter results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)
+        Filter results using the standard syntax described in [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#filtering-results)
 
         Filtering is supported for the following fields and operators:
 
@@ -89,7 +89,7 @@ get:
       required: false
       example: name
       description: |
-        Sort results using the standard syntax described in [V3 API Standard Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)
+        Sort results using the standard syntax described in [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#sorting-results)
 
         Sorting is supported for the following fields: **name**
   responses:

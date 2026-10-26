@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: Identity Security Cloud API - SOD Policies
+  title: SailPoint Identity Security API - SOD Policies
   description: >-
-    Use these APIs to interact with the Identity Security Cloud platform to achieve repeatable, automated processes with
+    Use these APIs to interact with the SailPoint Identity Security platform to achieve repeatable, automated processes with
     greater scalability. We encourage you to join the SailPoint Developer Community forum at
     https://developer.sailpoint.com/discuss to connect with other developers using our APIs.
   termsOfService: https://developer.sailpoint.com/discuss/tos
@@ -51,7 +51,7 @@ tags:
       individuals gaining excessive access. 
 
 
-      To create SOD policies in Identity Security Cloud, administrators use 'Search' and then access 'Policies'.
+      To create SOD policies in SailPoint Identity Security, administrators use 'Search' and then access 'Policies'.
 
       To create a policy, they must configure two lists of access items. Each access item can only be added to one of
       the two lists.
@@ -71,7 +71,7 @@ tags:
       The other users can then better help to enforce these SOD policies. 
 
 
-      To create a subscription to a SOD policy in Identity Security Cloud, administrators use 'Search' and then access
+      To create a subscription to a SOD policy in SailPoint Identity Security, administrators use 'Search' and then access
       'Layers'.
 
       They can create a subscription to the policy and schedule it to run at a regular interval. 

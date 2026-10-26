@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: Identity Security Cloud API - Password Management
+  title: SailPoint Identity Security API - Password Management
   description: >-
-    Use these APIs to interact with the Identity Security Cloud platform to achieve repeatable, automated processes with
+    Use these APIs to interact with the SailPoint Identity Security platform to achieve repeatable, automated processes with
     greater scalability. We encourage you to join the SailPoint Developer Community forum at
     https://developer.sailpoint.com/discuss to connect with other developers using our APIs.
   termsOfService: https://developer.sailpoint.com/discuss/tos
@@ -34,7 +34,7 @@ tags:
       With this functionality in place, users can manage their identity passwords for all their applications.
 
 
-      In Identity Security Cloud, users can select their names in the upper right corner of the page and use the
+      In SailPoint Identity Security, users can select their names in the upper right corner of the page and use the
       drop-down menu to select Password Manager. 
 
       Password Manager lists the user's identity's applications, possibly grouped to share passwords. 

@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: Identity Security Cloud API - Account Aggregations
+  title: SailPoint Identity Security API - Account Aggregations
   description: >-
-    Use these APIs to interact with the Identity Security Cloud platform to achieve repeatable, automated processes with
+    Use these APIs to interact with the SailPoint Identity Security platform to achieve repeatable, automated processes with
     greater scalability. We encourage you to join the SailPoint Developer Community forum at
     https://developer.sailpoint.com/discuss to connect with other developers using our APIs.
   termsOfService: https://developer.sailpoint.com/discuss/tos
@@ -35,11 +35,11 @@ tags:
       their relevant details.
 
 
-      An account aggregation refers to the process Identity Security Cloud uses to gather and load account data from a
-      source into Identity Security Cloud.
+      An account aggregation refers to the process SailPoint Identity Security uses to gather and load account data from a
+      source into SailPoint Identity Security.
 
 
-      Whenever Identity Security Cloud is in the process of aggregating a source, it adds an entry to the Aggregation
+      Whenever SailPoint Identity Security is in the process of aggregating a source, it adds an entry to the Aggregation
       Activity Log, along with its relevant details.
 
       To view aggregation activity, administrators can select the Connections drop-down menu, select Sources, and select

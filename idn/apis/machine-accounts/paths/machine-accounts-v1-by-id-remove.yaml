@@ -4,7 +4,7 @@ post:
   - Machine Accounts
   summary: Remove machine account
   description: |
-    Use this API to remove a machine account from Identity Security Cloud. The source account is left unchanged, and a removed machine account can be re-created during the next aggregation. The response returns the task ID.
+    Use this API to remove a machine account from SailPoint Identity Security. The source account is left unchanged, and a removed machine account can be re-created during the next aggregation. The response returns the task ID.
 
     This endpoint is intended for:
 

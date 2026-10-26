@@ -15,7 +15,7 @@ get:
   - Sources
   summary: Get source dataset by id
   description: |
-    Use this API to get a dataset by id for the specified source in Identity Security Cloud (ISC).
+    Use this API to get a dataset by id for the specified source in SailPoint Identity Security.
   parameters:
   - in: path
     name: sourceId
@@ -77,7 +77,7 @@ put:
   - Sources
   summary: Update source dataset (full)
   description: |
-    Use this API to replace a dataset on the specified source in Identity Security Cloud (ISC).
+    Use this API to replace a dataset on the specified source in SailPoint Identity Security.
 
 
     Callers should round-trip the GET representation. `id` is required in the request body and must
@@ -247,7 +247,7 @@ delete:
   - Sources
   summary: Delete source dataset by id
   description: |
-    Use this API to delete a dataset on the specified source in Identity Security Cloud (ISC).
+    Use this API to delete a dataset on the specified source in SailPoint Identity Security.
 
 
     This operation requires a connector with the `supportDatasetCreation` label. Linked resource

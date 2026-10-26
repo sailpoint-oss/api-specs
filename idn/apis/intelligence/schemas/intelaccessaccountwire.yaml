@@ -13,7 +13,7 @@ required:
 properties:
   id:
     type: string
-    description: Unique account identifier in Identity Security Cloud.
+    description: Unique account identifier in SailPoint Identity Security.
     example: 2c91808874ff91550175097daaec161c
   name:
     type: string
@@ -56,10 +56,10 @@ properties:
   created:
     type: string
     format: date-time
-    description: Timestamp when the account record was created in Identity Security Cloud.
+    description: Timestamp when the account record was created in SailPoint Identity Security.
     example: '2023-11-01T10:00:00Z'
   modified:
     type: string
     format: date-time
-    description: Timestamp when the account record was last modified in Identity Security Cloud.
+    description: Timestamp when the account record was last modified in SailPoint Identity Security.
     example: '2024-02-15T16:20:00Z'

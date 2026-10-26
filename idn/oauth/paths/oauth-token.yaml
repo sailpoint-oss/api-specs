@@ -35,7 +35,7 @@ post:
     - **Public clients** (supported for `authorization_code` and `refresh_token` grant types only) must
       always provide `client_id` as a form-data parameter. No client secret is required.
 
-    See [SailPoint Authentication](https://developer.sailpoint.com/docs/api/v2025/authentication).
+    See [SailPoint Authentication](https://developer.sailpoint.com/docs/api/authentication).
   requestBody:
     required: true
     content:

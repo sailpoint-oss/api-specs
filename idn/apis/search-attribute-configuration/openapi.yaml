@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: Identity Security Cloud API - Search Attribute Configuration
+  title: SailPoint Identity Security API - Search Attribute Configuration
   description: >-
-    Use these APIs to interact with the Identity Security Cloud platform to achieve repeatable, automated processes with
+    Use these APIs to interact with the SailPoint Identity Security platform to achieve repeatable, automated processes with
     greater scalability. We encourage you to join the SailPoint Developer Community forum at
     https://developer.sailpoint.com/discuss to connect with other developers using our APIs.
   termsOfService: https://developer.sailpoint.com/discuss/tos
@@ -37,7 +37,7 @@ tags:
       want. 
 
 
-      Identity Security Cloud (ISC) enables organizations to store user data from across all their connected sources and
+      SailPoint Identity Security enables organizations to store user data from across all their connected sources and
       manage the users' access, so the ability to query and filter that data is essential.  
 
       Its search goes through all those sources and finds the results quickly and specifically. 
@@ -54,7 +54,7 @@ tags:
       "Administrator."
 
 
-      Users can further narrow their results by using ISC's specific syntax and punctuation to structure their queries. 
+      Users can further narrow their results by using SailPoint Identity Security's specific syntax and punctuation to structure their queries. 
 
       For example, the query "attributes.location:austin AND NOT manager.name:amanda.ross" returns all results
       associated with the Austin location, but it excludes those associated with the manager Amanda Ross.
@@ -65,7 +65,7 @@ tags:
 
       Refer to [Search Attribute
       Configuration](https://developer.sailpoint.com/docs/extensibility/rules/rule-utility/#configuration-of-search-attributes-within-identity-security-cloud)
-      for more information about ISC's search and its different possibilities. 
+      for more information about SailPoint Identity Security's search and its different possibilities. 
 
 
       With Search Attribute Configuration, administrators can create, manage, and run searches based on the attributes

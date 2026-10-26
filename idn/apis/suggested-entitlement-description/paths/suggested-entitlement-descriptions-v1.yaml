@@ -33,8 +33,8 @@ get:
   - $ref: ../../shared/parameters/offset.yaml
   - $ref: ../../shared/parameters/count.yaml
   - description: >-
-      Filter results using the standard syntax described in [V3 API Standard Collection
-      Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)
+      Filter results using the standard syntax described in [API Standard Collection
+      Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#filtering-results)
 
 
       Filtering is supported for the following fields and operators:
@@ -63,8 +63,8 @@ get:
     schema:
       type: string
   - description: >-
-      Sort results using the standard syntax described in [V3 API Standard Collection
-      Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)
+      Sort results using the standard syntax described in [API Standard Collection
+      Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#sorting-results)
 
 
       Sorting is supported for the following fields: **displayName, sourceName, status**

@@ -2,8 +2,8 @@ post:
   summary: Identity deleted
   operationId: identityDeletedEvent
   description: >-
-    This event trigger fires after an identity has been completely deleted from Identity Security Cloud (ISC).
-    ISC only deletes an identity when it meets all these requirements: 
+    This event trigger fires after an identity has been completely deleted from SailPoint Identity Security.
+    SailPoint Identity Security only deletes an identity when it meets all these requirements: 
       * It has no correlated accounts.
       * It's not an owner of a role, access profile, application, source, or task result. 
       * It's not an owner or requester of a work item.

@@ -57,7 +57,7 @@ patch:
 
     To reassign an account from one identity to another, replace the current `identityId` with a new value. 
 
-    If the account you're assigning was provisioned by Identity Security Cloud (ISC), it's possible for ISC to create a
+    If the account you're assigning was provisioned by SailPoint Identity Security, it's possible for SailPoint Identity Security to create a
     new account 
 
     for the previous identity as soon as the account is moved. If the account you're assigning is authoritative, 

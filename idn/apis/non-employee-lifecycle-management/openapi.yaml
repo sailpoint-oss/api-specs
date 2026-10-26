@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: Identity Security Cloud API - Non-Employee Lifecycle Management
+  title: SailPoint Identity Security API - Non-Employee Lifecycle Management
   description: >-
-    Use these APIs to interact with the Identity Security Cloud platform to achieve repeatable, automated processes with
+    Use these APIs to interact with the SailPoint Identity Security platform to achieve repeatable, automated processes with
     greater scalability. We encourage you to join the SailPoint Developer Community forum at
     https://developer.sailpoint.com/discuss to connect with other developers using our APIs.
   termsOfService: https://developer.sailpoint.com/discuss/tos
@@ -40,7 +40,7 @@ tags:
       The 'non-employee' term refers to any consultant, contractor, intern, or other user in an organization who is not
       a full-time permanent employee. 
 
-      Organizations can track non-employees' access and activity in Identity Security Cloud by creating and maintaining
+      Organizations can track non-employees' access and activity in SailPoint Identity Security by creating and maintaining
       non-employee sources. 
 
       Organizations can have a maximum of 50 non-employee sources. 
@@ -52,7 +52,7 @@ tags:
       - SailPoint is not responsible for storing sensitive data. 
 
       You may only add account attributes to non-employee identities that are necessary for business operations and are
-      consistent with your contractual limitations on data that may be sent or stored in Identity Security Cloud.
+      consistent with your contractual limitations on data that may be sent or stored in SailPoint Identity Security.
 
 
       - You are responsible for regularly downloading your list of non-employee accounts for all the sources you create
@@ -60,11 +60,11 @@ tags:
       data for these accounts.
 
 
-      To manage non-employees in Identity Security Cloud, administrators must create a non-employee source and add
+      To manage non-employees in SailPoint Identity Security, administrators must create a non-employee source and add
       accounts to the source. 
 
 
-      To create a non-employee source in Identity Security Cloud, administrators must use the Admin panel to go to
+      To create a non-employee source in SailPoint Identity Security, administrators must use the Admin panel to go to
       Connections > Sources.
 
       They must then specify 'Non-Employee' in the 'Source Type' field. 
@@ -74,7 +74,7 @@ tags:
       for more details about how to create non-employee sources.
 
 
-      To add accounts to a non-employee source in Identity Security Cloud, administrators can select the non-employee
+      To add accounts to a non-employee source in SailPoint Identity Security, administrators can select the non-employee
       source and add the accounts. 
 
       They can also use the 'Manage Non-Employees' widget on their user dashboards to reach the list of sources and then

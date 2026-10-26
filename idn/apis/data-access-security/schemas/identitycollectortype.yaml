@@ -1,6 +1,6 @@
 type: object
 description: >-
-  A public identity collector type and the ISC `connectorName` values the UI should use when
+  A public identity collector type and the SailPoint Identity Security `connectorName` values the UI should use when
   querying `GET /v3/sources` for sources that can back that type.
 properties:
   type:
@@ -12,7 +12,7 @@ properties:
   iscConnectorNames:
     type: array
     description: >-
-      Exact ISC `connectorName` values to use in `GET /v3/sources` filters
+      Exact SailPoint Identity Security `connectorName` values to use in `GET /v3/sources` filters
       (`connectorName eq "..."`). These are not always equal to `type`
       (for example Google Drive maps to `G Suite` and `Google Workspace SaaS`).
     items:

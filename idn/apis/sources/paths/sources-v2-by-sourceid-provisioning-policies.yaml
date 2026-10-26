@@ -29,8 +29,8 @@ get:
         type: string
       example: subtypeId eq "6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa"
       description: >-
-        Filter results using the standard syntax described in [V3 API Standard Collection
-        Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)
+        Filter results using the standard syntax described in [API Standard Collection
+        Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#filtering-results)
 
 
         Filtering is supported for the following fields and operators:
@@ -47,8 +47,8 @@ get:
         
         
         Integer specifying the offset of the first result from the beginning of the collection. The standard syntax
-        described in [V3 API Standard Collection
-        Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#paginating-results).
+        described in [API Standard Collection
+        Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#paginating-results).
         
         The offset value is record-based, not page-based, and the index starts at 0.
       schema:
@@ -65,8 +65,8 @@ get:
         Limit
         
         Integer specifying the maximum number of records to return in a single API call. The standard syntax described
-        in [V3 API Standard Collection
-        Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#paginating-results).
+        in [API Standard Collection
+        Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#paginating-results).
         
         If it is not specified, a default limit is used.
       schema:

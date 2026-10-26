@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: Identity Security Cloud API - Identity Profiles
+  title: SailPoint Identity Security API - Identity Profiles
   description: >-
-    Use these APIs to interact with the Identity Security Cloud platform to achieve repeatable, automated processes with
+    Use these APIs to interact with the SailPoint Identity Security platform to achieve repeatable, automated processes with
     greater scalability. We encourage you to join the SailPoint Developer Community forum at
     https://developer.sailpoint.com/discuss to connect with other developers using our APIs.
   termsOfService: https://developer.sailpoint.com/discuss/tos
@@ -39,7 +39,7 @@ tags:
       attributes.  
 
 
-      In Identity Security Cloud, administrators can use the Identities drop-down menu and select Identity Profiles to
+      In SailPoint Identity Security, administrators can use the Identities drop-down menu and select Identity Profiles to
       view the list of identity profiles. 
 
       This list shows some details about each identity profile, along with its status. 

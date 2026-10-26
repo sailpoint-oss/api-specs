@@ -15,8 +15,8 @@ get:
       type: string
     example: completionStatus eq "Success"
     required: false
-    description: 'Filter results using the standard syntax described in [V3 API Standard
-      Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#filtering-results)
+    description: 'Filter results using the standard syntax described in [API Standard
+      Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#filtering-results)
 
 
       Filtering is supported for the following fields and operators:
@@ -42,8 +42,8 @@ get:
       format: comma-separated
     example: -created
     required: false
-    description: 'Sort results using the standard syntax described in [V3 API Standard
-      Collection Parameters](https://developer.sailpoint.com/idn/api/standard-collection-parameters#sorting-results)
+    description: 'Sort results using the standard syntax described in [API Standard
+      Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#sorting-results)
 
 
       Sorting is supported for the following fields: **created**'

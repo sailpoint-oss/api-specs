@@ -49,7 +49,7 @@ get:
   tags:
     - Search Attribute Configuration
   summary: List extended search attributes
-  description: Get a list of attribute/application attributes currently configured in Identity Security Cloud (ISC).
+  description: Get a list of attribute/application attributes currently configured in SailPoint Identity Security.
   parameters:
     - $ref: ../../v3/parameters/limit.yaml
     - $ref: ../../v3/parameters/offset.yaml

@@ -19,7 +19,7 @@ get:
     - Sources
   summary: Get source resource by id
   description: |
-    Use this API to get a resource by id on the specified source in Identity Security Cloud (ISC).
+    Use this API to get a resource by id on the specified source in SailPoint Identity Security.
     The response includes the full CIS schema for the resource.
   parameters:
     - in: path

@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: Identity Security Cloud API - Branding
+  title: SailPoint Identity Security API - Branding
   description: >-
-    Use these APIs to interact with the Identity Security Cloud platform to achieve repeatable, automated processes with
+    Use these APIs to interact with the SailPoint Identity Security platform to achieve repeatable, automated processes with
     greater scalability. We encourage you to join the SailPoint Developer Community forum at
     https://developer.sailpoint.com/discuss to connect with other developers using our APIs.
   termsOfService: https://developer.sailpoint.com/discuss/tos
@@ -32,7 +32,7 @@ tags:
       Use this API to implement and customize branding functionality. 
 
       With this functionality in place, administrators can get and manage existing branding items, and they can also
-      create new branding items and configure them for use throughout Identity Security Cloud. 
+      create new branding items and configure them for use throughout SailPoint Identity Security. 
 
       The Branding APIs provide administrators with a way to customize branding items. 
 

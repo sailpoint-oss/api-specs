@@ -2,7 +2,7 @@ post:
   summary: Native change account updated
   operationId: nativeChangeAccountUpdatedEvent
   description: >-
-    This event trigger fires when Identity Security Cloud (ISC) aggregates data from an external source and detects that an account has been updated on the source.
+    This event trigger fires when SailPoint Identity Security aggregates data from an external source and detects that an account has been updated on the source.
     The external source must meet these criteria for you to receive this type of event:
       * Native Change Detection (NCD) is enabled.
       * Account Update operations are monitored.

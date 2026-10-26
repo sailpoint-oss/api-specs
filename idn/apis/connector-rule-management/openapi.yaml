@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: Identity Security Cloud API - Connector Rule Management
+  title: SailPoint Identity Security API - Connector Rule Management
   description: >-
-    Use these APIs to interact with the Identity Security Cloud platform to achieve repeatable, automated processes with
+    Use these APIs to interact with the SailPoint Identity Security platform to achieve repeatable, automated processes with
     greater scalability. We encourage you to join the SailPoint Developer Community forum at
     https://developer.sailpoint.com/discuss to connect with other developers using our APIs.
   termsOfService: https://developer.sailpoint.com/discuss/tos
@@ -35,13 +35,13 @@ tags:
       scalable way. 
 
 
-      In Identity Security Cloud (ISC), [rules](https://developer.sailpoint.com/docs/extensibility/rules) serve as a
+      In SailPoint Identity Security, [rules](https://developer.sailpoint.com/docs/extensibility/rules) serve as a
       flexible configuration framework you can leverage to perform complex or advanced configurations. 
 
       [Connector-executed rules](https://developer.sailpoint.com/docs/extensibility/rules/connector-rules) are rules
-      that are executed in the ISC virtual appliance (VA), usually extensions of the
+      that are executed in the SailPoint Identity Security virtual appliance (VA), usually extensions of the
       [connector](https://documentation.sailpoint.com/connectors/isc/landingpages/help/landingpages/isc_landing.html)
-      itself, the bridge between the data source and ISC. 
+      itself, the bridge between the data source and SailPoint Identity Security. 
 
 
       This API allows administrators to view existing connector-executed rules, make changes to them, delete them, and

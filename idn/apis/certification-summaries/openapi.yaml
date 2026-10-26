@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: Identity Security Cloud API - Certification Summaries
+  title: SailPoint Identity Security API - Certification Summaries
   description: >-
-    Use these APIs to interact with the Identity Security Cloud platform to achieve repeatable, automated processes with
+    Use these APIs to interact with the SailPoint Identity Security platform to achieve repeatable, automated processes with
     greater scalability. We encourage you to join the SailPoint Developer Community forum at
     https://developer.sailpoint.com/discuss to connect with other developers using our APIs.
   termsOfService: https://developer.sailpoint.com/discuss/tos
@@ -40,7 +40,7 @@ tags:
       review processes. 
 
 
-      A certification refers to Identity Security Cloud's mechanism for reviewing a user's access to entitlements (sets
+      A certification refers to SailPoint Identity Security's mechanism for reviewing a user's access to entitlements (sets
       of permissions) and approving or removing that access. 
 
       These certifications serve as a way of showing that a user's access has been reviewed and approved. 
@@ -54,7 +54,7 @@ tags:
       reviewed and approved by their manager, or if the certification is part of a campaign, that the user's access has
       been reviewed and approved by multiple managers. 
 
-      Once this certification has been completed, Identity Security Cloud  would provision all the access the user
+      Once this certification has been completed, SailPoint Identity Security  would provision all the access the user
       needs, nothing more. 
 
 

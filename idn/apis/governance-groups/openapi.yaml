@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: Identity Security Cloud API - Governance Groups
+  title: SailPoint Identity Security API - Governance Groups
   description: >-
-    Use these APIs to interact with the Identity Security Cloud platform to achieve repeatable, automated processes with
+    Use these APIs to interact with the SailPoint Identity Security platform to achieve repeatable, automated processes with
     greater scalability. We encourage you to join the SailPoint Developer Community forum at
     https://developer.sailpoint.com/discuss to connect with other developers using our APIs.
   termsOfService: https://developer.sailpoint.com/discuss/tos
@@ -30,7 +30,7 @@ tags:
   - name: Governance Groups
     description: >
       Use this API to implement and customize Governance Group functionality. With this functionality in place,
-      administrators can create Governance Groups and configure them for use throughout Identity Security Cloud.
+      administrators can create Governance Groups and configure them for use throughout SailPoint Identity Security.
 
 
       A governance group is a group of users that can make governance decisions about access. If your organization has
@@ -40,7 +40,7 @@ tags:
 
       Refer to [Creating and Managing Governance
       Groups](https://documentation.sailpoint.com/saas/help/common/users/governance_groups.html) for more information
-      about how to build Governance Groups in the visual builder in the Identity Security Cloud UI.
+      about how to build Governance Groups in the visual builder in the SailPoint Identity Security UI.
 paths:
   /workgroups/v1:
     $ref: ./paths/workgroups-v1.yaml

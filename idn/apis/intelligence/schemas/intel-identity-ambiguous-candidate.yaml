@@ -5,7 +5,7 @@ description: One disambiguation hint when multiple identities matched the same f
 properties:
   id:
     type: string
-    description: Identity Security Cloud identifier for a matching candidate.
+    description: SailPoint Identity Security identifier for a matching candidate.
     example: ef38f94347e94562b5bb8424a56397d8
   displayName:
     type: string

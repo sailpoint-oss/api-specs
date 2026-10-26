@@ -21,7 +21,7 @@ properties:
     example: HUMAN
   identityId:
     type: string
-    description: ISC identity id, resolved by the caller from a prior intelligence query.
+    description: SailPoint Identity Security identity id, resolved by the caller from a prior intelligence query.
     example: 2c918085842e69ae018428c919680149
   accountIds:
     type: array

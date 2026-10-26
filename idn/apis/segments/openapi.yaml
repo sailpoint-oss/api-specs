@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: Identity Security Cloud API - Segments
+  title: SailPoint Identity Security API - Segments
   description: >-
-    Use these APIs to interact with the Identity Security Cloud platform to achieve repeatable, automated processes with
+    Use these APIs to interact with the SailPoint Identity Security platform to achieve repeatable, automated processes with
     greater scalability. We encourage you to join the SailPoint Developer Community forum at
     https://developer.sailpoint.com/discuss to connect with other developers using our APIs.
   termsOfService: https://developer.sailpoint.com/discuss/tos
@@ -48,7 +48,7 @@ tags:
       "London Office Employees" would then only be able to see and access those items.
 
 
-      In Identity Security Cloud, administrators can use the 'Access' drop-down menu and select 'Segments' to reach the
+      In SailPoint Identity Security, administrators can use the 'Access' drop-down menu and select 'Segments' to reach the
       'Access Requests Segments' page. 
 
       This page lists all the existing access request segments, along with their statuses, enabled or disabled. 
@@ -66,7 +66,7 @@ tags:
 
 
       Refer to [Managing Access Request Segments](https://documentation.sailpoint.com/saas/help/requests/segments.html)
-      for more information about segments in Identity Security Cloud.
+      for more information about segments in SailPoint Identity Security.
 paths:
   /segments/v1:
     $ref: ./paths/segments-v1.yaml
