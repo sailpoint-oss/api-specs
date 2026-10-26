@@ -14,11 +14,8 @@ get:
     to [Paginating Search
     Queries](https://developer.sailpoint.com/idn/api/standard-collection-parameters#paginating-search-queries) for more
     information.
-
-
-    `privilegeLevel` is returned when the `IDNARC_ENABLE_IDENTITY_EFFECTIVE_PRIVILEGE` feature flag is enabled. When
-    the flag is disabled, `privilegeLevel` is null and a filter or sort on `privilegeLevel.effective` is rejected.
-    When the flag is enabled, an identity with no privilege level is returned as `NONE`. Comparisons on
+    
+    An identity with no privilege level is returned as `NONE`. Comparisons on
     `privilegeLevel.effective` are case-insensitive, and returned values are uppercase: `HIGH`, `MEDIUM`, `LOW`, or
     `NONE`. An identity with no privilege level matches `privilegeLevel.effective eq "NONE"` and does not match
     `isnull`.
@@ -138,10 +135,7 @@ get:
       privilegeLevel.effective**
 
 
-      Sorting on **privilegeLevel.effective** is case-insensitive and is accepted only when
-      `IDNARC_ENABLE_IDENTITY_EFFECTIVE_PRIVILEGE` is enabled. Returned values are uppercase.
-
-
+      Sorting on **privilegeLevel.effective** is case-insensitive. Returned values are uppercase.
       Default sort is **created** when no collection parameters are sent.
   - name: X-SailPoint-Experimental
     in: header

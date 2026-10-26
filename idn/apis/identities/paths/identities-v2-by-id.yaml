@@ -8,8 +8,7 @@ get:
 
 
     `privilegeLevel.effective` is `HIGH`, `MEDIUM`, `LOW`, or `NONE`. An identity with no privilege level is returned
-    as `NONE`. `privilegeLevel` is null when the `IDNARC_ENABLE_IDENTITY_EFFECTIVE_PRIVILEGE` feature flag is
-    disabled. Comparisons on `privilegeLevel.effective` are case-insensitive, and returned values are uppercase.
+    as `NONE` Comparisons on `privilegeLevel.effective` are case-insensitive, and returned values are uppercase.
   security:
   - userAuth:
     - idn:identity:read
