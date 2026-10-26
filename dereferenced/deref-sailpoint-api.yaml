@@ -31205,8 +31205,7 @@ paths:
         List identities from the identities search index.
 
         Use standard collection parameters for paging (`limit`, `offset`, `count`). Default page size is 25 when no collection parameters are sent. Maximum `limit` is 250. Requests that specify a larger `limit` are capped at 250. `offset + limit` cannot exceed 10,000. To page beyond that window, use `searchAfter` instead of a large offset. `searchAfter` cannot be combined with `offset`. Always include `id` in `sorters` when using `searchAfter`. Refer to [Paginating Search Queries](https://developer.sailpoint.com/idn/api/standard-collection-parameters#paginating-search-queries) for more information.
-
-        `privilegeLevel` is returned when the `IDNARC_ENABLE_IDENTITY_EFFECTIVE_PRIVILEGE` feature flag is enabled. When the flag is disabled, `privilegeLevel` is null and a filter or sort on `privilegeLevel.effective` is rejected. When the flag is enabled, an identity with no privilege level is returned as `NONE`. Comparisons on `privilegeLevel.effective` are case-insensitive, and returned values are uppercase: `HIGH`, `MEDIUM`, `LOW`, or `NONE`. An identity with no privilege level matches `privilegeLevel.effective eq "NONE"` and does not match `isnull`.
+        An identity with no privilege level is returned as `NONE`. Comparisons on `privilegeLevel.effective` are case-insensitive, and returned values are uppercase: `HIGH`, `MEDIUM`, `LOW`, or `NONE`. An identity with no privilege level matches `privilegeLevel.effective eq "NONE"` and does not match `isnull`.
       security:
         - userAuth:
             - idn:identity-list:read
@@ -31292,9 +31291,7 @@ paths:
 
             Sorting is supported for the following fields: **id, name, alias, type, emailAddress, identityStatus, processingState, protected, correlated, inactive, isManager, locked, disabled, manager.id, manager.name, manager.type, lifecycleState.stateName, lifecycleState.manuallyUpdated, created, modified, synced, lastRefresh, privilegeLevel.effective**
 
-            Sorting on **privilegeLevel.effective** is case-insensitive and is accepted only when `IDNARC_ENABLE_IDENTITY_EFFECTIVE_PRIVILEGE` is enabled. Returned values are uppercase.
-
-            Default sort is **created** when no collection parameters are sent.
+            Sorting on **privilegeLevel.effective** is case-insensitive. Returned values are uppercase. Default sort is **created** when no collection parameters are sent.
         - name: X-SailPoint-Experimental
           in: header
           description: Use this header to enable this experimental API.
@@ -31364,7 +31361,7 @@ paths:
       description: |-
         This API returns a single identity from the identities search index.
 
-        `privilegeLevel.effective` is `HIGH`, `MEDIUM`, `LOW`, or `NONE`. An identity with no privilege level is returned as `NONE`. `privilegeLevel` is null when the `IDNARC_ENABLE_IDENTITY_EFFECTIVE_PRIVILEGE` feature flag is disabled. Comparisons on `privilegeLevel.effective` are case-insensitive, and returned values are uppercase.
+        `privilegeLevel.effective` is `HIGH`, `MEDIUM`, `LOW`, or `NONE`. An identity with no privilege level is returned as `NONE` Comparisons on `privilegeLevel.effective` are case-insensitive, and returned values are uppercase.
       security:
         - userAuth:
             - idn:identity:read
@@ -85438,7 +85435,7 @@ components:
       type: object
       title: IdentityV2PrivilegeLevel
       nullable: true
-      description: Effective privilege level of the identity. This object is null when the IDNARC_ENABLE_IDENTITY_EFFECTIVE_PRIVILEGE feature flag is disabled. When the flag is enabled, an identity with no privilege level is returned with effective set to NONE.
+      description: Effective privilege level of the identity with no privilege level is returned with effective set to NONE.
       properties:
         effective:
           type: string
