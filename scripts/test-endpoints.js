@@ -9,11 +9,11 @@
  *   node test-endpoints.js [collection]
  *
  *   [collection] - collection filename (with or without .json) from postman/collections/.
- *                  Defaults to sailpoint-api-isc.
+ *                  Defaults to sailpoint-identity-security-api.
  *                  Pass "list" to see all available collections.
  *
  * Required .env variables:
- *   TENANT          - your ISC tenant name (e.g. "acme")
+ *   TENANT          - your SailPoint Identity Security tenant name (e.g. "acme")
  *   CLIENT_ID       - OAuth client ID
  *   CLIENT_SECRET   - OAuth client secret
  *   DOMAIN          - optional, defaults to "sailpoint" (builds <tenant>.api.<domain>.com)
@@ -188,7 +188,7 @@ async function main() {
     process.exit(0);
   }
 
-  const collectionPath = resolveCollection(arg || 'sailpoint-api-isc');
+  const collectionPath = resolveCollection(arg || 'sailpoint-identity-security-api');
 
   if (!fs.existsSync(collectionPath)) {
     console.error(`Collection not found: ${collectionPath}`);
