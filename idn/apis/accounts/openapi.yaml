@@ -100,6 +100,8 @@ paths:
     $ref: ./paths/accounts-v1-by-id-unlock.yaml
   /accounts/v1/{id}/remove:
     $ref: ./paths/accounts-v1-by-id-remove.yaml
+  /accounts/v2:
+    $ref: ./paths/accounts-v2.yaml
   /identities-accounts/v1/{id}/enable:
     $ref: ./paths/identities-accounts-v1-by-id-enable.yaml
   /identities-accounts/v1/{id}/disable:
