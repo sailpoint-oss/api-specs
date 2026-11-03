@@ -39670,8 +39670,8 @@
                 ]
               },
               "examples": {
-                "Event Trigger": {
-                  "description": "Workflow initiated by an event trigger",
+                "Event Trigger - Advanced Filter": {
+                  "description": "Workflow initiated by an event trigger that uses an advanced-mode filter",
                   "value": {
                     "name": "Send Email",
                     "owner": {
@@ -39703,9 +39703,106 @@
                     "enabled": false,
                     "trigger": {
                       "type": "EVENT",
+                      "mode": "advanced",
                       "attributes": {
                         "id": "idn:identity-attributes-changed",
-                        "filter": "$.changes[?(@.attribute == 'manager')]"
+                        "filter.$": "$.changes[?(@.attribute == 'manager')]"
+                      }
+                    }
+                  }
+                },
+                "Event Trigger - Basic Filter": {
+                  "description": "Workflow initiated by an event trigger that uses a basic-mode filter",
+                  "value": {
+                    "name": "Send Email",
+                    "owner": {
+                      "type": "IDENTITY",
+                      "id": "2c91808568c529c60168cca6f90c1313",
+                      "name": "William Wilson"
+                    },
+                    "description": "Send an email to the identity who's attributes changed.",
+                    "definition": {
+                      "start": "Send Email Test",
+                      "steps": {
+                        "Send Email": {
+                          "actionId": "sp:send-email",
+                          "attributes": {
+                            "body": "This is a test",
+                            "from": "sailpoint@sailpoint.com",
+                            "recipientId.$": "$.identity.id",
+                            "subject": "test"
+                          },
+                          "nextStep": "success",
+                          "selectResult": null,
+                          "type": "action"
+                        },
+                        "success": {
+                          "type": "success"
+                        }
+                      }
+                    },
+                    "enabled": false,
+                    "trigger": {
+                      "type": "EVENT",
+                      "mode": "basic",
+                      "attributes": {
+                        "id": "idn:identity-attributes-changed",
+                        "filter.$": "$.changes[?(@.attribute == \"manager\")]",
+                        "filterDefinition": {
+                          "path": "changes",
+                          "logic": "and",
+                          "conditions": [
+                            {
+                              "path": "attribute",
+                              "operator": "==",
+                              "type": "string",
+                              "value": "manager"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                },
+                "Form Submitted Trigger": {
+                  "description": "Workflow initiated when a specific form is submitted with its department element set to IT",
+                  "value": {
+                    "name": "Send Email",
+                    "owner": {
+                      "type": "IDENTITY",
+                      "id": "2c91808568c529c60168cca6f90c1313",
+                      "name": "William Wilson"
+                    },
+                    "description": "Send an email to the identity who submitted the form.",
+                    "definition": {
+                      "start": "Send Email",
+                      "steps": {
+                        "Send Email": {
+                          "actionId": "sp:send-email",
+                          "attributes": {
+                            "body": "This is a test",
+                            "from": "sailpoint@sailpoint.com",
+                            "recipientId.$": "$.trigger.submittedBy.id",
+                            "subject": "test"
+                          },
+                          "nextStep": "success",
+                          "selectResult": null,
+                          "type": "action"
+                        },
+                        "success": {
+                          "type": "success"
+                        }
+                      }
+                    },
+                    "enabled": false,
+                    "trigger": {
+                      "type": "EVENT",
+                      "attributes": {
+                        "id": "sp:form-submitted",
+                        "formDefinitionId": "49841cb8-00a5-4fbd-9888-8bbb28d48331",
+                        "attributeToFilter": "department",
+                        "operatorValue": "StringEquals",
+                        "attributeValue": "IT"
                       }
                     }
                   }
@@ -78410,9 +78507,87 @@
           },
           "filter.$": {
             "type": "string",
-            "description": "JSON path expression that will limit which events the trigger will fire on",
-            "example": "$.changes[?(@.attribute == 'manager')]",
+            "description": "JSON path expression that will limit which events the trigger will fire on. When the trigger's `mode` is `basic`, this must match the expression compiled from `filterDefinition`.",
+            "example": "$.changes[?(@.attribute == \"manager\")]",
             "nullable": true
+          },
+          "filterDefinition": {
+            "type": "object",
+            "description": "Basic-mode filter that `filter.$` is compiled from. Required when the trigger's `mode` is `basic`, and must be omitted otherwise.",
+            "nullable": true,
+            "required": [
+              "path",
+              "conditions"
+            ],
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "Collection in the event payload that the conditions are applied to, such as `changes` or `accountRequests`. Use `$` to apply the conditions to the root of the payload.",
+                "example": "changes"
+              },
+              "logic": {
+                "type": "string",
+                "description": "How the conditions are combined. Defaults to `and` when omitted.",
+                "enum": [
+                  "and",
+                  "or"
+                ],
+                "example": "and"
+              },
+              "conditions": {
+                "type": "array",
+                "description": "Conditions evaluated against each item in `path`.",
+                "minItems": 1,
+                "maxItems": 5,
+                "items": {
+                  "type": "object",
+                  "description": "A single field comparison.",
+                  "required": [
+                    "path",
+                    "operator"
+                  ],
+                  "properties": {
+                    "path": {
+                      "type": "string",
+                      "description": "Dot-separated path to the field to compare, relative to each item in the filter's `path`.",
+                      "example": "attribute"
+                    },
+                    "operator": {
+                      "type": "string",
+                      "description": "Comparison operator. `string` fields support `==`, `!=`, `=~`, `size`, `contains`, `is empty`, `is not empty`, `is null` and `is not null`. `number` fields support `==`, `!=`, `<`, `<=`, `>`, `>=`, `is null` and `is not null`. `boolean` fields support `==`, `!=`, `is null` and `is not null`.",
+                      "example": "=="
+                    },
+                    "type": {
+                      "type": "string",
+                      "description": "Data type of the field at `path`, which determines how `value` is compared.",
+                      "enum": [
+                        "string",
+                        "number",
+                        "boolean"
+                      ],
+                      "example": "string"
+                    },
+                    "value": {
+                      "description": "Value to compare the field against. Omit for `is empty`, `is not empty`, `is null` and `is not null`. Use a 64-bit integer for `number` fields and for `size`. Use `true` or `false` for `boolean` fields, and a regular expression literal such as `/^john/i` for `=~`. JSONPath and inline expressions are not allowed.",
+                      "nullable": true,
+                      "oneOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "integer",
+                          "format": "int64"
+                        },
+                        {
+                          "type": "boolean"
+                        }
+                      ],
+                      "example": "manager"
+                    }
+                  }
+                }
+              }
+            }
           },
           "description": {
             "type": "string",
@@ -78422,14 +78597,26 @@
           },
           "attributeToFilter": {
             "type": "string",
-            "description": "The attribute to filter on",
-            "example": "LifecycleState",
+            "description": "For the `sp:form-submitted` trigger, the name of the form element to filter on. Use it with `operatorValue` and `attributeValue`. For other event triggers this is a legacy field from the earlier trigger filter picker; use `filterDefinition` with `mode` set to `basic` instead. Create and update requests that set this field for the `idn:identity-attributes-changed` or `idn:identity-created` trigger are rejected.",
+            "example": "department",
+            "nullable": true
+          },
+          "operatorValue": {
+            "type": "string",
+            "description": "For the `sp:form-submitted` trigger, the operator that compares the `attributeToFilter` form element with `attributeValue`, such as `StringEquals`, `StringContains`, `StringStartsWith`, `NumericGreaterThan`, `BooleanEquals` or `ArrayAnyOf`. Create and update requests that set this field for the `idn:identity-created` trigger are rejected.",
+            "example": "StringEquals",
+            "nullable": true
+          },
+          "attributeValue": {
+            "type": "string",
+            "description": "For the `sp:form-submitted` trigger, the value the `attributeToFilter` form element is compared with. For `ArrayAnyOf`, use a list such as `['HR', 'IT']`. Create and update requests that set this field for the `idn:identity-created` trigger are rejected.",
+            "example": "IT",
             "nullable": true
           },
           "formDefinitionId": {
             "type": "string",
-            "description": "Form definition's unique identifier.",
-            "example": "Admin_Access_Request_Form",
+            "description": "For the `sp:form-submitted` trigger, the ID of the form whose submission starts the workflow. Required when `filter.$` is not set. When `filter.$` is not set, the trigger filter is built from this ID, narrowed by `attributeToFilter`, `operatorValue` and `attributeValue` when all three are set.",
+            "example": "49841cb8-00a5-4fbd-9888-8bbb28d48331",
             "nullable": true
           }
         }
@@ -78556,7 +78743,17 @@
           },
           "displayName": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "description": "The trigger display name"
+          },
+          "mode": {
+            "type": "string",
+            "description": "Mode used by the trigger.",
+            "enum": [
+              "basic",
+              "advanced"
+            ],
+            "example": "advanced"
           },
           "attributes": {
             "nullable": true,
@@ -78803,7 +79000,8 @@
           "required": {
             "type": "boolean",
             "description": "Denotes if this field is a required attribute",
-            "example": false
+            "example": false,
+            "default": false
           },
           "type": {
             "description": "The type of the form field",
@@ -79043,18 +79241,27 @@
             "example": "EVENT"
           },
           "deprecated": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Whether the trigger is deprecated.",
+            "example": false,
+            "default": false
           },
           "deprecatedBy": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "description": "Date the trigger was deprecated, if applicable.",
+            "example": "2023-01-01T00:00:00Z"
           },
           "isSimulationEnabled": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Whether the trigger can be simulated.",
+            "example": false,
+            "default": false
           },
           "outputSchema": {
             "type": "object",
-            "description": "Example output schema"
+            "description": "Example output schema",
+            "example": {}
           },
           "name": {
             "type": "string",
@@ -79069,7 +79276,8 @@
           "isDynamicSchema": {
             "type": "boolean",
             "description": "Determines whether the dynamic output schema is returned in place of the action's output schema. The dynamic schema lists non-static properties, like properties of a workflow form where each form has different fields. These will be provided dynamically based on available form fields.",
-            "example": false
+            "example": false,
+            "default": false
           },
           "inputExample": {
             "type": "object",
@@ -79120,6 +79328,21 @@
             "items": {
               "$ref": "#/components/schemas/WorkflowLibraryFormFields"
             }
+          },
+          "filterMode": {
+            "type": "array",
+            "description": "Modes that the trigger uses, however no filterMode means the trigger is not filtered",
+            "items": {
+              "type": "string",
+              "enum": [
+                "basic",
+                "advanced"
+              ]
+            },
+            "example": [
+              "basic",
+              "advanced"
+            ]
           }
         }
       },
