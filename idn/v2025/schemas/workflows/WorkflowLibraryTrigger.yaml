@@ -93,3 +93,12 @@ properties:
     example: []
     items:
       $ref: './WorkflowLibraryFormFields.yaml'
+  filterMode:
+    type: array
+    description: Modes that the trigger uses, however no filterMode means the trigger is not filtered
+    items:
+      type: string
+      enum:
+        - basic
+        - advanced
+    example: [basic, advanced]

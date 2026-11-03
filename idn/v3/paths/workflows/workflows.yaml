@@ -103,8 +103,8 @@ post:
                 - name
             - $ref: ../../schemas/workflows/WorkflowBody.yaml
         examples:
-          Event Trigger:
-            description: Workflow initiated by an event trigger
+          Event Trigger - Advanced Filter:
+            description: Workflow initiated by an event trigger that uses an advanced-mode filter
             value:
               name: Send Email
               owner:
@@ -130,9 +130,82 @@ post:
               enabled: false
               trigger:
                 type: EVENT
+                mode: advanced
                 attributes:
                   id: idn:identity-attributes-changed
-                  filter: $.changes[?(@.attribute == 'manager')]
+                  filter.$: $.changes[?(@.attribute == 'manager')]
+          Event Trigger - Basic Filter:
+            description: Workflow initiated by an event trigger that uses a basic-mode filter
+            value:
+              name: Send Email
+              owner:
+                type: IDENTITY
+                id: 2c91808568c529c60168cca6f90c1313
+                name: William Wilson
+              description: Send an email to the identity who's attributes changed.
+              definition:
+                start: Send Email Test
+                steps:
+                  Send Email:
+                    actionId: sp:send-email
+                    attributes:
+                      body: This is a test
+                      from: sailpoint@sailpoint.com
+                      recipientId.$: $.identity.id
+                      subject: test
+                    nextStep: success
+                    selectResult: null
+                    type: action
+                  success:
+                    type: success
+              enabled: false
+              trigger:
+                type: EVENT
+                mode: basic
+                attributes:
+                  id: idn:identity-attributes-changed
+                  filter.$: '$.changes[?(@.attribute == "manager")]'
+                  filterDefinition:
+                    path: changes
+                    logic: and
+                    conditions:
+                      - path: attribute
+                        operator: '=='
+                        type: string
+                        value: manager
+          Form Submitted Trigger:
+            description: Workflow initiated when a specific form is submitted with its department element set to IT
+            value:
+              name: Send Email
+              owner:
+                type: IDENTITY
+                id: 2c91808568c529c60168cca6f90c1313
+                name: William Wilson
+              description: Send an email to the identity who submitted the form.
+              definition:
+                start: Send Email
+                steps:
+                  Send Email:
+                    actionId: sp:send-email
+                    attributes:
+                      body: This is a test
+                      from: sailpoint@sailpoint.com
+                      recipientId.$: $.trigger.submittedBy.id
+                      subject: test
+                    nextStep: success
+                    selectResult: null
+                    type: action
+                  success:
+                    type: success
+              enabled: false
+              trigger:
+                type: EVENT
+                attributes:
+                  id: sp:form-submitted
+                  formDefinitionId: 49841cb8-00a5-4fbd-9888-8bbb28d48331
+                  attributeToFilter: department
+                  operatorValue: StringEquals
+                  attributeValue: IT
           Scheduled Trigger:
             description: Workflow initiated by a scheduled trigger
             value:
