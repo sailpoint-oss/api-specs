@@ -5694,6 +5694,209 @@ paths:
             - idn:accounts:manage
         - applicationAuth:
             - idn:accounts:manage
+  /accounts/v2:
+    get:
+      operationId: listAccountsV2
+      tags:
+        - Accounts
+      summary: List accounts (search)
+      description: |-
+        List accounts from the accounts search index.
+
+        Use standard collection parameters for paging (`limit`, `offset`, `count`). Default page size is 25 when no collection parameters are sent. Maximum `limit` is 250. Requests that specify a larger `limit` are capped at 250. `offset + limit` cannot exceed 10,000. To page beyond that window, use `searchAfter` instead of a large offset. `searchAfter` cannot be combined with `offset`. Always include `id` in `sorters` when using `searchAfter`. Refer to [Paginating Search Queries](https://developer.sailpoint.com/idn/api/standard-collection-parameters#paginating-search-queries) for more information.
+      security:
+        - userAuth:
+            - idn:account-list:read
+            - idn:mis-account-list:read
+            - idn:account-self:read
+        - applicationAuth:
+            - idn:account-list:read
+            - idn:mis-account-list:read
+            - idn:account-self:read
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - SOURCE_ADMIN
+        - SOURCE_SUBADMIN
+        - HELPDESK
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/count'
+        - $ref: '#/components/parameters/searchafter'
+        - in: query
+          name: filters
+          required: false
+          schema:
+            type: string
+          example: name sw "test"
+          description: |-
+            Filter results using the standard syntax described in [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#filtering-results)
+
+            Filtering is supported for the following fields and operators:
+
+            **id**: *eq, in, sw*
+
+            **name**: *eq, in, sw, isnull, pr*
+
+            **uuid**: *eq, in, sw, isnull, pr*
+
+            **nativeIdentity**: *eq, in, sw, isnull, pr*
+
+            **description**: *eq, in, sw, isnull, pr*
+
+            **type**: *eq, ne*
+
+            **recommendation.type**: *eq, in, sw, isnull, pr*
+
+            **recommendation.method**: *eq, in, sw, isnull, pr*
+
+            **locked**: *eq*
+
+            **disabled**: *eq*
+
+            **hasEntitlements**: *eq*
+
+            **manuallyCorrelated**: *eq*
+
+            **privilegeLevel.effective**: *eq, in, isnull, pr*
+
+            **correlated**: *eq*
+
+            **classificationMethod**: *eq, ne, in, sw, isnull, pr*
+
+            **subType**: *eq, ne, in, sw, isnull, pr*
+
+            **created**: *eq, ge, gt, le, lt*
+
+            **modified**: *eq, ge, gt, le, lt*
+
+            **synced**: *eq, ge, gt, le, lt*
+
+            **owner.id**: *eq, in, sw*
+
+            **owner.name**: *eq, in, sw, isnull, pr*
+
+            **owner.state**: *eq, in, sw, isnull, pr*
+
+            **correlatedIdentity.id**: *eq, in, sw*
+
+            **correlatedIdentity.name**: *eq, in, sw, isnull, pr*
+
+            **correlatedIdentity.state**: *eq, in, sw, isnull, pr*
+
+            **source.id**: *eq, in, sw*
+
+            **source.name**: *eq, in, sw*
+
+            **source.authoritative**: *eq*
+
+            **source.connectionType**: *eq, in, isnull, pr*
+
+            **origin**: *eq, in*
+
+            Filter values are case-insensitive for **name, description, type, origin, source.name, source.connectionType, owner.name, correlatedIdentity.name, correlatedIdentity.state, privilegeLevel.effective, recommendation.type, recommendation.method, classificationMethod, subType**.
+
+            Filter values remain case-sensitive for the identifier fields **id, uuid, nativeIdentity, source.id, owner.id, correlatedIdentity.id**.
+        - in: query
+          name: sorters
+          required: false
+          schema:
+            type: string
+            format: comma-separated
+          example: name,id
+          description: |-
+            Sort results using the standard syntax described in [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#sorting-results)
+
+            Sorting is supported for the following fields: **id, name, uuid, nativeIdentity, created, modified, manuallyCorrelated, description, type, recommendation.type, recommendation.method, locked, disabled, correlated, hasEntitlements, origin, privilegeLevel.effective, classificationMethod, subType, owner.id, owner.name, owner.state, correlatedIdentity.id, correlatedIdentity.name, correlatedIdentity.state, source.id, source.name, source.authoritative, source.connectionType, synced**
+
+            Sorting on the following fields is case-insensitive: **name, description, type, origin, source.name, source.connectionType, owner.name, correlatedIdentity.name, correlatedIdentity.state, privilegeLevel.effective, recommendation.type, recommendation.method, classificationMethod, subType**. Identifier fields such as **id, uuid, nativeIdentity, source.id, owner.id,** and **correlatedIdentity.id** remain case-sensitive.
+
+            Default sort is **created** when no collection parameters are sent.
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: 'true'
+          schema:
+            type: string
+            default: 'true'
+          required: true
+      responses:
+        '200':
+          description: List of account objects.
+          headers:
+            x-total-count:
+              description: The total result count (returned when count=true is passed).
+              schema:
+                type: integer
+                format: int32
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/accountv2'
+              example:
+                - id: 2c9180835d2e5168015d32f890ca1581
+                  name: John.Doe
+                  uuid: '{b0dce506-d6d4-44d2-8a32-d9a5b21fb175}'
+                  nativeIdentity: '552775'
+                  description: Corporate Active Directory account
+                  type: HUMAN
+                  disabled: false
+                  locked: false
+                  hasEntitlements: true
+                  manuallyCorrelated: false
+                  correlated: true
+                  created: '2022-04-19T18:34:01.677Z'
+                  modified: '2022-04-19T18:34:02.268Z'
+                  synced: '2022-04-19T18:34:02.268Z'
+                  source:
+                    id: 2c9180835d2e5168015d32f890ca1581
+                    type: SOURCE
+                    name: Employees
+                    authoritative: false
+                    connectionType: direct
+                  owner:
+                    id: 2c918084660f45d6016617daa9210584
+                    type: IDENTITY
+                    name: John Doe
+                    state: ACTIVE
+                  correlatedIdentity:
+                    id: 2c918084660f45d6016617daa9210584
+                    type: IDENTITY
+                    name: John Doe
+                    state: ACTIVE
+                  owners: []
+                  correlatedEntities:
+                    - type: IDENTITY
+                      id: 2c918084660f45d6016617daa9210584
+                      name: John Doe
+                      state: ACTIVE
+                  recommendation:
+                    type: MACHINE
+                    method: DISCOVERY
+                    explanation: []
+                  privilegeLevel:
+                    effective: High
+                  attributes:
+                    firstName: John
+                    lastName: Doe
+                    displayName: John Doe
+                  origin: AGGREGATED
+                  classificationMethod: SOURCE
+                  features:
+                    - ENABLE
+                    - PROVISIONING
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
   /identities-accounts/v1/{id}/enable:
     post:
       operationId: enableAccountForIdentityV1
@@ -22751,7 +22954,7 @@ paths:
         - $ref: '#/components/parameters/offset'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/count'
-        - $ref: '#/components/parameters/searchafter'
+        - $ref: '#/components/parameters/searchafter-2'
         - in: query
           name: filters
           required: false
@@ -22856,7 +23059,7 @@ paths:
         - $ref: '#/components/parameters/offset'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/count'
-        - $ref: '#/components/parameters/searchafter'
+        - $ref: '#/components/parameters/searchafter-2'
         - in: query
           name: filters
           required: false
@@ -23034,7 +23237,7 @@ paths:
         - $ref: '#/components/parameters/offset'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/count'
-        - $ref: '#/components/parameters/searchafter'
+        - $ref: '#/components/parameters/searchafter-2'
         - $ref: '#/components/parameters/sorters'
         - in: query
           name: filters
@@ -23115,7 +23318,7 @@ paths:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
         - $ref: '#/components/parameters/count'
-        - $ref: '#/components/parameters/searchafter'
+        - $ref: '#/components/parameters/searchafter-2'
         - $ref: '#/components/parameters/sorters'
       responses:
         '200':
@@ -23434,7 +23637,7 @@ paths:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
         - $ref: '#/components/parameters/count'
-        - $ref: '#/components/parameters/searchafter'
+        - $ref: '#/components/parameters/searchafter-2'
         - $ref: '#/components/parameters/sorters'
         - in: path
           name: id
@@ -23555,7 +23758,7 @@ paths:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
         - $ref: '#/components/parameters/count'
-        - $ref: '#/components/parameters/searchafter'
+        - $ref: '#/components/parameters/searchafter-2'
         - $ref: '#/components/parameters/sorters'
         - in: path
           name: id
@@ -32669,7 +32872,7 @@ paths:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
         - $ref: '#/components/parameters/count'
-        - $ref: '#/components/parameters/searchafter-2'
+        - $ref: '#/components/parameters/searchafter-3'
         - in: query
           name: filters
           required: false
@@ -69936,6 +70139,32 @@ components:
       schema:
         type: boolean
         default: false
+    searchafter:
+      in: query
+      name: searchAfter
+      description: |-
+        Used to begin the search window at the values specified.
+
+        This parameter consists of the last values of the sorted fields in the current record set.
+
+        searchAfter length must match the number of sorters.
+
+        This is used to page beyond the offset limit of 10,000 records by shifting the search window to begin at this value.
+
+        `searchAfter` cannot be combined with `offset`. When `searchAfter` is provided, `id` must be included in `sorters`.
+
+        It is recommended that you always include the ID of the object in addition to any other sort fields in order to ensure you don't get duplicate results while paging.
+
+        For example, if you are sorting by name you will also want to include ID, for example searchAfter=Account Payable,2c91808375d8e80a0175e1f88a575221&sorters=name,id.
+
+        Refer to [Paginating Search Queries](https://developer.sailpoint.com/idn/api/standard-collection-parameters#paginating-search-queries) for more information about how to implement `searchAfter` paging.
+      required: false
+      example: Account Payable,2c91808375d8e80a0175e1f88a575221
+      schema:
+        type: string
+        format: comma-separated
+      style: form
+      explode: true
     limit50:
       in: query
       name: limit
@@ -69950,7 +70179,7 @@ components:
         minimum: 0
         maximum: 50
         default: 50
-    searchafter:
+    searchafter-2:
       in: query
       name: searchAfter
       description: |-
@@ -69988,7 +70217,7 @@ components:
         format: comma-separated
       style: form
       explode: true
-    searchafter-2:
+    searchafter-3:
       in: query
       name: searchAfter
       description: |-
@@ -75614,6 +75843,281 @@ components:
           description: Task result display name.
           nullable: true
           example: null
+    accountv2source:
+      type: object
+      title: AccountV2Source
+      nullable: true
+      description: The source this account belongs to.
+      properties:
+        id:
+          type: string
+          description: The unique ID of the source.
+          example: 2c9180835d2e5168015d32f890ca1581
+          nullable: true
+        type:
+          type: string
+          description: The DTO type of the source.
+          enum:
+            - SOURCE
+          example: SOURCE
+          nullable: true
+        name:
+          type: string
+          description: The display name of the source.
+          example: Employees
+          nullable: true
+        authoritative:
+          type: boolean
+          description: Indicates if this account is from an authoritative source.
+          default: false
+          example: false
+        connectionType:
+          type: string
+          description: The connection type of the source this account is from.
+          example: direct
+          nullable: true
+    accountv2identity:
+      type: object
+      title: AccountV2Identity
+      nullable: true
+      description: An identity reference associated with this account.
+      properties:
+        id:
+          type: string
+          description: The unique ID of the identity.
+          example: 2c918084660f45d6016617daa9210584
+          nullable: true
+        type:
+          type: string
+          description: The DTO type of the identity.
+          enum:
+            - IDENTITY
+          example: IDENTITY
+          nullable: true
+        name:
+          type: string
+          description: The display name of the identity.
+          example: John Doe
+          nullable: true
+        state:
+          type: string
+          description: The identity state.
+          example: ACTIVE
+          nullable: true
+    accountv2recommendation:
+      type: object
+      title: AccountV2Recommendation
+      nullable: true
+      description: Indicates that the account is currently classified as one type but is recommended to be a different one.
+      properties:
+        type:
+          type: string
+          enum:
+            - HUMAN
+            - MACHINE
+          description: Recommended type of account.
+          example: MACHINE
+          nullable: true
+        method:
+          type: string
+          enum:
+            - DISCOVERY
+            - SOURCE
+            - CRITERIA
+          description: Method used to produce the recommendation. DISCOVERY - suggested by AI, SOURCE - the account comes from a source flagged as containing machine accounts, CRITERIA - the account satisfies classification criteria.
+          example: DISCOVERY
+          nullable: true
+        machineLikelihood:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 3
+          description: Ranked likelihood that this account is a machine account. Present when machine-account recommendation enrichment is available for the tenant.
+          example: 3
+          nullable: true
+        explanation:
+          type: array
+          items:
+            type: string
+          description: Reasons supporting the machine-account recommendation. Never null; an empty array when no explanation is available.
+          example:
+            - AD_GMSA
+    accountv2privilegelevel:
+      type: object
+      title: AccountV2PrivilegeLevel
+      nullable: true
+      description: Effective privilege level of the account.
+      properties:
+        effective:
+          type: string
+          description: The effective privilege level of the account.
+          example: High
+          nullable: true
+    accountv2correlatedentity:
+      type: object
+      title: AccountV2CorrelatedEntity
+      description: A correlated identity or machine-identity associated with this account.
+      properties:
+        type:
+          $ref: '#/components/schemas/dtotype'
+          description: The DTO type of the correlated entity.
+        id:
+          type: string
+          description: The unique ID of the correlated entity.
+          example: 2c918084660f45d6016617daa9210584
+          nullable: true
+        name:
+          type: string
+          description: The display name of the correlated entity.
+          example: John Doe
+          nullable: true
+        state:
+          type: string
+          description: The identity state. Populated for IDENTITY entries only.
+          example: ACTIVE
+          nullable: true
+    accountv2:
+      type: object
+      title: AccountV2
+      description: Account record returned by the search-backed accounts list API.
+      properties:
+        id:
+          type: string
+          description: System-generated unique ID of the account.
+          example: 2c9180835d2e5168015d32f890ca1581
+        name:
+          type: string
+          description: Display name of the account.
+          example: John.Doe
+          nullable: true
+        uuid:
+          type: string
+          description: The unique ID of the account as determined by the account schema.
+          example: '{b0dce506-d6d4-44d2-8a32-d9a5b21fb175}'
+          nullable: true
+        nativeIdentity:
+          type: string
+          description: The unique ID of the account generated by the source system.
+          example: '552775'
+          nullable: true
+        description:
+          type: string
+          description: A description of the account.
+          nullable: true
+          example: Corporate Active Directory account
+        type:
+          type: string
+          description: The account type.
+          example: HUMAN
+          nullable: true
+        disabled:
+          type: boolean
+          description: Indicates if the account is currently disabled.
+          default: false
+          example: false
+        locked:
+          type: boolean
+          description: Indicates if the account is currently locked.
+          default: false
+          example: false
+        hasEntitlements:
+          type: boolean
+          description: Indicates if the account has entitlements.
+          default: false
+          example: true
+        manuallyCorrelated:
+          type: boolean
+          description: Indicates if the account has been manually correlated to an identity.
+          default: false
+          example: false
+        correlated:
+          type: boolean
+          description: Indicates if this account is correlated to an identity.
+          default: false
+          example: true
+        created:
+          type: string
+          format: date-time
+          description: Creation date of the account.
+          example: '2022-04-19T18:34:01.677Z'
+          nullable: true
+        modified:
+          type: string
+          format: date-time
+          description: Last modification date of the account.
+          example: '2022-04-19T18:34:02.268Z'
+          nullable: true
+        synced:
+          type: string
+          format: date-time
+          description: Date the account was last synced to the search index.
+          example: '2022-04-19T18:34:02.268Z'
+          nullable: true
+        source:
+          $ref: '#/components/schemas/accountv2source'
+        owner:
+          allOf:
+            - $ref: '#/components/schemas/accountv2identity'
+            - description: The identity who owns this account.
+        owners:
+          type: array
+          description: Identities who own this account. Never null; an empty array when the account has no owners.
+          items:
+            $ref: '#/components/schemas/accountv2identity'
+        correlatedIdentity:
+          allOf:
+            - $ref: '#/components/schemas/accountv2identity'
+            - description: The identity this account is correlated to.
+        recommendation:
+          $ref: '#/components/schemas/accountv2recommendation'
+        privilegeLevel:
+          $ref: '#/components/schemas/accountv2privilegelevel'
+        attributes:
+          type: object
+          nullable: true
+          additionalProperties: true
+          description: The account attributes that are aggregated.
+          example:
+            firstName: SailPoint
+            lastName: Support
+            displayName: SailPoint Support
+        origin:
+          type: string
+          nullable: true
+          enum:
+            - AGGREGATED
+            - PROVISIONED
+          description: The origin of the account, either aggregated or provisioned.
+          example: AGGREGATED
+        classificationMethod:
+          type: string
+          nullable: true
+          enum:
+            - CRITERIA
+            - SOURCE
+            - DISCOVERY
+            - MANUAL
+            - MANUALLY_UNCLASSIFIED
+          description: Method used to classify the account.
+          example: SOURCE
+        subType:
+          type: string
+          nullable: true
+          description: The account subtype.
+          example: Service Account
+        correlatedEntities:
+          type: array
+          description: Correlated identities or machine identities associated with this account. Never null; an empty array when there are none.
+          items:
+            $ref: '#/components/schemas/accountv2correlatedentity'
+        features:
+          type: array
+          description: Capability features of the owning source for this account. Never null; empty when unset.
+          items:
+            type: string
+          example:
+            - ENABLE
+            - PROVISIONING
     identitiesaccountsbulkrequest:
       type: object
       title: Identities Accounts Bulk Request
@@ -115246,7 +115750,7 @@ components:
               type: string
               description: Name of the governance group.
               example: governance-group-name
-    accountv2:
+    accountv2-2:
       type: object
       description: Details about the account.
       required:
@@ -115354,7 +115858,7 @@ components:
         source:
           $ref: '#/components/schemas/accountsourcereference'
         account:
-          $ref: '#/components/schemas/accountv2'
+          $ref: '#/components/schemas/accountv2-2'
         identity:
           $ref: '#/components/schemas/identityreference-2'
     accountuncorrelated:
@@ -115477,7 +115981,7 @@ components:
         source:
           $ref: '#/components/schemas/accountsourcereference'
         account:
-          $ref: '#/components/schemas/accountv2'
+          $ref: '#/components/schemas/accountv2-2'
         identity:
           $ref: '#/components/schemas/identityreference-2'
     accountupdated:
@@ -115517,7 +116021,7 @@ components:
         source:
           $ref: '#/components/schemas/accountsourcereference'
         account:
-          $ref: '#/components/schemas/accountv2'
+          $ref: '#/components/schemas/accountv2-2'
         identity:
           $ref: '#/components/schemas/identityreference-2'
         accountChangeTypes:
