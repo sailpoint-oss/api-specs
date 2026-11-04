@@ -116,6 +116,18 @@ paths:
     $ref: ./paths/access-profiles-v1-access-model-metadata-bulk-update-query.yaml
   /access-profiles/v1/filter:
     $ref: ./paths/access-profiles-v1-filter.yaml
+  /access-profiles/v2:
+    $ref: ./paths/access-profiles-v2.yaml
+  /access-profiles/v2/{id}:
+    $ref: ./paths/access-profiles-v2-by-id.yaml
+  /access-profiles/v2/{id}/entitlements:
+    $ref: ./paths/access-profiles-v2-by-id-entitlements.yaml
+  /access-profiles/v2/filter:
+    $ref: ./paths/access-profiles-v2-filter.yaml
+  /access-profiles/v2/bulk-delete:
+    $ref: ./paths/access-profiles-v2-bulk-delete.yaml
+  /access-profiles/v2/bulk-update-requestable:
+    $ref: ./paths/access-profiles-v2-bulk-update-requestable.yaml
 security:
   - userAuth:
       - sp:scopes:all
