@@ -9,7 +9,6 @@ get:
   security:
     - userAuth:
         - sp:workflow-execution:read
-        - sp:workflow:manage
   parameters:
     - name: id
       in: path
