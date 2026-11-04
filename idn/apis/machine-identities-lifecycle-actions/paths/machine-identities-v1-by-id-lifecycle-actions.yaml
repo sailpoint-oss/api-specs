@@ -7,6 +7,8 @@ post:
     Creates a lifecycle request for the target machine identity and returns the created lifecycle
     snapshot.
 
+    **Note:** Lifecycle actions are currently supported only for machine identities of type **Agent**.
+
     The response includes the generated `requestId`, which is used by
     https://developer.sailpoint.com/docs/api/list-machine-identity-lifecycle-actions-v-1,
     https://developer.sailpoint.com/docs/api/get-machine-identity-lifecycle-action-v-1, and
