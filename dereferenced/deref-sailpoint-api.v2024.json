@@ -35018,15 +35018,12 @@
         "security": [
           {
             "userAuth": [
-              "sp:workflow-execution:read",
-              "sp:workflow:manage"
+              "sp:workflow-execution:read"
             ]
           }
         ],
         "x-sailpoint-userLevels": [
-          "ORG_ADMIN",
-          "SOURCE_SUBADMIN",
-          "SOURCE_ADMIN"
+          "ORG_ADMIN"
         ],
         "parameters": [
           {
@@ -35105,8 +35102,7 @@
         "security": [
           {
             "userAuth": [
-              "sp:workflow-execution:read",
-              "sp:workflow:manage"
+              "sp:workflow-execution:read"
             ]
           }
         ],
@@ -35173,15 +35169,12 @@
         "security": [
           {
             "userAuth": [
-              "sp:workflow-execution:read",
-              "sp:workflow:manage"
+              "sp:workflow-execution:read"
             ]
           }
         ],
         "x-sailpoint-userLevels": [
-          "ORG_ADMIN",
-          "SOURCE_SUBADMIN",
-          "SOURCE_ADMIN"
+          "ORG_ADMIN"
         ],
         "parameters": [
           {

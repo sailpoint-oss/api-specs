@@ -30426,11 +30426,8 @@ paths:
       security:
         - userAuth:
             - sp:workflow-execution:read
-            - sp:workflow:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
-        - SOURCE_SUBADMIN
-        - SOURCE_ADMIN
       parameters:
         - name: id
           in: path
@@ -30489,7 +30486,6 @@ paths:
       security:
         - userAuth:
             - sp:workflow-execution:read
-            - sp:workflow:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
       parameters:
@@ -30533,11 +30529,8 @@ paths:
       security:
         - userAuth:
             - sp:workflow-execution:read
-            - sp:workflow:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
-        - SOURCE_SUBADMIN
-        - SOURCE_ADMIN
       parameters:
         - name: id
           in: path
@@ -30582,11 +30575,8 @@ paths:
       security:
         - userAuth:
             - sp:workflow-execution:read
-            - sp:workflow:manage
       x-sailpoint-userLevels:
         - ORG_ADMIN
-        - SOURCE_SUBADMIN
-        - SOURCE_ADMIN
       parameters:
         - name: id
           in: path
