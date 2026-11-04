@@ -300,7 +300,7 @@
     },
     {
       "name": "Machine Identity Lifecycle Actions",
-      "description": "Experimental APIs for machine identity lifecycle requests (`ACTIVATE`, `DEACTIVATE`), including\napproval and provisioning status. Pass the `X-SailPoint-Experimental` header on every request.\n\nRead and cancel by `requestId` return **403** for authorization denials\n(`FORBIDDEN.lifecycle-request-access-denied`) and non-`AI_AGENT` rows\n(`FORBIDDEN.unsupported-type`). Unknown ids and target-type mismatches return **404**\n(`NOT_FOUND.detailed`).\n"
+      "description": "Use this API to implement machine identity lifecycle action functionality.\nWith this functionality in place, administrators and machine identity owners can activate or deactivate machine identities, track the approval and provisioning status of each request, and cancel requests before provisioning starts.\n\nA lifecycle action is a request to change whether a machine identity is active.\nFor example, an administrator may deactivate an agent while a security review is in progress, and then activate it again once the review is complete.\n\nLifecycle actions are currently supported only for machine identities of type Agent.\n"
     },
     {
       "name": "Machine Identity Metadata",
@@ -59710,7 +59710,7 @@
           "Machine Identity Lifecycle Actions"
         ],
         "summary": "Submit machine identity lifecycle action",
-        "description": "Creates a lifecycle request for the target machine identity and returns the created lifecycle\nsnapshot.\n\nThe response includes the generated `requestId`, which is used by\nhttps://developer.sailpoint.com/docs/api/list-machine-identity-lifecycle-actions-v-1,\nhttps://developer.sailpoint.com/docs/api/get-machine-identity-lifecycle-action-v-1, and\nhttps://developer.sailpoint.com/docs/api/cancel-machine-identity-lifecycle-action-v-1\n\nAuthorization is enforced in the service layer. Callers must have the\n`idn:machine-identity-lifecycle-action:manage` scope or role-context access to the target machine\nidentity (organization admin, source admin, scoped source sub-admin, or effective owner).\n\nSupported actions are `DEACTIVATE`, `ACTIVATE`.\n",
+        "description": "Creates a lifecycle request for the target machine identity and returns the created lifecycle\nsnapshot.\n\n**Note:** Lifecycle actions are currently supported only for machine identities of type **Agent**.\n\nThe response includes the generated `requestId`, which is used by\nhttps://developer.sailpoint.com/docs/api/list-machine-identity-lifecycle-actions-v-1,\nhttps://developer.sailpoint.com/docs/api/get-machine-identity-lifecycle-action-v-1, and\nhttps://developer.sailpoint.com/docs/api/cancel-machine-identity-lifecycle-action-v-1\n\nAuthorization is enforced in the service layer. Callers must have the\n`idn:machine-identity-lifecycle-action:manage` scope or role-context access to the target machine\nidentity (organization admin, source admin, scoped source sub-admin, or effective owner).\n\nSupported actions are `DEACTIVATE`, `ACTIVATE`.\n",
         "security": [
           {
             "userAuth": [
