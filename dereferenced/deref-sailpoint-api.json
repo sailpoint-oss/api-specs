@@ -504,6 +504,10 @@
       "description": "API for managing UI Metadata. Use this API to manage metadata about your User Interface.\nFor example you can set the iFrameWhitelist parameter to permit another domain to encapsulate IDN within an iframe or set the usernameEmptyText to change the placeholder text for Username on your tenant's login screen."
     },
     {
+      "name": "UI Plugins",
+      "description": "UI Plugins let you extend the Identity Security Cloud (ISC) user interface with your own custom web applications. Rather than building a separate app that lives outside the platform, a UI plugin is a micro-frontend that ISC loads directly into designated **slots** in its UI — so your custom experience runs inside ISC, using the tenant's session and honoring its security model. UI Plugins are a licensed feature. \nThe best way to interact with the UI Plugins API is to use the [SailPoint CLI](https://developer.sailpoint.com/docs/tools/cli). Alternatively, you can use the REST APIs for tenant UI plugin instance lifecycle (CRUD, alias validate/resolve, local-dev linking), asset bundle upload, and the static UI plugin slot registry."
+    },
+    {
       "name": "Work Items",
       "description": "Use this API to implement work item functionality. \nWith this functionality in place, users can manage their work items (tasks). \n\nWork items refer to the tasks users see in SailPoint Identity Security's Task Manager. \nThey can see the pending work items they need to complete, as well as the work items they have already completed. \nTask Manager lists the work items along with the involved sources, identities, accounts, and the timestamp when the work item was created. \nFor example, a user may see a pending 'Create an Account' work item for the identity Fred.Astaire in GitHub for Fred's GitHub account, fred-astaire-sp. \nOnce the user completes the work item, the work item will be listed with his or her other completed work items. \n\nTo complete work items, users can use their dashboards and select the 'My Tasks' widget. \nThe widget will list any work items they need to complete, and they can select the work item from the list to review its details. \nWhen they complete the work item, they can select 'Mark Complete' to add it to their list of completed work items. \n\nRefer to [Task Manager](https://documentation.sailpoint.com/saas/user-help/task_manager.html) for more information about work items, including the different types of work items users may need to complete.\n"
     },
@@ -95401,6 +95405,1128 @@
         ]
       }
     },
+    "/ui-plugins/v1": {
+      "get": {
+        "operationId": "listUiPluginsV1",
+        "x-sailpoint-lint-ignore": {
+          "path-list-operations-must-return-object": "The service returns a top-level array and puts the total count in the X-Total-Count header."
+        },
+        "tags": [
+          "UI Plugins"
+        ],
+        "summary": "List plugin instances",
+        "description": "Returns plugin instances for the caller's tenant with optional V3-style pagination. When `count=true`, the response includes header `x-total-count`.\n\nRequires product license `idn:ui-plugins` or `idn:ui-plugins-author` (404 if neither is present). Returns 400 `User context is invalid` when the caller has no tenant id. Results include only that tenant's plugin instances.",
+        "security": [
+          {
+            "userAuth": [
+              "idn:plugins-ui:read"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:plugins-ui:read"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          },
+          {
+            "$ref": "#/components/parameters/count"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": "true",
+            "schema": {
+              "type": "string",
+              "default": "true"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of plugin instances (may be empty)",
+            "headers": {
+              "x-total-count": {
+                "description": "Total number of matching items (present when `count=true`)",
+                "schema": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/uiplugin"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "post": {
+        "operationId": "createUiPluginV1",
+        "x-sailpoint-lint-ignore": {
+          "path-201-responses-must-define-location-header": "The service returns the new resource in the response body and does not set a Location header."
+        },
+        "tags": [
+          "UI Plugins"
+        ],
+        "summary": "Create a plugin instance",
+        "description": "Registers a new tenant-scoped plugin installation.\n\nEnforces:\n- Max **20** plugin instances per tenant\n- Slot registry rules (`slotId` must exist; per-slot `maxPlugins`; no duplicate slotIds)\n- Alias uniqueness within the tenant (normalized lowercase)\n- CSP / Permissions-Policy / iframe-allow / iframe-sandbox allowlists\n- Product license `idn:ui-plugins-author` (404 if missing)\n- Caller tenant id is present (400 `User context is invalid` otherwise).\n  The instance is created in that tenant.\n\n\nEmits Kafka audit event `UI_PLUGIN_INSTANCE_CREATED` on success.\n\nResponse body is the created plugin instance plus `devDocumentHeaders`, the ephemeral `Content-Security-Policy` and `Permissions-Policy` header values a local dev server can use for CSP parity with the deployed plugin. They are returned only on create (and link), not when reading the instance.",
+        "security": [
+          {
+            "userAuth": [
+              "idn:plugins-ui:create"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:plugins-ui:create"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "parameters": [
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": "true",
+            "schema": {
+              "type": "string",
+              "default": "true"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/createuipluginrequest"
+              },
+              "example": {
+                "alias": "my-custom-plugin",
+                "name": {
+                  "en": "My Custom Plugin"
+                },
+                "description": {
+                  "en": "Extends the ISC UI with custom workflows"
+                },
+                "apiScopes": [
+                  "idn:account:read"
+                ],
+                "slots": [
+                  {
+                    "slotId": "full-page",
+                    "requiredCapabilities": [],
+                    "restrictToUsers": []
+                  }
+                ],
+                "contentSecurityPolicies": {
+                  "default-src": [
+                    "'self'"
+                  ]
+                },
+                "permissionPolicy": {
+                  "camera": [
+                    "'self'"
+                  ]
+                },
+                "iframeAllow": {
+                  "camera": [
+                    "'self'"
+                  ]
+                },
+                "iframeSandbox": [
+                  "allow-modals",
+                  "allow-popups"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Plugin instance created; includes devDocumentHeaders",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/createuipluginresponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "description": "Alias already in use for this tenant",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorresponsedto"
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/ui-plugins/v1/validate-alias": {
+      "get": {
+        "operationId": "testUiPluginAliasV1",
+        "x-sailpoint-lint-ignore": {
+          "path-response-codes-must-be-standard": "The service returns 409 when the alias is already in use."
+        },
+        "tags": [
+          "UI Plugins"
+        ],
+        "summary": "Test plugin alias availability",
+        "description": "Checks whether the given alias is available within the caller's tenant. Alias is normalized (trim + lowercase) server-side.\n\nSuccess returns an empty body (HTTP 200). Conflict when the alias is taken. UUID-shaped aliases are rejected as invalid.\n\nRequires product license `idn:ui-plugins` or `idn:ui-plugins-author` (404 if neither is present). Returns 400 `User context is invalid` when the caller has no tenant id. The alias is evaluated only within that tenant.",
+        "security": [
+          {
+            "userAuth": [
+              "idn:plugins-ui:read"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:plugins-ui:read"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "parameters": [
+          {
+            "name": "alias",
+            "in": "query",
+            "required": true,
+            "description": "Alias to validate (3-63 chars; letters, numbers, dashes; no leading/trailing/consecutive dashes)",
+            "schema": {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 63,
+              "pattern": "^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$"
+            },
+            "example": "my-custom-plugin"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": "true",
+            "schema": {
+              "type": "string",
+              "default": "true"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Alias is available"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "description": "Alias already in use (message references conflicting plugin instance id)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorresponsedto"
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/ui-plugins/v1/resolve-alias": {
+      "get": {
+        "operationId": "getUiPluginByAliasV1",
+        "x-sailpoint-lint-ignore": {
+          "path-response-codes-must-be-standard": "The service returns 409 when the alias matches more than one plugin instance."
+        },
+        "tags": [
+          "UI Plugins"
+        ],
+        "summary": "Get plugin by alias",
+        "description": "Resolves a tenant-scoped alias to its `UiPlugin`. Returns 404 if no match; 409 if the alias is ambiguous (more than one match; should not occur after uniqueness enforcement).\n\nRequires product license `idn:ui-plugins` or `idn:ui-plugins-author` (404 if neither is present). Returns 400 `User context is invalid` when the caller has no tenant id. The alias is resolved only within that tenant; no match is 404.",
+        "security": [
+          {
+            "userAuth": [
+              "idn:plugins-ui:read"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:plugins-ui:read"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "parameters": [
+          {
+            "name": "alias",
+            "in": "query",
+            "required": true,
+            "description": "Alias to resolve within the caller's tenant",
+            "example": "my-custom-plugin",
+            "schema": {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 63
+            }
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": "true",
+            "schema": {
+              "type": "string",
+              "default": "true"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resolved plugin instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/uiplugin"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "description": "Alias resolves to more than one plugin instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorresponsedto"
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/ui-plugins/v1/{pluginInstanceId}": {
+      "get": {
+        "operationId": "getUiPluginV1",
+        "tags": [
+          "UI Plugins"
+        ],
+        "summary": "Get a plugin instance",
+        "description": "Returns a plugin instance by ID for the caller's tenant.\n\nRequires product license `idn:ui-plugins` or `idn:ui-plugins-author` (404 if neither is present). Returns 400 `User context is invalid` when the caller has no tenant id. The instance is loaded only when it belongs to that tenant; a mismatch is 404.",
+        "security": [
+          {
+            "userAuth": [
+              "idn:plugins-ui:read"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:plugins-ui:read"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "parameters": [
+          {
+            "name": "pluginInstanceId",
+            "in": "path",
+            "required": true,
+            "description": "UUID of the plugin instance",
+            "example": "2c918086-7b5f-4b3e-8a1c-2d3e4f5a6b7c",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "x-sailpoint-resource-operation-id": "listUiPluginsV1"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": "true",
+            "schema": {
+              "type": "string",
+              "default": "true"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Plugin instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/uiplugin"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "patch": {
+        "operationId": "updateUiPluginV1",
+        "tags": [
+          "UI Plugins"
+        ],
+        "summary": "Partially update a plugin instance",
+        "description": "Patch any subset of mutable fields. When `slots` is provided, replaces the entire slots list and re-validates registry / maxPlugins rules. When `apiScopes` is provided, replaces the entire scopes list. When `iframeSandbox` is provided, replaces the entire sandbox grant list; unlike CSP / Permissions-Policy changes, it does not rotate the active asset bundle. `state` may be set to `ENABLED` or `DISABLED` (DISABLED omits the instance from active-slots delivery).\n\nRequires product license `idn:ui-plugins` or `idn:ui-plugins-author` (404 if neither is present). Returns 400 `User context is invalid` when the caller has no tenant id. The instance is updated only when it belongs to that tenant; a mismatch is 404. Emits Kafka audit event `UI_PLUGIN_INSTANCE_UPDATED` on success.",
+        "security": [
+          {
+            "userAuth": [
+              "idn:plugins-ui:update"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:plugins-ui:update"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "parameters": [
+          {
+            "name": "pluginInstanceId",
+            "in": "path",
+            "required": true,
+            "description": "UUID of the plugin instance",
+            "example": "2c918086-7b5f-4b3e-8a1c-2d3e4f5a6b7c",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "x-sailpoint-resource-operation-id": "listUiPluginsV1"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": "true",
+            "schema": {
+              "type": "string",
+              "default": "true"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/updateuipluginrequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated plugin instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/uiplugin"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "description": "Alias already in use for this tenant",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorresponsedto"
+                }
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteUiPluginV1",
+        "tags": [
+          "UI Plugins"
+        ],
+        "summary": "Delete a plugin instance",
+        "description": "Deletes the plugin instance and associated resources (asset bundles tombstoned for deferred cleanup).\n\nRequires product license `idn:ui-plugins` or `idn:ui-plugins-author` (404 if neither is present). Returns 400 `User context is invalid` when the caller has no tenant id. The instance is deleted only when it belongs to that tenant; a mismatch is 404. Emits Kafka audit event `UI_PLUGIN_INSTANCE_DELETED` on success.",
+        "security": [
+          {
+            "userAuth": [
+              "idn:plugins-ui:delete"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:plugins-ui:delete"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "parameters": [
+          {
+            "name": "pluginInstanceId",
+            "in": "path",
+            "required": true,
+            "description": "UUID of the plugin instance",
+            "example": "2c918086-7b5f-4b3e-8a1c-2d3e4f5a6b7c",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "x-sailpoint-resource-operation-id": "listUiPluginsV1"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": "true",
+            "schema": {
+              "type": "string",
+              "default": "true"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/204"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/ui-plugins/v1/{pluginInstanceId}/link": {
+      "post": {
+        "operationId": "createUiPluginLinkV1",
+        "x-sailpoint-lint-ignore": {
+          "path-201-responses-must-define-location-header": "The service returns the new resource in the response body and does not set a Location header."
+        },
+        "tags": [
+          "UI Plugins"
+        ],
+        "summary": "Create a plugin dev link",
+        "description": "Registers the caller's identity against a local HTTPS origin `https://localhost:{port}` in the instance's `devOverrides` map. Used by the `sail ui-plugins link` CLI flow.\n\nRequires product license `idn:ui-plugins-author` (404 if missing). Returns 400 `User context is invalid` when the caller has no tenant id or identity id. That identity id is the key in `devOverrides`, so the caller can only set their own local-dev URL. A plugin instance in another tenant is 404.\n\nResponse body contains the updated `devOverrides` map (`identityId` to `https://localhost:{port}`) and `devDocumentHeaders`, the ephemeral `Content-Security-Policy` and `Permissions-Policy` header values a local dev server can use for CSP parity with the deployed plugin.",
+        "security": [
+          {
+            "userAuth": [
+              "idn:plugins-ui:update"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:plugins-ui:update"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "parameters": [
+          {
+            "name": "pluginInstanceId",
+            "in": "path",
+            "required": true,
+            "description": "UUID of the plugin instance",
+            "example": "2c918086-7b5f-4b3e-8a1c-2d3e4f5a6b7c",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "x-sailpoint-resource-operation-id": "listUiPluginsV1"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": "true",
+            "schema": {
+              "type": "string",
+              "default": "true"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/linkuipluginrequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Linked; returns updated devOverrides map and devDocumentHeaders",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/linkuipluginresponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteUiPluginLinkV1",
+        "tags": [
+          "UI Plugins"
+        ],
+        "summary": "Delete a plugin dev link",
+        "description": "Removes only the current caller's `identityId` entry from `devOverrides`. Other developers' overrides are preserved.\n\nRequires product license `idn:ui-plugins-author` (404 if missing). Returns 400 `User context is invalid` when the caller has no tenant id or identity id. A plugin instance in another tenant is 404.",
+        "security": [
+          {
+            "userAuth": [
+              "idn:plugins-ui:update"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:plugins-ui:update"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "parameters": [
+          {
+            "name": "pluginInstanceId",
+            "in": "path",
+            "required": true,
+            "description": "UUID of the plugin instance",
+            "example": "2c918086-7b5f-4b3e-8a1c-2d3e4f5a6b7c",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "x-sailpoint-resource-operation-id": "listUiPluginsV1"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": "true",
+            "schema": {
+              "type": "string",
+              "default": "true"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/204"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/ui-plugins/v1/{pluginInstanceId}/asset-bundles": {
+      "get": {
+        "operationId": "listUiPluginAssetBundlesV1",
+        "x-sailpoint-lint-ignore": {
+          "path-list-operations-must-return-object": "The service returns a top-level array and puts the total count in the X-Total-Count header."
+        },
+        "tags": [
+          "UI Plugins"
+        ],
+        "summary": "List plugin asset bundles",
+        "description": "Returns asset bundles for the given plugin instance (newest-first).\n\nRequires product license `idn:ui-plugins` or `idn:ui-plugins-author` (404 if neither is present). Returns 400 `User context is invalid` when the caller has no tenant id. Bundles are listed only when the plugin instance belongs to that tenant; a mismatch is 404.",
+        "security": [
+          {
+            "userAuth": [
+              "idn:plugins-ui:read"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:plugins-ui:read"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "parameters": [
+          {
+            "name": "pluginInstanceId",
+            "in": "path",
+            "required": true,
+            "description": "UUID of the plugin instance",
+            "example": "2c918086-7b5f-4b3e-8a1c-2d3e4f5a6b7c",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "x-sailpoint-resource-operation-id": "listUiPluginsV1"
+          },
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          },
+          {
+            "$ref": "#/components/parameters/count"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": "true",
+            "schema": {
+              "type": "string",
+              "default": "true"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Asset bundles for the requested page (or full list)",
+            "headers": {
+              "x-total-count": {
+                "description": "Total number of matching items (present when `count=true`)",
+                "schema": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/uipluginassetbundle"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "post": {
+        "operationId": "createUiPluginAssetBundleV1",
+        "x-sailpoint-lint-ignore": {
+          "path-201-responses-must-define-location-header": "The service returns the new resource in the response body and does not set a Location header."
+        },
+        "tags": [
+          "UI Plugins"
+        ],
+        "summary": "Create a plugin asset bundle",
+        "description": "Accepts `multipart/form-data` with one or more parts named **`file`**. The bundle-relative path for each object is taken from the part's multipart **filename** (`originalname`). Paths are normalized (no `..`, no absolute paths) and stored under `{pluginInstanceId}/{assetBundleId}/...` in S3. Folder structure is preserved, not flattened.\n\nRequirements:\n- Bundle must include root `index.html`\n- Configurable limits on file count, per-file bytes, and total bundle bytes\n- Product license `idn:ui-plugins-author` required (404 if missing)\n- Caller tenant id is present (400 `User context is invalid` otherwise).\n  The plugin instance must belong to that tenant (404 otherwise).\n\n\nCreates a new immutable bundle record; previous active bundles are tombstoned via `cleanupAfter`. Emits the `UI_PLUGIN_ASSET_BUNDLE_CREATED` audit event.",
+        "security": [
+          {
+            "userAuth": [
+              "idn:plugins-ui:update"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:plugins-ui:update"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "parameters": [
+          {
+            "name": "pluginInstanceId",
+            "in": "path",
+            "required": true,
+            "description": "UUID of the plugin instance",
+            "example": "2c918086-7b5f-4b3e-8a1c-2d3e4f5a6b7c",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "x-sailpoint-resource-operation-id": "listUiPluginsV1"
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": "true",
+            "schema": {
+              "type": "string",
+              "default": "true"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "file"
+                ],
+                "properties": {
+                  "file": {
+                    "type": "array",
+                    "description": "Repeatable form field. Send one part per file; use the part filename for the bundle-relative path (e.g. `assets/app.js`).",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              },
+              "encoding": {
+                "file": {
+                  "style": "form",
+                  "explode": true
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Asset bundle created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/uipluginassetbundle"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/ui-plugin-slots/v1": {
+      "get": {
+        "operationId": "listUiPluginSlotsV1",
+        "x-sailpoint-lint-ignore": {
+          "path-list-endpoints-must-support-pagination": "The slot registry is a small static list, so the service does not paginate it.",
+          "path-list-operations-must-return-object": "The service returns the slot registry as a top-level array."
+        },
+        "tags": [
+          "UI Plugins"
+        ],
+        "summary": "List UI plugin slots",
+        "description": "Returns the static slot registry (extension points the platform exposes). `name` / `description` are localized via AtlasJS TranslateService.\n\nFiltering uses API Standard Collection Parameters. `state` supports `eq` with values `active`, `deprecated`, or `removed`. Example: `filters=state eq \"active\"`.\n\nRequires product license `idn:ui-plugins` or `idn:ui-plugins-author` (404 if neither is present).",
+        "security": [
+          {
+            "userAuth": [
+              "idn:plugins-ui-slots:read"
+            ]
+          },
+          {
+            "applicationAuth": [
+              "idn:plugins-ui-slots:read"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN"
+        ],
+        "parameters": [
+          {
+            "name": "filters",
+            "in": "query",
+            "required": false,
+            "description": "Filter results using the standard syntax described in [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**state**: *eq*",
+            "schema": {
+              "type": "string"
+            },
+            "example": "state eq \"active\""
+          },
+          {
+            "name": "allLangs",
+            "in": "query",
+            "required": false,
+            "description": "When `true`, `name` and `description` are returned as full locale maps instead of a single translated string.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "example": false
+          },
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": "true",
+            "schema": {
+              "type": "string",
+              "default": "true"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Slot registry entries",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/uipluginslot"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
     "/work-items/v1": {
       "get": {
         "operationId": "listWorkItemsV1",
@@ -162204,6 +163330,605 @@
             "nullable": true,
             "description": "Visibility toggle for the instance badge. Optional. Omit this property to leave the stored value unchanged. Null is stored as false.",
             "example": true
+          }
+        }
+      },
+      "localizedstringmap": {
+        "type": "object",
+        "title": "Localized String Map",
+        "description": "Localized string keyed by locale code. At least one non-empty locale entry is required on create/update. Conventionally includes `en`.",
+        "additionalProperties": {
+          "type": "string"
+        },
+        "example": {
+          "en": "Example text",
+          "fr": "Texte d'exemple"
+        }
+      },
+      "directivepolicymap": {
+        "type": "object",
+        "title": "Directive Policy Map",
+        "description": "Map of directive name to allowlist values. Used for CSP, Permissions-Policy, and iframe-allow on create/update. Only platform allowlisted directives/keywords are accepted (see UMS validators).",
+        "additionalProperties": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "default-src": [
+            "'self'"
+          ]
+        }
+      },
+      "iframesandbox": {
+        "type": "array",
+        "title": "Iframe Sandbox Grants",
+        "x-sailpoint-lint-ignore": {
+          "schema-enum-values-must-be-upper-snake-case": "These values are HTML iframe sandbox tokens. The service accepts only these exact lowercase tokens."
+        },
+        "description": "Opt-in iframe `sandbox` tokens granted to the plugin on top of the platform sandbox baseline. Only the listed tokens are accepted (exact, case-sensitive match); any other token is rejected with 400. Duplicates are removed and the list is stored and returned sorted. Empty means no additional grants.",
+        "maxItems": 50,
+        "items": {
+          "type": "string",
+          "enum": [
+            "allow-top-navigation",
+            "allow-popups",
+            "allow-popups-to-escape-sandbox",
+            "allow-downloads",
+            "allow-modals"
+          ]
+        },
+        "example": [
+          "allow-modals",
+          "allow-popups"
+        ]
+      },
+      "pluginslot": {
+        "type": "object",
+        "title": "Plugin Slot",
+        "required": [
+          "slotId"
+        ],
+        "properties": {
+          "slotId": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "Identifier referencing an entry in the slot registry",
+            "example": "full-page"
+          },
+          "requiredCapabilities": {
+            "type": "array",
+            "maxItems": 10,
+            "description": "ISC capabilities the user must hold (AND logic) to see this plugin in the slot. Empty means unrestricted.",
+            "items": {
+              "type": "string",
+              "enum": [
+                "ORG_ADMIN",
+                "SOURCE_ADMIN",
+                "REPORT_ADMIN",
+                "ACCESS_REQUEST_ADMIN",
+                "ROLE_ADMIN",
+                "CERT_ADMIN",
+                "DASHBOARD",
+                "SOURCE_SUBADMIN",
+                "HELPDESK",
+                "CLOUD_GOV_ADMIN",
+                "CLOUD_GOV_USER"
+              ]
+            },
+            "default": [],
+            "example": [
+              "ORG_ADMIN"
+            ]
+          },
+          "restrictToUsers": {
+            "type": "array",
+            "maxItems": 10,
+            "description": "User GUIDs (32-char hex) limiting visibility during development. Empty means no user restriction.",
+            "items": {
+              "type": "string",
+              "minLength": 32,
+              "maxLength": 32,
+              "pattern": "^[0-9a-fA-F]{32}$"
+            },
+            "default": [],
+            "example": [
+              "2c9180867b5f4b3e8a1c2d3e4f5a6b7c"
+            ]
+          }
+        }
+      },
+      "plugininstancestate": {
+        "type": "string",
+        "title": "Plugin Instance State",
+        "description": "Lifecycle state for a tenant plugin installation. DISABLED instances are omitted from active-slots delivery.",
+        "enum": [
+          "ENABLED",
+          "DISABLED"
+        ],
+        "example": "ENABLED"
+      },
+      "uiplugin": {
+        "type": "object",
+        "title": "UI Plugin",
+        "description": "API response for a plugin instance (tenantId and internal fields omitted)",
+        "required": [
+          "pluginInstanceId",
+          "alias",
+          "name",
+          "description",
+          "apiScopes",
+          "contentSecurityPolicies",
+          "permissionPolicy",
+          "iframeAllow",
+          "iframeSandbox",
+          "slots",
+          "state",
+          "created",
+          "modified"
+        ],
+        "properties": {
+          "pluginInstanceId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique identifier of the plugin instance",
+            "example": "2c918086-7b5f-4b3e-8a1c-2d3e4f5a6b7c"
+          },
+          "alias": {
+            "type": "string",
+            "description": "Tenant-unique alias for the plugin instance, normalized to lowercase",
+            "example": "my-custom-plugin"
+          },
+          "name": {
+            "$ref": "#/components/schemas/localizedstringmap"
+          },
+          "description": {
+            "$ref": "#/components/schemas/localizedstringmap"
+          },
+          "apiScopes": {
+            "type": "array",
+            "description": "OAuth scopes the plugin requests at registration",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "idn:account:read"
+            ]
+          },
+          "contentSecurityPolicies": {
+            "$ref": "#/components/schemas/directivepolicymap"
+          },
+          "permissionPolicy": {
+            "$ref": "#/components/schemas/directivepolicymap"
+          },
+          "iframeAllow": {
+            "$ref": "#/components/schemas/directivepolicymap"
+          },
+          "iframeSandbox": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/iframesandbox"
+              }
+            ],
+            "description": "Opt-in iframe `sandbox` grants, de-duplicated and sorted. Empty when the plugin has none, including instances created before this field existed."
+          },
+          "activeAssetBundleId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true,
+            "description": "Currently active asset bundle, or null/omitted if none uploaded yet"
+          },
+          "slots": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/pluginslot"
+            }
+          },
+          "state": {
+            "$ref": "#/components/schemas/plugininstancestate"
+          },
+          "created": {
+            "type": "string",
+            "format": "date-time",
+            "description": "ISO 8601 creation timestamp",
+            "example": "2024-08-16T14:16:58.389Z"
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time",
+            "description": "ISO 8601 last-modified timestamp",
+            "example": "2024-08-16T14:16:58.389Z"
+          }
+        }
+      },
+      "createuipluginrequest": {
+        "type": "object",
+        "title": "Create UI Plugin Request",
+        "required": [
+          "alias",
+          "name",
+          "description",
+          "slots",
+          "contentSecurityPolicies",
+          "permissionPolicy",
+          "iframeAllow"
+        ],
+        "properties": {
+          "alias": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$",
+            "description": "Human-readable deterministic alias unique per tenant. Letters, numbers, dashes only; no leading/trailing/consecutive dashes. Normalized to lowercase on write.",
+            "example": "my-custom-plugin"
+          },
+          "name": {
+            "$ref": "#/components/schemas/localizedstringmap"
+          },
+          "description": {
+            "$ref": "#/components/schemas/localizedstringmap"
+          },
+          "apiScopes": {
+            "type": "array",
+            "maxItems": 20,
+            "description": "OAuth scopes the plugin requests at registration. Defaults to `[]`.",
+            "items": {
+              "type": "string",
+              "maxLength": 128
+            },
+            "default": [],
+            "example": [
+              "idn:account:read"
+            ]
+          },
+          "slots": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 10,
+            "description": "UI extension point declarations (at least one required)",
+            "items": {
+              "$ref": "#/components/schemas/pluginslot"
+            }
+          },
+          "contentSecurityPolicies": {
+            "$ref": "#/components/schemas/directivepolicymap"
+          },
+          "permissionPolicy": {
+            "$ref": "#/components/schemas/directivepolicymap"
+          },
+          "iframeAllow": {
+            "$ref": "#/components/schemas/directivepolicymap"
+          },
+          "iframeSandbox": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/iframesandbox"
+              }
+            ],
+            "description": "Opt-in iframe `sandbox` grants. Optional; omitted or empty means no grants. Defaults to `[]`.",
+            "default": []
+          }
+        }
+      },
+      "plugindocumentheaders": {
+        "type": "object",
+        "title": "Plugin Document Headers",
+        "x-sailpoint-lint-ignore": {
+          "schema-property-names-must-be-camel-case": "The property names are HTTP header names, which the platform sends as written."
+        },
+        "description": "Ephemeral plugin-document security headers, for example to give a local dev server the same CSP as the deployed plugin.",
+        "required": [
+          "Content-Security-Policy",
+          "Permissions-Policy"
+        ],
+        "properties": {
+          "Content-Security-Policy": {
+            "type": "string",
+            "description": "Effective `Content-Security-Policy` header value for plugin documents.",
+            "example": "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self'"
+          },
+          "Permissions-Policy": {
+            "type": "string",
+            "description": "Effective `Permissions-Policy` header value for plugin documents. Features are denied by default unless the plugin opts in.",
+            "example": "accelerometer=(), camera=(), geolocation=(), microphone=()"
+          }
+        }
+      },
+      "createuipluginresponse": {
+        "title": "Create UI Plugin Response",
+        "description": "A plugin instance plus the ephemeral `devDocumentHeaders` returned only when the instance is created. These headers are not returned when listing or fetching plugin instances.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/uiplugin"
+          },
+          {
+            "type": "object",
+            "required": [
+              "devDocumentHeaders"
+            ],
+            "properties": {
+              "devDocumentHeaders": {
+                "$ref": "#/components/schemas/plugindocumentheaders"
+              }
+            }
+          }
+        ]
+      },
+      "updateuipluginrequest": {
+        "type": "object",
+        "title": "Update UI Plugin Request",
+        "x-sailpoint-lint-ignore": {
+          "schema-optional-properties-must-have-default": "This is a partial update. The service does not change a property that the request leaves out, so a default value is not correct."
+        },
+        "description": "All fields optional; only supplied fields are updated.",
+        "properties": {
+          "alias": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$",
+            "description": "Replacement alias, unique per tenant and normalized to lowercase",
+            "example": "my-custom-plugin"
+          },
+          "name": {
+            "$ref": "#/components/schemas/localizedstringmap"
+          },
+          "description": {
+            "$ref": "#/components/schemas/localizedstringmap"
+          },
+          "apiScopes": {
+            "type": "array",
+            "maxItems": 20,
+            "description": "Replaces the existing list entirely when provided",
+            "items": {
+              "type": "string",
+              "maxLength": 128
+            },
+            "example": [
+              "idn:account:read"
+            ]
+          },
+          "slots": {
+            "type": "array",
+            "maxItems": 10,
+            "description": "Replaces the existing list when provided",
+            "items": {
+              "$ref": "#/components/schemas/pluginslot"
+            }
+          },
+          "contentSecurityPolicies": {
+            "$ref": "#/components/schemas/directivepolicymap"
+          },
+          "permissionPolicy": {
+            "$ref": "#/components/schemas/directivepolicymap"
+          },
+          "iframeAllow": {
+            "$ref": "#/components/schemas/directivepolicymap"
+          },
+          "iframeSandbox": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/iframesandbox"
+              }
+            ],
+            "description": "Opt-in iframe `sandbox` grants. Replaces the existing list entirely when provided; send `[]` to clear all grants. Omit to leave unchanged."
+          },
+          "state": {
+            "$ref": "#/components/schemas/plugininstancestate"
+          }
+        }
+      },
+      "linkuipluginrequest": {
+        "type": "object",
+        "title": "Link UI Plugin Request",
+        "required": [
+          "port"
+        ],
+        "properties": {
+          "port": {
+            "type": "integer",
+            "minimum": 1024,
+            "maximum": 65535,
+            "format": "int32",
+            "description": "Local dev server port. UMS constructs `https://localhost:{port}` server-side. Clients do not send a URL.",
+            "example": 4200
+          }
+        }
+      },
+      "linkuipluginresponse": {
+        "type": "object",
+        "title": "Link UI Plugin Response",
+        "required": [
+          "devOverrides",
+          "devDocumentHeaders"
+        ],
+        "properties": {
+          "devOverrides": {
+            "type": "object",
+            "description": "Updated `devOverrides` map of `identityId` to `https://localhost:{port}`.",
+            "additionalProperties": {
+              "type": "string",
+              "format": "uri"
+            },
+            "example": {
+              "2c9180867bexampleidentity000001": "https://localhost:4200"
+            }
+          },
+          "devDocumentHeaders": {
+            "$ref": "#/components/schemas/plugindocumentheaders"
+          }
+        }
+      },
+      "assetfileentry": {
+        "type": "object",
+        "title": "Asset File Entry",
+        "required": [
+          "path",
+          "sizeBytes",
+          "sha256"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Relative path within the asset bundle directory",
+            "example": "assets/app.js"
+          },
+          "sizeBytes": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Uncompressed file size in bytes",
+            "example": 2048
+          },
+          "sha256": {
+            "type": "string",
+            "description": "SHA-256 hex digest of file contents",
+            "example": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      "uipluginassetbundle": {
+        "type": "object",
+        "title": "UI Plugin Asset Bundle",
+        "description": "API response for an asset bundle (tenantId omitted)",
+        "required": [
+          "assetBundleId",
+          "pluginInstanceId",
+          "assets",
+          "assetBasePath",
+          "created"
+        ],
+        "properties": {
+          "assetBundleId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique identifier of the asset bundle",
+            "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+          },
+          "pluginInstanceId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Plugin instance this bundle belongs to",
+            "example": "2c918086-7b5f-4b3e-8a1c-2d3e4f5a6b7c"
+          },
+          "assets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/assetfileentry"
+            }
+          },
+          "assetBasePath": {
+            "type": "string",
+            "description": "S3 key prefix where the bundle's files are stored",
+            "example": "2c918086-7b5f-4b3e-8a1c-2d3e4f5a6b7c/3fa85f64-5717-4562-b3fc-2c963f66afa6/"
+          },
+          "cleanupAfter": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "ISO 8601 timestamp after which S3 assets may be cleaned up; null/omitted if active"
+          },
+          "created": {
+            "type": "string",
+            "format": "date-time",
+            "description": "ISO 8601 creation timestamp",
+            "example": "2024-08-16T14:16:58.389Z"
+          }
+        }
+      },
+      "slotstate": {
+        "type": "string",
+        "title": "Slot State",
+        "x-sailpoint-lint-ignore": {
+          "schema-enum-values-must-be-upper-snake-case": "The service uses these lowercase values in requests and responses."
+        },
+        "description": "- active: accepts new plugin registrations - deprecated: still works; avoid for new plugins - removed: no longer functions",
+        "enum": [
+          "active",
+          "deprecated",
+          "removed"
+        ],
+        "example": "active"
+      },
+      "slottype": {
+        "type": "string",
+        "title": "Slot Type",
+        "x-sailpoint-lint-ignore": {
+          "schema-enum-values-must-be-upper-snake-case": "The service uses these lowercase values in requests and responses."
+        },
+        "description": "How the App Shell renders plugins in this slot (Armada 2.0 patterns)",
+        "enum": [
+          "full-page",
+          "embed",
+          "aside",
+          "popup"
+        ],
+        "example": "full-page"
+      },
+      "uipluginslot": {
+        "type": "object",
+        "title": "UI Plugin Slot",
+        "required": [
+          "slotId",
+          "name",
+          "description",
+          "state",
+          "inputSchema",
+          "slotType",
+          "maxPlugins"
+        ],
+        "properties": {
+          "slotId": {
+            "type": "string",
+            "description": "Identifier of the UI extension point",
+            "example": "full-page"
+          },
+          "name": {
+            "description": "Localized display name. Single translated string by default; locale map when `allLangs=true`.",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/localizedstringmap"
+              }
+            ]
+          },
+          "description": {
+            "description": "Localized description. Single translated string by default; locale map when `allLangs=true`.",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/localizedstringmap"
+              }
+            ]
+          },
+          "state": {
+            "$ref": "#/components/schemas/slotstate"
+          },
+          "inputSchema": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "JSON Schema for data the App Shell provides to plugins in this slot",
+            "example": {
+              "type": "object",
+              "properties": {
+                "identityId": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "slotType": {
+            "$ref": "#/components/schemas/slottype"
+          },
+          "maxPlugins": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Max concurrent plugins in this slot; `-1` means unlimited",
+            "example": -1
           }
         }
       },
