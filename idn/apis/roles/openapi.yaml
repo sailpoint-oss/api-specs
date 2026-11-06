@@ -13,6 +13,7 @@ info:
     name: MIT
     url: https://opensource.org/licenses/MIT
   version: v1
+  x-audience: external-public
 servers:
   - url: https://{tenant}.api.identitynow.com
     description: This is the production API server.
@@ -26,6 +27,9 @@ servers:
       apiUrl:
         default: sailpoint.api.identitynow.com
         description: This is the api url of your tenant
+externalDocs:
+  description: SailPoint Identity Security API documentation
+  url: https://developer.sailpoint.com/docs/api/
 tags:
   - name: Roles
     description: >
@@ -107,6 +111,14 @@ tags:
       Refer to [Working with Roles](https://documentation.sailpoint.com/saas/help/access/roles.html) for more
       information about roles.
 paths:
+  /roles/v2:
+    $ref: ./paths/roles-v2.yaml
+  /roles/v2/{id}:
+    $ref: ./paths/roles-v2-by-id.yaml
+  /roles/v2/{id}/entitlements:
+    $ref: ./paths/roles-v2-by-id-entitlements.yaml
+  /roles/v2/filter:
+    $ref: ./paths/roles-v2-filter.yaml
   /roles/v1:
     $ref: ./paths/roles-v1.yaml
   /roles/v1/{id}:
