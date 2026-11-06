@@ -74006,6 +74006,669 @@
         ]
       }
     },
+    "/roles/v2": {
+      "get": {
+        "operationId": "listRolesV2",
+        "x-sailpoint-lint-ignore": {
+          "path-list-operations-must-return-object": "RolesV4Controller.listRoles returns a top-level JSON array of roles. Wrapping it in an items object would not match the live response.",
+          "path-query-parameters-must-be-camel-case": "RolesV4Controller binds for-subadmin, for-segment-ids, and include-unsegmented by those kebab-case query names. Camel-case names are not accepted."
+        },
+        "tags": [
+          "Roles"
+        ],
+        "summary": "List roles",
+        "description": "This API returns a list of Roles. Each Role includes its effective privilege level in `privilegeLevel.effective`, which is the highest effective privilege level among the entitlements assigned directly to the Role and the entitlements included in the Role's access profiles.\n\nUse either offset pagination (`offset` and `limit`) or cursor pagination (`cursor` and `limit`). When more results are available, the `x-next-cursor` response header contains the cursor for the next page. Send that value in the `cursor` query parameter, with the same `sorters`, to get the next page. You can't use `cursor` together with an `offset` greater than 0, and `offset` plus `limit` can't be greater than 10,000. Use cursor pagination to page beyond 10,000 results.\n\nA token with API, ORG_ADMIN, ROLE_ADMIN, or ROLE_SUBADMIN authority is required to call this API.",
+        "parameters": [
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": "true",
+            "schema": {
+              "type": "string",
+              "default": "true"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "for-subadmin",
+            "schema": {
+              "type": "string",
+              "default": ""
+            },
+            "description": "If provided, filters the returned list according to what is visible to the indicated ROLE_SUBADMIN Identity. The value of the parameter is either an Identity ID, or the special value **me**, which is shorthand for the calling Identity's ID. A 400 Bad Request error is returned if the **for-subadmin** parameter is specified for an Identity that is not a subadmin.",
+            "example": "5168015d32f890ca15812c9180835d2e",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Max number of results to return.\nSee [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters) for more information.",
+            "required": false,
+            "example": 50,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 0,
+              "maximum": 250,
+              "default": 50
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "description": "Offset into the full result set. Usually specified with *limit* to paginate through the results. Must be 0 or omitted when *cursor* is specified.\nSee [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters) for more information.",
+            "required": false,
+            "example": 0,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 0,
+              "default": 0
+            }
+          },
+          {
+            "$ref": "#/components/parameters/count"
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": "string",
+              "default": ""
+            },
+            "description": "Opaque cursor returned in the `x-next-cursor` response header of the previous page. Pass it with the same `sorters` to get the next page of results. Can't be used with an *offset* greater than 0.",
+            "example": "eyJzb3J0IjpbIm5hbWUiLCJpZCJdLCJzZWFyY2hBZnRlciI6WyJSb2xlIDI1NjciLCIyYzkxIl19",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "filters",
+            "schema": {
+              "type": "string",
+              "default": ""
+            },
+            "description": "Filter results using the standard syntax described in [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in*\n\n**name**: *eq, in, sw, co*\n\n**created**: *gt, lt, ge, le*\n\n**modified**: *gt, lt, ge, le*\n\n**type**: *eq, in*\n\n**owner.id**: *eq, in*\n\n**additionalOwners.id**: *eq, in*\n\n**requestable**: *eq*\n\n**dimensional**: *eq*\n\n**source.id**: *eq, in*\n\n**entitlement.id**: *eq, in*\n\n**entitlement.name**: *eq, sw, co*\n\n**accessProfile.id**: *eq, in*\n\n**accessProfile.name**: *eq, sw, co*\n\n**privilegeLevel.effective**: *eq, in*\n\nSupported composite operators are *and, or*",
+            "example": "privilegeLevel.effective in (\"HIGH\",\"MEDIUM\")",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "sorters",
+            "schema": {
+              "type": "string",
+              "format": "comma-separated",
+              "default": "name"
+            },
+            "description": "Sort results using the standard syntax described in [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **id, name, created, modified, privilegeLevel.effective**\n\nThe default sort is **name**. **id** is always added as the final sort field so that cursor pagination is stable.",
+            "example": "-privilegeLevel.effective,name",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "for-segment-ids",
+            "schema": {
+              "type": "string",
+              "format": "comma-separated",
+              "default": ""
+            },
+            "description": "If present and not empty, additionally filters Roles to those which are assigned to the Segment(s) with the specified IDs.\n\nIf segmentation is currently unavailable, specifying this parameter results in an error.",
+            "example": "0b5c9f25-83c6-4762-9073-e38f7bb2ae26,2e8d8180-24bc-4d21-91c6-7affdb473b0d",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include-unsegmented",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            },
+            "description": "Whether or not the response list should contain unsegmented Roles. If *for-segment-ids* is absent or empty, specifying *include-unsegmented* as false results in an error.",
+            "example": false,
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of Roles",
+            "headers": {
+              "x-total-count": {
+                "description": "The total result count (returned only if the *count* parameter is specified as *true*).",
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "example": 75
+              },
+              "x-next-cursor": {
+                "description": "Opaque cursor for the next page of results. Returned only when more results are available. Pass it in the *cursor* query parameter to get the next page.",
+                "schema": {
+                  "type": "string"
+                },
+                "example": "eyJzb3J0IjpbIm5hbWUiLCJpZCJdLCJzZWFyY2hBZnRlciI6WyJSb2xlIDI1NjciLCIyYzkxIl19"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/rolev2"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:role-unchecked:read",
+              "idn:role-unchecked:manage",
+              "idn:role-checked:manage",
+              "idn:role-checked:read"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "ROLE_ADMIN",
+          "ROLE_SUBADMIN"
+        ]
+      }
+    },
+    "/roles/v2/{id}": {
+      "get": {
+        "operationId": "getRoleV2",
+        "tags": [
+          "Roles"
+        ],
+        "summary": "Get a role",
+        "description": "This API returns a Role by its ID. The response includes the Role's effective privilege level in `privilegeLevel.effective`, which is the highest effective privilege level among the entitlements assigned directly to the Role and the entitlements included in the Role's access profiles.\n\nA token with API, ORG_ADMIN, ROLE_ADMIN, or ROLE_SUBADMIN authority is required to call this API. In addition, a token with ROLE_SUBADMIN authority may only call this API if all Access Profiles included in the Role are associated to Sources with management workgroups of which the ROLE_SUBADMIN is a member.",
+        "parameters": [
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": "true",
+            "schema": {
+              "type": "string",
+              "default": "true"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listRolesV2",
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the Role",
+            "example": "2c91808a7813090a017814121e121518"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A Role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/rolev2"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:role-unchecked:read",
+              "idn:role-unchecked:manage",
+              "idn:role-checked:manage",
+              "idn:role-checked:read"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "ROLE_ADMIN",
+          "ROLE_SUBADMIN"
+        ]
+      }
+    },
+    "/roles/v2/{id}/entitlements": {
+      "get": {
+        "operationId": "getRoleEntitlementsV2",
+        "x-sailpoint-lint-ignore": {
+          "path-list-operations-must-return-object": "RolesV4Controller returns a top-level JSON array of entitlements for this role. Wrapping it in an items object would not match the live response.",
+          "path-query-parameters-must-be-camel-case": "RolesV4Controller binds for-segment-ids, segmented-for-identity, and include-unsegmented by those kebab-case query names. Camel-case names are not accepted."
+        },
+        "tags": [
+          "Roles"
+        ],
+        "summary": "List role's entitlements",
+        "description": "Get a list of entitlements assigned directly to a specified Role. Each entitlement includes its privilege level in `privilegeLevel`, with the direct, inherited, and effective levels.\n\nUse either offset pagination (`offset` and `limit`) or cursor pagination (`cursor` and `limit`). When more results are available, the `x-next-cursor` response header contains the cursor for the next page. You can't use `cursor` together with an `offset` greater than 0, and `offset` plus `limit` can't be greater than 10,000.",
+        "parameters": [
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": "true",
+            "schema": {
+              "type": "string",
+              "default": "true"
+            },
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Containing role's ID.",
+            "required": true,
+            "x-sailpoint-resource-operation-id": "listRolesV2",
+            "schema": {
+              "type": "string",
+              "example": "2c91808a7813090a017814121919ecca"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Max number of results to return.\nSee [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters) for more information.",
+            "required": false,
+            "example": 50,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 0,
+              "maximum": 250,
+              "default": 50
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "description": "Offset into the full result set. Usually specified with *limit* to paginate through the results. Must be 0 or omitted when *cursor* is specified.\nSee [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters) for more information.",
+            "required": false,
+            "example": 0,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 0,
+              "default": 0
+            }
+          },
+          {
+            "$ref": "#/components/parameters/count"
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": "string",
+              "default": ""
+            },
+            "description": "Opaque cursor returned in the `x-next-cursor` response header of the previous page. Pass it with the same `sorters` to get the next page of results. Can't be used with an *offset* greater than 0.",
+            "example": "eyJzb3J0IjpbImNyZWF0ZWQiLCJpZCJdLCJzZWFyY2hBZnRlciI6WyIxNjAyMTgyMDMyMDI5IiwiMmM5MSJdfQ",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "filters",
+            "schema": {
+              "type": "string",
+              "default": ""
+            },
+            "description": "Filter results using the standard syntax described in [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in*\n\n**name**: *eq, in, sw, co*\n\n**attribute**: *eq, sw, co*\n\n**value**: *eq, sw, co*\n\n**created**: *gt, lt, ge, le*\n\n**modified**: *gt, lt, ge, le*\n\n**privilegeLevel.effective**: *eq, in*",
+            "example": "privilegeLevel.effective eq \"HIGH\"",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "sorters",
+            "schema": {
+              "type": "string",
+              "format": "comma-separated",
+              "default": "created"
+            },
+            "description": "Sort results using the standard syntax described in [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **id, name, attribute, value, created, modified, privilegeLevel.effective**\n\nThe default sort is **created**. **id** is always added as the final sort field so that cursor pagination is stable.",
+            "example": "-privilegeLevel.effective,name",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "for-segment-ids",
+            "schema": {
+              "type": "string",
+              "format": "comma-separated",
+              "default": ""
+            },
+            "description": "If present and not empty, filters entitlements to those assigned to the segment(s) with the specified IDs. Can't be used with *segmented-for-identity*.",
+            "example": "0b5c9f25-83c6-4762-9073-e38f7bb2ae26,2e8d8180-24bc-4d21-91c6-7affdb473b0d",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "segmented-for-identity",
+            "schema": {
+              "type": "string",
+              "default": ""
+            },
+            "description": "If present, filters entitlements to those in the segments visible to the specified identity. The value must be the calling identity's ID or the special value **me**. Can't be used with *for-segment-ids*.",
+            "example": "me",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "include-unsegmented",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            },
+            "description": "Whether the response list should contain unsegmented entitlements. If *for-segment-ids* is absent or empty, specifying *include-unsegmented* as false results in an error.",
+            "example": false,
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of entitlements.",
+            "headers": {
+              "x-total-count": {
+                "description": "The total result count (returned only if the *count* parameter is specified as *true*).",
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "example": 12
+              },
+              "x-next-cursor": {
+                "description": "Opaque cursor for the next page of results. Returned only when more results are available. Pass it in the *cursor* query parameter to get the next page.",
+                "schema": {
+                  "type": "string"
+                },
+                "example": "eyJzb3J0IjpbImNyZWF0ZWQiLCJpZCJdLCJzZWFyY2hBZnRlciI6WyIxNjAyMTgyMDMyMDI5IiwiMmM5MSJdfQ"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/entitlementv2"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "security": [
+          {
+            "userAuth": [
+              "idn:role-unchecked:read",
+              "idn:role-unchecked:manage",
+              "idn:role-checked:manage",
+              "idn:role-checked:read"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "ROLE_ADMIN",
+          "ROLE_SUBADMIN"
+        ]
+      }
+    },
+    "/roles/v2/filter": {
+      "post": {
+        "operationId": "searchRolesByFilterV2",
+        "x-sailpoint-lint-ignore": {
+          "path-query-parameters-must-be-camel-case": "RolesV4Controller.listRolesViaPost binds for-subadmin, for-segment-ids, and include-unsegmented by those kebab-case query names. Camel-case names are not accepted."
+        },
+        "summary": "Filter roles by metadata",
+        "description": "This API returns a list of Roles filtered by Access Model Metadata and by filter expression. Filtering is supported by filter expression, by metadata attribute key and values, or by both together. Each Role includes its effective privilege level in `privilegeLevel.effective`.\n\nThe `filters` expression in the request body supports the same fields and operators as the `filters` query parameter of [List roles](#operation/listRolesV2), including **privilegeLevel.effective**: *eq, in*.\n\nUse either offset pagination (`offset` and `limit`) or cursor pagination (`cursor` and `limit`). When more results are available, the `x-next-cursor` response header contains the cursor for the next page. Send that value in the `cursor` query parameter, with the same request body and `sorters`, to get the next page. You can't use `cursor` together with an `offset` greater than 0, and `offset` plus `limit` can't be greater than 10,000.",
+        "security": [
+          {
+            "userAuth": [
+              "idn:role-unchecked:read",
+              "idn:role-unchecked:manage",
+              "idn:role-checked:manage",
+              "idn:role-checked:read"
+            ]
+          }
+        ],
+        "x-sailpoint-userLevels": [
+          "ORG_ADMIN",
+          "ROLE_ADMIN",
+          "ROLE_SUBADMIN"
+        ],
+        "tags": [
+          "Roles"
+        ],
+        "parameters": [
+          {
+            "name": "X-SailPoint-Experimental",
+            "in": "header",
+            "description": "Use this header to enable this experimental API.",
+            "example": "true",
+            "schema": {
+              "type": "string",
+              "default": "true"
+            },
+            "required": true
+          },
+          {
+            "name": "for-subadmin",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            },
+            "description": "If provided, filters the returned list according to what is visible to the indicated ROLE_SUBADMIN Identity. The value of the parameter is either an Identity ID, or the special value **me**, which is shorthand for the calling Identity's ID. A 400 Bad Request error is returned if the **for-subadmin** parameter is specified for an Identity that is not a subadmin.",
+            "example": "5168015d32f890ca15812c9180835d2e",
+            "required": false
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 0,
+              "maximum": 250,
+              "default": 50
+            },
+            "description": "Max number of results to return See [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters) for more information.",
+            "example": 50,
+            "required": false
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Offset into the full result set. Usually specified with *limit* to paginate through the results. Must be 0 or omitted when *cursor* is specified.\nSee [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters) for more information.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 0,
+              "default": 0
+            },
+            "required": false,
+            "example": 0
+          },
+          {
+            "$ref": "#/components/parameters/count"
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            },
+            "description": "Opaque cursor returned in the `x-next-cursor` response header of the previous page. Pass it with the same request body and `sorters` to get the next page of results. Can't be used with an *offset* greater than 0.",
+            "example": "eyJzb3J0IjpbIm5hbWUiLCJpZCJdLCJzZWFyY2hBZnRlciI6WyJSb2xlIDI1NjciLCIyYzkxIl19",
+            "required": false
+          },
+          {
+            "name": "sorters",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "comma-separated",
+              "default": "name"
+            },
+            "description": "Sort results using the standard syntax described in [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **id, name, created, modified, privilegeLevel.effective**\n\nThe default sort is **name**. **id** is always added as the final sort field so that cursor pagination is stable.",
+            "example": "name,-modified",
+            "required": false
+          },
+          {
+            "name": "for-segment-ids",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "comma-separated",
+              "default": ""
+            },
+            "description": "If present and not empty, additionally filters Roles to those which are assigned to the Segment(s) with the specified IDs.\n\nIf segmentation is currently unavailable, specifying this parameter results in an error.",
+            "example": "0b5c9f25-83c6-4762-9073-e38f7bb2ae26,2e8d8180-24bc-4d21-91c6-7affdb473b0d",
+            "required": false
+          },
+          {
+            "name": "include-unsegmented",
+            "in": "query",
+            "description": "Whether or not the response list should contain unsegmented Roles. If *for-segment-ids* is absent or empty, specifying *include-unsegmented* as false results in an error.",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            },
+            "required": false,
+            "example": false
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/rolelistfilterdtov2"
+              },
+              "example": {
+                "filters": "privilegeLevel.effective eq \"HIGH\"",
+                "ammKeyValues": [
+                  {
+                    "attribute": "iscFederalClassifications",
+                    "values": [
+                      "secret"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "List of Roles matching the filter criteria.",
+            "headers": {
+              "x-total-count": {
+                "description": "The total result count (returned only if the *count* parameter is specified as *true*).",
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "example": 75
+              },
+              "x-next-cursor": {
+                "description": "Opaque cursor for the next page of results. Returned only when more results are available. Pass it in the *cursor* query parameter to get the next page.",
+                "schema": {
+                  "type": "string"
+                },
+                "example": "eyJzb3J0IjpbIm5hbWUiLCJpZCJdLCJzZWFyY2hBZnRlciI6WyJSb2xlIDI1NjciLCIyYzkxIl19"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/rolev2"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
     "/roles/v1": {
       "get": {
         "operationId": "listRolesV1",
@@ -144907,6 +145570,250 @@
             "type": "string",
             "description": "Human-readable display name of the object to which this reference applies",
             "example": "Role 2"
+          }
+        }
+      },
+      "roleprivilegelevel": {
+        "type": "object",
+        "title": "Role Privilege Level",
+        "description": "Privilege level of the role. The effective level is the highest effective privilege level among the entitlements assigned directly to the role and the entitlements included in the role's access profiles.",
+        "properties": {
+          "effective": {
+            "type": "string",
+            "description": "Effective privilege level of the role. **UNDETERMINED** means the privilege level could not be calculated for the role's entitlements.",
+            "example": "HIGH",
+            "enum": [
+              "NONE",
+              "LOW",
+              "MEDIUM",
+              "HIGH",
+              "UNDETERMINED"
+            ]
+          }
+        }
+      },
+      "rolev2": {
+        "type": "object",
+        "title": "Role V2",
+        "description": "A Role, including its effective privilege level.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The id of the Role. This field must be left null when creating an Role, otherwise a 400 Bad Request error will result.",
+            "example": "2c918086749d78830174a1a40e121518"
+          },
+          "name": {
+            "type": "string",
+            "description": "The human-readable display name of the Role",
+            "maxLength": 128,
+            "example": "Role 2567"
+          },
+          "created": {
+            "type": "string",
+            "description": "Date the Role was created",
+            "format": "date-time",
+            "example": "2021-03-01T22:32:58.104Z",
+            "readOnly": true
+          },
+          "modified": {
+            "type": "string",
+            "description": "Date the Role was last modified.",
+            "format": "date-time",
+            "example": "2021-03-02T20:22:28.104Z",
+            "readOnly": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "description": "A human-readable description of the Role",
+            "example": "Read-only access to the finance reporting system"
+          },
+          "owner": {
+            "$ref": "#/components/schemas/ownerreference"
+          },
+          "additionalOwners": {
+            "type": "array",
+            "nullable": true,
+            "x-sailpoint-lint-ignore": {
+              "schema-arrays-must-not-be-nullable": "The Role model leaves additionalOwners null when there are no additional owners. An empty array is not what the API returns."
+            },
+            "description": "List of additional owner references beyond the primary owner. Each entry may be an identity (IDENTITY) or a governance group (GOVERNANCE_GROUP).",
+            "items": {
+              "$ref": "#/components/schemas/additionalownerref"
+            }
+          },
+          "accessProfiles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/accessprofileref"
+            },
+            "nullable": true,
+            "x-sailpoint-lint-ignore": {
+              "schema-arrays-must-not-be-nullable": "The Role model initializes accessProfiles to null. An empty array is not what the API returns."
+            }
+          },
+          "entitlements": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/entitlementref"
+            }
+          },
+          "membership": {
+            "$ref": "#/components/schemas/rolemembershipselector",
+            "nullable": true
+          },
+          "legacyMembershipInfo": {
+            "type": "object",
+            "nullable": true,
+            "description": "This field is not directly modifiable and is generally expected to be *null*. In very rare instances, some Roles may have been created using membership selection criteria that are no longer fully supported. While these Roles will still work, they should be migrated to STANDARD or IDENTITY_LIST selection criteria. This field exists for informational purposes as an aid to such migration.",
+            "example": {
+              "type": "IDENTITY_LIST"
+            },
+            "additionalProperties": true
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether the Role is enabled or not.",
+            "example": true,
+            "default": false
+          },
+          "requestable": {
+            "type": "boolean",
+            "description": "Whether the Role can be the target of access requests.",
+            "example": true,
+            "default": false
+          },
+          "accessRequestConfig": {
+            "$ref": "#/components/schemas/requestabilityforrole",
+            "nullable": true,
+            "description": "Access request configuration for this object"
+          },
+          "revocationRequestConfig": {
+            "$ref": "#/components/schemas/revocabilityforrole",
+            "nullable": true,
+            "default": null,
+            "description": "Revocation request configuration for this object."
+          },
+          "segments": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true,
+            "x-sailpoint-lint-ignore": {
+              "schema-arrays-must-not-be-nullable": "The Role model initializes segments to null. An empty array is not what the API returns."
+            },
+            "description": "List of IDs of segments, if any, to which this Role is assigned.",
+            "example": [
+              "f7b1b8a3-5fed-4fd4-ad29-82014e137e19",
+              "29cb6c06-1da8-43ea-8be4-b3125f248f2a"
+            ]
+          },
+          "dimensional": {
+            "description": "Whether the Role is dimensional.",
+            "type": "boolean",
+            "nullable": true,
+            "x-sailpoint-lint-ignore": {
+              "schema-booleans-must-not-be-nullable": "The Role model types dimensional as Boolean, so a role with no value is returned as null."
+            },
+            "default": false
+          },
+          "dimensionRefs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/dimensionref"
+            },
+            "nullable": true,
+            "x-sailpoint-lint-ignore": {
+              "schema-arrays-must-not-be-nullable": "The Role model leaves dimensionRefs unset, so it is returned as null when the role has no dimensions."
+            },
+            "description": "List of references to dimensions to which this Role is assigned. This field is only relevant if the Role is dimensional."
+          },
+          "accessModelMetadata": {
+            "$ref": "#/components/schemas/attributedtolist",
+            "description": "This field must be left null or empty when creating an Role, otherwise a 400 Bad Request error will result.",
+            "example": [
+              {
+                "key": "iscFederalClassifications",
+                "name": "Federal Classifications",
+                "multiselect": true,
+                "status": "active",
+                "type": "governance",
+                "objectTypes": [
+                  "general"
+                ],
+                "description": "Classification used by government organizations to specify the level of confidentiality for an access item.",
+                "values": [
+                  {
+                    "value": "secret",
+                    "name": "Secret",
+                    "status": "active"
+                  }
+                ]
+              }
+            ]
+          },
+          "privilegeLevel": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/roleprivilegelevel"
+              }
+            ],
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "required": [
+          "name",
+          "owner"
+        ]
+      },
+      "rolelistfilterdtov2": {
+        "description": "Request body for filtering roles by metadata and filter expression, including privilegeLevel.effective.",
+        "type": "object",
+        "properties": {
+          "filters": {
+            "type": "string",
+            "default": "",
+            "description": "Filter results using the standard syntax described in [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**id**: *eq, in*\n\n**name**: *eq, in, sw, co*\n\n**created**: *gt, lt, ge, le*\n\n**modified**: *gt, lt, ge, le*\n\n**type**: *eq, in*\n\n**owner.id**: *eq, in*\n\n**additionalOwners.id**: *eq, in*\n\n**requestable**: *eq*\n\n**dimensional**: *eq*\n\n**source.id**: *eq, in*\n\n**entitlement.id**: *eq, in*\n\n**entitlement.name**: *eq, sw, co*\n\n**accessProfile.id**: *eq, in*\n\n**accessProfile.name**: *eq, sw, co*\n\n**privilegeLevel.effective**: *eq, in*\n\nSupported composite operators are *and, or*",
+            "example": "privilegeLevel.effective in (\"HIGH\",\"MEDIUM\")"
+          },
+          "ammKeyValues": {
+            "type": "array",
+            "default": [],
+            "items": {
+              "type": "object",
+              "required": [
+                "attribute"
+              ],
+              "properties": {
+                "attribute": {
+                  "description": "attribute key of a metadata. A blank value is rejected with a 400 error.",
+                  "type": "string",
+                  "example": "iscFederalClassifications"
+                },
+                "values": {
+                  "description": "A list of attribute key names to filter roles. If the values is empty, will only filter by attribute key.",
+                  "type": "array",
+                  "default": [],
+                  "items": {
+                    "type": "string",
+                    "example": "secret"
+                  },
+                  "example": [
+                    "secret"
+                  ]
+                }
+              }
+            },
+            "example": [
+              {
+                "attribute": "iscFederalClassifications",
+                "values": [
+                  "secret"
+                ]
+              }
+            ]
           }
         }
       },
