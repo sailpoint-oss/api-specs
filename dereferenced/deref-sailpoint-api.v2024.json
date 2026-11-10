@@ -24,16 +24,6 @@
           "description": "This is the name of your tenant, typically your company's name."
         }
       }
-    },
-    {
-      "url": "https://{apiUrl}/v2024",
-      "description": "This is the V2024 API server.",
-      "variables": {
-        "apiUrl": {
-          "default": "sailpoint.api.identitynow.com",
-          "description": "This is the api url of your tenant"
-        }
-      }
     }
   ],
   "security": [
