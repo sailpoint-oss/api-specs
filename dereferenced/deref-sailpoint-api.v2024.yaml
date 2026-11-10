@@ -30723,6 +30723,8 @@ paths:
           $ref: '#/components/responses/500'
   /generic-approvals:
     get:
+      x-sailpoint-lint-ignore:
+        path-list-operations-must-return-object: sp-approvals returns a top-level JSON array for this list; the documented wire format must match the service (SailPoint Rule 110).
       security:
         - userAuth:
             - idn:access-request-approvals:read
@@ -30745,12 +30747,13 @@ paths:
             type: boolean
             default: true
           description: Returns the list of approvals for the current caller
-          example: 'true'
+          example: true
         - in: query
           name: requesterId
           required: false
           schema:
             type: string
+            default: ''
           description: Returns the list of approvals for a given requester ID
           example: 17e633e7d57e481569df76323169deb6a
         - in: query
@@ -30758,6 +30761,7 @@ paths:
           required: false
           schema:
             type: string
+            default: ''
           description: |-
             Filter results using the standard syntax described in [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#filtering-results)
 
@@ -30824,6 +30828,8 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
         '429':
           $ref: '#/components/responses/429'
         '500':
@@ -67915,6 +67921,7 @@ components:
           description: Comment to be left on an approval
         createdDate:
           type: string
+          format: date-time
           example: '2023-04-12T23:20:50.52Z'
           description: Date the comment was created
       description: Comments Object
@@ -67934,6 +67941,9 @@ components:
     Approval-2:
       type: object
       title: Approval
+      x-sailpoint-lint-ignore:
+        schema-property-names-must-not-be-type: Property name "type" is part of the existing sp-approvals JSON contract; do not rename in the spec (SailPoint Rule 410).
+        schema-array-names-should-be-plural: Array property names (name, description, approvedBy, rejectedBy) match sp-approvals wire JSON; do not rename in the spec (SailPoint Rule 120).
       properties:
         approvalId:
           type: string
@@ -67946,6 +67956,7 @@ components:
           description: Object representation of an approver of an approval
         createdDate:
           type: string
+          format: date-time
           example: '2023-04-12T23:20:50.52Z'
           description: Date the approval was created
         type:
@@ -68002,6 +68013,7 @@ components:
           description: Array of approvers who have rejected the approval
         completedDate:
           type: string
+          format: date-time
           example: '2023-04-12T23:20:50.52Z'
           description: Date the approval was completed
         approvalCriteria:

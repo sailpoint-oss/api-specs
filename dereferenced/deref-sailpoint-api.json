@@ -8345,6 +8345,10 @@
     },
     "/generic-approvals/v1": {
       "get": {
+        "x-sailpoint-lint-ignore": {
+          "path-list-operations-must-return-object": "sp-approvals returns a top-level JSON array for this list; the documented wire format must match the service (SailPoint Rule 110).",
+          "path-query-parameters-must-be-camel-case": "Hyphenated query flags (count-only, include-comments, etc.) are required to match sp-approvals; the gateway forwards them unchanged (SailPoint Rule 130)."
+        },
         "security": [
           {
             "userAuth": [
@@ -8362,7 +8366,7 @@
           "Approvals"
         ],
         "summary": "Get approvals",
-        "description": "Gets a list of approvals.\n\nOne of the following query parameters should be present: 'mine', 'approverId', 'requesterId', 'requesteeId'.\n\nThe absence of all query parameters for non admins will default to mine=true (which is the equivalent of 'approverId=[your_identity_id]') \nwhile admins will default to mine=false (which will show all approvals in the org).\n\nFor lookups by access request ID please use the following:\n\n'/generic-approvals?mine=false&filters=referenceType+eq+\"accessRequestId\"+and+referenceId+eq+\"12345678901234567890123456789012\"'",
+        "description": "Gets a list of approvals.\n\nOne of the following query parameters should be present: 'mine', 'approverId', 'requesterId', 'requesteeId'.\n\nThe absence of all query parameters for non admins will default to mine=true (which is the equivalent of 'approverId=[your_identity_id]') \nwhile admins will default to mine=false (which will show all approvals in the org).\n\nFor lookups by access request ID please use the following:\n\n'/generic-approvals/v1?mine=false&filters=referenceType+eq+\"accessRequestId\"+and+referenceId+eq+\"12345678901234567890123456789012\"'",
         "parameters": [
           {
             "in": "query",
@@ -8373,14 +8377,15 @@
               "default": false
             },
             "description": "Determines whether to return the list of approvals assigned to the current caller or all approvals in the org. Defaults to false if admin, true otherwise (which is the equivalent of 'approverId=[your_identity_id]').",
-            "example": "true"
+            "example": true
           },
           {
             "in": "query",
             "name": "requesterId",
             "required": false,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "default": ""
             },
             "description": "Returns the list of approvals for a given requester ID. Must match the calling user's identity ID unless they are an admin.",
             "example": "17e633e7d57e481569df76323169deb6a"
@@ -8390,7 +8395,8 @@
             "name": "requesteeId",
             "required": false,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "default": ""
             },
             "description": "Returns the list of approvals for a given requesteeId ID. Must match the calling user's identity ID unless they are an admin.",
             "example": "27e6334g757e481569df76323169db9sc"
@@ -8400,21 +8406,14 @@
             "name": "approverId",
             "required": false,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "default": ""
             },
             "description": "Returns the list of approvals for a given approverId ID. Must match the calling user's identity ID unless they are an admin.",
             "example": "37e6334g557e481569df7g2d3169db9sb"
           },
           {
-            "in": "query",
-            "name": "count",
-            "required": false,
-            "schema": {
-              "type": "boolean",
-              "default": false
-            },
-            "description": "Adds X-Total-Count to the header to give the amount of total approvals returned from the query.",
-            "example": "true"
+            "$ref": "#/components/parameters/count"
           },
           {
             "in": "query",
@@ -8425,7 +8424,7 @@
               "default": false
             },
             "description": "Adds X-Total-Count to the header to give the amount of total approvals returned from the query. Only returns the count and no approval objects.",
-            "example": "true"
+            "example": true
           },
           {
             "in": "query",
@@ -8436,7 +8435,7 @@
               "default": false
             },
             "description": "If set to true in the query, the approval requests returned will include comments.",
-            "example": "true"
+            "example": true
           },
           {
             "in": "query",
@@ -8447,7 +8446,7 @@
               "default": false
             },
             "description": "If set to true in the query, the approval requests returned will include approvers.",
-            "example": "true"
+            "example": true
           },
           {
             "in": "query",
@@ -8458,7 +8457,7 @@
               "default": false
             },
             "description": "If set to true in the query, the approval requests returned will include reassignment history.",
-            "example": "true"
+            "example": true
           },
           {
             "in": "query",
@@ -8469,16 +8468,17 @@
               "default": false
             },
             "description": "If set to true in the query, the approval requests returned will include batch information.",
-            "example": "true"
+            "example": true
           },
           {
             "in": "query",
             "name": "filters",
             "required": false,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "default": ""
             },
-            "description": "Filter results using the standard syntax described in [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**status**: *eq, ne, in, co, sw*\n\n**name**: *eq, ne, in, co, sw*\n\n**priority**: *eq, ne, in, co, sw*\n\n**type**: *eq, ne, in, co, sw*\n\n**medium**: *eq, ne, in, co, sw*\n\n**description**: *eq, ne, in, co, sw*\n\n**batchId**: *eq, ne, in, co, sw*\n\n**createdDate**: *eq, ne, in, co, sw, gt, ge, lt, le*\n\n**dueDate**: *eq, ne, in, co, sw, gt, ge, lt, le*\n\n**completedDate**: *eq, ne, in, co, sw, gt, ge, lt, le*\n\n**search**: *eq, ne, in, co, sw*\n\n**referenceId**: *eq, ne, in, co, sw*\n\n**referenceType**: *eq, ne, in, co, sw*\n\n**referenceName**: *eq, ne, in, co, sw*\n\n**requestedTargetId**: *eq, ne, in, co, sw*\n\n**requestedTargetType**: *eq, ne, in, co, sw*\n\n**requestedTargetName**: *eq, ne, in, co, sw*\n\n**requestedTargetRequestType**: *eq, ne, in, co, sw*\n\n**modifiedDate**: *eq, ne, in, co, sw, gt, ge, lt, le*\n\n**decisionDate**: *eq, ne, in, co, sw, gt, ge, lt, le*\n\n**approvalId**: *eq, ne, in, co, sw*\n\n**requesterId**: *eq, ne, in, co, sw*\n\n**requesteeId**: *eq, ne, in, co, sw*\n\n**approverId**: *eq, ne, in, co, sw*",
+            "description": "Filter results using the standard syntax described in [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**status**: *eq, ne, in, co, sw*\n\n**name**: *eq, ne, in, co, sw*\n\n**priority**: *eq, ne, in, co, sw*\n\n**type**: *eq, ne, in, co, sw*\n\n**medium**: *eq, ne, in, co, sw*\n\n**description**: *eq, ne, in, co, sw*\n\n**batchId**: *eq, ne, in, co, sw*\n\n**createdDate**: *eq, ne, in, co, sw, gt, ge, lt, le*\n\n**dueDate**: *eq, ne, in, co, sw, gt, ge, lt, le*\n\n**completedDate**: *eq, ne, in, co, sw, gt, ge, lt, le*\n\n**search**: *eq, ne, in, co, sw*\n\n**referenceId**: *eq, ne, in, co, sw*\n\n**referenceType**: *eq, ne, in, co, sw*\n\n**referenceName**: *eq, ne, in, co, sw*\n\n**requestedTargetId**: *eq, ne, in, co, sw*\n\n**requestedTargetType**: *eq, ne, in, co, sw*\n\n**currentEPLevel**: *eq, ne, in, co, sw*\n\n**requestedTargetName**: *eq, ne, in, co, sw*\n\n**requestedTargetRequestType**: *eq, ne, in, co, sw*\n\n**modifiedDate**: *eq, ne, in, co, sw, gt, ge, lt, le*\n\n**decisionDate**: *eq, ne, in, co, sw, gt, ge, lt, le*\n\n**approvalId**: *eq, ne, in, co, sw*\n\n**requesterId**: *eq, ne, in, co, sw*\n\n**requesteeId**: *eq, ne, in, co, sw*\n\n**approverId**: *eq, ne, in, co, sw*",
             "example": "filters=status eq \"PENDING\" and type eq \"ACCESS_REQUEST_APPROVAL\""
           },
           {
@@ -8539,7 +8539,7 @@
           "Approvals"
         ],
         "summary": "Get an approval",
-        "description": "Fetches an approval request by it's approval ID. For lookups by access request ID please use the following:\n/generic-approvals?filters=referenceType+eq+\"accessRequestId\"+and+referenceId+eq+\"12345678901234567890123456789012\"",
+        "description": "Fetches an approval request by it's approval ID. For lookups by access request ID please use the following:\n/generic-approvals/v1?filters=referenceType+eq+\"accessRequestId\"+and+referenceId+eq+\"12345678901234567890123456789012\"",
         "parameters": [
           {
             "in": "path",
@@ -8572,6 +8572,9 @@
           },
           "403": {
             "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -9025,7 +9028,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "The ID defined by the scope field, where id/scope is the following:\n\n* `{accountID}`/`ACCOUNT`\n* `{roleID}`/`ROLE`\n* `{entitlementID}`/`ENTITLEMENT`\n* `{accessProfileID}`/`ACCESS_PROFILE`\n* `{domainObjectID}`/`DOMAIN_OBJECT`\n* `ENTITLEMENT_DESCRIPTIONS`/`APPROVAL_TYPE`\n* `ACCESS_REQUEST_APPROVAL`/`APPROVAL_TYPE`\n* `ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`\n* `MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST`/`APPROVAL_TYPE`\n* `MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`\n* `AGENT_ACTIVATE_APPROVAL`/`APPROVAL_TYPE`\n* `AGENT_DEACTIVATE_APPROVAL`/`APPROVAL_TYPE`\n* `{tenantID}`/`TENANT`\n\nReplace placeholders such as `{roleID}` with the actual resource ID.\n",
+            "description": "The ID defined by the scope field, where id/scope is the following:\n\n* `{accountID}`/`ACCOUNT`\n* `{roleID}`/`ROLE`\n* `{entitlementID}`/`ENTITLEMENT`\n* `{accessProfileID}`/`ACCESS_PROFILE`\n* `{domainObjectID}`/`DOMAIN_OBJECT`\n* `ENTITLEMENT_DESCRIPTIONS`/`APPROVAL_TYPE`\n* `ACCESS_REQUEST_APPROVAL`/`APPROVAL_TYPE`\n* `CUSTOM_ACCESS_REQUEST_APPROVAL`/`APPROVAL_TYPE`\n* `ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`\n* `MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST`/`APPROVAL_TYPE`\n* `MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`\n* `AGENT_ACTIVATE_APPROVAL`/`APPROVAL_TYPE`\n* `AGENT_DEACTIVATE_APPROVAL`/`APPROVAL_TYPE`\n* `PRIVILEGED_ENTITLEMENT_RECOMMENDATION`/`APPROVAL_TYPE`\n* `{tenantID}`/`TENANT`\n\nReplace placeholders such as `{roleID}` with the actual resource ID.\n",
             "example": "ACCESS_REQUEST_APPROVAL",
             "x-sailpoint-resource-operation-id": "getApprovalsV1"
           }
@@ -9049,6 +9052,9 @@
           },
           "403": {
             "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
           },
           "429": {
             "$ref": "#/components/responses/429"
@@ -9085,7 +9091,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "The ID defined by the scope field, where id/scope is the following:\n\n* `{accountID}`/`ACCOUNT`\n* `{roleID}`/`ROLE`\n* `{entitlementID}`/`ENTITLEMENT`\n* `{accessProfileID}`/`ACCESS_PROFILE`\n* `{domainObjectID}`/`DOMAIN_OBJECT`\n* `ENTITLEMENT_DESCRIPTIONS`/`APPROVAL_TYPE`\n* `ACCESS_REQUEST_APPROVAL`/`APPROVAL_TYPE`\n* `ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`\n* `MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST`/`APPROVAL_TYPE`\n* `MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`\n* `AGENT_ACTIVATE_APPROVAL`/`APPROVAL_TYPE`\n* `AGENT_DEACTIVATE_APPROVAL`/`APPROVAL_TYPE`\n* `{tenantID}`/`TENANT`\n\nReplace placeholders such as `{roleID}` with the actual resource ID.\n",
+            "description": "The ID defined by the scope field, where id/scope is the following:\n\n* `{accountID}`/`ACCOUNT`\n* `{roleID}`/`ROLE`\n* `{entitlementID}`/`ENTITLEMENT`\n* `{accessProfileID}`/`ACCESS_PROFILE`\n* `{domainObjectID}`/`DOMAIN_OBJECT`\n* `ENTITLEMENT_DESCRIPTIONS`/`APPROVAL_TYPE`\n* `ACCESS_REQUEST_APPROVAL`/`APPROVAL_TYPE`\n* `CUSTOM_ACCESS_REQUEST_APPROVAL`/`APPROVAL_TYPE`\n* `ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`\n* `MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST`/`APPROVAL_TYPE`\n* `MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`\n* `AGENT_ACTIVATE_APPROVAL`/`APPROVAL_TYPE`\n* `AGENT_DEACTIVATE_APPROVAL`/`APPROVAL_TYPE`\n* `PRIVILEGED_ENTITLEMENT_RECOMMENDATION`/`APPROVAL_TYPE`\n* `{tenantID}`/`TENANT`\n\nReplace placeholders such as `{roleID}` with the actual resource ID.\n",
             "example": "ACCESS_REQUEST_APPROVAL",
             "x-sailpoint-resource-operation-id": [
               "listEntitlementsV1",
@@ -9109,7 +9115,7 @@
                 "TENANT"
               ]
             },
-            "description": "The scope that defines the type of id, where id/scope is the following:\n\n* `{accountID}`/`ACCOUNT`\n* `{roleID}`/`ROLE`\n* `{entitlementID}`/`ENTITLEMENT`\n* `{accessProfileID}`/`ACCESS_PROFILE`\n* `{domainObjectID}`/`DOMAIN_OBJECT`\n* `ENTITLEMENT_DESCRIPTIONS`/`APPROVAL_TYPE`\n* `ACCESS_REQUEST_APPROVAL`/`APPROVAL_TYPE`\n* `ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`\n* `MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST`/`APPROVAL_TYPE`\n* `MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`\n* `AGENT_ACTIVATE_APPROVAL`/`APPROVAL_TYPE`\n* `AGENT_DEACTIVATE_APPROVAL`/`APPROVAL_TYPE`\n* `{tenantID}`/`TENANT`\n\nReplace placeholders such as `{roleID}` with the actual resource ID.\n",
+            "description": "The scope that defines the type of id, where id/scope is the following:\n\n* `{accountID}`/`ACCOUNT`\n* `{roleID}`/`ROLE`\n* `{entitlementID}`/`ENTITLEMENT`\n* `{accessProfileID}`/`ACCESS_PROFILE`\n* `{domainObjectID}`/`DOMAIN_OBJECT`\n* `ENTITLEMENT_DESCRIPTIONS`/`APPROVAL_TYPE`\n* `ACCESS_REQUEST_APPROVAL`/`APPROVAL_TYPE`\n* `CUSTOM_ACCESS_REQUEST_APPROVAL`/`APPROVAL_TYPE`\n* `ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`\n* `MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST`/`APPROVAL_TYPE`\n* `MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`\n* `AGENT_ACTIVATE_APPROVAL`/`APPROVAL_TYPE`\n* `AGENT_DEACTIVATE_APPROVAL`/`APPROVAL_TYPE`\n* `PRIVILEGED_ENTITLEMENT_RECOMMENDATION`/`APPROVAL_TYPE`\n* `{tenantID}`/`TENANT`\n\nReplace placeholders such as `{roleID}` with the actual resource ID.\n",
             "example": "APPROVAL_TYPE"
           }
         ],
@@ -9179,7 +9185,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "The ID defined by the scope field, where id/scope is the following:\n\n* `{accountID}`/`ACCOUNT`\n* `{roleID}`/`ROLE`\n* `{entitlementID}`/`ENTITLEMENT`\n* `{accessProfileID}`/`ACCESS_PROFILE`\n* `{domainObjectID}`/`DOMAIN_OBJECT`\n* `ENTITLEMENT_DESCRIPTIONS`/`APPROVAL_TYPE`\n* `ACCESS_REQUEST_APPROVAL`/`APPROVAL_TYPE`\n* `ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`\n* `MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST`/`APPROVAL_TYPE`\n* `MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`\n* `AGENT_ACTIVATE_APPROVAL`/`APPROVAL_TYPE`\n* `AGENT_DEACTIVATE_APPROVAL`/`APPROVAL_TYPE`\n* `{tenantID}`/`TENANT`\n\nReplace placeholders such as `{roleID}` with the actual resource ID.\n",
+            "description": "The ID defined by the scope field, where id/scope is the following:\n\n* `{accountID}`/`ACCOUNT`\n* `{roleID}`/`ROLE`\n* `{entitlementID}`/`ENTITLEMENT`\n* `{accessProfileID}`/`ACCESS_PROFILE`\n* `{domainObjectID}`/`DOMAIN_OBJECT`\n* `ENTITLEMENT_DESCRIPTIONS`/`APPROVAL_TYPE`\n* `ACCESS_REQUEST_APPROVAL`/`APPROVAL_TYPE`\n* `CUSTOM_ACCESS_REQUEST_APPROVAL`/`APPROVAL_TYPE`\n* `ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`\n* `MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST`/`APPROVAL_TYPE`\n* `MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`\n* `AGENT_ACTIVATE_APPROVAL`/`APPROVAL_TYPE`\n* `AGENT_DEACTIVATE_APPROVAL`/`APPROVAL_TYPE`\n* `PRIVILEGED_ENTITLEMENT_RECOMMENDATION`/`APPROVAL_TYPE`\n* `{tenantID}`/`TENANT`\n\nReplace placeholders such as `{roleID}` with the actual resource ID.\n",
             "example": "ACCESS_REQUEST_APPROVAL",
             "x-sailpoint-resource-operation-id": [
               "listEntitlementsV1",
@@ -9203,7 +9209,7 @@
                 "TENANT"
               ]
             },
-            "description": "The scope that defines the type of id, where id/scope is the following:\n\n* `{accountID}`/`ACCOUNT`\n* `{roleID}`/`ROLE`\n* `{entitlementID}`/`ENTITLEMENT`\n* `{accessProfileID}`/`ACCESS_PROFILE`\n* `{domainObjectID}`/`DOMAIN_OBJECT`\n* `ENTITLEMENT_DESCRIPTIONS`/`APPROVAL_TYPE`\n* `ACCESS_REQUEST_APPROVAL`/`APPROVAL_TYPE`\n* `ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`\n* `MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST`/`APPROVAL_TYPE`\n* `MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`\n* `AGENT_ACTIVATE_APPROVAL`/`APPROVAL_TYPE`\n* `AGENT_DEACTIVATE_APPROVAL`/`APPROVAL_TYPE`\n* `{tenantID}`/`TENANT`\n\nReplace placeholders such as `{roleID}` with the actual resource ID.\n",
+            "description": "The scope that defines the type of id, where id/scope is the following:\n\n* `{accountID}`/`ACCOUNT`\n* `{roleID}`/`ROLE`\n* `{entitlementID}`/`ENTITLEMENT`\n* `{accessProfileID}`/`ACCESS_PROFILE`\n* `{domainObjectID}`/`DOMAIN_OBJECT`\n* `ENTITLEMENT_DESCRIPTIONS`/`APPROVAL_TYPE`\n* `ACCESS_REQUEST_APPROVAL`/`APPROVAL_TYPE`\n* `CUSTOM_ACCESS_REQUEST_APPROVAL`/`APPROVAL_TYPE`\n* `ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`\n* `MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST`/`APPROVAL_TYPE`\n* `MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`\n* `AGENT_ACTIVATE_APPROVAL`/`APPROVAL_TYPE`\n* `AGENT_DEACTIVATE_APPROVAL`/`APPROVAL_TYPE`\n* `PRIVILEGED_ENTITLEMENT_RECOMMENDATION`/`APPROVAL_TYPE`\n* `{tenantID}`/`TENANT`\n\nReplace placeholders such as `{roleID}` with the actual resource ID.\n",
             "example": "APPROVAL_TYPE",
             "x-go-name": "Type"
           }
@@ -109214,9 +109220,16 @@
       "approvalidentity": {
         "type": "object",
         "title": "Approval Identity",
+        "x-sailpoint-lint-ignore": {
+          "schema-property-names-must-not-be-type": "Property name \"type\" is part of the existing sp-approvals JSON contract; do not rename in the spec (SailPoint Rule 410).",
+          "schema-property-names-must-be-camel-case": "Property \"identityID\" matches the sp-approvals wire JSON; do not rename in the spec (SailPoint Rule 118).",
+          "schema-references-must-use-id-names": "Property \"identityID\" matches the sp-approvals wire JSON; do not rename in the spec (SailPoint Rule 313).",
+          "schema-array-names-should-be-plural": "Array property ownerOf matches sp-approvals wire JSON; do not rename in the spec (SailPoint Rule 120)."
+        },
         "properties": {
           "email": {
             "type": "string",
+            "format": "email",
             "example": "mail@mail.com",
             "description": "Email address."
           },
@@ -109232,6 +109245,7 @@
               "properties": {
                 "email": {
                   "type": "string",
+                  "format": "email",
                   "example": "mail@mail.com",
                   "description": "Email of the member."
                 },
@@ -109382,6 +109396,10 @@
       },
       "approvalconfig": {
         "type": "object",
+        "x-sailpoint-lint-ignore": {
+          "schema-property-names-must-not-be-type": "Property name \"type\" is part of the existing sp-approvals JSON contract; do not rename in the spec (SailPoint Rule 410).",
+          "schema-array-names-should-be-plural": "Array properties escalationChain and serialChain match sp-approvals wire JSON; do not rename in the spec (SailPoint Rule 120)."
+        },
         "properties": {
           "reminderConfig": {
             "type": "object",
@@ -109632,6 +109650,10 @@
             "description": "Determines whether a comment is required when approving or rejecting the approval request."
           },
           "fallbackApprover": {
+            "x-sailpoint-lint-ignore": {
+              "schema-property-names-must-be-camel-case": "Nested property \"identityID\" matches the sp-approvals wire JSON; do not rename in the spec (SailPoint Rule 118).",
+              "schema-references-must-use-id-names": "Nested property \"identityID\" matches the sp-approvals wire JSON; do not rename in the spec (SailPoint Rule 313)."
+            },
             "type": "object",
             "properties": {
               "identityID": {
@@ -109721,9 +109743,10 @@
             "enum": [
               "OFF",
               "DIRECT",
-              "INDIRECT"
+              "INDIRECT",
+              "SELF_REQUEST"
             ],
-            "description": "OFF will prevent the approval request from being assigned to the requester or requestee by assigning it to their manager instead.\nDIRECT when the requester != requestee this will cause steps assigned directly to the requester to be auto-approved.\nINDIRECT when the requester != requestee this will cause steps assigned to the requester or a group containing the requester to be auto-approved.\nThis field will only be effective if requestedTarget.reauthRequired is set to false, otherwise the approval will have to be manually approved.",
+            "description": "OFF will prevent the approval request from being assigned to the requester or requestee by assigning it to their manager instead.\nDIRECT when the requester != requestee this will cause steps assigned directly to the requester to be auto-approved.\nINDIRECT when the requester != requestee this will cause steps assigned to the requester or a group containing the requester to be auto-approved.\nSELF_REQUEST will cause steps assigned to the requester or a group containing the requester to be auto-approved whether or not the requester is the same as the requestee.\nThis field will only be effective if requestedTarget.reauthRequired is set to false, otherwise the approval will have to be manually approved.",
             "example": "OFF"
           }
         },
@@ -109760,6 +109783,7 @@
           },
           "createdDate": {
             "type": "string",
+            "format": "date-time",
             "example": "2023-04-12T23:20:50.52Z",
             "description": "Date the comment was created"
           },
@@ -109774,6 +109798,9 @@
       "approvalreference": {
         "type": "object",
         "title": "Approval Reference",
+        "x-sailpoint-lint-ignore": {
+          "schema-property-names-must-not-be-type": "Property name \"type\" is part of the existing sp-approvals JSON contract; do not rename in the spec (SailPoint Rule 410)."
+        },
         "properties": {
           "id": {
             "type": "string",
@@ -109807,6 +109834,11 @@
       },
       "approvalidentityrecord": {
         "type": "object",
+        "x-sailpoint-lint-ignore": {
+          "schema-property-names-must-not-be-type": "Property name \"type\" is part of the existing sp-approvals JSON contract; do not rename in the spec (SailPoint Rule 410).",
+          "schema-property-names-must-be-camel-case": "Property \"identityID\" matches the sp-approvals wire JSON; do not rename in the spec (SailPoint Rule 118).",
+          "schema-references-must-use-id-names": "Property \"identityID\" matches the sp-approvals wire JSON; do not rename in the spec (SailPoint Rule 313)."
+        },
         "properties": {
           "identityID": {
             "type": "string",
@@ -109857,6 +109889,10 @@
       },
       "approvalreassignmenthistory": {
         "type": "object",
+        "x-sailpoint-lint-ignore": {
+          "schema-property-names-must-be-camel-case": "Property \"commentID\" matches the sp-approvals wire JSON; do not rename in the spec (SailPoint Rule 118).",
+          "schema-references-must-use-id-names": "Property \"commentID\" matches the sp-approvals wire JSON; do not rename in the spec (SailPoint Rule 313)."
+        },
         "properties": {
           "commentID": {
             "type": "string",
@@ -109896,50 +109932,140 @@
       },
       "approvalrequestedtarget": {
         "type": "object",
+        "description": "Specifies the actual object or target the approval request is for.",
         "properties": {
-          "forcedAuthSignature": {
-            "type": "string",
-            "example": "string",
-            "description": "Signature required for forced authentication."
-          },
           "id": {
             "type": "string",
-            "example": "string",
-            "description": "ID of the requested target."
+            "description": "Target ID (for example a role ID or access profile ID).",
+            "example": "string"
+          },
+          "ids": {
+            "type": "array",
+            "example": [
+              "2c9180835d191a86015d28455b4a2329"
+            ],
+            "items": {
+              "type": "string",
+              "example": "2c9180835d191a86015d28455b4a2329"
+            },
+            "description": "Target IDs when the approval request applies to multiple targets."
           },
           "name": {
             "type": "string",
-            "example": "string",
-            "description": "Name of the requested target."
+            "description": "Target name (for example a role name or access profile name).",
+            "example": "string"
+          },
+          "names": {
+            "type": "array",
+            "example": [
+              "Engineering Role"
+            ],
+            "items": {
+              "type": "string",
+              "example": "Engineering Role"
+            },
+            "description": "Target names when the approval request applies to multiple targets."
+          },
+          "targetType": {
+            "type": "string",
+            "description": "Target type (for example Role or Access Profile).",
+            "example": "string"
+          },
+          "targetTypes": {
+            "type": "array",
+            "example": [
+              "ROLE",
+              "ACCESS_PROFILE"
+            ],
+            "items": {
+              "type": "string",
+              "example": "ROLE"
+            },
+            "description": "Target types when the approval request applies to multiple targets."
+          },
+          "description": {
+            "type": "string",
+            "description": "Optional description for the requested target.",
+            "example": "string"
+          },
+          "epLevelAtCreation": {
+            "type": "string",
+            "description": "Effective privilege (EP) level at approval creation.",
+            "enum": [
+              "HIGH",
+              "MEDIUM",
+              "LOW",
+              "NONE"
+            ],
+            "example": "HIGH"
+          },
+          "currentEPLevel": {
+            "type": "string",
+            "description": "Current effective privilege (EP) level for the requested target.",
+            "enum": [
+              "HIGH",
+              "MEDIUM",
+              "LOW",
+              "NONE"
+            ],
+            "example": "HIGH"
+          },
+          "currentEPModifiedDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date and time when the current effective privilege level was last modified.",
+            "example": "2025-07-07T18:10:13.687Z"
+          },
+          "requestType": {
+            "type": "string",
+            "description": "Access request type (for example GRANT_ACCESS or REVOKE_ACCESS).",
+            "example": "GRANT_ACCESS"
+          },
+          "forcedAuthSignature": {
+            "type": "string",
+            "description": "Signature required for forced authentication.",
+            "example": "string"
           },
           "reauthRequired": {
             "type": "boolean",
-            "example": true,
-            "description": "Indicates if reauthentication is required.",
-            "default": false
+            "description": "Indicates whether forced reauthentication is required upon approval.",
+            "default": false,
+            "example": true
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When temporary access will be granted, if applicable.",
+            "example": "2025-07-07T18:10:13.687Z"
           },
           "removalDate": {
             "type": "string",
             "format": "date-time",
-            "example": "2025-07-07T18:10:13.687Z",
-            "description": "Date when the target will be removed."
+            "description": "When temporary access will be removed, if applicable.",
+            "example": "2025-07-07T18:10:13.687Z"
           },
-          "requestType": {
+          "modifiedStartDate": {
             "type": "string",
-            "example": "string",
-            "description": "Type of the request."
+            "format": "date-time",
+            "description": "Updated start date when startDate is edited during the approval request.",
+            "example": "2025-07-07T18:10:13.687Z"
           },
-          "targetType": {
+          "modifiedRemovalDate": {
             "type": "string",
-            "example": "string",
-            "description": "Type of the target."
+            "format": "date-time",
+            "description": "Updated removal date when removalDate is edited during the approval request.",
+            "example": "2025-07-07T18:10:13.687Z"
           }
-        },
-        "description": "Represents a requested target in an approval process, including details such as ID, name, reauthentication requirements, and removal date."
+        }
       },
       "approval-2": {
         "type": "object",
         "title": "Approval",
+        "x-sailpoint-lint-ignore": {
+          "schema-property-names-must-not-be-type": "Property name \"type\" is part of the existing sp-approvals JSON contract; do not rename in the spec (SailPoint Rule 410).",
+          "schema-array-names-should-be-plural": "Locale list fields use singular wire keys \"name\" and \"description\" in sp-approvals; do not rename in the spec (SailPoint Rule 120).",
+          "schema-boolean-names-should-not-use-qualifying-verbs": "Property \"isEscalated\" matches the sp-approvals wire JSON; do not rename in the spec (SailPoint Rule 311)."
+        },
         "properties": {
           "id": {
             "type": "string",
@@ -109965,17 +110091,19 @@
           },
           "createdDate": {
             "type": "string",
+            "format": "date-time",
             "example": "2023-04-12T23:20:50.52Z",
             "description": "Date the approval was created"
           },
           "dueDate": {
             "type": "string",
+            "format": "date-time",
             "example": "2024-05-12T23:10:50.11Z",
             "description": "Date the approval is due"
           },
           "escalationStep": {
             "type": "string",
-            "example": 0,
+            "example": "0",
             "description": "Step in the escalation process. If set to 0, the approval is not escalated. If set to 1, the approval is escalated to the first approver in the escalation chain."
           },
           "serialStep": {
@@ -110078,6 +110206,7 @@
           },
           "completedDate": {
             "type": "string",
+            "format": "date-time",
             "example": "2023-04-12T23:20:50.52Z",
             "description": "Date the approval was completed"
           },
@@ -110173,10 +110302,7 @@
             "example": "2023-10-01T12:34:56.789Z"
           },
           "requestedTarget": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/approvalrequestedtarget"
-            },
+            "$ref": "#/components/schemas/approvalrequestedtarget",
             "description": "RequestedTarget used to specify the actual object or target the approval request is for"
           }
         },
@@ -110184,9 +110310,14 @@
       },
       "approvalapproverequest": {
         "type": "object",
+        "x-sailpoint-lint-ignore": {
+          "schema-property-names-must-be-camel-case": "Property \"overrideApproverID\" matches the sp-approvals wire JSON; do not rename in the spec (SailPoint Rule 118).",
+          "schema-references-must-use-id-names": "Property \"overrideApproverID\" matches the sp-approvals wire JSON; do not rename in the spec (SailPoint Rule 313)."
+        },
         "properties": {
           "additionalAttributes": {
             "type": "object",
+            "default": {},
             "additionalProperties": {
               "type": "string"
             },
@@ -110199,11 +110330,13 @@
           },
           "comment": {
             "type": "string",
+            "default": "",
             "description": "Comment associated with the request.",
             "example": "comment"
           },
           "overrideApproverID": {
             "type": "string",
+            "default": "",
             "description": "Optional field for ServiceNow Administrators to specify which member of a governance group to override/approve on behalf of.",
             "example": "12345678901234567890123456789012"
           }
@@ -110276,14 +110409,20 @@
       },
       "approvalrejectrequest": {
         "type": "object",
+        "x-sailpoint-lint-ignore": {
+          "schema-property-names-must-be-camel-case": "Property \"overrideApproverID\" matches the sp-approvals wire JSON; do not rename in the spec (SailPoint Rule 118).",
+          "schema-references-must-use-id-names": "Property \"overrideApproverID\" matches the sp-approvals wire JSON; do not rename in the spec (SailPoint Rule 313)."
+        },
         "properties": {
           "comment": {
             "type": "string",
+            "default": "",
             "description": "Comment associated with the reject request.",
             "example": "string"
           },
           "overrideApproverID": {
             "type": "string",
+            "default": "",
             "description": "Optional field for ServiceNow Administrators to specify which member of a governance group to override/reject on behalf of.",
             "example": "12345678901234567890123456789012"
           }
