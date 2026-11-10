@@ -25,11 +25,13 @@ get:
       * `{domainObjectID}`/`DOMAIN_OBJECT`
       * `ENTITLEMENT_DESCRIPTIONS`/`APPROVAL_TYPE`
       * `ACCESS_REQUEST_APPROVAL`/`APPROVAL_TYPE`
+      * `CUSTOM_ACCESS_REQUEST_APPROVAL`/`APPROVAL_TYPE`
       * `ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
       * `MACHINE_ACCOUNT_CREATE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
       * `MACHINE_ACCOUNT_DELETE_APPROVAL_REQUEST`/`APPROVAL_TYPE`
       * `AGENT_ACTIVATE_APPROVAL`/`APPROVAL_TYPE`
       * `AGENT_DEACTIVATE_APPROVAL`/`APPROVAL_TYPE`
+      * `PRIVILEGED_ENTITLEMENT_RECOMMENDATION`/`APPROVAL_TYPE`
       * `{tenantID}`/`TENANT`
 
       Replace placeholders such as `{roleID}` with the actual resource ID.
@@ -48,6 +50,8 @@ get:
       $ref: '../responses/401.yaml'
     '403':
       $ref: '../responses/403.yaml'
+    '404':
+      $ref: '../responses/404.yaml'
     '429':
       $ref: '../responses/429.yaml'
     '500':

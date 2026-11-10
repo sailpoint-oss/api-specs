@@ -1,4 +1,9 @@
 type: object
+x-sailpoint-lint-ignore:
+  schema-property-names-must-not-be-type: >-
+    Property name "type" is part of the existing sp-approvals JSON contract; do not rename in the spec (SailPoint Rule 410).
+  schema-array-names-should-be-plural: >-
+    Array properties escalationChain and serialChain match sp-approvals wire JSON; do not rename in the spec (SailPoint Rule 120).
 properties:
   reminderConfig:
     type: object
@@ -220,6 +225,11 @@ properties:
     example: "ALL"
     description: Determines whether a comment is required when approving or rejecting the approval request.
   fallbackApprover:
+    x-sailpoint-lint-ignore:
+      schema-property-names-must-be-camel-case: >-
+        Nested property "identityID" matches the sp-approvals wire JSON; do not rename in the spec (SailPoint Rule 118).
+      schema-references-must-use-id-names: >-
+        Nested property "identityID" matches the sp-approvals wire JSON; do not rename in the spec (SailPoint Rule 313).
     type: object
     properties:
       identityID:
@@ -306,11 +316,14 @@ properties:
     - "OFF"
     - "DIRECT"
     - "INDIRECT"
+    - "SELF_REQUEST"
     description: OFF will prevent the approval request from being assigned to the requester or requestee by assigning it to their manager instead.
 
       DIRECT when the requester != requestee this will cause steps assigned directly to the requester to be auto-approved.
 
       INDIRECT when the requester != requestee this will cause steps assigned to the requester or a group containing the requester to be auto-approved.
+
+      SELF_REQUEST will cause steps assigned to the requester or a group containing the requester to be auto-approved whether or not the requester is the same as the requestee.
 
       This field will only be effective if requestedTarget.reauthRequired is set to false, otherwise the approval will have to be manually approved.
     example: "OFF"

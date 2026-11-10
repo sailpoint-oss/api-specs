@@ -1,4 +1,9 @@
 type: object
+x-sailpoint-lint-ignore:
+  schema-property-names-must-be-camel-case: >-
+    Property "commentID" matches the sp-approvals wire JSON; do not rename in the spec (SailPoint Rule 118).
+  schema-references-must-use-id-names: >-
+    Property "commentID" matches the sp-approvals wire JSON; do not rename in the spec (SailPoint Rule 313).
 properties:
   commentID:
     type: string

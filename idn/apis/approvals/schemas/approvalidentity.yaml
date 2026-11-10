@@ -1,8 +1,18 @@
 type: object
 title: Approval Identity
+x-sailpoint-lint-ignore:
+  schema-property-names-must-not-be-type: >-
+    Property name "type" is part of the existing sp-approvals JSON contract; do not rename in the spec (SailPoint Rule 410).
+  schema-property-names-must-be-camel-case: >-
+    Property "identityID" matches the sp-approvals wire JSON; do not rename in the spec (SailPoint Rule 118).
+  schema-references-must-use-id-names: >-
+    Property "identityID" matches the sp-approvals wire JSON; do not rename in the spec (SailPoint Rule 313).
+  schema-array-names-should-be-plural: >-
+    Array property ownerOf matches sp-approvals wire JSON; do not rename in the spec (SailPoint Rule 120).
 properties:
   email:
     type: string
+    format: email
     example: mail@mail.com
     description: Email address.
   identityID:
@@ -16,6 +26,7 @@ properties:
       properties:
         email:
           type: string
+          format: email
           example: mail@mail.com
           description: Email of the member.
         id:

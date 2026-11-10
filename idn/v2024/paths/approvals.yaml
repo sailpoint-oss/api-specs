@@ -1,4 +1,7 @@
 get:
+  x-sailpoint-lint-ignore:
+    path-list-operations-must-return-object: >-
+      sp-approvals returns a top-level JSON array for this list; the documented wire format must match the service (SailPoint Rule 110).
   security:
     - userAuth:
         - idn:access-request-approvals:read
@@ -21,12 +24,13 @@ get:
         type: boolean
         default: true
       description: Returns the list of approvals for the current caller
-      example: 'true'
+      example: true
     - in: query
       name: requesterId
       required: false
       schema:
         type: string
+        default: ""
       description: Returns the list of approvals for a given requester ID
       example: 17e633e7d57e481569df76323169deb6a
     - in: query
@@ -34,6 +38,7 @@ get:
       required: false
       schema:
         type: string
+        default: ""
       description: |-
         Filter results using the standard syntax described in [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#filtering-results)
 

@@ -1,5 +1,12 @@
 type: object
 title: Approval
+x-sailpoint-lint-ignore:
+  schema-property-names-must-not-be-type: >-
+    Property name "type" is part of the existing sp-approvals JSON contract; do not rename in the spec (SailPoint Rule 410).
+  schema-array-names-should-be-plural: >-
+    Locale list fields use singular wire keys "name" and "description" in sp-approvals; do not rename in the spec (SailPoint Rule 120).
+  schema-boolean-names-should-not-use-qualifying-verbs: >-
+    Property "isEscalated" matches the sp-approvals wire JSON; do not rename in the spec (SailPoint Rule 311).
 properties:
   id:
     type: string
@@ -20,15 +27,17 @@ properties:
     description: Object representation of an approver of an approval
   createdDate:
     type: string
+    format: date-time
     example: 2023-04-12T23:20:50.52Z
     description: Date the approval was created
   dueDate:
     type: string
+    format: date-time
     example: 2024-05-12T23:10:50.11Z
     description: Date the approval is due
   escalationStep:
     type: string
-    example: 0
+    example: "0"
     description: Step in the escalation process. If set to 0, the approval is not escalated. If set to 1, the approval is escalated to the first approver in the escalation chain.
   serialStep:
     type: integer
@@ -107,6 +116,7 @@ properties:
     description: Array of identities that the approval request is currently assigned to/waiting on. For parallel approvals, this is set to all approvers left to approve.
   completedDate:
     type: string
+    format: date-time
     example: 2023-04-12T23:20:50.52Z
     description: Date the approval was completed
   approvalCriteria:
@@ -179,8 +189,6 @@ properties:
     description: Date/time that the approval request was last updated
     example: "2023-10-01T12:34:56.789Z"
   requestedTarget:
-    type: array
-    items:
-      $ref: '../schemas/ApprovalRequestedTarget.yaml'
+    $ref: '../schemas/ApprovalRequestedTarget.yaml'
     description: RequestedTarget used to specify the actual object or target the approval request is for
 description: Approval Object
