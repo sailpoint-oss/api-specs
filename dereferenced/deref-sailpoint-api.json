@@ -60861,7 +60861,7 @@
           "Machine Identity Lifecycle Actions"
         ],
         "summary": "Submit machine identity lifecycle action",
-        "description": "Creates a lifecycle request for the target machine identity and returns the created lifecycle\nsnapshot.\n\n**Note:** Lifecycle actions are currently supported only for machine identities of type **Agent**.\n\nThe response includes the generated `requestId`, which is used by\nhttps://developer.sailpoint.com/docs/api/list-machine-identity-lifecycle-actions-v-1,\nhttps://developer.sailpoint.com/docs/api/get-machine-identity-lifecycle-action-v-1, and\nhttps://developer.sailpoint.com/docs/api/cancel-machine-identity-lifecycle-action-v-1\n\nAuthorization is enforced in the service layer. Callers must have the\n`idn:machine-identity-lifecycle-action:manage` scope or role-context access to the target machine\nidentity (organization admin, source admin, scoped source sub-admin, or effective owner).\n\nSupported actions are `DEACTIVATE`, `ACTIVATE`.\n",
+        "description": "Submits a request to activate or deactivate a machine identity. Supported actions are `ACTIVATE`\nand `DEACTIVATE`.\n\n**Note:** Lifecycle actions are currently supported only for machine identities of type **Agent**.\n\nThe response includes a `requestId`. Use it to\n[get the request](https://developer.sailpoint.com/docs/api/get-machine-identity-lifecycle-action-v-1) or\n[cancel it](https://developer.sailpoint.com/docs/api/cancel-machine-identity-lifecycle-action-v-1).\nTo see all the requests you've submitted, use\n[list machine identity lifecycle actions](https://developer.sailpoint.com/docs/api/list-machine-identity-lifecycle-actions-v-1).\n\nOnly one lifecycle action can be in progress for a machine identity at a time. If another action is\nalready in progress for the machine identity, the request is rejected.\n\nTo submit a lifecycle action, you need the `idn:machine-identity:lifecycle-action` right, or admin or\nowner access to the machine identity. Admin or owner access means you're an org admin, a source admin,\na source sub-admin for the machine identity's source, or the machine identity's owner.\n",
         "security": [
           {
             "userAuth": [
@@ -60892,10 +60892,10 @@
             "name": "X-SailPoint-Experimental",
             "in": "header",
             "description": "Use this header to enable this experimental API.",
-            "example": true,
+            "example": "true",
             "schema": {
               "type": "string",
-              "default": true
+              "default": "true"
             },
             "required": true
           }
@@ -60956,12 +60956,15 @@
     },
     "/machine-identities/v1/lifecycle-actions": {
       "get": {
+        "x-sailpoint-lint-ignore": {
+          "path-list-operations-must-return-object": "The list response is already released as a top-level array. Wrapping it in an object would break existing callers."
+        },
         "operationId": "listMachineIdentityLifecycleActionsV1",
         "tags": [
           "Machine Identity Lifecycle Actions"
         ],
-        "summary": "List lifecycle actions",
-        "description": "Lists lifecycle requests visible to the requester identity in the current request context.\n\nResults are automatically scoped to the calling identity. If requester identity context is\nmissing, an empty list is returned.\n\nWhen `limit` is omitted, this endpoint applies a default limit of 50.\n",
+        "summary": "List machine identity lifecycle actions",
+        "description": "Returns the lifecycle action requests that you submitted. Requests that other users submitted\naren't included, even if you're an admin. If the call isn't made on behalf of an identity, the list\nis empty.\n\nWhen `limit` is omitted, up to 50 results are returned.\n",
         "security": [
           {
             "userAuth": [
@@ -60979,11 +60982,14 @@
           {
             "in": "query",
             "name": "filters",
+            "x-sailpoint-lint-ignore": {
+              "schema-optional-properties-must-have-default": "There is no default filter. When filters is omitted, results aren't filtered."
+            },
             "required": false,
             "schema": {
               "type": "string"
             },
-            "description": "Filter results using the standard syntax described in [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**resourceType**: *eq, in*\n\n**operationType**: *eq, in*\n\n**status**: *eq, in*\n\n**completed**: *eq*\n\n**targetId**: *eq*\n\n**targetName**: *eq, sw*\n\n**sourceId**: *eq*\n\n**created**: *gt, ge, lt, le*",
+            "description": "Filter results using the standard syntax described in [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#filtering-results)\n\nFiltering is supported for the following fields and operators:\n\n**resourceType**: *eq, in*\n\n**operationType**: *eq, in*\n\n**status**: *eq, in*\n\n**completed**: *eq*\n\n**targetId**: *eq*\n\n**targetName**: *eq, sw*\n\n**sourceId**: *eq*\n\n**created**: *gt, ge, lt, le*\n\nThe `resourceType` filter matches the `targetType` field in the response.",
             "example": "status in (\"RECEIVED\",\"COMPLETED\")"
           },
           {
@@ -60991,7 +60997,8 @@
             "name": "sorters",
             "schema": {
               "type": "string",
-              "format": "comma-separated"
+              "format": "comma-separated",
+              "default": "-created"
             },
             "required": false,
             "description": "Sort results using the standard syntax described in [API Standard Collection Parameters](https://developer.sailpoint.com/docs/api/standard-collection-parameters#sorting-results)\n\nSorting is supported for the following fields: **created, modified, status**\n\nDefault sort is **-created** (newest first).",
@@ -61021,19 +61028,22 @@
             "name": "X-SailPoint-Experimental",
             "in": "header",
             "description": "Use this header to enable this experimental API.",
-            "example": true,
+            "example": "true",
             "schema": {
               "type": "string",
-              "default": true
+              "default": "true"
             },
             "required": true
           }
         ],
         "responses": {
           "200": {
-            "description": "List of lifecycle action requests for the requester.",
+            "description": "Lifecycle action requests that you submitted.",
             "headers": {
               "X-Total-Count": {
+                "x-sailpoint-lint-ignore": {
+                  "path-response-headers-must-be-lowercase-kebab-case": "X-Total-Count is the standard header name used across SailPoint APIs. HTTP header names aren't case-sensitive."
+                },
                 "description": "The total result count (returned when count=true is passed).",
                 "schema": {
                   "type": "integer",
@@ -61041,7 +61051,10 @@
                 }
               },
               "Cache-Control": {
-                "description": "Response cache directive for requester-scoped polling.",
+                "x-sailpoint-lint-ignore": {
+                  "path-response-headers-must-be-lowercase-kebab-case": "Cache-Control is a standard HTTP header. HTTP header names aren't case-sensitive."
+                },
+                "description": "How long the client can cache the response.",
                 "schema": {
                   "type": "string",
                   "example": "private, max-age=5"
@@ -61083,8 +61096,8 @@
         "tags": [
           "Machine Identity Lifecycle Actions"
         ],
-        "summary": "Get lifecycle action by requestId",
-        "description": "Returns one lifecycle request snapshot by `requestId`. Used for request-level inspection,\nincluding cancel acceptance and subsequent status changes.\n\nThe original requester is always allowed to read their request. Otherwise, callers must have\nthe `idn:machine-identity-lifecycle-action:manage` scope **and** role-context access to the target\nmachine identity (organization admin, source admin, scoped source sub-admin, or effective owner).\n\n**403 Forbidden**\n\n- `FORBIDDEN.lifecycle-request-access-denied` - caller is not the submitter and lacks both the\n  `idn:machine-identity-lifecycle-action:manage` scope and target role-context (response includes `requestId` as a parameter).\n- `FORBIDDEN.unsupported-type` - the persisted lifecycle row is not scoped to `AI_AGENT`\n  (`targetType` on read-by-request-id paths).\n\n**404 Not Found**\n\n- `NOT_FOUND.detailed` - unknown `requestId`, or persisted `targetType` does not match the\n  target machine identity's subtype-to-resource-type mapping.\n",
+        "summary": "Get machine identity lifecycle action",
+        "description": "Returns a single lifecycle action request, including its current status, approval details, and\nprovisioning progress. Use it to follow a request after you submit or cancel it.\n\nYou can always view requests that you submitted. To view a request that someone else submitted, you\nneed the `idn:machine-identity:lifecycle-action` right **and** admin or owner access to the machine\nidentity. Admin or owner access means you're an org admin, a source admin, a source sub-admin for the\nmachine identity's source, or the machine identity's owner.\n",
         "security": [
           {
             "userAuth": [
@@ -61115,17 +61128,17 @@
             "name": "X-SailPoint-Experimental",
             "in": "header",
             "description": "Use this header to enable this experimental API.",
-            "example": true,
+            "example": "true",
             "schema": {
               "type": "string",
-              "default": true
+              "default": "true"
             },
             "required": true
           }
         ],
         "responses": {
           "200": {
-            "description": "Lifecycle action request snapshot.",
+            "description": "The lifecycle action request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -61161,8 +61174,8 @@
         "tags": [
           "Machine Identity Lifecycle Actions"
         ],
-        "summary": "Cancel lifecycle action",
-        "description": "Attempts to cancel a lifecycle request before provisioning starts.\n\nThe path `requestId` is authoritative for lookup and authorization. The request body is\noptional and may carry cancel metadata such as `comment`. Any `requestId` value in the body is\nignored.\n\nWorkflow cancel signaling is attempted before the request is persisted as `CANCELING`. If\nsignaling fails, the service returns **503** (`DOWNSTREAM_SERVICE_UNAVAILABLE`, cause\n`workflow-signal-failed`) and the lifecycle request status is unchanged.\n\nInvalid cancel states are returned as **400** (`INVALID_REQUEST_IN_CURRENT_STATE` variants).\n\nCancel authorization matches https://developer.sailpoint.com/docs/api/get-machine-identity-lifecycle-action-v-1:\nthe original submitter is always allowed; otherwise callers must have the\n`idn:machine-identity-lifecycle-action:manage` scope **and** target role-context access.\n\n**403 Forbidden**\n\n- `FORBIDDEN.lifecycle-request-access-denied` - caller is not the submitter and lacks both the\n  `idn:machine-identity-lifecycle-action:manage` scope and target role-context.\n- `FORBIDDEN.unsupported-type` - the persisted lifecycle row is not scoped to `AI_AGENT`.\n\n**404 Not Found**\n\n- `NOT_FOUND.detailed` - unknown `requestId`, or persisted `targetType`/target-identity subtype\n  mismatch.\n",
+        "summary": "Cancel machine identity lifecycle action",
+        "description": "Cancels a lifecycle action request that hasn't started provisioning yet. When the cancel is\naccepted, the request moves to `CANCELING` status.\n\nA request can't be canceled once provisioning has started, after it has finished, or while a cancel\nis already in progress.\n\nThe request body is optional. Use it to add a comment explaining why the request was canceled.\n\nYou can always cancel requests that you submitted. To cancel a request that someone else submitted,\nyou need the `idn:machine-identity:lifecycle-action` right **and** admin or owner access to the\nmachine identity. Admin or owner access means you're an org admin, a source admin, a source sub-admin\nfor the machine identity's source, or the machine identity's owner.\n\nIf the cancel can't be completed, the API returns an error and the request stays in `CANCELING`\nstatus.\n",
         "security": [
           {
             "userAuth": [
@@ -61193,10 +61206,10 @@
             "name": "X-SailPoint-Experimental",
             "in": "header",
             "description": "Use this header to enable this experimental API.",
-            "example": true,
+            "example": "true",
             "schema": {
               "type": "string",
-              "default": true
+              "default": "true"
             },
             "required": true
           }
@@ -137647,6 +137660,22 @@
           }
         }
       },
+      "lifecyclestatus": {
+        "type": "string",
+        "description": "Status of the lifecycle action request.",
+        "enum": [
+          "RECEIVED",
+          "PENDING_APPROVAL",
+          "APPROVED",
+          "REJECTED",
+          "PROVISIONING",
+          "COMPLETED",
+          "FAILED",
+          "CANCELING",
+          "CANCELED"
+        ],
+        "example": "RECEIVED"
+      },
       "lifecycleactionsubmitresponse": {
         "type": "object",
         "title": "Lifecycle Action Submit Response",
@@ -137665,9 +137694,7 @@
             "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
           },
           "status": {
-            "type": "string",
-            "description": "Initial lifecycle request status.",
-            "example": "RECEIVED"
+            "$ref": "#/components/schemas/lifecyclestatus"
           },
           "action": {
             "$ref": "#/components/schemas/lifecycleaction"
@@ -137675,12 +137702,12 @@
           "targetId": {
             "type": "string",
             "format": "uuid",
-            "description": "Internal machine identity UUID for the lifecycle target.",
+            "description": "ID of the machine identity the request applies to.",
             "example": "1c9c8e1f-2f5f-4f77-9f7e-5d37e4fb3ef0"
           },
           "resourceId": {
             "type": "string",
-            "description": "Connector resource id for the lifecycle target, when present.",
+            "description": "ID of the machine identity in its source system, when available.",
             "example": "aws:bedrock:agent-42"
           },
           "createdAt": {
@@ -137690,22 +137717,6 @@
             "example": "2026-05-26T19:00:00Z"
           }
         }
-      },
-      "lifecyclestatus": {
-        "type": "string",
-        "description": "Detailed lifecycle request status stored on the lifecycle action request.",
-        "enum": [
-          "RECEIVED",
-          "PENDING_APPROVAL",
-          "APPROVED",
-          "REJECTED",
-          "PROVISIONING",
-          "COMPLETED",
-          "FAILED",
-          "CANCELING",
-          "CANCELED"
-        ],
-        "example": "RECEIVED"
       },
       "lifecycleapproverref": {
         "type": "object",
@@ -137783,7 +137794,7 @@
           "commentId": {
             "type": "string",
             "description": "Server-assigned comment identifier.",
-            "example": "cmt-001"
+            "example": "9f3c2b7e-5a1d-4c8e-b6f0-2d4a7e9c1b53"
           },
           "author": {
             "$ref": "#/components/schemas/lifecyclecommentauthorref"
@@ -137804,37 +137815,37 @@
       "lifecycleresourcesummary": {
         "type": "object",
         "title": "Lifecycle Resource Summary",
-        "description": "Cached resource context for the lifecycle target.",
+        "description": "Details of the machine identity at the time the request was submitted.",
         "properties": {
           "id": {
             "type": "string",
             "format": "uuid",
-            "description": "Internal machine identity UUID for the lifecycle target.",
+            "description": "ID of the machine identity.",
             "example": "1c9c8e1f-2f5f-4f77-9f7e-5d37e4fb3ef0"
           },
           "resourceId": {
             "type": "string",
-            "description": "Connector resource id for the lifecycle target.",
+            "description": "ID of the machine identity in its source system.",
             "example": "aws:bedrock:agent-42"
           },
           "name": {
             "type": "string",
-            "description": "Display name of the lifecycle target.",
+            "description": "Name of the machine identity.",
             "example": "Support Agent"
           },
           "sourceId": {
             "type": "string",
-            "description": "Source identifier for the lifecycle target.",
+            "description": "ID of the source the machine identity belongs to.",
             "example": "6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa"
           },
           "sourceName": {
             "type": "string",
-            "description": "Source name for the lifecycle target.",
+            "description": "Name of the source the machine identity belongs to.",
             "example": "AWS Bedrock"
           },
           "subtype": {
             "type": "string",
-            "description": "Machine identity subtype for the lifecycle target.",
+            "description": "Type of machine identity.",
             "example": "AI_AGENT"
           }
         }
@@ -137866,7 +137877,7 @@
       },
       "lifecycleprovisioningstatus": {
         "type": "string",
-        "description": "Provisioning execution status for the downstream workflow window.",
+        "description": "Status of provisioning the change to the machine identity's source.",
         "enum": [
           "NOT_STARTED",
           "IN_PROGRESS",
@@ -137878,7 +137889,7 @@
       "lifecycleprovisioning": {
         "type": "object",
         "title": "Lifecycle Provisioning",
-        "description": "Provisioning execution window for the lifecycle request.",
+        "description": "Provisioning status for the lifecycle request, with when provisioning started and ended.",
         "properties": {
           "status": {
             "$ref": "#/components/schemas/lifecycleprovisioningstatus"
@@ -137900,7 +137911,7 @@
       "lifecycleactionrequestdetails": {
         "type": "object",
         "title": "Lifecycle Action Request Details",
-        "description": "Nested lifecycle execution context stored on the lifecycle request.",
+        "description": "Details of the lifecycle request, including its status, approval, comments, and provisioning.",
         "properties": {
           "status": {
             "$ref": "#/components/schemas/lifecyclestatus"
@@ -137933,14 +137944,14 @@
           },
           "comments": {
             "type": "array",
-            "description": "Append-only comment thread for the lifecycle request.",
+            "description": "Comments on the lifecycle request, in the order they were added.",
             "items": {
               "$ref": "#/components/schemas/lifecyclecomment"
             }
           },
           "failurePhase": {
             "type": "string",
-            "description": "Workflow phase where the request failed, when applicable.",
+            "description": "Stage where the request failed, when applicable.",
             "example": "WORKFLOW_START"
           },
           "failureReason": {
@@ -137953,7 +137964,7 @@
           },
           "resourceOwners": {
             "type": "array",
-            "description": "Cached resource owners for the lifecycle target.",
+            "description": "Owners of the machine identity at the time the request was submitted.",
             "items": {
               "$ref": "#/components/schemas/lifecycleownerref"
             }
@@ -137966,13 +137977,13 @@
           },
           "approvalRequestId": {
             "type": "string",
-            "description": "Approvals identifier when the request was submitted.",
+            "description": "ID of the approval request created for this lifecycle request.",
             "example": "a0220198-4b01-444b-8ac3-7a8a147a3791"
           },
           "approvalSettingsId": {
             "type": "string",
-            "description": "Approval settings identifier used for the request.",
-            "example": "approval-settings-001"
+            "description": "ID of the approval settings used for the request.",
+            "example": "6d28b7c1-620c-49c6-b6d5-cbf81eb4b5fa_aws:bedrock:agent-42"
           },
           "provisioning": {
             "$ref": "#/components/schemas/lifecycleprovisioning"
@@ -137992,21 +138003,24 @@
           "tenantId": {
             "type": "string",
             "description": "Tenant identifier for the lifecycle request.",
-            "example": "tenant-001"
+            "example": "3b6f2a1e-8c4d-4e9a-9f2b-7d5c1e0a6b38"
           },
           "statusType": {
             "type": "string",
-            "description": "Generic request status type discriminator.",
+            "description": "Type of request. Always `LIFECYCLE_ACTIONS_REQUEST` for lifecycle action requests.",
             "example": "LIFECYCLE_ACTIONS_REQUEST"
           },
           "requestedBy": {
+            "x-sailpoint-lint-ignore": {
+              "schema-references-must-use-id-names": "The field is already released as requestedBy. Renaming it would break existing callers."
+            },
             "type": "string",
-            "description": "Identity id of the principal that submitted the request.",
+            "description": "ID of the identity that submitted the request.",
             "example": "2c9180858082150f0180893dbaf44201"
           },
           "targetType": {
             "type": "string",
-            "description": "Resource type targeted by the lifecycle request.",
+            "description": "Type of machine identity the request applies to.",
             "enum": [
               "AI_AGENT"
             ],
@@ -138015,7 +138029,7 @@
           "targetId": {
             "type": "string",
             "format": "uuid",
-            "description": "Internal machine identity UUID for the lifecycle target.",
+            "description": "ID of the machine identity the request applies to.",
             "example": "1c9c8e1f-2f5f-4f77-9f7e-5d37e4fb3ef0"
           },
           "operationType": {
@@ -138023,12 +138037,12 @@
           },
           "workflowId": {
             "type": "string",
-            "description": "Temporal workflow identifier for the lifecycle request.",
+            "description": "Identifier of the workflow that processes the request.",
             "example": "sp:resource-lifecycle:AI_AGENT:a1b2c3d4-e5f6-7890-abcd-ef1234567890"
           },
           "completed": {
             "type": "boolean",
-            "description": "Indicates whether the lifecycle request has reached a terminal state.",
+            "description": "Indicates whether the request has finished. A request is finished when its status is `COMPLETED`, `REJECTED`, `FAILED`, or `CANCELED`.",
             "default": false,
             "example": false
           },
@@ -138052,9 +138066,12 @@
       "cancellifecycleactionrequest": {
         "type": "object",
         "title": "Cancel Lifecycle Action Request",
-        "description": "Optional cancel metadata. The path `requestId`.",
+        "description": "Optional details for the cancel request. The request to cancel is identified by the `requestId` in the path.",
         "properties": {
           "comment": {
+            "x-sailpoint-lint-ignore": {
+              "schema-optional-properties-must-have-default": "There is no default comment. When comment is omitted, no comment is added."
+            },
             "type": "string",
             "description": "Optional cancel comment appended to the lifecycle request comment thread.",
             "maxLength": 1000,
@@ -138080,7 +138097,10 @@
           },
           "status": {
             "type": "string",
-            "description": "Updated lifecycle request status after cancel acceptance.",
+            "description": "Status of the request after the cancel is accepted. Always `CANCELING`.",
+            "enum": [
+              "CANCELING"
+            ],
             "example": "CANCELING"
           },
           "action": {
@@ -138089,12 +138109,12 @@
           "targetId": {
             "type": "string",
             "format": "uuid",
-            "description": "Internal machine identity UUID for the lifecycle target.",
+            "description": "ID of the machine identity the request applies to.",
             "example": "1c9c8e1f-2f5f-4f77-9f7e-5d37e4fb3ef0"
           },
           "resourceId": {
             "type": "string",
-            "description": "Connector resource id for the lifecycle target, when present.",
+            "description": "ID of the machine identity in its source system, when available.",
             "example": "aws:bedrock:agent-42"
           }
         }
