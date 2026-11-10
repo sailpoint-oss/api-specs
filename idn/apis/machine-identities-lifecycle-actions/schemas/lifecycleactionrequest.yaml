@@ -9,35 +9,39 @@ properties:
   tenantId:
     type: string
     description: Tenant identifier for the lifecycle request.
-    example: tenant-001
+    example: 3b6f2a1e-8c4d-4e9a-9f2b-7d5c1e0a6b38
   statusType:
     type: string
-    description: Generic request status type discriminator.
+    description: Type of request. Always `LIFECYCLE_ACTIONS_REQUEST` for lifecycle action requests.
     example: LIFECYCLE_ACTIONS_REQUEST
   requestedBy:
+    x-sailpoint-lint-ignore:
+      schema-references-must-use-id-names: The field is already released as requestedBy. Renaming it would break existing callers.
     type: string
-    description: Identity id of the principal that submitted the request.
+    description: ID of the identity that submitted the request.
     example: 2c9180858082150f0180893dbaf44201
   targetType:
     type: string
-    description: Resource type targeted by the lifecycle request.
+    description: Type of machine identity the request applies to.
     enum:
       - AI_AGENT
     example: AI_AGENT
   targetId:
     type: string
     format: uuid
-    description: Internal machine identity UUID for the lifecycle target.
+    description: ID of the machine identity the request applies to.
     example: 1c9c8e1f-2f5f-4f77-9f7e-5d37e4fb3ef0
   operationType:
     $ref: ./lifecycleaction.yaml
   workflowId:
     type: string
-    description: Temporal workflow identifier for the lifecycle request.
+    description: Identifier of the workflow that processes the request.
     example: sp:resource-lifecycle:AI_AGENT:a1b2c3d4-e5f6-7890-abcd-ef1234567890
   completed:
     type: boolean
-    description: Indicates whether the lifecycle request has reached a terminal state.
+    description: >-
+      Indicates whether the request has finished. A request is finished when its status is `COMPLETED`,
+      `REJECTED`, `FAILED`, or `CANCELED`.
     default: false
     example: false
   details:

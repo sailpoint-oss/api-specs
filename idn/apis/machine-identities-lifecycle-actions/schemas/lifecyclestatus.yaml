@@ -1,5 +1,5 @@
 type: string
-description: Detailed lifecycle request status stored on the lifecycle action request.
+description: Status of the lifecycle action request.
 enum:
   - RECEIVED
   - PENDING_APPROVAL

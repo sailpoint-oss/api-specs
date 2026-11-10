@@ -1,6 +1,6 @@
 type: object
 title: Lifecycle Provisioning
-description: Provisioning execution window for the lifecycle request.
+description: Provisioning status for the lifecycle request, with when provisioning started and ended.
 properties:
   status:
     $ref: ./lifecycleprovisioningstatus.yaml

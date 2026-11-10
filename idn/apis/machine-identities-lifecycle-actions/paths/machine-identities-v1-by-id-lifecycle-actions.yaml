@@ -4,21 +4,23 @@ post:
   - Machine Identity Lifecycle Actions
   summary: Submit machine identity lifecycle action
   description: |
-    Creates a lifecycle request for the target machine identity and returns the created lifecycle
-    snapshot.
+    Submits a request to activate or deactivate a machine identity. Supported actions are `ACTIVATE`
+    and `DEACTIVATE`.
 
     **Note:** Lifecycle actions are currently supported only for machine identities of type **Agent**.
 
-    The response includes the generated `requestId`, which is used by
-    https://developer.sailpoint.com/docs/api/list-machine-identity-lifecycle-actions-v-1,
-    https://developer.sailpoint.com/docs/api/get-machine-identity-lifecycle-action-v-1, and
-    https://developer.sailpoint.com/docs/api/cancel-machine-identity-lifecycle-action-v-1
+    The response includes a `requestId`. Use it to
+    [get the request](https://developer.sailpoint.com/docs/api/get-machine-identity-lifecycle-action-v-1) or
+    [cancel it](https://developer.sailpoint.com/docs/api/cancel-machine-identity-lifecycle-action-v-1).
+    To see all the requests you've submitted, use
+    [list machine identity lifecycle actions](https://developer.sailpoint.com/docs/api/list-machine-identity-lifecycle-actions-v-1).
 
-    Authorization is enforced in the service layer. Callers must have the
-    `idn:machine-identity-lifecycle-action:manage` scope or role-context access to the target machine
-    identity (organization admin, source admin, scoped source sub-admin, or effective owner).
+    Only one lifecycle action can be in progress for a machine identity at a time. If another action is
+    already in progress for the machine identity, the request is rejected.
 
-    Supported actions are `DEACTIVATE`, `ACTIVATE`.
+    To submit a lifecycle action, you need the `idn:machine-identity:lifecycle-action` right, or admin or
+    owner access to the machine identity. Admin or owner access means you're an org admin, a source admin,
+    a source sub-admin for the machine identity's source, or the machine identity's owner.
   security:
   - userAuth:
     - idn:mis-identity:manage
@@ -40,10 +42,10 @@ post:
   - name: X-SailPoint-Experimental
     in: header
     description: Use this header to enable this experimental API.
-    example: true
+    example: 'true'
     schema:
       type: string
-      default: true
+      default: 'true'
     required: true
   requestBody:
     required: true

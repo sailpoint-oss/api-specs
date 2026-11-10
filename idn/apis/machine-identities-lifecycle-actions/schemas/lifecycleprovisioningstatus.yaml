@@ -1,5 +1,5 @@
 type: string
-description: Provisioning execution status for the downstream workflow window.
+description: Status of provisioning the change to the machine identity's source.
 enum:
   - NOT_STARTED
   - IN_PROGRESS
