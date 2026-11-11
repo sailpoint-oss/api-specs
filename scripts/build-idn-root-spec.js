@@ -27,7 +27,7 @@ const SECURITY_SCHEMES = {
     type: "oauth2",
     "x-displayName": "Personal Access Token",
     description:
-      "OAuth2 Bearer token (JWT) generated using either a [personal access token (PAT)](https://developer.sailpoint.com/docs/api/authentication/#generate-a-personal-access-token) or through the [authorization code flow](https://developer.sailpoint.com/docs/api/authentication/#request-access-token-with-authorization-code-grant-flow).\n\nPersonal access tokens are associated with a user in Identity Security Cloud and relies on the user's [user level](https://documentation.sailpoint.com/saas/help/common/users/index.html) (ex. Admin, Helpdesk, etc.) to determine a base level of access.\n\nSee [Identity Security Cloud REST API Authentication](https://developer.sailpoint.com/docs/api/authentication/) for more information.\n",
+      "OAuth2 Bearer token (JWT) generated using either a [personal access token (PAT)](https://developer.sailpoint.com/docs/api/authentication/#generate-a-personal-access-token) or through the [authorization code flow](https://developer.sailpoint.com/docs/api/authentication/#request-access-token-with-authorization-code-grant-flow).\n\nPersonal access tokens are associated with a user in SailPoint Identity Security and relies on the user's [user level](https://documentation.sailpoint.com/saas/help/common/users/index.html) (ex. Admin, Helpdesk, etc.) to determine a base level of access.\n\nSee [SailPoint Identity Security REST API Authentication](https://developer.sailpoint.com/docs/api/authentication/) for more information.\n",
     flows: {
       clientCredentials: {
         tokenUrl: "https://example-tenant.api.identitynow.com/oauth/token",
@@ -50,7 +50,7 @@ const SECURITY_SCHEMES = {
     type: "oauth2",
     "x-displayName": "Client Credentials",
     description:
-      "OAuth2 Bearer token (JWT) generated using [client credentials flow](https://developer.sailpoint.com/docs/api/authentication/#request-access-token-with-client-credentials-grant-flow).\n\nClient credentials refers to tokens that are not associated with a user in Identity Security Cloud.\n\nSee [Identity Security Cloud REST API Authentication](https://developer.sailpoint.com/docs/api/authentication/) for more information.\n",
+      "OAuth2 Bearer token (JWT) generated using [client credentials flow](https://developer.sailpoint.com/docs/api/authentication/#request-access-token-with-client-credentials-grant-flow).\n\nClient credentials refers to tokens that are not associated with a user in SailPoint Identity Security.\n\nSee [SailPoint Identity Security REST API Authentication](https://developer.sailpoint.com/docs/api/authentication/) for more information.\n",
     flows: {
       clientCredentials: {
         tokenUrl: "https://example-tenant.api.identitynow.com/oauth/token",
