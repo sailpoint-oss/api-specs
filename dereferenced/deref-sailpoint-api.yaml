@@ -1520,7 +1520,7 @@ tags:
       For example you can set the iFrameWhitelist parameter to permit another domain to encapsulate IDN within an iframe or set the usernameEmptyText to change the placeholder text for Username on your tenant's login screen.
   - name: UI Plugins
     description: |-
-      UI Plugins let you extend the SailPoint Identity Security (ISC) user interface with your own custom web applications. Rather than building a separate app that lives outside the platform, a UI plugin is a micro-frontend that ISC loads directly into designated **slots** in its UI — so your custom experience runs inside ISC, using the tenant's session and honoring its security model. UI Plugins are a licensed feature. 
+      UI Plugins let you extend the SailPoint Identity Security user interface with your own custom web applications. Rather than building a separate app that lives outside the platform, a UI plugin is a micro-frontend that SailPoint Identity Security loads directly into designated **slots** in its UI — so your custom experience runs inside SailPoint Identity Security, using the tenant's session and honoring its security model. UI Plugins are a licensed feature. 
       The best way to interact with the UI Plugins API is to use the [SailPoint CLI](https://developer.sailpoint.com/docs/tools/cli). Alternatively, you can use the REST APIs for tenant UI plugin instance lifecycle (CRUD, alias validate/resolve, local-dev linking), asset bundle upload, and the static UI plugin slot registry.
   - name: Work Items
     description: |
@@ -62707,7 +62707,7 @@ paths:
       summary: Delete objects for source dataset
       description: |
         Starts a task to delete aggregated objects for the specified dataset on the source in SailPoint Identity
-        Security (SailPoint Identity Security). Linked dataset and resource definitions are not deleted.
+        Security. Linked dataset and resource definitions are not deleted.
       parameters:
         - in: path
           name: sourceId
@@ -62929,7 +62929,7 @@ paths:
       summary: Get source resource mappings
       description: |
         Use this API to get aggregation metadata for resources on the specified source in SailPoint Identity
-        Security (SailPoint Identity Security). The response is keyed by resource id. Each value includes the linked
+        Security. The response is keyed by resource id. Each value includes the linked
         dataset id, resource type, and connector object type. Resources without a matching schema are
         omitted.
       parameters:
@@ -64442,7 +64442,7 @@ paths:
         - Sources
       summary: List source service desk integrations
       description: |-
-        Use this API to list the Service Desk Integrations that carry out provisioning for a source in SailPoint Identity Security (SailPoint Identity Security).
+        Use this API to list the Service Desk Integrations that carry out provisioning for a source in SailPoint Identity Security.
 
         A source is provisioned either entirely through its own connector or entirely through a Service Desk Integration; provisioning is never split between the two. An empty list therefore means the source's own connector handles provisioning, and a non-empty list means every provisioning request for the source is routed to the integrations named in the response.
 
@@ -69279,7 +69279,7 @@ paths:
               name:
                 en: My Custom Plugin
               description:
-                en: Extends the ISC UI with custom workflows
+                en: Extends the SailPoint Identity Security UI with custom workflows
               apiScopes:
                 - idn:account:read
               slots:
@@ -122111,7 +122111,7 @@ components:
         requiredCapabilities:
           type: array
           maxItems: 10
-          description: ISC capabilities the user must hold (AND logic) to see this plugin in the slot. Empty means unrestricted.
+          description: SailPoint Identity Security capabilities the user must hold (AND logic) to see this plugin in the slot. Empty means unrestricted.
           items:
             type: string
             enum:

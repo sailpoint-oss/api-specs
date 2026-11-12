@@ -16,7 +16,7 @@ post:
   summary: Delete objects for source dataset
   description: |
     Starts a task to delete aggregated objects for the specified dataset on the source in SailPoint Identity
-    Security (SailPoint Identity Security). Linked dataset and resource definitions are not deleted.
+    Security. Linked dataset and resource definitions are not deleted.
   parameters:
   - in: path
     name: sourceId
