@@ -13,6 +13,7 @@ info:
     name: MIT
     url: https://opensource.org/licenses/MIT
   version: v1
+  x-audience: external-public
 servers:
   - url: https://{tenant}.api.identitynow.com
     description: This is the production API server.
@@ -29,7 +30,8 @@ servers:
 tags:
   - name: Machine Account Subtypes
     description: |
-      Use this API to get, update, and delete machine account subtype for sources.
+      Use this API to get, update, and delete machine account subtypes. V2 paths are experimental
+      and require the `X-SailPoint-Experimental` header.
 paths:
   /source-subtypes/v1/bulk-retrieve:
     $ref: ./paths/source-subtypes-v1-bulk-retrieve.yaml

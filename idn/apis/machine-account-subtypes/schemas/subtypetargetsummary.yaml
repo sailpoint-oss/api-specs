@@ -1,37 +1,36 @@
 type: object
 title: Subtype Target Summary
 description: >-
-  Summary of the subtypes defined for one target. There is one item per connector type for `CONNECTOR` targets, and
-  one item per source subtype for `SOURCE` targets.
+  One row per connector type (`CONNECTOR`) or per source-tier subtype (`SOURCE`) from
+  `GET /source-subtypes/v2/targets`.
 properties:
   targetType:
-    type: string
-    enum:
-    - SOURCE
-    - CONNECTOR
-    description: Tier of the target.
-    example: CONNECTOR
+    $ref: ./subtypetargettype.yaml
   targetId:
     type: string
-    description: Connector type for a `CONNECTOR` target, or source ID for a `SOURCE` target.
-    example: active-directory
+    description: Scope key. Connector type for `CONNECTOR`. Source id for `SOURCE`.
+    example: JDBC
   targetName:
     type: string
-    description: Display name of the target. Falls back to `targetId` when no name is stored.
-    example: Active Directory
+    description: Display label. Never null; falls back to `targetId`.
+    example: JDBC
   subtypeCount:
     type: integer
     format: int32
-    description: Number of subtypes defined for the target.
+    description: Number of subtypes in this target group.
     example: 3
   sourceCount:
     type: integer
     format: int32
-    description: Number of sources the target's subtypes apply to.
+    description: >-
+      Number of sources of this connector type for a `CONNECTOR` row. `1` on a `SOURCE` row.
+      Sortable. Not filterable.
     example: 12
   lastModified:
     type: string
     format: date-time
-    nullable: true
-    description: Most recent modification time across the target's subtypes.
-    example: '2026-07-28T16:13:42.750Z'
+    readOnly: true
+    description: >-
+      Latest `modified` timestamp in the `targetId` group for `CONNECTOR`, or that subtype row's
+      `modified` for `SOURCE`. Not filterable or sortable.
+    example: '2026-08-18T12:00:00.000Z'

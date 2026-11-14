@@ -1,53 +1,62 @@
 get:
+  summary: Get tiered subtype by ID
+  description: |
+    Returns one machine account subtype by id, including whether its target can provision accounts.
+
+    Unknown id returns **404**. A caller without the required right also receives **404**. If
+    provisioning support cannot be determined, the API returns **503**. When the experimental
+    header is missing, or when tiered subtype configuration is not enabled, the endpoint returns
+    **404**.
   operationId: getSourceSubtypeByIdV2
   tags:
   - Machine Account Subtypes
-  summary: Get subtype by ID
-  description: |-
-    Get a machine account subtype of any tier by subtype ID. The response may include `target.supportsProvisioning`.
-
-    The caller needs the `idn:source-subtypes:read` right. A malformed ID returns `400`.
-
-    This API returns `404` when Machine Identity Security or tiered subtype configuration is not enabled for the tenant.
-  security:
-  - userAuth:
-    - idn:sources:read
-    - idn:sources:manage
-    - idn:connector-subtypes:manage
-  - applicationAuth:
-    - idn:sources:read
-    - idn:sources:manage
-    - idn:connector-subtypes:manage
-  x-sailpoint-userLevels:
-  - ORG_ADMIN
-  - SOURCE_ADMIN
-  - SOURCE_SUBADMIN
-  - HELPDESK
   parameters:
   - in: path
     name: id
-    required: true
     schema:
       type: string
       format: uuid
+    required: true
+    x-sailpoint-resource-operation-id: listSourceSubtypesV2
     description: The ID of the subtype.
     example: 43bdd144-4b17-4fce-a744-17c7fd3e717b
-    x-sailpoint-resource-operation-id: listSourceSubtypesV2
   - name: X-SailPoint-Experimental
     in: header
     description: Use this header to enable this experimental API.
-    example: true
+    example: "true"
     schema:
       type: string
-      default: true
+      default: "true"
     required: true
   responses:
     '200':
-      description: Machine account subtype.
+      description: Tiered machine account subtype, including `target.supportsProvisioning`.
       content:
         application/json:
           schema:
-            $ref: ../schemas/sourcesubtypev2.yaml
+            $ref: ../schemas/subtypewithtargetprovisioning.yaml
+          examples:
+            ConnectorSubtype:
+              value:
+                id: 43bdd144-4b17-4fce-a744-17c7fd3e717b
+                technicalName: nonPersonal
+                displayName: Non Personal
+                description: Machine accounts for JDBC connectors
+                type: MACHINE
+                targetType: CONNECTOR
+                targetId: JDBC
+                targetName: JDBC
+                classification: MACHINE
+                origin: null
+                profile: null
+                systemManaged: false
+                created: '2026-08-18T12:00:00.000Z'
+                modified: '2026-08-18T12:00:00.000Z'
+                target:
+                  type: CONNECTOR
+                  id: JDBC
+                  name: JDBC
+                  supportsProvisioning: true
     '400':
       $ref: ../../shared/responses/400.yaml
     '401':
@@ -60,57 +69,59 @@ get:
       $ref: ../../shared/responses/429.yaml
     '500':
       $ref: ../../shared/responses/500.yaml
-patch:
-  operationId: patchMachineAccountSubtypeV2
-  tags:
-  - Machine Account Subtypes
-  summary: Patch subtype by ID
-  description: |-
-    Update a machine account subtype of any tier by subtype ID, using the [JSON
-    Patch](https://tools.ietf.org/html/rfc6902) standard.
-
-    Only `displayName` and `description` are patchable, and both must remain present. Changing `targetType`,
-    `targetId`, `profile`, `classification`, `type` or `technicalName` returns `400`; to move a subtype to another
-    tier or target, delete it and create a new one.
-
-    Who can call this API depends on the tier of the stored subtype:
-
-    * `SOURCE`: requires the `idn:source-subtypes:update` right, held by org admins, source admins and source
-    sub-admins.
-
-    * `CONNECTOR`: requires the `idn:connector-subtypes:update` right, held by org admins.
-
-    A caller without the right for the subtype's tier receives `404`, not `403`. A malformed ID returns `400`.
-
-    This API returns `404` when Machine Identity Security or tiered subtype configuration is not enabled for the tenant.
+    '503':
+      description: >-
+        Connector catalogue timeout, HTTP error, or unparseable payload while resolving
+        `supportsProvisioning` for a CONNECTOR target.
+      content:
+        application/json:
+          schema:
+            $ref: ../../shared/schemas/errorresponsedto.yaml
   security:
   - userAuth:
-    - idn:sources:manage
-    - idn:connector-subtypes:manage
+    - idn:source-subtypes:read
   - applicationAuth:
-    - idn:sources:manage
-    - idn:connector-subtypes:manage
+    - idn:source-subtypes:read
   x-sailpoint-userLevels:
   - ORG_ADMIN
   - SOURCE_ADMIN
   - SOURCE_SUBADMIN
+patch:
+  summary: Patch tiered subtype by ID
+  description: |
+    Applies an RFC 6902 JSON Patch to a tiered subtype.
+
+    Patchable fields are `displayName` and `description` only. Tier and identity fields
+    (`technicalName`, `targetType`, `targetId`, `profile`, `classification`, `type`) are immutable;
+    change them by deleting and recreating the subtype.
+
+    SOURCE-tier update requires `idn:source-subtypes:update`. CONNECTOR-tier update requires
+    `idn:connector-subtypes:update`. Unknown id and a denied tier are both returned as **404**. A
+    malformed UUID returns **400**. System-managed rows and a duplicate display name in the same
+    tier scope return **400**.
+
+    When the experimental header is missing, or when the tiered subtype configuration is not enabled
+    for the tenant, the endpoint returns **404**.
+  operationId: patchMachineAccountSubtypeV2
+  tags:
+  - Machine Account Subtypes
   parameters:
   - in: path
     name: id
-    required: true
     schema:
       type: string
       format: uuid
+    required: true
+    x-sailpoint-resource-operation-id: listSourceSubtypesV2
     description: The ID of the subtype.
     example: 43bdd144-4b17-4fce-a744-17c7fd3e717b
-    x-sailpoint-resource-operation-id: listSourceSubtypesV2
   - name: X-SailPoint-Experimental
     in: header
     description: Use this header to enable this experimental API.
-    example: true
+    example: "true"
     schema:
       type: string
-      default: true
+      default: "true"
     required: true
   requestBody:
     required: true
@@ -126,17 +137,17 @@ patch:
             value:
             - op: replace
               path: /displayName
-              value: Service Account
+              value: Non-personal accounts
             - op: replace
               path: /description
               value: Accounts used by automated services.
   responses:
     '200':
-      description: Updated machine account subtype.
+      description: Updated tiered machine account subtype.
       content:
         application/json:
           schema:
-            $ref: ../schemas/sourcesubtypev2.yaml
+            $ref: ../schemas/subtypewithtarget.yaml
     '400':
       $ref: ../../shared/responses/400.yaml
     '401':
@@ -149,57 +160,55 @@ patch:
       $ref: ../../shared/responses/429.yaml
     '500':
       $ref: ../../shared/responses/500.yaml
-delete:
-  operationId: deleteMachineAccountSubtypeV2
-  tags:
-  - Machine Account Subtypes
-  summary: Delete subtype by ID
-  description: |-
-    Delete a machine account subtype of any tier by subtype ID. System-managed subtypes, and subtypes still assigned
-    to accounts, cannot be deleted and the request is rejected.
-
-    Who can call this API depends on the tier of the stored subtype:
-
-    * `SOURCE`: requires the `idn:source-subtypes:delete` right, held by org admins, source admins and source
-    sub-admins.
-
-    * `CONNECTOR`: requires the `idn:connector-subtypes:delete` right, held by org admins.
-
-    A caller without the right for the subtype's tier receives `404`, not `403`. A malformed ID returns `400`.
-
-    This API returns `404` when Machine Identity Security or tiered subtype configuration is not enabled for the tenant.
   security:
   - userAuth:
-    - idn:sources:manage
-    - idn:connector-subtypes:manage
+    - idn:source-subtypes:update
+    - idn:connector-subtypes:update
   - applicationAuth:
-    - idn:sources:manage
-    - idn:connector-subtypes:manage
+    - idn:source-subtypes:update
+    - idn:connector-subtypes:update
   x-sailpoint-userLevels:
   - ORG_ADMIN
   - SOURCE_ADMIN
   - SOURCE_SUBADMIN
+delete:
+  summary: Delete tiered subtype by ID
+  description: |
+    Deletes a tiered subtype by id.
+
+    System-managed subtypes return **400**. A subtype that is still assigned to accounts returns
+    **400**. A connector-tier response includes how many accounts and sources still use it.
+
+    SOURCE-tier delete requires `idn:source-subtypes:delete`. CONNECTOR-tier delete requires
+    `idn:connector-subtypes:delete`. Unknown id and a denied tier are both returned as **404**. A
+    malformed UUID returns **400**.
+
+    When the experimental header is missing, or when the tiered subtype configuration is not enabled
+    for the tenant, the endpoint returns **404**.
+  operationId: deleteMachineAccountSubtypeV2
+  tags:
+  - Machine Account Subtypes
   parameters:
   - in: path
     name: id
-    required: true
     schema:
       type: string
       format: uuid
+    required: true
+    x-sailpoint-resource-operation-id: listSourceSubtypesV2
     description: The ID of the subtype.
     example: 43bdd144-4b17-4fce-a744-17c7fd3e717b
-    x-sailpoint-resource-operation-id: listSourceSubtypesV2
   - name: X-SailPoint-Experimental
     in: header
     description: Use this header to enable this experimental API.
-    example: true
+    example: "true"
     schema:
       type: string
-      default: true
+      default: "true"
     required: true
   responses:
     '204':
-      description: Subtype deleted successfully.
+      $ref: ../../shared/responses/204.yaml
     '400':
       $ref: ../../shared/responses/400.yaml
     '401':
@@ -212,3 +221,14 @@ delete:
       $ref: ../../shared/responses/429.yaml
     '500':
       $ref: ../../shared/responses/500.yaml
+  security:
+  - userAuth:
+    - idn:source-subtypes:delete
+    - idn:connector-subtypes:delete
+  - applicationAuth:
+    - idn:source-subtypes:delete
+    - idn:connector-subtypes:delete
+  x-sailpoint-userLevels:
+  - ORG_ADMIN
+  - SOURCE_ADMIN
+  - SOURCE_SUBADMIN

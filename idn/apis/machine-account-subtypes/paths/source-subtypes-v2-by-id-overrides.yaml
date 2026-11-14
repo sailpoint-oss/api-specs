@@ -1,47 +1,41 @@
 post:
+  summary: Create a source-tier override
+  description: |
+    Creates a SOURCE-tier snapshot of a CONNECTOR-tier subtype for one source. The snapshot copies
+    the parent display data, machine-account config, and authored provisioning policy. It does not
+    add the connector's default account-creation fields, and later connector-tier edits do not
+    propagate.
+
+    `subtypeId` must be a CONNECTOR-tier subtype UUID that is in the source effective set. The
+    created row is an ordinary SOURCE subtype (`targetType=SOURCE`, new `id`, `origin=null`) and
+    can be patched or deleted with the existing v2 subtype routes.
+
+    Requires `idn:source-subtypes:create`. A missing right, an unknown parent, or an unknown source
+    returns **404**. A parent that is not CONNECTOR, a blank `sourceId`, a parent that is not
+    effective on the source, a name collision, or a subtype cap returns **400**. A malformed `subtypeId` returns **400**.
+
+    When the experimental header is missing, or when the tiered subtype configuration is not enabled
+    for the tenant, the endpoint returns **404**.
   operationId: createSourceSubtypeOverrideV2
   tags:
   - Machine Account Subtypes
-  summary: Override source connector subtype
-  description: |-
-    Create a source subtype that overrides a connector subtype on one source. The new source subtype copies the
-    connector subtype's machine account configuration and provisioning policy at the time of the request. Later
-    changes to the connector subtype are not applied to the override.
-
-    The subtype identified by `id` must be a `CONNECTOR` subtype (otherwise `400`) that is in the source's effective
-    subtypes. An unknown subtype or source returns `404`. The request is rejected if the tenant's subtype
-    configuration cannot be changed this way.
-
-    The caller needs the `idn:source-subtypes:create` right, held by org admins, source admins and source sub-admins.
-    A caller without it receives `404`, not `403`. A malformed ID returns `400`.
-
-    This API returns `404` when Machine Identity Security or tiered subtype configuration is not enabled for the tenant.
-  security:
-  - userAuth:
-    - idn:sources:manage
-  - applicationAuth:
-    - idn:sources:manage
-  x-sailpoint-userLevels:
-  - ORG_ADMIN
-  - SOURCE_ADMIN
-  - SOURCE_SUBADMIN
   parameters:
   - in: path
     name: id
-    required: true
     schema:
       type: string
       format: uuid
-    description: The ID of the connector subtype to override.
-    example: 43bdd144-4b17-4fce-a744-17c7fd3e717b
+    required: true
     x-sailpoint-resource-operation-id: listSourceSubtypesV2
+    description: CONNECTOR-tier subtype to snapshot onto the source.
+    example: 43bdd144-4b17-4fce-a744-17c7fd3e717b
   - name: X-SailPoint-Experimental
     in: header
     description: Use this header to enable this experimental API.
-    example: true
+    example: "true"
     schema:
       type: string
-      default: true
+      default: "true"
     required: true
   requestBody:
     required: true
@@ -49,13 +43,42 @@ post:
       application/json:
         schema:
           $ref: ../schemas/sourcesubtypeoverriderequest.yaml
+        example:
+          sourceId: 6d0458373bec4b4b80460992b76016da
   responses:
     '201':
-      description: Created source subtype that overrides the connector subtype.
+      description: Created SOURCE-tier override.
+      headers:
+        location:
+          description: URL of the created source override.
+          schema:
+            type: string
+            format: uri
       content:
         application/json:
           schema:
-            $ref: ../schemas/sourcesubtypev2.yaml
+            $ref: ../schemas/subtypewithtarget.yaml
+          examples:
+            SourceOverride:
+              value:
+                id: 7c1e4b3a-017c-4e5f-a2b3-00016d045837
+                technicalName: nonPersonal
+                displayName: Non Personal
+                description: Machine accounts for JDBC connectors
+                type: MACHINE
+                targetType: SOURCE
+                targetId: 6d0458373bec4b4b80460992b76016da
+                targetName: Corporate JDBC
+                classification: MACHINE
+                origin: null
+                profile: null
+                systemManaged: false
+                created: '2026-09-30T12:00:00.000Z'
+                modified: '2026-09-30T12:00:00.000Z'
+                target:
+                  type: SOURCE
+                  id: 6d0458373bec4b4b80460992b76016da
+                  name: Corporate JDBC
     '400':
       $ref: ../../shared/responses/400.yaml
     '401':
@@ -68,3 +91,12 @@ post:
       $ref: ../../shared/responses/429.yaml
     '500':
       $ref: ../../shared/responses/500.yaml
+  security:
+  - userAuth:
+    - idn:source-subtypes:create
+  - applicationAuth:
+    - idn:source-subtypes:create
+  x-sailpoint-userLevels:
+  - ORG_ADMIN
+  - SOURCE_ADMIN
+  - SOURCE_SUBADMIN

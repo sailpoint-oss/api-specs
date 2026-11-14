@@ -1,26 +1,31 @@
 type: object
 title: Machine Account Create Entitlement
-description: An entitlement to request for the machine account, with optional comment and access dates.
+description: >-
+  One entitlement to provision on the created machine account. `id` is the entitlement id.
+  Comment and access dates are optional.
 required:
   - id
 properties:
   id:
     type: string
-    description: ID of the entitlement to request.
-    example: 2c91808a7624751a01762f19d67c220e
+    description: Entitlement id to provision. Not required to be a UUID.
+    example: 858d2151-ff19-464b-ae0d-6938b3af2baf
   comment:
     type: string
-    description: Comment to include with the entitlement request.
-    example: Needed to read the inventory share.
+    default: ""
+    description: Justification stored with the entitlement request.
+    example: Needed to read the reconciliation staging tables.
   startDate:
     type: string
     format: date-time
-    description: >-
-      Date and time when access to the entitlement starts. Must be in the future and, when `removeDate` is also set,
-      before `removeDate`.
-    example: '2026-11-01T00:00:00Z'
+    nullable: true
+    default: null
+    description: When access starts. Must be in the future and before `removeDate` when both are set.
+    example: '2026-09-01T00:00:00.000Z'
   removeDate:
     type: string
     format: date-time
-    description: Date and time when access to the entitlement is removed. Must be in the future.
-    example: '2027-11-01T00:00:00Z'
+    nullable: true
+    default: null
+    description: When access ends. Must be in the future and after `startDate` when both are set.
+    example: '2027-03-01T00:00:00.000Z'

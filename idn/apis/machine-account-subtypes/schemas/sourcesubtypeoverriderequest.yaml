@@ -1,10 +1,12 @@
 type: object
 title: Source Subtype Override Request
-description: Request body for overriding a connector subtype on one source.
+description: >-
+  Creates a SOURCE-tier snapshot of a CONNECTOR-tier subtype for one source. Later edits to the
+  connector-tier parent are not copied onto the snapshot.
 required:
-- sourceId
+  - sourceId
 properties:
   sourceId:
     type: string
-    description: ID of the source to create the overriding source subtype on.
+    description: Source that receives the override.
     example: 6d0458373bec4b4b80460992b76016da

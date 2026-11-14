@@ -1,4 +1,6 @@
 openapi: 3.0.1
+x-sailpoint-lint-ignore:
+  path-resource-names-must-be-plural: The published v1 status path is /account-requests/v1/machine-account-create/{accountRequestId}. The segment before the id is the existing resource name.
 info:
   title: SailPoint Identity Security API - Machine Account Creation Request
   description: >-
@@ -13,6 +15,7 @@ info:
     name: MIT
     url: https://opensource.org/licenses/MIT
   version: v1
+  x-audience: external-public
 servers:
   - url: https://{tenant}.api.identitynow.com
     description: This is the production API server.
@@ -33,10 +36,10 @@ tags:
 paths:
   /account-requests/v1/machine-account-create:
     $ref: ./paths/account-requests-v1-machine-account-create.yaml
-  /account-requests/v1/machine-account-create/{accountRequestId}:
-    $ref: ./paths/account-requests-v1-machine-account-create-by-accountrequestid.yaml
   /account-requests/v2/machine-account-create:
     $ref: ./paths/account-requests-v2-machine-account-create.yaml
+  /account-requests/v1/machine-account-create/{accountRequestId}:
+    $ref: ./paths/account-requests-v1-machine-account-create-by-accountrequestid.yaml
   /machine-accounts/v2/machine-account-create:
     $ref: ./paths/machine-accounts-v2-machine-account-create.yaml
   /source-subtypes/v1/machine-account-create-access:
