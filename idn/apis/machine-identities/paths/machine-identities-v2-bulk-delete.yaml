@@ -7,7 +7,7 @@ post:
     This API deletes up to 100 machine identities and returns a result for each requested ID.
 
     The response is always `207` when the request is valid. Check the `status` of each result to see whether that
-    machine identity was deleted.
+    machine identity was deleted. A duplicate ID in the batch returns `409` for that row.
 
     A caller who owns a machine identity can delete it. Other callers need the **idn:mis-identity:delete** right.
     For callers without that right, IDs of machine identities they do not own return a `404` result.
@@ -22,10 +22,10 @@ post:
     - name: X-SailPoint-Experimental
       in: header
       description: Use this header to enable this experimental API.
-      example: true
+      example: 'true'
       schema:
         type: string
-        default: true
+        default: 'true'
       required: true
   requestBody:
     required: true

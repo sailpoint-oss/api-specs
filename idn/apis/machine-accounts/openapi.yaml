@@ -13,6 +13,7 @@ info:
     name: MIT
     url: https://opensource.org/licenses/MIT
   version: v1
+  x-audience: external-public
 servers:
   - url: https://{tenant}.api.identitynow.com
     description: This is the production API server.
@@ -28,6 +29,10 @@ servers:
         description: This is the api url of your tenant
 tags:
   - name: Machine Accounts
+    description: >
+      Use this API to list, view, and update machine accounts, the accounts on connected sources that belong to a
+      machine rather than a person. You can also enable, disable, reload, unlock, and remove machine accounts, and
+      manage the machine account subtypes of a source. Update, enable, disable, and reload are also available in bulk.
 paths:
   /machine-accounts/v1:
     $ref: ./paths/machine-accounts-v1.yaml
@@ -57,8 +62,6 @@ paths:
     $ref: ./paths/machine-accounts-v1-bulk-enable.yaml
   /machine-accounts/v1/bulk-disable:
     $ref: ./paths/machine-accounts-v1-bulk-disable.yaml
-  /machine-accounts/v1/bulk-reload:
-    $ref: ./paths/machine-accounts-v1-bulk-reload.yaml
   /machine-accounts/v1/bulk-reload-async:
     $ref: ./paths/machine-accounts-v1-bulk-reload-async.yaml
   /machine-accounts/v2:
