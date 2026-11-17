@@ -20,7 +20,7 @@ get:
   summary: Get source resource mappings
   description: |
     Use this API to get aggregation metadata for resources on the specified source in SailPoint Identity
-    Security (SailPoint Identity Security). The response is keyed by resource id. Each value includes the linked
+    Security. The response is keyed by resource id. Each value includes the linked
     dataset id, resource type, and connector object type. Resources without a matching schema are
     omitted.
   parameters:
@@ -35,10 +35,10 @@ get:
   - name: X-SailPoint-Experimental
     in: header
     description: Use this header to enable this experimental API.
-    example: true
+    example: 'true'
     schema:
       type: string
-      default: true
+      default: 'true'
     required: true
   responses:
     '200':
