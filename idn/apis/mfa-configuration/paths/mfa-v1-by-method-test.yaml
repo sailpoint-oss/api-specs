@@ -16,14 +16,18 @@ get:
   - in: path
     name: method
     schema:
+      x-sailpoint-lint-ignore:
+        schema-enum-values-must-be-upper-snake-case: These enum values are the actual MFA method names the system requires, so they cannot be converted to UPPER_SNAKE_CASE.
       type: string
       example: okta-verify
       nullable: false
       enum:
       - okta-verify
       - duo-web
+      - clear1
     required: true
-    description: The name of the MFA method. The currently supported method names are 'okta-verify' and 'duo-web'.
+    description: >-
+      The name of the MFA method. The currently supported method names are 'okta-verify', 'duo-web', and 'clear1'.
   responses:
     '200':
       description: The result of configuration test for the MFA provider.
@@ -40,6 +44,8 @@ get:
       $ref: ../../shared/responses/401.yaml
     '403':
       $ref: ../../shared/responses/403.yaml
+    '404':
+      $ref: ../../shared/responses/404.yaml
     '429':
       $ref: ../../shared/responses/429.yaml
     '500':
