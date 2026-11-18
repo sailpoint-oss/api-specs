@@ -68,12 +68,6 @@ paths:
     $ref: ./paths/machine-accounts-v2.yaml
   /machine-accounts/v2/{id}:
     $ref: ./paths/machine-accounts-v2-by-id.yaml
-  /sources/v1/{sourceId}/subtypes:
-    $ref: ./paths/sources-v1-by-sourceid-subtypes.yaml
-  /sources/v1/{sourceId}/subtypes/{technicalName}:
-    $ref: ./paths/sources-v1-by-sourceid-subtypes-by-technicalname.yaml
-  /sources/v1/subtypes/{subtypeId}:
-    $ref: ./paths/sources-v1-subtypes-by-subtypeid.yaml
 security:
   - userAuth:
       - sp:scopes:all

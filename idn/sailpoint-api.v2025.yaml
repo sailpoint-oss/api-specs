@@ -2205,12 +2205,6 @@ paths:
     $ref: "./v2025/paths/source-machine-account-declassify.yaml"
   /sources/{sourceId}/aggregate-agents:
     $ref: "./v2025/paths/aggregate-agents.yaml"
-  /sources/{sourceId}/subtypes:
-    $ref: "./v2025/paths/source-machine-account-subtypes.yaml"
-  /sources/{sourceId}/subtypes/{technicalName}:
-    $ref: "./v2025/paths/source-machine-account-subtype.yaml"
-  /sources/subtypes/{subtypeId}:
-    $ref: "./v2025/paths/source-machine-account-subtype-id.yaml"
   /accounts/{id}/classify:
     $ref: "./v2025/paths/machine-account-classify.yaml"
   /machine-identities:
