@@ -345,7 +345,7 @@
     },
     {
       "name": "Org Config",
-      "description": "Use this API to implement organization configuration functionality. \nAdministrators can use this functionality to manage organization settings, such as time zones. \n"
+      "description": "Use this API to implement organization configuration functionality. \nAdministrators can use this functionality to manage organization settings, such as time zones, provisioning retry and status check settings. \n"
     },
     {
       "name": "Parameter Storage",
@@ -143713,6 +143713,23 @@
           "scope"
         ]
       },
+      "IdnSourceToArmSystem": {
+        "type": "object",
+        "title": "IDN Source To ARM System",
+        "description": "A mapping from an IDN source id to an ARM system id.",
+        "properties": {
+          "sourceId": {
+            "type": "string",
+            "description": "The IDN source id.",
+            "example": "2c91808c791a94e501792388b0d62659"
+          },
+          "systemId": {
+            "type": "string",
+            "description": "The ARM system id.",
+            "example": "1556"
+          }
+        }
+      },
       "reportconfigdto": {
         "type": "object",
         "title": "Report Config DTO",
@@ -143747,7 +143764,7 @@
       "orgconfig": {
         "type": "object",
         "title": "Org Config",
-        "description": "DTO class for OrgConfig data accessible by customer external org admin (\"ORG_ADMIN\") users",
+        "description": "OrgConfig settings accessible to external customer org admins (`ORG_ADMIN`).\n\n### Provisioning setting precedence\n\n1. **Source value:** used first when set. When the request spans more than one source, the largest value among those sources wins.\n2. **OrgConfig value:** used when no source value is set.\n3. **Default:** used when neither is set.\n\nA value outside the allowed range is ignored, and the next level is used.\n\n### Defaults\n\n* **Retries:** 3\n* **Retry interval:** 60 minutes. The actual wait varies by up to 10 percent above or below the interval, so requests that fail together do not retry at the same time.\n* **Status check interval:** 240 minutes\n* **Status check limit:** 180 checks\n\n### Scope\n\n* **Retry count and retry interval:** account enable, disable, unlock, or delete; lifecycle changes that provision accounts; access requests; and RSA token PIN resets.\n* **Not affected by these settings:** password changes, which use a fixed retry schedule.\n* **Status check interval and status check limit:** queued provisioning requests.\n",
         "properties": {
           "orgName": {
             "type": "string",
@@ -143772,9 +143789,15 @@
             "example": "DE38E75A-5FF6-4A65-5DC7-08D64426B09E"
           },
           "armSapSystemIdMappings": {
-            "type": "string",
+            "type": "array",
             "description": "A list of IDN::sourceId to ARM::systemId mappings.",
             "nullable": true,
+            "x-sailpoint-lint-ignore": {
+              "schema-arrays-must-not-be-nullable": "Org config returns null for armSapSystemIdMappings when the stored value is absent. An empty array is not what the API returns."
+            },
+            "items": {
+              "$ref": "#/components/schemas/IdnSourceToArmSystem"
+            },
             "example": [
               {
                 "sourceId": "2c91808c791a94e501792388b0d62659",
@@ -143782,11 +143805,11 @@
               },
               {
                 "sourceId": "2_2c91808c791a94e501792388b0d62659",
-                "systemId": 21556
+                "systemId": "21556"
               },
               {
                 "sourceId": "3_2c91808c791a94e501792388b0d62659",
-                "systemId": 31556
+                "systemId": "31556"
               }
             ]
           },
@@ -143804,6 +143827,7 @@
           },
           "armSsoUrl": {
             "type": "string",
+            "format": "uri",
             "description": "ARM SSO URL",
             "nullable": true,
             "example": "https://your-arm-sso-url"
@@ -143816,10 +143840,45 @@
           },
           "aiAgentDeleteRequestEnabled": {
             "type": "boolean",
-            "nullable": true,
             "description": "Org opt-in flag that enables AI Agent delete-at-source lifecycle requests for the current org.",
             "default": false,
             "example": false
+          },
+          "provisioningMaxRetries": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true,
+            "minimum": 0,
+            "maximum": 24,
+            "description": "The number of times a provisioning request is retried.",
+            "example": 3
+          },
+          "provisioningRetryThreshold": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true,
+            "minimum": 1,
+            "maximum": 1440,
+            "description": "The number of minutes between provisioning retries.",
+            "example": 60
+          },
+          "provisioningStatusCheckInterval": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true,
+            "minimum": 1,
+            "maximum": 1440,
+            "description": "The number of minutes between status checks of a queued provisioning request.",
+            "example": 240
+          },
+          "provisioningMaxStatusChecks": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true,
+            "minimum": 1,
+            "maximum": 1000,
+            "description": "The number of status checks that run before a queued provisioning request times out.",
+            "example": 180
           },
           "sodReportConfigs": {
             "type": "array",
