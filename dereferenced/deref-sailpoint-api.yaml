@@ -46223,6 +46223,139 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
+  /mfa/v1/clear1/config:
+    get:
+      operationId: getMFAClear1ConfigV1
+      tags:
+        - MFA Configuration
+      summary: Configuration of CLEAR1 mfa method
+      description: This API returns the configuration of a CLEAR1 MFA method.
+      security:
+        - userAuth:
+            - idn:mfa-configuration:read
+            - idn:mfa-configuration:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      responses:
+        '200':
+          description: The configuration of a CLEAR1 MFA method.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mfaclear1config'
+              example:
+                mfaMethod: clear1
+                enabled: true
+                apiKey: s******O
+                knownUserKeyFlowConfig:
+                  enabled: true
+                  projectId: known-user-key-project-id
+                  identityAttribute: clearUserId
+                establishedIdentityFlowConfig:
+                  enabled: true
+                  projectId: established-identity-project-id
+                  userProfileMatchingAttributes:
+                    first_name: firstname
+                    last_name: lastname
+                    dob: dob
+                    email: email
+                    phone: phone
+                    line1: line1
+                    line2: line2
+                    city: city
+                    state: state
+                    postal_code: postalcode
+                    country: country
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      operationId: setMFAClear1ConfigV1
+      tags:
+        - MFA Configuration
+      summary: Set CLEAR1 mfa configuration
+      description: This API sets the configuration of a CLEAR1 MFA method.
+      security:
+        - userAuth:
+            - idn:mfa-configuration:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mfaclear1config'
+            example:
+              mfaMethod: clear1
+              enabled: true
+              apiKey: sk123Y3QlA5UqocYpdU3rEkzrK2D497O
+              knownUserKeyFlowConfig:
+                enabled: true
+                projectId: known-user-key-project-id
+                identityAttribute: clearUserId
+              establishedIdentityFlowConfig:
+                enabled: true
+                projectId: established-identity-project-id
+                userProfileMatchingAttributes:
+                  first_name: firstname
+                  last_name: lastname
+                  dob: dob
+                  email: email
+                  phone: phone
+                  line1: line1
+                  line2: line2
+                  city: city
+                  state: state
+                  postal_code: postalcode
+                  country: country
+      responses:
+        '200':
+          description: MFA configuration of a CLEAR1 MFA method.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mfaclear1config'
+              example:
+                mfaMethod: clear1
+                enabled: true
+                apiKey: s******O
+                knownUserKeyFlowConfig:
+                  enabled: true
+                  projectId: known-user-key-project-id
+                  identityAttribute: clearUserId
+                establishedIdentityFlowConfig:
+                  enabled: true
+                  projectId: established-identity-project-id
+                  userProfileMatchingAttributes:
+                    first_name: firstname
+                    last_name: lastname
+                    dob: dob
+                    email: email
+                    phone: phone
+                    line1: line1
+                    line2: line2
+                    city: city
+                    state: state
+                    postal_code: postalcode
+                    country: country
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
   /mfa/v1/kba/config:
     get:
       operationId: getMFAKbaConfigV1
@@ -46347,14 +46480,17 @@ paths:
         - in: path
           name: method
           schema:
+            x-sailpoint-lint-ignore:
+              schema-enum-values-must-be-upper-snake-case: These enum values are the actual MFA method names the system requires, so they cannot be converted to UPPER_SNAKE_CASE.
             type: string
             example: okta-verify
             nullable: false
             enum:
               - okta-verify
               - duo-web
+              - clear1
           required: true
-          description: The name of the MFA method. The currently supported method names are 'okta-verify' and 'duo-web'.
+          description: The name of the MFA method. The currently supported method names are 'okta-verify', 'duo-web', and 'clear1'.
       responses:
         '200':
           description: The result of configuration test for the MFA provider.
@@ -46371,6 +46507,8 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
         '429':
           $ref: '#/components/responses/429'
         '500':
@@ -103240,6 +103378,121 @@ components:
           example:
             skey: qwERttyZx1CdlQye2Vwtbsjr3HKddy4BAiCXjc5x
             ikey: Q123WE45R6TY7890ZXCV
+    mfaclear1knownuserkeyflowconfig:
+      type: object
+      nullable: true
+      properties:
+        enabled:
+          type: boolean
+          description: If the known user key flow is enabled for the CLEAR1 MFA method.
+          default: false
+          example: true
+        projectId:
+          type: string
+          nullable: true
+          description: The ID of the CLEAR1 project used for the known user key flow. This field is required if `enabled` is *true*. It may be null if `enabled` is *false*.
+        identityAttribute:
+          type: string
+          nullable: true
+          description: The name of the attribute used to map an Identity Security Cloud identity to the CLEAR1 user key. This field is required if `enabled` is *true*. It may be null if `enabled` is *false*.
+    mfaclear1userprofilematchingattributes:
+      type: object
+      nullable: true
+      x-sailpoint-lint-ignore:
+        schema-property-names-must-be-camel-case: These field names belong to the external CLEAR1 system, whose APIs expect them in this exact format, so they cannot be changed to camelCase.
+      properties:
+        first_name:
+          type: string
+          nullable: true
+          description: Name of the identity attribute mapped to the CLEAR1 first name attribute.
+        last_name:
+          type: string
+          nullable: true
+          description: Name of the identity attribute mapped to the CLEAR1 last name attribute.
+        dob:
+          type: string
+          nullable: true
+          description: Name of the identity attribute mapped to the CLEAR1 date of birth attribute.
+        email:
+          x-sailpoint-lint-ignore:
+            schema-email-properties-must-use-email-format: This field stores the name of the identity attribute mapped to the CLEAR1 email attribute, not an actual email address, so format - email does not apply.
+          type: string
+          nullable: true
+          description: Name of the identity attribute mapped to the CLEAR1 email address attribute.
+        phone:
+          type: string
+          nullable: true
+          description: Name of the identity attribute mapped to the CLEAR1 phone number attribute.
+        line1:
+          type: string
+          nullable: true
+          description: Name of the identity attribute mapped to the first line of the CLEAR1 street address attribute.
+        line2:
+          type: string
+          nullable: true
+          description: Name of the identity attribute mapped to the second line of the CLEAR1 street address attribute.
+        city:
+          type: string
+          nullable: true
+          description: Name of the identity attribute mapped to the CLEAR1 city attribute.
+        state:
+          type: string
+          nullable: true
+          description: Name of the identity attribute mapped to the CLEAR1 state attribute.
+        postal_code:
+          type: string
+          nullable: true
+          description: Name of the identity attribute mapped to the CLEAR1 postal code attribute.
+        country:
+          type: string
+          nullable: true
+          description: Name of the identity attribute mapped to the CLEAR1 country attribute.
+    mfaclear1establishedidentityflowconfig:
+      type: object
+      nullable: true
+      properties:
+        enabled:
+          type: boolean
+          description: If the established identity flow is enabled for the CLEAR1 MFA method.
+          default: false
+          example: true
+        projectId:
+          type: string
+          nullable: true
+          description: The ID of the CLEAR1 project used for the established identity flow. This field is required if `enabled` is *true*. It may be null if `enabled` is *false*.
+        userProfileMatchingAttributes:
+          $ref: '#/components/schemas/mfaclear1userprofilematchingattributes'
+          nullable: true
+          description: Mapping of CLEAR1 user profile attributes to the Identity Security Cloud identity attributes used to match an identity during the established identity flow. This field is required if `enabled` is *true*. It may be null if `enabled` is *false*.
+    mfaclear1config:
+      type: object
+      title: Mfa Clear1 Config
+      description: Configuration of the CLEAR1 MFA method. At least one of `knownUserKeyFlowConfig` or `establishedIdentityFlowConfig` must be configured.
+      properties:
+        mfaMethod:
+          type: string
+          description: Mfa method name
+          example: clear1
+        enabled:
+          type: boolean
+          description: If MFA method is enabled.
+          default: false
+          example: true
+        apiKey:
+          type: string
+          description: The API key for authenticating requests to the CLEAR1 provider. This field is always required, regardless of whether the MFA method is enabled. This value is masked in responses.
+          example: sk123Y3QlA5UqocYpdU3rEkzrK2D497O
+        knownUserKeyFlowConfig:
+          $ref: '#/components/schemas/mfaclear1knownuserkeyflowconfig'
+          nullable: true
+          description: Configuration of the CLEAR1 known user key flow.
+        establishedIdentityFlowConfig:
+          $ref: '#/components/schemas/mfaclear1establishedidentityflowconfig'
+          nullable: true
+          description: Configuration of the CLEAR1 established identity flow.
+      required:
+        - mfaMethod
+        - apiKey
     kbaquestion:
       description: KBA Configuration
       type: object
