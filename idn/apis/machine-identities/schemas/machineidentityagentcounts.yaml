@@ -14,7 +14,7 @@ properties:
     example: 6
   discovered:
     description: AI agents discovered in the last 30 days.
-    $ref: ./machineidentitydiscoveredcounts.yaml
+    $ref: ./machineidentityagentdiscoveredcounts.yaml
   riskSeverity:
     description: AI agents grouped by risk severity.
     $ref: ./machineidentityriskseveritycounts.yaml
