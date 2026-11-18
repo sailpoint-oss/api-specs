@@ -297,7 +297,8 @@
       "name": "Machine Classification Config"
     },
     {
-      "name": "Machine Identities"
+      "name": "Machine Identities",
+      "description": "Use this API to list, view, create, update, and delete machine identities, the non-human identities that own machine accounts. You can also review their accounts, entitlements, and anomalies, and update or delete machine identities in bulk.\n"
     },
     {
       "name": "Machine Identity Lifecycle Actions",
@@ -59512,7 +59513,7 @@
         }
       }
     },
-    "/machine-identities/v2/bulk-update": {
+    "/machine-identities/v1/bulk-update": {
       "post": {
         "operationId": "updateMachineIdentitiesInBulkV2",
         "tags": [
@@ -59627,7 +59628,7 @@
         }
       }
     },
-    "/machine-identities/v2/bulk-delete": {
+    "/machine-identities/v1/bulk-delete": {
       "post": {
         "operationId": "deleteMachineIdentitiesInBulkV2",
         "tags": [

@@ -784,6 +784,8 @@ tags:
       Use this API to list, view, and update machine accounts, the accounts on connected sources that belong to a machine rather than a person. You can also enable, disable, reload, unlock, and remove machine accounts, and manage the machine account subtypes of a source. Update, enable, disable, and reload are also available in bulk.
   - name: Machine Classification Config
   - name: Machine Identities
+    description: |
+      Use this API to list, view, create, update, and delete machine identities, the non-human identities that own machine accounts. You can also review their accounts, entitlements, and anomalies, and update or delete machine identities in bulk.
   - name: Machine Identity Lifecycle Actions
     description: |
       Use this API to implement machine identity lifecycle action functionality.
@@ -44074,7 +44076,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /machine-identities/v2/bulk-update:
+  /machine-identities/v1/bulk-update:
     post:
       operationId: updateMachineIdentitiesInBulkV2
       tags:
@@ -44154,7 +44156,7 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /machine-identities/v2/bulk-delete:
+  /machine-identities/v1/bulk-delete:
     post:
       operationId: deleteMachineIdentitiesInBulkV2
       tags:
