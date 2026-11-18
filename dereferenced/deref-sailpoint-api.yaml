@@ -101190,6 +101190,19 @@ components:
           format: int32
           description: Length of the window, in days.
           example: 30
+    machineidentityagentdiscoveredcounts:
+      allOf:
+        - $ref: '#/components/schemas/machineidentitydiscoveredcounts'
+        - type: object
+          title: Machine Identity Agent Discovered Counts
+          description: AI agents discovered within a recent time window, including the start of that window.
+          properties:
+            from:
+              type: string
+              format: date-time
+              nullable: true
+              description: Start of the window, in UTC, and the exact cutoff used for `count`. Identities created at or after this time are included.
+              example: '2026-10-17T09:58:52.985613Z'
     machineidentityriskseveritycounts:
       type: object
       title: Machine Identity Risk Severity Counts
@@ -101239,7 +101252,7 @@ components:
           example: 6
         discovered:
           description: AI agents discovered in the last 30 days.
-          $ref: '#/components/schemas/machineidentitydiscoveredcounts'
+          $ref: '#/components/schemas/machineidentityagentdiscoveredcounts'
         riskSeverity:
           description: AI agents grouped by risk severity.
           $ref: '#/components/schemas/machineidentityriskseveritycounts'
