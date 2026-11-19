@@ -15,14 +15,29 @@ properties:
     description: hex value of color for action button
     example: 0074D9
     nullable: true
+  darkActionButtonColor:
+    type: string
+    description: hex value of color for action button in dark mode
+    example: 0074D9
+    nullable: true
   activeLinkColor:
     type: string
     description: hex value of color for link
     example: '011E69'
     nullable: true
+  darkActiveLinkColor:
+    type: string
+    description: hex value of color for link in dark mode
+    example: '011E69'
+    nullable: true
   navigationColor:
     type: string
     description: hex value of color for navigation bar
+    example: '011E69'
+    nullable: true
+  darkNavigationColor:
+    type: string
+    description: hex value of color for navigation bar in dark mode
     example: '011E69'
     nullable: true
   emailFromAddress:
@@ -32,8 +47,15 @@ properties:
     nullable: true
   standardLogoURL:
     type: string
+    format: uri
     description: url to standard logo
-    example: ''
+    example: https://example.identitynow.com/logos/standard.png
+    nullable: true
+  darkStandardLogoURL:
+    type: string
+    format: uri
+    description: url to dark-mode logo
+    example: https://example.identitynow.com/logos/dark.png
     nullable: true
   loginInformationalMessage:
     type: string
