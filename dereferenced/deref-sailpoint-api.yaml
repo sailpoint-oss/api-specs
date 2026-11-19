@@ -9461,6 +9461,33 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
+  /brandings/v1/default:
+    delete:
+      operationId: deleteDefaultBrandingV1
+      tags:
+        - Branding
+      summary: Clear the default branding item
+      description: This API endpoint clears the customizable properties of the default branding item. The default item is kept.
+      security:
+        - userAuth:
+            - idn:branding:manage
+        - applicationAuth:
+            - idn:branding:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+      responses:
+        '204':
+          $ref: '#/components/responses/204'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
   /brandings/v1/{name}:
     get:
       operationId: getBrandingV1
@@ -81271,14 +81298,29 @@ components:
           description: hex value of color for action button
           example: 0074D9
           nullable: true
+        darkActionButtonColor:
+          type: string
+          description: hex value of color for action button in dark mode
+          example: 0074D9
+          nullable: true
         activeLinkColor:
           type: string
           description: hex value of color for link
           example: '011E69'
           nullable: true
+        darkActiveLinkColor:
+          type: string
+          description: hex value of color for link in dark mode
+          example: '011E69'
+          nullable: true
         navigationColor:
           type: string
           description: hex value of color for navigation bar
+          example: '011E69'
+          nullable: true
+        darkNavigationColor:
+          type: string
+          description: hex value of color for navigation bar in dark mode
           example: '011E69'
           nullable: true
         emailFromAddress:
@@ -81288,8 +81330,15 @@ components:
           nullable: true
         standardLogoURL:
           type: string
+          format: uri
           description: url to standard logo
-          example: ''
+          example: https://example.identitynow.com/logos/standard.png
+          nullable: true
+        darkStandardLogoURL:
+          type: string
+          format: uri
+          description: url to dark-mode logo
+          example: https://example.identitynow.com/logos/dark.png
           nullable: true
         loginInformationalMessage:
           type: string
@@ -81299,6 +81348,8 @@ components:
     brandingitemcreate:
       type: object
       title: Branding Item Create
+      x-sailpoint-lint-ignore:
+        schema-optional-properties-must-have-default: Button colors and binary files do not need a default in this context
       required:
         - name
         - productName
@@ -81316,13 +81367,25 @@ components:
           type: string
           description: hex value of color for action button
           example: 0074D9
+        darkActionButtonColor:
+          type: string
+          description: hex value of color for action button in dark mode
+          example: 0074D9
         activeLinkColor:
           type: string
           description: hex value of color for link
           example: '011E69'
+        darkActiveLinkColor:
+          type: string
+          description: hex value of color for link in dark mode
+          example: '011E69'
         navigationColor:
           type: string
           description: hex value of color for navigation bar
+          example: '011E69'
+        darkNavigationColor:
+          type: string
+          description: hex value of color for navigation bar in dark mode
           example: '011E69'
         emailFromAddress:
           type: string
@@ -81335,7 +81398,12 @@ components:
         fileStandard:
           type: string
           format: binary
-          description: png file with logo
+          description: png file with logo. To remove an existing logo, delete the branding item and create it again. Omitting this field on update keeps the current logo.
+          example: \x00\x00\x00\x02
+        darkFileStandard:
+          type: string
+          format: binary
+          description: png file with dark-mode logo. To remove an existing dark-mode logo, delete the branding item and create it again. Omitting this field on update keeps the current dark-mode logo.
           example: \x00\x00\x00\x02
     businessapplicationsignature:
       type: object
