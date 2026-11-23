@@ -13,6 +13,7 @@ info:
     name: MIT
     url: https://opensource.org/licenses/MIT
   version: v1
+  x-audience: external-public
 servers:
   - url: https://{tenant}.api.identitynow.com
     description: This is the production API server.
@@ -184,8 +185,14 @@ paths:
     $ref: ./paths/campaigns-v1-by-id-run-remediation-scan.yaml
   /campaigns/v1/{id}/reports:
     $ref: ./paths/campaigns-v1-by-id-reports.yaml
+  /campaigns/v1/{id}/reports/{taskResultId}/download-url/{reportFormat}:
+    $ref: ./paths/campaigns-v1-by-id-reports-by-taskResultId-download-url-by-reportFormat.yaml
+    x-sailpoint-lint-ignore:
+      path-resource-names-must-be-plural: This path matches the live campaign report download API.
   /campaigns/v1/{id}/run-report/{type}:
     $ref: ./paths/campaigns-v1-by-id-run-report-by-type.yaml
+    x-sailpoint-lint-ignore:
+      path-resource-names-must-be-plural: This path matches the live campaign run-report API.
   /campaigns/v1/reports-configuration:
     $ref: ./paths/campaigns-v1-reports-configuration.yaml
   /campaign-templates/v1:
