@@ -11367,6 +11367,76 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
+  /campaigns/v1/{id}/reports/{taskResultId}/download-url/{reportFormat}:
+    get:
+      operationId: getCampaignReportDownloadUrlV1
+      tags:
+        - Certification Campaigns
+      summary: Get campaign report download URL
+      description: |
+        Use this API to get a URL for downloading a certification campaign report.
+      security:
+        - userAuth:
+            - idn:campaign-report:read
+            - idn:campaign-report:manage
+      x-sailpoint-userLevels:
+        - ORG_ADMIN
+        - CERT_ADMIN
+        - REPORT_ADMIN
+      parameters:
+        - name: X-SailPoint-Experimental
+          in: header
+          description: Use this header to enable this experimental API.
+          example: 'true'
+          schema:
+            type: string
+            default: 'true'
+          required: true
+        - in: path
+          name: id
+          schema:
+            type: string
+            example: 2c91808571bcfcf80171c23e4b4221fc
+          required: true
+          x-sailpoint-resource-operation-id: getActiveCampaignsV1
+          description: ID of the campaign whose report is being downloaded.
+        - in: path
+          name: taskResultId
+          schema:
+            type: string
+            example: 2c91808571bcfcf80171c23e4b4221fc
+          required: true
+          x-sailpoint-resource-operation-id: getCampaignReportsV1
+          description: ID of the campaign task that generated the report.
+        - in: path
+          name: reportFormat
+          schema:
+            type: string
+            enum:
+              - PDF
+              - CSV
+            example: PDF
+          required: true
+          description: File format of the report to download.
+      responses:
+        '200':
+          description: The information to download the campaign report.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/campaignreportdownloadresponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
   /campaigns/v1/{id}/run-report/{type}:
     post:
       operationId: startCampaignReportV1
@@ -82614,6 +82684,23 @@ components:
         status: SUCCESS
         reportType: CAMPAIGN_COMPOSITION_REPORT
         lastRunAt: '2019-12-19T13:49:37.385Z'
+    campaignreportdownloadresponse:
+      type: object
+      title: Campaign Report Download
+      required:
+        - id
+        - downloadUrl
+      properties:
+        id:
+          type: string
+          description: The unique ID of the campaign report.
+          example: e1aeb0b600214f408bc75c56533214b3
+        downloadUrl:
+          type: string
+          format: uri
+          description: |
+            A URL to download the campaign report. A presigned download URL is valid for 90 minutes from the time it is returned. Call this endpoint again to get a new URL.
+          example: https://secure-content.accessiq.sailpoint.com/someCampaignReport.pdf
     campaignreportsconfig:
       type: object
       title: Campaign Reports Configuration
