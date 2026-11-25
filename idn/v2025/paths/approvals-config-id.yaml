@@ -1,8 +1,16 @@
 get:
   security:
-  - userAuth: [ sp:approvals:read ]
+  - userAuth: [ sp:generic-approval-config:read ]
   x-sailpoint-userLevels:
-  - APPROVAL_OWNER
+  - ORG_ADMIN
+  - ORG_ADMIN_READ_ONLY
+  - ROLE_ADMIN
+  - ROLE_SUBADMIN
+  - SOURCE_ADMIN
+  - SOURCE_SUBADMIN
+  - API
+  - idn:access-request-administrator
+  - idn:access-request-administrator-read
   operationId: getApprovalsConfig
   tags:
   - Approvals

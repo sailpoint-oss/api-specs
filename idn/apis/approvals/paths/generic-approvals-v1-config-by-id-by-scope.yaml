@@ -1,9 +1,15 @@
 put:
   security:
   - userAuth:
-    - sp:approvals:write
+    - sp:generic-approval-config:write
   x-sailpoint-userLevels:
   - ORG_ADMIN
+  - ROLE_ADMIN
+  - ROLE_SUBADMIN
+  - SOURCE_ADMIN
+  - SOURCE_SUBADMIN
+  - API
+  - idn:access-request-administrator
   operationId: putApprovalsConfigV1
   tags:
   - Approvals
@@ -106,9 +112,15 @@ put:
 delete:
   security:
   - userAuth:
-    - sp:approvals:write
+    - sp:generic-approval-config:write
   x-sailpoint-userLevels:
   - ORG_ADMIN
+  - ROLE_ADMIN
+  - ROLE_SUBADMIN
+  - SOURCE_ADMIN
+  - SOURCE_SUBADMIN
+  - API
+  - idn:access-request-administrator
   operationId: deleteApprovalConfigRequestV1
   tags:
   - Approvals

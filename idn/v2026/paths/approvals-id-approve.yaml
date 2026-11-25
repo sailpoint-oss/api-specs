@@ -1,16 +1,16 @@
 post:
   security:
     - userAuth:
-        - idn:access-request-approvals:manage
+        - sp:generic-approval:approve
   x-sailpoint-userLevels:
-    - APPROVAL_OWNER
+    - Any
   operationId: approveApproval
   tags:
     - Approvals
   summary: Post Approvals Approve
   description: |-
     Approves a specified approval request on behalf of the caller. The approval request must be in a state that allows it to be approved. This endpoint does not support access request IDs.
-    If called by an admin and the admin is not listed as an approver, the approval request will be reassigned from a random approver to the admin user.
+    If called by an admin and the admin is not listed as an approver, the approval request will be reassigned either from overrideApproverID or from a random approver to the admin user.
   parameters:
     - in: path
       name: id

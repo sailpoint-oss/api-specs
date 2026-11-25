@@ -4,13 +4,13 @@ get:
       sp-approvals returns a top-level JSON array for this list; the documented wire format must match the service (SailPoint Rule 110).
     path-query-parameters-must-be-camel-case: >-
       Hyphenated query flags (count-only, include-comments, etc.) are required to match sp-approvals; the gateway forwards them unchanged (SailPoint Rule 130).
+    path-filter-parameter-must-follow-format: >-
+      sp-approvals filters on requestedTargetId, requestedTargetName, and requestedTargetRequestType. Those are the query field names the service accepts (SailPoint Rule 324).
   security:
   - userAuth:
-    - idn:access-request-approvals:read
-    - idn:access-request-administration:read
-    - idn:access-request-approvals:manage
+    - sp:generic-approval:read
   x-sailpoint-userLevels:
-  - APPROVAL_OWNER
+  - Any
   operationId: getApprovalsV1
   tags:
   - Approvals

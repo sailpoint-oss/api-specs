@@ -1,11 +1,9 @@
 get:
   security:
   - userAuth:
-    - idn:access-request-approvals:read
-    - idn:access-request-administration:read
-    - idn:access-request-approvals:manage
+    - sp:generic-approval:read
   x-sailpoint-userLevels:
-  - APPROVAL_OWNER
+  - Any
   operationId: getApprovalV1
   tags:
   - Approvals

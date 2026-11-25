@@ -1,9 +1,9 @@
 post:
   security:
   - userAuth:
-    - idn:access-request-approvals:manage
+    - sp:generic-approval:update
   x-sailpoint-userLevels:
-  - APPROVAL_OWNER
+  - Any
   operationId: updateApprovalsAttributesV1
   tags:
   - Approvals

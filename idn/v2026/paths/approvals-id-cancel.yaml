@@ -1,16 +1,15 @@
 post:
   security:
-  - userAuth: [ sp:approvals:write ]
+  - userAuth: [ sp:generic-approval:cancel ]
   x-sailpoint-userLevels:
-  - ORG_ADMIN
+  - Any
   operationId: cancelApprovalById
   tags:
   - Approvals
   summary: Post Approval Cancel
   description: |-
     Cancels a specified approval requests on behalf of the caller. 
-    Note: This endpoint does not support access request IDs. To cancel access request approvals, please use the following:
-    /access-requests/cancel
+    Note: This endpoint does not support cancelling Access Request Approvals or accessRequestIDs. To cancel an Access Request Approval, please use: [Cancel Access Request endpoint](https://developer.sailpoint.com/docs/api/v2026/cancel-access-request/).
   parameters:
     - in: path
       name: id
@@ -21,7 +20,7 @@ post:
       example: 38453251-6be2-5f8f-df93-5ce19e295837
       x-sailpoint-resource-operation-id: getApprovals
   requestBody:
-    required: false
+    required: true
     content:
       application/json:
         schema:

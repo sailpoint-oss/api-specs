@@ -1,16 +1,16 @@
 post:
   security:
     - userAuth:
-        - idn:access-request-approvals:manage
+        - sp:generic-approval:reject
   x-sailpoint-userLevels:
-    - APPROVAL_OWNER
+    - Any
   operationId: rejectApproval
   tags:
     - Approvals
   summary: Post Approvals Reject
   description: |-
     Rejects a specified approval request on behalf of the caller. This endpoint does not support access request IDs.
-    If called by an admin and the admin is not listed as an approver, the approval request will be reassigned from a random approver to the admin user and approved.
+    If called by an admin and the admin is not listed as an approver, the approval request will be reassigned either from overrideApproverID or from a random approver to the admin user and rejected.
   parameters:
     - in: path
       name: id
