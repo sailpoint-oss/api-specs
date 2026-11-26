@@ -37485,9 +37485,154 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/errorresponsedto'
+  /intelligence/v1/identities/{id}/capabilities:
+    get:
+      operationId: getIntelIdentityCapabilitiesV1
+      x-sailpoint-lint-ignore:
+        path-list-operations-must-return-object: Intelligence child list endpoints return a bare JSON array; matches the NHI accounts pagination contract.
+        path-429-responses-must-define-rate-limit-headers: Reuses apis/shared/responses/429.yaml; gateway enforces rate-limit response headers.
+      security:
+        - userAuth:
+            - sp:identity-sec-intel:read
+        - applicationAuth:
+            - sp:identity-sec-intel:read
+      x-required-right: sp:identity-sec-intel:read
+      x-sailpoint-userLevels:
+        - Any
+      tags:
+        - Intelligence
+      summary: List NHI capabilities
+      description: |
+        Requires tenant license idn:response-and-remediation.
+
+        Lists linked capabilities for one non-human identity (NHI). Required query parameter `type`
+        selects the kind: `mcp`, `tool`, or `skill`. Do not send `isNHI`.
+
+        Returns one page of capabilities as a JSON array. Each element includes the capability id,
+        display name, kind (`MCP`, `TOOL`, or `SKILL`), and source name. An empty array is a valid page.
+
+        Send `count=true` to receive the `x-total-count` response header (including `0` on empty pages).
+
+        Returns **404** when the identity is unknown or linked capabilities are not available for this identity.
+      parameters:
+        - $ref: '#/components/parameters/intelligence-identity-id-path'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/count'
+        - $ref: '#/components/parameters/intelligence-nhi-capability-type'
+      responses:
+        '200':
+          description: One page of linked capabilities for the requested kind.
+          headers:
+            x-total-count:
+              description: Total count for this kind. Present when `count=true` was sent (including `0` on empty pages).
+              schema:
+                type: integer
+                format: int32
+                minimum: 0
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/intelnhicapabilitywire'
+              example:
+                - id: 7c2a9e14-6b3f-4d18-9a27-0e5f8c1b4d63
+                  name: example inventory tool
+                  type: TOOL
+                  sourceName: Example Source
+                - id: 3f8b1c62-91e4-4a7d-b2c0-6d5e4f3a8b19
+                  name: example access tool
+                  type: TOOL
+                  sourceName: Example Source
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /intelligence/v1/identities/{id}/risk-signals:
+    get:
+      operationId: getIntelIdentityRiskSignalsV1
+      x-sailpoint-lint-ignore:
+        path-list-operations-must-return-object: Intelligence child list endpoints return a bare JSON array; matches the NHI accounts pagination contract.
+        path-429-responses-must-define-rate-limit-headers: Reuses apis/shared/responses/429.yaml; gateway enforces rate-limit response headers.
+      security:
+        - userAuth:
+            - sp:identity-sec-intel:read
+        - applicationAuth:
+            - sp:identity-sec-intel:read
+      x-required-right: sp:identity-sec-intel:read
+      x-sailpoint-userLevels:
+        - Any
+      tags:
+        - Intelligence
+      summary: List non-human identity risk factors
+      description: |
+        Requires tenant license idn:response-and-remediation.
+
+        Lists risk factors for one non-human identity (NHI). Do not send `isNHI`.
+
+        Returns one page of risk factors as a JSON array, ordered strongest factor first. Each element
+        describes a factor (id, name, description, severity, status, and when it was last observed) that
+        contributes to the identity risk posture. An empty array is a valid page.
+
+        Send `count=true` to receive the `x-total-count` response header (including `0` on empty pages).
+
+        Returns **404** when the identity is unknown or risk information is not available for this identity.
+      parameters:
+        - $ref: '#/components/parameters/intelligence-identity-id-path'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/count'
+      responses:
+        '200':
+          description: One page of risk factors.
+          headers:
+            x-total-count:
+              description: Total number of risk factors. Present when `count=true` was sent (including `0` on empty pages).
+              schema:
+                type: integer
+                format: int32
+                minimum: 0
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/intelnhirisksignalwire'
+              example:
+                - id: no_human_owner
+                  name: No human owner confirmed
+                  description: No attributed owner means weak accountability for access and remediation.
+                  severityValue: CRITICAL
+                  lastReceivedAt: '2026-10-10T16:45:29Z'
+                  status: active
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
   /intelligence/v1/response-actions:
     post:
       operationId: createResponseActionV1
+      x-sailpoint-lint-ignore:
+        path-create-operations-must-return-201: Accepts the request and returns 202. Poll GET .../response-actions/{requestId}/status for progress.
+        path-error-responses-should-use-shared-responses: Inline errorresponsedto responses avoid invalid refs when the root bundle is resolved.
+        path-429-responses-must-define-rate-limit-headers: Reuses apis/shared/responses/429.yaml; gateway enforces rate-limit response headers.
       security:
         - userAuth:
             - sp:identity-sec-intel:write
@@ -37500,14 +37645,16 @@ paths:
         - Intelligence
       summary: Create a response action
       description: |
-        Requires tenant license idn:response-and-remediation.
-
         Creates a response action: the request is validated, a requestId (the correlation id) is
-        minted, the action is recorded as SUBMITTED, and an event is published that triggers the
-        correlated workflow(s).
+        minted, the action is recorded as SUBMITTED, and an event is published that starts processing.
+
+        Human Actions (`DISABLE_IDENTITY`, `DISABLE_ACCOUNT` with `identityType` HUMAN) require tenant
+        license idn:response-and-remediation. 
+        Deactivating a NHI (`DEACTIVATE_AGENT` with `identityType` NHI) requires idn:response-and-remediation-saf.
 
         Returns HTTP 202 with the requestId, an initial SUBMITTED status, and a statusUrl. Poll
-        GET /intelligence/v1/response-actions/{requestId}/status for progress.
+        [Get response action status](https://developer.sailpoint.com/docs/api/v1/get-response-action-status-v1)
+        for progress.
       requestBody:
         required: true
         content:
@@ -37539,6 +37686,17 @@ paths:
                     externalAlertId: CS-FALCON-12345
                     reason: Contain compromised account
                     operator: soc-analyst@customer.com
+              deactivateAgent:
+                summary: Deactivate a non-human identity
+                value:
+                  actionType: DEACTIVATE_AGENT
+                  identityType: NHI
+                  identityId: 2c91808874ff91550175097daaec161e
+                  context:
+                    source: SENTINEL
+                    externalAlertId: alert-123
+                    reason: Contain the agent
+                    operator: analyst@customer.com
       responses:
         '202':
           description: The response action was accepted and is being processed asynchronously.
@@ -37571,6 +37729,9 @@ paths:
   /intelligence/v1/response-actions/{id}/status:
     get:
       operationId: getResponseActionStatusV1
+      x-sailpoint-lint-ignore:
+        path-error-responses-should-use-shared-responses: Inline errorresponsedto responses avoid invalid refs when the root bundle is resolved.
+        path-429-responses-must-define-rate-limit-headers: Reuses apis/shared/responses/429.yaml; gateway enforces rate-limit response headers.
       security:
         - userAuth:
             - sp:identity-sec-intel:read
@@ -37583,12 +37744,11 @@ paths:
         - Intelligence
       summary: Get response action status
       description: |
-        Requires tenant license idn:response-and-remediation.
-
         Returns the current aggregate status of a previously submitted response action, identified by
-        the requestId returned from POST /intelligence/v1/response-actions.
+        the requestId returned from [Create a response action](https://developer.sailpoint.com/docs/api/v1/create-response-action-v1).
 
-        Supported actionType values: DISABLE_IDENTITY, DISABLE_ACCOUNT.
+        Supported actionType values: DISABLE_IDENTITY, DISABLE_ACCOUNT, DEACTIVATE_AGENT.
+        License requirements match the action submitted on create.
       parameters:
         - name: id
           in: path
@@ -73286,6 +73446,20 @@ components:
           - secondary
         default: primary
       example: primary
+    intelligence-nhi-capability-type:
+      x-sailpoint-lint-ignore:
+        path-parameters-must-not-be-named-type: Upstream list-capabilities route requires query parameter name type (mcp, tool, skill).
+      name: type
+      in: query
+      required: true
+      description: Which kind of linked capability to list. Must be `mcp`, `tool`, or `skill`.
+      schema:
+        type: string
+        enum:
+          - mcp
+          - tool
+          - skill
+      example: tool
     classificationmode:
       in: query
       name: classificationMode
@@ -97901,6 +98075,181 @@ components:
           format: uri
           description: Next page URL when totalCount exceeds items returned. Includes isNHI=true.
           example: https://tenant.example.api.cloud.sailpoint.com/intelligence/v1/identities/2c91808874ff91550175097daaec161e/accounts?limit=10&offset=10&count=true&isNHI=true
+    intelnhicapabilitywire:
+      type: object
+      x-sailpoint-lint-ignore:
+        schema-property-names-must-not-be-type: Wire field name type distinguishes MCP, TOOL, and SKILL capabilities (Rule 410).
+      required:
+        - id
+        - name
+        - type
+        - sourceName
+      description: A capability linked to a non-human identity, such as an MCP server, tool, or skill.
+      properties:
+        id:
+          type: string
+          description: Identifier of the linked capability.
+          example: 7c2a9e14-6b3f-4d18-9a27-0e5f8c1b4d63
+        name:
+          type: string
+          description: Display name of the capability. Empty string when the name is not available.
+          example: example inventory tool
+        type:
+          type: string
+          description: Kind of capability.
+          enum:
+            - MCP
+            - TOOL
+            - SKILL
+          example: TOOL
+        sourceName:
+          type: string
+          description: Name of the source where the capability was discovered. Empty string when not available.
+          example: Example Source
+    intelnhicapabilitybucket:
+      type: object
+      required:
+        - items
+      description: First page of one capability kind on the non-human identity lookup.
+      properties:
+        items:
+          type: array
+          description: Capabilities of this kind linked to the identity.
+          items:
+            $ref: '#/components/schemas/intelnhicapabilitywire'
+        totalCount:
+          type: integer
+          format: int32
+          minimum: 1
+          description: Total count for this kind. Omitted when items is empty.
+          example: 2
+        next:
+          type: string
+          format: uri
+          description: URL for the next page of this kind. Omitted when all rows fit on this page.
+          example: https://tenant.example.api.cloud.sailpoint.com/intelligence/v1/identities/2c91808874ff91550175097daaec161e/capabilities?type=tool&limit=10&offset=10&count=true
+    intelenrichmentfailurereason:
+      type: string
+      description: Machine-readable reason when a slice could not be loaded.
+      enum:
+        - RESOURCE_NOT_FOUND
+        - UPSTREAM_UNAVAILABLE
+      example: UPSTREAM_UNAVAILABLE
+    intelnhicapabilities:
+      type: object
+      description: |
+        Linked MCP servers, tools, and skills for a non-human identity. When the list loads successfully,
+        `mcp`, `tool`, and `skill` are present. When it could not be loaded, those properties are omitted
+        and only `message` and `reason` are returned.
+      properties:
+        mcp:
+          description: Linked MCP servers for this identity.
+          allOf:
+            - $ref: '#/components/schemas/intelnhicapabilitybucket'
+        tool:
+          description: Linked tools for this identity.
+          allOf:
+            - $ref: '#/components/schemas/intelnhicapabilitybucket'
+        skill:
+          description: Linked skills for this identity.
+          allOf:
+            - $ref: '#/components/schemas/intelnhicapabilitybucket'
+        message:
+          type: string
+          description: Set when linked capabilities could not be loaded. The `mcp`, `tool`, and `skill` properties are omitted; only `message` and `reason` are present.
+          example: Data temporarily unavailable. Please try again later.
+        reason:
+          $ref: '#/components/schemas/intelenrichmentfailurereason'
+    intelnhirisk:
+      type: object
+      nullable: true
+      description: |
+        Overall risk level for this non-human identity. Null when the identity is not scored
+        (for example, risk is not licensed, scoring is not yet available, or the identity was removed).
+      properties:
+        severity:
+          type: string
+          description: Risk band for the identity.
+          enum:
+            - LOW
+            - MEDIUM
+            - HIGH
+            - CRITICAL
+          example: HIGH
+        lastModified:
+          type: string
+          format: date-time
+          description: When the risk level last changed. Omitted when not available.
+          example: '2026-10-10T16:48:51.866993644Z'
+    intelnhirisksignalwire:
+      type: object
+      required:
+        - id
+        - name
+        - description
+        - lastReceivedAt
+        - status
+      description: One factor that contributes to the non-human identity risk level.
+      properties:
+        id:
+          type: string
+          description: Stable identifier for this factor.
+          example: human_owner_confirmed
+        name:
+          type: string
+          description: Short title of the factor.
+          example: No human owner confirmed
+        description:
+          type: string
+          description: Why this factor affects risk.
+          example: No attributed owner means weak accountability for access and remediation.
+        severityValue:
+          type: string
+          description: Severity of this factor. Omitted when not available.
+          enum:
+            - LOW
+            - MEDIUM
+            - HIGH
+            - CRITICAL
+          example: CRITICAL
+        lastReceivedAt:
+          type: string
+          format: date-time
+          description: When this factor was last observed.
+          example: '2026-10-10T16:45:29Z'
+        status:
+          type: string
+          description: State of the factor.
+          example: active
+    intelnhirisksignals:
+      type: object
+      description: |
+        First page of risk factors for a non-human identity, strongest first. Either success fields
+        (`items`, optional `totalCount` and `next`) or failure fields (`message`, `reason`), never both.
+        Present on every NHI lookup. When `risk` is null, `items` may be an empty array.
+      properties:
+        items:
+          type: array
+          description: First page of risk factors.
+          items:
+            $ref: '#/components/schemas/intelnhirisksignalwire'
+        totalCount:
+          type: integer
+          format: int32
+          minimum: 1
+          description: Total number of risk factors. Omitted when `items` is empty.
+          example: 3
+        next:
+          type: string
+          format: uri
+          description: URL for the next page of risk factors. Omitted when everything fits on this page.
+          example: https://tenant.example.api.cloud.sailpoint.com/intelligence/v1/identities/2c91808874ff91550175097daaec161e/risk-signals?limit=10&offset=10&count=true
+        message:
+          type: string
+          description: Set when risk factors could not be loaded. `items`, `totalCount`, and `next` are omitted.
+          example: Data temporarily unavailable. Please try again later.
+        reason:
+          $ref: '#/components/schemas/intelenrichmentfailurereason'
     intelmachineidentityowners:
       type: object
       required:
@@ -98014,6 +98363,8 @@ components:
           $ref: '#/components/schemas/intel-blast-radius-summary'
     intelidentitymachineaggregate:
       type: object
+      x-sailpoint-lint-ignore:
+        schema-property-names-must-not-be-type: Identity discriminator field; wire contract uses property name type (Rule 410).
       description: |
         Non-human identity response (type NHI). Machine identity fields are hoisted to the top level
         (no machine wrapper). Omits human-only fields and slices (email, alias, privilegedAccess, outliers,
@@ -98024,6 +98375,8 @@ components:
         - id
         - type
         - accounts
+        - capabilities
+        - riskSignals
         - nativeIdentity
         - owners
         - attributes
@@ -98064,6 +98417,8 @@ components:
           example: '2026-05-12T09:15:30Z'
         matchConfidence:
           type: string
+          x-sailpoint-lint-ignore:
+            schema-enum-values-must-be-upper-snake-case: Wire values are lowercase exact and partial from the intelligence lookup service.
           enum:
             - exact
             - partial
@@ -98076,6 +98431,12 @@ components:
             - $ref: '#/components/schemas/intelidentitygraphlink'
         accounts:
           $ref: '#/components/schemas/intelmachineaccountsslice'
+        capabilities:
+          $ref: '#/components/schemas/intelnhicapabilities'
+        risk:
+          $ref: '#/components/schemas/intelnhirisk'
+        riskSignals:
+          $ref: '#/components/schemas/intelnhirisksignals'
         nativeIdentity:
           type: string
           description: Native identifier on the source system.
@@ -98207,6 +98568,8 @@ components:
           example: soc-analyst@customer.com
     response-action-create-request:
       type: object
+      x-sailpoint-lint-ignore:
+        schema-optional-properties-must-have-default: accountIds is required only for DISABLE_ACCOUNT; oneOf and not/required exclude it for other action types (Rule 316).
       required:
         - actionType
         - identityType
@@ -98220,12 +98583,14 @@ components:
           enum:
             - DISABLE_IDENTITY
             - DISABLE_ACCOUNT
+            - DEACTIVATE_AGENT
           example: DISABLE_ACCOUNT
         identityType:
           type: string
-          description: Subject type of the response action. v1 supports HUMAN.
+          description: Whether the target is a human identity or a non-human identity (NHI).
           enum:
             - HUMAN
+            - NHI
           example: HUMAN
         identityId:
           type: string
@@ -98235,7 +98600,7 @@ components:
           type: array
           description: |
             One or more account ids. Required for DISABLE_ACCOUNT (1-50 after trim/dedupe); must be
-            omitted for DISABLE_IDENTITY. A single account is sent as a one-element array.
+            omitted for DISABLE_IDENTITY and DEACTIVATE_AGENT. A single account is sent as a one-element array.
           minItems: 1
           maxItems: 50
           items:
@@ -98249,6 +98614,9 @@ components:
             actionType:
               enum:
                 - DISABLE_IDENTITY
+            identityType:
+              enum:
+                - HUMAN
           not:
             required:
               - accountIds
@@ -98256,8 +98624,21 @@ components:
             actionType:
               enum:
                 - DISABLE_ACCOUNT
+            identityType:
+              enum:
+                - HUMAN
           required:
             - accountIds
+        - properties:
+            actionType:
+              enum:
+                - DEACTIVATE_AGENT
+            identityType:
+              enum:
+                - NHI
+          not:
+            required:
+              - accountIds
     response-action-accepted:
       type: object
       description: Acknowledgement returned when a response action is accepted for asynchronous processing.
@@ -98306,6 +98687,7 @@ components:
           enum:
             - DISABLE_IDENTITY
             - DISABLE_ACCOUNT
+            - DEACTIVATE_AGENT
           example: DISABLE_ACCOUNT
         status:
           type: string
@@ -127264,6 +127646,35 @@ components:
               connectorAttributes: {}
           totalCount: 11
           next: https://tenant.example.api.cloud.sailpoint.com/intelligence/v1/identities/2c91808874ff91550175097daaec161e/accounts?limit=10&offset=10&count=true&isNHI=true
+        capabilities:
+          mcp:
+            items:
+              - id: a1c4e8d2-5f67-4b90-8c3d-2e7a1b9f0465
+                name: example mcp server
+                type: MCP
+                sourceName: Example Source
+            totalCount: 1
+          tool:
+            items:
+              - id: 7c2a9e14-6b3f-4d18-9a27-0e5f8c1b4d63
+                name: example inventory tool
+                type: TOOL
+                sourceName: Example Source
+            totalCount: 1
+          skill:
+            items: []
+        risk:
+          severity: HIGH
+          lastModified: '2026-10-10T16:48:51.866993644Z'
+        riskSignals:
+          items:
+            - id: no_human_owner
+              name: No human owner confirmed
+              description: No attributed owner means weak accountability for access and remediation.
+              severityValue: CRITICAL
+              lastReceivedAt: '2026-10-10T16:45:29Z'
+              status: active
+          totalCount: 1
         nativeIdentity: arn:aws:bedrock:us-east-1:336721:agent/ABCDEFGHI
         datasetId: aws:bedrock
         source:
