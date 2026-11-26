@@ -20,6 +20,7 @@ post:
   - ORG_ADMIN
   - SOURCE_ADMIN
   - SOURCE_SUBADMIN
+  - HELPDESK
   x-sailpoint-lint-ignore:
     path-bulk-operations-must-return-207: This operation runs as a single task and returns the task ID.
   parameters:
