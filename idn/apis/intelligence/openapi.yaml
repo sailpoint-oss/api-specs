@@ -6,6 +6,7 @@ info:
     greater scalability. We encourage you to join the SailPoint Developer Community forum at
     https://developer.sailpoint.com/discuss to connect with other developers using our APIs.
   termsOfService: https://developer.sailpoint.com/discuss/tos
+  x-audience: external-public
   contact:
     name: Developer Relations
     url: https://developer.sailpoint.com/discuss/api-help
@@ -26,6 +27,9 @@ servers:
       apiUrl:
         default: sailpoint.api.identitynow.com
         description: This is the api url of your tenant
+externalDocs:
+  description: SailPoint Identity Security API documentation
+  url: https://developer.sailpoint.com/docs/api/
 tags:
   - name: Intelligence
     description: |
@@ -67,13 +71,25 @@ paths:
   /intelligence/v1/identities/{id}/accounts:
     $ref: ./paths/intelligence-v1-identities-by-id-accounts.yaml
   /intelligence/v1/identities/{id}/outliers/rare-access:
+    x-sailpoint-lint-ignore:
+      paths-should-not-have-more-than-three-sub-resources: Published intelligence path; shortening the URL would break existing clients and aggregate links.
     $ref: ./paths/intelligence-v1-identities-by-id-outliers-rare-access.yaml
   /intelligence/v1/identities/{id}/access-history/access-items:
+    x-sailpoint-lint-ignore:
+      paths-should-not-have-more-than-three-sub-resources: Published intelligence path; shortening the URL would break existing clients and aggregate links.
     $ref: ./paths/intelligence-v1-identities-by-id-access-history-access-items.yaml
   /intelligence/v1/identities/{id}/access-history/certifications:
+    x-sailpoint-lint-ignore:
+      paths-should-not-have-more-than-three-sub-resources: Published intelligence path; shortening the URL would break existing clients and aggregate links.
     $ref: ./paths/intelligence-v1-identities-by-id-access-history-certifications.yaml
   /intelligence/v1/identities/{id}/non-human-identity-ownership/{category}:
+    x-sailpoint-lint-ignore:
+      path-resource-names-must-be-plural: Published intelligence path; renaming the segment would break aggregate links and existing clients.
     $ref: ./paths/intelligence-v1-identities-by-id-non-human-identity-ownership-by-category.yaml
+  /intelligence/v1/identities/{id}/capabilities:
+    $ref: ./paths/intelligence-v1-identities-by-id-capabilities.yaml
+  /intelligence/v1/identities/{id}/risk-signals:
+    $ref: ./paths/intelligence-v1-identities-by-id-risk-signals.yaml
   /intelligence/v1/response-actions:
     $ref: ./paths/intelligence-v1-response-actions.yaml
   /intelligence/v1/response-actions/{id}/status:

@@ -58,6 +58,35 @@ value:
         connectorAttributes: {}
     totalCount: 11
     next: https://tenant.example.api.cloud.sailpoint.com/intelligence/v1/identities/2c91808874ff91550175097daaec161e/accounts?limit=10&offset=10&count=true&isNHI=true
+  capabilities:
+    mcp:
+      items:
+        - id: a1c4e8d2-5f67-4b90-8c3d-2e7a1b9f0465
+          name: example mcp server
+          type: MCP
+          sourceName: Example Source
+      totalCount: 1
+    tool:
+      items:
+        - id: 7c2a9e14-6b3f-4d18-9a27-0e5f8c1b4d63
+          name: example inventory tool
+          type: TOOL
+          sourceName: Example Source
+      totalCount: 1
+    skill:
+      items: []
+  risk:
+    severity: HIGH
+    lastModified: '2026-10-10T16:48:51.866993644Z'
+  riskSignals:
+    items:
+      - id: no_human_owner
+        name: No human owner confirmed
+        description: No attributed owner means weak accountability for access and remediation.
+        severityValue: CRITICAL
+        lastReceivedAt: '2026-10-10T16:45:29Z'
+        status: active
+    totalCount: 1
   nativeIdentity: arn:aws:bedrock:us-east-1:336721:agent/ABCDEFGHI
   datasetId: aws:bedrock
   source:

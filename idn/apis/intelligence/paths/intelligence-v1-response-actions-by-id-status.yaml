@@ -1,5 +1,8 @@
 get:
   operationId: getResponseActionStatusV1
+  x-sailpoint-lint-ignore:
+    path-error-responses-should-use-shared-responses: Inline errorresponsedto responses avoid invalid refs when the root bundle is resolved.
+    path-429-responses-must-define-rate-limit-headers: Reuses apis/shared/responses/429.yaml; gateway enforces rate-limit response headers.
   security:
   - userAuth:
     - sp:identity-sec-intel:read
@@ -12,12 +15,11 @@ get:
   - Intelligence
   summary: Get response action status
   description: |
-    Requires tenant license idn:response-and-remediation.
-
     Returns the current aggregate status of a previously submitted response action, identified by
-    the requestId returned from POST /intelligence/v1/response-actions.
+    the requestId returned from [Create a response action](https://developer.sailpoint.com/docs/api/v1/create-response-action-v1).
 
-    Supported actionType values: DISABLE_IDENTITY, DISABLE_ACCOUNT.
+    Supported actionType values: DISABLE_IDENTITY, DISABLE_ACCOUNT, DEACTIVATE_AGENT.
+    License requirements match the action submitted on create.
   parameters:
   - name: id
     in: path

@@ -20,6 +20,7 @@ properties:
     enum:
       - DISABLE_IDENTITY
       - DISABLE_ACCOUNT
+      - DEACTIVATE_AGENT
     example: DISABLE_ACCOUNT
   status:
     type: string

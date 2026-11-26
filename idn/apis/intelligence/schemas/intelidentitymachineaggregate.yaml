@@ -1,4 +1,6 @@
 type: object
+x-sailpoint-lint-ignore:
+  schema-property-names-must-not-be-type: Identity discriminator field; wire contract uses property name type (Rule 410).
 description: |
   Non-human identity response (type NHI). Machine identity fields are hoisted to the top level
   (no machine wrapper). Omits human-only fields and slices (email, alias, privilegedAccess, outliers,
@@ -9,6 +11,8 @@ required:
   - id
   - type
   - accounts
+  - capabilities
+  - riskSignals
   - nativeIdentity
   - owners
   - attributes
@@ -49,6 +53,8 @@ properties:
     example: '2026-05-12T09:15:30Z'
   matchConfidence:
     type: string
+    x-sailpoint-lint-ignore:
+      schema-enum-values-must-be-upper-snake-case: Wire values are lowercase exact and partial from the intelligence lookup service.
     enum:
       - exact
       - partial
@@ -61,6 +67,12 @@ properties:
       - $ref: ./intelidentitygraphlink.yaml
   accounts:
     $ref: ./intelmachineaccountsslice.yaml
+  capabilities:
+    $ref: ./intelnhicapabilities.yaml
+  risk:
+    $ref: ./intelnhirisk.yaml
+  riskSignals:
+    $ref: ./intelnhirisksignals.yaml
   nativeIdentity:
     type: string
     description: Native identifier on the source system.
