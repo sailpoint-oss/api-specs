@@ -56895,7 +56895,8 @@
         "x-sailpoint-userLevels": [
           "ORG_ADMIN",
           "SOURCE_ADMIN",
-          "SOURCE_SUBADMIN"
+          "SOURCE_SUBADMIN",
+          "HELPDESK"
         ],
         "parameters": [
           {
@@ -56913,10 +56914,10 @@
             "name": "X-SailPoint-Experimental",
             "in": "header",
             "description": "Use this header to enable this experimental API.",
-            "example": true,
+            "example": "true",
             "schema": {
               "type": "string",
-              "default": true
+              "default": "true"
             },
             "required": true
           }
@@ -56976,7 +56977,8 @@
         "x-sailpoint-userLevels": [
           "ORG_ADMIN",
           "SOURCE_ADMIN",
-          "SOURCE_SUBADMIN"
+          "SOURCE_SUBADMIN",
+          "HELPDESK"
         ],
         "parameters": [
           {
@@ -56994,10 +56996,10 @@
             "name": "X-SailPoint-Experimental",
             "in": "header",
             "description": "Use this header to enable this experimental API.",
-            "example": true,
+            "example": "true",
             "schema": {
               "type": "string",
-              "default": true
+              "default": "true"
             },
             "required": true
           }
@@ -57219,7 +57221,8 @@
         "x-sailpoint-userLevels": [
           "ORG_ADMIN",
           "SOURCE_ADMIN",
-          "SOURCE_SUBADMIN"
+          "SOURCE_SUBADMIN",
+          "HELPDESK"
         ],
         "parameters": [
           {
@@ -57237,10 +57240,10 @@
             "name": "X-SailPoint-Experimental",
             "in": "header",
             "description": "Use this header to enable this experimental API.",
-            "example": true,
+            "example": "true",
             "schema": {
               "type": "string",
-              "default": true
+              "default": "true"
             },
             "required": true
           }
@@ -57717,7 +57720,8 @@
         "x-sailpoint-userLevels": [
           "ORG_ADMIN",
           "SOURCE_ADMIN",
-          "SOURCE_SUBADMIN"
+          "SOURCE_SUBADMIN",
+          "HELPDESK"
         ],
         "x-sailpoint-lint-ignore": {
           "path-bulk-operations-must-return-207": "This operation runs as a single task and returns the task ID."
@@ -57800,7 +57804,8 @@
         "x-sailpoint-userLevels": [
           "ORG_ADMIN",
           "SOURCE_ADMIN",
-          "SOURCE_SUBADMIN"
+          "SOURCE_SUBADMIN",
+          "HELPDESK"
         ],
         "x-sailpoint-lint-ignore": {
           "path-bulk-operations-must-return-207": "This operation runs as a single task and returns the task ID."
