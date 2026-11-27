@@ -1391,7 +1391,7 @@
       "patch": {
         "summary": "Update Profile",
         "operationId": "updateProfile",
-        "description": "Updates a profile only through ISC schema-mapped attributes, performs a reverse mapping to match the NERM attributes to update.",
+        "description": "Updates a profile only through SailPoint Identity Security schema-mapped attributes, performs a reverse mapping to match the NERM attributes to update.",
         "tags": [
           "isc accounts"
         ],
@@ -5318,7 +5318,7 @@
       "userAuth": {
         "type": "oauth2",
         "x-displayName": "Personal Access Token",
-        "description": "OAuth2 Bearer token (JWT) generated using either a [personal access token (PAT)](https://developer.sailpoint.com/docs/api/authentication/#generate-a-personal-access-token) or through the [authorization code flow](https://developer.sailpoint.com/docs/api/authentication/#request-access-token-with-authorization-code-grant-flow).\n\nPersonal access tokens are associated with a user in Identity Security Cloud and relies on the user's [user level](https://documentation.sailpoint.com/saas/help/common/users/index.html) (ex. Admin, Helpdesk, etc.) to determine a base level of access.\n\nSee [Identity Security Cloud REST API Authentication](https://developer.sailpoint.com/docs/api/authentication/) for more information.\n",
+        "description": "OAuth2 Bearer token (JWT) generated using either a [personal access token (PAT)](https://developer.sailpoint.com/docs/api/authentication/#generate-a-personal-access-token) or through the [authorization code flow](https://developer.sailpoint.com/docs/api/authentication/#request-access-token-with-authorization-code-grant-flow).\n\nPersonal access tokens are associated with a user in SailPoint Identity Security and relies on the user's [user level](https://documentation.sailpoint.com/saas/help/common/users/index.html) (ex. Admin, Helpdesk, etc.) to determine a base level of access.\n\nSee [SailPoint Identity Security REST API Authentication](https://developer.sailpoint.com/docs/api/authentication/) for more information.\n",
         "flows": {
           "clientCredentials": {
             "tokenUrl": "https://example-tenant.api.identitynow.com/oauth/token",
@@ -10063,7 +10063,7 @@
           },
           "sailpoint_identity_id": {
             "type": "string",
-            "description": "The identity ID of the user in ISC",
+            "description": "The identity ID of the user in SailPoint Identity Security",
             "example": "9496f8d6ddab49c0bef1e9ee6f1b835a"
           }
         }
